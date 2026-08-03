@@ -15,7 +15,7 @@
   html,body{height:100%}
   body{font-family:var(--font);background:#20222e;color:var(--ink);overflow:hidden}
   #deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-  .stage{position:relative;width:100vw;height:100vh;max-width:calc(100vh*16/9);max-height:calc(100vw*9/16);
+  .stage{position:relative;width:min(100vw, calc(100vh * 16 / 9));aspect-ratio:16 / 9;
     background:var(--bg);overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.4)}
   .slide{position:absolute;inset:0;padding:5.2% 6.4%;display:flex;flex-direction:column;
     opacity:0;pointer-events:none;transition:opacity .35s ease;overflow:hidden}
@@ -98,7 +98,6 @@
     padding:14px 22px;border-top:2px solid var(--accent);display:none;z-index:20;max-height:32vh;overflow:auto}
   #notes.show{display:block}
   #notes b{color:#fff}
-  @media (max-aspect-ratio:16/9){.stage{width:100vw;height:auto}}
 </style>
 </head>
 <body>
