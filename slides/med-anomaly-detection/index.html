@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>医学领域异常检测与基础模型控制</title>
+<title>Anomaly Detection in Medical Imaging — Three Tensions & the Road Ahead</title>
 <style>
   :root{
     --bg:#f6f7fb; --panel:#ffffff; --ink:#1a1c2e; --muted:#5b6079;
     --line:#e7e9f2; --accent:#3b5bdb; --accent2:#0ca5a5; --warn:#e8590c;
     --grad:linear-gradient(135deg,#3b5bdb 0%,#0ca5a5 100%);
-    --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
@@ -20,84 +20,72 @@
   .slide{position:absolute;inset:0;padding:5.2% 6.4%;display:flex;flex-direction:column;
     opacity:0;pointer-events:none;transition:opacity .35s ease;overflow:hidden}
   .slide.active{opacity:1;pointer-events:auto}
-  /* typography */
-  h1{font-size:3.0vw;line-height:1.15;font-weight:800;letter-spacing:-.5px}
-  h2{font-size:2.15vw;font-weight:750;line-height:1.2;letter-spacing:-.3px;margin-bottom:.2em}
-  h2 .en{display:block;font-size:.95vw;font-weight:600;color:var(--muted);letter-spacing:.4px;margin-top:.35em;text-transform:uppercase}
-  .overline{font-size:.95vw;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
-  p,li{font-size:1.28vw;line-height:1.5;color:var(--ink)}
+  h1{font-size:3.0vw;line-height:1.14;font-weight:800;letter-spacing:-.5px}
+  h2{font-size:2.05vw;font-weight:750;line-height:1.2;letter-spacing:-.3px;margin-bottom:.15em}
+  h2 .en{display:block;font-size:.92vw;font-weight:600;color:var(--muted);letter-spacing:.4px;margin-top:.35em;text-transform:uppercase}
+  .overline{font-size:.92vw;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+  p,li{font-size:1.24vw;line-height:1.5;color:var(--ink)}
   .muted{color:var(--muted)}
   .rule{width:64px;height:4px;border-radius:4px;background:var(--grad);margin:.7em 0 1em}
-  ul{list-style:none;margin-top:.4em}
-  li{position:relative;padding-left:1.5em;margin:.55em 0}
-  li::before{content:"";position:absolute;left:0;top:.62em;width:.6em;height:.6em;border-radius:2px;background:var(--accent)}
-  li.sub{padding-left:2.6em;font-size:1.12vw;color:var(--muted)}
-  li.sub::before{left:1.2em;top:.6em;width:.45em;height:.45em;border-radius:50%;background:var(--accent2)}
+  ul{list-style:none;margin-top:.35em}
+  li{position:relative;padding-left:1.5em;margin:.5em 0}
+  li::before{content:"";position:absolute;left:0;top:.6em;width:.58em;height:.58em;border-radius:2px;background:var(--accent)}
+  li.sub{padding-left:2.6em;font-size:1.08vw;color:var(--muted)}
+  li.sub::before{left:1.2em;top:.58em;width:.42em;height:.42em;border-radius:50%;background:var(--accent2)}
   .arrow{color:var(--accent2);font-weight:800}
   b,strong{font-weight:750}
-  .en-term{color:var(--muted);font-weight:600}
-  /* fragments */
   .fragment{opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
   .fragment.visible{opacity:1;transform:none}
-  /* layout helpers */
   .grow{flex:1;display:flex;flex-direction:column;justify-content:center}
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:2.2vw}
-  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vw}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.3vw 1.5vw;
+  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.3vw}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.2vw 1.4vw;
     box-shadow:0 2px 10px rgba(20,24,60,.04)}
-  .card h3{font-size:1.32vw;font-weight:750;margin-bottom:.4em}
+  .card h3{font-size:1.28vw;font-weight:750;margin-bottom:.35em}
+  .card p{font-size:1.02vw}
   .card.accent{border-top:4px solid var(--accent)}
   .card.teal{border-top:4px solid var(--accent2)}
   .card.warn{border-top:4px solid var(--warn)}
-  .tag{display:inline-block;font-size:.85vw;font-weight:700;letter-spacing:.5px;padding:.28em .7em;border-radius:999px;
+  .tag{display:inline-block;font-size:.82vw;font-weight:700;letter-spacing:.5px;padding:.26em .7em;border-radius:999px;
     background:#eef1fe;color:var(--accent);margin:.15em .3em .15em 0}
-  .tag.t2{background:#e6f6f6;color:#0a7d7d}
-  .tag.t3{background:#fdece1;color:#b7480c}
-  /* stat chips */
-  .stats{display:flex;gap:1.6vw;flex-wrap:wrap;margin-top:.6em}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.9vw 1.2vw;min-width:8.5vw}
-  .stat .n{font-size:2.1vw;font-weight:800;color:var(--accent);letter-spacing:-.5px;line-height:1}
+  .tag.t2{background:#e6f6f6;color:#0a7d7d} .tag.t3{background:#fdece1;color:#b7480c}
+  .stats{display:flex;gap:1.4vw;flex-wrap:wrap;margin-top:.6em}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.85vw 1.15vw;min-width:8vw}
+  .stat .n{font-size:2.0vw;font-weight:800;color:var(--accent);letter-spacing:-.5px;line-height:1}
   .stat .n.teal{color:var(--accent2)} .stat .n.warn{color:var(--warn)}
-  .stat .l{font-size:.9vw;color:var(--muted);margin-top:.4em}
-  /* table */
-  table{width:100%;border-collapse:collapse;margin-top:.6em;font-size:1.02vw}
-  th,td{text-align:left;padding:.62vw .8vw;border-bottom:1px solid var(--line);vertical-align:top}
-  thead th{font-size:.92vw;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:2px solid var(--line)}
-  th.dim{width:16%;font-weight:750;color:var(--ink)}
-  td.a{color:#7a4a12} td.b{color:#123a7a}
+  .stat .l{font-size:.86vw;color:var(--muted);margin-top:.4em}
+  table{width:100%;border-collapse:collapse;margin-top:.5em;font-size:.98vw}
+  th,td{text-align:left;padding:.55vw .75vw;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{font-size:.86vw;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:2px solid var(--line)}
+  th.dim{width:17%;font-weight:750;color:var(--ink)}
   tbody td:first-child{font-weight:700}
-  /* divider slides */
+  .chip{display:inline-flex;align-items:center;gap:.4em;background:var(--panel);border:1px solid var(--line);
+    border-left:4px solid var(--accent);border-radius:10px;padding:.7vw .95vw;font-size:1.0vw;font-weight:600}
+  .chip.t2{border-left-color:var(--accent2)} .chip.warn{border-left-color:var(--warn)}
+  .chipgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1vw;margin-top:.5em}
   .slide.divider{background:var(--grad);color:#fff;justify-content:center}
   .slide.divider .overline{color:rgba(255,255,255,.85)}
-  .slide.divider h1{color:#fff;font-size:3.4vw}
-  .slide.divider p{color:rgba(255,255,255,.9)}
+  .slide.divider h1{color:#fff;font-size:3.2vw}
+  .slide.divider p,.slide.divider .sub{color:rgba(255,255,255,.92);font-size:1.5vw}
   .slide.divider .rule{background:#fff}
   .slide.divider .tag{background:rgba(255,255,255,.18);color:#fff}
-  /* title slide */
   .slide.title{justify-content:center}
-  .slide.title h1{font-size:3.6vw;margin:.1em 0 .1em}
-  .slide.title .sub{font-size:1.6vw;color:var(--muted);font-weight:600;margin-top:.3em}
-  .meta{margin-top:2.4em;font-size:1.1vw;color:var(--muted)}
-  .flow{display:flex;align-items:stretch;gap:1vw;margin-top:.4em}
-  .flow .node{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1vw 1.1vw;text-align:center}
-  .flow .node .t{font-weight:750;font-size:1.15vw}
-  .flow .node .d{font-size:.9vw;color:var(--muted);margin-top:.3em}
-  .flow .sep{display:flex;align-items:center;color:var(--accent2);font-size:1.6vw;font-weight:800}
-  .foot{position:absolute;left:6.4%;right:6.4%;bottom:2.6%;display:flex;justify-content:space-between;
-    font-size:.85vw;color:var(--muted);border-top:1px solid var(--line);padding-top:.7em}
-  .foot .brand{font-weight:700;color:var(--accent)}
-  /* chrome */
+  .slide.title h1{font-size:3.4vw;margin:.1em 0}
+  .slide.title .sub{font-size:1.55vw;color:var(--muted);font-weight:600;margin-top:.25em}
+  .meta{margin-top:2.2em;font-size:1.05vw;color:var(--muted)}
+  .pipeline{display:flex;align-items:center;gap:.7vw;margin-top:.6em;flex-wrap:wrap}
+  .pipeline .node{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.7vw .9vw;font-size:.98vw;font-weight:650;text-align:center}
+  .pipeline .sep{color:var(--accent2);font-size:1.3vw;font-weight:800}
+  .foot{display:none}
   #bar{position:fixed;top:0;left:0;height:3px;background:var(--grad);width:0;z-index:10;transition:width .3s}
   #counter{position:fixed;bottom:14px;right:18px;font-size:12px;color:#aeb2c8;z-index:10;font-family:var(--font)}
   #nav{position:fixed;bottom:12px;left:18px;display:flex;gap:8px;z-index:10}
-  #nav button{background:#2c2f3d;color:#cfd2e4;border:1px solid #3a3d4e;border-radius:8px;width:34px;height:30px;
-    font-size:15px;cursor:pointer}
+  #nav button{background:#2c2f3d;color:#cfd2e4;border:1px solid #3a3d4e;border-radius:8px;width:34px;height:30px;font-size:15px;cursor:pointer}
   #nav button:hover{background:#3a3d55}
   #hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:11px;color:#8f93aa;z-index:10}
   #notes{position:fixed;left:0;right:0;bottom:0;background:#15161f;color:#c9cde0;font-size:14px;line-height:1.5;
     padding:14px 22px;border-top:2px solid var(--accent);display:none;z-index:20;max-height:32vh;overflow:auto}
-  #notes.show{display:block}
-  #notes b{color:#fff}
+  #notes.show{display:block} #notes b{color:#fff}
 </style>
 </head>
 <body>
@@ -105,352 +93,319 @@
 <div id="deck"><div class="stage" id="stage">
 
   <!-- 1 · TITLE -->
-  <section class="slide title" data-notes="开场:一句话点题——今天讲两件事:医学异常检测的现状,以及我们从『基础模型控制』视角能带来什么。控制在 30 分钟,前半场现状、后半场我们的贡献与融合。">
-    <div class="overline">小组研讨 · 30 min</div>
-    <h1>医学领域的异常检测<br>与基础模型控制</h1>
-    <div class="sub">现状 · 深度对比 · 未来架构路线图</div>
+  <section class="slide title" data-notes="Set the frame: this is a survey organized around THREE tensions. Existing methods are answers to the tensions; the unresolved tensions become the future-work section. ~30 min, then discussion.">
+    <div class="overline">Group talk · ~30 min</div>
+    <h1>Anomaly Detection<br>in Medical Imaging</h1>
+    <div class="sub">Three tensions and the road ahead</div>
     <div class="rule"></div>
-    <div class="meta">汇报人:______ &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Medical Reading Material</div>
+    <div class="meta">Presenter: ______ &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Medical Reading Material</div>
   </section>
 
-  <!-- 2 · AGENDA -->
-  <section class="slide" data-notes="给听众一张地图。前两块是『别人怎么做』,后两块是『我们怎么做 + 未来』。">
-    <div class="overline">大纲 / Agenda</div>
-    <h2>四条主线</h2><div class="rule"></div>
+  <!-- 2 · WHY + ONE IDEA -->
+  <section class="slide" data-notes="Motivate + land the single unifying idea. Contrast with industrial defect AD: medicine adds anatomy, heterogeneity, long tail, and safety stakes. The label wall forces 'normal-only' learning.">
+    <div class="overline">Motivation</div>
+    <h2>Why it's hard — and the one idea</h2><div class="rule"></div>
+    <div class="grow">
+      <ul>
+        <li class="fragment"><b>Clinical need:</b> screening, rare & long-tail disease, triage, opportunistic findings</li>
+        <li class="fragment"><b>The label wall:</b> exhaustive abnormal annotations are impossible — anomalies are diverse and <b>unseen</b></li>
+        <li class="fragment"><b>Anatomy + heterogeneity + safety</b> make supervised, closed-set models brittle</li>
+        <li class="fragment"><span class="arrow">→</span> The unifying idea: <b>learn "normal" only, then flag deviation</b> (unsupervised / zero-/few-shot)</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="brand">Medical Anomaly Detection</span><span>02</span></div>
+  </section>
+
+  <!-- 3 · PROBLEM FORMULATION -->
+  <section class="slide" data-notes="Define the machinery precisely so the rest of the talk has vocabulary. Flag that metric choice matters — we return to it at the benchmark slide.">
+    <div class="overline">Setup</div>
+    <h2>How the task is framed</h2><div class="rule"></div>
+    <div class="grow">
+      <ul>
+        <li class="fragment"><b>Train on normal</b> → model a "normal prior"</li>
+        <li class="fragment"><b>Anomaly score = deviation:</b> reconstruction residual · feature distance · prompt similarity</li>
+        <li class="fragment"><b>Granularity:</b> image-level detection vs pixel-level localization / segmentation</li>
+        <li class="fragment"><b>Metrics:</b> AUROC · AP/AUPRC · Dice/IoU — <span class="muted">and the metric choice will turn out to matter</span></li>
+      </ul>
+      <div class="pipeline fragment">
+        <span class="node">Input scan</span><span class="sep">→</span>
+        <span class="node">Normal prior<br>(model)</span><span class="sep">→</span>
+        <span class="node">Deviation score</span><span class="sep">→</span>
+        <span class="node">Anomaly map</span>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">Medical Anomaly Detection</span><span>03</span></div>
+  </section>
+
+  <!-- 4 · THREE TENSIONS MAP -->
+  <section class="slide" data-notes="This is the spine. Everything after is organized as: each tension → how existing methods answer it. Emphasize the closing move: unresolved tensions = future work.">
+    <div class="overline">The spine of this talk</div>
+    <h2>Three tensions the field is resolving</h2><div class="rule"></div>
     <div class="grow">
       <div class="cols3">
-        <div class="card accent fragment"><h3>① 现状</h3><p class="muted">医学 AD 两大范式:生成式重构 + 视觉语言模型(VLM)适配</p></div>
-        <div class="card accent fragment"><h3>② 我们的工作</h3><p class="muted">基础模型控制:LogicAD · EcoDiff · Minimalist Erasure · UniForget</p></div>
-        <div class="card teal fragment"><h3>③ 深度对比</h3><p class="muted">范式差异 + 三点互补融合潜力</p></div>
+        <div class="card accent fragment"><h3>① Represent "normal"</h3><p class="muted">Reconstruct the image, or embed it into a feature space?</p></div>
+        <div class="card teal fragment"><h3>② Fidelity vs sensitivity</h3><p class="muted">The noise paradox: erase pathology without destroying healthy anatomy</p></div>
+        <div class="card warn fragment"><h3>③ Scarcity & generalization</h3><p class="muted">Little/no abnormal data, across many modalities & organs</p></div>
       </div>
-      <div style="height:1.4vw"></div>
-      <div class="card teal fragment" style="max-width:66%"><h3>④ 文献 + 未来</h3><p class="muted">6 篇关键文献矩阵,与生成式底层革新、VLM 可解释性的路线图</p></div>
+      <div class="card fragment" style="margin-top:1.3vw;border-top:4px solid var(--accent2)">
+        <p><b>Existing methods = answers</b> to these tensions. &nbsp;<b>The unresolved parts = future work.</b> The talk closes this loop.</p>
+      </div>
     </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>大纲</span></div>
+    <div class="foot"><span class="brand">Framing</span><span>04</span></div>
   </section>
 
-  <!-- 3 · WHY HARD -->
-  <section class="slide" data-notes="先立住『为什么不能用监督学习』。三点困难 → 长尾 → 只能用正常样本建基准,这是后面所有方法的共同出发点。">
-    <div class="overline">问题 / The Challenge</div>
-    <h2>为什么医学异常检测难?<span class="en">Heterogeneity · Scarcity · Complexity</span></h2><div class="rule"></div>
+  <!-- 5 · DIVIDER T1 -->
+  <section class="slide divider" data-notes="Tension 1. Two philosophies: rebuild the image and look at the residual, or embed it and measure distance.">
+    <div class="overline">Tension ①</div>
+    <h1>How do we represent<br>"normal"?</h1>
+    <div class="rule"></div>
+    <p>Reconstruct the image &nbsp;·&nbsp; or embed it into a feature space</p>
+    <div style="margin-top:1em"><span class="tag">Reconstruction</span><span class="tag">Feature / memory</span></div>
+  </section>
+
+  <!-- 6 · RECON AE/GAN -->
+  <section class="slide" data-notes="The classical reconstruct-and-compare answer, and why it struggled — motivating diffusion.">
+    <div class="overline">Tension ① · Reconstruction</div>
+    <h2>Reconstruct-and-compare: AE → GAN</h2><div class="rule"></div>
     <div class="grow">
       <ul>
-        <li class="fragment">疾病表现<b>高度异质</b>,罕见病理数据<b>极度匮乏</b> —— 典型<b>长尾分布</b></li>
-        <li class="fragment">医学解剖结构<b>极其复杂</b>,传统监督模型在长尾数据上<b>脆弱</b></li>
-        <li class="fragment"><span class="arrow">→</span> 主流范式转向 <b>无监督 / 少样本(Zero-/Few-shot)</b>:<b>只用正常健康样本</b>建立基准分布</li>
+        <li class="fragment"><b>Assumption:</b> a normal-trained generator <b>can't rebuild pathology</b> → residual = anomaly</li>
+        <li class="fragment">Lineage: <b>AnoGAN → f-AnoGAN</b> (adversarial pseudo-healthy generation)</li>
+        <li class="fragment"><b>Failure modes:</b> mode collapse, low fidelity, and the <b>"identity shortcut"</b> — the network copies the anomaly straight through</li>
+        <li class="fragment"><span class="arrow">→</span> the field needed a <b>stronger, higher-coverage generative prior</b></li>
       </ul>
-      <div class="stats fragment">
-        <div class="stat"><div class="n">2</div><div class="l">主流技术主线</div></div>
-        <div class="stat"><div class="n teal">0</div><div class="l">异常标注(理想)</div></div>
-        <div class="stat"><div class="n">正常样本</div><div class="l">唯一训练信号</div></div>
-      </div>
     </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>03</span></div>
+    <div class="foot"><span class="brand">Tension ① · Representing normal</span><span>06</span></div>
   </section>
 
-  <!-- 4 · LANDSCAPE MAP -->
-  <section class="slide" data-notes="这是全场的骨架图。左边生成式重构、右边 VLM 适配,底下用统一基准 MedIAnomaly 评。接下来两页讲左路,再两页讲右路。">
-    <div class="overline">全景 / Landscape</div>
-    <h2>当前研究格局:两条主线</h2><div class="rule"></div>
-    <div class="grow">
-      <div class="cols">
-        <div class="card accent fragment">
-          <h3>生成式重构</h3>
-          <p class="muted">只在健康数据训练 → 无法重构病灶 → <b>残差定位异常</b></p>
-          <div style="margin-top:.6em"><span class="tag">AE / GAN</span><span class="tag">DDPM</span><span class="tag">AnoDDPM</span><span class="tag">THOR</span></div>
-        </div>
-        <div class="card teal fragment">
-          <h3>VLM 跨模态适配</h3>
-          <p class="muted">借 CLIP 的零样本先验,跨越医学数据稀缺</p>
-          <div style="margin-top:.6em"><span class="tag t2">CLIP</span><span class="tag t2">MVFA-AD</span><span class="tag t2">MediCLIP</span></div>
-        </div>
-      </div>
-      <div class="card fragment" style="margin-top:1.4vw">
-        <h3>统一评测 · MedIAnomaly (MedIA 2025)</h3>
-        <p class="muted">5 大模态 / 7 数据集 / 30 种方法 —— 规范化研究路径,确立技术上限</p>
-      </div>
-    </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>04</span></div>
-  </section>
-
-  <!-- 5 · GENERATIVE RECONSTRUCTION -->
-  <section class="slide" data-notes="讲清生成式重构的核心假设,再讲为什么从 AE/GAN 走到 DDPM,重点落在 AnoDDPM 的 Simplex 噪声——它能控制异常尺寸,数字很硬。">
-    <div class="overline">主线一 / Generative Reconstruction</div>
-    <h2>从自编码器到扩散模型</h2><div class="rule"></div>
+  <!-- 7 · RECON DIFFUSION -->
+  <section class="slide" data-notes="Diffusion is now the dominant reconstruction backbone. Explain the size-control insight (Simplex noise) simply; AutoDDPM adds seamless inpainting.">
+    <div class="overline">Tension ① · Reconstruction</div>
+    <h2>Diffusion becomes the backbone</h2><div class="rule"></div>
     <div class="grow">
       <ul>
-        <li class="fragment"><b>核心假设:</b>健康数据训练的生成模型重构不出病灶 → 输入与"<b>伪健康</b>"重构的<b>残差</b>即异常</li>
-        <li class="fragment"><b>AE / GAN:</b>高分辨复杂解剖下易<b>模式崩溃 / 样本质量低</b></li>
-        <li class="fragment"><b>DDPM:</b>正向加噪 + 反向去噪,<b>模式覆盖率与保真度</b>优于 GAN</li>
-        <li class="fragment"><b>AnoDDPM:</b>局部扩散 + 多尺度 <b>Simplex 噪声</b> → 可<b>控制异常尺寸</b>(高斯噪声会破坏低频、漏掉大面积病灶)</li>
+        <li class="fragment"><b>DDPM:</b> forward noising + learned reverse denoising → <b>better mode coverage & fidelity</b> than GAN</li>
+        <li class="fragment"><b>AnoDDPM:</b> partial diffusion + multi-scale <b>Simplex noise</b> → <b>control anomaly size</b> (Gaussian noise erases low-freq, misses large lesions)</li>
+        <li class="fragment"><b>AutoDDPM:</b> automatic <b>mask–stitch–resample</b> → seamless healthy in-painting</li>
       </ul>
       <div class="stats fragment">
-        <div class="stat"><div class="n">+25.5%</div><div class="l">Dice(T1 MRI)</div></div>
+        <div class="stat"><div class="n">+25.5%</div><div class="l">Dice (T1 MRI, AnoDDPM)</div></div>
         <div class="stat"><div class="n teal">+17.6%</div><div class="l">IoU</div></div>
       </div>
     </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>05</span></div>
+    <div class="foot"><span class="brand">Tension ① · Representing normal</span><span>07</span></div>
   </section>
 
-  <!-- 6 · NOISE PARADOX -->
-  <section class="slide" data-notes="这页是左路的关键洞见——噪声悖论。先讲矛盾,再讲三条解法(THOR / AutoDDPM / 隐空间流)。为后面 EcoDiff 的互补埋伏笔。">
-    <div class="overline">关键痛点 / The Noise Paradox</div>
-    <h2>噪声悖论:抹病灶 vs 毁健康组织</h2><div class="rule"></div>
+  <!-- 8 · FEATURE/EMBEDDING -->
+  <section class="slide" data-notes="The other answer to tension 1: don't generate at all. These simple, strong baselines are what new methods must beat — sets up the benchmark surprise.">
+    <div class="overline">Tension ① · The other answer</div>
+    <h2>Don't reconstruct — embed and compare</h2><div class="rule"></div>
+    <div class="grow">
+      <ul>
+        <li class="fragment">Frozen <b>ImageNet / medical features</b> + <b>memory bank</b> + kNN / one-class (PatchCore-style)</li>
+        <li class="fragment"><b>No generation</b> → fast, stable, strong pixel-level localization</li>
+        <li class="fragment"><span class="arrow">↳</span> the <b>"boringly strong" baselines</b> that new methods must beat — remember this for the benchmark slide</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="brand">Tension ① · Representing normal</span><span>08</span></div>
+  </section>
+
+  <!-- 9 · DIVIDER T2 -->
+  <section class="slide divider" data-notes="Tension 2 — the central deployment pain point. Frame it as a genuine dilemma, not a solved problem.">
+    <div class="overline">Tension ②</div>
+    <h1>Fidelity vs sensitivity</h1>
+    <div class="rule"></div>
+    <p>The noise paradox — the central deployment pain point</p>
+  </section>
+
+  <!-- 10 · THE PARADOX -->
+  <section class="slide" data-notes="State the dilemma crisply: too little noise misses lesions, too much destroys anatomy and spikes false positives (kills specificity). This is why reconstruction alone isn't clinical-grade.">
+    <div class="overline">Tension ② · The paradox</div>
+    <h2>Erase the lesion, or keep the anatomy?</h2><div class="rule"></div>
     <div class="grow">
       <div class="card warn fragment">
-        <p><b>矛盾:</b>抹除病灶需<b>高噪声</b> → 但高噪声<b>不可逆地破坏</b>健康解剖细节 → 伪健康图像偏离原始解剖 → <b>假阳性率飙升</b>,特异性骤降</p>
+        <p>To fully erase pathology you must inject <b>high noise</b> — but high noise <b>irreversibly destroys healthy anatomical detail</b> → the pseudo-healthy image drifts from the patient → <b>false positives spike, specificity drops</b>.</p>
       </div>
-      <p class="muted fragment" style="margin-top:1em"><b>解法:在去噪轨迹中引入引导与干预</b></p>
-      <div class="cols3 fragment" style="margin-top:.4em">
-        <div class="card"><h3>THOR</h3><p class="muted">时间协调:隐式引导,选择性<b>重整健康组织</b>,保住非病理区完整性</p></div>
-        <div class="card"><h3>AutoDDPM</h3><p class="muted">自动<b>掩码-拼接-重采样</b>,双重去噪无缝修复正常组织</p></div>
-        <div class="card teal"><h3>新趋势</h3><p class="muted">转入 <b>3D 隐空间</b> + VAE + <b>Rectified Flow</b>,降算力</p></div>
+      <div class="cols fragment" style="margin-top:1.1vw">
+        <div class="card"><h3>Too little noise</h3><p class="muted">pathology survives → <b>false negatives</b></p></div>
+        <div class="card"><h3>Too much noise</h3><p class="muted">healthy tissue destroyed → <b>false positives</b></p></div>
       </div>
     </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>06</span></div>
+    <div class="foot"><span class="brand">Tension ② · Fidelity vs sensitivity</span><span>10</span></div>
   </section>
 
-  <!-- 7 · VLM MVFA -->
-  <section class="slide" data-notes="切到右路。先讲领域鸿沟为什么直接迁移会崩,再讲 MVFA-AD 怎么用轻量适配器+像素级对齐把注意力重定向,数字要点出来。">
-    <div class="overline">主线二 / VLM Adaptation</div>
-    <h2>把 CLIP 适配到医学:MVFA-AD <span class="en">CVPR 2024</span></h2><div class="rule"></div>
-    <div class="grow">
-      <ul>
-        <li class="fragment"><b>领域鸿沟:</b>自然图像 ≠ 医学图像,直接迁移预训练 VLM → <b>性能崩塌</b></li>
-        <li class="fragment"><b>轻量多级适配:</b>视觉编码器中嵌入<b>残差适配器</b> + <b>像素级视-语特征对齐</b>损失</li>
-        <li class="sub fragment">强制注意力从"通用对象语义" <span class="arrow">→</span> "局部异常特征识别"</li>
-        <li class="fragment"><b>零样本泛化:</b>面对未见模态/解剖(脑 MRI、肝 CT、视网膜 OCT、胸 X 光)</li>
-      </ul>
-      <div class="stats fragment">
-        <div class="stat"><div class="n">+6.24%</div><div class="l">Zero-shot AUC↑</div></div>
-        <div class="stat"><div class="n teal">+7.33%</div><div class="l">Few-shot AUC↑</div></div>
-      </div>
-    </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>07</span></div>
-  </section>
-
-  <!-- 8 · MediCLIP + BENCHMARK -->
-  <section class="slide" data-notes="收尾右路 + 给出评测共识。MediCLIP 无异常数据靠合成;MedIAnomaly 的两个结论(度量函数、ImageNet 预训练)很重要,后面对比会用到度量函数这个点。">
-    <div class="overline">少样本 + 基准 / Few-shot & Benchmark</div>
-    <h2>MediCLIP 与统一基准的洞见</h2><div class="rule"></div>
+  <!-- 11 · RESPONSES -->
+  <section class="slide" data-notes="How the field responds: guided restoration to protect healthy tissue, and moving to latent/flow for 3D efficiency. These are partial fixes — flag that specificity remains open (returns in challenges).">
+    <div class="overline">Tension ② · Responses</div>
+    <h2>Guidance & latent restoration</h2><div class="rule"></div>
     <div class="grow">
       <div class="cols">
-        <div class="card teal fragment">
-          <h3>MediCLIP · MICCAI 2024</h3>
-          <p class="muted">仅用少量<b>正常</b>图像,<b>合成</b>异常任务(强度/形态畸变)+ 可学习提示 → 把 CLIP <b>重塑为医学检测器</b></p>
-        </div>
-        <div class="card accent fragment">
-          <h3>MedIAnomaly · MedIA 2025</h3>
-          <ul style="margin:0">
-            <li class="muted" style="font-size:1.02vw">度量函数敏感:<b>SSIM/LPIPS/感知损失 &gt; 逐像素 L2</b></li>
-            <li class="muted" style="font-size:1.02vw"><b>ImageNet 预训练</b>仍是坚实表征起点</li>
-          </ul>
-        </div>
+        <div class="card accent fragment"><h3>THOR (MICCAI 2024)</h3><p class="muted">Temporal harmonization: <b>implicit guidance</b> re-integrates healthy tissue during denoising → preserves non-pathological anatomy, <b>cuts false positives</b></p></div>
+        <div class="card teal fragment"><h3>Latent + rectified flow</h3><p class="muted">Move restoration to <b>3D latent space</b> + <b>rectified flow</b> → volumetric context, lower compute</p></div>
       </div>
-      <p class="fragment muted" style="margin-top:1.2em"><span class="arrow">↳</span> "语义级差异 &gt; 光度差异" 这一发现,正是转向<b>语义/逻辑推理</b>架构的伏笔。</p>
+      <p class="fragment muted" style="margin-top:1em"><span class="arrow">↳</span> partial fixes — <b>specificity is still an open problem</b> (see challenges).</p>
     </div>
-    <div class="foot"><span class="brand">医学异常检测</span><span>08</span></div>
+    <div class="foot"><span class="brand">Tension ② · Fidelity vs sensitivity</span><span>11</span></div>
   </section>
 
-  <!-- 9 · DIVIDER -->
-  <section class="slide divider" data-notes="转场。从『别人怎么做』切到『我们怎么做』。一句话:我们不改某个损失函数,而是从更底层——控制大模型本身——出发。">
-    <div class="overline">第二部分</div>
-    <h1>我们的工作:<br>基础模型控制</h1>
+  <!-- 12 · DIVIDER T3 -->
+  <section class="slide divider" data-notes="Tension 3 — the data problem. Two answers: manufacture anomalies (self-supervision) or borrow a foundation model (VLM adaptation).">
+    <div class="overline">Tension ③</div>
+    <h1>Scarcity & generalization</h1>
     <div class="rule"></div>
-    <p style="font-size:1.5vw">《高效且可控的大型生成模型及其在异常检测中的应用》</p>
-    <div style="margin-top:1.2em">
-      <span class="tag">任务重构 Task Restructuring</span>
-      <span class="tag">结构化掩码学习 Mask Learning</span>
-    </div>
+    <p>Little or no abnormal data · many modalities and organs</p>
   </section>
 
-  <!-- 10 · LogicAD -->
-  <section class="slide" data-notes="核心贡献一。先讲『逻辑异常』这个盲区,再讲感知-推理解耦的两阶段,落点是可证实的逻辑 + SOTA 数字 + 可解释。这是全场最亮的点之一。">
-    <div class="overline">贡献一 / Neuro-Symbolic</div>
-    <h2>LogicAD:分离感知与推理 <span class="en">AAAI 2025 · Jin et al.</span></h2><div class="rule"></div>
+  <!-- 13 · SELF-SUPERVISED -->
+  <section class="slide" data-notes="First answer to tension 3: create the anomalies you don't have. Strong localization, but synthetic ≠ real distribution — an honest caveat.">
+    <div class="overline">Tension ③ · Self-supervision</div>
+    <h2>Manufacture the anomalies you lack</h2><div class="rule"></div>
     <div class="grow">
-      <p class="fragment muted"><b>盲区:</b>逻辑异常(组件关系违背,如缺件/错位)——局部像素<b>看起来正常</b>,重构/特征比对无解;直接问 VLM → <b>幻觉、空间混乱、计数不准</b></p>
-      <div class="cols fragment" style="margin-top:.8em">
-        <div class="card accent">
-          <h3>① 感知(解耦)</h3>
-          <p class="muted">AVLM(GPT-4o/LLaVA)+ ROI + <b>Guided CoT</b> → 结构化"对象-属性-关系";<b>LOF</b> 在嵌入空间过滤幻觉离群</p>
-        </div>
-        <div class="card teal">
-          <h3>② 推理(符号)</h3>
-          <p class="muted">LLM 转<b>一阶逻辑 FOL</b> + <b>自动定理证明器</b>(Prover9)→ 可满足性判定 → 可回溯自然语言解释</p>
-        </div>
-      </div>
-      <div class="stats fragment">
-        <div class="stat"><div class="n">86.0%</div><div class="l">MVTec LOCO AUROC</div></div>
-        <div class="stat"><div class="n teal">+18.1%</div><div class="l">较前 SOTA</div></div>
-      </div>
-    </div>
-    <div class="foot"><span class="brand">基础模型控制</span><span>10</span></div>
-  </section>
-
-  <!-- 11 · EcoDiff -->
-  <section class="slide" data-notes="核心贡献二。痛点是迭代生成的复合误差;关键技术是梯度检查点把显存 O(T)→O(1),让端到端剪枝百亿参数成为可能。数字:20% 参数、8.75× 加速。">
-    <div class="overline">贡献二 / Structured Pruning</div>
-    <h2>EcoDiff:端到端结构化剪枝</h2><div class="rule"></div>
-    <div class="grow">
-      <p class="fragment muted"><b>痛点:</b>扩散/流模型<b>迭代去噪</b> = 算力梦魇;中间步剪枝的<b>微小误差在后续步骤指数级放大</b> → 崩溃</p>
       <ul>
-        <li class="fragment"><b>端到端隐式匹配目标:</b>优化<b>整条去噪轨迹</b>,而非单步损失</li>
-        <li class="fragment"><b>时间步梯度检查点:</b>显存 <b>O(T) → O(1)</b> → 单卡端到端剪<b>百亿参数</b>流匹配模型</li>
-        <li class="fragment"><b>Hard-concrete 掩码</b>连续松弛逼近 L₀,剪注意力头 / FFN 神经元</li>
+        <li class="fragment"><b>Synthesize disease-like perturbations</b> (intensity / morphology — CutPaste / FPI / Poisson-blend styles)</li>
+        <li class="fragment">Turns AD into a <b>proxy classification / segmentation</b> task — <b>no real anomalies needed</b></li>
+        <li class="fragment"><b>Pro:</b> strong localization &nbsp; · &nbsp; <b>Con:</b> synthetic ≠ real pathology distribution</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="brand">Tension ③ · Scarcity & generalization</span><span>13</span></div>
+  </section>
+
+  <!-- 14 · VLM MVFA -->
+  <section class="slide" data-notes="Second answer: borrow CLIP. The opposite trade-off from per-dataset reconstruction — generalize across modalities from little data. MVFA-AD is the representative adapter method.">
+    <div class="overline">Tension ③ · VLM adaptation</div>
+    <h2>Borrow a foundation model — MVFA-AD <span class="en">CVPR 2024</span></h2><div class="rule"></div>
+    <div class="grow">
+      <ul>
+        <li class="fragment"><b>Domain gap:</b> natural ↔ medical → zero-shot CLIP <b>collapses</b></li>
+        <li class="fragment">Lightweight <b>multi-level residual adapters</b> + <b>pixel-level vision–language alignment</b></li>
+        <li class="sub fragment">re-focuses attention: generic object semantics <span class="arrow">→</span> local abnormality</li>
       </ul>
       <div class="stats fragment">
-        <div class="stat"><div class="n">−20%</div><div class="l">参数(仅 100 张校准图)</div></div>
-        <div class="stat"><div class="n teal">8.75×</div><div class="l">复合加速(兼容步数蒸馏)</div></div>
-        <div class="stat"><div class="n warn">≈0</div><div class="l">语义保真度损失</div></div>
+        <div class="stat"><div class="n">+6.24%</div><div class="l">Zero-shot AUC ↑</div></div>
+        <div class="stat"><div class="n teal">+7.33%</div><div class="l">Few-shot AUC ↑ (unseen modalities/organs)</div></div>
       </div>
     </div>
-    <div class="foot"><span class="brand">基础模型控制</span><span>11</span></div>
+    <div class="foot"><span class="brand">Tension ③ · Scarcity & generalization</span><span>14</span></div>
   </section>
 
-  <!-- 12 · Erasure + UniForget -->
-  <section class="slide" data-notes="核心贡献三、四。把掩码从『加速』扩到『安全』与『隐私』。两组数字都很硬。UniForget 的『枚举困境 → 只用中性数据』是最有洞察的一点。">
-    <div class="overline">贡献三·四 / Safety & Privacy</div>
-    <h2>行为安全与无意识遗忘</h2><div class="rule"></div>
+  <!-- 15 · MediCLIP + FM -->
+  <section class="slide" data-notes="Push to the few-shot / no-real-anomaly extreme, and connect to the broader medical-foundation-model trend that our reading list also tracks.">
+    <div class="overline">Tension ③ · VLM adaptation</div>
+    <h2>MediCLIP & the foundation-model trend</h2><div class="rule"></div>
     <div class="grow">
       <div class="cols">
-        <div class="card warn fragment">
-          <h3>Minimalist Erasure</h3>
-          <p class="muted">有害概念由<b>局部神经元子群</b>编码 → 二进制掩码<b>物理切断</b>输出通路(恒等于零,对抗输入无法唤醒)</p>
-          <div class="stats" style="margin-top:.5em">
-            <div class="stat"><div class="n warn">54→4%</div><div class="l">概念检测率</div></div>
-            <div class="stat"><div class="n warn">88→16%</div><div class="l">对抗成功率</div></div>
-          </div>
-        </div>
-        <div class="card teal fragment">
-          <h3>UniForget</h3>
-          <p class="muted"><b>枚举困境:</b>无法列举被记忆的隐私数据 → 仅用<b>中性数据</b> + 稀疏正则,自动停用记忆神经元(模型"不知道自己记了什么")</p>
-          <div class="stats" style="margin-top:.5em">
-            <div class="stat"><div class="n teal">84–96%</div><div class="l">隐私/版权内容剔除</div></div>
-          </div>
-        </div>
+        <div class="card teal fragment"><h3>MediCLIP · MICCAI 2024</h3><p class="muted">Few-shot, <b>no real anomalies</b>: synthetic tasks + <b>learnable prompts</b> + visual adapters → CLIP becomes a medical detector</p></div>
+        <div class="card accent fragment"><h3>Broader trend</h3><p class="muted">Pathology / radiology <b>foundation models</b> as reusable backbones — <span class="muted">gating & compute are real constraints</span></p></div>
       </div>
     </div>
-    <div class="foot"><span class="brand">基础模型控制</span><span>12</span></div>
+    <div class="foot"><span class="brand">Tension ③ · Scarcity & generalization</span><span>15</span></div>
   </section>
 
-  <!-- 13 · COMPARISON TABLE -->
-  <section class="slide" data-notes="全场的对比核心。逐行念:左列是医学 AD 主流,右列是我们的控制研究。强调五个维度的范式差异。这页可以慢一点。">
-    <div class="overline">第三部分 / Deep Comparison</div>
-    <h2>范式对比:表层干预 vs 底层重塑</h2><div class="rule"></div>
-    <table>
-      <thead><tr><th class="dim">维度</th><th>医学 AD(AnoDDPM / THOR / MVFA-AD)</th><th>我们的控制研究(LogicAD / EcoDiff / UniForget)</th></tr></thead>
-      <tbody>
-        <tr class="fragment"><td>核心哲学</td><td class="a">隐式特征映射 + 像素残差</td><td class="b">显式逻辑重构 + 符号演绎(定理证明)</td></tr>
-        <tr class="fragment"><td>可解释性</td><td class="a">热力图 / 分割掩码,无语义逻辑</td><td class="b">神经符号:确切自然语言追踪路径</td></tr>
-        <tr class="fragment"><td>优化切入点</td><td class="a">推理结果表层干预(时间掩码)</td><td class="b">网络图结构物理重塑(永久剪枝)</td></tr>
-        <tr class="fragment"><td>抹除方式</td><td class="a">全局噪声正向破坏(伤及健康组织)</td><td class="b">神经元级精准物理阻断</td></tr>
-        <tr class="fragment"><td>隐私 / 记忆</td><td class="a">未纳入主流优化范畴</td><td class="b">无意识遗忘:部署先决条件</td></tr>
-      </tbody>
-    </table>
-    <div class="foot"><span class="brand">深度对比</span><span>13</span></div>
-  </section>
-
-  <!-- 14 · COMPLEMENT 1 -->
-  <section class="slide" data-notes="互补一:把黑盒对齐升级成因果推理。用连枷胸的例子讲得具体,落在『信任危机』。">
-    <div class="overline">互补 ① / Black-box → Causal</div>
-    <h2>从"特征对齐"到"知识图谱因果推理"</h2><div class="rule"></div>
+  <!-- 16 · BENCHMARKS -->
+  <section class="slide" data-notes="Reality check. The key reframing: evaluation choices can outweigh method choices. Metric matters; ImageNet features are strong; simple methods are competitive — argue for standardized multi-metric benchmarks.">
+    <div class="overline">Reality check</div>
+    <h2>What benchmarks reveal — MedIAnomaly <span class="en">MedIA 2025</span></h2><div class="rule"></div>
     <div class="grow">
+      <div class="stats fragment"><div class="stat"><div class="n">5</div><div class="l">modalities</div></div>
+        <div class="stat"><div class="n teal">7</div><div class="l">datasets</div></div>
+        <div class="stat"><div class="n warn">30</div><div class="l">methods compared</div></div></div>
       <ul>
-        <li class="fragment">MVFA-AD 仍把大模型降维成"<b>高级特征提取器</b>",医学诊断却依赖<b>解剖常识 + 病理因果</b></li>
-        <li class="fragment"><b>LogicAD 路线:</b>感知层提取形式化文本 → 顶层定理证明器接<b>医学规则库</b>因果演绎</li>
-        <li class="sub fragment">例:"肋骨多发骨折 + 气胸 <span class="arrow">⇒</span> 逻辑上极大概率为<b>连枷胸</b>" → 输出具法定诊断逻辑的鉴别报告</li>
-        <li class="fragment"><span class="arrow">→</span> 彻底解决医学 AI 的<b>信任危机</b></li>
+        <li class="fragment"><b>Metric dominates:</b> SSIM / LPIPS / perceptual <b>&gt;</b> pixel-wise L2 (semantic &gt; photometric)</li>
+        <li class="fragment"><b>ImageNet-pretrained features</b> are a strong base — even without medical-specific design</li>
+        <li class="fragment">Many <b>simple methods are surprisingly competitive</b> → beware over-claiming</li>
       </ul>
     </div>
-    <div class="foot"><span class="brand">深度对比 · 互补</span><span>14</span></div>
+    <div class="foot"><span class="brand">Reality check</span><span>16</span></div>
   </section>
 
-  <!-- 15 · COMPLEMENT 2 -->
-  <section class="slide" data-notes="互补二:用端到端掩码打掉扩散模型的算力/质量瓶颈。关键是把 EcoDiff 塞进 AutoDDPM 隐空间;还有 LLaVA 剪枝反而涨点到 81.6% 这个反直觉证据。">
-    <div class="overline">互补 ② / Mask → Diffusion</div>
-    <h2>端到端掩码降维打击算力瓶颈</h2><div class="rule"></div>
+  <!-- 17 · COMPARISON TABLE -->
+  <section class="slide" data-notes="Honest cross-family trade-offs. No single winner — the choice is driven by modality, data regime, and deployment constraints. Read the row highlights.">
+    <div class="overline">Reality check</div>
+    <h2>No single winner — trade-offs by family</h2><div class="rule"></div>
+    <table>
+      <thead><tr><th class="dim">Family</th><th>Data need</th><th>Localization</th><th>Interpretability</th><th>Compute</th><th>Generalization</th></tr></thead>
+      <tbody>
+        <tr class="fragment"><td>Diffusion recon.</td><td>normal only</td><td>strong (residual)</td><td>heatmap</td><td>high (iterative)</td><td>per-dataset</td></tr>
+        <tr class="fragment"><td>Feature / memory</td><td>normal only</td><td>strong</td><td>low</td><td>low</td><td>moderate</td></tr>
+        <tr class="fragment"><td>Self-supervised</td><td>normal + synthetic</td><td>strong</td><td>low</td><td>low–med</td><td>synthetic-bound</td></tr>
+        <tr class="fragment"><td>VLM adaptation</td><td>few-shot</td><td>moderate</td><td>text-promptable</td><td>med</td><td><b>cross-modality</b></td></tr>
+      </tbody>
+    </table>
+    <p class="fragment muted" style="margin-top:.7em">Pick by <b>modality · data regime · deployment constraint</b> — not by leaderboard alone.</p>
+    <div class="foot"><span class="brand">Reality check</span><span>17</span></div>
+  </section>
+
+  <!-- 18 · OPEN CHALLENGES -->
+  <section class="slide" data-notes="Close the loop: the tensions, still unclosed, plus two new axes (trust, privacy). Color codes map to the three future directions on the next slide.">
+    <div class="overline">What's still unresolved</div>
+    <h2>Open challenges</h2><div class="rule"></div>
     <div class="grow">
-      <ul>
-        <li class="fragment">噪声悖论本质 = 扩散模型对<b>全域特征的非差异化处理</b>;THOR 的分步启发式易<b>累计误差</b></li>
-        <li class="fragment">在 <b>AutoDDPM 隐空间</b>集成 EcoDiff 的<b>端到端掩码</b> → 剪冗余注意力头 → 数量级加速 + <b>天然保留解剖边界</b></li>
-      </ul>
-      <div class="card accent fragment" style="margin-top:.6em">
-        <p><b>反直觉实证:</b>在 LogicAD 的 LLaVA 骨干上剪 <b>20% 注意力头</b> → 不降反<b>去除推理噪声</b> → AUROC 进一步升至 <b style="color:var(--accent)">81.6%</b></p>
+      <div class="chipgrid">
+        <div class="chip t2 fragment">Specificity / false positives</div>
+        <div class="chip t2 fragment">3D / volumetric compute</div>
+        <div class="chip warn fragment">Interpretability & trust</div>
+        <div class="chip fragment">Domain shift (scanner/site/stain)</div>
+        <div class="chip fragment">Evaluation gaps (no unified protocol)</div>
+        <div class="chip warn fragment">Privacy & safety of medical FMs</div>
       </div>
-      <p class="fragment muted" style="margin-top:.8em"><span class="arrow">↳</span> 掩码学习 = 跨模态医学模型部署的最优解。</p>
+      <p class="fragment muted" style="margin-top:1.1em"><span class="arrow">↳</span> the last two open a <b>new axis</b> — trust & privacy — beyond raw detection accuracy.</p>
     </div>
-    <div class="foot"><span class="brand">深度对比 · 互补</span><span>15</span></div>
+    <div class="foot"><span class="brand">Open challenges</span><span>18</span></div>
   </section>
 
-  <!-- 16 · COMPLEMENT 3 -->
-  <section class="slide" data-notes="互补三:隐私合规终局。医院无法逐例打标签 → UniForget 的中性数据方案正好落地。防数据提取攻击。">
-    <div class="overline">互补 ③ / Privacy Endgame</div>
-    <h2>无意识遗忘化解隐私合规难题</h2><div class="rule"></div>
-    <div class="grow">
-      <ul>
-        <li class="fragment">医院用百亿参数模型在 <b>PACS / 病理切片</b>上预训练 → 记忆患者罕见病理并关联身份,<b>隐私泄露指数级上升</b></li>
-        <li class="fragment"><b>困境:</b>系统庞杂,无法为每例患者打<b>精确擦除标签</b></li>
-        <li class="fragment"><b>UniForget:</b>仅用开源<b>中性解剖数据</b>做掩码自适应 → 稀疏正则自动"<b>封印</b>"重现隐私记忆的神经元簇</li>
-        <li class="fragment"><span class="arrow">→</span> 不依赖枚举的<b>隐私防火墙</b>,防"<b>数据提取攻击</b>"</li>
-      </ul>
-    </div>
-    <div class="foot"><span class="brand">深度对比 · 互补</span><span>16</span></div>
-  </section>
-
-  <!-- 17 · REFERENCES -->
-  <section class="slide" data-notes="给出可追溯的文献矩阵。快速带过,强调最后一行是我们自己的 LogicAD。可作为『延伸阅读』留给组员。">
-    <div class="overline">第四部分 / Key References</div>
-    <h2>核心文献矩阵</h2><div class="rule"></div>
-    <table>
-      <thead><tr><th class="dim">文献</th><th style="width:34%">焦点</th><th>与本报告的关联</th></tr></thead>
-      <tbody>
-        <tr class="fragment"><td>MedIAnomaly <span class="muted">MedIA'25</span></td><td>5 模态 / 30 方法大基准</td><td>度量函数发现印证转向语义推理</td></tr>
-        <tr class="fragment"><td>AnoDDPM <span class="muted">CVPRW'22</span></td><td>Simplex 噪声伪健康重构</td><td>扩散潜力 + 效率瓶颈 → EcoDiff 靶点</td></tr>
-        <tr class="fragment"><td>THOR <span class="muted">MICCAI'24</span></td><td>时间协调隐式掩码修复</td><td>"掩码干预"下沉到参数层更稳健</td></tr>
-        <tr class="fragment"><td>MVFA-AD <span class="muted">CVPR'24</span></td><td>多级适配 + 视-语对齐</td><td>VLM 先验 ↔ LogicAD 感知前段</td></tr>
-        <tr class="fragment"><td>MediCLIP <span class="muted">MICCAI'24</span></td><td>合成异常 + 可学习提示</td><td>无标签哲学 ↔ UniForget 同构</td></tr>
-        <tr class="fragment"><td><b>LogicAD</b> <span class="muted">AAAI'25 · 自身</span></td><td>感知-逻辑解耦 + 定理证明</td><td>可证实逻辑 → 医学级绝对可解释</td></tr>
-      </tbody>
-    </table>
-    <div class="foot"><span class="brand">文献矩阵</span><span>17</span></div>
-  </section>
-
-  <!-- 18 · ROADMAP -->
-  <section class="slide" data-notes="未来三方向,是把前面所有点收束成路线图。逐条展开,强调三者最终合成『精准检测·绝对解释·零隐私泄露』。">
-    <div class="overline">第五部分 / Roadmap</div>
-    <h2>未来架构演进:三个不可逆方向</h2><div class="rule"></div>
+  <!-- 19 · FUTURE DIRECTIONS -->
+  <section class="slide" data-notes="The payoff. Three neutral, field-level directions, each answering unresolved challenges. Keep vendor/paper-neutral — these are directions for the field.">
+    <div class="overline">The road ahead</div>
+    <h2>Three directions — closing the loop</h2><div class="rule"></div>
     <div class="grow">
       <div class="cols3">
-        <div class="card accent fragment"><h3>① 生成底层</h3><p class="muted">扩散 SDE <span class="arrow">→</span> 隐空间<b>流匹配 / Rectified Flow</b> + EcoDiff <b>结构化剪枝</b>预处理</p></div>
-        <div class="card teal fragment"><h3>② 检测架构</h3><p class="muted">端到端隐式映射 <span class="arrow">→</span> <b>感知-逻辑双轨解耦</b>(Medical AVLM + 定理证明)</p></div>
-        <div class="card warn fragment"><h3>③ 安全闭环</h3><p class="muted">VLM 交互诊断 + <b>Minimalist Erasure</b> 安全 + <b>UniForget</b> 隐私</p></div>
-      </div>
-      <div class="card fragment" style="margin-top:1.4vw;text-align:center;border-top:4px solid var(--accent2)">
-        <p style="font-size:1.5vw;font-weight:750">部署终局 = <span style="color:var(--accent)">精准检测</span> · <span style="color:var(--accent2)">绝对解释</span> · <span style="color:var(--warn)">零隐私泄露</span></p>
+        <div class="card accent fragment"><h3>① Efficient generative</h3><p class="muted">Diffusion SDE <span class="arrow">→</span> latent <b>flow matching / rectified flows</b>; step distillation + compression <span style="color:var(--accent2)">(answers specificity + 3D)</span></p></div>
+        <div class="card teal fragment"><h3>② Beyond pixels</h3><p class="muted">Reasoning / knowledge-grounded, <b>interpretable</b>, agentic AD — rationales, not just heatmaps <span style="color:var(--accent2)">(answers trust)</span></p></div>
+        <div class="card warn fragment"><h3>③ Trustworthy FMs</h3><p class="muted">Privacy (<b>machine unlearning</b>), safety / behavior control, regulatory compliance <span style="color:var(--accent2)">(answers privacy)</span></p></div>
       </div>
     </div>
-    <div class="foot"><span class="brand">未来路线图</span><span>18</span></div>
+    <div class="foot"><span class="brand">The road ahead</span><span>19</span></div>
   </section>
 
-  <!-- 19 · CLOSING -->
-  <section class="slide divider" data-notes="收束三句话即可,然后 Q&A。可以把讨论抛给组内:哪个互补方向最值得先做一个 proof-of-concept。">
-    <div class="overline">总结 / Takeaways</div>
-    <h1 style="font-size:2.6vw">三句话带走</h1>
-    <div class="rule"></div>
-    <ul style="max-width:82%">
-      <li class="fragment" style="color:#fff">医学 AD 已从像素重构走向<b>语义/生成控制</b>,核心痛点是<b>噪声悖论</b>与<b>可解释性</b></li>
-      <li class="fragment" style="color:#fff">我们的<b>掩码学习 + 神经符号</b>把干预下沉到<b>参数与逻辑层</b>,天然补齐这两处短板</li>
-      <li class="fragment" style="color:#fff">未来 = <b>流匹配 + 双轨解耦 + 无意识遗忘</b>的可信医学基础模型</li>
-    </ul>
-    <p class="fragment" style="margin-top:1.4em;font-size:1.5vw;color:#fff">谢谢 · 讨论 &amp; Q&amp;A</p>
+  <!-- 20 · ROADMAP + TAKEAWAYS -->
+  <section class="slide" data-notes="Make it actionable + land 3 takeaways, then throw it open. If the group has concrete projects, tailor the near-term row live.">
+    <div class="overline">Summary</div>
+    <h2>Roadmap & takeaways</h2><div class="rule"></div>
+    <div class="grow">
+      <div class="cols fragment">
+        <div class="card accent"><h3>Near-term</h3><p class="muted">Standardized benchmarks · latent-diffusion / flow baselines · FM adapters</p></div>
+        <div class="card teal"><h3>Long-term</h3><p class="muted">Reasoning-grounded, trustworthy, 3D-native systems</p></div>
+      </div>
+      <ul style="margin-top:.6em">
+        <li class="fragment">Medical AD = <b>learn-normal, flag-deviation</b>; two engines: <b>diffusion reconstruction</b> & <b>VLM adaptation</b></li>
+        <li class="fragment">The real bottlenecks are <b>specificity, 3D compute, trust, privacy</b> — not raw accuracy</li>
+        <li class="fragment">Frontier = <b>efficient generative + reasoning-grounded + trustworthy</b></li>
+      </ul>
+    </div>
+    <div class="foot"><span class="brand">Summary · Discussion</span><span>20</span></div>
+  </section>
+
+  <!-- 21 · REFERENCES -->
+  <section class="slide" data-notes="Leave up during Q&A as further reading.">
+    <div class="overline">Appendix</div>
+    <h2>Key references</h2><div class="rule"></div>
+    <div class="grow">
+      <ul>
+        <li class="fragment"><b>MedIAnomaly</b> — Cai et al., <i>Medical Image Analysis</i>, 2025</li>
+        <li class="fragment"><b>AnoDDPM</b> — Wyatt et al., CVPRW 2022 &nbsp;·&nbsp; <b>AutoDDPM</b> ("Mask, Stitch, and Re-Sample") — Bercea et al., 2023</li>
+        <li class="fragment"><b>THOR</b> — Bercea et al., MICCAI 2024 &nbsp;·&nbsp; <b>MVFA-AD</b> — Huang et al., CVPR 2024 &nbsp;·&nbsp; <b>MediCLIP</b> — Zhang et al., MICCAI 2024</li>
+        <li class="fragment sub">Foundations: DDPM (Ho et al., 2020) · CLIP (Radford et al., 2021) · AnoGAN / f-AnoGAN (Schlegl et al., 2017/2019) · PatchCore (Roth et al., 2022)</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="brand">References</span><span>21</span></div>
   </section>
 
 </div></div>
 
-<div id="counter">1 / 19</div>
-<div id="nav"><button id="prev" title="上一步 (←)">‹</button><button id="next" title="下一步 (→)">›</button><button id="notesBtn" title="讲者提示 (N)">N</button></div>
-<div id="hint">← → / 空格 翻页 · N 讲者提示 · F 全屏</div>
+<div id="bar"></div>
+<div id="counter">1 / 21</div>
+<div id="nav"><button id="prev" title="Prev (←)">‹</button><button id="next" title="Next (→)">›</button><button id="notesBtn" title="Speaker notes (N)">N</button></div>
+<div id="hint">← → / Space to navigate · N speaker notes · F fullscreen</div>
 <div id="notes"></div>
 
 <script>
@@ -465,30 +420,20 @@
     bar.style.width=(slides.length>1?(cur/(slides.length-1)*100):0)+'%';
     if(notes.classList.contains('show'))updateNotes();
   }
-  function updateNotes(){
-    var n=slides[cur].getAttribute('data-notes')||'—';
-    notes.innerHTML='<b>讲者提示 · 第 '+(cur+1)+' 页</b> &nbsp; '+n;
-  }
-  function next(){
-    var f=frags(cur),shown=f.filter(function(x){return x.classList.contains('visible');});
-    if(shown.length<f.length){f[shown.length].classList.add('visible');}
-    else if(cur<slides.length-1){cur++;render();}
-  }
-  function prev(){
-    var f=frags(cur),shown=f.filter(function(x){return x.classList.contains('visible');});
-    if(shown.length>0){shown[shown.length-1].classList.remove('visible');}
-    else if(cur>0){cur--;render();frags(cur).forEach(function(x){x.classList.add('visible');});}
-  }
+  function updateNotes(){notes.innerHTML='<b>Speaker notes · slide '+(cur+1)+'</b> &nbsp; '+(slides[cur].getAttribute('data-notes')||'—');}
+  function next(){var f=frags(cur),s=f.filter(function(x){return x.classList.contains('visible');});
+    if(s.length<f.length){f[s.length].classList.add('visible');}else if(cur<slides.length-1){cur++;render();}}
+  function prev(){var f=frags(cur),s=f.filter(function(x){return x.classList.contains('visible');});
+    if(s.length>0){s[s.length-1].classList.remove('visible');}else if(cur>0){cur--;render();frags(cur).forEach(function(x){x.classList.add('visible');});}}
   function go(i){cur=Math.max(0,Math.min(slides.length-1,i));render();}
   document.addEventListener('keydown',function(e){
     if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
     else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
-    else if(e.key==='Home'){go(0);} else if(e.key==='End'){go(slides.length-1);}
+    else if(e.key==='Home'){go(0);}else if(e.key==='End'){go(slides.length-1);}
     else if(e.key==='n'||e.key==='N'){notes.classList.toggle('show');updateNotes();}
     else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen&&document.exitFullscreen();}}
   });
-  document.getElementById('next').onclick=next;
-  document.getElementById('prev').onclick=prev;
+  document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;
   document.getElementById('notesBtn').onclick=function(){notes.classList.toggle('show');updateNotes();};
   render();
 })();
