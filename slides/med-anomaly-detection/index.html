@@ -341,18 +341,19 @@
     <h2>Don't reconstruct — embed & compare</h2><div class="rule"></div>
     <div class="split">
       <ul>
-        <li>Frozen <b>features</b> + <b>memory bank</b> + kNN / one-class</li>
-        <li><b>No generation</b> → fast, stable, strong localization</li>
-        <li><span class="arrow">↳</span> the <b>"boringly strong" baselines</b> new methods must beat</li>
+        <li>Skip generation: pass patches through a <b>frozen encoder</b>, store healthy embeddings in a <b>memory bank</b></li>
+        <li>Score a test patch by its <b>kNN / one-class distance</b> to the healthy bank — <b>far = anomaly</b></li>
+        <li><b>No generation</b> → fast, stable, sharp localization; robust across modalities</li>
+        <li><span class="arrow">↳</span> these are the <b>"boringly strong" baselines</b> new methods must beat</li>
       </ul>
       <div class="figwrap">
         <div class="schematic" style="justify-content:center">
           <span class="box">Patch</span><span class="op">→</span>
           <span class="box">Frozen<br>encoder</span><span class="op">→</span>
-          <span class="box">Memory<br>bank</span><span class="op">→</span>
+          <span class="box">Memory<br>bank<br>(healthy)</span><span class="op">→</span>
           <span class="box" style="border-color:var(--accent);color:var(--accent)">kNN<br>distance</span>
         </div>
-        <div class="figcap">Embedding + memory-bank (PatchCore-style) pipeline (schematic).</div>
+        <div class="figcap">Embedding + memory-bank (PatchCore-style) pipeline — distance to the healthy bank is the anomaly score.</div>
       </div>
     </div>
     <div class="refbar"><b>Sources —</b> <span class="rn">[8]</span> Roth, CVPR 2022 (PatchCore) · <span class="rn">[15]</span> Cai, MedIA 2025</div>
@@ -373,10 +374,11 @@
       <div class="card warn">
         <p>To erase pathology you inject <b>high noise</b> — but that <b>destroys healthy anatomy</b> → the pseudo-healthy image drifts from the patient → <b>false positives spike, specificity drops</b>.</p>
       </div>
-      <div class="cols" style="margin-top:1.2vw">
-        <div class="card"><h3>Too little noise</h3><p class="muted">pathology survives → <b>false negatives</b></p></div>
-        <div class="card"><h3>Too much noise</h3><p class="muted">healthy tissue destroyed → <b>false positives</b></p></div>
+      <div class="cols" style="margin-top:1.1vw">
+        <div class="card"><h3>Too little noise</h3><p class="muted">pathology survives the reconstruction → <b>false negatives</b> (missed disease)</p></div>
+        <div class="card"><h3>Too much noise</h3><p class="muted">healthy tissue is destroyed & re-hallucinated → <b>false positives</b> (over-calling)</p></div>
       </div>
+      <p class="muted" style="margin-top:1vw"><span class="arrow">↳</span> In medicine a false positive means an <b>unnecessary biopsy</b> or callback — so <b>specificity</b>, not just detection, decides clinical value.</p>
     </div>
     <div class="refbar"><b>Sources —</b> <span class="rn">[7]</span> Bercea, MICCAI 2024 (THOR)</div>
   </section>
@@ -511,12 +513,12 @@
     <h2>Open challenges</h2><div class="rule"></div>
     <div class="grow">
       <div class="chipgrid">
-        <div class="chip t2">Specificity / false positives</div>
-        <div class="chip t2">3D / volumetric compute</div>
-        <div class="chip warn">Interpretability & trust</div>
-        <div class="chip">Domain shift (scanner/site/stain)</div>
-        <div class="chip">Evaluation gaps</div>
-        <div class="chip warn">Privacy & safety of medical FMs</div>
+        <div class="chip t2" style="flex-direction:column;align-items:flex-start;gap:.15em"><b>Specificity / false positives</b><span class="muted" style="font-size:.72em;font-weight:500">reconstruction erases healthy tissue too</span></div>
+        <div class="chip t2" style="flex-direction:column;align-items:flex-start;gap:.15em"><b>3D / volumetric compute</b><span class="muted" style="font-size:.72em;font-weight:500">diffusion SDEs are too costly for volumes</span></div>
+        <div class="chip warn" style="flex-direction:column;align-items:flex-start;gap:.15em"><b>Interpretability & trust</b><span class="muted" style="font-size:.72em;font-weight:500">a heatmap is not a clinical reason</span></div>
+        <div class="chip" style="flex-direction:column;align-items:flex-start;gap:.15em"><b>Domain shift</b><span class="muted" style="font-size:.72em;font-weight:500">scanner / site / stain change "normal"</span></div>
+        <div class="chip" style="flex-direction:column;align-items:flex-start;gap:.15em"><b>Evaluation gaps</b><span class="muted" style="font-size:.72em;font-weight:500">no unified protocol; metric dominates</span></div>
+        <div class="chip warn" style="flex-direction:column;align-items:flex-start;gap:.15em"><b>Privacy & safety of medical FMs</b><span class="muted" style="font-size:.72em;font-weight:500">memorized patient data; harmful generation</span></div>
       </div>
       <p class="muted" style="margin-top:1.1vw"><span class="arrow">↳</span> the last two open a <b>new axis</b> — trust & privacy — beyond raw accuracy.</p>
     </div>
@@ -528,9 +530,9 @@
     <h2>Three directions — closing the loop</h2><div class="rule"></div>
     <div class="grow">
       <div class="cols3">
-        <div class="card accent"><h3>① Efficient generative</h3><p class="muted">SDE → latent <b>flow matching</b>; distillation + compression</p></div>
-        <div class="card teal"><h3>② Beyond pixels</h3><p class="muted">Reasoning / knowledge-grounded, <b>interpretable</b>, agentic AD</p></div>
-        <div class="card warn"><h3>③ Trustworthy FMs</h3><p class="muted">Privacy (<b>unlearning</b>), safety, compliance</p></div>
+        <div class="card accent"><h3>① Efficient generative</h3><p>Diffusion SDE → latent <b>flow matching</b> / rectified flows; step distillation + compression → high-fidelity restoration at <b>3D scale</b>.</p><p class="muted" style="margin-top:.4em;font-size:1.0vw">answers: specificity + 3D compute</p></div>
+        <div class="card teal"><h3>② Beyond pixels</h3><p>From residual/embedding to <b>reasoning</b>: a VLM extracts anatomical facts → rules/logic → <b>auditable natural-language rationales</b>, agentic diagnosis.</p><p class="muted" style="margin-top:.4em;font-size:1.0vw">answers: interpretability & trust</p></div>
+        <div class="card warn"><h3>③ Trustworthy FMs</h3><p>Privacy via <b>machine unlearning</b>, behavioural <b>safety</b> control, regulatory <b>compliance</b> — prerequisites for deployment.</p><p class="muted" style="margin-top:.4em;font-size:1.0vw">answers: privacy & safety</p></div>
       </div>
     </div>
     <div class="refbar"><b>Sources —</b> <span class="rn">[23]</span> Lipman, ICLR 2023 (flow matching) · <span class="rn">[24]</span> Liu, ICLR 2023 (rectified flow) · <span class="rn">[25]</span> Bourtoule, IEEE S&amp;P 2021 (unlearning)</div>
