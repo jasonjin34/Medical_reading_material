@@ -1,0 +1,421 @@
+{
+  "nodes": [
+    {
+      "id": "DIRECTION",
+      "label": "Anomaly-detection-based virtual tissue modelling",
+      "kind": "direction"
+    },
+    {
+      "id": "cat:competition",
+      "label": "competition",
+      "kind": "category"
+    },
+    {
+      "id": "cat:foundation",
+      "label": "foundation",
+      "kind": "category"
+    },
+    {
+      "id": "cat:histopath",
+      "label": "histopath",
+      "kind": "category"
+    },
+    {
+      "id": "cat:imaging",
+      "label": "imaging",
+      "kind": "category"
+    },
+    {
+      "id": "cat:pathology",
+      "label": "pathology",
+      "kind": "category"
+    },
+    {
+      "id": "cat:single-cell",
+      "label": "single-cell",
+      "kind": "category"
+    },
+    {
+      "id": "cat:spatial",
+      "label": "spatial",
+      "kind": "category"
+    },
+    {
+      "id": "cat:virtual-tissue",
+      "label": "virtual-tissue",
+      "kind": "category"
+    },
+    {
+      "id": "fm-arxiv-2604",
+      "label": "A Generative Foundation Model for Multimodal Histopathology",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "hest1k-2024",
+      "label": "HEST-1k: A Dataset for Spatial Transcriptomics and Histology",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
+      "id": "histo-anomaly-bi-repo",
+      "label": "Boehringer-Ingelheim/anomaly-detection-in-histology",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "medium",
+      "year": 2022
+    },
+    {
+      "id": "histo-miccai-2025",
+      "label": "Pathology-Informed Latent Diffusion Model for Anomaly Detect",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "histo-nejmai-2024",
+      "label": "AI-Based Anomaly Detection for Clinical-Grade Histopathologi",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "high",
+      "year": 2024
+    },
+    {
+      "id": "histo-sciencedirect-2026",
+      "label": "Spatial biomarker discovery via interpretable semantic learn",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "imaging-ehjdh-2026",
+      "label": "An artificial intelligence model to detect abnormal ejection",
+      "kind": "paper",
+      "category": "imaging",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "imaging-nature-2026",
+      "label": "An ECG biomarker for sudden cardiac death discovered with de",
+      "kind": "paper",
+      "category": "imaging",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "pathomics-blood-2023",
+      "label": "A Deep Learning-Based Pathomics Methodology for Quantifying ",
+      "kind": "paper",
+      "category": "pathology",
+      "relevance": "medium",
+      "year": 2023
+    },
+    {
+      "id": "pathomics-npjpo-2026",
+      "label": "Deep learning-based pathomics signature predicts prognosis a",
+      "kind": "paper",
+      "category": "pathology",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "pathomics-repo",
+      "label": "Cassie07/PathOmics",
+      "kind": "paper",
+      "category": "pathology",
+      "relevance": "medium",
+      "year": 2023
+    },
+    {
+      "id": "scrna-natmachintell-2026",
+      "label": "Conditional Monge Gap enables generalizable single-cell pert",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "spatial-biorxiv-2025",
+      "label": "Mapping and reprogramming human tissue microenvironments wit",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "spatial-natcommun-2024",
+      "label": "Detecting anomalous anatomic regions in spatial transcriptom",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
+      "id": "uni2-h-model",
+      "label": "MahmoodLab/UNI2-h",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "medium",
+      "year": null
+    },
+    {
+      "id": "virchow-2024",
+      "label": "A foundation model for clinical-grade computational patholog",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
+      "id": "virtual-cell-challenge",
+      "label": "Virtual Cell Challenge",
+      "kind": "paper",
+      "category": "competition",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "virtual-tissue-2501",
+      "label": "AI-powered virtual tissues from spatial proteomics for clini",
+      "kind": "paper",
+      "category": "virtual-tissue",
+      "relevance": "high",
+      "year": 2025
+    }
+  ],
+  "edges": [
+    {
+      "source": "hest1k-2024",
+      "target": "virchow-2024",
+      "type": "cites"
+    },
+    {
+      "source": "virtual-tissue-2501",
+      "target": "spatial-biorxiv-2025",
+      "type": "concept",
+      "label": "in-silico perturbation"
+    },
+    {
+      "source": "spatial-biorxiv-2025",
+      "target": "scrna-natmachintell-2026",
+      "type": "concept",
+      "label": "perturbation/revert"
+    },
+    {
+      "source": "scrna-natmachintell-2026",
+      "target": "virtual-cell-challenge",
+      "type": "concept",
+      "label": "perturbation benchmark"
+    },
+    {
+      "source": "hest1k-2024",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "spatial-omics data"
+    },
+    {
+      "source": "hest1k-2024",
+      "target": "virtual-tissue-2501",
+      "type": "concept",
+      "label": "histology↔expression data"
+    },
+    {
+      "source": "virchow-2024",
+      "target": "uni2-h-model",
+      "type": "concept",
+      "label": "pathology FM"
+    },
+    {
+      "source": "uni2-h-model",
+      "target": "fm-arxiv-2604",
+      "type": "concept",
+      "label": "pathology FM"
+    },
+    {
+      "source": "virchow-2024",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "FM backbone → anomaly det."
+    },
+    {
+      "source": "uni2-h-model",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "FM backbone → anomaly det."
+    },
+    {
+      "source": "histo-miccai-2025",
+      "target": "histo-sciencedirect-2026",
+      "type": "concept",
+      "label": "reconstruct-to-normal"
+    },
+    {
+      "source": "histo-miccai-2025",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "histopath anomaly det."
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "histopath anomaly det."
+    },
+    {
+      "source": "imaging-nature-2026",
+      "target": "imaging-ehjdh-2026",
+      "type": "concept",
+      "label": "medical-imaging biomarker"
+    },
+    {
+      "source": "pathomics-repo",
+      "target": "pathomics-npjpo-2026",
+      "type": "concept",
+      "label": "pathomics survival"
+    },
+    {
+      "source": "pathomics-npjpo-2026",
+      "target": "pathomics-blood-2023",
+      "type": "concept",
+      "label": "pathomics"
+    },
+    {
+      "source": "cat:competition",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:foundation",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:histopath",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:imaging",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:pathology",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:single-cell",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:spatial",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:virtual-tissue",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "fm-arxiv-2604",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "hest1k-2024",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "histo-miccai-2025",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "histo-nejmai-2024",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "histo-sciencedirect-2026",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "imaging-ehjdh-2026",
+      "target": "cat:imaging",
+      "type": "in-category"
+    },
+    {
+      "source": "imaging-nature-2026",
+      "target": "cat:imaging",
+      "type": "in-category"
+    },
+    {
+      "source": "pathomics-blood-2023",
+      "target": "cat:pathology",
+      "type": "in-category"
+    },
+    {
+      "source": "pathomics-npjpo-2026",
+      "target": "cat:pathology",
+      "type": "in-category"
+    },
+    {
+      "source": "pathomics-repo",
+      "target": "cat:pathology",
+      "type": "in-category"
+    },
+    {
+      "source": "scrna-natmachintell-2026",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "spatial-biorxiv-2025",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "spatial-natcommun-2024",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "uni2-h-model",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "virchow-2024",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "virtual-cell-challenge",
+      "target": "cat:competition",
+      "type": "in-category"
+    },
+    {
+      "source": "virtual-tissue-2501",
+      "target": "cat:virtual-tissue",
+      "type": "in-category"
+    }
+  ],
+  "direction": "Anomaly-detection-based virtual tissue modelling"
+}

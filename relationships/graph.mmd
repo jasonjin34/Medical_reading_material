@@ -1,0 +1,44 @@
+flowchart LR
+  DIRECTION(["Anomaly-detection-based virtual tissue modelling"])
+  cat_competition["competition"] --> DIRECTION
+  cat_foundation["foundation"] --> DIRECTION
+  cat_histopath["histopath"] --> DIRECTION
+  cat_imaging["imaging"] --> DIRECTION
+  cat_pathology["pathology"] --> DIRECTION
+  cat_single_cell["single-cell"] --> DIRECTION
+  cat_spatial["spatial"] --> DIRECTION
+  cat_virtual_tissue["virtual-tissue"] --> DIRECTION
+  fm_arxiv_2604["A Generative Foundation Model for Multim"] --> cat_foundation
+  hest1k_2024["HEST-1k: A Dataset for Spatial Transcrip"] --> cat_foundation
+  histo_anomaly_bi_repo["Boehringer-Ingelheim/anomaly-detection-i"] --> cat_histopath
+  histo_miccai_2025["Pathology-Informed Latent Diffusion Mode"] --> cat_histopath
+  histo_nejmai_2024["★AI-Based Anomaly Detection for Clinical-"] --> cat_histopath
+  histo_sciencedirect_2026["★Spatial biomarker discovery via interpre"] --> cat_histopath
+  imaging_ehjdh_2026["An artificial intelligence model to dete"] --> cat_imaging
+  imaging_nature_2026["★An ECG biomarker for sudden cardiac deat"] --> cat_imaging
+  pathomics_blood_2023["A Deep Learning-Based Pathomics Methodol"] --> cat_pathology
+  pathomics_npjpo_2026["Deep learning-based pathomics signature "] --> cat_pathology
+  pathomics_repo["Cassie07/PathOmics"] --> cat_pathology
+  scrna_natmachintell_2026["Conditional Monge Gap enables generaliza"] --> cat_single_cell
+  spatial_biorxiv_2025["★Mapping and reprogramming human tissue m"] --> cat_spatial
+  spatial_natcommun_2024["Detecting anomalous anatomic regions in "] --> cat_spatial
+  uni2_h_model["MahmoodLab/UNI2-h"] --> cat_foundation
+  virchow_2024["A foundation model for clinical-grade co"] --> cat_foundation
+  virtual_cell_challenge["Virtual Cell Challenge"] --> cat_competition
+  virtual_tissue_2501["★AI-powered virtual tissues from spatial "] --> cat_virtual_tissue
+  hest1k_2024 -.->|cites| virchow_2024
+  virtual_tissue_2501 ==>|in-silico perturbation| spatial_biorxiv_2025
+  spatial_biorxiv_2025 ==>|perturbation/revert| scrna_natmachintell_2026
+  scrna_natmachintell_2026 ==>|perturbation benchmark| virtual_cell_challenge
+  hest1k_2024 ==>|spatial-omics data| spatial_natcommun_2024
+  hest1k_2024 ==>|histology↔expression data| virtual_tissue_2501
+  virchow_2024 ==>|pathology FM| uni2_h_model
+  uni2_h_model ==>|pathology FM| fm_arxiv_2604
+  virchow_2024 ==>|FM backbone → anomaly det.| histo_nejmai_2024
+  uni2_h_model ==>|FM backbone → anomaly det.| spatial_natcommun_2024
+  histo_miccai_2025 ==>|reconstruct-to-normal| histo_sciencedirect_2026
+  histo_miccai_2025 ==>|histopath anomaly det.| histo_nejmai_2024
+  histo_anomaly_bi_repo ==>|histopath anomaly det.| histo_nejmai_2024
+  imaging_nature_2026 ==>|medical-imaging biomarker| imaging_ehjdh_2026
+  pathomics_repo ==>|pathomics survival| pathomics_npjpo_2026
+  pathomics_npjpo_2026 ==>|pathomics| pathomics_blood_2023
