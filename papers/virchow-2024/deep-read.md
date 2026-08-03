@@ -56,10 +56,10 @@
 - License caveat: the model card lists Apache-2.0, but Paige's Virchow weights have historically carried non-commercial/research gating — verify the actual HF license and terms before any commercial use.
 
 ## 待读 / Follow-ups
-- <!-- ZH/EN --> Virchow2 / Virchow2G(更大规模、更多机构数据)对比论文与模型卡。
-- <!-- ZH/EN --> 其他病理基础模型基准:UNI (MahmoodLab), CONCH, GigaPath (Prov-GigaPath), Phikon — 与 Virchow 的 tile-embedding 迁移对比。
-- <!-- ZH/EN --> 在冻结 Virchow 嵌入上做无监督异常检测的可行性验证(one-class SVM / PatchCore / 正常流形密度估计)。
-- <!-- ZH/EN --> 正文中泛癌检测的逐癌种 AUC、外部机构验证与标注效率曲线(需获取全文)。
+- <!-- ZH --> Virchow2 / Virchow2G(更大规模、更多机构数据)对比论文与模型卡。 <!-- EN --> Virchow2 / Virchow2G (larger scale, more multi-institution data) comparison papers and model cards.
+- <!-- ZH --> 其他病理基础模型基准:UNI (MahmoodLab), CONCH, GigaPath (Prov-GigaPath), Phikon — 与 Virchow 的 tile-embedding 迁移对比。 <!-- EN --> Other pathology foundation-model baselines: UNI (MahmoodLab), CONCH, GigaPath (Prov-GigaPath), Phikon — tile-embedding transfer comparison against Virchow.
+- <!-- ZH --> 在冻结 Virchow 嵌入上做无监督异常检测的可行性验证(one-class SVM / PatchCore / 正常流形密度估计)。 <!-- EN --> Feasibility validation of unsupervised anomaly detection on frozen Virchow embeddings (one-class SVM / PatchCore / normal-manifold density estimation).
+- <!-- ZH --> 正文中泛癌检测的逐癌种 AUC、外部机构验证与标注效率曲线(需获取全文)。 <!-- EN --> Per-cancer AUCs for pan-cancer detection in the main text, external-institution validation, and label-efficiency curves (requires full text).
 
 ## 引用 / Cite
 ```bibtex

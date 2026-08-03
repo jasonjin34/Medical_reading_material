@@ -3,7 +3,7 @@
 > **Bibkey** `{{BIBKEY}}` · **Venue** {{VENUE}} ({{YEAR}}) · **Category** {{CATEGORY}} · **Relevance** {{RELEVANCE}} · **Access** {{ACCESS}}
 > **Link** <{{URL}}>
 > `status: {{STATUS}}` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
-> Bilingual convention (drives the site's EN⇄中文 switcher): put `<!-- ZH -->` 中文 and `<!-- EN -->` English on their own lines; `<!-- ZH/EN -->` = shared line kept in both.
+> Bilingual convention (drives the site's EN⇄中文 switcher): put `<!-- ZH -->` 中文 and `<!-- EN -->` English on their own lines (or inline `- <!-- ZH --> 中文 <!-- EN --> English`). Use `<!-- ZH/EN -->` ONLY for a purely language-neutral line (a bare URL or code token) — never for bilingual prose or labels.
 
 ---
 
@@ -38,12 +38,12 @@
 <!-- EN --> On the anomaly-detection → virtual-tissue → revert pipeline, which stage is this, and what is reusable?
 
 ## 可复用资产 / Reusable assets
-- <!-- ZH/EN --> **代码 / Code:** 
-- <!-- ZH/EN --> **数据 / Data:** 
-- <!-- ZH/EN --> **模型 / Checkpoints:** 
+- <!-- ZH --> **代码:**  <!-- EN --> **Code:** 
+- <!-- ZH --> **数据:**  <!-- EN --> **Data:** 
+- <!-- ZH --> **模型:**  <!-- EN --> **Checkpoints:** 
 
 ## 待读 / Follow-ups
-- <!-- ZH/EN --> 
+- <!-- ZH -->  <!-- EN --> 
 
 ## 引用 / Cite
 ```bibtex

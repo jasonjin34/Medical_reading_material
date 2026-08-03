@@ -18,7 +18,7 @@
 ## 方法 / Method
 <!-- 核心方法、模型、数据流。关键公式/架构。 / Core method, model, data pipeline, key architecture. -->
 <!-- ZH --> 提出 MS-GMIL:多尺度(multi-scale)图神经网络 + 门控注意力(gated attention)机制的多示例学习(MIL),以全切片图像为输入、切片级弱标签监督,直接预测总生存(OS)。将 MS-GMIL 深度特征与传统机器学习结合,最终构建由 **11 个特征**组成的病理组学签名 PSGC。用 SHAP 与 pathogenomics 分析对签名做可解释性归因,并结合转录组数据探究其病理生理机制。(架构公式/超参等细节仅摘要与公开页可得,正文付费。)
-<!-- EN --> They propose MS-GMIL: a multi-scale graph neural network coupled with a gated-attention multiple-instance-learning head, taking whole-slide images with slide-level (weak) supervision to predict OS directly. MS-GMIL deep features are combined with traditional ML to build the final **11-feature** pathomics signature (PSGC). SHAP and pathogenomics analyses provide interpretability, and matched transcriptomic data probe the underlying biology. (Full architectural formulas/hyperparameters are paywalled — 仅摘要可得 / abstract-level detail.)
+<!-- EN --> They propose MS-GMIL: a multi-scale graph neural network coupled with a gated-attention multiple-instance-learning head, taking whole-slide images with slide-level (weak) supervision to predict OS directly. MS-GMIL deep features are combined with traditional ML to build the final **11-feature** pathomics signature (PSGC). SHAP and pathogenomics analyses provide interpretability, and matched transcriptomic data probe the underlying biology. (Full architectural formulas/hyperparameters are paywalled — abstract-level detail only.)
 
 ## 数据 / Data
 <!-- 数据集、模态、规模、来源。 / Datasets, modalities, scale, source. -->
@@ -28,7 +28,7 @@
 ## 主要结果 / Key results
 <!-- 关键指标与结论,尽量带数字。 / Headline metrics and conclusions, with numbers where possible. -->
 <!-- ZH --> PSGC 在**所有队列**中均为独立预后因子。高 PSGC 的 II/III 期患者可从化疗获得显著获益,并对免疫治疗有效响应,提示其可作为疗效预测标志物。可解释性分析显示,驱动 PSGC 的主要组织学特征为肿瘤细胞间变(anaplasia)、上皮内瘤变、肿瘤间质纤维化与肠上皮化生;转录组层面与细胞周期调控、耐药通路及癌症进展机制相关。具体判别指标(C-index/HR/AUC/p 值)在公开页不可见(仅摘要可得,不臆造)。
-<!-- EN --> PSGC was an independent prognostic factor in **all cohorts**. Stage II/III patients with high PSGC gained considerable chemotherapy benefit and responded effectively to immunotherapy, positioning it as a treatment-response predictor. Interpretability links PSGC to tumor-cell anaplasia, intraepithelial neoplasia, tumor–stroma fibrosis, and intestinal metaplasia; transcriptomically it tracks cell-cycle regulation, drug-resistance pathways, and cancer progression. Exact discrimination metrics (C-index/HR/AUC/p) are not public — 仅摘要可得, not fabricated here.
+<!-- EN --> PSGC was an independent prognostic factor in **all cohorts**. Stage II/III patients with high PSGC gained considerable chemotherapy benefit and responded effectively to immunotherapy, positioning it as a treatment-response predictor. Interpretability links PSGC to tumor-cell anaplasia, intraepithelial neoplasia, tumor–stroma fibrosis, and intestinal metaplasia; transcriptomically it tracks cell-cycle regulation, drug-resistance pathways, and cancer progression. Exact discrimination metrics (C-index/HR/AUC/p) are not public — abstract-only, not fabricated here.
 
 ## 创新点 / Contributions
 - <!-- ZH --> MS-GMIL:把多尺度图结构与门控注意力 MIL 结合,直接从 WSI 端到端学习预后,而非依赖预定义人工病理特征。 <!-- EN --> MS-GMIL fuses multi-scale graph structure with gated-attention MIL to learn prognosis end-to-end from WSIs rather than predefined hand-crafted features.

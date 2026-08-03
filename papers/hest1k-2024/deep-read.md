@@ -48,17 +48,26 @@
 
 ## 可复用资产 / Reusable assets
 <!-- 代码、预训练模型、数据集、评测协议。 -->
-- <!-- ZH/EN --> **数据集 / Dataset:** HEST-1k on HuggingFace Datasets (`MahmoodLab/hest`); 1,229 ST+WSI profiles, 直接下载或按癌型/器官/技术过滤子集 filter subsets by cancer type/organ/technology.
-- <!-- ZH/EN --> **代码 / Code:** HEST-Library — <https://github.com/mahmoodlab/hest> (Scanpy/AnnData-based; format unification, YOLOv8 fiducial alignment, DeepLabV3 tissue segmentation, spot-aligned 224×224 @20× patching, batch download).
-- <!-- ZH/EN --> **评测协议 / Eval protocol:** HEST-Benchmark — 10 tasks, top-50 HVG expression prediction from 112×112 μm patches, patient-stratified k-fold CV, Pearson correlation, RF(70 trees)/Ridge readouts.
-- <!-- ZH/EN --> **可比较的基础模型 / Foundation models scored:** UNI, CONCH, GigaPath, Phikon, PLIP, CTransPath, Remedis, Ciga, KimiaNet, ResNet50-IN — 现成 baselines 与相对强弱。
-- <!-- ZH/EN --> **License:** CC BY-NC-SA 4.0 (non-commercial, research-only).
+- <!-- ZH --> **数据集:** HEST-1k on HuggingFace Datasets (`MahmoodLab/hest`);1,229 个 ST+WSI profile,直接下载或按癌型/器官/技术过滤子集。
+- <!-- EN --> **Dataset:** HEST-1k on HuggingFace Datasets (`MahmoodLab/hest`); 1,229 ST+WSI profiles, download directly or filter subsets by cancer type/organ/technology.
+- <!-- ZH --> **代码:** HEST-Library — <https://github.com/mahmoodlab/hest>(基于 Scanpy/AnnData;格式统一、YOLOv8 fiducial 对齐、DeepLabV3 组织分割、spot 对齐 224×224 @20× patch、批量下载)。
+- <!-- EN --> **Code:** HEST-Library — <https://github.com/mahmoodlab/hest> (Scanpy/AnnData-based; format unification, YOLOv8 fiducial alignment, DeepLabV3 tissue segmentation, spot-aligned 224×224 @20× patching, batch download).
+- <!-- ZH --> **评测协议:** HEST-Benchmark — 10 个任务,从 112×112 μm patch 预测 top-50 HVG 表达,patient-stratified k-fold 交叉验证,Pearson 相关,RF(70 树)/Ridge readout。
+- <!-- EN --> **Eval protocol:** HEST-Benchmark — 10 tasks, top-50 HVG expression prediction from 112×112 μm patches, patient-stratified k-fold CV, Pearson correlation, RF (70 trees)/Ridge readouts.
+- <!-- ZH --> **可比较的基础模型:** UNI、CONCH、GigaPath、Phikon、PLIP、CTransPath、Remedis、Ciga、KimiaNet、ResNet50-IN — 现成 baseline 与相对强弱。
+- <!-- EN --> **Foundation models scored:** UNI, CONCH, GigaPath, Phikon, PLIP, CTransPath, Remedis, Ciga, KimiaNet, ResNet50-IN — ready-made baselines and their relative strengths.
+- <!-- ZH --> **许可:** CC BY-NC-SA 4.0(非商业,仅限研究)。
+- <!-- EN --> **License:** CC BY-NC-SA 4.0 (non-commercial, research-only).
 
 ## 待读 / Follow-ups
-- <!-- ZH/EN --> UNI 与 CONCH 原论文(pathology foundation models,基准中的最强项)。 UNI and CONCH source papers (strongest models in the benchmark).
-- <!-- ZH/EN --> 后续 HEST-1k 版本 / arXiv v2+ 以确认 1,229 vs 1,108 等最终数字与新增任务。 Later HEST-1k / arXiv versions to confirm final figures (1,229 vs 1,108) and any added tasks.
-- <!-- ZH/EN --> 结合扰动数据(Perturb-seq / drug-perturbation ST)以支撑 gene-revert 阶段。 Pair with perturbation data (Perturb-seq / drug-perturbation ST) for the gene-revert stage.
-- <!-- ZH/EN --> CellViT 核分割 + BCNB ER/PR/HER2 下游评测的复现细节。 Reproduction details of CellViT nuclear segmentation and BCNB ER/PR/HER2 downstream eval.
+- <!-- ZH --> UNI 与 CONCH 原论文(pathology foundation models,基准中的最强项)。
+- <!-- EN --> UNI and CONCH source papers (strongest models in the benchmark).
+- <!-- ZH --> 后续 HEST-1k 版本 / arXiv v2+,以确认 1,229 vs 1,108 等最终数字与新增任务。
+- <!-- EN --> Later HEST-1k / arXiv versions to confirm final figures (1,229 vs 1,108) and any added tasks.
+- <!-- ZH --> 结合扰动数据(Perturb-seq / drug-perturbation ST)以支撑 gene-revert 阶段。
+- <!-- EN --> Pair with perturbation data (Perturb-seq / drug-perturbation ST) for the gene-revert stage.
+- <!-- ZH --> CellViT 核分割 + BCNB ER/PR/HER2 下游评测的复现细节。
+- <!-- EN --> Reproduction details of CellViT nuclear segmentation and BCNB ER/PR/HER2 downstream eval.
 
 ## 引用 / Cite
 ```bibtex

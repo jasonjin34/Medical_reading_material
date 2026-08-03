@@ -1,4 +1,4 @@
-# 文献综述 / Literature Review
+# 文献综述
 ### Anomaly-detection-based virtual tissue modelling
 
 研究方向:检测因疾病或药物扰动而改变的生物医学影像 / 空间组学区域(**异常检测**),把组织建成可操作的**虚拟组织**,再预测能**逆转**该异常的关键基因/扰动(湿实验验证)。
@@ -7,7 +7,7 @@
 
 ---
 
-## 阶段一 · 异常检测 / Stage 1 — Anomaly detection
+## 阶段一 · 异常检测
 
 **核心思路.** 只学"正常"组织的分布,把偏离正常的区域打成异常分数;这是"定位变化"的第一步。
 
@@ -22,7 +22,7 @@
 
 ---
 
-## 阶段二 · 虚拟组织建模 / Stage 2 — Virtual-tissue modelling
+## 阶段二 · 虚拟组织建模
 
 **核心思路.** 把组织表示成可查询、可干预的生成模型,支持 *in silico* 扰动。
 
@@ -33,7 +33,7 @@
 
 ---
 
-## 阶段三 · 逆转:基因/扰动预测 / Stage 3 — Revert via gene & perturbation prediction
+## 阶段三 · 逆转:基因/扰动预测
 
 **核心思路.** 求解反问题:施加什么扰动能把异常态推回正常态。
 
@@ -45,7 +45,7 @@
 
 ---
 
-## 横切 · 基础模型 / Cross-cutting — Foundation backbones
+## 横切 · 基础模型
 
 组织病理基础模型为阶段一的特征提取与阶段二的表征骨干反复复用。
 
@@ -55,14 +55,14 @@
 
 ---
 
-## 横切 · 数据与应用 / Cross-cutting — Data & applications
+## 横切 · 数据与应用
 
 - [`hest1k-2024`](papers/hest1k-2024/index.md) — **HEST-1k**,大规模配对**组织学图像↔空间转录组**数据集(>1,200 profiles / 26 organs)+ HEST-Benchmark。把 H&E 形态与分子表达对齐,是阶段一(异常标注)与二(图像→分子)的**共同数据底座**;缺扰动/逆转数据(需与 Perturb-seq 配对)。CC BY-NC-SA 4.0。
 - [`pathomics-npjpo-2026`](papers/pathomics-npjpo-2026/index.md)、[`pathomics-blood-2023`](papers/pathomics-blood-2023/index.md)、[`pathomics-repo`](papers/pathomics-repo/index.md) — **Pathomics 应用**:胃癌预后/疗效签名(3,138 例,MS-GMIL)、骨髓微环境细胞量化(ASH 2023 摘要)、多模态病理+组学生存预测(PathOmics, MICCAI 2023)。示范"图像→分子→临床"的落地链路。
 
 ---
 
-## 综合与空白 / Synthesis & gaps
+## 综合与空白
 
 1. **三个阶段各有成熟组件,但尚未串成闭环。** 异常检测(STANDS / AnoPILaD / NEJM-AI)、虚拟组织(VirTues)、扰动逆转(MintFlow / Monge-Gap)彼此独立;**最大机会是把它们连成 detect → model → revert 的端到端管线。**
 2. **"重构回正常"反复出现**(AnoPILaD 扩散重构、PathPrism 反事实、MintFlow in-silico 删除、VirTues MAE 残差),天然统一"异常检测"与"逆转",值得作为方法主线。
@@ -74,5 +74,5 @@
 
 ---
 
-## 引用 / Citations
+## 引用
 所有条目的 BibTeX 见 [`references.bib`](references.bib);论文间关系见 [`relationships`](relationships.md)。

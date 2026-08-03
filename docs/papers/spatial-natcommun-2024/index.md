@@ -1,56 +1,55 @@
 # Detecting anomalous anatomic regions in spatial transcriptomics with STANDS
 
 > **Bibkey** `Xu_2024` · **Venue** Nature Communications (2024) · **Category** spatial · **Relevance** medium · **Access** open
-> **Link** <https://doi.org/10.1038/s41467-024-52445-9>
-> `status: complete` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
+> **Link** <https://doi.org/10.1038/s41467-024-52445-9> · `status: complete`
 
 ---
 
-## 一句话 / One-liner
+## One-liner
 STANDS is a GAN-based multi-sample spatial-transcriptomics framework that detects, aligns, and subtypes anomalous tissue domains (ATDs) de novo — training a reconstruction model on normal tissue only and flagging high-reconstruction-error spots — without predefined anomaly markers.
 
-## 研究问题 / Problem
+## Problem
 Detecting and dissecting anomalous tissue domains (DDATD) from multi-sample ST reveals both population-level and individual-specific pathogenic factors. Prior methods rely on expert visual inspection or predefined anomaly markers (useless for novel domain types), lack marker-free multi-sample alignment, and are hampered by the scarcity of normal reference ST. No prior method performed de novo DDATD in the multi-sample setting — jointly finding shared vs. sample-specific anomalies and splitting them into biologically distinct subdomains.
 
-## 方法 / Method
+## Method
 Three chained components: **(1) Detection (C1)** — a GAN trained on normal reference; gene expression encoded by a Graph Attention Network (GAT), histology by a GAT-ResNet hybrid, fused via a Transformer Fusion (TF) block to reconstruct normal spots; test-time spots with high reconstruction error are anomalies. A memory bank curbs mode collapse; scRNA-seq can serve as a surrogate reference when no normal ST exists (cross-modality). **(2) Alignment (C2/C3)** — a non-negative mapping matrix M builds "kin" reference↔target pairs; a learned style-divergence matrix S with style-transfer aligns targets into the reference space, correcting batch effects while preserving scale and semantics (anomalies excluded during training, realigned at test). **(3) Subtyping (C3)** — fuses C1 embeddings with reconstruction residuals and runs Discriminatively Enhanced Clustering (DEC) to split anomalies into shared or sample-specific subdomains.
 
-## 数据 / Data
+## Data
 Multi-platform, multi-organ: human breast (10x Visium — healthy 10x-hNB-v05 as reference; tumors 10x-hBC-G2/H1; vertical slices A1–A6); human pancreas (scRNA-seq sc-hPD reference → 10x-hPDAC PDAC, cross-modality); mouse embryo (Slide-seqV2 ssq-mEmb-32/33/34; Stereo-seq Stereo-mEmb-S1/S2/S3); human liver/pancreas (healthy liver 10x-hLCL-C73-C1 → primary sclerosing cholangitis 10x-hPSC-A1/C1/D1); human renal cell carcinoma (10x-hRCC-C2/C3/C4). Modalities: spatial gene expression plus paired histology images, with scRNA-seq supported as reference.
 
-## 主要结果 / Key results
+## Key results
 Single-sample detection consistently beats Spatial-ID, CAMLU, scPred, CHETAH, scmap on accuracy and F1. Multi-sample runs capture both shared anomalies (invasive cancer across datasets) and dataset-unique ones (cancer in situ in one, adipose tissue in another). Cross-modality (scRNA-seq reference → Visium target) still yields the highest accuracy/F1 for pancreatic cancer domains. Alignment leads on iLISI/BatchKL/ASW_batch/ASW_type vs. Harmony, ComBat, GraphST, STAligner; post-alignment GraphST clustering ARI ≈ 0.23–0.52, above baselines. Subtyping tops Macro-F1, NMI, and the new Multi-SGD spatial metric. Sensitivity: dropping 1/3 of reference spots lowers AUC ~0.05–0.10; dropping 2/3 raises false positives 2–3×; removing a normal domain type (e.g., breast glands) raises that domain's false positives ~3.3× — reference diversity matters. Ablations confirm the memory bank, histology, TF block, and non-negative mapping each contribute materially.
 
-## 创新点 / Contributions
+## Contributions
 - First multi-sample de novo DDATD framework: marker-free, anomaly-by-reconstruction-error on normal reference only.
 - Unified GAN integrating three tasks (detect→align→subtype) with multimodal fusion (GAT expression + GAT-ResNet histology + Transformer Fusion).
 - Marker-free multi-sample alignment via style-transfer + non-negative mapping that excludes unalignable ATDs before aligning.
 - Cross-modality use of scRNA-seq to overcome normal-ST scarcity.
 - New Spatial Grouping Discrepancy (SGD/Multi-SGD) metric incorporating spatial structure into evaluation.
 
-## 局限 / Limitations
+## Limitations
 - Strong dependence on quality/diversity of the normal reference; under-coverage sharply inflates false positives (up to ~3.3× shown).
 - GAN training risks mode collapse (mitigated by memory bank); the multi-component pipeline is heavy.
 - Biological meaning of detected/subtyped domains still needs downstream annotation and wet-lab support; no released pretrained checkpoints.
 - Validated mainly on tumor/development/fibrosis data; generalization to broader pathologies/platforms untested.
 
-## 与本研究方向的关系 / Relation to our direction
+## Relation to our direction
 This sits squarely at **stage one: anomaly detection** of our pipeline, in the spatial-transcriptomics modality, and literally detects disease-altered tissue regions — highly on-topic. Its "learn normal only, flag by reconstruction error" paradigm treats normal tissue as a generative prior — a virtual-normal-tissue model — matching our virtual-tissue framing: the GAN generator is a generative prior of normal tissue and the reconstruction residual is the "degree of deviation from normal," usable directly as an anomaly score and as a localization map for revert targets. The alignment component (style-transfer + non-negative mapping) solves the multi-sample batch problem needed to separate population-level vs. individual-specific anomalies. **Directly reusable:** (a) a strong detection backbone/baseline; (b) the SGD/Multi-SGD spatially-aware eval protocol; (c) the cross-modality reference trick (scRNA-seq → ST) for normal-sample scarcity. **Gap:** it detects and subtypes but does not predict which genes, if modulated, would revert the anomaly — exactly the downstream gene-revert stage we would build on top of its residuals/generator (e.g., inverting the generator to find perturbation directions that pull anomalous spots back onto the normal manifold).
 
-## 可复用资产 / Reusable assets
-- **代码 / Code:** <https://github.com/Catchxu/STANDS> — GPL-3.0, Python 3.9+, `git clone … && python3 setup.py install`. 文档与 6 个教程(单/多数据集检测、对齐、亚型):<https://catchxu.github.io/STANDS/>。
-- **评测协议 / Eval protocol:** Spatial Grouping Discrepancy (SGD: SGD_degree + SGD_cc) 与 Multi-SGD;并配 iLISI / BatchKL / ASW_batch / ASW_type / ARI / Macro-F1 / NMI 一整套。
-- **数据集 / Datasets:** 10x-hNB-v05, 10x-hBC-G2/H1/A1–A6, sc-hPD, 10x-hPDAC, ssq-mEmb-32/33/34, Stereo-mEmb-S1/S2/S3, 10x-hLCL-C73-C1, 10x-hPSC-A1/C1/D1, 10x-hRCC-C2/C3/C4(具体登录号见论文 Data availability)。
-- **架构模块 / Modules:** GAT 表达编码器、GAT-ResNet 组织学编码器、Transformer Fusion 块、memory-bank GAN、非负映射对齐、style-transfer、DEC 亚型聚类——均可拆件复用。
-- **预训练 / Checkpoints:** 文档建议在大规模公共 ST 上预训练,但未发布现成权重(need to pretrain yourself)。
+## Reusable assets
+- **Code:** <https://github.com/Catchxu/STANDS> — GPL-3.0, Python 3.9+, `git clone … && python3 setup.py install`. Docs and 6 tutorials (single/multi-dataset detection, alignment, subtyping): <https://catchxu.github.io/STANDS/>.
+- **Eval protocol:** Spatial Grouping Discrepancy (SGD: SGD_degree + SGD_cc) and Multi-SGD; plus a full suite of iLISI / BatchKL / ASW_batch / ASW_type / ARI / Macro-F1 / NMI.
+- **Datasets:** 10x-hNB-v05, 10x-hBC-G2/H1/A1–A6, sc-hPD, 10x-hPDAC, ssq-mEmb-32/33/34, Stereo-mEmb-S1/S2/S3, 10x-hLCL-C73-C1, 10x-hPSC-A1/C1/D1, 10x-hRCC-C2/C3/C4 (accession numbers in the paper's Data availability).
+- **Modules:** GAT expression encoder, GAT-ResNet histology encoder, Transformer Fusion block, memory-bank GAN, non-negative mapping alignment, style-transfer, DEC subtyping clustering — all reusable as separate components.
+- **Checkpoints:** Docs recommend pretraining on large-scale public ST, but no ready-made weights are released (need to pretrain yourself).
 
-## 待读 / Follow-ups
-- 精读 Supplementary:M/S 矩阵与 style-transfer 的具体损失与训练细节。 Read supplementary for exact M/S losses and style-transfer training.
-- 跑通 GitHub 教程,评估把重构残差/生成器反演成 gene-revert 扰动方向的可行性。 Run the repo tutorials; test inverting the generator/residuals into gene-revert perturbation directions.
-- 对比更近的 ST 异常检测/foundation-model 方法,定位 STANDS 作为骨干的取舍。 Compare with newer ST anomaly-detection / foundation-model methods to position STANDS as a backbone.
-- 复现 SGD/Multi-SGD 指标,纳入我们自己的评测套件。 Reproduce SGD/Multi-SGD and fold into our eval suite.
+## Follow-ups
+- Read supplementary for exact M/S losses and style-transfer training.
+- Run the repo tutorials; test inverting the generator/residuals into gene-revert perturbation directions.
+- Compare with newer ST anomaly-detection / foundation-model methods to position STANDS as a backbone.
+- Reproduce SGD/Multi-SGD and fold into our eval suite.
 
-## 引用 / Cite
+## Cite
 ```bibtex
 @article{Xu_2024, title={Detecting anomalous anatomic regions in spatial transcriptomics with STANDS}, volume={15}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-024-52445-9}, DOI={10.1038/s41467-024-52445-9}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Xu, Kaichen and Lu, Yan and Hou, Suyang and Liu, Kainan and Du, Yihang and Huang, Mengqian and Feng, Hao and Wu, Hao and Sun, Xiaobo}, year={2024}, month=Sept }
 ```
@@ -58,4 +57,4 @@ This sits squarely at **stage one: anomaly detection** of our pipeline, in the s
 
 ---
 
-📄 **[AI-ready 全文 / full-text extract →](ai-ready.md)**
+📄 **[AI-ready full-text extract →](ai-ready.md)**

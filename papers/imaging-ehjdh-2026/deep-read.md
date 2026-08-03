@@ -35,7 +35,7 @@
 - <!-- ZH --> 仅二分类(异常 vs. 正常),未回归连续 EF,也未细分 HFrEF/HFmrEF 亚型阈值。<!-- EN --> Binary only (abnormal vs. normal); no continuous EF regression or finer HFrEF/HFmrEF stratification.
 - <!-- ZH --> AUROC ~0.76–0.79 属中等判别力,离临床独立诊断尚有距离;标签来自超声报告文本,存在时间错配与报告噪声。<!-- EN --> AUROC ~0.76–0.79 is moderate — not yet standalone-diagnostic; labels come from echo report text with temporal mismatch and reporting noise.
 - <!-- ZH --> 两训练中心 + 一外部中心,人群/扫描仪多样性有限;人机对比样本仅 90 例。<!-- EN --> Two training + one external site limits scanner/population diversity; reader study only 90 scans.
-- <!-- ZH --> 全文在付费墙后,超参、消融、校准与阈值选择等细节（仅摘要可得 / abstract-only）。<!-- EN --> Full text is paywalled; hyperparameters, ablations, calibration, and threshold choice are（仅摘要可得 / abstract-only）.
+- <!-- ZH --> 全文在付费墙后,超参、消融、校准与阈值选择等细节仅摘要可得。<!-- EN --> Full text is paywalled; hyperparameters, ablations, calibration, and threshold choice are abstract-only.
 
 ## 与本研究方向的关系 / Relation to our direction
 <!-- ZH --> 这篇正处在我们流水线的**第一环:异常检测(anomaly detection)**——从医学影像中判定"这个器官/组织偏离了正常"。它与我们方向的三点可迁移经验:(1) **机会性/顺带筛查范式**——用为别的目的采集的组学/影像数据去发现未被标注的疾病扰动信号,与我们"从常规切片/空间组学里检出疾病或药物扰动区域"的思路同构;(2) **弱标签监督**——用配对的临床读数(此处超声 EF)当作影像标签,对应我们可用批量表型/临床终点弱监督 virtual tissue 的异常打分;(3) **可解释定位(Grad-CAM 3D 显著性)**——把"异常"落到具体解剖/空间位置,正是我们下一步做 virtual tissue 局部建模与 gene-revert 靶点定位所需的空间先验。注意其为纯有监督分类,并非我们偏好的无/自监督分布外异常检测;CT-ViT 这类 3D 影像 foundation encoder 可作为影像分支的 backbone 参考,但 gene-revert 反演环节本文不涉及。

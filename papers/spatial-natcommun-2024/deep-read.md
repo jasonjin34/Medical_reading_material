@@ -53,17 +53,26 @@
 
 ## 可复用资产 / Reusable assets
 <!-- 代码、预训练模型、数据集、评测协议。 / Code, checkpoints, datasets, eval protocols. -->
-- <!-- ZH/EN --> **代码 / Code:** <https://github.com/Catchxu/STANDS> — GPL-3.0, Python 3.9+, `git clone … && python3 setup.py install`. 文档与 6 个教程(单/多数据集检测、对齐、亚型):<https://catchxu.github.io/STANDS/>。
-- <!-- ZH/EN --> **评测协议 / Eval protocol:** Spatial Grouping Discrepancy (SGD: SGD_degree + SGD_cc) 与 Multi-SGD;并配 iLISI / BatchKL / ASW_batch / ASW_type / ARI / Macro-F1 / NMI 一整套。
-- <!-- ZH/EN --> **数据集 / Datasets:** 10x-hNB-v05, 10x-hBC-G2/H1/A1–A6, sc-hPD, 10x-hPDAC, ssq-mEmb-32/33/34, Stereo-mEmb-S1/S2/S3, 10x-hLCL-C73-C1, 10x-hPSC-A1/C1/D1, 10x-hRCC-C2/C3/C4(具体登录号见论文 Data availability)。
-- <!-- ZH/EN --> **架构模块 / Modules:** GAT 表达编码器、GAT-ResNet 组织学编码器、Transformer Fusion 块、memory-bank GAN、非负映射对齐、style-transfer、DEC 亚型聚类——均可拆件复用。
-- <!-- ZH/EN --> **预训练 / Checkpoints:** 文档建议在大规模公共 ST 上预训练,但未发布现成权重(need to pretrain yourself)。
+- <!-- ZH --> **代码:** <https://github.com/Catchxu/STANDS> — GPL-3.0, Python 3.9+, `git clone … && python3 setup.py install`。文档与 6 个教程(单/多数据集检测、对齐、亚型):<https://catchxu.github.io/STANDS/>。
+- <!-- EN --> **Code:** <https://github.com/Catchxu/STANDS> — GPL-3.0, Python 3.9+, `git clone … && python3 setup.py install`. Docs and 6 tutorials (single/multi-dataset detection, alignment, subtyping): <https://catchxu.github.io/STANDS/>.
+- <!-- ZH --> **评测协议:** Spatial Grouping Discrepancy (SGD: SGD_degree + SGD_cc) 与 Multi-SGD;并配 iLISI / BatchKL / ASW_batch / ASW_type / ARI / Macro-F1 / NMI 一整套。
+- <!-- EN --> **Eval protocol:** Spatial Grouping Discrepancy (SGD: SGD_degree + SGD_cc) and Multi-SGD; plus a full suite of iLISI / BatchKL / ASW_batch / ASW_type / ARI / Macro-F1 / NMI.
+- <!-- ZH --> **数据集:** 10x-hNB-v05, 10x-hBC-G2/H1/A1–A6, sc-hPD, 10x-hPDAC, ssq-mEmb-32/33/34, Stereo-mEmb-S1/S2/S3, 10x-hLCL-C73-C1, 10x-hPSC-A1/C1/D1, 10x-hRCC-C2/C3/C4(具体登录号见论文 Data availability)。
+- <!-- EN --> **Datasets:** 10x-hNB-v05, 10x-hBC-G2/H1/A1–A6, sc-hPD, 10x-hPDAC, ssq-mEmb-32/33/34, Stereo-mEmb-S1/S2/S3, 10x-hLCL-C73-C1, 10x-hPSC-A1/C1/D1, 10x-hRCC-C2/C3/C4 (accession numbers in the paper's Data availability).
+- <!-- ZH --> **架构模块:** GAT 表达编码器、GAT-ResNet 组织学编码器、Transformer Fusion 块、memory-bank GAN、非负映射对齐、style-transfer、DEC 亚型聚类——均可拆件复用。
+- <!-- EN --> **Modules:** GAT expression encoder, GAT-ResNet histology encoder, Transformer Fusion block, memory-bank GAN, non-negative mapping alignment, style-transfer, DEC subtyping clustering — all reusable as separate components.
+- <!-- ZH --> **预训练:** 文档建议在大规模公共 ST 上预训练,但未发布现成权重(需自行预训练)。
+- <!-- EN --> **Checkpoints:** Docs recommend pretraining on large-scale public ST, but no ready-made weights are released (need to pretrain yourself).
 
 ## 待读 / Follow-ups
-- <!-- ZH/EN --> 精读 Supplementary:M/S 矩阵与 style-transfer 的具体损失与训练细节。 Read supplementary for exact M/S losses and style-transfer training.
-- <!-- ZH/EN --> 跑通 GitHub 教程,评估把重构残差/生成器反演成 gene-revert 扰动方向的可行性。 Run the repo tutorials; test inverting the generator/residuals into gene-revert perturbation directions.
-- <!-- ZH/EN --> 对比更近的 ST 异常检测/foundation-model 方法,定位 STANDS 作为骨干的取舍。 Compare with newer ST anomaly-detection / foundation-model methods to position STANDS as a backbone.
-- <!-- ZH/EN --> 复现 SGD/Multi-SGD 指标,纳入我们自己的评测套件。 Reproduce SGD/Multi-SGD and fold into our eval suite.
+- <!-- ZH --> 精读 Supplementary:M/S 矩阵与 style-transfer 的具体损失与训练细节。
+- <!-- EN --> Read supplementary for exact M/S losses and style-transfer training.
+- <!-- ZH --> 跑通 GitHub 教程,评估把重构残差/生成器反演成 gene-revert 扰动方向的可行性。
+- <!-- EN --> Run the repo tutorials; test inverting the generator/residuals into gene-revert perturbation directions.
+- <!-- ZH --> 对比更近的 ST 异常检测/foundation-model 方法,定位 STANDS 作为骨干的取舍。
+- <!-- EN --> Compare with newer ST anomaly-detection / foundation-model methods to position STANDS as a backbone.
+- <!-- ZH --> 复现 SGD/Multi-SGD 指标,纳入我们自己的评测套件。
+- <!-- EN --> Reproduce SGD/Multi-SGD and fold into our eval suite.
 
 ## 引用 / Cite
 ```bibtex

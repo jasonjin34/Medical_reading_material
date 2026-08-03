@@ -1,59 +1,58 @@
 # Conditional Monge Gap enables generalizable single-cell perturbation modelling
 
 > **Bibkey** `Driessen_2026` · **Venue** Nature Machine Intelligence (2026) · **Category** single-cell · **Relevance** medium · **Access** paywall
-> **Link** <https://doi.org/10.1038/s42256-026-01242-8>
-> `status: complete` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
+> **Link** <https://doi.org/10.1038/s42256-026-01242-8> · `status: complete`
 
 ---
 
-## 一句话 / One-liner
+## One-liner
 CMonge is a conditional neural optimal-transport method that learns a single map from control to perturbed single-cell distributions conditioned on arbitrary covariates (drug, dose, cell type, combinations), and generalizes to unseen drugs from compound structure alone.
 
-## 研究问题 / Problem
+## Problem
 Single-cell perturbation data are unpaired (cells are destroyed on measurement), forcing distribution-level modelling. Prior neural OT (e.g. CellOT) trains one model per condition, cannot condition on treatment context, and fails to generalize to unseen drugs/doses. The goal: one parameter-efficient model that both conditions on covariates and generalizes to unseen perturbations.
 
-## 方法 / Method
+## Method
 Builds on the Monge Gap (an ICNN-free OT-map regularizer). An encoder–decoder maps control-cell representations to perturbed ones, injecting a condition vector (drug/dose/combination embedding). Objective = Sinkhorn-divergence fitting term + Monge-gap regularizer. Two drug-embedding families are compared: RDKit fingerprints (194-d, structure-based, from SMILES) and Mode-of-Action embeddings (10-d, effect-based, MDS over pairwise Wasserstein distances between treated populations). Aggregating hundreds of conditions enables cross-task learning and OOD prediction. An autoencoder is trained first for dimensionality reduction, then the conditional Monge model in latent space.
 
-## 数据 / Data
+## Data
 (1) **SciPlex3** scRNA-seq: 762,039 cells, three cancer lines (A549/K562/MCF7), 187–188 compounds × 4 doses + control, 748 drug-dose conditions. (2) **4i** multiplexed protein imaging: 97,748 cells (10,995 controls), melanoma lines, 35 therapies (~2,500 cells each), 48 marker/morphology features, including combination therapies.
 
-## 主要结果 / Key results
+## Key results
 In-distribution (SciPlex, 9 drugs): unconditional Monge upper bound R²≈0.950–0.978; CMonge-Dose-ID R²=0.882–0.974 with 4× fewer models; DrugDose-MoA-ID on par with 36 per-condition models. OOD unseen drugs: CMonge-MoA-OOD R²≈0.90 vs chemCPA ≈0.76 at highest dose; at 712 conditions 0.900±0.059 vs 0.760±0.211. On 4i, CMonge-MoA beats identity on MMD for combination therapies. Parameter-efficient vs single-cell foundation models; predicts unseen drugs from structure alone.
 
-## 创新点 / Contributions
-- 将 Monge Gap 条件化为 **Conditional Monge Gap**,可在任意协变量(药物/剂量/细胞类型/组合)上共享一个 OT 映射 —— 首个统一条件化 + 参数高效的 neural OT 扰动模型。
-- 通过在数百条件上 cross-task 训练,实现对**未见药物/剂量的 OOD 泛化**,且仅需化合物结构(SMILES→RDKit)或 MoA 嵌入。
-- 系统对比结构型(RDKit)与效应型(MoA)药物嵌入,并同时在 scRNA-seq 与蛋白成像两种模态上验证。
-- 上游合并进 `ott-jax`(OTT 库 PR #605),方法可复用。
+## Contributions
+- Conditionalizes the Monge Gap into a **Conditional Monge Gap** that shares a single OT map across arbitrary covariates (drug/dose/cell type/combination) — the first neural OT perturbation model to unify conditioning with parameter efficiency.
+- Cross-task training over hundreds of conditions achieves **OOD generalization to unseen drugs/doses**, needing only compound structure (SMILES→RDKit) or MoA embeddings.
+- Systematically compares structure-based (RDKit) and effect-based (MoA) drug embeddings, validating on both scRNA-seq and protein-imaging modalities.
+- Merged upstream into `ott-jax` (OTT library PR #605), making the method reusable.
 
-## 局限 / Limitations
-- RDKit 分子指纹需要显著更多训练条件才能追平 MoA,少条件下结构表征引入噪声。
-- 最高剂量条件最难学(扰动最强)。
-- MoA 嵌入依赖已测得的单药群体;缺单药测量的组合处理无法评估。
-- 个别机制迥异的药(如 trametinib)预测明显更差。
-- 4i 数据 identity 基线 R² 已 >0.6(效应量小),条件信息带来的增益受限;DrugDose-MoA-ID 在捕获特征均值 R² 上不及 36 个逐条件模型(尽管 Wasserstein 更好)。
+## Limitations
+- RDKit fingerprints need substantially more training conditions to match MoA; with few conditions the structural representation introduces noise.
+- The highest-dose conditions are the hardest to learn (strongest perturbation).
+- MoA embeddings depend on measured single-drug populations; combination treatments lacking single-drug measurements cannot be evaluated.
+- A few drugs with markedly different mechanisms (e.g. trametinib) are predicted noticeably worse.
+- On 4i data the identity baseline already has R² >0.6 (small effect size), limiting the gain from conditioning; DrugDose-MoA-ID trails the 36 per-condition models on feature-mean R² (though it is better on Wasserstein).
 
-## 与本研究方向的关系 / Relation to our direction
+## Relation to our direction
 Sits in the virtual-tissue / perturbation-response → gene-and-drug-revert stage, not anomaly detection. CMonge models control→perturbed as a conditional OT map; for our goal of predicting interventions that revert an anomalous state, its conditioning lets us search which drug/dose maps a population toward a target (normal) distribution — an in-silico intervention/repurposing screen. Its OOD generalization (unseen drugs from SMILES) fits the propose-candidate → wet-lab-validate loop. It explicitly models distribution shift, aligning with treating disease/drug-induced tissue change as an anomaly, and the Monge/Sinkhorn displacement can serve as a revert-distance metric. Caveats: population-distribution level, no spatial coordinates, and not itself an anomaly detector.
 
-## 可复用资产 / Reusable assets
-- **代码**:`AI4SCR/conditional-monge-gap`(MIT 许可,`pip install cmonge`;Python 3.10/3.11,JAX/OTT 后端)。<https://github.com/AI4SCR/conditional-monge-gap>
-- **CAR-T 扩展**:`AI4SCR/car-conditional-monge`(把 CMonge 扩到 CAR-T scRNA-seq,含 CAR 专用 dataloader/embedding/trainer)。<https://github.com/AI4SCR/car-conditional-monge>
-- **上游集成**:OTT (`ott-jax`) PR #605 —— conditional Monge gap 已并入 OTT。
-- **数据**:预处理好的 SciPlex3 与 4i 数据(ETH research collection)<https://www.research-collection.ethz.ch/handle/20.500.11850/609681>。
-- **预训练模型**:仓库 `models/` 目录含 checkpoints(旧版需 `cmonge_checkpoint_loading` git tag)。
-- **评测协议**:R²(特征均值)、MMD、(entropic) Wasserstein / Sinkhorn divergence;identity、逐条件 Monge、CellOT(ICNN)、chemCPA 等基线可直接复用。
-- **预印本**:arXiv:2504.08328(全文,含全部指标/图表)。
+## Reusable assets
+- **Code:** `AI4SCR/conditional-monge-gap` (MIT license, `pip install cmonge`; Python 3.10/3.11, JAX/OTT backend). <https://github.com/AI4SCR/conditional-monge-gap>
+- **CAR-T extension:** `AI4SCR/car-conditional-monge` (extends CMonge to CAR-T scRNA-seq, with CAR-specific dataloader/embedding/trainer). <https://github.com/AI4SCR/car-conditional-monge>
+- **Upstream integration:** OTT (`ott-jax`) PR #605 — conditional Monge gap merged into OTT.
+- **Data:** preprocessed SciPlex3 and 4i data (ETH research collection). <https://www.research-collection.ethz.ch/handle/20.500.11850/609681>
+- **Pretrained models:** the repo `models/` directory contains checkpoints (older versions need the `cmonge_checkpoint_loading` git tag).
+- **Evaluation protocol:** R² (feature mean), MMD, (entropic) Wasserstein / Sinkhorn divergence; baselines such as identity, per-condition Monge, CellOT (ICNN), and chemCPA are directly reusable.
+- **Preprint:** arXiv:2504.08328 (full text, with all metrics/figures).
 
-## 待读 / Follow-ups
-- 精读 arXiv:2504.08328 方法节:Monge gap 正则的确切形式、autoencoder 潜空间维度、条件注入位置。
-- chemCPA 原文(对比基线,SOTA 条件扰动模型)。
-- CellOT / Monge Gap(Uscidda & Cuturi)原始方法,理解无 ICNN OT 的收敛性。
-- 复现 SciPlex3 OOD 设置,把"revert 到对照分布"的方向设为目标分布做一次 in-silico 干预筛选。
-- 评估能否把 CMonge 迁到 spatial transcriptomics(加入空间坐标/邻域条件)。
+## Follow-ups
+- Close-read the arXiv:2504.08328 methods section: the exact form of the Monge-gap regularizer, autoencoder latent-space dimensionality, and where the condition is injected.
+- The chemCPA paper (comparison baseline, SOTA conditional perturbation model).
+- The CellOT / Monge Gap (Uscidda & Cuturi) original methods, to understand the convergence of ICNN-free OT.
+- Reproduce the SciPlex3 OOD setup, set "revert to the control distribution" as the target direction, and run one in-silico intervention screen.
+- Evaluate whether CMonge can transfer to spatial transcriptomics (adding spatial-coordinate / neighborhood conditions).
 
-## 引用 / Cite
+## Cite
 ```bibtex
 @article{Driessen_2026, title={Conditional Monge Gap enables generalizable single-cell perturbation modelling}, volume={8}, ISSN={2522-5839}, url={http://dx.doi.org/10.1038/s42256-026-01242-8}, DOI={10.1038/s42256-026-01242-8}, number={6}, journal={Nature Machine Intelligence}, publisher={Springer Science and Business Media LLC}, author={Driessen, Alice and Rajwade, Dhruva Abhijit and Harsanyi, Benedek and Rapsomaniki, Marianna and Born, Jannis}, year={2026}, month=June, pages={984–996} }
 ```
@@ -61,4 +60,4 @@ Sits in the virtual-tissue / perturbation-response → gene-and-drug-revert stag
 
 ---
 
-📄 **[AI-ready 全文 / full-text extract →](ai-ready.md)**
+📄 **[AI-ready full-text extract →](ai-ready.md)**

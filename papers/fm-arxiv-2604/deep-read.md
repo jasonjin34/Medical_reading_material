@@ -51,10 +51,14 @@
 <!-- EN --> Model/code/weights: not explicitly released in the paper (confirm with authors / later version). Reusable external assets & protocols: pretrained encoder **Virchow2** (alignment target); **PathGen-1.6M** text–image pairs; **TCGA/GTEx/PAIP/PLCO** H&E; **MOSAIC** spatial transcriptomics; classification benchmarks **PanNuke/UniToPatho/LC25000/SICAPv2/SkinCancer**; virtual-staining benchmarks **IHC4BC/HER2Match/ORION**. Reusable eval protocols: FID/KID + text–image alignment, few-shot (10-shot) classification lift, cell-type Wasserstein distance, marker PCC (patch/slide), IHC clinical AUC (Ki67/HER2). Reusable method pieces: SiT diffusion backbone, Decoupled Cross-Attention, CNN+CLS-token alignment loss, RNA→331-pathway-score encoding.
 
 ## 待读 / Follow-ups
-- <!-- ZH/EN --> 是否放出代码/权重?查 arXiv 后续版本与作者主页(Ruijiang Li lab, Stanford)。 / Check for code/checkpoint release in later versions and the Ruijiang Li lab page.
-- <!-- ZH/EN --> Virchow2、PixCell、GeneFlow、PathLDM、AI-FFPE、GigaTIME、HistoPlexer 等 baseline 原文。 / Read baselines: Virchow2, PixCell, GeneFlow, PathLDM, AI-FFPE, GigaTIME, HistoPlexer.
-- <!-- ZH/EN --> RNA→331 通路富集的具体签名与可否换成单细胞/空间高分辨条件。 / How the 331 pathway signatures are built; feasibility of single-cell/spatial-resolution conditioning.
-- <!-- ZH/EN --> 能否把扰动/revert 建成条件并加异常评分与逆向优化(与本方向直接相关)。 / Can perturbation/revert be cast as a condition + anomaly scoring + inverse optimization on top of MuPD.
+- <!-- ZH --> 是否放出代码/权重?查 arXiv 后续版本与作者主页(Ruijiang Li lab, Stanford)。
+  <!-- EN --> Check for code/checkpoint release in later versions and the Ruijiang Li lab page.
+- <!-- ZH --> Virchow2、PixCell、GeneFlow、PathLDM、AI-FFPE、GigaTIME、HistoPlexer 等 baseline 原文。
+  <!-- EN --> Read baselines: Virchow2, PixCell, GeneFlow, PathLDM, AI-FFPE, GigaTIME, HistoPlexer.
+- <!-- ZH --> RNA→331 通路富集的具体签名与可否换成单细胞/空间高分辨条件。
+  <!-- EN --> How the 331 pathway signatures are built; feasibility of single-cell/spatial-resolution conditioning.
+- <!-- ZH --> 能否把扰动/revert 建成条件并加异常评分与逆向优化(与本方向直接相关)。
+  <!-- EN --> Can perturbation/revert be cast as a condition + anomaly scoring + inverse optimization on top of MuPD.
 
 ## 引用 / Cite
 ```bibtex

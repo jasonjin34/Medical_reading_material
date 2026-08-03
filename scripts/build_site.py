@@ -43,6 +43,22 @@ def _strip_markers(line: str) -> str:
     return MARKER.sub("", line)
 
 
+CJK = re.compile(r"[一-鿿]")
+
+
+def _split_header(line: str, lang: str) -> str:
+    """`## 中文 / English` -> `## English` (en) or `## 中文` (zh).
+    Headers without a ' / ' whose left side is CJK are kept unchanged (both)."""
+    m = re.match(r"^(\s*#{1,6}\s+)(.*)$", line)
+    if not m:
+        return line
+    prefix, title = m.group(1), m.group(2)
+    parts = title.split(" / ", 1)
+    if len(parts) == 2 and CJK.search(parts[0]):
+        return prefix + (parts[0].strip() if lang == "zh" else parts[1].strip())
+    return line
+
+
 def _inline_pick(line: str, lang: str) -> str:
     m = re.match(r"^(\s*(?:[-*]\s+)?)", line)
     prefix, after = m.group(1), line[m.end():]
@@ -65,9 +81,24 @@ def split_bilingual(text: str, lang: str) -> str:
             out.append(line); mode = "both"; continue
         if in_code:
             out.append(line); continue
-        # structural lines -> both, reset language mode
-        if re.match(r"^\s*#{1,6}\s", line) or s == "---" or s.startswith(">"):
+        # headers -> split by ' / ' when bilingual, reset language mode
+        if re.match(r"^\s*#{1,6}\s", line):
+            out.append(_split_header(line, lang)); mode = "both"; continue
+        if s == "---":
             out.append(line); mode = "both"; continue
+        # blockquotes -> both, unless they carry language markers
+        if s.startswith(">"):
+            if MARKER.search(line):
+                if "<!-- ZH/EN -->" in line:
+                    out.append(_strip_markers(line))
+                elif "<!-- ZH -->" in line and "<!-- EN -->" in line:
+                    out.append(_inline_pick(line, lang))
+                elif ("<!-- ZH -->" in line and lang == "zh") or \
+                     ("<!-- EN -->" in line and lang == "en"):
+                    out.append(_strip_markers(line))
+            else:
+                out.append(line)
+            mode = "both"; continue
         # drop standalone template-hint comments (no language marker)
         if re.match(r"^\s*<!--.*-->\s*$", line) and "ZH" not in line and "EN" not in line:
             continue
@@ -104,7 +135,35 @@ def fix_links(text: str) -> str:
     return text
 
 
-AI_LINK = "\n\n---\n\n📄 **[AI-ready 全文 / full-text extract →](ai-ready.md)**\n"
+AI_LINK_EN = "\n\n---\n\n📄 **[AI-ready full-text extract →](ai-ready.md)**\n"
+AI_LINK_ZH = "\n\n---\n\n📄 **[AI-ready 全文提取 →](ai-ready.md)**\n"
+
+
+def _head_body(raw: str):
+    """Return (h1_title_line, body_after_first_hr)."""
+    lines = raw.split("\n")
+    h1 = next((ln for ln in lines if ln.startswith("# ")), "# ")
+    idx = next((i for i, ln in enumerate(lines) if ln.strip() == "---"), None)
+    body = "\n".join(lines[idx + 1:]) if idx is not None else raw
+    return h1, body
+
+
+def _meta_block(m: dict, lang: str) -> str:
+    """A clean, language-neutral metadata block regenerated from metadata.yaml."""
+    y = m.get("year") or ""
+    if lang == "en":
+        return "\n".join([
+            f"> **Bibkey** `{m.get('bibkey','')}` · **Venue** {m.get('venue','')} ({y}) · "
+            f"**Category** {m.get('category','')} · **Relevance** {m.get('relevance','')} · "
+            f"**Access** {m.get('access','')}",
+            f"> **Link** <{m.get('url','')}> · `status: {m.get('status','')}`",
+        ])
+    return "\n".join([
+        f"> **文献键** `{m.get('bibkey','')}` · **来源** {m.get('venue','')}({y}) · "
+        f"**类别** {m.get('category','')} · **相关度** {m.get('relevance','')} · "
+        f"**获取** {m.get('access','')}",
+        f"> **链接** <{m.get('url','')}> · `status: {m.get('status','')}`",
+    ])
 
 
 # --------------------------------------------------------------------------- #
@@ -122,12 +181,15 @@ def main() -> None:
         dr, ar = src / "deep-read.md", src / "ai-ready.md"
         if dr.exists():
             raw = dr.read_text(encoding="utf-8")
+            h1, body = _head_body(raw)
             has_ai = ar.exists()
-            for lang, suffix in (("en", "index.md"), ("zh", "index.zh.md")):
-                body = fix_links(split_bilingual(raw, lang))
+            for lang, suffix, ailink in (("en", "index.md", AI_LINK_EN),
+                                         ("zh", "index.zh.md", AI_LINK_ZH)):
+                page = f"{h1}\n\n{_meta_block(m, lang)}\n\n---\n\n" + \
+                    fix_links(split_bilingual(body, lang))
                 if has_ai:
-                    body += AI_LINK
-                (dst / suffix).write_text(body, encoding="utf-8")
+                    page += ailink
+                (dst / suffix).write_text(page, encoding="utf-8")
         if ar.exists():  # single-language source extract (en default; zh falls back)
             (dst / "ai-ready.md").write_text(ar.read_text(encoding="utf-8"), encoding="utf-8")
 

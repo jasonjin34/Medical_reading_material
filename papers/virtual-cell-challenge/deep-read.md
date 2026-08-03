@@ -47,17 +47,17 @@
 
 ## 可复用资产 / Reusable assets
 <!-- 代码、预训练模型、数据集、评测协议。 / Code, checkpoints, datasets, eval protocols. -->
-- <!-- ZH/EN --> **STATE model** (Arc's virtual cell model, State Transition + State Embedding) — 预训练基线,可作我们扰动模拟的起点。<https://arcinstitute.org/news/virtual-cell-model-state>
-- **Challenge dataset**: 300K H1 hESC × 300-perturbation Perturb-seq + 官方 splits/leaderboard,<https://virtualcellchallenge.org/> (evaluation page: `/evaluation`).
-- **Eval protocol**: DES / PDS / MAE composite scoring — 可直接移植为 revert 任务评测。
-- **External corpora**: Arc Virtual Cell Atlas (>500M cells)、scBaseCount、Tahoe-100M、X-Atlas/Orion Perturb-seq。
-- **Companion paper**: "Virtual Cell Challenge: Toward a Turing test for the virtual cell," *Cell*, 2025 — 任务/指标的权威描述。
+- <!-- ZH --> **STATE 模型**(Arc 的 virtual cell 模型,State Transition + State Embedding)——预训练基线,可作我们扰动模拟的起点。<https://arcinstitute.org/news/virtual-cell-model-state> <!-- EN --> **STATE model** (Arc's virtual cell model, State Transition + State Embedding) — pretrained baseline, usable as a starting point for our perturbation simulation. <https://arcinstitute.org/news/virtual-cell-model-state>
+- <!-- ZH --> **挑战数据集**:300K H1 hESC × 300 扰动 Perturb-seq + 官方 splits/leaderboard,<https://virtualcellchallenge.org/>(evaluation page:`/evaluation`)。 <!-- EN --> **Challenge dataset**: 300K H1 hESC × 300-perturbation Perturb-seq plus official splits/leaderboard, <https://virtualcellchallenge.org/> (evaluation page: `/evaluation`).
+- <!-- ZH --> **评测协议**:DES / PDS / MAE 复合评分——可直接移植为 revert 任务评测。 <!-- EN --> **Eval protocol**: DES / PDS / MAE composite scoring — directly portable as an evaluation for our revert task.
+- <!-- ZH --> **外部语料**:Arc Virtual Cell Atlas(>5 亿细胞)、scBaseCount、Tahoe-100M、X-Atlas/Orion Perturb-seq。 <!-- EN --> **External corpora**: Arc Virtual Cell Atlas (>500M cells), scBaseCount, Tahoe-100M, X-Atlas/Orion Perturb-seq.
+- <!-- ZH --> **配套论文**:"Virtual Cell Challenge: Toward a Turing test for the virtual cell," *Cell*, 2025——任务/指标的权威描述。 <!-- EN --> **Companion paper**: "Virtual Cell Challenge: Toward a Turing test for the virtual cell," *Cell*, 2025 — the authoritative description of the task and metrics.
 
 ## 待读 / Follow-ups
-- <!-- ZH/EN --> STATE 模型论文与代码(State Transition / State Embedding 架构细节)。
-- <!-- ZH/EN --> 获奖方案:xTrimoSCPerturb(BioMap)、TransPert、Altos "go-with-the-flow" flow-matching——混合与生成式思路。
-- <!-- ZH/EN --> 独立基准论文 "Benchmarking virtual cell models for in-the-wild perturbation response" 与 "The Baseline Gap" (Research Square),审视指标可靠性。
-- <!-- ZH/EN --> X-Atlas/Orion Perturb-seq 数据说明,评估作为额外训练/迁移语料的价值。
+- <!-- ZH --> STATE 模型论文与代码(State Transition / State Embedding 架构细节)。 <!-- EN --> The STATE model paper and code (State Transition / State Embedding architecture details).
+- <!-- ZH --> 获奖方案:xTrimoSCPerturb(BioMap)、TransPert、Altos "go-with-the-flow" flow-matching——混合与生成式思路。 <!-- EN --> Winning solutions: xTrimoSCPerturb (BioMap), TransPert, Altos "go-with-the-flow" flow-matching — hybrid and generative approaches.
+- <!-- ZH --> 独立基准论文 "Benchmarking virtual cell models for in-the-wild perturbation response" 与 "The Baseline Gap" (Research Square),审视指标可靠性。 <!-- EN --> Independent benchmark papers "Benchmarking virtual cell models for in-the-wild perturbation response" and "The Baseline Gap" (Research Square), scrutinizing metric reliability.
+- <!-- ZH --> X-Atlas/Orion Perturb-seq 数据说明,评估作为额外训练/迁移语料的价值。 <!-- EN --> The X-Atlas/Orion Perturb-seq data documentation, assessing its value as an extra training/transfer corpus.
 
 ## 引用 / Cite
 ```bibtex

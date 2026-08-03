@@ -17,7 +17,7 @@ See the **[Literature review](literature-review.md)** and **[Paper relationships
 | [Detecting anomalous anatomic regions in spatial transcriptomics with STANDS](papers/spatial-natcommun-2024/index.md) | Spatial transcriptomics | medium | open |
 | [AI-powered virtual tissues from spatial proteomics for clinical diagnostics and biomedical discovery](papers/virtual-tissue-2501/index.md) ★ | Virtual tissues | high | open |
 | [AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics](papers/histo-nejmai-2024/index.md) ★ | Histopathology | high | paywall |
-| [Spatial biomarker discovery via interpretable semantic learning in histopathology](papers/histo-sciencedirect-2026/index.md) ★ | Histopathology | high | paywall |
+| [Spatial biomarker discovery via interpretable semantic learning in histopathology](papers/histo-sciencedirect-2026/index.md) ★ | Histopathology | high | open |
 | [Boehringer-Ingelheim/anomaly-detection-in-histology](papers/histo-anomaly-bi-repo/index.md) | Histopathology | medium | open |
 | [Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis](papers/histo-miccai-2025/index.md) | Histopathology | medium | open |
 | [A Generative Foundation Model for Multimodal Histopathology](papers/fm-arxiv-2604/index.md) | Foundation models | medium | open |

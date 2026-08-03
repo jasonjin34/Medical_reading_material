@@ -1,4 +1,4 @@
-# 文献综述 / Literature Review
+# Literature Review
 ### Anomaly-detection-based virtual tissue modelling
 
 Direction: detect image / spatial-omics regions changed by disease or drug perturbation (**anomaly detection**) → model tissue as a manipulable **virtual tissue** → predict the key genes / perturbations that **revert** the anomaly (validated in the wet lab).
@@ -7,7 +7,7 @@ This review organises the 18 items along a three-stage pipeline plus the cross-c
 
 ---
 
-## 阶段一 · 异常检测 / Stage 1 — Anomaly detection
+## Stage 1 — Anomaly detection
 
 **Core idea.** Learn the distribution of *normal* tissue and score departures from it — the *learn normal, flag deviation* recipe. This is the first step of localizing change.
 
@@ -22,7 +22,7 @@ This review organises the 18 items along a three-stage pipeline plus the cross-c
 
 ---
 
-## 阶段二 · 虚拟组织建模 / Stage 2 — Virtual-tissue modelling
+## Stage 2 — Virtual-tissue modelling
 
 **Core idea.** Represent tissue as a queryable, interventionable generative model that supports *in silico* perturbation.
 
@@ -33,7 +33,7 @@ This review organises the 18 items along a three-stage pipeline plus the cross-c
 
 ---
 
-## 阶段三 · 逆转:基因/扰动预测 / Stage 3 — Revert via gene & perturbation prediction
+## Stage 3 — Revert via gene & perturbation prediction
 
 **Core idea.** Solve the inverse problem: which perturbation pushes an anomalous state back to normal.
 
@@ -45,7 +45,7 @@ This review organises the 18 items along a three-stage pipeline plus the cross-c
 
 ---
 
-## 横切 · 基础模型 / Cross-cutting — Foundation backbones
+## Cross-cutting — Foundation backbones
 
 Pathology foundation models recur as feature extractors (Stage 1) and representation backbones (Stage 2).
 
@@ -55,14 +55,14 @@ Pathology foundation models recur as feature extractors (Stage 1) and representa
 
 ---
 
-## 横切 · 数据与应用 / Cross-cutting — Data & applications
+## Cross-cutting — Data & applications
 
 - [`hest1k-2024`](papers/hest1k-2024/index.md) — **HEST-1k**, a large paired **histology↔spatial-transcriptomics** dataset (>1,200 profiles / 26 organs) + HEST-Benchmark. It aligns H&E morphology with molecular expression — the **shared data substrate** for stage 1 (anomaly labeling) and stage 2 (image→molecule); lacks perturbation/revert data (pair with Perturb-seq). CC BY-NC-SA 4.0.
 - [`pathomics-npjpo-2026`](papers/pathomics-npjpo-2026/index.md), [`pathomics-blood-2023`](papers/pathomics-blood-2023/index.md), [`pathomics-repo`](papers/pathomics-repo/index.md) — **Pathomics applications**: a gastric-cancer prognosis/response signature (3,138 patients, MS-GMIL), bone-marrow microenvironment cell quantification (ASH 2023 abstract), and multimodal pathology+omics survival prediction (PathOmics, MICCAI 2023). They exemplify the image→molecule→clinic chain.
 
 ---
 
-## 综合与空白 / Synthesis & gaps
+## Synthesis & gaps
 
 1. **Mature components exist per stage but are not yet a closed loop.** Anomaly detection (STANDS / AnoPILaD / NEJM-AI), virtual tissue (VirTues), and perturbation-revert (MintFlow / Monge-Gap) are independent; **the opportunity is an end-to-end detect → model → revert pipeline.**
 2. **"Reconstruct back to normal" recurs** (AnoPILaD's diffusion, PathPrism's counterfactuals, MintFlow's in-silico deletion, VirTues' MAE residual) — it unifies anomaly detection and reversion and is worth adopting as the methodological spine.
@@ -74,5 +74,5 @@ Pathology foundation models recur as feature extractors (Stage 1) and representa
 
 ---
 
-## 引用 / Citations
+## Citations
 All BibTeX in [`references.bib`](references.bib); inter-paper links in [`relationships`](relationships.md).
