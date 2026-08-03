@@ -1,0 +1,20 @@
+# Canonical record for one reading-list item.
+# Filled by scripts/add_paper.py, then hand-edited. One file per papers/<slug>/.
+id: ""                      # slug, e.g. virchow-2024  (== folder name)
+title: ""                   # full title
+authors: []                 # ["Family, Given", ...]
+year: null                  # integer
+venue: ""                   # journal / conference / preprint server
+type: "paper"               # paper | dataset | model | code | competition
+category: ""                # single-cell | spatial | virtual-tissue | histopath | foundation | pathology | imaging | competition
+relevance: "medium"         # high | medium | low  (★ items -> high)
+access: "open"              # open | paywall | abstract-only
+url: ""                     # canonical landing URL
+doi: ""                     # DOI if any (no https:// prefix)
+arxiv: ""                   # arXiv id if any, e.g. 2406.16192
+s2_id: ""                   # Semantic Scholar paperId (for relationships)
+bibkey: ""                  # BibTeX cite key in references.bib
+tags: []                    # free-form keywords
+related: []                 # slugs of related items in this repo
+status: "complete"          # complete | abstract-only | needs-review
+added: ""                   # YYYY-MM-DD

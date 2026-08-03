@@ -1,0 +1,6 @@
+# Site + tooling. Install with: pip install -r requirements.txt
+mkdocs-material>=9.5
+mkdocs-mermaid2-plugin>=1.1
+pymdown-extensions>=10.7
+PyYAML>=6.0
+requests>=2.31
