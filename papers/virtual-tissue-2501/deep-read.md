@@ -114,6 +114,48 @@ This is the **foundational core reference** for our "virtual tissues" concept an
 - Validate the feasibility of "reconstruction error as anomaly score": on drug-perturbation paired samples, test whether masking-deviation aligns with known changed regions.
 - Track the robustness of ESM-2 marker embeddings to antibody naming/clone differences (marker isolation degradation problem).
 
+## 图表 / Figures & tables
+
+![VirTues platform overview and architecture](figures/fig1.png)
+<!-- ZH --> **图1.** 平台总览与架构:(a) 从 multiplex 影像学到「Virtual Tissues 表征 / 数据库」两条路径,支撑临床诊断、生物学发现与信息检索;(b) 训练语料覆盖 15 数据集、8 器官部位、147 个不同 marker;(c) 规模 3,102 病人 / 8,887 样本 / ~259k crops;(d) marker-aware tokenization + 分子/细胞/niche/组织多尺度 summary token + 分解式 spatial/marker 注意力;(e) 随 marker 数增多性能持续提升(蓝线 VirTues vs 灰线 CA-MAE full-attention)。
+<!-- EN --> **Fig 1.** Platform overview and architecture: (a) two paths — Virtual Tissues Representation and Database — feeding clinical diagnostics, biological discovery and information retrieval; (b) training corpus of 15 datasets, 8 organ sites, 147 distinct markers; (c) 3,102 patients / 8,887 samples / ~259k crops; (d) marker-aware tokenization plus molecular/cell/niche/tissue summary tokens and factorized spatial/marker attention; (e) scaling laws — accuracy keeps rising with marker depth (blue VirTues vs grey full-attention CA-MAE).
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2501.06039v2 (x1.png)  ·  License: arXiv open (code MIT, github.com/bunnelab/virtues)_
+
+![Cell-level representation evaluation](figures/fig3.png)
+<!-- ZH --> **图3.** 细胞级表征评测:(b) 跨数据集 linear-probing cell typing 的 F1,VirTues(蓝)优于 KRONOS 与 CA-MAE;(c) 全语料训练 vs 单数据集训练在稀有免疫群上的增益;(d) zero-shot(浅色)接近 in-domain(蓝);(e–g) 细胞注释向未见 cohort(Rigamonti 肺癌)的 Random-Forest 迁移。
+<!-- EN --> **Fig 3.** Cell-level representation evaluation: (b) linear-probing cell-typing F1 across datasets, VirTues (blue) beating KRONOS and CA-MAE; (c) full-corpus vs single-dataset training gains on rare immune populations; (d) zero-shot (light) close to in-domain (blue); (e–g) Random-Forest transfer of cell annotations to an unseen cohort (Rigamonti lung).
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2501.06039v2 (x3.png)  ·  License: arXiv open_
+
+![FM-based signatures for treatment response and survival](figures/fig5.png)
+<!-- ZH --> **图5.** 治疗应答与生存的 FM 签名(核心结果):(a) NeoTRIP TNBC 队列的 pre/on/post 治疗时间线;(b) responder 在 Virtual Tissues 空间中的治疗诱导位移大于 non-responder;(c–e) Leiden 聚类得 4 个签名(RS1/RS2/NRS1/NRS2),pre-treatment 组合模型 AUROC 0.817,优于 Wang et al. 空间预测器与免疫比值基线;(h–k) 迁移到独立 Meyer et al. 队列做无病生存分层(log-rank P=3.66e-03,concordance index 0.628)。
+<!-- EN --> **Fig 5.** FM-based signatures for treatment response and survival (headline): (a) pre/on/post timeline of the NeoTRIP TNBC cohort; (b) responders shift more in Virtual Tissues space than non-responders under treatment; (c–e) Leiden clustering yields 4 signatures (RS1/RS2/NRS1/NRS2), pre-treatment combined model AUROC 0.817, beating the Wang et al. spatial predictor and immune-ratio baselines; (h–k) transfer to an independent Meyer et al. cohort for disease-free-survival stratification (log-rank P=3.66e-03, concordance index 0.628).
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2501.06039v2 (x5.png)  ·  License: arXiv open_
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** 组织级 ABMIL 临床预测(macro-F1)与生物标志物 / 生存结果,VirTues vs 主要基线。
+<!-- EN --> **Table 1.** Tissue-level ABMIL clinical prediction (macro-F1) and biomarker / survival results, VirTues vs main baselines.
+
+| Task / Metric | VirTues | Baseline (KRONOS / other) | Δ |
+|---|---|---|---|
+| Lung cancer subtyping (macro-F1) | 0.856 | KRONOS | +8.9% |
+| Breast cancer ER status (macro-F1) | 0.806 | KRONOS | +14.2% |
+| TNBC treatment response (macro-F1) | 0.714 (on-treatment) / 0.676 (pre-treatment) | > KRONOS | — |
+| Cell typing (macro-F1, avg rel.) | best | KRONOS / CA-MAE | +6.31% / +65.79% |
+| TNBC response prediction (cross-val AUROC) | 0.817 | Wang et al. 2023 spatial predictor | +4.53% (P<0.001); +23–30% vs immune-ratio |
+| Disease-free survival (concordance index) | 0.628 | Meyer et al. 2025 | +0.022 (0.606) |
+
+<!-- ZH --> **表2.** Marker 重建 Pearson 相关(masked-autoencoder 预训练目标)。
+<!-- EN --> **Table 2.** Marker-reconstruction Pearson correlation (masked-autoencoder pretraining objective).
+
+| Setting | Pearson r |
+|---|---|
+| Mean over 3 masking strategies | 0.723 ± 0.157 |
+| In-domain (known markers) | 0.797 |
+| Zero-shot (unseen dataset, known markers) | 0.667 |
+| Δr under independent masking | +0.016 |
+| Δr under niche masking | −0.002 |
+
 ## 引用 / Cite
 ```bibtex
 @misc{Wenckstern2025_250106039,

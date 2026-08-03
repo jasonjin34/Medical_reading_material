@@ -47,6 +47,33 @@ Reusable at the concept level: the discriminative+generative interpretability fr
 - Check availability statements for reusable interpretability/counterfactual code.
 - Read full metrics (AUC, calibration, competing-risks) and the causal analysis of ICD benefit.
 
+## Figures & tables
+
+_Paywall (Nature): the entries below only link to the publicly visible figure-caption titles on nature.com; no images are downloaded or reproduced. Numbers are public abstract values, marked abstract-only._
+
+**Fig 1** (paywalled): Positive predictive value for sudden cardiac death. See <https://www.nature.com/articles/s41586-026-10674-6/figures/1>
+
+**Fig 2** (paywalled): Incidence of ventricular arrhythmia in the high-risk group versus the threshold for defining the high-risk group. See <https://www.nature.com/articles/s41586-026-10674-6/figures/2>
+
+**Fig 3** (paywalled): Overlap of the high-risk ECG group and the reduced LVEF group in Swedish data. See <https://www.nature.com/articles/s41586-026-10674-6/figures/3>
+
+**Fig 4** (paywalled): Low-risk versus high-risk ECG waveform morphs. See <https://www.nature.com/articles/s41586-026-10674-6/figures/4>
+
+**Fig 5** (paywalled): A biomarker identified in the ECGs of high-risk patients. See <https://www.nature.com/articles/s41586-026-10674-6/figures/5>
+
+### Results
+
+**Table 1.** (abstract-only) Sample share and annual sudden-cardiac-death (SCD) rate for the model's high-risk ECG group vs. the reduced-LVEF group; figures are from the public abstract, full metrics (AUC/calibration) are paywalled.
+
+| Group | Share of sample | Annual SCD rate |
+|---|---|---|
+| Model high-risk ECG | 2.2% | 7.0% |
+| Reduced LVEF | 1.9% | 4.6% |
+
+Additional public numbers (abstract-only): **86.1%** of high-risk patients were not flagged by LVEF; high-risk patients with an implanted defibrillator were **54.4%** less likely to die than expected.
+
+_Source: https://www.nature.com/articles/s41586-026-10674-6  ·  Nature 655 (2026) 210–218 · paywalled; abstract-only._
+
 ## Cite
 ```bibtex
 @article{Obermeyer_2026, title={An ECG biomarker for sudden cardiac death discovered with deep learning}, volume={655}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-026-10674-6}, DOI={10.1038/s41586-026-10674-6}, number={8121}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Obermeyer, Ziad and Schubert, Alexander and Ross, James and Mullainathan, Sendhil and Lingman, Markus}, year={2026}, month=June, pages={210–218} }

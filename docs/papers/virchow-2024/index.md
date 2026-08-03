@@ -45,6 +45,30 @@ Virchow plugs directly into stage one of our pipeline — **anomaly detection** 
 - Feasibility validation of unsupervised anomaly detection on frozen Virchow embeddings (one-class SVM / PatchCore / normal-manifold density estimation).
 - Per-cancer AUCs for pan-cancer detection in the main text, external-institution validation, and label-efficiency curves (requires full text).
 
+## Figures & tables
+
+_Note: the public Hugging Face model card `paige-ai/Virchow` contains no figures or diagrams (only an avatar logo), so there is nothing to embed; the paper's figures sit behind the Nature Medicine paywall and are linked, not reproduced._
+
+**Fig 1** (paywalled): The training dataset, training algorithm and application of Virchow (method overview: patient/case/specimen/slide distribution of the training data, the DINOv2 self-supervised pipeline, and the downstream aggregator trained on frozen embeddings) — see <https://www.nature.com/articles/s41591-024-03141-0/figures/1>
+
+**Fig 2** (paywalled): Performance (AUC) of three clinical products compared to the pan-cancer model trained on Virchow embeddings (rare-variant detection, product test sets, training-data requirements, and failure-mode analysis) — see <https://www.nature.com/articles/s41591-024-03141-0/figures/2>
+
+### Results
+
+**Table 1.** Publicly stated headline numbers (abstract + Hugging Face model card only; per-cancer / per-task AUCs are in the paywalled main text and are not reproduced here).
+
+| Item | Value | Source |
+|---|---|---|
+| Pan-cancer detection, specimen-level ROC-AUC (9 common + 7 rare cancers) | 0.95 | Abstract |
+| Pretraining whole-slide images (H&E, MSKCC) | ~1.5M | Abstract / model card |
+| Backbone | ViT-H/14 | Model card |
+| Parameters | 632M | Model card |
+| Layers / embedding dim / attention heads | 32 / 1,280 / 16 | Model card |
+| Tokens per 224×224 tile | 257 (1 class + 256 patch) | Model card |
+| Recommended tile embedding dimension | 2,560 | Model card |
+
+_Source: Abstract & landing — <https://www.nature.com/articles/s41591-024-03141-0> · Model card — <https://huggingface.co/paige-ai/Virchow> (Apache-2.0, gated) · figures not reproduced (paywalled)._
+
 ## Cite
 ```bibtex
 @article{Vorontsov_2024, title={A foundation model for clinical-grade computational pathology and rare cancers detection}, volume={30}, ISSN={1546-170X}, url={http://dx.doi.org/10.1038/s41591-024-03141-0}, DOI={10.1038/s41591-024-03141-0}, number={10}, journal={Nature Medicine}, publisher={Springer Science and Business Media LLC}, author={Vorontsov, Eugene and Bozkurt, Alican and Casson, Adam and Shaikovski, George and Zelechowski, Michal and Severson, Kristen and Zimmermann, Eric and Hall, James and Tenenholtz, Neil and Fusi, Nicolo and Yang, Ellen and Mathieu, Philippe and van Eck, Alexander and Lee, Donghun and Viret, Julian and Robert, Eric and Wang, Yi Kan and Kunz, Jeremy D. and Lee, Matthew C. H. and Bernhard, Jan H. and Godrich, Ran A. and Oakley, Gerard and Millar, Ewan and Hanna, Matthew and Wen, Hannah and Retamero, Juan A. and Moye, William A. and Yousfi, Razik and Kanan, Christopher and Klimstra, David S. and Rothrock, Brandon and Liu, Siqi and Fuchs, Thomas J.}, year={2024}, month=July, pages={2924–2935} }

@@ -47,6 +47,33 @@ PI 标注“super relevant”,方法学连接点在 **异常检测(anomaly detec
 - 查 Data/Code Availability,评估能否复用其可解释性/反事实合成代码。
 - 精读完整评测(AUC、校准、竞争风险模型)与除颤器获益的因果分析方法。
 
+## 图表
+
+_付费墙(Nature):以下仅链接到 nature.com 上公开可见的图注标题,不下载/不转载任何图像。数字为摘要公开值,标注 abstract-only。_
+
+**图1**(付费墙):猝死的阳性预测值(PPV)。见 <https://www.nature.com/articles/s41586-026-10674-6/figures/1>
+
+**图2**(付费墙):高风险组的室性心律失常发生率随“高风险”定义阈值的变化。见 <https://www.nature.com/articles/s41586-026-10674-6/figures/2>
+
+**图3**(付费墙):瑞典数据中高风险 ECG 组与 LVEF 降低组的重叠情况。见 <https://www.nature.com/articles/s41586-026-10674-6/figures/3>
+
+**图4**(付费墙):低风险 vs. 高风险 ECG 波形的生成式变形对比(判别+生成配对的可视化)。见 <https://www.nature.com/articles/s41586-026-10674-6/figures/4>
+
+**图5**(付费墙):在高风险患者 ECG 中识别出的生物标志物。见 <https://www.nature.com/articles/s41586-026-10674-6/figures/5>
+
+### 结果表
+
+**表1.**(仅摘要 / abstract-only)模型高风险 ECG 组与 LVEF 降低组的样本占比与年猝死率对比;数字取自公开摘要,正文完整评测(AUC/校准等)在付费墙内。
+
+| 组 | 样本占比 | 年猝死率 |
+|---|---|---|
+| 模型高风险 ECG 组 | 2.2% | 7.0% |
+| LVEF 降低组 | 1.9% | 4.6% |
+
+补充公开数字(仅摘要):高风险患者中 **86.1%** 未被 LVEF 标记;高风险且植入除颤器者比预期死亡概率低 **54.4%**。
+
+_Source: https://www.nature.com/articles/s41586-026-10674-6  ·  Nature 655 (2026) 210–218 · paywalled; abstract-only._
+
 ## 引用
 ```bibtex
 @article{Obermeyer_2026, title={An ECG biomarker for sudden cardiac death discovered with deep learning}, volume={655}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-026-10674-6}, DOI={10.1038/s41586-026-10674-6}, number={8121}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Obermeyer, Ziad and Schubert, Alexander and Ross, James and Mullainathan, Sendhil and Lingman, Markus}, year={2026}, month=June, pages={210–218} }

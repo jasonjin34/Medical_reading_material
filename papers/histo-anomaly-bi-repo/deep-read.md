@@ -51,6 +51,30 @@
 - <!-- ZH --> 评估把该表征替换为病理 foundation model(如 UNI/CONCH/Virchow)后异常检测是否更强。<!-- EN --> Test swapping the CNN for a pathology foundation model (UNI/CONCH/Virchow) as the feature extractor.
 - <!-- ZH --> 探索在检出的异常 patch 上对接空间转录组以进入 virtual-tissue / gene-revert 环节。<!-- EN --> Explore coupling detected anomaly patches with spatial transcriptomics toward the virtual-tissue / gene-revert stages.
 
+## 图表 / Figures & tables
+
+![Method overview](figures/fig1.png)
+<!-- ZH --> **图1.** 方法总览。**A（训练步骤1)**:在健康组织(多物种/器官/染色类别)上训练 CNN 编码器完成辅助分类任务,配合 class mix-up 颜色增强,损失为交叉熵 + center-loss(𝓛=𝓛_CE+λ𝓛_CL),使同类图像特征形成紧致簇。**B(训练步骤2)**:冻结编码器,在目标类别健康组织的特征上训练 one-class SVM,在特征空间划出「正常」边界。**C(推理)**:全切片扫描切成图块 → 冻结 CNN 提特征 → 冻结 one-class SVM 输出异常分 α → 阈值判定(α>t 为异常),最终在整张 WSI 上标出检出的异常区域。
+<!-- EN --> **Fig 1.** Method overview. **A (Training step 1):** a CNN encoder is trained on healthy tissue (many species/organ/stain categories) via an auxiliary classification task with class mix-up color augmentation; the loss is cross-entropy + center-loss (𝓛=𝓛_CE+λ𝓛_CL), producing compact feature clusters per category. **B (Training step 2):** with the encoder frozen, a one-class SVM is fit on features of the target-category healthy tissue, drawing a "normal" boundary in feature space. **C (Inference):** a whole-slide scan is tiled → frozen CNN features → frozen one-class SVM emits anomaly score α → threshold decision (α>t ⇒ anomaly), yielding a WSI map of detected anomalies.
+<!-- ZH/EN --> _Source: https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology/blob/master/docs/Scheme_extended.png  ·  License: MIT (repo) / arXiv:2210.07675_
+
+![Detected anomalies](figures/fig2.png)
+<!-- ZH --> **图2.** 检出异常示例。**A:** BIHN 异常检测器输出的「异常图块占比(%)」随毒性化合物剂量(对照 / 低 / 中 / 高剂量)升高而增大;顶部星号表示与对照组均值相比的统计显著性。**B:** 异常在 WSI 上的可视化——对照组(左)仅少量假阳(血液等非病理结构),低剂量与中剂量处理组(中、右)检出的异常(黄框图块)对应病理性改变,并经病理学家确认。
+<!-- EN --> **Fig 2.** Examples of detected anomalies. **A:** the BIHN anomaly detector's "abnormal tiles (%)" rises with toxic-compound dose (control / low / mid / high); stars mark statistical significance vs. the control-group mean. **B:** anomaly visualization on WSIs — the control (left) shows few false positives (blood and other non-pathological structures), while low- and mid-dose treated groups (middle, right) show detected anomalies (yellow tiles) that correspond to pathological alterations confirmed by a pathologist.
+<!-- ZH/EN --> _Source: https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology/blob/master/docs/tox_pattern.png  ·  License: MIT (repo) / arXiv:2210.07675_
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** BIHN 模型在 NAFLD 肝脏异常检测数据集上的预期性能(正常小鼠肝 vs. NAFLD 病变),按染色划分。
+<!-- EN --> **Table 1.** Expected anomaly-detection performance of the BIHN models on the NAFLD liver dataset (normal mouse liver vs. NAFLD pathology), by staining.
+
+| Staining | Balanced accuracy | AU-ROC | F1 score |
+|---|:---:|:---:|:---:|
+| H&E | 94.20% | 97.33% | 94.09% |
+| Masson's Trichrome | 97.51% | 99.03% | 97.51% |
+
+<!-- ZH/EN --> _Source: repo README (https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology)  ·  License: MIT_
+
 ## 引用 / Cite
 ```bibtex
 % no BibTeX fetched

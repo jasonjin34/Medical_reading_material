@@ -42,6 +42,51 @@ Model/code/weights: not explicitly released in the paper (confirm with authors /
   How the 331 pathway signatures are built; feasibility of single-cell/spatial-resolution conditioning.
   Can perturbation/revert be cast as a condition + anomaly scoring + inverse optimization on top of MuPD.
 
+## Figures & tables
+
+![Study overview and architecture](figures/fig1.png)
+**Fig 1.** Study overview: (a) the MuPD framework with H&E as the bridging modality integrating transcriptomics/proteomics, tissue architecture, and clinical text for cross-scale synthesis; (b) 34-organ pretraining corpus (100M H&E patches, 1.6M text–image, 10.8M RNA–image pairs); (c) DiT with decoupled cross-modal attention (DCA) processing image/text/RNA conditioning in parallel streams; (d) benchmarking against other methods.
+_Source: https://arxiv.org/html/2604.03635v1/figs/fig1-overview.png  ·  License: arXiv (author-posted preprint)_
+
+![Image- and text-conditioned generation](figures/fig2.png)
+**Fig 2.** Image- and text-conditioned generation: (a) image-to-image generation where MuPD preserves authentic biological structures with higher fidelity than baselines; (b) text-to-image generation reconstructing fine-grained histological features from text prompts.
+_Source: https://arxiv.org/html/2604.03635v1/figs/fig2-text2image-image2image.png  ·  License: arXiv (author-posted preprint)_
+
+![H&E generation from spatial transcriptomics](figures/fig3.png)
+**Fig 3.** H&E generation from spatial transcriptomics: (a) FID across five cancer types; (b) cell-type composition in synthetic vs. real images (Wasserstein distance); (c) Wasserstein-distance comparison between MuPD and GeneFlow; (d) representative real/synthetic H&E pairs conditioned on matched spatial transcriptomics.
+_Source: https://arxiv.org/html/2604.03635v1/figs/fig5-st2image.png  ·  License: arXiv (author-posted preprint)_
+
+![Virtual H&E-to-IHC staining](figures/fig4.png)
+**Fig 4.** Virtual H&E-to-IHC translation and clinical validation: (a) multi-stain virtual IHC examples; (b) FID and KID for distributional fidelity and perceptual quality; (c) clinical utility on IHC4BC predicting ground-truth biomarkers by AUC.
+_Source: https://arxiv.org/html/2604.03635v1/figs/fig6-he2ihc.png  ·  License: arXiv (author-posted preprint)_
+
+### Results
+
+**Table 1.** Headline cross-modal generation results: MuPD vs. the next-best baseline per task (lower FID is better; higher similarity/alignment is better).
+
+| Task | Metric | MuPD | Best baseline | Rel. gain |
+|---|---|---|---|---|
+| Image → image | FID ↓ | 305.12 | 602.45 (PixCell) | ~49% |
+| Image → image | Similarity ↑ | 0.63 | 0.46 (PixCell) | — |
+| Text → image | FID ↓ | 576.30 | 1029.62 (PathLDM) | ~44% |
+| Text → image | Text–image alignment ↑ | 0.53 | 0.41 (PathLDM) | — |
+| Spatial transcriptomics → H&E (bladder) | FID ↓ | 724.6 | 1012.5 (GeneFlow) | ~28% |
+| Frozen → FFPE (lung) | FID ↓ | 323.7 | 435.3 (AI-FFPE) | ~26% |
+| H&E → IHC (ER marker) | FID ↓ | 124.18 | 256.76 (CycleGAN) | ~52% |
+| H&E → mIF | Patch PCC ↑ | 0.238 | 0.198 (GigaTIME) | ~20% |
+| H&E → mIF | Slide-level PCC ↑ | 0.464 | 0.339 (GigaTIME) | ~37% |
+
+**Table 2.** Downstream value: synthetic-data augmentation for few-shot classification (10-shot accuracy) and virtual-staining clinical utility (AUC).
+
+| Evaluation | Metric | Baseline / w-MuPD |
+|---|---|---|
+| PanNuke, 10-shot | Accuracy ↑ | 0.492 → 0.724 (+47.2%) |
+| SkinCancer, 10-shot | Accuracy ↑ | 0.790 → 0.850 |
+| H&E → IHC, Ki67 | Clinical AUC ↑ | 0.9772 |
+| H&E → IHC, HER2 | Clinical AUC ↑ | 0.9556 |
+
+_Source: https://arxiv.org/abs/2604.03635 (arXiv HTML v1)  ·  License: arXiv (author-posted preprint). Numerical values are faithfully transcribed from the paper text._
+
 ## Cite
 ```bibtex
 @misc{Xiang2026_260403635,

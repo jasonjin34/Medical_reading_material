@@ -52,6 +52,45 @@ Sits in the virtual-tissue / perturbation-response → gene-and-drug-revert stag
 - Reproduce the SciPlex3 OOD setup, set "revert to the control distribution" as the target direction, and run one in-silico intervention screen.
 - Evaluate whether CMonge can transfer to spatial transcriptomics (adding spatial-coordinate / neighborhood conditions).
 
+## Figures & tables
+
+> The version of record is paywalled (Nature Machine Intelligence). All figures/tables below are taken from the **open preprint** arXiv:2504.08328; nothing is from the Nature page.
+
+![CMonge method overview](figures/fig1_overview.png)
+**Fig 1.** Method overview. A) Prior methods (Monge Gap) learn a separate local map T_θ^i per perturbation; B) CMonge uses a single model T_θ(c_i) conditioned on covariate c_i (drug/dose), trained with a Sinkhorn fitting term Δ_ε plus λ·Monge-gap regularizer M_ε, and infers on unseen conditions ν_{n+1}; C) SciPlex in-distribution (n=9 drugs): CMonge's MMD approaches per-condition Monge (yellow line = identity upper bound, purple = lower bound); D) out-of-distribution (n=748): CMonge's MMD is far below chemCPA.
+_Source: https://arxiv.org/html/2504.08328v1/x1.png (Fig 1) · License: arXiv preprint (arXiv:2504.08328)_
+
+![In-distribution R² across drug encodings and scales](figures/fig3_id.png)
+**Fig 3.** In-distribution comparison of conditional vs unconditional Monge methods by R², across drug encodings (RDKit vs MoA) and training scales. A single conditioned CMonge model approaches per-condition models; MoA embeddings scale robustly.
+_Source: https://arxiv.org/html/2504.08328v1/x3.png (Fig 3) · License: arXiv preprint (arXiv:2504.08328)_
+
+![Out-of-distribution results on SciPlex](figures/fig5_ood.png)
+**Fig 5.** Out-of-distribution results on SciPlex for unseen dose and drug-dose contexts: across R², Wasserstein and MMD, CMonge variants (especially with MoA embeddings) clearly outperform the SOTA conditional baseline chemCPA.
+_Source: https://arxiv.org/html/2504.08328v1/x5.png (Fig 5) · License: arXiv preprint (arXiv:2504.08328)_
+
+### Results
+
+**Table 1.** SciPlex dose experiments, R² (feature mean, higher is better) by test dose; standard deviation in parentheses. Per-condition Monge (1 condition) is the upper bound; CMonge-Dose approaches it with 4×/3× fewer models.
+
+| Model | Cond. seen | 10 nM | 100 nM | 1000 nM | 10000 nM |
+|---|---|---|---|---|---|
+| Identity | — | 0.748 (±0.127) | 0.655 (±0.261) | 0.504 (±0.332) | 0.227 (±0.212) |
+| Monge (per-condition) | 1 | **0.950 (±0.020)** | **0.935 (±0.042)** | **0.960 (±0.025)** | **0.978 (±0.029)** |
+| Monge-Dose-ID | 4 | 0.750 (±0.254) | 0.767 (±0.231) | 0.885 (±0.099) | 0.694 (±0.272) |
+| CMonge-Dose-ID | 4 | 0.882 (±0.185) | 0.905 (±0.124) | 0.905 (±0.093) | 0.974 (±0.026) |
+| Monge-Dose-OOD | 3 | 0.614 (±0.349) | 0.726 (±0.219) | 0.856 (±0.112) | 0.322 (±0.348) |
+| CMonge-Dose-OOD | 3 | 0.864 (±0.197) | 0.931 (±0.058) | 0.878 (±0.118) | 0.527 (±0.311) |
+
+**Table 2.** SciPlex full DrugDose OOD (highest dose 10000 nM, 712 training conditions). CMonge-MoA beats chemCPA on R², Wasserstein and MMD. ↑ higher is better, ↓ lower is better.
+
+| Model | Cond. seen | R² ↑ | Wasserstein ↓ | MMD ↓ |
+|---|---|---|---|---|
+| CMonge-DrugDose-MoA-OOD | 712 | **0.900 (±0.059)** | **3.873 (±0.643)** | **0.013 (±0.005)** |
+| CMonge-DrugDose-RDKit-OOD | 712 | 0.781 (±0.187) | 4.232 (±0.896) | 0.020 (±0.012) |
+| chemCPA-DrugDoseCellLine-OOD | 712 | 0.760 (±0.211) | 4.767 (±0.976) | 0.195 (±0.035) |
+
+_Source: tables from arXiv:2504.08328v1 (https://arxiv.org/html/2504.08328) · License: arXiv preprint_
+
 ## Cite
 ```bibtex
 @article{Driessen_2026, title={Conditional Monge Gap enables generalizable single-cell perturbation modelling}, volume={8}, ISSN={2522-5839}, url={http://dx.doi.org/10.1038/s42256-026-01242-8}, DOI={10.1038/s42256-026-01242-8}, number={6}, journal={Nature Machine Intelligence}, publisher={Springer Science and Business Media LLC}, author={Driessen, Alice and Rajwade, Dhruva Abhijit and Harsanyi, Benedek and Rapsomaniki, Marianna and Born, Jannis}, year={2026}, month=June, pages={984–996} }

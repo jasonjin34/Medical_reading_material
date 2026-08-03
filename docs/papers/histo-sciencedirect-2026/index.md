@@ -60,6 +60,35 @@ This paper is almost an interpretable instantiation of our three-stage "anomaly 
 - Integration point: extend "spatial-biomarker ↔ gene" correlation analyses such as STR-ACL↔ERBB2/TOP1 and ADI-NEC-BT2↔TACSTD2 into a predictive gene-revert model (combined with spatial transcriptomics).
 - Related reading: the companion Cancer Cell piece "From prediction to interpretation in computational pathology" (S1535-6108(26)00290-4) and Cell "virtual spatial tumor profiling from histopathology" (S0092-8674(26)00590-8).
 
+## Figures & tables
+
+**Note:** The GitHub README overview image (`assets/figure1_new2.png`) is a 1-byte git-lfs placeholder and is not downloadable; this section therefore **links** to the figures in the CC BY 4.0 open-access full text and reproduces the key result tables from numbers already in the paper.
+
+**Fig 1 (overview, open access).** PathPrism three-stage "prism" pipeline (PrismNet semantic segmentation → MacroNet macro-architecture-to-survival → 628-dim spatial-biomarker spectrum + VirtualWSI): see the open-access full text, DOI <https://doi.org/10.1016/j.ccell.2026.05.014> (Cancer Cell 44, 2026, CC BY 4.0); repo overview at <https://github.com/KatherLab/PathPrism>.
+
+_Source: https://doi.org/10.1016/j.ccell.2026.05.014 · https://github.com/KatherLab/PathPrism · License: CC BY 4.0_
+
+### Results
+
+**Table 1.** Headline performance (numbers taken from the Key-results section above; segmentation on CRC-VAL-HE-7K, prognosis/mutation on DACHS 5-fold).
+
+| Task | Model | Cohort | Metric | Value |
+|---|---|---|---|---|
+| Tissue segmentation | PrismNet | CRC-VAL-HE-7K | macro-F1 | 0.948 |
+| Tissue segmentation | PrismNet | CRC-VAL-HE-7K | MCC | 0.958 |
+| Tissue segmentation | PrismNet | CRC-VAL-HE-7K | macro-AUROC | 0.988 |
+| Prognosis (DSS) | MacroNet | DACHS (5-fold) | C-index | 0.716 ± 0.020 |
+| MSI prediction | PathPrism | DACHS (5-fold) | AUC | 0.85 |
+| MSI prediction | PathPrism | 7 external cohorts | AUC | 0.78 |
+
+**Table 2.** Kaplan–Meier hazard ratios (HR) for MacroNet risk stratification.
+
+| Cohort | HR |
+|---|---|
+| MCO | 3.68 |
+| CR07 | 2.48 |
+| TCGA | 3.27 |
+
 ## Cite
 ```bibtex
 % no BibTeX fetched

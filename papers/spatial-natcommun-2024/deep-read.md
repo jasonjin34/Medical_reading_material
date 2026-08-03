@@ -74,6 +74,59 @@
 - <!-- ZH --> 复现 SGD/Multi-SGD 指标,纳入我们自己的评测套件。
 - <!-- EN --> Reproduce SGD/Multi-SGD and fold into our eval suite.
 
+## 图表 / Figures & tables
+
+![Method overview](figures/fig1.jpg)
+<!-- ZH --> **图1.** STANDS 与多样本 DDATD 总览。(a) 从患病样本出发:异常识别 → 对齐做批次校正 → 拆成"共享 / 样本特异"亚型的整体工作流;(b) STANDS 三组件框架(C1 检测、C2 对齐、C3 亚型),含 GAT 网络、GAN 模块与 Transformer Fusion 融合块。
+<!-- EN --> **Fig 1.** Overview of STANDS and multi-sample DDATD. (a) End-to-end workflow from affected samples through anomaly identification → alignment for batch correction → dissection into shared vs. sample-specific subtypes; (b) the three-component framework (C1 detection, C2 alignment, C3 subtyping) with GAT networks, GAN modules and a Transformer Fusion block.
+<!-- ZH/EN --> _Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Single-sample and cross-modality detection](figures/fig2.jpg)
+<!-- ZH --> **图2.** 单 10x Visium 数据集的同模态 / 跨模态 ATD 检测。人乳腺癌(10x-hBC-G2)与胰腺癌(10x-hPDAC)的检测空间图、accuracy / F1 / PR 曲线 / SGD 散点、异常分数分布(阈值 0.81)、marker 基因(ACTB、TMSB10)表达,以及用 scRNA-seq 作参考的跨模态检测。STANDS 的 SGD 在所有基线中最低(最好)。
+<!-- EN --> **Fig 2.** Intra- and cross-modality ATD detection in single 10x Visium datasets. Spatial maps, accuracy / F1 / PR curves / SGD scatter, anomaly-score distributions (threshold 0.81), marker genes (ACTB, TMSB10), and cross-modality detection using an scRNA-seq reference, for human breast (10x-hBC-G2) and pancreatic (10x-hPDAC) cancer. STANDS has the lowest (best) SGD among all baselines.
+<!-- ZH/EN --> _Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Multi-sample detection across breast cancer datasets](figures/fig3.jpg)
+<!-- ZH --> **图3.** 跨多个人乳腺癌 10x Visium 数据集(10x-hBC-G2、10x-hBC-H1)的 ATD 检测,同时含共享域(浸润性癌 IC)与各自特有域(原位癌 CIS、脂肪组织)。STANDS 对比五个基线(CAMLU、scPred、CHETAH、scmap、Spatial-ID)在 accuracy、F1、PR 曲线、SGD 上全面领先。
+<!-- EN --> **Fig 3.** ATD detection across multiple human breast-cancer 10x Visium datasets (10x-hBC-G2, 10x-hBC-H1) containing both shared (invasive cancer, IC) and dataset-unique (cancer in situ CIS, adipose) domains. STANDS leads five baselines (CAMLU, scPred, CHETAH, scmap, Spatial-ID) on accuracy, F1, PR curves and SGD.
+<!-- ZH/EN --> _Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Subtyping anomalous tissue domains](figures/fig7.jpg)
+<!-- ZH --> **图7.** 跨两个人乳腺癌数据集的异常亚型划分,含重叠亚型(CIS)与各自特有亚型(IC、脂肪组织):空间图、Sankey 标签对应图、Macro-F1 vs NMI 与 multi-SGD 散点,以及指示最优空间匹配的热图。
+<!-- EN --> **Fig 7.** Subtyping ATDs across two breast-cancer datasets with overlapping (CIS) and dataset-specific (IC, adipose) subtypes: spatial maps, Sankey label-correspondence diagrams, Macro-F1 vs NMI and multi-SGD scatterplots, and heatmaps of optimal spatial matching.
+<!-- ZH/EN --> _Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** 多样本乳腺癌检测的 Spatial Grouping Discrepancy(数值取自图3b 散点标注;SGD_degree、SGD_cc 越低越好,即与真值的空间一致性越高)。STANDS 在两项上均最低。
+<!-- EN --> **Table 1.** Spatial Grouping Discrepancy for multi-sample breast-cancer detection (values read from the Fig 3b scatter labels; lower SGD_degree / SGD_cc = better, i.e. higher spatial agreement with ground truth). STANDS is lowest on both.
+
+| Method | SGD_degree ↓ | SGD_cc ↓ |
+|---|---|---|
+| **STANDS** | **1.24** | **1.04** |
+| CHETAH | 1.73 | 1.42 |
+| scmap | 1.69 | 1.45 |
+| Spatial-ID | 1.57 | 1.49 |
+| scPred | 1.79 | 1.63 |
+| CAMLU | 1.89 | 1.77 |
+
+<!-- ZH --> **表2.** 跨模态检测(scRNA-seq 参考 → 10x-hPDAC 胰腺癌目标)的 SGD(数值取自图2g 散点标注;越低越好)。STANDS 在两项上均最低。
+<!-- EN --> **Table 2.** SGD for cross-modality detection (scRNA-seq reference → 10x-hPDAC pancreatic-cancer target; values from the Fig 2g scatter labels, lower is better). STANDS is lowest on both.
+
+| Method | SGD_degree ↓ | SGD_cc ↓ |
+|---|---|---|
+| **STANDS** | **0.97** | **0.53** |
+| SCEVAN | 1.32 | 0.99 |
+| CAMLU | 1.37 | 1.08 |
+| scPred | 1.52 | 1.31 |
+| scmap | 1.52 | 1.31 |
+| Spatial-ID | 1.55 | 1.35 |
+| CopyKAT | 1.73 | 1.47 |
+| CHETAH | 1.99 | 1.65 |
+
+<!-- ZH --> _Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0. accuracy / F1 / ARI 等以柱状图形式呈现于原文图2、图3、图4,未提供文本数值表。_
+<!-- EN --> _Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0. accuracy / F1 / ARI and similar metrics are presented as bar charts in the original Figs 2, 3 and 4; no text value tables are provided._
+
 ## 引用 / Cite
 ```bibtex
 @article{Xu_2024, title={Detecting anomalous anatomic regions in spatial transcriptomics with STANDS}, volume={15}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-024-52445-9}, DOI={10.1038/s41467-024-52445-9}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Xu, Kaichen and Lu, Yan and Hou, Suyang and Liu, Kainan and Du, Yihang and Huang, Mengqian and Feng, Hao and Wu, Hao and Sun, Xiaobo}, year={2024}, month=Sept }

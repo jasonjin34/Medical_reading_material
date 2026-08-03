@@ -49,6 +49,52 @@ This sits squarely at **stage one: anomaly detection** of our pipeline, in the s
 - Compare with newer ST anomaly-detection / foundation-model methods to position STANDS as a backbone.
 - Reproduce SGD/Multi-SGD and fold into our eval suite.
 
+## Figures & tables
+
+![Method overview](figures/fig1.jpg)
+**Fig 1.** Overview of STANDS and multi-sample DDATD. (a) End-to-end workflow from affected samples through anomaly identification → alignment for batch correction → dissection into shared vs. sample-specific subtypes; (b) the three-component framework (C1 detection, C2 alignment, C3 subtyping) with GAT networks, GAN modules and a Transformer Fusion block.
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Single-sample and cross-modality detection](figures/fig2.jpg)
+**Fig 2.** Intra- and cross-modality ATD detection in single 10x Visium datasets. Spatial maps, accuracy / F1 / PR curves / SGD scatter, anomaly-score distributions (threshold 0.81), marker genes (ACTB, TMSB10), and cross-modality detection using an scRNA-seq reference, for human breast (10x-hBC-G2) and pancreatic (10x-hPDAC) cancer. STANDS has the lowest (best) SGD among all baselines.
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Multi-sample detection across breast cancer datasets](figures/fig3.jpg)
+**Fig 3.** ATD detection across multiple human breast-cancer 10x Visium datasets (10x-hBC-G2, 10x-hBC-H1) containing both shared (invasive cancer, IC) and dataset-unique (cancer in situ CIS, adipose) domains. STANDS leads five baselines (CAMLU, scPred, CHETAH, scmap, Spatial-ID) on accuracy, F1, PR curves and SGD.
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Subtyping anomalous tissue domains](figures/fig7.jpg)
+**Fig 7.** Subtyping ATDs across two breast-cancer datasets with overlapping (CIS) and dataset-specific (IC, adipose) subtypes: spatial maps, Sankey label-correspondence diagrams, Macro-F1 vs NMI and multi-SGD scatterplots, and heatmaps of optimal spatial matching.
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+### Results
+
+**Table 1.** Spatial Grouping Discrepancy for multi-sample breast-cancer detection (values read from the Fig 3b scatter labels; lower SGD_degree / SGD_cc = better, i.e. higher spatial agreement with ground truth). STANDS is lowest on both.
+
+| Method | SGD_degree ↓ | SGD_cc ↓ |
+|---|---|---|
+| **STANDS** | **1.24** | **1.04** |
+| CHETAH | 1.73 | 1.42 |
+| scmap | 1.69 | 1.45 |
+| Spatial-ID | 1.57 | 1.49 |
+| scPred | 1.79 | 1.63 |
+| CAMLU | 1.89 | 1.77 |
+
+**Table 2.** SGD for cross-modality detection (scRNA-seq reference → 10x-hPDAC pancreatic-cancer target; values from the Fig 2g scatter labels, lower is better). STANDS is lowest on both.
+
+| Method | SGD_degree ↓ | SGD_cc ↓ |
+|---|---|---|
+| **STANDS** | **0.97** | **0.53** |
+| SCEVAN | 1.32 | 0.99 |
+| CAMLU | 1.37 | 1.08 |
+| scPred | 1.52 | 1.31 |
+| scmap | 1.52 | 1.31 |
+| Spatial-ID | 1.55 | 1.35 |
+| CopyKAT | 1.73 | 1.47 |
+| CHETAH | 1.99 | 1.65 |
+
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0. accuracy / F1 / ARI and similar metrics are presented as bar charts in the original Figs 2, 3 and 4; no text value tables are provided._
+
 ## Cite
 ```bibtex
 @article{Xu_2024, title={Detecting anomalous anatomic regions in spatial transcriptomics with STANDS}, volume={15}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-024-52445-9}, DOI={10.1038/s41467-024-52445-9}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Xu, Kaichen and Lu, Yan and Hou, Suyang and Liu, Kainan and Du, Yihang and Huang, Mengqian and Feng, Hao and Wu, Hao and Sun, Xiaobo}, year={2024}, month=Sept }

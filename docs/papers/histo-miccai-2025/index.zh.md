@@ -46,6 +46,47 @@ Patch 级异常检测(Table 2):AnoPILaD 全面领先。LH 上 AUC 0.9587 / AUPR 
 - CONCH(Lu 2023, arXiv:2307.12914)——病理 VLM 基础,评估其嵌入能否用于 spatial-omics 条件化。
 - Compel 加权提示嵌入实现细节;能否把关键词权重换成基因/marker 表达权重。
 
+## 图表
+
+![Weighted prompt generation](figures/fig2.png)
+**图2.**(上)加权文本提示生成流程:CONCH 的文本/图像编码器对 74 个正常关键词与输入图像算余弦相似度,取 top-5,除以中位数归一化为权重,经 Compel 组成加权提示(如 "small dormant lymphocytes: 1.06 … littoral cells: 0.83")送入 LDM;(下)训练/测试集中 top-10 高频病理关键词分布(In-distribution vs OOD)。
+_Source: https://papers.miccai.org/miccai-2025/paper/2270_paper.pdf (Fig. 2)  ·  License: MICCAI 2025 Open Access_
+
+![Reconstruction comparison](figures/fig1.png)
+**图1.** 扩散重建对比。对 in-distribution(第一行)与 OOD(后两行)样本,AnoDDPM 与 AnoPILaD 均试图重建"正常样"结构;文本提示引导下,AnoPILaD 生成更均匀的淋巴细胞排列、抑制多形核与纤维化,右列为所选关键词提示。
+_Source: https://github.com/QuIIL/AnoPILaD (main.png; MIT) = paper Fig. 1_
+
+![Z-score heatmaps](figures/fig3.png)
+**图3.** 四张转移切片(LH 与 C16 各两例)的 z-score 异常热图。黑色轮廓为转移标注,绿色轮廓为正常标注;括号内为每片 (Z99, DICE)。AnoPILaD 的热图对转移区定位更准、对正常区误报更少。
+_Source: https://papers.miccai.org/miccai-2025/paper/2270_paper.pdf (Fig. 3)  ·  License: MICCAI 2025 Open Access_
+
+### 结果表
+
+**表2.** Patch 级异常检测,AUC / AUPR(LH = 胃淋巴结,C16 = Camelyon16 乳腺,跨器官域偏移)。加粗为最优。
+
+| Method | LH AUC | LH AUPR | C16 AUC | C16 AUPR |
+|---|---|---|---|---|
+| NLL | 0.4982 | 0.5552 | 0.3250 | 0.1600 |
+| Regret | 0.6720 | 0.6718 | 0.6480 | 0.3441 |
+| LLR | 0.6078 | 0.6260 | 0.7065 | 0.4765 |
+| complexity | 0.7931 | 0.7139 | 0.7752 | 0.5140 |
+| f-AnoGAN | 0.2289 | 0.3377 | 0.1735 | 0.1104 |
+| AE | 0.9254 | 0.8906 | 0.6584 | 0.4759 |
+| MemAE | 0.9290 | 0.8886 | 0.6611 | 0.4880 |
+| AnoDDPM | 0.8555 | 0.7841 | 0.6857 | 0.5741 |
+| **AnoPILaD** | **0.9587** | **0.9499** | **0.8884** | **0.6987** |
+
+**表3.** WSI 级分类,每格 AUC / AUPR;两种打分:Zmax(最大 z-score)与 Z99(99 分位)。C16 Macro = 肿瘤簇 >2mm 子集。加粗为最优。
+
+| Method | LH Zmax | LH Z99 | C16 Zmax | C16 Z99 | C16-Macro Zmax | C16-Macro Z99 |
+|---|---|---|---|---|---|---|
+| AE | 0.9622 / 0.9612 | 0.9395 / 0.9381 | 0.6612 / 0.5961 | 0.5798 / 0.5217 | 0.6398 / 0.3677 | 0.5523 / 0.2918 |
+| MemAE | 0.9504 / 0.9440 | 0.9365 / 0.9382 | 0.6505 / 0.5689 | 0.5686 / 0.5313 | 0.6381 / 0.3657 | 0.5597 / 0.3141 |
+| AnoDDPM | 0.7840 / 0.6616 | 0.9383 / 0.8995 | 0.4992 / 0.3885 | 0.4551 / 0.3905 | 0.4926 / 0.2146 | 0.5119 / 0.2347 |
+| **AnoPILaD** | **0.9837 / 0.9740** | **0.9943 / 0.9948** | **0.6745 / 0.6140** | **0.6367 / 0.5902** | **0.8062 / 0.5965** | **0.8023 / 0.5886** |
+
+_Tables 2-3 source: https://papers.miccai.org/miccai-2025/paper/2270_paper.pdf (Tables 2-3)  ·  MICCAI 2025 Open Access_
+
 ## 引用
 ```bibtex
 % no BibTeX fetched

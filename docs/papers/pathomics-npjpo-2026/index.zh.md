@@ -43,6 +43,30 @@ PSGC 在**所有队列**中均为独立预后因子。高 PSGC 的 II/III 期患
 - 查 data/code availability,是否开源模型或特征。
 - 对比前作 Nat Commun 2022 "Prognostic and predictive value of a pathomics signature in gastric cancer" 以定位增量。
 
+## 图表
+
+**付费墙说明:** 本文为 npj Precision Oncology 付费文章,图表与全文正文均在付费墙后。按仓库版权规则,此处**不下载任何图片**,仅链接到出处;各图的确切编号与图注在公开页不可见,故不臆造复现。请到原文的图表库查看:
+
+· 全文:<https://www.nature.com/articles/s41698-026-01381-6>
+· 图表库(全部图):<https://www.nature.com/articles/s41698-026-01381-6/figures>
+· 单图锚点(Nature 惯例):`…s41698-026-01381-6#Fig1`、`#Fig2`、…(付费访问)
+
+### 结果表
+
+**表1(仅摘要,无判别指标).** 下表仅复现**公开摘要/落地页**可见的数字;C-index、HR、AUC、p 值等具体判别指标在付费墙后,**未复现、未臆造**。
+
+| Item | Value (abstract-only) |
+|---|---|
+| Total patients (multicenter, retrospective) | 3,138 |
+| Male | 71.64% (2,248 / 3,138) |
+| Median age | 60 years |
+| Model | MS-GMIL — multi-scale graph neural network + gated-attention multiple-instance learning |
+| Signature (PSGC) | interpretable, built from 11 features on H&E WSIs |
+| Prognostic status | independent prognostic factor in all cohorts |
+| Treatment signal | stage II/III high-PSGC → chemotherapy benefit + immunotherapy response |
+
+_Source (abstract only): https://www.nature.com/articles/s41698-026-01381-6 · npj Precision Oncology (2026), paywalled — 数字仅取自公开摘要,不含正文/图表数据。_
+
 ## 引用
 ```bibtex
 @article{Wang_2026, title={Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study}, volume={10}, ISSN={2397-768X}, url={http://dx.doi.org/10.1038/s41698-026-01381-6}, DOI={10.1038/s41698-026-01381-6}, number={1}, journal={npj Precision Oncology}, publisher={Springer Science and Business Media LLC}, author={Wang, Hao and Li, Hao and Ma, Keru and Mo, Genshen and Yan, Meihong and Zhang, Xinyue and Xie, Haonan and Huang, Yuze and Li, Huiying and Xue, Yingwei and Han, Peng and Lou, Shenghan}, year={2026}, month=Apr }

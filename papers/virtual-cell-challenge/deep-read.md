@@ -59,6 +59,35 @@
 - <!-- ZH --> 独立基准论文 "Benchmarking virtual cell models for in-the-wild perturbation response" 与 "The Baseline Gap" (Research Square),审视指标可靠性。 <!-- EN --> Independent benchmark papers "Benchmarking virtual cell models for in-the-wild perturbation response" and "The Baseline Gap" (Research Square), scrutinizing metric reliability.
 - <!-- ZH --> X-Atlas/Orion Perturb-seq 数据说明,评估作为额外训练/迁移语料的价值。 <!-- EN --> The X-Atlas/Orion Perturb-seq data documentation, assessing its value as an extra training/transfer corpus.
 
+## 图表 / Figures & tables
+
+<!-- ZH --> 本条目是**竞赛资源卡**:官网(virtualcellchallenge.org)为竞赛站点,配套论文发表于 *Cell*(付费墙,DOI 10.1016/j.cell.2025.06.008),两者的示意图/图表均非开放许可,故不下载或嵌入图片。原始示意图见官网与 Cell 论文;下方以两张小表复述**数据集划分**与**三指标评分协议**(数字均来自官方公开描述,未作推断)。
+<!-- EN --> This entry is a **competition resource card**: the site (virtualcellchallenge.org) is a competition page and the companion paper is in *Cell* (paywalled, DOI 10.1016/j.cell.2025.06.008); neither's schematics carry an open license, so no images are downloaded or embedded. See the original diagrams on the site and in the Cell paper. The two small tables below restate the **dataset split** and the **3-metric scoring protocol** (figures are from the official public description; nothing is inferred).
+
+<!-- ZH/EN --> _Source: https://virtualcellchallenge.org/ (site, competition) · companion paper *Cell* 2025, DOI 10.1016/j.cell.2025.06.008 (paywalled) — figures linked, not reproduced._
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** 数据集划分:约 300,000 个 H1 hESC 细胞 × 300 个单基因扰动(Perturb-seq)。 <!-- EN --> **Table 1.** Dataset split: ~300,000 H1 hESCs × 300 single-gene perturbations (Perturb-seq).
+
+| Split | Perturbations | Cells (approx.) | Role |
+|---|---|---|---|
+| Unperturbed reference | — | (H1 hESC baseline) | Transcriptomic reference for the held-out context |
+| Training | 150 genes | ~150,000 | Model training |
+| Validation | 50 genes | — | Drives the live leaderboard |
+| Final test | 100 genes | — | Held-out scoring |
+| **Total** | **300** | **~300,000** | — |
+
+<!-- ZH --> **表2.** 评分协议:三指标复合分(context generalization,留出 H1 hESC 语境)。 <!-- EN --> **Table 2.** Scoring: composite of three metrics (context generalization on the held-out H1 hESC context).
+
+| Metric | Full name | Measures | Direction |
+|---|---|---|---|
+| DES | Differential Expression Score | Accuracy on differentially expressed genes after perturbation | higher = better |
+| PDS | Perturbation Discrimination Score | Ability to distinguish the effects of different perturbations vs ground truth | higher = better |
+| MAE | Mean Absolute Error | Global absolute error vs true post-perturbation expression across all genes | lower = better |
+
+<!-- ZH --> 官方基线 **STATE**(State Transition + State Embedding):在未见单基因扰动上相对 cell-mean 基线提升约 26%(linear 19%、GEARS 22%);但几乎所有参赛模型在 MAE 上都不敌朴素基线。 <!-- EN --> Official baseline **STATE** (State Transition + State Embedding): on unseen single-gene perturbations it beat the cell-mean baseline by ~26% (linear 19%, GEARS 22%); yet almost all submissions were worse than the naive baseline on MAE.
+
 ## 引用 / Cite
 ```bibtex
 % no BibTeX fetched

@@ -34,6 +34,10 @@ Weights `hf-hub:MahmoodLab/UNI2-h` (gated); load via `timm.create_model(..., **t
 
 ## Follow-ups
 
+## Figures & tables
+
+This is a **Hugging Face model card**, dominated by descriptive text and code, with **no method/result figures and no quantitative benchmark table**. The only image on the page is an access-request screenshot (`requesting_access.png`), which is not a reusable method/result figure and is therefore omitted. For loading/usage see the `timm.create_model(...)` snippet in `ai-ready.md`; quantitative benchmarks and external validation live in the UNI paper (Chen et al., Nature Medicine 2024, doi:10.1038/s41591-024-02857-3). Model card: <https://huggingface.co/MahmoodLab/UNI2-h>.
+
 ## Cite
 ```bibtex
 % no BibTeX fetched

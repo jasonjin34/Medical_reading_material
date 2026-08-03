@@ -40,6 +40,18 @@ It sits at the "virtual tissue / multimodal representation modelling" stage, not
 - Compare with SurvPath / TANGLE (CVPR 2024) and assess replacing ResNet features with pathology foundation models (UNI/CONCH).
 - Evaluate wiring its fused embeddings into our anomaly-detection / counterfactual gene-revert pipeline.
 
+## Figures & tables
+
+![PathOmics two-stage pipeline](figures/fig1.png)
+**Fig 1.** Overview of the two-stage PathOmics pipeline. (a) Unsupervised multimodal pretraining: WSIs are tiled into N groups of patches → Feature Extractor → Attention Refiner + Image-wise Transformer + GAP yields the image embedding (blue triangle); grouped omics tabular data pass through SNN + Omics-wise Transformer + GAP to yield the omics embedding (green circle); the two are aligned/fused during pretraining (GAP = Global attention pooling). (b) Supervised multimodal finetuning: fused image+omics embeddings → Multimodal Embedding Fusion → Risk Classifier → survival prediction. (c) Supervised single-modal finetuning: image-only or omics-only embedding → Risk Classifier → survival prediction, enabling missing-modality inference.
+_Source: https://github.com/Cassie07/PathOmics/raw/main/Figures/Figure1.png  ·  License: GitHub README figure (MICCAI 2023, Ding et al.)_
+
+### Results
+
+**Table 1.** The README contains no numeric results table (no C-index / AUC figures). The actual survival-prediction metrics (TCGA-COAD 4-fold CV + hold-out, COAD→READ transfer, single- vs multimodal, data-efficient ablations) live in the MICCAI 2023 paper, not in this repo — numbers are not invented here.
+
+_C-index results: see the paper → https://rdcu.be/dnwKf (Ding et al., MICCAI 2023, pp. 622–631)._
+
 ## Cite
 ```bibtex
 @inproceedings{ding2023pathology,

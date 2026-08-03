@@ -59,6 +59,21 @@ def _split_header(line: str, lang: str) -> str:
     return line
 
 
+def _split_table_row(line: str, lang: str) -> str:
+    """Split bilingual `X / 中文` table cells by language; leave mono cells alone."""
+    parts = line.split("|")
+    out = []
+    for cell in parts:
+        if " / " in cell and CJK.search(cell):
+            left, _, right = cell.partition(" / ")
+            keep = right if lang == "zh" else left
+            # preserve one padding space on each side for readability
+            out.append(" " + keep.strip() + " ")
+        else:
+            out.append(cell)
+    return "|".join(out)
+
+
 def _inline_pick(line: str, lang: str) -> str:
     m = re.match(r"^(\s*(?:[-*]\s+)?)", line)
     prefix, after = m.group(1), line[m.end():]
@@ -119,6 +134,8 @@ def split_bilingual(text: str, lang: str) -> str:
             continue
         if s == "":
             out.append(line); continue          # blanks in both, keep mode
+        if s.startswith("|"):                    # table row: split bilingual cells
+            out.append(_split_table_row(line, lang)); continue
         if mode in ("both", lang):
             out.append(line)
     # collapse 3+ blank lines
@@ -192,6 +209,9 @@ def main() -> None:
                 (dst / suffix).write_text(page, encoding="utf-8")
         if ar.exists():  # single-language source extract (en default; zh falls back)
             (dst / "ai-ready.md").write_text(ar.read_text(encoding="utf-8"), encoding="utf-8")
+        figdir = src / "figures"
+        if figdir.is_dir():  # bring downloaded figures into the site
+            shutil.copytree(figdir, dst / "figures", dirs_exist_ok=True)
 
     # top-level bilingual pages
     _emit_split(ROOT / "literature-review.md", "literature-review")
@@ -271,8 +291,10 @@ def _write_mkdocs(metas) -> None:
 
     nav = ["  - Home: index.md",
            "  - Literature review: literature-review.md",
-           "  - Relationships: relationships.md",
-           "  - Papers:"]
+           "  - Relationships: relationships.md"]
+    if any((ROOT / "glossary").glob("*.yaml")):
+        nav.append("  - Glossary: glossary.md")
+    nav.append("  - Papers:")
     for c in CAT_ORDER:
         items = sorted(bycat.get(c, []), key=lambda x: -(x.get("relevance") == "high"))
         if not items:

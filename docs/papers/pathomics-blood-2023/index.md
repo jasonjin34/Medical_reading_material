@@ -41,6 +41,10 @@ No public code, checkpoints, or dataset (conference abstract). Reusable at the c
 - Compare with Haematologica "AI-based quantitative BM pathology analysis for MPN" and DSCENet (MICCAI 2024) multimodal MPN subtyping.
 - The group's nucleomorphologic-features ↔ molecular-subtype work (possible bridge to the gene level).
 
+## Figures & tables
+
+This entry is an ASH 2023 *Blood* conference abstract (Abstract 2294; DOI 10.1182/blood-2023-191272) with no publicly released figures or quantitative results tables. The abstract is text-only — no segmentation example figures, feature-distribution plots, or tables of segmentation-accuracy / classification metrics are provided. Abstract: <https://ashpublications.org/blood/article/142/Supplement%201/2294/499845>
+
 ## Cite
 ```bibtex
 @article{krichevsky2023pathomics,

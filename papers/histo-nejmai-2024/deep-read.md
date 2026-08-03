@@ -58,6 +58,63 @@
 - <!-- ZH --> CTransPath 原文(Wang et al.),及更强病理基础模型(UNI、Virchow、GigaPath)作 OE/one-class 特征的对比。 <!-- EN --> Read CTransPath (Wang et al.) and compare stronger foundation models (UNI, Virchow, Prov-GigaPath) as OE/one-class features.
 - <!-- ZH --> Outlier Exposure 原始论文(Hendrycks et al.)与 Deep SVDD / one-class 深度异常检测综述(Ruff et al.),迁移到 spatial-omics。 <!-- EN --> Outlier Exposure (Hendrycks et al.) and deep one-class AD (Ruff et al. Deep SVDD) for transfer to spatial-omics.
 
+## 图表 / Figures & tables
+
+> <!-- ZH --> _NEJM AI 正文付费,以下图表全部取自公开预印本 arXiv:2406.14866,不含任何付费墙页面内容。数值/图注与正式版可能略有差异。_
+> <!-- EN --> _All figures/tables below come from the OPEN preprint arXiv:2406.14866 — nothing is taken from the paywalled NEJM AI page._
+
+![Pipeline overview](figures/fig1.png)
+<!-- ZH --> **图1.** 方法与临床流程总览:训练阶段用 Outlier Exposure 让模型区分"常见胃肠组织"与"异质辅助组织";推理阶段对每个 patch 打异常分,聚合为切片级分数并生成异常热图;临床用例中据此自动放行正常病例或为可疑病例排序供病理医生复核。
+<!-- EN --> **Fig 1.** Method + clinical-workflow overview: training uses Outlier Exposure to separate frequent GI tissue from diverse auxiliary tissue; at inference each patch gets an anomaly score, aggregated to a slide-level score and rendered as an anomaly heatmap; the clinical use case auto-clears normal cases or triages suspicious ones for pathologist review.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 2)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+![Anomaly heatmaps](figures/fig2.png)
+<!-- ZH --> **图2.** 胃、结肠组织的异常热图示例(腺癌、边缘区淋巴瘤、肉瘤、胃底腺腺瘤、溃疡、高级别不典型增生、神经内分泌肿瘤、炎症等):模型可准确定位病变区域,同时忽略组织褶皱等伪影。
+<!-- EN --> **Fig 2.** Anomaly-heatmap examples on stomach and colon tissue (adenocarcinoma, marginal-zone lymphoma, sarcoma, foveolar adenoma, ulcer, high-grade dysplasia, neuroendocrine tumor, inflammation): the model localizes pathological regions accurately while ignoring artifacts such as tissue folds.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+![Slide anomaly-score distributions](figures/fig3.png)
+<!-- ZH --> **图3.** OE 模型在验证集上按诊断类别给出的切片异常分分布(胃):常见/正常诊断与异常诊断之间分离明显。
+<!-- EN --> **Fig 3.** Distribution of slide anomaly scores by diagnostic category (stomach), OE model on validation data: clear separation between frequent/normal findings and anomalous diagnoses.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 3)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+![Long-tail distribution of GI diagnoses](figures/fig4.png)
+<!-- ZH --> **图4.** 胃肠活检诊断的长尾分布:约 90% 病例为前 10 种常见诊断(绿),其余 10% 由 56 种罕见疾病实体构成(红)——这正是本文要解决的问题设定。
+<!-- EN --> **Fig 4.** Long-tail distribution of GI-biopsy diagnoses: ~90% of cases are the top-10 common findings (green), the remaining 10% span 56 rare disease entities (red) — the problem setting the paper targets.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 1)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** Charité 主队列上三种异常检测方案的 slide-AUROC / patch-AUROC(%,均值±标准差);Outlier Exposure 为最佳方案。
+<!-- EN --> **Table 1.** Slide-AUROC / patch-AUROC (%, mean±SD) of three anomaly-detection approaches on the primary Charité cohort; Outlier Exposure is the best method.
+
+| Method | Tissue | Slide-AUROC | Patch-AUROC |
+|---|---|---|---|
+| Self-supervision + kNN | Stomach | 94.95 ± 1.16 | 87.21 ± 0.36 |
+| Self-supervision + kNN | Colon | 89.76 ± 0.77 | 85.09 ± 0.63 |
+| Self-supervision + OCC | Stomach | 93.76 ± 1.39 | 89.73 ± 0.47 |
+| Self-supervision + OCC | Colon | 88.51 ± 0.69 | 87.03 ± 0.49 |
+| **Outlier Exposure** | **Stomach** | **95.04 ± 0.54** | **91.37 ± 0.34** |
+| **Outlier Exposure** | **Colon** | **91.01 ± 0.69** | **90.47 ± 0.33** |
+| Outlier Exposure (neoplastic malignant) | Stomach | 97.72 ± 0.44 | 95.02 ± 0.28 |
+| Outlier Exposure (neoplastic malignant) | Colon | 96.97 ± 0.61 | 96.23 ± 0.27 |
+
+<!-- ZH --> **表2.** LMU 慕尼黑外部验证队列(换扫描仪、不重新训练)的 slide-AUROC(%,均值±标准差)。
+<!-- EN --> **Table 2.** External validation on the LMU Munich cohort (different scanner, no retraining), slide-AUROC (%, mean±SD).
+
+| Method | Tissue | Slide-AUROC |
+|---|---|---|
+| Self-supervision + kNN | Stomach | 88.6 ± 0.1 |
+| Self-supervision + kNN | Colon | 84.44 ± 0.61 |
+| Self-supervision + OCC | Stomach | 89.92 ± 0.85 |
+| Self-supervision + OCC | Colon | 87.43 ± 0.61 |
+| **Outlier Exposure** | **Stomach** | **94.5 ± 0.93** |
+| **Outlier Exposure** | **Colon** | **85.88 ± 0.94** |
+| Outlier Exposure (malignancy) | Stomach | 94.77 ± 0.88 |
+| Outlier Exposure (malignancy) | Colon | 95.02 ± 0.37 |
+
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Tables 1 & 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
 ## 引用 / Cite
 ```bibtex
 @article{Dippel_2024, title={AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics}, volume={1}, ISSN={2836-9386}, url={http://dx.doi.org/10.1056/AIoa2400468}, DOI={10.1056/aioa2400468}, number={11}, journal={NEJM AI}, publisher={Massachusetts Medical Society}, author={Dippel, Jonas and Prenißl, Niklas and Hense, Julius and Liznerski, Philipp and Winterhoff, Tobias and Schallenberg, Simon and Kloft, Marius and Buchstab, Oliver and Horst, David and Alber, Maximilian and Ruff, Lukas and Müller, Klaus-Robert and Klauschen, Frederick}, year={2024}, month=Oct }

@@ -41,6 +41,10 @@
 - 对照:Haematologica "AI-based quantitative bone marrow pathology analysis for MPN";DSCENet (MICCAI 2024) MPN 亚型多模态分类。
 - 该组 nucleomorphologic features ↔ MPN 分子亚型 的相关性工作(是否可桥接到基因层面)。
 
+## 图表
+
+本条目为 ASH 2023《Blood》会议摘要(Abstract 2294;DOI 10.1182/blood-2023-191272),无公开发布的图片或定量结果表格。摘要仅有文字描述,未给出分割示例图、特征分布图或分割精度/分类等量化指标表。原文见:<https://ashpublications.org/blood/article/142/Supplement%201/2294/499845>
+
 ## 引用
 ```bibtex
 @article{krichevsky2023pathomics,

@@ -69,6 +69,43 @@ This is the **foundational core reference** for our "virtual tissues" concept an
 - Validate the feasibility of "reconstruction error as anomaly score": on drug-perturbation paired samples, test whether masking-deviation aligns with known changed regions.
 - Track the robustness of ESM-2 marker embeddings to antibody naming/clone differences (marker isolation degradation problem).
 
+## Figures & tables
+
+![VirTues platform overview and architecture](figures/fig1.png)
+**Fig 1.** Platform overview and architecture: (a) two paths — Virtual Tissues Representation and Database — feeding clinical diagnostics, biological discovery and information retrieval; (b) training corpus of 15 datasets, 8 organ sites, 147 distinct markers; (c) 3,102 patients / 8,887 samples / ~259k crops; (d) marker-aware tokenization plus molecular/cell/niche/tissue summary tokens and factorized spatial/marker attention; (e) scaling laws — accuracy keeps rising with marker depth (blue VirTues vs grey full-attention CA-MAE).
+_Source: https://arxiv.org/html/2501.06039v2 (x1.png)  ·  License: arXiv open (code MIT, github.com/bunnelab/virtues)_
+
+![Cell-level representation evaluation](figures/fig3.png)
+**Fig 3.** Cell-level representation evaluation: (b) linear-probing cell-typing F1 across datasets, VirTues (blue) beating KRONOS and CA-MAE; (c) full-corpus vs single-dataset training gains on rare immune populations; (d) zero-shot (light) close to in-domain (blue); (e–g) Random-Forest transfer of cell annotations to an unseen cohort (Rigamonti lung).
+_Source: https://arxiv.org/html/2501.06039v2 (x3.png)  ·  License: arXiv open_
+
+![FM-based signatures for treatment response and survival](figures/fig5.png)
+**Fig 5.** FM-based signatures for treatment response and survival (headline): (a) pre/on/post timeline of the NeoTRIP TNBC cohort; (b) responders shift more in Virtual Tissues space than non-responders under treatment; (c–e) Leiden clustering yields 4 signatures (RS1/RS2/NRS1/NRS2), pre-treatment combined model AUROC 0.817, beating the Wang et al. spatial predictor and immune-ratio baselines; (h–k) transfer to an independent Meyer et al. cohort for disease-free-survival stratification (log-rank P=3.66e-03, concordance index 0.628).
+_Source: https://arxiv.org/html/2501.06039v2 (x5.png)  ·  License: arXiv open_
+
+### Results
+
+**Table 1.** Tissue-level ABMIL clinical prediction (macro-F1) and biomarker / survival results, VirTues vs main baselines.
+
+| Task / Metric | VirTues | Baseline (KRONOS / other) | Δ |
+|---|---|---|---|
+| Lung cancer subtyping (macro-F1) | 0.856 | KRONOS | +8.9% |
+| Breast cancer ER status (macro-F1) | 0.806 | KRONOS | +14.2% |
+| TNBC treatment response (macro-F1) | 0.714 (on-treatment) / 0.676 (pre-treatment) | > KRONOS | — |
+| Cell typing (macro-F1, avg rel.) | best | KRONOS / CA-MAE | +6.31% / +65.79% |
+| TNBC response prediction (cross-val AUROC) | 0.817 | Wang et al. 2023 spatial predictor | +4.53% (P<0.001); +23–30% vs immune-ratio |
+| Disease-free survival (concordance index) | 0.628 | Meyer et al. 2025 | +0.022 (0.606) |
+
+**Table 2.** Marker-reconstruction Pearson correlation (masked-autoencoder pretraining objective).
+
+| Setting | Pearson r |
+|---|---|
+| Mean over 3 masking strategies | 0.723 ± 0.157 |
+| In-domain (known markers) | 0.797 |
+| Zero-shot (unseen dataset, known markers) | 0.667 |
+| Δr under independent masking | +0.016 |
+| Δr under niche masking | −0.002 |
+
 ## Cite
 ```bibtex
 @misc{Wenckstern2025_250106039,

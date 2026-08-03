@@ -84,6 +84,39 @@
 - <!-- ZH --> 对接点:把 STR-ACL↔ERBB2/TOP1、ADI-NEC-BT2↔TACSTD2 这类"空间标志物↔基因"相关分析扩展为预测式基因回复模型(结合空间转录组)。 <!-- EN --> Integration point: extend "spatial-biomarker ↔ gene" correlation analyses such as STR-ACL↔ERBB2/TOP1 and ADI-NEC-BT2↔TACSTD2 into a predictive gene-revert model (combined with spatial transcriptomics).
 - <!-- ZH --> 关联阅读:同期 Cancer Cell "From prediction to interpretation in computational pathology"(S1535-6108(26)00290-4)与 Cell "virtual spatial tumor profiling from histopathology"(S0092-8674(26)00590-8)。 <!-- EN --> Related reading: the companion Cancer Cell piece "From prediction to interpretation in computational pathology" (S1535-6108(26)00290-4) and Cell "virtual spatial tumor profiling from histopathology" (S0092-8674(26)00590-8).
 
+## 图表 / Figures & tables
+
+<!-- ZH --> **说明:** GitHub README 的总览图(`assets/figure1_new2.png`)为 git-lfs 占位文件(1 字节),无法下载;因此本节以**链接**指向 CC BY 4.0 开放获取全文中的图,并据全文数字复现关键结果表。
+<!-- EN --> **Note:** The GitHub README overview image (`assets/figure1_new2.png`) is a 1-byte git-lfs placeholder and is not downloadable; this section therefore **links** to the figures in the CC BY 4.0 open-access full text and reproduces the key result tables from numbers already in the paper.
+
+<!-- ZH --> **图1(总览,开放获取).** PathPrism 三级"棱镜"流水线(PrismNet 语义分割 → MacroNet 宏观架构—生存 → 628 维空间生物标志物谱 + VirtualWSI):见开放获取全文 DOI <https://doi.org/10.1016/j.ccell.2026.05.014>(Cancer Cell 44, 2026,CC BY 4.0);代码总览图见 <https://github.com/KatherLab/PathPrism>。
+<!-- EN --> **Fig 1 (overview, open access).** PathPrism three-stage "prism" pipeline (PrismNet semantic segmentation → MacroNet macro-architecture-to-survival → 628-dim spatial-biomarker spectrum + VirtualWSI): see the open-access full text, DOI <https://doi.org/10.1016/j.ccell.2026.05.014> (Cancer Cell 44, 2026, CC BY 4.0); repo overview at <https://github.com/KatherLab/PathPrism>.
+
+<!-- ZH/EN --> _Source: https://doi.org/10.1016/j.ccell.2026.05.014 · https://github.com/KatherLab/PathPrism · License: CC BY 4.0_
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** 主要性能指标(数字取自本文"主要结果"节;分割用 CRC-VAL-HE-7K,预后/突变用 DACHS 5 折)。
+<!-- EN --> **Table 1.** Headline performance (numbers taken from the Key-results section above; segmentation on CRC-VAL-HE-7K, prognosis/mutation on DACHS 5-fold).
+
+| Task / 任务 | Model | Cohort | Metric | Value |
+|---|---|---|---|---|
+| Tissue segmentation / 组织分割 | PrismNet | CRC-VAL-HE-7K | macro-F1 | 0.948 |
+| Tissue segmentation / 组织分割 | PrismNet | CRC-VAL-HE-7K | MCC | 0.958 |
+| Tissue segmentation / 组织分割 | PrismNet | CRC-VAL-HE-7K | macro-AUROC | 0.988 |
+| Prognosis (DSS) / 预后 | MacroNet | DACHS (5-fold) | C-index | 0.716 ± 0.020 |
+| MSI prediction / MSI 预测 | PathPrism | DACHS (5-fold) | AUC | 0.85 |
+| MSI prediction / MSI 预测 | PathPrism | 7 external cohorts | AUC | 0.78 |
+
+<!-- ZH --> **表2.** MacroNet 风险分层的 Kaplan–Meier 危险比(HR)。
+<!-- EN --> **Table 2.** Kaplan–Meier hazard ratios (HR) for MacroNet risk stratification.
+
+| Cohort / 队列 | HR |
+|---|---|
+| MCO | 3.68 |
+| CR07 | 2.48 |
+| TCGA | 3.27 |
+
 ## 引用 / Cite
 ```bibtex
 % no BibTeX fetched

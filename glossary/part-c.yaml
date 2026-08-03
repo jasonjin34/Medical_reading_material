@@ -1,0 +1,387 @@
+# Glossary — Part C: cardiology & imaging + general ML methods
+# Domains: cardiology-imaging, ml-methods, general
+
+- id: electrocardiogram
+  en: Electrocardiogram (ECG)
+  zh: 心电图(ECG)
+  de: Elektrokardiogramm (EKG)
+  domain: cardiology-imaging
+  def_en: "A recording of the heart's electrical activity over time as waveforms, used here as the raw input from which deep learning reads cardiac risk."
+  def_zh: "记录心脏电活动随时间变化的波形图,本文用作深度学习读取心脏风险的原始输入。"
+  def_de: "Eine Aufzeichnung der elektrischen Herzaktivität als Wellenform über die Zeit, hier der Roheingang, aus dem Deep Learning das kardiale Risiko abliest."
+  tags: [cardiology, signal]
+  seen_in: [imaging-nature-2026]
+
+- id: left-ventricular-ejection-fraction
+  en: Left ventricular ejection fraction (LVEF)
+  zh: 左心室射血分数(LVEF)
+  de: Linksventrikuläre Ejektionsfraktion (LVEF)
+  domain: cardiology-imaging
+  def_en: "The percentage of blood pumped out of the left ventricle with each beat; a low value (e.g. <50%) signals reduced pumping function and heart failure."
+  def_zh: "每次心跳时左心室泵出血液的百分比;数值偏低(如 <50%)提示泵血功能下降与心力衰竭。"
+  def_de: "Der Prozentsatz des Blutes, das die linke Herzkammer pro Schlag auswirft; ein niedriger Wert (z. B. <50 %) zeigt eine verminderte Pumpfunktion und Herzinsuffizienz an."
+  tags: [cardiology, biomarker]
+  seen_in: [imaging-nature-2026, imaging-ehjdh-2026]
+
+- id: sudden-cardiac-death
+  en: Sudden cardiac death (SCD)
+  zh: 心脏性猝死(SCD)
+  de: Plötzlicher Herztod (PHT)
+  domain: cardiology-imaging
+  def_en: "Unexpected death from a cardiac cause, usually a fatal arrhythmia, within a short time of symptom onset; the outcome the ECG biomarker aims to predict."
+  def_zh: "由心脏原因(通常是致命性心律失常)在症状出现后短时间内发生的意外死亡,即该 ECG 生物标志物要预测的终点。"
+  def_de: "Ein unerwarteter Tod kardialer Ursache, meist durch eine tödliche Herzrhythmusstörung, kurz nach Symptombeginn; das vom EKG-Biomarker vorhergesagte Ereignis."
+  tags: [cardiology, outcome]
+  seen_in: [imaging-nature-2026]
+
+- id: non-contrast-chest-ct
+  en: Non-contrast chest CT
+  zh: 非增强胸部 CT
+  de: Native Thorax-CT (ohne Kontrastmittel)
+  domain: cardiology-imaging
+  def_en: "A computed-tomography scan of the chest taken without injected contrast dye and without ECG gating, acquired routinely for many indications."
+  def_zh: "不注射对比剂、也不做心电门控的胸部 CT 扫描,常规用于多种适应症。"
+  def_de: "Eine Computertomografie des Brustkorbs ohne injiziertes Kontrastmittel und ohne EKG-Triggerung, die routinemäßig für viele Fragestellungen erstellt wird."
+  tags: [imaging, ct]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: opportunistic-screening
+  en: Opportunistic screening
+  zh: 机会性筛查
+  de: Opportunistisches Screening
+  domain: cardiology-imaging
+  def_en: "Extracting an unrelated diagnosis from data collected for another purpose — e.g. detecting heart failure from a CT ordered for something else."
+  def_zh: "从为其他目的采集的数据中顺带发现无关疾病——例如从为别的原因所拍的 CT 中检出心力衰竭。"
+  def_de: "Das Gewinnen einer unabhängigen Diagnose aus Daten, die zu einem anderen Zweck erhoben wurden — z. B. das Erkennen einer Herzinsuffizienz aus einer für etwas anderes angeforderten CT."
+  tags: [imaging, screening]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: echocardiography
+  en: Echocardiography
+  zh: 超声心动图
+  de: Echokardiografie
+  domain: cardiology-imaging
+  def_en: "Ultrasound imaging of the heart, the clinical gold standard for measuring ejection fraction and the source of the training labels here."
+  def_zh: "对心脏的超声成像,是测量射血分数的临床金标准,也是本文训练标签的来源。"
+  def_de: "Ultraschallbildgebung des Herzens, der klinische Goldstandard zur Messung der Ejektionsfraktion und die Quelle der hier verwendeten Trainingslabels."
+  tags: [cardiology, imaging]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: implantable-cardioverter-defibrillator
+  en: Implantable cardioverter-defibrillator (ICD)
+  zh: 植入式心律转复除颤器(ICD)
+  de: Implantierbarer Kardioverter-Defibrillator (ICD)
+  domain: cardiology-imaging
+  def_en: "An implanted device that detects dangerous arrhythmias and delivers a shock to prevent sudden cardiac death."
+  def_zh: "植入体内的装置,可检测危险的心律失常并放电,以预防心脏性猝死。"
+  def_de: "Ein implantiertes Gerät, das gefährliche Herzrhythmusstörungen erkennt und durch einen Schock den plötzlichen Herztod verhindert."
+  tags: [cardiology, device]
+  seen_in: [imaging-nature-2026]
+
+- id: ventricular-arrhythmia
+  en: Ventricular arrhythmia
+  zh: 室性心律失常
+  de: Ventrikuläre Arrhythmie
+  domain: cardiology-imaging
+  def_en: "An abnormal, often life-threatening heart rhythm originating in the ventricles, the mechanistic cause of most sudden cardiac deaths."
+  def_zh: "起源于心室的异常且常危及生命的心律,是大多数心脏性猝死的机制原因。"
+  def_de: "Ein abnormaler, oft lebensbedrohlicher Herzrhythmus, der in den Herzkammern entsteht und die mechanistische Ursache der meisten plötzlichen Herztode ist."
+  tags: [cardiology, outcome]
+  seen_in: [imaging-nature-2026]
+
+- id: heart-failure-reduced-ef
+  en: Heart failure with reduced ejection fraction (systolic dysfunction)
+  zh: 射血分数降低的心力衰竭(收缩功能障碍)
+  de: Herzinsuffizienz mit reduzierter Ejektionsfraktion (systolische Dysfunktion)
+  domain: cardiology-imaging
+  def_en: "A condition where the heart's weakened contraction lowers ejection fraction; catching it early lets guideline therapy slow progression."
+  def_zh: "心脏收缩减弱导致射血分数下降的病症;早期发现可让指南导向治疗延缓病程。"
+  def_de: "Ein Zustand, bei dem die geschwächte Herzkontraktion die Ejektionsfraktion senkt; eine frühe Erkennung erlaubt es, mit leitliniengerechter Therapie das Fortschreiten zu verlangsamen."
+  tags: [cardiology, disease]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: grad-cam
+  en: Grad-CAM (gradient-weighted saliency)
+  zh: Grad-CAM(梯度加权显著性)
+  de: Grad-CAM (gradientengewichtete Salienz)
+  domain: cardiology-imaging
+  def_en: "An interpretability method that highlights the image regions most responsible for a model's prediction, here producing 3D saliency maps on CT."
+  def_zh: "一种可解释性方法,标出对模型预测贡献最大的图像区域,本文用于生成 CT 的三维显著性图。"
+  def_de: "Eine Interpretierbarkeitsmethode, die die für eine Modellvorhersage wichtigsten Bildregionen hervorhebt, hier zur Erzeugung von 3D-Salienzkarten auf CT."
+  tags: [interpretability, imaging]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: vision-transformer-3d
+  en: 3D vision transformer (CT-ViT)
+  zh: 三维视觉 Transformer(CT-ViT)
+  de: 3D-Vision-Transformer (CT-ViT)
+  domain: ml-methods
+  def_en: "A transformer neural network that processes volumetric images as sequences of 3D patches; CT-ViT is a chest-CT variant used as an imaging backbone."
+  def_zh: "以三维图块序列处理体数据图像的 Transformer 神经网络;CT-ViT 是用作影像骨干的胸部 CT 变体。"
+  def_de: "Ein Transformer-Netzwerk, das volumetrische Bilder als Folgen von 3D-Patches verarbeitet; CT-ViT ist eine Thorax-CT-Variante, die als Bild-Backbone dient."
+  tags: [architecture, imaging]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: anomaly-detection
+  en: Anomaly detection
+  zh: 异常检测
+  de: Anomalieerkennung
+  domain: ml-methods
+  def_en: "Identifying samples or regions that deviate from a learned notion of 'normal', often by training only on normal data — the first stage of the detect→model→revert pipeline."
+  def_zh: "识别偏离所学“正常”概念的样本或区域,常仅用正常数据训练——即“检测→建模→逆转”流程的第一环。"
+  def_de: "Das Erkennen von Proben oder Regionen, die von einem gelernten Begriff des 'Normalen' abweichen, oft durch Training nur auf normalen Daten — die erste Stufe der Detect→Model→Revert-Pipeline."
+  tags: [ml, core]
+  seen_in: [histo-miccai-2025, imaging-nature-2026, imaging-ehjdh-2026, spatial-biorxiv-2025]
+
+- id: out-of-distribution-detection
+  en: Out-of-distribution (OOD) detection
+  zh: 分布外(OOD)检测
+  de: Out-of-Distribution-Erkennung (OOD)
+  domain: ml-methods
+  def_en: "Flagging inputs that fall outside the data distribution a model was trained on, such as an unseen drug, cell context, or diseased tissue."
+  def_zh: "标记落在模型训练分布之外的输入,如未见过的药物、细胞语境或病变组织。"
+  def_de: "Das Kennzeichnen von Eingaben, die außerhalb der Trainingsverteilung eines Modells liegen, etwa ein unbekanntes Medikament, ein neuer Zellkontext oder krankhaftes Gewebe."
+  tags: [ml, core]
+  seen_in: [histo-miccai-2025, scrna-natmachintell-2026, virtual-cell-challenge]
+
+- id: reconstruction-error
+  en: Reconstruction error
+  zh: 重建误差
+  de: Rekonstruktionsfehler
+  domain: ml-methods
+  def_en: "The discrepancy between an input and a generative model's attempt to reconstruct it as 'normal'; large error marks the input as anomalous."
+  def_zh: "输入与生成模型将其重建为“正常”之间的差异;误差大则将该输入判为异常。"
+  def_de: "Die Abweichung zwischen einer Eingabe und dem Versuch eines generativen Modells, sie als 'normal' zu rekonstruieren; ein großer Fehler kennzeichnet die Eingabe als anomal."
+  tags: [ml, anomaly]
+  seen_in: [histo-miccai-2025]
+
+- id: autoencoder
+  en: Autoencoder
+  zh: 自编码器
+  de: Autoencoder
+  domain: ml-methods
+  def_en: "A neural network that compresses data into a latent code and reconstructs it, used for dimensionality reduction and reconstruction-based anomaly scoring."
+  def_zh: "把数据压缩为潜编码再重建的神经网络,用于降维和基于重建的异常打分。"
+  def_de: "Ein neuronales Netz, das Daten in einen latenten Code komprimiert und rekonstruiert, genutzt zur Dimensionsreduktion und zur rekonstruktionsbasierten Anomaliebewertung."
+  tags: [ml, architecture]
+  seen_in: [scrna-natmachintell-2026, histo-miccai-2025]
+
+- id: variational-autoencoder
+  en: Variational autoencoder (VAE / iVAE)
+  zh: 变分自编码器(VAE / iVAE)
+  de: Variationaler Autoencoder (VAE / iVAE)
+  domain: ml-methods
+  def_en: "An autoencoder with a probabilistic latent space; the identifiable variant (iVAE) conditions on side information so latent factors can be uniquely recovered."
+  def_zh: "具有概率潜空间的自编码器;可识别变体(iVAE)以辅助信息为条件,使潜在因子可被唯一还原。"
+  def_de: "Ein Autoencoder mit probabilistischem latentem Raum; die identifizierbare Variante (iVAE) bedingt auf Zusatzinformation, sodass latente Faktoren eindeutig rekonstruierbar sind."
+  tags: [ml, generative]
+  seen_in: [spatial-biorxiv-2025]
+
+- id: generative-adversarial-network
+  en: Generative adversarial network (GAN)
+  zh: 生成对抗网络(GAN)
+  de: Generative Adversarial Network (GAN)
+  domain: ml-methods
+  def_en: "A generative model where a generator and a discriminator are trained against each other; the discriminator's signal can also enforce constraints on learned representations."
+  def_zh: "一种生成模型,生成器与判别器相互对抗训练;判别器信号也可用于对所学表征施加约束。"
+  def_de: "Ein generatives Modell, bei dem Generator und Diskriminator gegeneinander trainiert werden; das Diskriminator-Signal kann auch Beschränkungen für gelernte Repräsentationen erzwingen."
+  tags: [ml, generative]
+  seen_in: [imaging-nature-2026, spatial-biorxiv-2025]
+
+- id: diffusion-model
+  en: Diffusion model
+  zh: 扩散模型
+  de: Diffusionsmodell
+  domain: ml-methods
+  def_en: "A generative model that learns to reverse a gradual noising process to synthesize data; conditioning it on 'normal' priors enables reconstruction-based anomaly detection."
+  def_zh: "通过学习逆转逐步加噪过程来合成数据的生成模型;以“正常”先验为条件即可做基于重建的异常检测。"
+  def_de: "Ein generatives Modell, das lernt, einen schrittweisen Verrauschungsprozess umzukehren, um Daten zu synthetisieren; bedingt auf 'normale' Priors ermöglicht es rekonstruktionsbasierte Anomalieerkennung."
+  tags: [ml, generative]
+  seen_in: [histo-miccai-2025, imaging-nature-2026]
+
+- id: flow-matching
+  en: Flow matching
+  zh: 流匹配
+  de: Flow Matching
+  domain: ml-methods
+  def_en: "A technique for training continuous-time generative models by regressing a velocity field that transports one distribution into another."
+  def_zh: "通过回归将一个分布输运到另一个分布的速度场,来训练连续时间生成模型的方法。"
+  def_de: "Eine Technik zum Training zeitkontinuierlicher generativer Modelle, indem ein Geschwindigkeitsfeld regressiert wird, das eine Verteilung in eine andere überführt."
+  tags: [ml, generative]
+  seen_in: [spatial-biorxiv-2025, virtual-cell-challenge]
+
+- id: neural-ode
+  en: Neural ODE
+  zh: 神经常微分方程
+  de: Neuronale ODE
+  domain: ml-methods
+  def_en: "A model that parameterizes the derivative of a hidden state with a neural network, integrating it as an ordinary differential equation to transform data continuously."
+  def_zh: "用神经网络参数化隐状态导数,将其作为常微分方程积分以连续地变换数据的模型。"
+  def_de: "Ein Modell, das die Ableitung eines verborgenen Zustands durch ein neuronales Netz parametrisiert und sie als gewöhnliche Differentialgleichung integriert, um Daten kontinuierlich zu transformieren."
+  tags: [ml, generative]
+  seen_in: [spatial-biorxiv-2025]
+
+- id: optimal-transport
+  en: Optimal transport (OT)
+  zh: 最优传输(OT)
+  de: Optimaler Transport (OT)
+  domain: ml-methods
+  def_en: "A mathematical framework for the least-cost way to morph one probability distribution into another, used to map control cells to perturbed cells."
+  def_zh: "以最小代价把一个概率分布变形为另一个的数学框架,用于将对照细胞映射到扰动后细胞。"
+  def_de: "Ein mathematischer Rahmen für die kostengünstigste Art, eine Wahrscheinlichkeitsverteilung in eine andere zu überführen, genutzt, um Kontrollzellen auf perturbierte Zellen abzubilden."
+  tags: [ml, ot]
+  seen_in: [scrna-natmachintell-2026, spatial-biorxiv-2025]
+
+- id: monge-gap
+  en: Monge gap
+  zh: Monge 间隙
+  de: Monge-Gap
+  domain: ml-methods
+  def_en: "A regularizer that pushes a learned map toward the optimal-transport (Monge) solution without needing a special convex architecture; conditioning it yields the Conditional Monge Gap."
+  def_zh: "一种正则项,将所学映射推向最优传输(Monge)解而无需特殊凸结构;对其条件化即得 Conditional Monge Gap。"
+  def_de: "Ein Regularisierer, der eine gelernte Abbildung ohne spezielle konvexe Architektur zur optimalen (Monge-)Transportlösung hin drängt; seine Bedingung ergibt den Conditional Monge Gap."
+  tags: [ml, ot]
+  seen_in: [scrna-natmachintell-2026]
+
+- id: sinkhorn-divergence
+  en: Sinkhorn divergence
+  zh: Sinkhorn 散度
+  de: Sinkhorn-Divergenz
+  domain: ml-methods
+  def_en: "An entropy-regularized, fast-to-compute approximation of optimal-transport distance between two distributions, used as a training and evaluation objective."
+  def_zh: "对两个分布之间最优传输距离的熵正则化、计算高效的近似,用作训练与评测目标。"
+  def_de: "Eine entropieregularisierte, schnell berechenbare Näherung der optimalen Transportdistanz zwischen zwei Verteilungen, verwendet als Trainings- und Bewertungsziel."
+  tags: [ml, ot]
+  seen_in: [scrna-natmachintell-2026]
+
+- id: wasserstein-distance
+  en: Wasserstein distance
+  zh: Wasserstein 距离
+  de: Wasserstein-Distanz
+  domain: ml-methods
+  def_en: "The optimal-transport 'earth-mover' distance between distributions, usable as a similarity metric between perturbation effects or as a revert-distance measure."
+  def_zh: "分布之间的最优传输“搬土”距离,可作为扰动效应间的相似度或“逆转距离”度量。"
+  def_de: "Die 'Earth-Mover'-Distanz des optimalen Transports zwischen Verteilungen, nutzbar als Ähnlichkeitsmaß zwischen Perturbationseffekten oder als Revert-Distanzmaß."
+  tags: [ml, ot]
+  seen_in: [scrna-natmachintell-2026, spatial-biorxiv-2025]
+
+- id: maximum-mean-discrepancy
+  en: Maximum mean discrepancy (MMD)
+  zh: 最大均值差异(MMD)
+  de: Maximum Mean Discrepancy (MMD)
+  domain: ml-methods
+  def_en: "A kernel-based statistic measuring how different two distributions are by comparing their means in a feature space; a metric for perturbation-prediction accuracy."
+  def_zh: "基于核的统计量,通过在特征空间比较均值来度量两个分布的差异;用作扰动预测准确度的指标。"
+  def_de: "Eine kernbasierte Statistik, die den Unterschied zweier Verteilungen durch Vergleich ihrer Mittelwerte in einem Merkmalsraum misst; ein Maß für die Genauigkeit der Perturbationsvorhersage."
+  tags: [ml, metric]
+  seen_in: [scrna-natmachintell-2026]
+
+- id: counterfactual
+  en: Counterfactual
+  zh: 反事实
+  de: Kontrafaktisch
+  domain: ml-methods
+  def_en: "A synthesized 'what-if' version of an input — e.g. how a waveform or tissue would look if it were normal — used to make a model's decision interpretable."
+  def_zh: "对输入合成的“如果……会怎样”版本——如某波形或组织若为正常时的样子——用于让模型决策可解释。"
+  def_de: "Eine synthetisierte 'Was-wäre-wenn'-Version einer Eingabe — z. B. wie eine Wellenform oder ein Gewebe aussähe, wenn es normal wäre — um die Modellentscheidung interpretierbar zu machen."
+  tags: [ml, interpretability]
+  seen_in: [imaging-nature-2026]
+
+- id: generative-model
+  en: Generative model
+  zh: 生成模型
+  de: Generatives Modell
+  domain: ml-methods
+  def_en: "A model that learns a data distribution well enough to synthesize new samples, enabling visualization, reconstruction, or in-silico perturbation."
+  def_zh: "充分学习数据分布以合成新样本的模型,可用于可视化、重建或计算机模拟扰动。"
+  def_de: "Ein Modell, das eine Datenverteilung gut genug lernt, um neue Proben zu synthetisieren, und so Visualisierung, Rekonstruktion oder In-silico-Perturbation ermöglicht."
+  tags: [ml, generative]
+  seen_in: [imaging-nature-2026, spatial-biorxiv-2025, histo-miccai-2025]
+
+- id: discriminative-model
+  en: Discriminative model
+  zh: 判别模型
+  de: Diskriminatives Modell
+  domain: ml-methods
+  def_en: "A model that predicts a label from an input (e.g. risk from an ECG); pairing it with a generative model turns its opaque decision into a visible biomarker."
+  def_zh: "从输入预测标签的模型(如从 ECG 预测风险);与生成模型配对可把其不透明决策转为可见的生物标志物。"
+  def_de: "Ein Modell, das aus einer Eingabe ein Label vorhersagt (z. B. Risiko aus einem EKG); die Kopplung mit einem generativen Modell macht seine undurchsichtige Entscheidung als Biomarker sichtbar."
+  tags: [ml, core]
+  seen_in: [imaging-nature-2026]
+
+- id: foundation-model
+  en: Foundation model
+  zh: 基础模型
+  de: Foundation Model
+  domain: ml-methods
+  def_en: "A large model pretrained on broad data and reused as a general-purpose backbone that is adapted to many downstream tasks."
+  def_zh: "在大规模广泛数据上预训练、作为通用骨干复用并适配到众多下游任务的大模型。"
+  def_de: "Ein großes, auf breiten Daten vortrainiertes Modell, das als universelles Backbone wiederverwendet und an viele nachgelagerte Aufgaben angepasst wird."
+  tags: [ml, pretraining]
+  seen_in: [imaging-ehjdh-2026, scrna-natmachintell-2026, virtual-cell-challenge]
+
+- id: in-silico-perturbation
+  en: In-silico perturbation
+  zh: 计算机模拟扰动
+  de: In-silico-Perturbation
+  domain: ml-methods
+  def_en: "Simulating an intervention — deleting/replacing a cell type or applying a drug — inside a model to predict the resulting change and screen for revert targets."
+  def_zh: "在模型内部模拟干预(删除/替换某类细胞或施加药物),以预测由此产生的变化并筛选逆转靶点。"
+  def_de: "Das Simulieren eines Eingriffs — Löschen/Ersetzen eines Zelltyps oder Anwenden eines Medikaments — innerhalb eines Modells, um die resultierende Veränderung vorherzusagen und Revert-Ziele zu screenen."
+  tags: [ml, perturbation]
+  seen_in: [spatial-biorxiv-2025, virtual-cell-challenge, scrna-natmachintell-2026]
+
+- id: auroc
+  en: AUROC / AUC (area under the ROC curve)
+  zh: AUROC / AUC(ROC 曲线下面积)
+  de: AUROC / AUC (Fläche unter der ROC-Kurve)
+  domain: general
+  def_en: "A threshold-independent measure of a classifier's ability to rank positives above negatives; 0.5 is chance and 1.0 is perfect discrimination."
+  def_zh: "衡量分类器把正例排在负例之前能力的阈值无关指标;0.5 为随机,1.0 为完美区分。"
+  def_de: "Ein schwellenunabhängiges Maß für die Fähigkeit eines Klassifikators, Positive über Negative zu ordnen; 0,5 ist Zufall, 1,0 perfekte Trennschärfe."
+  tags: [metric, evaluation]
+  seen_in: [imaging-ehjdh-2026, histo-miccai-2025]
+
+- id: f1-score
+  en: F1 score
+  zh: F1 分数
+  de: F1-Score
+  domain: general
+  def_en: "The harmonic mean of precision and recall, a single balanced accuracy metric for classification under class imbalance."
+  def_zh: "精确率与召回率的调和平均,是类别不平衡下分类的单一平衡准确度指标。"
+  def_de: "Das harmonische Mittel aus Präzision und Recall, eine ausgewogene Einzelkennzahl für die Klassifikationsgüte bei Klassenungleichgewicht."
+  tags: [metric, evaluation]
+  seen_in: [imaging-ehjdh-2026]
+
+- id: c-index
+  en: Concordance index (C-index)
+  zh: 一致性指数(C-index)
+  de: Konkordanzindex (C-Index)
+  domain: general
+  def_en: "A survival-analysis metric giving the probability that the model ranks a higher-risk patient as having an earlier event than a lower-risk one; 0.5 is chance."
+  def_zh: "生存分析指标,表示模型把高风险患者判为比低风险患者更早发生事件的概率;0.5 为随机。"
+  def_de: "Eine Metrik der Überlebensanalyse, die die Wahrscheinlichkeit angibt, dass das Modell einen Hochrisikopatienten als früher erkrankt einstuft als einen Niedrigrisikopatienten; 0,5 ist Zufall."
+  tags: [metric, survival]
+  seen_in: [spatial-biorxiv-2025]
+
+- id: batch-effect
+  en: Batch effect
+  zh: 批次效应
+  de: Batch-Effekt
+  domain: general
+  def_en: "Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected."
+  def_zh: "不同机构、时间或平台采集的数据集之间的系统性非生物学差异,若不校正会混淆分析。"
+  def_de: "Systematische, nicht-biologische Variation zwischen Datensätzen, die an verschiedenen Orten, Zeiten oder Plattformen erhoben wurden und die Analyse verfälschen kann, wenn sie nicht korrigiert wird."
+  tags: [data, confounder]
+  seen_in: [scrna-natmachintell-2026, spatial-biorxiv-2025]
+
+- id: external-validation
+  en: External validation
+  zh: 外部验证
+  de: Externe Validierung
+  domain: general
+  def_en: "Testing a trained model on data from an independent site, country, or cohort it never saw, to demonstrate that performance generalizes."
+  def_zh: "在模型从未见过的独立机构、国家或队列数据上测试,以证明性能可泛化。"
+  def_de: "Das Testen eines trainierten Modells an Daten eines unabhängigen Standorts, Landes oder einer Kohorte, die es nie gesehen hat, um die Generalisierbarkeit der Leistung zu belegen."
+  tags: [evaluation, generalization]
+  seen_in: [imaging-nature-2026, imaging-ehjdh-2026]

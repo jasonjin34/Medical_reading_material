@@ -46,6 +46,34 @@ Maps directly onto **stage 2/3** of our pipeline — virtual-tissue modeling and
 - Independent benchmark papers "Benchmarking virtual cell models for in-the-wild perturbation response" and "The Baseline Gap" (Research Square), scrutinizing metric reliability.
 - The X-Atlas/Orion Perturb-seq data documentation, assessing its value as an extra training/transfer corpus.
 
+## Figures & tables
+
+This entry is a **competition resource card**: the site (virtualcellchallenge.org) is a competition page and the companion paper is in *Cell* (paywalled, DOI 10.1016/j.cell.2025.06.008); neither's schematics carry an open license, so no images are downloaded or embedded. See the original diagrams on the site and in the Cell paper. The two small tables below restate the **dataset split** and the **3-metric scoring protocol** (figures are from the official public description; nothing is inferred).
+
+_Source: https://virtualcellchallenge.org/ (site, competition) · companion paper *Cell* 2025, DOI 10.1016/j.cell.2025.06.008 (paywalled) — figures linked, not reproduced._
+
+### Results
+
+**Table 1.** Dataset split: ~300,000 H1 hESCs × 300 single-gene perturbations (Perturb-seq).
+
+| Split | Perturbations | Cells (approx.) | Role |
+|---|---|---|---|
+| Unperturbed reference | — | (H1 hESC baseline) | Transcriptomic reference for the held-out context |
+| Training | 150 genes | ~150,000 | Model training |
+| Validation | 50 genes | — | Drives the live leaderboard |
+| Final test | 100 genes | — | Held-out scoring |
+| **Total** | **300** | **~300,000** | — |
+
+**Table 2.** Scoring: composite of three metrics (context generalization on the held-out H1 hESC context).
+
+| Metric | Full name | Measures | Direction |
+|---|---|---|---|
+| DES | Differential Expression Score | Accuracy on differentially expressed genes after perturbation | higher = better |
+| PDS | Perturbation Discrimination Score | Ability to distinguish the effects of different perturbations vs ground truth | higher = better |
+| MAE | Mean Absolute Error | Global absolute error vs true post-perturbation expression across all genes | lower = better |
+
+Official baseline **STATE** (State Transition + State Embedding): on unseen single-gene perturbations it beat the cell-mean baseline by ~26% (linear 19%, GEARS 22%); yet almost all submissions were worse than the naive baseline on MAE.
+
 ## Cite
 ```bibtex
 % no BibTeX fetched

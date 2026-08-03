@@ -44,6 +44,27 @@ Maps squarely onto **stage 1: anomaly detection**. It is a clean, industrially v
 - Test swapping the CNN for a pathology foundation model (UNI/CONCH/Virchow) as the feature extractor.
 - Explore coupling detected anomaly patches with spatial transcriptomics toward the virtual-tissue / gene-revert stages.
 
+## Figures & tables
+
+![Method overview](figures/fig1.png)
+**Fig 1.** Method overview. **A (Training step 1):** a CNN encoder is trained on healthy tissue (many species/organ/stain categories) via an auxiliary classification task with class mix-up color augmentation; the loss is cross-entropy + center-loss (𝓛=𝓛_CE+λ𝓛_CL), producing compact feature clusters per category. **B (Training step 2):** with the encoder frozen, a one-class SVM is fit on features of the target-category healthy tissue, drawing a "normal" boundary in feature space. **C (Inference):** a whole-slide scan is tiled → frozen CNN features → frozen one-class SVM emits anomaly score α → threshold decision (α>t ⇒ anomaly), yielding a WSI map of detected anomalies.
+_Source: https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology/blob/master/docs/Scheme_extended.png  ·  License: MIT (repo) / arXiv:2210.07675_
+
+![Detected anomalies](figures/fig2.png)
+**Fig 2.** Examples of detected anomalies. **A:** the BIHN anomaly detector's "abnormal tiles (%)" rises with toxic-compound dose (control / low / mid / high); stars mark statistical significance vs. the control-group mean. **B:** anomaly visualization on WSIs — the control (left) shows few false positives (blood and other non-pathological structures), while low- and mid-dose treated groups (middle, right) show detected anomalies (yellow tiles) that correspond to pathological alterations confirmed by a pathologist.
+_Source: https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology/blob/master/docs/tox_pattern.png  ·  License: MIT (repo) / arXiv:2210.07675_
+
+### Results
+
+**Table 1.** Expected anomaly-detection performance of the BIHN models on the NAFLD liver dataset (normal mouse liver vs. NAFLD pathology), by staining.
+
+| Staining | Balanced accuracy | AU-ROC | F1 score |
+|---|:---:|:---:|:---:|
+| H&E | 94.20% | 97.33% | 94.09% |
+| Masson's Trichrome | 97.51% | 99.03% | 97.51% |
+
+_Source: repo README (https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology)  ·  License: MIT_
+
 ## Cite
 ```bibtex
 % no BibTeX fetched

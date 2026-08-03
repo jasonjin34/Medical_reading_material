@@ -60,6 +60,58 @@
 - <!-- ZH --> 能否把扰动/revert 建成条件并加异常评分与逆向优化(与本方向直接相关)。
   <!-- EN --> Can perturbation/revert be cast as a condition + anomaly scoring + inverse optimization on top of MuPD.
 
+## 图表 / Figures & tables
+
+![Study overview and architecture](figures/fig1.png)
+<!-- ZH --> **图1.** 研究总览:(a) MuPD 框架,以 H&E 组织学作为桥接模态,整合分子转录组/蛋白质组、组织结构与临床文本,实现跨物理尺度的跨模态生成;(b) 覆盖 34 器官的预训练数据(1 亿 H&E patch、160 万文本–图像对、1080 万 RNA–图像对);(c) 采用带解耦跨模态注意力(DCA)的 DiT,图像/文本/RNA 条件走并行注意力流;(d) 与其它方法的基准对比。
+<!-- EN --> **Fig 1.** Study overview: (a) the MuPD framework with H&E as the bridging modality integrating transcriptomics/proteomics, tissue architecture, and clinical text for cross-scale synthesis; (b) 34-organ pretraining corpus (100M H&E patches, 1.6M text–image, 10.8M RNA–image pairs); (c) DiT with decoupled cross-modal attention (DCA) processing image/text/RNA conditioning in parallel streams; (d) benchmarking against other methods.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2604.03635v1/figs/fig1-overview.png  ·  License: arXiv (author-posted preprint)_
+
+![Image- and text-conditioned generation](figures/fig2.png)
+<!-- ZH --> **图2.** 图像/文本条件生成:(a) 图像到图像生成,MuPD 比各基线更忠实地保留真实生物结构;(b) 文本到图像生成,从文本 prompt 准确重建细粒度组织学特征。
+<!-- EN --> **Fig 2.** Image- and text-conditioned generation: (a) image-to-image generation where MuPD preserves authentic biological structures with higher fidelity than baselines; (b) text-to-image generation reconstructing fine-grained histological features from text prompts.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2604.03635v1/figs/fig2-text2image-image2image.png  ·  License: arXiv (author-posted preprint)_
+
+![H&E generation from spatial transcriptomics](figures/fig3.png)
+<!-- ZH --> **图3.** 由空间转录组生成 H&E:(a) 五种癌症的 FID;(b) 合成与真实图像的细胞类型组成对比(Wasserstein 距离);(c) MuPD 与 GeneFlow 的 Wasserstein 距离对比;(d) 匹配空间转录组条件下真实/合成 H&E 图像对示例。
+<!-- EN --> **Fig 3.** H&E generation from spatial transcriptomics: (a) FID across five cancer types; (b) cell-type composition in synthetic vs. real images (Wasserstein distance); (c) Wasserstein-distance comparison between MuPD and GeneFlow; (d) representative real/synthetic H&E pairs conditioned on matched spatial transcriptomics.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2604.03635v1/figs/fig5-st2image.png  ·  License: arXiv (author-posted preprint)_
+
+![Virtual H&E-to-IHC staining](figures/fig4.png)
+<!-- ZH --> **图4.** 虚拟 H&E→IHC 染色与临床验证:(a) 多标志物虚拟 IHC 生成示例;(b) FID/KID 体现分布保真度与感知质量;(c) IHC4BC 上预测真实临床生物标志物的 AUC。
+<!-- EN --> **Fig 4.** Virtual H&E-to-IHC translation and clinical validation: (a) multi-stain virtual IHC examples; (b) FID and KID for distributional fidelity and perceptual quality; (c) clinical utility on IHC4BC predicting ground-truth biomarkers by AUC.
+<!-- ZH/EN --> _Source: https://arxiv.org/html/2604.03635v1/figs/fig6-he2ihc.png  ·  License: arXiv (author-posted preprint)_
+
+### 结果表 / Results
+
+<!-- ZH --> **表1.** 跨模态生成主结果:MuPD 对比各任务次优基线(FID 越低越好;相似度/对齐越高越好)。
+<!-- EN --> **Table 1.** Headline cross-modal generation results: MuPD vs. the next-best baseline per task (lower FID is better; higher similarity/alignment is better).
+
+| Task | Metric | MuPD | Best baseline | Rel. gain |
+|---|---|---|---|---|
+| Image → image | FID ↓ | 305.12 | 602.45 (PixCell) | ~49% |
+| Image → image | Similarity ↑ | 0.63 | 0.46 (PixCell) | — |
+| Text → image | FID ↓ | 576.30 | 1029.62 (PathLDM) | ~44% |
+| Text → image | Text–image alignment ↑ | 0.53 | 0.41 (PathLDM) | — |
+| Spatial transcriptomics → H&E (bladder) | FID ↓ | 724.6 | 1012.5 (GeneFlow) | ~28% |
+| Frozen → FFPE (lung) | FID ↓ | 323.7 | 435.3 (AI-FFPE) | ~26% |
+| H&E → IHC (ER marker) | FID ↓ | 124.18 | 256.76 (CycleGAN) | ~52% |
+| H&E → mIF | Patch PCC ↑ | 0.238 | 0.198 (GigaTIME) | ~20% |
+| H&E → mIF | Slide-level PCC ↑ | 0.464 | 0.339 (GigaTIME) | ~37% |
+
+<!-- ZH --> **表2.** 下游价值:合成数据增强的少样本分类(10-shot 准确率)与虚拟染色的临床效用(AUC)。
+<!-- EN --> **Table 2.** Downstream value: synthetic-data augmentation for few-shot classification (10-shot accuracy) and virtual-staining clinical utility (AUC).
+
+| Evaluation | Metric | Baseline / w-MuPD |
+|---|---|---|
+| PanNuke, 10-shot | Accuracy ↑ | 0.492 → 0.724 (+47.2%) |
+| SkinCancer, 10-shot | Accuracy ↑ | 0.790 → 0.850 |
+| H&E → IHC, Ki67 | Clinical AUC ↑ | 0.9772 |
+| H&E → IHC, HER2 | Clinical AUC ↑ | 0.9556 |
+
+<!-- ZH --> _Source: https://arxiv.org/abs/2604.03635 (arXiv HTML v1)  ·  License: arXiv (author-posted preprint). 数值忠实转录自论文文本。_
+<!-- EN --> _Source: https://arxiv.org/abs/2604.03635 (arXiv HTML v1)  ·  License: arXiv (author-posted preprint). Numerical values are faithfully transcribed from the paper text._
+
 ## 引用 / Cite
 ```bibtex
 @misc{Xiang2026_260403635,

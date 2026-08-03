@@ -1,0 +1,376 @@
+# Glossary slice B — spatial omics, single-cell & oncology/clinical
+# Trilingual (English / 中文 / Deutsch). Definitions are original one-liners.
+
+- id: spatial-transcriptomics
+  en: Spatial transcriptomics
+  zh: 空间转录组学
+  de: Räumliche Transkriptomik
+  domain: spatial-omics
+  def_en: "A family of technologies that measure gene expression while preserving each cell's or spot's position within an intact tissue section."
+  def_zh: "一类在保留细胞或位点在完整组织切片中位置的同时测量基因表达的技术。"
+  def_de: "Eine Gruppe von Technologien, die die Genexpression messen und dabei die Position jeder Zelle oder jedes Spots im intakten Gewebeschnitt erhalten."
+  tags: [spatial, omics, transcriptomics]
+  seen_in: [spatial-natcommun-2024, spatial-biorxiv-2025, hest1k-2024]
+
+- id: spatial-proteomics
+  en: Spatial proteomics
+  zh: 空间蛋白质组学
+  de: Räumliche Proteomik
+  domain: spatial-omics
+  def_en: "The measurement of many proteins at once within their spatial context in a tissue, typically via multiplexed antibody imaging."
+  def_zh: "在组织的空间背景下同时测量多种蛋白质,通常通过多重抗体成像实现。"
+  def_de: "Die gleichzeitige Messung vieler Proteine im räumlichen Gewebekontext, meist über multiplexierte Antikörper-Bildgebung."
+  tags: [spatial, omics, proteomics]
+  seen_in: [virtual-tissue-2501]
+
+- id: imaging-mass-cytometry
+  en: Imaging mass cytometry (IMC)
+  zh: 成像质谱流式(IMC)
+  de: Bildgebende Massenzytometrie (IMC)
+  domain: spatial-omics
+  def_en: "A multiplexed imaging method that uses metal-tagged antibodies and mass spectrometry to map dozens of proteins across a tissue section at subcellular resolution."
+  def_zh: "一种多重成像方法,利用金属标记抗体与质谱在亚细胞分辨率下绘制组织切片中数十种蛋白质。"
+  def_de: "Eine multiplexierte Bildgebungsmethode, die metallmarkierte Antikörper und Massenspektrometrie nutzt, um Dutzende Proteine in einem Gewebeschnitt mit subzellulärer Auflösung zu kartieren."
+  tags: [spatial, imaging, proteomics]
+  seen_in: [virtual-tissue-2501]
+
+- id: multiplexed-imaging
+  en: Multiplexed imaging
+  zh: 多重成像
+  de: Multiplex-Bildgebung
+  domain: spatial-omics
+  def_en: "Imaging that captures many molecular channels (proteins or transcripts) in the same tissue section rather than just one or two stains."
+  def_zh: "在同一组织切片中捕获多个分子通道(蛋白质或转录本)的成像,而非仅一两种染色。"
+  def_de: "Bildgebung, die viele molekulare Kanäle (Proteine oder Transkripte) im selben Gewebeschnitt erfasst statt nur ein oder zwei Färbungen."
+  tags: [spatial, imaging]
+  seen_in: [virtual-tissue-2501, scrna-natmachintell-2026]
+
+- id: visium
+  en: Visium
+  zh: Visium
+  de: Visium
+  domain: spatial-omics
+  def_en: "A widely used 10x Genomics spatial-transcriptomics platform that captures gene expression on a grid of barcoded spots overlaid on a tissue slide."
+  def_zh: "一种广泛使用的 10x Genomics 空间转录组平台,在覆盖组织切片的条形码位点阵列上捕获基因表达。"
+  def_de: "Eine weit verbreitete Spatial-Transcriptomics-Plattform von 10x Genomics, die Genexpression auf einem Raster barcodierter Spots über einem Gewebeschnitt erfasst."
+  tags: [spatial, platform, transcriptomics]
+  seen_in: [spatial-natcommun-2024, hest1k-2024]
+
+- id: slide-seq
+  en: Slide-seq
+  zh: Slide-seq
+  de: Slide-seq
+  domain: spatial-omics
+  def_en: "A spatial-transcriptomics method that transfers tissue onto a bead array of positionally barcoded beads, giving near-cellular spatial resolution."
+  def_zh: "一种将组织转移到带有位置条形码微珠阵列上的空间转录组方法,可达到接近单细胞的空间分辨率。"
+  def_de: "Eine Spatial-Transcriptomics-Methode, die Gewebe auf ein Array positionsbarcodierter Beads überträgt und nahezu zelluläre räumliche Auflösung erreicht."
+  tags: [spatial, platform, transcriptomics]
+  seen_in: [spatial-natcommun-2024]
+
+- id: stereo-seq
+  en: Stereo-seq
+  zh: Stereo-seq
+  de: Stereo-seq
+  domain: spatial-omics
+  def_en: "A high-resolution spatial-transcriptomics platform using nanoball-patterned arrays that can resolve gene expression down to subcellular scale over large tissue areas."
+  def_zh: "一种基于纳米球阵列的高分辨率空间转录组平台,可在大面积组织上将基因表达分辨到亚细胞尺度。"
+  def_de: "Eine hochauflösende Spatial-Transcriptomics-Plattform mit Nanoball-Arrays, die Genexpression über große Gewebeflächen bis in den subzellulären Bereich auflöst."
+  tags: [spatial, platform, transcriptomics]
+  seen_in: [spatial-natcommun-2024]
+
+- id: xenium
+  en: Xenium
+  zh: Xenium
+  de: Xenium
+  domain: spatial-omics
+  def_en: "A 10x Genomics imaging-based platform that measures a targeted panel of transcripts in situ at subcellular resolution with single-cell segmentation."
+  def_zh: "一种基于成像的 10x Genomics 平台,在亚细胞分辨率下原位测量目标转录本组合,并进行单细胞分割。"
+  def_de: "Eine bildgebungsbasierte 10x-Genomics-Plattform, die ein gezieltes Transkript-Panel in situ mit subzellulärer Auflösung und Einzelzell-Segmentierung misst."
+  tags: [spatial, platform, transcriptomics]
+  seen_in: [spatial-biorxiv-2025, hest1k-2024]
+
+- id: anomalous-tissue-domain
+  en: Anomalous tissue domain (ATD)
+  zh: 异常组织域(ATD)
+  de: Anomale Gewebedomäne (ATD)
+  domain: spatial-omics
+  def_en: "A spatial region of a tissue whose molecular profile deviates from healthy reference tissue, typically because of disease and detected without predefined markers."
+  def_zh: "组织中分子特征偏离健康参考组织的空间区域,通常由疾病导致,可在无预定义标记物的情况下被检出。"
+  def_de: "Eine räumliche Gewebsregion, deren molekulares Profil vom gesunden Referenzgewebe abweicht, meist krankheitsbedingt und ohne vordefinierte Marker erkennbar."
+  tags: [spatial, anomaly, disease]
+  seen_in: [spatial-natcommun-2024]
+
+- id: cellular-niche
+  en: Cellular niche
+  zh: 细胞微环境龛位(niche)
+  de: Zelluläre Nische
+  domain: spatial-omics
+  def_en: "A local neighborhood of cells whose spatial composition and interactions define a distinct micro-environment within a tissue."
+  def_zh: "由细胞的空间组成与相互作用界定的局部细胞邻域,构成组织内一个独特的微环境。"
+  def_de: "Eine lokale Zellnachbarschaft, deren räumliche Zusammensetzung und Interaktionen ein eigenes Mikromilieu im Gewebe definieren."
+  tags: [spatial, microenvironment]
+  seen_in: [virtual-tissue-2501, spatial-biorxiv-2025]
+
+- id: cell-segmentation
+  en: Cell segmentation
+  zh: 细胞分割
+  de: Zellsegmentierung
+  domain: spatial-omics
+  def_en: "The image-analysis step of delineating individual cell boundaries so that molecular signals can be assigned to single cells."
+  def_zh: "在图像分析中勾勒单个细胞边界的步骤,以便将分子信号归属到单个细胞。"
+  def_de: "Der bildanalytische Schritt, einzelne Zellgrenzen abzugrenzen, damit molekulare Signale einzelnen Zellen zugeordnet werden können."
+  tags: [spatial, imaging, segmentation]
+  seen_in: [spatial-biorxiv-2025, hest1k-2024]
+
+- id: single-cell-rna-seq
+  en: Single-cell RNA sequencing (scRNA-seq)
+  zh: 单细胞 RNA 测序(scRNA-seq)
+  de: Einzelzell-RNA-Sequenzierung (scRNA-seq)
+  domain: single-cell
+  def_en: "A technique that profiles the transcriptome of individual cells, revealing cell-type heterogeneity that bulk sequencing averages away."
+  def_zh: "一种对单个细胞转录组进行测序的技术,可揭示被批量测序平均掉的细胞类型异质性。"
+  def_de: "Eine Technik, die das Transkriptom einzelner Zellen erfasst und die Zelltyp-Heterogenität sichtbar macht, die bei Bulk-Sequenzierung verloren geht."
+  tags: [single-cell, transcriptomics]
+  seen_in: [spatial-natcommun-2024, spatial-biorxiv-2025, scrna-natmachintell-2026]
+
+- id: perturb-seq
+  en: Perturb-seq
+  zh: Perturb-seq
+  de: Perturb-seq
+  domain: single-cell
+  def_en: "A screening method that pairs CRISPR perturbations with single-cell RNA sequencing to read out how each genetic perturbation reshapes the transcriptome."
+  def_zh: "一种将 CRISPR 扰动与单细胞 RNA 测序结合的筛选方法,可读出每个基因扰动如何重塑转录组。"
+  def_de: "Eine Screening-Methode, die CRISPR-Perturbationen mit Einzelzell-RNA-Sequenzierung koppelt, um zu erfassen, wie jede genetische Störung das Transkriptom verändert."
+  tags: [single-cell, perturbation, crispr]
+  seen_in: [virtual-cell-challenge]
+
+- id: crispr-perturbation
+  en: CRISPR perturbation
+  zh: CRISPR 扰动
+  de: CRISPR-Perturbation
+  domain: single-cell
+  def_en: "The deliberate silencing, activation, or editing of a target gene using CRISPR to observe the resulting change in cell state."
+  def_zh: "利用 CRISPR 对目标基因进行定向沉默、激活或编辑,以观察由此引起的细胞状态变化。"
+  def_de: "Das gezielte Stilllegen, Aktivieren oder Editieren eines Zielgens mittels CRISPR, um die daraus folgende Änderung des Zellzustands zu beobachten."
+  tags: [single-cell, perturbation, crispr]
+  seen_in: [virtual-cell-challenge]
+
+- id: virtual-cell
+  en: Virtual cell
+  zh: 虚拟细胞
+  de: Virtuelle Zelle
+  domain: single-cell
+  def_en: "A computational model of a cell that predicts how its molecular state responds to perturbations, enabling experiments to be run in silico."
+  def_zh: "细胞的计算模型,可预测其分子状态对扰动的响应,从而在计算机中开展实验。"
+  def_de: "Ein rechnerisches Zellmodell, das vorhersagt, wie der molekulare Zustand einer Zelle auf Störungen reagiert, und Experimente in silico ermöglicht."
+  tags: [single-cell, modeling, perturbation]
+  seen_in: [virtual-cell-challenge]
+
+- id: perturbation-response-prediction
+  en: Perturbation-response prediction
+  zh: 扰动响应预测
+  de: Vorhersage der Perturbationsantwort
+  domain: single-cell
+  def_en: "The task of predicting how a cell's gene expression will shift after a given genetic or drug perturbation, often for unseen conditions."
+  def_zh: "预测给定基因或药物扰动后细胞基因表达如何变化的任务,通常针对未见过的条件。"
+  def_de: "Die Aufgabe vorherzusagen, wie sich die Genexpression einer Zelle nach einer bestimmten genetischen oder medikamentösen Störung verschiebt, oft für ungesehene Bedingungen."
+  tags: [single-cell, perturbation, prediction]
+  seen_in: [virtual-cell-challenge, scrna-natmachintell-2026]
+
+- id: gene-expression-signature
+  en: Gene-expression signature
+  zh: 基因表达签名
+  de: Genexpressionssignatur
+  domain: single-cell
+  def_en: "A defined set of genes whose coordinated expression levels mark a particular cell state, disease, or treatment response."
+  def_zh: "一组特定基因,其协同表达水平可标志某种细胞状态、疾病或治疗响应。"
+  def_de: "Eine definierte Gruppe von Genen, deren koordinierte Expressionsniveaus einen bestimmten Zellzustand, eine Krankheit oder eine Therapieantwort kennzeichnen."
+  tags: [single-cell, biomarker, expression]
+  seen_in: [virtual-tissue-2501, spatial-biorxiv-2025]
+
+- id: cell-state
+  en: Cell state
+  zh: 细胞状态
+  de: Zellzustand
+  domain: single-cell
+  def_en: "The transient functional condition of a cell — such as activated, exhausted, or proliferating — layered on top of its stable cell-type identity."
+  def_zh: "细胞在其稳定的细胞类型身份之上所处的、可变的功能状态,如激活、耗竭或增殖。"
+  def_de: "Der vorübergehende funktionelle Zustand einer Zelle — etwa aktiviert, erschöpft oder proliferierend — der ihrer stabilen Zelltyp-Identität überlagert ist."
+  tags: [single-cell, phenotype]
+  seen_in: [spatial-biorxiv-2025, virtual-cell-challenge]
+
+- id: tumor-microenvironment
+  en: Tumor microenvironment (TME)
+  zh: 肿瘤微环境(TME)
+  de: Tumormikromilieu (TME)
+  domain: oncology-clinical
+  def_en: "The ecosystem of immune, stromal, and vascular cells surrounding a tumor that shapes its growth and its response to therapy."
+  def_zh: "环绕肿瘤的免疫、基质与血管细胞所构成的生态系统,影响肿瘤生长及其对治疗的响应。"
+  def_de: "Das Ökosystem aus Immun-, Stroma- und Gefäßzellen rund um einen Tumor, das dessen Wachstum und Therapieantwort prägt."
+  tags: [oncology, microenvironment, immune]
+  seen_in: [spatial-biorxiv-2025, virtual-tissue-2501]
+
+- id: tertiary-lymphoid-structure
+  en: Tertiary lymphoid structure (TLS)
+  zh: 三级淋巴结构(TLS)
+  de: Tertiäre lymphoide Struktur (TLS)
+  domain: oncology-clinical
+  def_en: "An organized aggregate of immune cells that forms in chronically inflamed or tumor tissue and often associates with better anti-tumor immunity."
+  def_zh: "在慢性炎症或肿瘤组织中形成的有序免疫细胞聚集体,常与更强的抗肿瘤免疫相关。"
+  def_de: "Ein organisiertes Aggregat von Immunzellen, das in chronisch entzündetem oder Tumorgewebe entsteht und oft mit besserer Antitumor-Immunität einhergeht."
+  tags: [oncology, immune, structure]
+  seen_in: [spatial-biorxiv-2025]
+
+- id: t-cell-exhaustion
+  en: T-cell exhaustion
+  zh: T 细胞耗竭
+  de: T-Zell-Erschöpfung
+  domain: oncology-clinical
+  def_en: "A dysfunctional state in which chronically stimulated T cells lose their killing capacity and up-regulate inhibitory checkpoint markers."
+  def_zh: "一种功能失调状态:长期受刺激的 T 细胞丧失杀伤能力并上调抑制性检查点标志物。"
+  def_de: "Ein dysfunktionaler Zustand, in dem chronisch stimulierte T-Zellen ihre zytotoxische Kapazität verlieren und hemmende Checkpoint-Marker hochregulieren."
+  tags: [oncology, immune, t-cell]
+  seen_in: [spatial-biorxiv-2025]
+
+- id: immune-checkpoint-blockade
+  en: Immune checkpoint blockade (ICB)
+  zh: 免疫检查点阻断(ICB)
+  de: Immun-Checkpoint-Blockade (ICB)
+  domain: oncology-clinical
+  def_en: "A cancer immunotherapy that blocks inhibitory receptors such as PD-1 or PD-L1 to release the brakes on anti-tumor T cells."
+  def_zh: "一种癌症免疫治疗,通过阻断 PD-1 或 PD-L1 等抑制性受体来解除抗肿瘤 T 细胞的抑制。"
+  def_de: "Eine Krebs-Immuntherapie, die hemmende Rezeptoren wie PD-1 oder PD-L1 blockiert, um die Bremsen der Antitumor-T-Zellen zu lösen."
+  tags: [oncology, immunotherapy, immune]
+  seen_in: [spatial-biorxiv-2025, virtual-tissue-2501]
+
+- id: concordance-index
+  en: Concordance index (C-index)
+  zh: 一致性指数(C-index)
+  de: Konkordanzindex (C-Index)
+  domain: oncology-clinical
+  def_en: "A metric for survival models that measures how often the model correctly ranks which of two patients experiences the event sooner."
+  def_zh: "用于生存模型的指标,衡量模型正确判断两名患者中谁更早发生事件的比例。"
+  def_de: "Eine Kennzahl für Überlebensmodelle, die misst, wie oft das Modell korrekt einordnet, welcher von zwei Patienten das Ereignis früher erlebt."
+  tags: [oncology, survival, metric]
+  seen_in: [virtual-tissue-2501, pathomics-npjpo-2026]
+
+- id: triple-negative-breast-cancer
+  en: Triple-negative breast cancer (TNBC)
+  zh: 三阴性乳腺癌(TNBC)
+  de: Triple-negatives Mammakarzinom (TNBC)
+  domain: oncology-clinical
+  def_en: "An aggressive breast-cancer subtype lacking estrogen, progesterone, and HER2 receptors, which limits targeted-therapy options."
+  def_zh: "一种侵袭性乳腺癌亚型,缺乏雌激素、孕激素和 HER2 受体,限制了靶向治疗选择。"
+  def_de: "Ein aggressiver Brustkrebs-Subtyp ohne Östrogen-, Progesteron- und HER2-Rezeptoren, was zielgerichtete Therapieoptionen einschränkt."
+  tags: [oncology, breast-cancer, subtype]
+  seen_in: [virtual-tissue-2501]
+
+- id: pathological-complete-response
+  en: Pathological complete response (pCR)
+  zh: 病理完全缓解(pCR)
+  de: Pathologische Komplettremission (pCR)
+  domain: oncology-clinical
+  def_en: "The absence of any residual invasive tumor in tissue examined after neoadjuvant therapy, a favorable predictor of long-term outcome."
+  def_zh: "新辅助治疗后所检组织中不存在任何残留浸润性肿瘤,是长期预后良好的指标。"
+  def_de: "Das Fehlen jeglichen residualen invasiven Tumors im nach neoadjuvanter Therapie untersuchten Gewebe, ein günstiger Prädiktor für den Langzeitverlauf."
+  tags: [oncology, treatment-response, outcome]
+  seen_in: [virtual-tissue-2501]
+
+- id: overall-survival
+  en: Overall survival (OS)
+  zh: 总生存期(OS)
+  de: Gesamtüberleben (OS)
+  domain: oncology-clinical
+  def_en: "The length of time from diagnosis or treatment start until death from any cause, a primary endpoint in cancer studies."
+  def_zh: "从确诊或开始治疗到因任何原因死亡的时间长度,是癌症研究的主要终点。"
+  def_de: "Die Zeitspanne von Diagnose oder Therapiebeginn bis zum Tod jeglicher Ursache, ein primärer Endpunkt in Krebsstudien."
+  tags: [oncology, survival, outcome]
+  seen_in: [pathomics-npjpo-2026]
+
+- id: pathomics-signature
+  en: Pathomics signature
+  zh: 病理组学签名
+  de: Pathomics-Signatur
+  domain: oncology-clinical
+  def_en: "A prognostic index built from quantitative features that deep-learning models extract directly from digitized histopathology slides."
+  def_zh: "由深度学习模型直接从数字病理切片中提取的定量特征构建的预后指标。"
+  def_de: "Ein prognostischer Index aus quantitativen Merkmalen, die Deep-Learning-Modelle direkt aus digitalisierten Histopathologie-Schnitten extrahieren."
+  tags: [oncology, pathology, prognosis]
+  seen_in: [pathomics-npjpo-2026]
+
+- id: whole-slide-image
+  en: Whole-slide image (WSI)
+  zh: 全切片图像(WSI)
+  de: Gesamtschnittbild (WSI)
+  domain: oncology-clinical
+  def_en: "A high-resolution digital scan of an entire histopathology glass slide, often gigapixel-sized, used for computational pathology."
+  def_zh: "对整张组织病理玻片进行的高分辨率数字扫描,常达十亿像素级,用于计算病理学。"
+  def_de: "Ein hochauflösender digitaler Scan eines gesamten Histopathologie-Objektträgers, oft im Gigapixel-Bereich, für die computergestützte Pathologie."
+  tags: [pathology, imaging, histology]
+  seen_in: [hest1k-2024, pathomics-npjpo-2026]
+
+- id: foundation-model
+  en: Foundation model
+  zh: 基础模型
+  de: Foundation Model
+  domain: general
+  def_en: "A large model pretrained on broad unlabeled data that can be adapted to many downstream tasks, often with little or no fine-tuning."
+  def_zh: "在大量无标注数据上预训练的大型模型,可适配到多种下游任务,常只需很少甚至无需微调。"
+  def_de: "Ein großes, auf breiten unmarkierten Daten vortrainiertes Modell (Foundation Model), das sich mit wenig oder ohne Feinabstimmung an viele nachgelagerte Aufgaben anpassen lässt."
+  tags: [ml, pretraining]
+  seen_in: [virtual-tissue-2501, hest1k-2024]
+
+- id: optimal-transport
+  en: Optimal transport
+  zh: 最优传输
+  de: Optimaler Transport
+  domain: general
+  def_en: "A mathematical framework for finding the least-cost way to morph one probability distribution into another, used here to map cell populations between conditions."
+  def_zh: "一种寻找以最小代价将一个概率分布变换为另一个分布的数学框架,此处用于在不同条件间映射细胞群体。"
+  def_de: "Ein mathematischer Rahmen, um die kostengünstigste Umformung einer Wahrscheinlichkeitsverteilung in eine andere zu finden, hier zur Abbildung von Zellpopulationen zwischen Bedingungen genutzt."
+  tags: [ml, math, distribution]
+  seen_in: [virtual-tissue-2501, scrna-natmachintell-2026]
+
+- id: flow-matching
+  en: Flow matching
+  zh: 流匹配
+  de: Flow Matching
+  domain: general
+  def_en: "A generative-modeling technique that learns a continuous transformation, or flow, carrying samples from a simple distribution to the target data distribution."
+  def_zh: "一种生成建模技术,学习一条连续变换(流),将样本从简单分布输运到目标数据分布。"
+  def_de: "Eine generative Modellierungstechnik, die eine kontinuierliche Transformation (einen Fluss) lernt, der Stichproben von einer einfachen Verteilung zur Zielverteilung führt."
+  tags: [ml, generative]
+  seen_in: [spatial-biorxiv-2025, virtual-cell-challenge]
+
+- id: masked-autoencoder
+  en: Masked autoencoder (MAE)
+  zh: 掩码自编码器(MAE)
+  de: Maskierter Autoencoder (MAE)
+  domain: general
+  def_en: "A self-supervised model trained to reconstruct deliberately hidden parts of its input, yielding representations useful for downstream tasks."
+  def_zh: "一种自监督模型,通过重建被刻意遮蔽的输入部分进行训练,从而得到对下游任务有用的表征。"
+  def_de: "Ein selbstüberwachtes Modell, das darauf trainiert wird, absichtlich verdeckte Teile seiner Eingabe zu rekonstruieren, und so für nachgelagerte Aufgaben nützliche Repräsentationen liefert."
+  tags: [ml, self-supervised, reconstruction]
+  seen_in: [virtual-tissue-2501]
+
+- id: anomaly-detection
+  en: Anomaly detection
+  zh: 异常检测
+  de: Anomalieerkennung
+  domain: general
+  def_en: "The task of identifying data points or regions that deviate from a learned model of normal, often by flagging high reconstruction error."
+  def_zh: "识别偏离已学习的正常模型的数据点或区域的任务,常通过标记较高的重建误差实现。"
+  def_de: "Die Aufgabe, Datenpunkte oder Regionen zu identifizieren, die von einem gelernten Normalmodell abweichen, oft durch Markieren hoher Rekonstruktionsfehler."
+  tags: [ml, anomaly]
+  seen_in: [spatial-natcommun-2024]
+
+- id: multiple-instance-learning
+  en: Multiple-instance learning (MIL)
+  zh: 多示例学习(MIL)
+  de: Multiple-Instance-Learning (MIL)
+  domain: general
+  def_en: "A weakly-supervised paradigm where a single label is attached to a whole bag of instances, letting a slide-level label train on many image patches."
+  def_zh: "一种弱监督范式,将单一标签赋予整个示例袋,使切片级标签能在众多图像块上进行训练。"
+  def_de: "Ein schwach überwachtes Paradigma, bei dem ein einzelnes Label einem ganzen Bündel von Instanzen zugeordnet wird, sodass ein Schnitt-Label über viele Bildausschnitte trainiert."
+  tags: [ml, weakly-supervised, pathology]
+  seen_in: [pathomics-npjpo-2026]

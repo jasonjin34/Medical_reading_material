@@ -1,0 +1,376 @@
+# Domain group: histopathology & foundation models
+# Domains: pathology-histology, foundation-models, general
+
+- id: h-e-staining
+  en: H&E staining
+  zh: 苏木精-伊红染色
+  de: Hämatoxylin-Eosin-Färbung
+  domain: pathology-histology
+  def_en: "A routine tissue stain that colors cell nuclei blue-purple (hematoxylin) and cytoplasm pink (eosin), forming the standard visual basis for histological diagnosis."
+  def_zh: "一种常规组织染色法,用苏木精把细胞核染成蓝紫色、伊红把细胞质染成粉红色,是组织学诊断的标准视觉基础。"
+  def_de: "Eine Routine-Gewebefärbung, die Zellkerne blau-violett (Hämatoxylin) und Zytoplasma rosa (Eosin) darstellt und die visuelle Standardgrundlage der histologischen Diagnostik bildet."
+  tags: [staining, histology]
+  seen_in: [histo-nejmai-2024, histo-miccai-2025, histo-sciencedirect-2026, virchow-2024, hest1k-2024, fm-arxiv-2604]
+
+- id: whole-slide-image
+  en: Whole-slide image (WSI)
+  zh: 全切片图像
+  de: Whole-Slide-Image (WSI)
+  domain: pathology-histology
+  def_en: "A gigapixel digital scan of an entire tissue slide, the primary data object in computational pathology."
+  def_zh: "对整张组织玻片进行数字扫描得到的十亿像素级图像,是计算病理学的主要数据对象。"
+  def_de: "Ein Gigapixel-Digitalscan eines gesamten Gewebeschnitts, das zentrale Datenobjekt der computationalen Pathologie."
+  tags: [imaging, wsi]
+  seen_in: [histo-nejmai-2024, histo-miccai-2025, histo-sciencedirect-2026, virchow-2024, uni2-h-model, hest1k-2024, pathomics-repo, pathomics-blood-2023]
+
+- id: tile-patch
+  en: Tile / patch
+  zh: 图块 / 小块
+  de: Kachel / Patch
+  domain: pathology-histology
+  def_en: "A small fixed-size sub-image (e.g. 224x224 pixels) cropped from a whole-slide image so that models can process the huge slide piece by piece."
+  def_zh: "从全切片图像中裁出的固定尺寸小图(如 224×224 像素),使模型能够逐块处理巨大的切片。"
+  def_de: "Ein kleines, festgroßes Teilbild (z. B. 224x224 Pixel), das aus einem Whole-Slide-Image herausgeschnitten wird, damit Modelle den riesigen Schnitt stückweise verarbeiten können."
+  tags: [imaging, preprocessing]
+  seen_in: [histo-nejmai-2024, histo-miccai-2025, virchow-2024, uni2-h-model, hest1k-2024, fm-arxiv-2604, pathomics-repo]
+
+- id: histopathology
+  en: Histopathology
+  zh: 组织病理学
+  de: Histopathologie
+  domain: pathology-histology
+  def_en: "The microscopic examination of tissue sections to diagnose and characterize disease."
+  def_zh: "通过显微镜检查组织切片来诊断和刻画疾病的学科。"
+  def_de: "Die mikroskopische Untersuchung von Gewebeschnitten zur Diagnose und Charakterisierung von Krankheiten."
+  tags: [pathology]
+  seen_in: [histo-nejmai-2024, histo-miccai-2025, histo-sciencedirect-2026, histo-anomaly-bi-repo, virchow-2024]
+
+- id: computational-pathology
+  en: Computational pathology
+  zh: 计算病理学
+  de: Computationale Pathologie
+  domain: pathology-histology
+  def_en: "The use of machine learning and image analysis to extract diagnostic and prognostic information from digitized pathology slides."
+  def_zh: "运用机器学习与图像分析,从数字化病理切片中提取诊断与预后信息的领域。"
+  def_de: "Der Einsatz von maschinellem Lernen und Bildanalyse, um diagnostische und prognostische Informationen aus digitalisierten Pathologieschnitten zu gewinnen."
+  tags: [pathology, ml]
+  seen_in: [histo-sciencedirect-2026, virchow-2024, uni2-h-model]
+
+- id: immunohistochemistry
+  en: Immunohistochemistry (IHC)
+  zh: 免疫组织化学
+  de: Immunhistochemie
+  domain: pathology-histology
+  def_en: "A staining technique that uses antibodies to reveal the location of specific proteins in a tissue section."
+  def_zh: "一种利用抗体显示组织切片中特定蛋白位置的染色技术。"
+  def_de: "Eine Färbetechnik, die mithilfe von Antikörpern die Lokalisation bestimmter Proteine in einem Gewebeschnitt sichtbar macht."
+  tags: [staining, biomarker]
+  seen_in: [uni2-h-model, fm-arxiv-2604]
+
+- id: ffpe
+  en: FFPE tissue
+  zh: 福尔马林固定石蜡包埋组织
+  de: FFPE-Gewebe
+  domain: pathology-histology
+  def_en: "Formalin-fixed, paraffin-embedded tissue, a standard preservation method that lets specimens be stored long-term and cut into thin sections."
+  def_zh: "福尔马林固定、石蜡包埋的组织,是一种标准保存方法,便于样本长期保存并切成薄片。"
+  def_de: "Formalin-fixiertes, in Paraffin eingebettetes Gewebe, eine Standardkonservierung, die eine langfristige Lagerung und das Schneiden dünner Schnitte ermöglicht."
+  tags: [tissue, preprocessing]
+  seen_in: [hest1k-2024, fm-arxiv-2604]
+
+- id: tissue-segmentation
+  en: Tissue segmentation
+  zh: 组织分割
+  de: Gewebesegmentierung
+  domain: pathology-histology
+  def_en: "Partitioning a pathology image into regions labeled by tissue type or separating tissue from background."
+  def_zh: "将病理图像划分为按组织类型标注的区域,或把组织与背景分开。"
+  def_de: "Die Aufteilung eines Pathologiebildes in nach Gewebetyp beschriftete Regionen oder die Trennung von Gewebe und Hintergrund."
+  tags: [segmentation, imaging]
+  seen_in: [histo-sciencedirect-2026, hest1k-2024, pathomics-blood-2023]
+
+- id: tumor-microenvironment
+  en: Tumor microenvironment
+  zh: 肿瘤微环境
+  de: Tumormikromilieu
+  domain: pathology-histology
+  def_en: "The cellular and structural surroundings of a tumor—immune cells, stroma and vasculature—that shape its growth and treatment response."
+  def_zh: "肿瘤周围的细胞与结构环境,包括免疫细胞、间质和血管,共同影响肿瘤的生长与治疗反应。"
+  def_de: "Die zelluläre und strukturelle Umgebung eines Tumors—Immunzellen, Stroma und Gefäße—, die sein Wachstum und Therapieansprechen prägt."
+  tags: [pathology, microenvironment]
+  seen_in: [histo-sciencedirect-2026, pathomics-blood-2023]
+
+- id: spatial-transcriptomics
+  en: Spatial transcriptomics
+  zh: 空间转录组学
+  de: Räumliche Transkriptomik
+  domain: pathology-histology
+  def_en: "A technology that measures gene expression while preserving where each measurement came from within a tissue section."
+  def_zh: "一种在保留每个测量点在组织切片中空间位置的同时测量基因表达的技术。"
+  def_de: "Eine Technologie, die Genexpression misst und dabei bewahrt, an welcher Stelle eines Gewebeschnitts jede Messung erfolgte."
+  tags: [omics, spatial]
+  seen_in: [hest1k-2024, fm-arxiv-2604]
+
+- id: microsatellite-instability
+  en: Microsatellite instability (MSI)
+  zh: 微卫星不稳定性
+  de: Mikrosatelliteninstabilität
+  domain: pathology-histology
+  def_en: "A hypermutable tumor state caused by defective DNA mismatch repair, widely used as a diagnostic and immunotherapy biomarker."
+  def_zh: "由 DNA 错配修复缺陷导致的高突变肿瘤状态,广泛用作诊断与免疫治疗的生物标志物。"
+  def_de: "Ein hypermutabler Tumorzustand infolge defekter DNA-Mismatch-Reparatur, weit verbreitet als diagnostischer und immuntherapeutischer Biomarker."
+  tags: [biomarker, molecular]
+  seen_in: [histo-sciencedirect-2026]
+
+- id: pan-cancer-detection
+  en: Pan-cancer detection
+  zh: 泛癌检测
+  de: Pan-Krebs-Detektion
+  domain: pathology-histology
+  def_en: "Detecting the presence of cancer across many tumor types with a single model instead of one model per cancer type."
+  def_zh: "用单一模型跨多种肿瘤类型检测癌症,而非为每种癌种单独训练模型。"
+  def_de: "Der Nachweis von Krebs über viele Tumortypen hinweg mit einem einzigen Modell statt eines Modells pro Krebsart."
+  tags: [detection, oncology]
+  seen_in: [virchow-2024]
+
+- id: virtual-staining
+  en: Virtual staining
+  zh: 虚拟染色
+  de: Virtuelle Färbung
+  domain: pathology-histology
+  def_en: "Computationally generating one stain modality (e.g. IHC) from another (e.g. H&E) without physically re-staining the tissue."
+  def_zh: "在不对组织进行物理再染色的情况下,用计算方法从一种染色(如 H&E)生成另一种染色(如 IHC)。"
+  def_de: "Die rechnergestützte Erzeugung einer Färbemodalität (z. B. IHC) aus einer anderen (z. B. H&E), ohne das Gewebe physisch neu zu färben."
+  tags: [generative, imaging]
+  seen_in: [fm-arxiv-2604]
+
+- id: nucleomorphometry
+  en: Nuclear morphometry
+  zh: 细胞核形态测量
+  de: Kernmorphometrie
+  domain: pathology-histology
+  def_en: "Quantitative measurement of the shape, size, texture and color of segmented cell nuclei to characterize tissue."
+  def_zh: "对分割出的细胞核在形状、大小、纹理和颜色上进行定量测量,以刻画组织特征。"
+  def_de: "Die quantitative Messung von Form, Größe, Textur und Farbe segmentierter Zellkerne zur Charakterisierung von Gewebe."
+  tags: [morphometry, features]
+  seen_in: [pathomics-blood-2023, hest1k-2024]
+
+- id: pathomics
+  en: Pathomics
+  zh: 病理组学
+  de: Pathomics
+  domain: pathology-histology
+  def_en: "The extraction of large numbers of quantitative features from pathology images for statistical and predictive analysis."
+  def_zh: "从病理图像中提取大量定量特征,用于统计与预测分析。"
+  def_de: "Die Extraktion einer großen Zahl quantitativer Merkmale aus Pathologiebildern für statistische und prädiktive Analysen."
+  tags: [features, ml]
+  seen_in: [pathomics-blood-2023, pathomics-repo]
+
+- id: cellularity
+  en: Cellularity
+  zh: 细胞密度
+  de: Zellularität
+  domain: pathology-histology
+  def_en: "The proportion of a tissue, such as bone marrow, that is occupied by cells rather than fat or stroma."
+  def_zh: "组织(如骨髓)中被细胞而非脂肪或间质所占据的比例。"
+  def_de: "Der Anteil eines Gewebes, etwa des Knochenmarks, der von Zellen statt von Fett oder Stroma eingenommen wird."
+  tags: [pathology, quantification]
+  seen_in: [pathomics-blood-2023]
+
+- id: foundation-model
+  en: Foundation model
+  zh: 基础模型
+  de: Foundation Model
+  domain: foundation-models
+  def_en: "A large model pretrained on broad, mostly unlabeled data that can be adapted to many downstream tasks with little extra labeling."
+  def_zh: "在大规模、大多无标注的数据上预训练的大型模型,只需少量额外标注即可适配多种下游任务。"
+  def_de: "Ein großes, auf breiten, überwiegend unbeschrifteten Daten vortrainiertes Modell (Basismodell), das mit wenig zusätzlicher Beschriftung an viele nachgelagerte Aufgaben angepasst werden kann."
+  tags: [ml, pretraining]
+  seen_in: [histo-nejmai-2024, virchow-2024, uni2-h-model, fm-arxiv-2604, hest1k-2024]
+
+- id: vision-transformer
+  en: Vision Transformer (ViT)
+  zh: 视觉 Transformer
+  de: Vision Transformer
+  domain: foundation-models
+  def_en: "A neural network that treats image patches as a sequence of tokens and processes them with the transformer self-attention architecture."
+  def_zh: "一种把图像块当作 token 序列、用 Transformer 自注意力架构处理的神经网络。"
+  def_de: "Ein neuronales Netz, das Bildausschnitte als Token-Sequenz behandelt und sie mit der Self-Attention-Architektur des Transformers verarbeitet."
+  tags: [architecture, dl]
+  seen_in: [virchow-2024, uni2-h-model, fm-arxiv-2604]
+
+- id: dinov2
+  en: DINOv2
+  zh: DINOv2
+  de: DINOv2
+  domain: foundation-models
+  def_en: "A self-supervised training recipe combining self-distillation and masked image modeling to learn strong image features without labels."
+  def_zh: "一种结合自蒸馏与掩码图像建模的自监督训练配方,无需标签即可学到强大的图像特征。"
+  def_de: "Ein selbstüberwachtes Trainingsverfahren, das Selbstdistillation und maskierte Bildmodellierung kombiniert, um ohne Beschriftungen starke Bildmerkmale zu lernen."
+  tags: [ssl, pretraining]
+  seen_in: [virchow-2024, uni2-h-model]
+
+- id: self-supervised-learning
+  en: Self-supervised learning
+  zh: 自监督学习
+  de: Selbstüberwachtes Lernen
+  domain: foundation-models
+  def_en: "Training on unlabeled data by having the model create its own supervisory signal from the data itself."
+  def_zh: "在无标注数据上训练,让模型从数据本身构造出监督信号进行学习。"
+  def_de: "Training auf unbeschrifteten Daten, bei dem das Modell sein Überwachungssignal aus den Daten selbst erzeugt."
+  tags: [ssl, pretraining]
+  seen_in: [histo-nejmai-2024, virchow-2024, uni2-h-model]
+
+- id: tile-embedding
+  en: Tile embedding
+  zh: 图块嵌入
+  de: Tile-Embedding
+  domain: foundation-models
+  def_en: "A fixed-length feature vector produced by an encoder to numerically represent an image tile for downstream tasks."
+  def_zh: "由编码器生成的定长特征向量,用于数值化表示图块,供下游任务使用。"
+  def_de: "Ein Merkmalsvektor fester Länge, den ein Encoder erzeugt, um eine Bildkachel numerisch für nachgelagerte Aufgaben darzustellen."
+  tags: [representation, features]
+  seen_in: [virchow-2024, uni2-h-model]
+
+- id: class-token
+  en: Class token (CLS token)
+  zh: 分类标记
+  de: CLS-Token
+  domain: foundation-models
+  def_en: "A special learnable token in a transformer whose output vector serves as a summary embedding of the whole input."
+  def_zh: "Transformer 中一个特殊的可学习标记,其输出向量作为整个输入的汇总嵌入。"
+  def_de: "Ein spezielles lernbares Token in einem Transformer, dessen Ausgabevektor als zusammenfassende Einbettung der gesamten Eingabe dient."
+  tags: [architecture, representation]
+  seen_in: [virchow-2024, uni2-h-model, fm-arxiv-2604]
+
+- id: masked-image-modeling
+  en: Masked image modeling
+  zh: 掩码图像建模
+  de: Maskierte Bildmodellierung
+  domain: foundation-models
+  def_en: "A self-supervised task in which the model learns by reconstructing deliberately hidden parts of an image."
+  def_zh: "一种自监督任务,模型通过重建图像中被故意遮挡的部分来学习。"
+  def_de: "Eine selbstüberwachte Aufgabe, bei der das Modell lernt, indem es absichtlich verdeckte Bildteile rekonstruiert."
+  tags: [ssl, pretraining]
+  seen_in: [uni2-h-model]
+
+- id: vision-language-model
+  en: Vision-language model (VLM)
+  zh: 视觉-语言模型
+  de: Vision-Language-Modell
+  domain: foundation-models
+  def_en: "A model trained on paired images and text so it can relate visual content to natural-language descriptions."
+  def_zh: "在图像-文本配对上训练的模型,能够将视觉内容与自然语言描述关联起来。"
+  def_de: "Ein auf gepaarten Bildern und Texten trainiertes Modell, das visuelle Inhalte mit natürlichsprachlichen Beschreibungen verknüpfen kann."
+  tags: [multimodal, dl]
+  seen_in: [histo-miccai-2025, fm-arxiv-2604]
+
+- id: multiple-instance-learning
+  en: Multiple-instance learning (MIL)
+  zh: 多示例学习
+  de: Multiple-Instance-Learning
+  domain: foundation-models
+  def_en: "A weakly-supervised approach that assigns one label to a bag of instances—such as all tiles of a slide—rather than to each instance individually."
+  def_zh: "一种弱监督方法,把单个标签赋给一个示例集合(如一张切片的所有图块),而非逐个示例标注。"
+  def_de: "Ein schwach überwachter Ansatz, der einer Menge von Instanzen—etwa allen Kacheln eines Schnitts—ein einziges Label zuweist statt jeder Instanz einzeln."
+  tags: [weak-supervision, ml]
+  seen_in: [uni2-h-model, histo-sciencedirect-2026]
+
+- id: anomaly-detection
+  en: Anomaly detection
+  zh: 异常检测
+  de: Anomalieerkennung
+  domain: general
+  def_en: "Identifying samples that deviate from a model of what normal data looks like, without needing labeled examples of every abnormality."
+  def_zh: "识别偏离正常数据模型的样本,而无需为每种异常提供标注样本。"
+  def_de: "Das Erkennen von Proben, die von einem Modell des Normalen abweichen, ohne beschriftete Beispiele jeder Abweichung zu benötigen."
+  tags: [ml, detection]
+  seen_in: [histo-nejmai-2024, histo-miccai-2025, histo-anomaly-bi-repo]
+
+- id: one-class-classification
+  en: One-class classification
+  zh: 单类分类
+  de: Einklassen-Klassifikation
+  domain: general
+  def_en: "Learning a boundary from examples of a single normal class so that anything falling outside it is flagged as anomalous."
+  def_zh: "仅从单一正常类别的样本学习一个边界,凡落在边界之外者即判为异常。"
+  def_de: "Das Lernen einer Grenze aus Beispielen einer einzigen Normalklasse, sodass alles außerhalb als anomal markiert wird."
+  tags: [ml, anomaly]
+  seen_in: [histo-nejmai-2024, histo-anomaly-bi-repo]
+
+- id: outlier-exposure
+  en: Outlier exposure
+  zh: 离群暴露
+  de: Outlier Exposure
+  domain: general
+  def_en: "Improving anomaly detection by training the model on auxiliary out-of-distribution data that stands in for unseen anomalies."
+  def_zh: "通过用辅助的分布外数据(充当未见异常的代理)训练模型,来提升异常检测能力。"
+  def_de: "Die Verbesserung der Anomalieerkennung, indem das Modell mit zusätzlichen Out-of-Distribution-Daten trainiert wird, die ungesehene Anomalien vertreten."
+  tags: [ml, anomaly]
+  seen_in: [histo-nejmai-2024]
+
+- id: latent-diffusion-model
+  en: Latent diffusion model (LDM)
+  zh: 潜空间扩散模型
+  de: Latentes Diffusionsmodell
+  domain: general
+  def_en: "A generative model that iteratively denoises data in a compressed latent space to synthesize realistic images efficiently."
+  def_zh: "一种生成模型,在压缩的潜空间中迭代去噪,从而高效合成逼真图像。"
+  def_de: "Ein generatives Modell, das Daten iterativ in einem komprimierten latenten Raum entrauscht, um realistische Bilder effizient zu synthetisieren."
+  tags: [generative, dl]
+  seen_in: [histo-miccai-2025, fm-arxiv-2604]
+
+- id: lora
+  en: LoRA (Low-Rank Adaptation)
+  zh: 低秩适配
+  de: LoRA (Low-Rank Adaptation)
+  domain: general
+  def_en: "A parameter-efficient fine-tuning method that adapts a large pretrained model by training only small low-rank weight updates."
+  def_zh: "一种参数高效的微调方法,只训练小的低秩权重增量来适配大型预训练模型。"
+  def_de: "Eine parameter-effiziente Feinabstimmungsmethode, die ein großes vortrainiertes Modell anpasst, indem nur kleine niedrigrangige Gewichtsaktualisierungen trainiert werden."
+  tags: [fine-tuning, efficiency]
+  seen_in: [histo-miccai-2025]
+
+- id: saliency-attribution
+  en: Saliency attribution (Grad-CAM)
+  zh: 显著性归因(Grad-CAM)
+  de: Saliency-Attribution (Grad-CAM)
+  domain: general
+  def_en: "Post-hoc explanation methods, such as Grad-CAM, that highlight the image regions most responsible for a model's prediction."
+  def_zh: "如 Grad-CAM 等事后解释方法,用于突出对模型预测贡献最大的图像区域。"
+  def_de: "Post-hoc-Erklärungsmethoden wie Grad-CAM, die die für eine Modellvorhersage maßgeblichen Bildregionen hervorheben."
+  tags: [interpretability, xai]
+  seen_in: [histo-sciencedirect-2026]
+
+- id: contrastive-learning
+  en: Contrastive learning
+  zh: 对比学习
+  de: Kontrastives Lernen
+  domain: general
+  def_en: "A representation-learning approach that pulls together embeddings of related samples and pushes apart unrelated ones."
+  def_zh: "一种表征学习方法,把相关样本的嵌入拉近、把无关样本的嵌入推远。"
+  def_de: "Ein Ansatz des Repräsentationslernens, der Einbettungen verwandter Proben zusammenzieht und die unverwandter Proben auseinanderdrückt."
+  tags: [ssl, representation]
+  seen_in: [hest1k-2024]
+
+- id: concordance-index
+  en: Concordance index (C-index)
+  zh: 一致性指数
+  de: Konkordanzindex (C-Index)
+  domain: general
+  def_en: "A metric for survival models measuring how well predicted risk scores rank patients by their actual time to event."
+  def_zh: "评价生存模型的指标,衡量预测风险分数对患者实际事件时间的排序好坏。"
+  def_de: "Eine Kennzahl für Überlebensmodelle, die misst, wie gut vorhergesagte Risikowerte Patienten nach ihrer tatsächlichen Ereigniszeit ordnen."
+  tags: [metric, survival]
+  seen_in: [histo-sciencedirect-2026, pathomics-repo]
+
+- id: domain-shift
+  en: Domain shift
+  zh: 域偏移
+  de: Domänenverschiebung
+  domain: general
+  def_en: "A drop in model performance when test data differs from training data, for example due to a different scanner or staining protocol."
+  def_zh: "当测试数据与训练数据不同(例如换了扫描仪或染色方案)时导致的模型性能下降。"
+  def_de: "Ein Leistungsabfall des Modells, wenn Testdaten von den Trainingsdaten abweichen, etwa durch einen anderen Scanner oder ein anderes Färbeprotokoll."
+  tags: [generalization, robustness]
+  seen_in: [histo-miccai-2025, virchow-2024, uni2-h-model]

@@ -50,6 +50,11 @@
 - <!-- ZH --> Mahmood Lab Trident/CLAM 工具链——WSI 分块、特征缓存、MIL 训练的工程范式。
 - <!-- ZH --> 与其他病理 FM(Virchow2、GigaPath、CONCH)在异常检测任务上的对比。
 
+## 图表 / Figures & tables
+
+<!-- ZH --> 这是一个 **Hugging Face 模型卡片**,内容以说明文字与代码为主,**没有方法图/结果图,也没有定量基准表**。页面上唯一的图片是申请访问的操作截图(`requesting_access.png`),不属于可复用的方法/结果图,故不收录。加载与使用见 `ai-ready.md` 中的 `timm.create_model(...)` 代码片段;定量基准与外部验证请见 UNI 原论文(Chen et al., Nature Medicine 2024, doi:10.1038/s41591-024-02857-3)。原始模型卡片:<https://huggingface.co/MahmoodLab/UNI2-h>。
+<!-- EN --> This is a **Hugging Face model card**, dominated by descriptive text and code, with **no method/result figures and no quantitative benchmark table**. The only image on the page is an access-request screenshot (`requesting_access.png`), which is not a reusable method/result figure and is therefore omitted. For loading/usage see the `timm.create_model(...)` snippet in `ai-ready.md`; quantitative benchmarks and external validation live in the UNI paper (Chen et al., Nature Medicine 2024, doi:10.1038/s41591-024-02857-3). Model card: <https://huggingface.co/MahmoodLab/UNI2-h>.
+
 ## 引用 / Cite
 ```bibtex
 % no BibTeX fetched

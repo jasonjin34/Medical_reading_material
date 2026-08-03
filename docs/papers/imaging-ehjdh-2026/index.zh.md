@@ -42,6 +42,35 @@
 - 获取全文以看架构细节、校准、阈值与消融;确认 EF 标签抽取与时间窗定义。
 - 对比同组/相邻工作(ECG-based EF、CXR-based EF)以定位 CT 分支在多模态机会性筛查中的增益。
 
+## 图表
+
+全文与全部图表在 OUP 付费墙之后,依版权不下载、不转存图片,仅链接到文章页面(付费墙)。下方按论文原始编号列出关键图/表并给出双语说明;文章页:<https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>。
+
+**图1**(付费墙):数据整理与预处理流程图——Columbia 与 Weill Cornell 的超声报告与胸部 CT 的筛选、排除与预处理。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F1>
+
+**图2**(付费墙,方法总览):用于分析 3D 胸部 CT 并预测左室收缩功能障碍的 vision transformer 架构示意。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F2>
+
+**图4**(付费墙,主结果):异常 EF 检测的性能评估——ROC 曲线与 AUROC、按人口学亚组的指标、混淆矩阵。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F4>
+
+**图5**(付费墙,可解释性):Grad-CAM 显著性图叠加在轴位 CT 上,突出对预测有贡献的区域。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F5>
+
+_其余图表(付费墙):图3 研究设计 · 图6 误差分析 Venn 图 · 图7 校准曲线;表1–4 人群/采集参数/诊断/时间差描述 · 表5 亚组 AUROC · 表6 基线 RF/XGBoost · 表7 与放射科医生的 F1 对比。均见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>_
+
+### 结果表
+
+**表1.** 公开可见的关键数字(仅摘要/文章页面公开内容;全文在付费墙后,完整性能表见原文表5–7)。
+
+_abstract-only — 数字取自公开摘要与文章页面,未获取付费全文。_
+
+| Item | Value |
+|---|---|
+| Task | Abnormal LVEF (EF < 50%) vs. normal, from non-gated non-contrast chest CT |
+| Paired CT + echo studies (total) | 34,058 |
+| Training studies | 25,948 |
+| External-validation studies | 8,110 |
+| AUROC — internal hold-out (Columbia) | 0.786 |
+| AUROC — external validation (Weill Cornell) | 0.762 |
+
 ## 引用
 ```bibtex
 @article{Raikhelkar_2026, title={An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study}, volume={7}, ISSN={2634-3916}, url={http://dx.doi.org/10.1093/ehjdh/ztag088}, DOI={10.1093/ehjdh/ztag088}, number={6}, journal={European Heart Journal - Digital Health}, publisher={Oxford University Press (OUP)}, author={Raikhelkar, Jayant and Bai, Zilong and Beecy, Ashley N and Richter, Ilan and Liu, Fengbei and Nizam, Nusrat Binta and Kishore, Varsha and Kelsey, Chris and vanMaanen, David and Ruhl, Jeffrey and Tesfuzigta, Naomi and Lancet, Erica and Leb, Jay and Legasto, Alan and Elias, Pierre and Poterucha, Timothy and Kumaraiah, Deepa and Prince, Martin and Wang, Fei and Sayer, Gabriel and Estrin, Deborah and Sabuncu, Mert and Uriel, Nir}, year={2026}, month=June }

@@ -44,6 +44,56 @@ This is a strong paradigm reference for **stage 1 (anomaly detection) in the his
 - Read CTransPath (Wang et al.) and compare stronger foundation models (UNI, Virchow, Prov-GigaPath) as OE/one-class features.
 - Outlier Exposure (Hendrycks et al.) and deep one-class AD (Ruff et al. Deep SVDD) for transfer to spatial-omics.
 
+## Figures & tables
+
+> _All figures/tables below come from the OPEN preprint arXiv:2406.14866 — nothing is taken from the paywalled NEJM AI page._
+
+![Pipeline overview](figures/fig1.png)
+**Fig 1.** Method + clinical-workflow overview: training uses Outlier Exposure to separate frequent GI tissue from diverse auxiliary tissue; at inference each patch gets an anomaly score, aggregated to a slide-level score and rendered as an anomaly heatmap; the clinical use case auto-clears normal cases or triages suspicious ones for pathologist review.
+_Source: https://arxiv.org/html/2406.14866 (Fig 2)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+![Anomaly heatmaps](figures/fig2.png)
+**Fig 2.** Anomaly-heatmap examples on stomach and colon tissue (adenocarcinoma, marginal-zone lymphoma, sarcoma, foveolar adenoma, ulcer, high-grade dysplasia, neuroendocrine tumor, inflammation): the model localizes pathological regions accurately while ignoring artifacts such as tissue folds.
+_Source: https://arxiv.org/html/2406.14866 (Fig 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+![Slide anomaly-score distributions](figures/fig3.png)
+**Fig 3.** Distribution of slide anomaly scores by diagnostic category (stomach), OE model on validation data: clear separation between frequent/normal findings and anomalous diagnoses.
+_Source: https://arxiv.org/html/2406.14866 (Fig 3)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+![Long-tail distribution of GI diagnoses](figures/fig4.png)
+**Fig 4.** Long-tail distribution of GI-biopsy diagnoses: ~90% of cases are the top-10 common findings (green), the remaining 10% span 56 rare disease entities (red) — the problem setting the paper targets.
+_Source: https://arxiv.org/html/2406.14866 (Fig 1)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
+### Results
+
+**Table 1.** Slide-AUROC / patch-AUROC (%, mean±SD) of three anomaly-detection approaches on the primary Charité cohort; Outlier Exposure is the best method.
+
+| Method | Tissue | Slide-AUROC | Patch-AUROC |
+|---|---|---|---|
+| Self-supervision + kNN | Stomach | 94.95 ± 1.16 | 87.21 ± 0.36 |
+| Self-supervision + kNN | Colon | 89.76 ± 0.77 | 85.09 ± 0.63 |
+| Self-supervision + OCC | Stomach | 93.76 ± 1.39 | 89.73 ± 0.47 |
+| Self-supervision + OCC | Colon | 88.51 ± 0.69 | 87.03 ± 0.49 |
+| **Outlier Exposure** | **Stomach** | **95.04 ± 0.54** | **91.37 ± 0.34** |
+| **Outlier Exposure** | **Colon** | **91.01 ± 0.69** | **90.47 ± 0.33** |
+| Outlier Exposure (neoplastic malignant) | Stomach | 97.72 ± 0.44 | 95.02 ± 0.28 |
+| Outlier Exposure (neoplastic malignant) | Colon | 96.97 ± 0.61 | 96.23 ± 0.27 |
+
+**Table 2.** External validation on the LMU Munich cohort (different scanner, no retraining), slide-AUROC (%, mean±SD).
+
+| Method | Tissue | Slide-AUROC |
+|---|---|---|
+| Self-supervision + kNN | Stomach | 88.6 ± 0.1 |
+| Self-supervision + kNN | Colon | 84.44 ± 0.61 |
+| Self-supervision + OCC | Stomach | 89.92 ± 0.85 |
+| Self-supervision + OCC | Colon | 87.43 ± 0.61 |
+| **Outlier Exposure** | **Stomach** | **94.5 ± 0.93** |
+| **Outlier Exposure** | **Colon** | **85.88 ± 0.94** |
+| Outlier Exposure (malignancy) | Stomach | 94.77 ± 0.88 |
+| Outlier Exposure (malignancy) | Colon | 95.02 ± 0.37 |
+
+_Source: https://arxiv.org/html/2406.14866 (Tables 1 & 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
+
 ## Cite
 ```bibtex
 @article{Dippel_2024, title={AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics}, volume={1}, ISSN={2836-9386}, url={http://dx.doi.org/10.1056/AIoa2400468}, DOI={10.1056/aioa2400468}, number={11}, journal={NEJM AI}, publisher={Massachusetts Medical Society}, author={Dippel, Jonas and Prenißl, Niklas and Hense, Julius and Liznerski, Philipp and Winterhoff, Tobias and Schallenberg, Simon and Kloft, Marius and Buchstab, Oliver and Horst, David and Alber, Maximilian and Ruff, Lukas and Müller, Klaus-Robert and Klauschen, Frederick}, year={2024}, month=Oct }

@@ -42,6 +42,35 @@ This sits at stage 1 of our pipeline — anomaly detection: deciding that an org
 - Obtain full text for architecture details, calibration, thresholds, ablations; confirm EF-label extraction and temporal-window definition.
 - Compare adjacent work (ECG- and CXR-based EF) to position the CT branch within multimodal opportunistic screening.
 
+## Figures & tables
+
+The full text and all figures/tables are behind the OUP paywall; per copyright no images are downloaded or re-hosted — figures are linked on the article page (paywalled) only. Key figures/tables are listed below by their original numbering with bilingual captions. Article page: <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>.
+
+**Fig 1** (paywalled): Data curation and preprocessing flowchart — selection, exclusion, and preprocessing of echocardiogram reports and chest CTs from Columbia University and Weill Cornell. See <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F1>
+
+**Fig 2** (paywalled, method overview): Schematic of the vision-transformer architecture that analyzes 3D chest CT to predict left-ventricular systolic dysfunction. See <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F2>
+
+**Fig 4** (paywalled, main results): Performance evaluation for detecting abnormal EF — ROC curves and AUROC, metrics by demographic subgroup, and confusion matrices. See <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F4>
+
+**Fig 5** (paywalled, interpretability): Grad-CAM saliency maps overlaid on axial CT highlighting regions contributing to the prediction. See <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F5>
+
+_Other figures/tables (paywalled): Fig 3 study design · Fig 6 error-analysis Venn · Fig 7 calibration; Tables 1–4 cohort/acquisition/diagnosis/timing · Table 5 subgroup AUROC · Table 6 RF/XGBoost baselines · Table 7 F1 vs radiologists. All at <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>_
+
+### Results
+
+**Table 1.** Publicly visible headline numbers (abstract / article-page public content only; full performance tables are paywalled — see original Tables 5–7).
+
+_abstract-only — numbers from the public abstract and article page; paywalled full text not accessed._
+
+| Item | Value |
+|---|---|
+| Task | Abnormal LVEF (EF < 50%) vs. normal, from non-gated non-contrast chest CT |
+| Paired CT + echo studies (total) | 34,058 |
+| Training studies | 25,948 |
+| External-validation studies | 8,110 |
+| AUROC — internal hold-out (Columbia) | 0.786 |
+| AUROC — external validation (Weill Cornell) | 0.762 |
+
 ## Cite
 ```bibtex
 @article{Raikhelkar_2026, title={An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study}, volume={7}, ISSN={2634-3916}, url={http://dx.doi.org/10.1093/ehjdh/ztag088}, DOI={10.1093/ehjdh/ztag088}, number={6}, journal={European Heart Journal - Digital Health}, publisher={Oxford University Press (OUP)}, author={Raikhelkar, Jayant and Bai, Zilong and Beecy, Ashley N and Richter, Ilan and Liu, Fengbei and Nizam, Nusrat Binta and Kishore, Varsha and Kelsey, Chris and vanMaanen, David and Ruhl, Jeffrey and Tesfuzigta, Naomi and Lancet, Erica and Leb, Jay and Legasto, Alan and Elias, Pierre and Poterucha, Timothy and Kumaraiah, Deepa and Prince, Martin and Wang, Fei and Sayer, Gabriel and Estrin, Deborah and Sabuncu, Mert and Uriel, Nir}, year={2026}, month=June }

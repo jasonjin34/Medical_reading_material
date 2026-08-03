@@ -52,6 +52,45 @@
 - 复现 SciPlex3 OOD 设置,把"revert 到对照分布"的方向设为目标分布做一次 in-silico 干预筛选。
 - 评估能否把 CMonge 迁到 spatial transcriptomics(加入空间坐标/邻域条件)。
 
+## 图表
+
+> 正文发表于 Nature Machine Intelligence(付费墙);以下图表全部取自**开放预印本** arXiv:2504.08328,不含任何来自 Nature 页面的内容。
+
+![CMonge method overview](figures/fig1_overview.png)
+**图1.** 方法总览。A) 既有方法(Monge Gap)为每个扰动单独学一个局部映射 T_θ^i;B) CMonge 用单一模型 T_θ(c_i),以条件 c_i(药物/剂量)条件化,训练目标为 Sinkhorn 拟合项 Δ_ε + λ·Monge-gap 正则项 M_ε,可推理到未见条件 ν_{n+1};C) SciPlex 上 9 药 in-distribution:CMonge 的 MMD 逼近逐条件 Monge(黄线为 identity 上界,紫线为下界);D) 748 条件 out-of-distribution:CMonge 的 MMD 远低于 chemCPA。
+_Source: https://arxiv.org/html/2504.08328v1/x1.png (Fig 1) · License: arXiv preprint (arXiv:2504.08328)_
+
+![In-distribution R² across drug encodings and scales](figures/fig3_id.png)
+**图3.** In-distribution 设定下条件/非条件 Monge 方法的 R² 对比,横跨不同药物嵌入(RDKit vs MoA)与训练规模。条件化后单一 CMonge 模型接近逐条件模型,MoA 嵌入随规模扩展表现稳定。
+_Source: https://arxiv.org/html/2504.08328v1/x3.png (Fig 3) · License: arXiv preprint (arXiv:2504.08328)_
+
+![Out-of-distribution results on SciPlex](figures/fig5_ood.png)
+**图5.** SciPlex 上未见药物/剂量的 OOD 结果:在 R²、Wasserstein、MMD 多指标上,CMonge 各变体(尤其 MoA 嵌入)显著优于 SOTA 条件基线 chemCPA。
+_Source: https://arxiv.org/html/2504.08328v1/x5.png (Fig 5) · License: arXiv preprint (arXiv:2504.08328)_
+
+### 结果表
+
+**表1.** SciPlex 剂量实验的 R²(特征均值,越高越好),按测试剂量分列;括号内为标准差。Monge(逐条件,1 个条件)为上界;CMonge-Dose 以 4×/3× 更少的模型逼近之。
+
+| Model | Cond. seen | 10 nM | 100 nM | 1000 nM | 10000 nM |
+|---|---|---|---|---|---|
+| Identity | — | 0.748 (±0.127) | 0.655 (±0.261) | 0.504 (±0.332) | 0.227 (±0.212) |
+| Monge (per-condition) | 1 | **0.950 (±0.020)** | **0.935 (±0.042)** | **0.960 (±0.025)** | **0.978 (±0.029)** |
+| Monge-Dose-ID | 4 | 0.750 (±0.254) | 0.767 (±0.231) | 0.885 (±0.099) | 0.694 (±0.272) |
+| CMonge-Dose-ID | 4 | 0.882 (±0.185) | 0.905 (±0.124) | 0.905 (±0.093) | 0.974 (±0.026) |
+| Monge-Dose-OOD | 3 | 0.614 (±0.349) | 0.726 (±0.219) | 0.856 (±0.112) | 0.322 (±0.348) |
+| CMonge-Dose-OOD | 3 | 0.864 (±0.197) | 0.931 (±0.058) | 0.878 (±0.118) | 0.527 (±0.311) |
+
+**表2.** SciPlex 全量 DrugDose OOD(最高剂量 10000 nM,712 训练条件)。CMonge-MoA 在 R²、Wasserstein、MMD 三项上均优于 chemCPA。↑ 越高越好,↓ 越低越好。
+
+| Model | Cond. seen | R² ↑ | Wasserstein ↓ | MMD ↓ |
+|---|---|---|---|---|
+| CMonge-DrugDose-MoA-OOD | 712 | **0.900 (±0.059)** | **3.873 (±0.643)** | **0.013 (±0.005)** |
+| CMonge-DrugDose-RDKit-OOD | 712 | 0.781 (±0.187) | 4.232 (±0.896) | 0.020 (±0.012) |
+| chemCPA-DrugDoseCellLine-OOD | 712 | 0.760 (±0.211) | 4.767 (±0.976) | 0.195 (±0.035) |
+
+_Source: tables from arXiv:2504.08328v1 (https://arxiv.org/html/2504.08328) · License: arXiv preprint_
+
 ## 引用
 ```bibtex
 @article{Driessen_2026, title={Conditional Monge Gap enables generalizable single-cell perturbation modelling}, volume={8}, ISSN={2522-5839}, url={http://dx.doi.org/10.1038/s42256-026-01242-8}, DOI={10.1038/s42256-026-01242-8}, number={6}, journal={Nature Machine Intelligence}, publisher={Springer Science and Business Media LLC}, author={Driessen, Alice and Rajwade, Dhruva Abhijit and Harsanyi, Benedek and Rapsomaniki, Marianna and Born, Jannis}, year={2026}, month=June, pages={984–996} }

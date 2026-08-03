@@ -45,6 +45,18 @@ README 未列出具体 C-index 数值(需查论文 https://rdcu.be/dnwKf)。可�
 - 对比 SurvPath / TANGLE(CVPR 2024)——用 pathway / transcriptomics 引导的更强表征,评估替换 ResNet 特征为病理基础模型(UNI/CONCH)的收益。
 - 评估把其融合嵌入接入我们的 anomaly-detection / counterfactual gene-revert 流程的可行性。
 
+## 图表
+
+![PathOmics two-stage pipeline](figures/fig1.png)
+**图1.** PathOmics 两阶段流程总览。(a) 无监督多模态预训练:WSI 切成 N 组 patch → Feature Extractor 提特征 → Attention Refiner + Image-wise Transformer + GAP 得到图像嵌入(蓝色三角);基因组学 omics 表格数据分组经 SNN + Omics-wise Transformer + GAP 得到组学嵌入(绿色圆),两嵌入在预训练中对齐融合(GAP = Global attention pooling)。(b) 有监督多模态微调:图像+组学嵌入经 Multimodal Embedding Fusion → Risk Classifier → 生存预测。(c) 有监督单模态微调:仅图像或仅组学嵌入 → Risk Classifier → 生存预测,支持推断时缺模态。
+_Source: https://github.com/Cassie07/PathOmics/raw/main/Figures/Figure1.png  ·  License: GitHub README figure (MICCAI 2023, Ding et al.)_
+
+### 结果表
+
+**表1.** README 未提供任何数值结果表(无 C-index / AUC 数字)。具体生存预测指标(TCGA-COAD 4 折 CV + hold-out、COAD→READ 迁移、单模态 vs 多模态、data-efficient 消融)见 MICCAI 2023 论文,不在此仓库内——不臆造数值。
+
+_C-index results: see the paper → https://rdcu.be/dnwKf (Ding et al., MICCAI 2023, pp. 622–631)._
+
 ## 引用
 ```bibtex
 @inproceedings{ding2023pathology,

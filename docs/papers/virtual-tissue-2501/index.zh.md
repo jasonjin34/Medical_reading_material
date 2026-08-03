@@ -69,6 +69,43 @@ Multiplex imaging(IMC、mIF 等)一次可测数十到上百个蛋白通道,但�
 - 验证「reconstruction error 作 anomaly score」的可行性:在药物扰动配对样本上测 masking-deviation 是否与已知变化区域对齐。
 - 追 ESM-2 marker 嵌入对 antibody 命名/克隆差异的鲁棒性(marker isolation 退化问题)。
 
+## 图表
+
+![VirTues platform overview and architecture](figures/fig1.png)
+**图1.** 平台总览与架构:(a) 从 multiplex 影像学到「Virtual Tissues 表征 / 数据库」两条路径,支撑临床诊断、生物学发现与信息检索;(b) 训练语料覆盖 15 数据集、8 器官部位、147 个不同 marker;(c) 规模 3,102 病人 / 8,887 样本 / ~259k crops;(d) marker-aware tokenization + 分子/细胞/niche/组织多尺度 summary token + 分解式 spatial/marker 注意力;(e) 随 marker 数增多性能持续提升(蓝线 VirTues vs 灰线 CA-MAE full-attention)。
+_Source: https://arxiv.org/html/2501.06039v2 (x1.png)  ·  License: arXiv open (code MIT, github.com/bunnelab/virtues)_
+
+![Cell-level representation evaluation](figures/fig3.png)
+**图3.** 细胞级表征评测:(b) 跨数据集 linear-probing cell typing 的 F1,VirTues(蓝)优于 KRONOS 与 CA-MAE;(c) 全语料训练 vs 单数据集训练在稀有免疫群上的增益;(d) zero-shot(浅色)接近 in-domain(蓝);(e–g) 细胞注释向未见 cohort(Rigamonti 肺癌)的 Random-Forest 迁移。
+_Source: https://arxiv.org/html/2501.06039v2 (x3.png)  ·  License: arXiv open_
+
+![FM-based signatures for treatment response and survival](figures/fig5.png)
+**图5.** 治疗应答与生存的 FM 签名(核心结果):(a) NeoTRIP TNBC 队列的 pre/on/post 治疗时间线;(b) responder 在 Virtual Tissues 空间中的治疗诱导位移大于 non-responder;(c–e) Leiden 聚类得 4 个签名(RS1/RS2/NRS1/NRS2),pre-treatment 组合模型 AUROC 0.817,优于 Wang et al. 空间预测器与免疫比值基线;(h–k) 迁移到独立 Meyer et al. 队列做无病生存分层(log-rank P=3.66e-03,concordance index 0.628)。
+_Source: https://arxiv.org/html/2501.06039v2 (x5.png)  ·  License: arXiv open_
+
+### 结果表
+
+**表1.** 组织级 ABMIL 临床预测(macro-F1)与生物标志物 / 生存结果,VirTues vs 主要基线。
+
+| Task / Metric | VirTues | Baseline (KRONOS / other) | Δ |
+|---|---|---|---|
+| Lung cancer subtyping (macro-F1) | 0.856 | KRONOS | +8.9% |
+| Breast cancer ER status (macro-F1) | 0.806 | KRONOS | +14.2% |
+| TNBC treatment response (macro-F1) | 0.714 (on-treatment) / 0.676 (pre-treatment) | > KRONOS | — |
+| Cell typing (macro-F1, avg rel.) | best | KRONOS / CA-MAE | +6.31% / +65.79% |
+| TNBC response prediction (cross-val AUROC) | 0.817 | Wang et al. 2023 spatial predictor | +4.53% (P<0.001); +23–30% vs immune-ratio |
+| Disease-free survival (concordance index) | 0.628 | Meyer et al. 2025 | +0.022 (0.606) |
+
+**表2.** Marker 重建 Pearson 相关(masked-autoencoder 预训练目标)。
+
+| Setting | Pearson r |
+|---|---|
+| Mean over 3 masking strategies | 0.723 ± 0.157 |
+| In-domain (known markers) | 0.797 |
+| Zero-shot (unseen dataset, known markers) | 0.667 |
+| Δr under independent masking | +0.016 |
+| Δr under niche masking | −0.002 |
+
 ## 引用
 ```bibtex
 @misc{Wenckstern2025_250106039,

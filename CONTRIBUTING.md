@@ -51,8 +51,24 @@ Paywalled paper? Leave `status: abstract-only`. Later, drop the PDF at
 ```bash
 python scripts/build_bib.py            # references.bib
 python scripts/build_relationships.py  # relationships/graph.* + relationships.md
-python scripts/build_site.py           # docs/ + mkdocs.yml nav
+python scripts/build_glossary.py       # docs/glossary.md (from glossary/*.yaml)
+python scripts/build_site.py           # docs/ + mkdocs.yml nav (copies papers/<slug>/figures/)
 ```
+
+### Figures & result tables (optional per paper)
+Add a `## 图表 / Figures & tables` section near the end of `deep-read.md`
+(before `## 引用 / Cite`). Download figures **only from open sources**
+(arXiv/bioRxiv/PMC/CC-BY/GitHub/HF) into `papers/<slug>/figures/` with a
+`Source:` line; for paywalled papers **link** the figures, don't reproduce them.
+Reproduce result **tables** as markdown (faithful numbers only). Image lines and
+tables stay identical in both languages; split captions with `<!-- ZH -->`/`<!-- EN -->`.
+Keep figures ≤ ~1600px (`sips -Z 1600 papers/<slug>/figures/*`).
+
+### Glossary (trilingual EN/中/DE)
+Add terms to a file under `glossary/` (e.g. `glossary/terms.yaml`) with
+`en/zh/de` names + `def_en/def_zh/def_de` + `domain` + `seen_in`, then
+`python scripts/build_glossary.py`. Definitions are original one-sentence
+explanations, not copied from papers.
 
 These are **idempotent** — safe to re-run any time. Never hand-edit
 `references.bib`, `relationships/relationships.md`, `docs/**`, or the generated

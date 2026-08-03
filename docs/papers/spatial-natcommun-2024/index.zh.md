@@ -52,6 +52,52 @@ STANDS 三大组件串联:
 - 对比更近的 ST 异常检测/foundation-model 方法,定位 STANDS 作为骨干的取舍。
 - 复现 SGD/Multi-SGD 指标,纳入我们自己的评测套件。
 
+## 图表
+
+![Method overview](figures/fig1.jpg)
+**图1.** STANDS 与多样本 DDATD 总览。(a) 从患病样本出发:异常识别 → 对齐做批次校正 → 拆成"共享 / 样本特异"亚型的整体工作流;(b) STANDS 三组件框架(C1 检测、C2 对齐、C3 亚型),含 GAT 网络、GAN 模块与 Transformer Fusion 融合块。
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Single-sample and cross-modality detection](figures/fig2.jpg)
+**图2.** 单 10x Visium 数据集的同模态 / 跨模态 ATD 检测。人乳腺癌(10x-hBC-G2)与胰腺癌(10x-hPDAC)的检测空间图、accuracy / F1 / PR 曲线 / SGD 散点、异常分数分布(阈值 0.81)、marker 基因(ACTB、TMSB10)表达,以及用 scRNA-seq 作参考的跨模态检测。STANDS 的 SGD 在所有基线中最低(最好)。
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Multi-sample detection across breast cancer datasets](figures/fig3.jpg)
+**图3.** 跨多个人乳腺癌 10x Visium 数据集(10x-hBC-G2、10x-hBC-H1)的 ATD 检测,同时含共享域(浸润性癌 IC)与各自特有域(原位癌 CIS、脂肪组织)。STANDS 对比五个基线(CAMLU、scPred、CHETAH、scmap、Spatial-ID)在 accuracy、F1、PR 曲线、SGD 上全面领先。
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+![Subtyping anomalous tissue domains](figures/fig7.jpg)
+**图7.** 跨两个人乳腺癌数据集的异常亚型划分,含重叠亚型(CIS)与各自特有亚型(IC、脂肪组织):空间图、Sankey 标签对应图、Macro-F1 vs NMI 与 multi-SGD 散点,以及指示最优空间匹配的热图。
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0_
+
+### 结果表
+
+**表1.** 多样本乳腺癌检测的 Spatial Grouping Discrepancy(数值取自图3b 散点标注;SGD_degree、SGD_cc 越低越好,即与真值的空间一致性越高)。STANDS 在两项上均最低。
+
+| Method | SGD_degree ↓ | SGD_cc ↓ |
+|---|---|---|
+| **STANDS** | **1.24** | **1.04** |
+| CHETAH | 1.73 | 1.42 |
+| scmap | 1.69 | 1.45 |
+| Spatial-ID | 1.57 | 1.49 |
+| scPred | 1.79 | 1.63 |
+| CAMLU | 1.89 | 1.77 |
+
+**表2.** 跨模态检测(scRNA-seq 参考 → 10x-hPDAC 胰腺癌目标)的 SGD(数值取自图2g 散点标注;越低越好)。STANDS 在两项上均最低。
+
+| Method | SGD_degree ↓ | SGD_cc ↓ |
+|---|---|---|
+| **STANDS** | **0.97** | **0.53** |
+| SCEVAN | 1.32 | 0.99 |
+| CAMLU | 1.37 | 1.08 |
+| scPred | 1.52 | 1.31 |
+| scmap | 1.52 | 1.31 |
+| Spatial-ID | 1.55 | 1.35 |
+| CopyKAT | 1.73 | 1.47 |
+| CHETAH | 1.99 | 1.65 |
+
+_Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11413068/  ·  License: CC BY 4.0. accuracy / F1 / ARI 等以柱状图形式呈现于原文图2、图3、图4,未提供文本数值表。_
+
 ## 引用
 ```bibtex
 @article{Xu_2024, title={Detecting anomalous anatomic regions in spatial transcriptomics with STANDS}, volume={15}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-024-52445-9}, DOI={10.1038/s41467-024-52445-9}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Xu, Kaichen and Lu, Yan and Hou, Suyang and Liu, Kainan and Du, Yihang and Huang, Mengqian and Feng, Hao and Wu, Hao and Sun, Xiaobo}, year={2024}, month=Sept }
