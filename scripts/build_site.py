@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Assemble the MkDocs site under docs/ and (re)generate mkdocs.yml nav.
+"""Assemble the bilingual MkDocs site under docs/ and regenerate mkdocs.yml.
 
-Copies each paper's deep-read + ai-ready into docs/papers/<slug>/, brings in
-the literature review and relationship graph, builds a landing index from the
-metadata, and writes a category-grouped nav. Idempotent.
+Source notes are written once, bilingually, with inline markers:
+    <!-- ZH --> 中文 ...
+    <!-- EN --> English ...
+    <!-- ZH/EN --> shared line kept in both (code, links, datasets)
+This script splits each page into an English edition (`page.md`, the default
+locale) and a Chinese edition (`page.zh.md`), and the mkdocs-static-i18n plugin
+renders a 🌐 language switcher in the header. Idempotent.
 """
 from __future__ import annotations
 
@@ -29,15 +33,81 @@ CAT_LABEL = {
     "imaging": "Imaging", "competition": "Competitions", "other": "Other",
 }
 
+MARKER = re.compile(r"<!--\s*(ZH|EN|ZH/EN)\s*-->\s*")
 
+
+# --------------------------------------------------------------------------- #
+# Bilingual splitter
+# --------------------------------------------------------------------------- #
+def _strip_markers(line: str) -> str:
+    return MARKER.sub("", line)
+
+
+def _inline_pick(line: str, lang: str) -> str:
+    m = re.match(r"^(\s*(?:[-*]\s+)?)", line)
+    prefix, after = m.group(1), line[m.end():]
+    zh = re.search(r"<!--\s*ZH\s*-->(.*?)(?=<!--\s*EN\s*-->)", after, re.S)
+    en = re.search(r"<!--\s*EN\s*-->(.*)", after, re.S)
+    if zh and en:
+        part = (zh.group(1) if lang == "zh" else en.group(1))
+    else:
+        part = _strip_markers(after)
+    return (prefix + part.strip()).rstrip()
+
+
+def split_bilingual(text: str, lang: str) -> str:
+    """Return the `lang` ('en'|'zh') edition of marker-annotated markdown."""
+    out, mode, in_code = [], "both", False
+    for line in text.split("\n"):
+        s = line.strip()
+        if s.startswith("```"):
+            in_code = not in_code
+            out.append(line); mode = "both"; continue
+        if in_code:
+            out.append(line); continue
+        # structural lines -> both, reset language mode
+        if re.match(r"^\s*#{1,6}\s", line) or s == "---" or s.startswith(">"):
+            out.append(line); mode = "both"; continue
+        # drop standalone template-hint comments (no language marker)
+        if re.match(r"^\s*<!--.*-->\s*$", line) and "ZH" not in line and "EN" not in line:
+            continue
+        has_zh, has_en = "<!-- ZH -->" in line, "<!-- EN -->" in line
+        if "<!-- ZH/EN -->" in line:
+            out.append(_strip_markers(line)); mode = "both"; continue
+        if has_zh and has_en:
+            out.append(_inline_pick(line, lang)); mode = "both"; continue
+        if has_zh:
+            mode = "zh"
+            if lang == "zh":
+                out.append(_strip_markers(line))
+            continue
+        if has_en:
+            mode = "en"
+            if lang == "en":
+                out.append(_strip_markers(line))
+            continue
+        if s == "":
+            out.append(line); continue          # blanks in both, keep mode
+        if mode in ("both", lang):
+            out.append(line)
+    # collapse 3+ blank lines
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip() + "\n"
+
+
+# --------------------------------------------------------------------------- #
+# Link rewriting for the flattened docs/ layout
+# --------------------------------------------------------------------------- #
 def fix_links(text: str) -> str:
-    """Rewrite repo-relative links for the flattened docs/ layout."""
     text = text.replace("../papers/", "papers/")
     text = text.replace("relationships/relationships.md", "relationships.md")
     text = re.sub(r"papers/([^/()\s]+)/deep-read\.md", r"papers/\1/index.md", text)
     return text
 
 
+AI_LINK = "\n\n---\n\n📄 **[AI-ready 全文 / full-text extract →](ai-ready.md)**\n"
+
+
+# --------------------------------------------------------------------------- #
 def main() -> None:
     metas = _meta.all_meta()
     papers_out = DOCS / "papers"
@@ -49,50 +119,73 @@ def main() -> None:
         src = _meta.PAPERS / m["_dir"]
         dst = papers_out / m["_dir"]
         dst.mkdir(parents=True, exist_ok=True)
-        dr = (src / "deep-read.md")
-        ar = (src / "ai-ready.md")
+        dr, ar = src / "deep-read.md", src / "ai-ready.md"
         if dr.exists():
-            body = fix_links(dr.read_text(encoding="utf-8"))
-            if ar.exists():
-                body += "\n\n---\n\n📄 **[AI-ready 全文/full-text extract →](ai-ready.md)**\n"
-            (dst / "index.md").write_text(body, encoding="utf-8")
-        if ar.exists():
+            raw = dr.read_text(encoding="utf-8")
+            has_ai = ar.exists()
+            for lang, suffix in (("en", "index.md"), ("zh", "index.zh.md")):
+                body = fix_links(split_bilingual(raw, lang))
+                if has_ai:
+                    body += AI_LINK
+                (dst / suffix).write_text(body, encoding="utf-8")
+        if ar.exists():  # single-language source extract (en default; zh falls back)
             (dst / "ai-ready.md").write_text(ar.read_text(encoding="utf-8"), encoding="utf-8")
 
-    # top-level pages
-    for name in ("literature-review.md",):
-        f = ROOT / name
-        if f.exists():
-            (DOCS / name).write_text(fix_links(f.read_text(encoding="utf-8")), encoding="utf-8")
-    rel = ROOT / "relationships" / "relationships.md"
-    if rel.exists():
-        (DOCS / "relationships.md").write_text(fix_links(rel.read_text(encoding="utf-8")), encoding="utf-8")
-    # make the bib downloadable from the site
+    # top-level bilingual pages
+    _emit_split(ROOT / "literature-review.md", "literature-review")
+    _emit_split(ROOT / "relationships" / "relationships.md", "relationships")
+
+    _write_index(metas)
+
     bib = ROOT / "references.bib"
     if bib.exists():
         shutil.copyfile(bib, DOCS / "references.bib")
 
-    _write_index(metas)
     _write_mkdocs(metas)
-    print(f"✓ site: {len(metas)} papers into docs/, mkdocs.yml nav regenerated")
+    print(f"✓ site: {len(metas)} papers × (en+zh), mkdocs.yml (i18n) regenerated")
 
 
-def _write_index(metas) -> None:
+def _emit_split(src: Path, stem: str) -> None:
+    if not src.exists():
+        return
+    raw = src.read_text(encoding="utf-8")
+    (DOCS / f"{stem}.md").write_text(fix_links(split_bilingual(raw, "en")), encoding="utf-8")
+    (DOCS / f"{stem}.zh.md").write_text(fix_links(split_bilingual(raw, "zh")), encoding="utf-8")
+
+
+def _index_text(metas, lang: str) -> str:
     bycat = defaultdict(list)
     for m in metas:
         bycat[m.get("category", "other")].append(m)
-    rows = ["# Medical reading material\n",
-            f"> **Research direction / 研究方向:** {DIRECTION}\n",
+    if lang == "en":
+        head = [
+            "# Medical reading material\n",
+            f"> **Research direction:** {DIRECTION}\n",
             "Detect regions of biomedical images & spatial-omics changed by disease or "
             "drug perturbation → model them as *virtual tissues* → predict key genes to "
             "**revert** the anomaly.\n",
-            "A living, searchable literature base. New papers are added with "
+            "A living, searchable literature base. Add a paper with "
             "`python scripts/add_paper.py <url> --category <c> --relevance <r>`.\n",
-            "See **[Literature review](literature-review.md)** and "
+            "See the **[Literature review](literature-review.md)** and "
             "**[Paper relationships](relationships.md)**.\n",
             "## Reading list\n",
             "| Paper | Category | Relevance | Access |",
-            "|---|---|---|---|"]
+            "|---|---|---|---|",
+        ]
+    else:
+        head = [
+            "# 医学文献库\n",
+            f"> **研究方向:** {DIRECTION}(异常检测驱动的虚拟组织建模)\n",
+            "检测因疾病或药物扰动而改变的生物医学影像与空间组学区域 → 建成*虚拟组织* → "
+            "预测能**逆转**异常的关键基因。\n",
+            "一个可搜索、可持续增长的文献库。添加论文:"
+            "`python scripts/add_paper.py <url> --category <c> --relevance <r>`。\n",
+            "见 **[文献综述](literature-review.md)** 与 **[论文关系](relationships.md)**。\n",
+            "## 阅读清单\n",
+            "| 论文 | 类别 | 相关度 | 获取 |",
+            "|---|---|---|---|",
+        ]
+    rows = []
     for c in CAT_ORDER:
         for m in sorted(bycat.get(c, []), key=lambda x: -(x.get("relevance") == "high")):
             star = " ★" if m.get("relevance") == "high" else ""
@@ -101,7 +194,12 @@ def _write_index(metas) -> None:
                 f"| [{title}](papers/{m['_dir']}/index.md){star} | {CAT_LABEL.get(c, c)} "
                 f"| {m.get('relevance','')} | {m.get('access','')} |"
             )
-    (DOCS / "index.md").write_text("\n".join(rows) + "\n", encoding="utf-8")
+    return "\n".join(head + rows) + "\n"
+
+
+def _write_index(metas) -> None:
+    (DOCS / "index.md").write_text(_index_text(metas, "en"), encoding="utf-8")
+    (DOCS / "index.zh.md").write_text(_index_text(metas, "zh"), encoding="utf-8")
 
 
 def _write_mkdocs(metas) -> None:
@@ -126,11 +224,12 @@ def _write_mkdocs(metas) -> None:
 site_description: {DIRECTION}
 theme:
   name: material
+  language: en
   palette:
     - scheme: default
-      toggle: {{icon: material/weather-night, name: Dark mode}}
+      toggle: {{icon: material/weather-night, name: Switch to dark mode}}
     - scheme: slate
-      toggle: {{icon: material/weather-sunny, name: Light mode}}
+      toggle: {{icon: material/weather-sunny, name: Switch to light mode}}
   features:
     - navigation.sections
     - navigation.top
@@ -139,6 +238,19 @@ theme:
 plugins:
   - search
   - mermaid2
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
 markdown_extensions:
   - admonition
   - attr_list

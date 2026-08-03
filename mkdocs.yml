@@ -2,11 +2,12 @@ site_name: Medical Reading Material
 site_description: Anomaly-detection-based virtual tissue modelling
 theme:
   name: material
+  language: en
   palette:
     - scheme: default
-      toggle: {icon: material/weather-night, name: Dark mode}
+      toggle: {icon: material/weather-night, name: Switch to dark mode}
     - scheme: slate
-      toggle: {icon: material/weather-sunny, name: Light mode}
+      toggle: {icon: material/weather-sunny, name: Switch to light mode}
   features:
     - navigation.sections
     - navigation.top
@@ -15,6 +16,19 @@ theme:
 plugins:
   - search
   - mermaid2
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
 markdown_extensions:
   - admonition
   - attr_list

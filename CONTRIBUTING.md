@@ -26,7 +26,19 @@ python scripts/add_paper.py <url|doi|arxiv> --category <c> --relevance <high|med
 
 ## 2. Read & fill
 
-Edit `papers/<slug>/deep-read.md` — keep every section **bilingual (中 + EN)**.
+Edit `papers/<slug>/deep-read.md` — keep every section **bilingual (中 + EN)**
+using inline markers, which is what powers the website's EN ⇄ 中文 switcher:
+
+```markdown
+## 方法 / Method
+<!-- ZH --> 中文说明……
+<!-- EN --> English explanation…
+```
+
+Use `<!-- ZH/EN -->` for a line kept unchanged in both languages (code, links,
+dataset names). `scripts/build_site.py` splits each page into an English edition
+(`page.md`) and a Chinese edition (`page.zh.md`) from these markers.
+
 Mandatory sections: 一句话/One-liner, 研究问题/Problem, 方法/Method, 数据/Data,
 主要结果/Key results, 创新点/Contributions, 局限/Limitations,
 **与本研究方向的关系/Relation to our direction**, 可复用资产/Reusable assets.

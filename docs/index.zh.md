@@ -1,16 +1,16 @@
-# Medical reading material
+# 医学文献库
 
-> **Research direction:** Anomaly-detection-based virtual tissue modelling
+> **研究方向:** Anomaly-detection-based virtual tissue modelling(异常检测驱动的虚拟组织建模)
 
-Detect regions of biomedical images & spatial-omics changed by disease or drug perturbation → model them as *virtual tissues* → predict key genes to **revert** the anomaly.
+检测因疾病或药物扰动而改变的生物医学影像与空间组学区域 → 建成*虚拟组织* → 预测能**逆转**异常的关键基因。
 
-A living, searchable literature base. Add a paper with `python scripts/add_paper.py <url> --category <c> --relevance <r>`.
+一个可搜索、可持续增长的文献库。添加论文:`python scripts/add_paper.py <url> --category <c> --relevance <r>`。
 
-See the **[Literature review](literature-review.md)** and **[Paper relationships](relationships.md)**.
+见 **[文献综述](literature-review.md)** 与 **[论文关系](relationships.md)**。
 
-## Reading list
+## 阅读清单
 
-| Paper | Category | Relevance | Access |
+| 论文 | 类别 | 相关度 | 获取 |
 |---|---|---|---|
 | [Conditional Monge Gap enables generalizable single-cell perturbation modelling](papers/scrna-natmachintell-2026/index.md) | Single-cell | medium | paywall |
 | [Mapping and reprogramming human tissue microenvironments with MintFlow](papers/spatial-biorxiv-2025/index.md) ★ | Spatial transcriptomics | high | open |
