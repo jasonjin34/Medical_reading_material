@@ -31,6 +31,7 @@
   ul{list-style:none;margin-top:.25em}
   li{position:relative;padding-left:1.35em;margin:.55em 0}
   li::before{content:"";position:absolute;left:0;top:.5em;width:.62em;height:.62em;border-radius:3px;background:var(--accent)}
+  ul.big li{font-size:1.9vw;line-height:1.4;margin:.62em 0}
   li.sub{padding-left:2.3em;font-size:1.34vw;color:var(--muted)}
   li.sub::before{left:1.05em;top:.55em;width:.46em;height:.46em;border-radius:50%;background:var(--accent2)}
   .arrow{color:var(--accent2);font-weight:800}
@@ -116,7 +117,7 @@
     <div class="overline">Motivation · why this matters</div>
     <h2>You can't label every disease</h2><div class="rule"></div>
     <div class="split">
-      <ul>
+      <ul class="big">
         <li>Disease is <b>rare, diverse, and long-tailed</b> — most cases are normal</li>
         <li>You <b>can't enumerate</b> every possible abnormality to label it</li>
         <li>Anatomy + heterogeneity + <b>clinical safety</b> make supervised models brittle</li>
@@ -128,7 +129,7 @@
         <div class="figcap">Anomalies span many modalities and look different every time — <b>green = normal, rest = abnormal</b>.</div>
       </div>
     </div>
-    <div class="refbar"><b>Sources —</b> Fernando et al., ACM CSUR 2021 · Baur et al., MedIA 2021 · Cai et al., MedIA 2025 (sample fig.) · Schlegl et al., IPMI 2017</div>
+    <div class="refbar"><b>Sources —</b> Fernando et al., ACM Computing Surveys 2021 · Pang et al., ACM Computing Surveys 2021 · Baur et al., MedIA 2021 · Litjens et al., MedIA 2017 · Zimmerer et al., MOOD challenge 2022 · Schlegl et al., IPMI 2017 (AnoGAN) · Tschuchnig &amp; Gadermayr 2022 · Cai et al., MedIA 2025 (sample fig.)</div>
   </section>
 
   <!-- 3 · PROBLEM FORMULATION -->
