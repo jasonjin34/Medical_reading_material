@@ -66,6 +66,8 @@
   /* figures */
   .figwrap{display:flex;flex-direction:column}
   .figwrap img{width:100%;max-height:58vh;object-fit:contain;border:1px solid var(--line);border-radius:12px;background:#fff}
+  /* crop the tall portrait MedIAnomaly grid so it sits shorter on the slide */
+  .figwrap img[src="figures/medianomaly.png"]{height:40vh;max-height:40vh;object-fit:cover;object-position:center}
   .figfallback{display:none;align-items:center;justify-content:center;text-align:center;min-height:26vh;border:2px dashed #cdd2e6;border-radius:12px;color:var(--muted);font-size:1.34vw;font-weight:680;padding:1.2vw;background:#fff;flex-direction:column;gap:.4em}
   .figcap{font-size:1.02vw;color:var(--muted);margin-top:.5em;line-height:1.35}
   .schematic{display:flex;align-items:center;gap:.75vw;flex-wrap:wrap}
@@ -74,6 +76,17 @@
   .pipeline{display:flex;align-items:center;gap:.75vw;margin-top:.5em;flex-wrap:wrap}
   .pipeline .node{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.85vw 1.05vw;font-size:1.24vw;font-weight:700;text-align:center}
   .pipeline .sep{color:var(--accent2);font-size:1.6vw;font-weight:800}
+  /* upgraded numbered pipeline */
+  .flow2{display:flex;align-items:stretch;gap:.55vw;margin-top:1.3em}
+  .flow2 .step{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:1.15vw 1.15vw 1vw;position:relative;box-shadow:0 2px 12px rgba(20,24,60,.05)}
+  .flow2 .step::before{content:attr(data-n);position:absolute;top:-.85vw;left:1.05vw;width:1.85vw;height:1.85vw;background:var(--grad);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05vw;font-weight:800;box-shadow:0 2px 6px rgba(59,91,219,.35)}
+  .flow2 .step .t{font-weight:790;font-size:1.4vw;margin-top:.55vw}
+  .flow2 .step .d{font-size:1.02vw;color:var(--muted);margin-top:.35em;line-height:1.3}
+  .flow2 .step.out{border:1px solid #c9d2f7;background:linear-gradient(180deg,#eef1fe 0%,#ffffff 70%)}
+  .flow2 .step .schips{margin-top:.45em;display:flex;flex-wrap:wrap;gap:.35em}
+  .flow2 .step .schips span{font-size:.9vw;background:#eef1fe;color:var(--accent);border-radius:7px;padding:.18em .55em;font-weight:700}
+  .flow2 .op{display:flex;align-items:center;color:var(--accent2);font-size:2.0vw;font-weight:800}
+  .flow2 .train{position:absolute;left:1.05vw;top:-2.3vw;font-size:.86vw;font-weight:800;letter-spacing:.5px;color:var(--accent2);text-transform:uppercase}
   /* divider / title */
   .slide.divider{background:var(--grad);color:#fff;justify-content:center;padding-bottom:4.4%}
   .slide.divider .overline{color:rgba(255,255,255,.9)}
@@ -138,19 +151,21 @@
     <h2>How the task is framed</h2><div class="rule"></div>
     <div class="grow">
       <ul>
-        <li><b>Train on normal</b> → a "normal prior"; <b>score = deviation</b></li>
-        <li>Deviation = reconstruction residual · feature distance · prompt similarity</li>
-        <li><b>Granularity:</b> image-level detection vs pixel-level localization</li>
-        <li><b>Metrics:</b> AUROC · AP · Dice/IoU — <span class="muted">the metric choice turns out to matter</span></li>
+        <li><b>Train on normal only</b> → build a <b>"normal prior"</b>; anomaly <b>score = deviation</b> from it</li>
+        <li><b>Granularity:</b> image-level detection vs pixel-level localization / segmentation</li>
+        <li><b>Metrics:</b> AUROC · AP · Dice / IoU — <span class="muted">the metric choice turns out to matter</span></li>
       </ul>
-      <div class="pipeline">
-        <span class="node">Input scan</span><span class="sep">→</span>
-        <span class="node">Normal prior<br>(model)</span><span class="sep">→</span>
-        <span class="node">Deviation<br>score</span><span class="sep">→</span>
-        <span class="node">Anomaly map</span>
+      <div class="flow2">
+        <div class="step" data-n="1"><span class="train">train on healthy</span><div class="t">Input scan</div><div class="d">a patient image — MRI · CT · pathology · OCT</div></div>
+        <div class="op">→</div>
+        <div class="step" data-n="2"><div class="t">Normal prior</div><div class="d">a model of what healthy tissue looks like</div></div>
+        <div class="op">→</div>
+        <div class="step" data-n="3"><div class="t">Deviation score</div><div class="schips"><span>residual</span><span>feature dist.</span><span>prompt sim.</span></div></div>
+        <div class="op">→</div>
+        <div class="step out" data-n="4"><div class="t">Anomaly map</div><div class="d">image- or pixel-level output</div></div>
       </div>
     </div>
-    <div class="refbar"><b>Sources —</b> Cai et al., MedIA 2025</div>
+    <div class="refbar"><b>Sources —</b> Ruff et al., Proc. IEEE 2021 (unifying review) · Pang et al., ACM Computing Surveys 2021 · Schlegl et al., IPMI 2017 (residual) · Roth et al., CVPR 2022 (feature distance) · Radford et al., ICML 2021 (prompt similarity) · Zimmerer et al., MOOD 2022 (pixel-level) · Cai et al., MedIA 2025 (metrics)</div>
   </section>
 
   <!-- 4 · THREE TENSIONS -->
