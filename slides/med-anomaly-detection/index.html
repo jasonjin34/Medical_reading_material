@@ -299,17 +299,15 @@
     <h2>Reconstruct-and-compare: AE → GAN</h2><div class="rule"></div>
     <div class="split">
       <ul>
-        <li>A normal-trained generator <b>can't rebuild pathology</b> → <b>residual = anomaly</b></li>
-        <li>Lineage: <b>AnoGAN → f-AnoGAN</b></li>
-        <li><b>Failures:</b> mode collapse, low fidelity, the <b>"identity shortcut"</b></li>
+        <li>Train a generator on <b>healthy scans only</b> → at test time it <b>can't rebuild disease</b> → the <b>residual = anomaly</b></li>
+        <li>Lineage: <b>AnoGAN → f-AnoGAN</b> (adversarial pseudo-healthy generation)</li>
+        <li><b>Failure modes:</b> mode collapse, blurry reconstructions, and the <b>"identity shortcut"</b> — the network copies the lesion straight through</li>
+        <li><span class="arrow">→</span> the field needed a <b>stronger generative prior</b> — diffusion (next)</li>
       </ul>
       <div class="figwrap">
-        <div class="schematic" style="justify-content:center">
-          <span class="box">Input<br>(lesion)</span><span class="op">→</span>
-          <span class="box">Pseudo-<br>healthy</span><span class="op">→</span>
-          <span class="box" style="border-color:var(--warn);color:var(--warn)">Residual<br>= anomaly</span>
-        </div>
-        <div class="figcap">Reconstruct-and-compare (schematic).</div>
+        <img src="figures/ex-brain.png" alt="brain MRI reconstruct and compare" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="figfallback">Input tumour → reconstruction → error map → GT</div>
+        <div class="figcap">Input tumour → healthy reconstruction → error maps (L1, SSIM) → ground-truth lesion. <span class="muted">brain-MRI example, arXiv:2408.08228 (2024)</span></div>
       </div>
     </div>
     <div class="refbar"><b>Sources —</b> <span class="rn">[1]</span> Schlegl, IPMI 2017 (AnoGAN) · <span class="rn">[2]</span> Schlegl, MedIA 2019 (f-AnoGAN) · <span class="rn">[3]</span> Baur, MedIA 2021</div>
