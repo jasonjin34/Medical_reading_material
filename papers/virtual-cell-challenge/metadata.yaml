@@ -1,0 +1,18 @@
+id: "virtual-cell-challenge"
+title: "Virtual Cell Challenge"
+authors: null
+year: 2025
+venue: "Arc Institute (competition; companion paper in Cell)"
+type: "competition"
+category: "competition"
+relevance: "medium"
+access: "open"
+url: "https://virtualcellchallenge.org/"
+doi: "10.1016/j.cell.2025.06.008"
+arxiv: ""
+s2_id: null
+bibkey: "virtual-cell-challenge"
+tags: ["perturbation-prediction", "single-cell", "Perturb-seq", "virtual-cell", "benchmark", "competition"]
+related: []
+status: "complete"
+added: "2026-08-03"

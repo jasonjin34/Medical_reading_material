@@ -1,0 +1,30 @@
+id: "fm-arxiv-2604"
+title: "A Generative Foundation Model for Multimodal Histopathology"
+authors:
+  - "Jinxi Xiang"
+  - "Mingjie Li"
+  - "Siyu Hou"
+  - "Yijiang Chen"
+  - "Xiangde Luo"
+  - "Yuanfeng Ji"
+  - "Xiang Zhou"
+  - "Ehsan Adeli"
+  - "Akshay Chaudhari"
+  - "Curtis P. Langlotz"
+  - "Kilian M. Pohl"
+  - "Ruijiang Li"
+year: 2026
+venue: "arXiv preprint"
+type: "paper"
+category: "foundation"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2604.03635"
+doi: ""
+arxiv: "2604.03635"
+s2_id: null
+bibkey: "Xiang2026_260403635"
+tags: []
+related: []
+status: "complete"
+added: "2026-08-03"

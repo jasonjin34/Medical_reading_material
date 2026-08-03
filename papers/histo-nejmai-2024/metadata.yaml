@@ -1,0 +1,31 @@
+id: "histo-nejmai-2024"
+title: "AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics"
+authors:
+  - "Dippel, Jonas"
+  - "Prenißl, Niklas"
+  - "Hense, Julius"
+  - "Liznerski, Philipp"
+  - "Winterhoff, Tobias"
+  - "Schallenberg, Simon"
+  - "Kloft, Marius"
+  - "Buchstab, Oliver"
+  - "Horst, David"
+  - "Alber, Maximilian"
+  - "Ruff, Lukas"
+  - "Müller, Klaus-Robert"
+  - "Klauschen, Frederick"
+year: 2024
+venue: "NEJM AI"
+type: "paper"
+category: "histopath"
+relevance: "high"
+access: "paywall"
+url: "https://doi.org/10.1056/aioa2400468"
+doi: "10.1056/AIoa2400468"
+arxiv: ""
+s2_id: null
+bibkey: "Dippel_2024"
+tags: []
+related: []
+status: "abstract-only"
+added: "2026-08-03"

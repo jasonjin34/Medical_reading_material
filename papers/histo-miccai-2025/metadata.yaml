@@ -1,0 +1,18 @@
+id: "histo-miccai-2025"
+title: "Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis"
+authors: "Jiamu Wang, Keunho Byeon, Jinsol Song, Anh Nguyen, Sangjeong Ahn, Sung Hak Lee, Jin Tae Kwak"
+year: 2025
+venue: "MICCAI 2025"
+type: "paper"
+category: "histopath"
+relevance: "medium"
+access: "open"
+url: "https://papers.miccai.org/miccai-2025/0675-Paper2270.html"
+doi: ""
+arxiv: ""
+s2_id: null
+bibkey: "histo-miccai-2025"
+tags: []
+related: []
+status: "complete"
+added: "2026-08-03"

@@ -1,0 +1,18 @@
+id: "pathomics-blood-2023"
+title: "A Deep Learning-Based Pathomics Methodology for Quantifying and Characterizing Nucleated Cells in the Bone Marrow Microenvironment"
+authors: "Spencer Krichevsky, Madhu M. Ouseph, Yuwei Zhang, Ghaith Abu-Zeinah, Joseph M. Scandura, Rajarsi Gupta"
+year: 2023
+venue: "Blood (65th ASH Annual Meeting, Abstract 2294)"
+type: "paper"
+category: "pathology"
+relevance: "medium"
+access: "abstract-only"
+url: "https://ashpublications.org/blood/article/142/Supplement%201/2294/499845"
+doi: "10.1182/blood-2023-191272"
+arxiv: ""
+s2_id: null
+bibkey: "pathomics-blood-2023"
+tags: ["computational-pathology", "bone-marrow", "myeloproliferative-neoplasms", "segmentation", "pathomics"]
+related: []
+status: "complete"
+added: "2026-08-03"

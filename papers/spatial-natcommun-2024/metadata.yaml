@@ -1,0 +1,27 @@
+id: "spatial-natcommun-2024"
+title: "Detecting anomalous anatomic regions in spatial transcriptomics with STANDS"
+authors:
+  - "Xu, Kaichen"
+  - "Lu, Yan"
+  - "Hou, Suyang"
+  - "Liu, Kainan"
+  - "Du, Yihang"
+  - "Huang, Mengqian"
+  - "Feng, Hao"
+  - "Wu, Hao"
+  - "Sun, Xiaobo"
+year: 2024
+venue: "Nature Communications"
+type: "paper"
+category: "spatial"
+relevance: "medium"
+access: "open"
+url: "https://doi.org/10.1038/s41467-024-52445-9"
+doi: "10.1038/s41467-024-52445-9"
+arxiv: ""
+s2_id: "3770186935dbc7e0c4ee0f0f5a7c781d6ebd0b67"
+bibkey: "Xu_2024"
+tags: []
+related: []
+status: "complete"
+added: "2026-08-03"
