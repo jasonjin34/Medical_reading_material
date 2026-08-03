@@ -92,6 +92,11 @@
   .flow2 .step .schips span{font-size:.9vw;background:#eef1fe;color:var(--accent);border-radius:7px;padding:.18em .55em;font-weight:700}
   .flow2 .op{display:flex;align-items:center;color:var(--accent2);font-size:2.0vw;font-weight:800}
   .flow2 .train{position:absolute;left:1.05vw;top:-2.3vw;font-size:.86vw;font-weight:800;letter-spacing:.5px;color:var(--accent2);text-transform:uppercase}
+  .flow2{position:relative}
+  .flow2 .simstar{position:absolute;top:-1.7vw;right:.1vw;font-size:1.5vw;font-weight:800;color:var(--accent2);line-height:1}
+  /* "simulated image" disclaimer, bottom-right of the slide (clear of the nav buttons) */
+  .simnote{position:absolute;right:13%;bottom:7.2%;font-size:.9vw;color:var(--muted);font-style:italic}
+  .simnote .star{color:var(--accent2);font-weight:800;font-style:normal}
   .flow2 .step .mini{width:100%;height:auto;display:block;border-radius:8px;margin:.35vw 0 .55vw;border:1px solid var(--line)}
   .flow2 .step .cap{font-size:.82vw;color:var(--muted);text-align:center;margin-top:-.15vw;margin-bottom:.15vw}
   /* divider / title */
@@ -149,7 +154,7 @@
         <div class="figcap">The same <b>learn-normal, flag-deviation</b> idea spans 7 datasets across modalities — chest X-ray, brain MRI, retina, dermoscopy, pathology.</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[1] [3] [15] [18] [19] [20] [21] [22]</span> &nbsp;·&nbsp; full list on the last slide</div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[1]</span> Schlegl, IPMI 2017 · <span class="rn">[3]</span> Baur, MedIA 2021 · <span class="rn">[15]</span> Cai, MedIA 2025 · <span class="rn">[18]</span> Pang, ACM CSUR 2021 · <span class="rn">[19]</span> Fernando, ACM CSUR 2021 · <span class="rn">[20]</span> Litjens, MedIA 2017 · <span class="rn">[21]</span> Zimmerer, MOOD 2022 · <span class="rn">[22]</span> Tschuchnig &amp; Gadermayr 2022</div>
   </section>
 
   <!-- 3 · PROBLEM FORMULATION -->
@@ -180,12 +185,23 @@
             <ellipse cx="60" cy="35" rx="27.4" ry="26.4" fill="url(#pshade)" filter="url(#tex)"/>
             <line x1="60" y1="10" x2="60" y2="60" stroke="#20242f" stroke-width="0.8" opacity=".55"/>
             <path d="M60 26 C55.5 30 53.5 34 56 39 C58 43 60 42 60 37.5 C60 42 62 43 64 39 C66.5 34 64.5 30 60 26 Z" fill="#0a0c13" opacity=".9"/>
-            <path d="M46 27 C50 30 50 34 47 37" stroke="#2b2f3c" stroke-width="0.8" fill="none" opacity=".6"/>
-            <path d="M74 27 C70 30 70 34 73 37" stroke="#2b2f3c" stroke-width="0.8" fill="none" opacity=".6"/>
+            <!-- stylized cortical folds (gyri/sulci) — evocative, not anatomical -->
+            <g stroke="#2a2e3b" stroke-width="0.7" fill="none" opacity=".55" stroke-linecap="round">
+              <path d="M37 33 C41 31 43 35 40 38"/>
+              <path d="M40 24 C44 26 43 30 39 31"/>
+              <path d="M47 18 C50 21 48 25 45 26"/>
+              <path d="M53 14 C55 18 53 21 51 23"/>
+              <path d="M67 14 C65 18 67 21 69 23"/>
+              <path d="M73 18 C70 21 72 25 75 26"/>
+              <path d="M80 24 C76 26 77 30 81 31"/>
+              <path d="M83 33 C79 31 77 35 80 38"/>
+              <path d="M42 45 C46 48 50 47 53 45"/>
+              <path d="M67 45 C70 47 74 48 78 45"/>
+            </g>
           </g>
         </defs>
       </svg>
-      <div class="flow2">
+      <div class="flow2"><span class="simstar">*</span>
         <div class="step" data-n="1"><span class="train">train on healthy</span>
           <svg class="mini" viewBox="0 0 120 70" role="img" aria-label="input MRI slice with a hyperintense lesion">
             <filter id="g1"><feGaussianBlur stdDeviation="1.4"/></filter>
@@ -227,7 +243,8 @@
           <div class="t">Anomaly map</div><div class="d">image- or pixel-level output</div></div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[1] [8] [12] [15] [17] [18] [21]</span></div>
+    <div class="simnote"><span class="star">*</span> Simulated illustrations — not real patient scans</div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[17]</span> Ruff, Proc. IEEE 2021 · <span class="rn">[18]</span> Pang, ACM CSUR 2021 · <span class="rn">[1]</span> Schlegl, IPMI 2017 (residual) · <span class="rn">[8]</span> Roth, CVPR 2022 (feature dist.) · <span class="rn">[12]</span> Radford, ICML 2021 (prompt sim.) · <span class="rn">[21]</span> Zimmerer, MOOD 2022 (pixel-level) · <span class="rn">[15]</span> Cai, MedIA 2025 (metrics)</div>
   </section>
 
   <!-- 4 · THREE TENSIONS -->
@@ -272,7 +289,7 @@
         <div class="figcap">Reconstruct-and-compare (schematic).</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[1] [2] [3]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[1]</span> Schlegl, IPMI 2017 (AnoGAN) · <span class="rn">[2]</span> Schlegl, MedIA 2019 (f-AnoGAN) · <span class="rn">[3]</span> Baur, MedIA 2021</div>
   </section>
 
   <!-- 7 · DIFFUSION -->
@@ -294,7 +311,7 @@
         <div class="figcap">Simplex noise (top) repairs the lesion and exposes it in the residual; Gaussian (bottom) fails.</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[4] [5] [6]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[4]</span> Ho, NeurIPS 2020 (DDPM) · <span class="rn">[5]</span> Wyatt, CVPRW 2022 (AnoDDPM, fig.) · <span class="rn">[6]</span> Bercea, 2023 (AutoDDPM)</div>
   </section>
 
   <!-- 8 · FEATURE/MEMORY -->
@@ -317,7 +334,7 @@
         <div class="figcap">Embedding + memory-bank (PatchCore-style) pipeline (schematic).</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[8] [15]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[8]</span> Roth, CVPR 2022 (PatchCore) · <span class="rn">[15]</span> Cai, MedIA 2025</div>
   </section>
 
   <!-- 9 · DIVIDER T2 -->
@@ -340,7 +357,7 @@
         <div class="card"><h3>Too much noise</h3><p class="muted">healthy tissue destroyed → <b>false positives</b></p></div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[7]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[7]</span> Bercea, MICCAI 2024 (THOR)</div>
   </section>
 
   <!-- 11 · THOR -->
@@ -359,7 +376,7 @@
         <div class="figcap">Guided denoising preserves healthy tissue; residual matches the true lesion (GT).</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[7] [26]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[7]</span> Bercea, MICCAI 2024 (THOR, fig.) · <span class="rn">[26]</span> Frontiers in Radiology 2024 (latent flow, 3D)</div>
   </section>
 
   <!-- 12 · DIVIDER T3 -->
@@ -385,7 +402,7 @@
         <div class="figcap">Normal (green) · real defect (red) · synthetic cut-paste (blue).</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[9] [10] [11]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[9]</span> Li, CVPR 2021 (CutPaste, fig.) · <span class="rn">[10]</span> Tan, MICCAI 2021 (PII) · <span class="rn">[11]</span> Tan, 2020 (FPI)</div>
   </section>
 
   <!-- 14 · MVFA -->
@@ -406,7 +423,7 @@
         <div class="figcap">Adapters + pixel-level vision–language alignment re-focus CLIP on local abnormality.</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[12] [13]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[12]</span> Radford, ICML 2021 (CLIP) · <span class="rn">[13]</span> Huang, CVPR 2024 (MVFA-AD, fig.)</div>
   </section>
 
   <!-- 15 · MediCLIP -->
@@ -425,7 +442,7 @@
         <div class="figcap">Synthetic anomaly tasks + prompt tuning turn CLIP into a medical detector.</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[14]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[14]</span> Zhang, MICCAI 2024 (MediCLIP, fig.)</div>
   </section>
 
   <!-- 16 · BENCHMARK -->
@@ -447,7 +464,7 @@
         <div class="figcap">A unified benchmark across 5 modalities / 30 methods.</div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[15] [16]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[15]</span> Cai, MedIA 2025 (MedIAnomaly, fig.) · <span class="rn">[16]</span> Zhang, CVPR 2018 (LPIPS)</div>
   </section>
 
   <!-- 17 · COMPARISON TABLE -->
@@ -464,7 +481,7 @@
       </tbody>
     </table>
     <p class="muted" style="margin-top:.55em">Pick by <b>modality · data regime · deployment constraint</b> — not by leaderboard alone.</p>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[5] [8] [9] [13]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[5]</span> Wyatt, CVPRW 2022 · <span class="rn">[8]</span> Roth, CVPR 2022 · <span class="rn">[9]</span> Li, CVPR 2021 · <span class="rn">[13]</span> Huang, CVPR 2024</div>
   </section>
 
   <!-- 18 · OPEN CHALLENGES -->
@@ -495,7 +512,7 @@
         <div class="card warn"><h3>③ Trustworthy FMs</h3><p class="muted">Privacy (<b>unlearning</b>), safety, compliance</p></div>
       </div>
     </div>
-    <div class="refbar"><b>References</b> &nbsp; <span class="rn">[23] [24] [25]</span></div>
+    <div class="refbar"><b>Sources —</b> <span class="rn">[23]</span> Lipman, ICLR 2023 (flow matching) · <span class="rn">[24]</span> Liu, ICLR 2023 (rectified flow) · <span class="rn">[25]</span> Bourtoule, IEEE S&amp;P 2021 (unlearning)</div>
   </section>
 
   <!-- 20 · ROADMAP + TAKEAWAYS -->
