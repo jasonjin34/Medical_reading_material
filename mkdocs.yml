@@ -44,6 +44,7 @@ nav:
   - Home: index.md
   - Literature review: literature-review.md
   - Relationships: relationships.md
+  - Slides & talk: slides.md
   - Glossary: glossary.md
   - Papers:
     - Single-cell:

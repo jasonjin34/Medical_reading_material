@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speaker Script · Anomaly Detection in Medical Imaging</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --paper:#ffffff; --ink:#181a2b; --muted:#5a6076; --faint:#8a90a6;
+    --line:#e5e8f1; --line2:#eef0f7;
+    --accent:#3b5bdb; --teal:#0ca5a5; --warn:#e8590c; --purple:#6741d9; --crimson:#d6336c;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Songti SC","Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+    --zh:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",var(--sans);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14161f; --paper:#1f2230; --ink:#e9ebf5; --muted:#a3a9c0; --faint:#767c93;
+      --line:#2d3141; --line2:#262a38;
+      --accent:#7d96ff; --teal:#3ac9c4; --warn:#ff8a4c; --purple:#a48bff; --crimson:#ff6ea3;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;
+    -webkit-font-smoothing:antialiased;font-size:16px}
+  .wrap{max-width:1440px;margin:0 auto;padding:36px 22px 96px}
+
+  /* ---- masthead ---- */
+  .mast{border-bottom:2px solid var(--ink);padding-bottom:18px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4vw,42px);line-height:1.08;margin:.28em 0 .12em;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:15px;max-width:70ch}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .meta b{color:var(--ink);font-weight:600}
+  .how{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--muted)}
+  .how b{color:var(--ink)} .how .c1{color:var(--accent);font-weight:700} .how .c2{color:var(--warn);font-weight:700} .how .c3{color:var(--teal);font-weight:700}
+
+  /* ---- act header ---- */
+  .act{margin:40px 0 12px;display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+  .act .no{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;color:var(--ac,var(--accent));
+    border:1px solid currentColor;border-radius:999px;padding:3px 10px}
+  .act h2{font-family:var(--serif);font-weight:700;font-size:22px;margin:0;letter-spacing:-.01em}
+  .act .clock{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .act .clock b{color:var(--ac,var(--accent))}
+  .actline{height:2px;background:var(--ac,var(--accent));opacity:.85;border-radius:2px;margin:2px 0 16px}
+
+  /* ---- slide card ---- */
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:13px 0;
+    box-shadow:0 1px 2px rgba(20,24,60,.04);break-inside:avoid}
+  .chead{display:flex;align-items:center;gap:11px;padding:12px 18px;border-bottom:1px solid var(--line2);
+    border-left:4px solid var(--ac,var(--accent))}
+  .chead .n{font-family:var(--mono);font-size:12px;font-weight:600;color:#fff;background:var(--ac,var(--accent));
+    border-radius:7px;padding:3px 8px;min-width:30px;text-align:center}
+  .chead .t{font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.2}
+  .chead .dur{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .cols{display:grid;grid-template-columns:1.1fr 1.1fr .82fr}
+  .col{padding:14px 18px 16px;min-width:0}
+  .col.full,.col.zh{border-right:1px solid var(--line2)}
+  .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;margin-bottom:7px}
+  .lbl.full{color:var(--accent)} .lbl.zh{color:var(--warn)} .lbl.cue{color:var(--teal)}
+  .full p{margin:0;font-size:14px;line-height:1.6;color:var(--ink)}
+  .zh p{margin:0;font-family:var(--zh);font-size:14px;line-height:1.72;color:var(--ink)}
+  .em{font-weight:600}
+  .cue ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .cue li{position:relative;padding-left:15px;font-size:12.5px;line-height:1.4;color:var(--ink)}
+  .cue li::before{content:"";position:absolute;left:0;top:.52em;width:6px;height:6px;border-radius:2px;background:var(--ac,var(--teal))}
+  .cue b{font-weight:670}
+  .num{font-variant-numeric:tabular-nums;color:var(--warn);font-weight:700}
+
+  .divider .cols{grid-template-columns:1fr 1fr}
+  .divider .col.zh{border-right:none}
+  .divider .full p,.divider .zh p{font-style:italic;color:var(--muted)}
+  .divider .zh p{font-style:normal}
+
+  .foot{margin-top:38px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--faint)}
+
+  @media (max-width:960px){
+    .cols,.divider .cols{grid-template-columns:1fr}
+    .col.full,.col.zh{border-right:none;border-bottom:1px solid var(--line2)}
+  }
+  @media print{ body{background:#fff} .how{display:none} .card{box-shadow:none} .wrap{max-width:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="kicker">Speaker Script · rehearsal copy · 讲稿</div>
+    <h1>Anomaly Detection in Medical Imaging</h1>
+    <div class="sub">A ~35-minute walkthrough of the deck — detect-by-deviation, three tensions, a reality check, and the barriers to the clinic. 三栏对照:英文口播 · 中文口播 · 临场 cue。</div>
+    <div class="meta">
+      <span><b>Runtime</b> ≈ 35 min + Q&amp;A</span>
+      <span><b>Slides</b> 28 (26 spoken)</span>
+      <span><b>Arc</b> Foundations → 3 tensions → Reality → Barriers → Close</span>
+    </div>
+    <div class="how"><b>How to read / 用法:</b> <span class="c1">左栏 = 英文口播稿</span> · <span class="c2">中栏 = 中文口播稿</span> · <span class="c3">右栏 = cue 临场瞄一眼</span>。每页有时间预算,每个 ACT 头部有起始时钟;可直接引用的<span class="num">数字</span>高亮。用哪种语言讲,就看对应那一栏。</div>
+  </header>
+
+  <!-- ============ ACT 0 ============ -->
+  <div class="act" style="--ac:var(--accent)"><span class="no">ACT 0</span><h2>Foundations — why &amp; how · 为什么与范式</h2><span class="clock">starts <b>0:00</b> · ~5:50</span></div>
+  <div class="actline" style="--ac:var(--accent)"></div>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">0</span><span class="t">Title — Anomaly Detection in Medical Imaging</span><span class="dur">0:20</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Good morning. This is a survey of medical anomaly detection — <span class="em">how it works today, where it's stuck, and where it's going.</span> I'll organize the field around three tensions, then finish with a reality check and the barriers that keep it out of the clinic. I'll hold questions to the end.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>早上好。这是一个医学异常检测的综述 —— <span class="em">它今天怎么做、卡在哪、往哪走。</span>我会把整个领域组织成三道张力,最后做一个现实核查,再讲还有哪些坎让它没能进临床。问题留到最后。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>What: a <b>survey</b> of medical AD</li><li>Arc: 3 tensions → reality → barriers</li><li>~35 min · Q&amp;A at end</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">1</span><span class="t">You can't label every disease</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Start with why the field exists. Disease is <span class="em">rare, diverse, and long-tailed</span> — most scans are normal, and you can't enumerate every abnormality to label it. Supervised, per-disease models are brittle and don't scale. So the whole field makes <span class="em">one move</span>: learn what "normal" looks like, and flag anything that deviates. That idea spans every modality — chest X-ray, brain MRI, retina, dermoscopy, pathology.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>先说为什么会有这个领域。疾病是<span class="em">稀有、多样、长尾</span>的 —— 大多数扫描都是正常的,你不可能把每一种异常都标注出来。按病种做的监督模型又脆又不可扩展。所以整个领域只做<span class="em">一件事</span>:学会"正常"长什么样,再把偏离的地方标出来。这个思路适用于所有模态 —— 胸片、脑 MRI、视网膜、皮肤镜、病理。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Disease = rare·diverse·long-tailed → can't label all</li><li>Supervised per-disease doesn't scale</li><li><b>The one idea:</b> learn normal, flag deviation</li><li>Spans <span class="num">7</span> datasets / <span class="num">5</span> modalities</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">2</span><span class="t">How the task is framed</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Quick vocabulary. You train <span class="em">only on normal data</span> to build a "normal prior"; the anomaly score is the deviation from it. Two granularities: image-level <span class="em">detection</span> — is this scan abnormal — and pixel-level <span class="em">localization</span> — where. Metrics: AUROC, AP, Dice. Keep one thing in your pocket: the metric matters as much as the model. Pipeline: input → normal prior → deviation → anomaly map.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>快速过一下术语。你<span class="em">只用正常数据</span>训练,建一个"正常先验",异常分数就是对它的偏离。两种粒度:图像级的<span class="em">检测</span> —— 这张扫描是否异常;像素级的<span class="em">定位</span> —— 异常在哪。指标是 AUROC、AP、Dice。记住一点:选哪个指标和选哪个模型一样重要。流程:输入 → 正常先验 → 偏离 → 异常图。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Train on normal → prior → score = <b>deviation</b></li><li>Detection (image) vs localization (pixel)</li><li>Metric choice matters (foreshadow)</li><li>input→prior→deviation→map</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">3</span><span class="t">One "normal" model, four clinical jobs</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Why should a clinician care? One normal-only model does <span class="em">four jobs</span>: screening and triage on normal-heavy data; lesion localization with zero annotations — the deviation map is already pixel-level; OOD and quality control, a gatekeeper before any downstream model; and catching rare or novel disease never in the training set. No positive examples needed.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>临床上为什么要在意?一个只学正常的模型能干<span class="em">四件事</span>:在以正常为主的数据上做筛查和分诊;零标注地定位病灶 —— 偏离图本身就是像素级的;做 OOD / 质控,当下游模型的守门员;以及抓住训练里从没见过的罕见或新型疾病。全程不需要任何阳性样本。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Screening / triage (label-free)</li><li>Localization <b>without annotations</b></li><li>OOD / quality-control gatekeeper</li><li>Rare &amp; novel — no positives needed</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">4</span><span class="t">Three tensions the field is resolving</span><span class="dur">1:00</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>The spine of the talk. I group the field into <span class="em">three tensions</span> it's actively resolving. <span class="em">One</span> — how to represent "normal": reconstruct and read the residual, or embed and measure distance. <span class="em">Two</span> — fidelity vs sensitivity, really the specificity problem. <span class="em">Three</span> — scarcity and generalization: almost no abnormal data, must work across modalities. Methods are answers; the gaps are future work.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>这是整场的主线。我把领域归成<span class="em">三道张力</span>。<span class="em">一</span> —— 怎么表示"正常":重建后读残差,还是嵌入后量距离。<span class="em">二</span> —— 保真度 vs 敏感度,本质是特异性问题。<span class="em">三</span> —— 稀缺与泛化:几乎没有异常数据,还得跨模态。现有方法是对这些张力的回答;没解决的部分就是未来工作。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>① Represent normal — reconstruct vs embed</li><li>② Fidelity vs sensitivity — specificity</li><li>③ Scarcity &amp; generalization</li><li>Methods = answers · gaps = future</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 1 ============ -->
+  <div class="act" style="--ac:var(--accent)"><span class="no">TENSION ①</span><h2>How do we represent "normal"? · 怎么表示正常</h2><span class="clock">starts <b>5:50</b> · ~5:25</span></div>
+  <div class="actline" style="--ac:var(--accent)"></div>
+
+  <section class="card divider" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">5</span><span class="t">Divider — represent "normal"</span><span class="dur">0:15</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Say</div><p>"Tension one: how do we represent normal? Two routes — rebuild the image and read the residual, or embed it into a feature space."</p></div>
+      <div class="col zh"><div class="lbl zh">过渡词</div><p>"张力一:怎么表示正常?两条路 —— 重建图像读残差,或者嵌入到特征空间。"</p></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">6</span><span class="t">Reconstruct-and-compare: AE → GAN</span><span class="dur">1:40</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>The first answer is reconstruction. Train a generator on <span class="em">healthy scans only</span>; it can't rebuild pathology it's never seen, so the residual <span class="em">is</span> the anomaly. Lineage: AnoGAN → f-AnoGAN. Failure modes: mode collapse, blur, and the "identity shortcut" — the net copies the lesion through and the residual goes flat. The AE family — AE, VAE, VQ-VAE, MemAE — differ in <span class="em">how they bottleneck normal</span>. A stronger generative prior fixes this.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>第一个答案是重建。只用<span class="em">健康扫描</span>训练一个生成器;它画不出没见过的病灶,所以残差(输入减重建)<span class="em">就是</span>异常。谱系:AnoGAN → f-AnoGAN。失败模式:模式坍缩、模糊、还有"identity shortcut" —— 网络把病灶原样复制过去,残差就变平了。AE 一家(AE、VAE、VQ-VAE、MemAE)区别在于<span class="em">怎么"卡住"正常</span>。这些弱点正是更强的生成先验要修的。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Normal generator can't rebuild pathology → <b>residual = anomaly</b></li><li>AnoGAN → f-AnoGAN</li><li>Fails: mode collapse · blur · <b>identity shortcut</b></li><li>AE family = ways to bottleneck normal</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">7</span><span class="t">Diffusion becomes the backbone</span><span class="dur">1:50</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Diffusion is now the dominant reconstruction backbone — better coverage and fidelity than GANs. <span class="em">AnoDDPM</span>: Simplex noise controls the anomaly scale. <span class="em">AutoDDPM</span>: automatic mask–stitch–resample. Latest: <span class="em">Synomaly</span>, multi-stage diffusion (MedIA 2025). Figure: Simplex noise repairs the lesion and exposes it in the residual; plain Gaussian fails.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>扩散现在是主流的重建骨干 —— 覆盖度和保真度都比 GAN 好。<span class="em">AnoDDPM</span>:用 Simplex 噪声控制异常尺度。<span class="em">AutoDDPM</span>:自动 mask–stitch–resample。最新:<span class="em">Synomaly</span> 多阶段扩散(MedIA 2025)。看图:Simplex 噪声把病灶修好、在残差里干净地暴露;普通高斯噪声做不到。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Diffusion &gt; GAN (coverage·fidelity)</li><li>AnoDDPM = <b>Simplex</b> controls size</li><li>AutoDDPM = mask–stitch–resample</li><li>Latest: <b>Synomaly</b> ('25)</li><li>Fig: Simplex exposes · Gaussian fails</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">8</span><span class="t">Don't reconstruct — embed &amp; compare</span><span class="dur">1:40</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>The other answer: don't generate — <span class="em">embed and compare</span>. Frozen features + a memory bank of normal patches + nearest-neighbour distance. PatchCore, from industry, is a deceptively strong baseline. In medicine ImageNet features are already strong; the field moves to <span class="em">DINOv2 foundation features</span> — AnomalyDINO, medical DINO-DPMM (MICCAI '25). Picture: normal features cluster; an anomaly sits far from all of them.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>另一个答案:根本不生成 —— <span class="em">嵌入并比较</span>。冻结特征 + 正常 patch 的 memory bank + 最近邻距离打分。PatchCore 来自工业界,是个被低估的强基线。医学里 ImageNet 特征已经很强,领域正转向 <span class="em">DINOv2 基础模型特征</span> —— AnomalyDINO、医学 DINO-DPMM(MICCAI '25)。一句话:正常特征聚成一团,异常离所有正常都很远。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>No reconstruction — features + <b>memory bank</b> + kNN</li><li>PatchCore ('22, industrial, strong)</li><li>→ <b>DINOv2</b>: AnomalyDINO · DINO-DPMM ('25)</li><li>Anomaly = far from normal cluster</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 2 ============ -->
+  <div class="act" style="--ac:var(--teal)"><span class="no">TENSION ②</span><h2>Fidelity vs sensitivity — specificity · 特异性门槛</h2><span class="clock">starts <b>11:15</b> · ~7:15</span></div>
+  <div class="actline" style="--ac:var(--teal)"></div>
+
+  <section class="card divider" style="--ac:var(--teal)">
+    <div class="chead"><span class="n">9</span><span class="t">Divider — the specificity bar</span><span class="dur">0:15</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Say</div><p>"Tension two — the deployment pain point. The noise paradox, and why specificity is the real bar."</p></div>
+      <div class="col zh"><div class="lbl zh">过渡词</div><p>"张力二 —— 落地的痛点。噪声悖论,以及为什么特异性才是真正的门槛。"</p></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--teal)">
+    <div class="chead"><span class="n">10</span><span class="t">Why specificity decides deployment</span><span class="dur">1:50</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>This tension decides whether a tool ships. A balanced <span class="em">AUROC of 0.95 sounds great and is not usable</span>. At 1% prevalence, a few-percent false-positive rate × a huge normal population buries the true lesions. Clinicians get alert fatigue and abandon the tool — and "flag every anomaly" is hard for regulators. Specificity is the clinical bar for <span class="em">every</span> method.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>这道张力真正决定能不能落地。平衡集上 <span class="em">AUROC 0.95 听着很好,但不可用</span>。在 1% 患病率下,几个百分点的假阳率乘以海量正常人群,把那点真病灶淹没。医生疲于虚警,最后弃用 —— 而且"把所有异常都报出来"很难过监管。特异性是<span class="em">每个</span>方法的临床门槛。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>AUROC <span class="num">0.95</span> ≠ usable</li><li><span class="num">1%</span> prevalence: few% FP × many normals → alarms bury lesions</li><li>→ alert fatigue → abandoned; hard for regulators</li><li><b>Specificity = bar for ALL</b></li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--teal)">
+    <div class="chead"><span class="n">11</span><span class="t">Erase the lesion, or keep the anatomy?</span><span class="dur">1:40</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Reconstruction's own trap — the <span class="em">noise paradox</span>. To erase a lesion you inject noise and denoise back to "healthy". <span class="em">Too little</span> noise → the lesion survives → false negatives. <span class="em">Too much</span> → healthy anatomy destroyed, pseudo-healthy scan drifts → false positives. Tuning the noise level can't win both. That's the core reconstruction pain.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>重建自己的陷阱 —— <span class="em">噪声悖论</span>。要擦掉病灶,你注入噪声再去噪回"健康"。<span class="em">太小</span> → 病灶还在 → 漏检。<span class="em">太大</span> → 健康解剖被破坏,伪健康图偏离病人 → 假阳。调噪声两头都讨不到好。这就是重建的核心痛点。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Erase by add-noise → denoise</li><li>Too little → lesion survives (<b>FN</b>)</li><li>Too much → anatomy destroyed (<b>FP</b>)</li><li>Can't satisfy both</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--teal)">
+    <div class="chead"><span class="n">12</span><span class="t">Guidance &amp; latent restoration</span><span class="dur">2:00</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>The response — stop tuning noise, add <span class="em">guidance</span>. <span class="em">THOR</span> (Bercea et al., MICCAI 2024): intermediate anomaly maps as implicit guidance → preserves healthy detail while erasing the lesion → fewer FP. <span class="em">cDDPM</span> (2025): conditions the denoiser on a latent of the input, adapting to the patient without copying unhealthy structure. <span class="em">Latent + rectified flow</span> brings 3D within compute reach. Partial fixes — specificity improved, not solved.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>领域怎么应对 —— 不再调噪声,改加<span class="em">引导</span>。<span class="em">THOR</span>(Bercea 等,MICCAI 2024):用中间异常图做隐式引导 → 保留健康区细节又擦掉病灶 → 减少假阳。<span class="em">cDDPM</span>(2025):把输入的 latent 作为条件给去噪器,适应病人又不复制不健康结构。<span class="em">latent + rectified flow</span> 把 3D 拉进算力可行范围。都是部分修复 —— 特异性改善但没解决。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Guidance instead of noise-tuning</li><li><b>THOR</b> ('24): implicit guidance → cuts FP</li><li><b>cDDPM</b> ('25): condition on input latent</li><li>Latent + rectified flow → 3D</li><li>Partial — <b>specificity still open</b></li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--teal)">
+    <div class="chead"><span class="n">13</span><span class="t">Feature / VLM: no paradox, specificity stays open</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>The other half — embedding and VLM — don't reconstruct, so <span class="em">no noise paradox</span>. But specificity is still unsolved differently: a distance score has no obvious clinical operating point, and thresholds drift across scanners and sites. Takeaway: <span class="em">specificity is a bar for all methods; the noise paradox is only reconstruction's special case.</span></p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>领域的另一半 —— 嵌入和 VLM —— 不做重建,所以<span class="em">没有噪声悖论</span>。但特异性依然没解决,只是换了种方式:距离分数没有明显的临床工作点,阈值还会跨机器、跨中心漂移。结论:<span class="em">特异性是所有方法的门槛;噪声悖论只是重建派的特例。</span></p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Embed/VLM → <b>no noise paradox</b></li><li>But no operating point; thresholds drift across sites</li><li><b>Takeaway:</b> specificity universal; paradox = recon-only</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 3 ============ -->
+  <div class="act" style="--ac:var(--warn)"><span class="no">TENSION ③</span><h2>Scarcity &amp; generalization · 稀缺与泛化</h2><span class="clock">starts <b>18:30</b> · ~5:15</span></div>
+  <div class="actline" style="--ac:var(--warn)"></div>
+
+  <section class="card divider" style="--ac:var(--warn)">
+    <div class="chead"><span class="n">14</span><span class="t">Divider — the data problem</span><span class="dur">0:15</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Say</div><p>"Tension three: the data problem. Almost no abnormal data, must work across modalities. Two routes — manufacture anomalies, or borrow a foundation model."</p></div>
+      <div class="col zh"><div class="lbl zh">过渡词</div><p>"张力三:数据问题。几乎没有异常数据,还得跨多种模态。两条路 —— 自造异常,或借基础模型。"</p></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--warn)">
+    <div class="chead"><span class="n">15</span><span class="t">Manufacture the anomalies you lack</span><span class="dur">1:40</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>First answer to scarcity: <span class="em">manufacture</span> the anomalies you lack. CutPaste, FPI, PII (2020–21) synthesize "what's wrong" by cut-paste / Poisson blending → a proxy segmentation task, no real anomalies. Weakness: <span class="em">synthetic ≠ real</span> — the model learns paste artifacts and doesn't transfer. Latest: ART-ASyn synthesizes realistic textures at anatomically plausible locations (chest X-ray).</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>对稀缺的第一个答案:自己<span class="em">造</span>你缺的异常。CutPaste、FPI、PII(2020–21)用剪贴 / 泊松融合合成"哪里不对" → 变成不需要真异常的代理分割任务。弱点:<span class="em">合成 ≠ 真实</span> —— 模型学到拼贴痕迹,不迁移。最新:ART-ASyn 在解剖上合理的位置合成真实纹理(胸片)。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Synthesize defects → <b>proxy segmentation</b></li><li>CutPaste / FPI / PII (2020–21)</li><li>Weakness: <b>synthetic ≠ real</b></li><li>Latest: ART-ASyn (CXR, '25)</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--warn)">
+    <div class="chead"><span class="n">16</span><span class="t">Borrow a foundation model — MVFA-AD</span><span class="dur">1:50</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Second answer: borrow a foundation model. Zero-shot CLIP <span class="em">collapses</span> on medical images — its features are global and semantic, but medical anomalies are local and subtle. <span class="em">MVFA-AD</span> (CVPR 2024 highlight) keeps CLIP frozen, inserts lightweight adapters at multiple encoder levels, and aligns patch features to text prompts — so it can <span class="em">localize</span>, not just classify. One backbone spans brain MRI, liver CT, retinal OCT.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>第二个答案:借基础模型。零样本 CLIP 在医学图像上直接<span class="em">崩</span> —— 它的特征是全局、语义的,而医学异常是局部、细微的。<span class="em">MVFA-AD</span>(CVPR 2024 highlight)保持 CLIP 冻结,在多个编码器层插入轻量 adapter,把 patch 特征和文本 prompt 对齐 —— 于是它能<span class="em">定位</span>,不只是分类。一个骨干覆盖脑 MRI、肝 CT、视网膜 OCT。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Zero-shot CLIP fails (global vs local)</li><li>MVFA: frozen CLIP + <b>multi-level adapters</b> + pixel V–L align</li><li>Localizes (AS), not just classifies (AC)</li><li>One backbone → MRI · CT · OCT</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--warn)">
+    <div class="chead"><span class="n">17</span><span class="t">MediCLIP → MadCLIP &amp; the FM trend</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Push to the few-shot, no-real-anomaly extreme. <span class="em">MediCLIP</span>: synthetic tasks + learnable prompts + adapters, from a handful of normals. Latest: <span class="em">MadCLIP</span> beats MVFA cross-dataset (MICCAI 2025). Trend: pathology/radiology foundation models as default backbones. Honest aside — VLM is also a "represent normal" method; I file it under scarcity because that's mainly what it solves.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>推到少样本、没有真异常的极端。<span class="em">MediCLIP</span>:合成任务 + 可学 prompt + adapter,从少量正常样本就能做。最新:<span class="em">MadCLIP</span> 跨数据集超过 MVFA(MICCAI 2025)。趋势:病理 / 放射基础模型成为默认骨干。一句实话 —— VLM 其实也是"表示正常"的方法;我归到稀缺这一支,因为它主要解决的是这个。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>MediCLIP: few-shot · synthetic + prompts</li><li><b>MadCLIP &gt; MVFA</b> cross-dataset ('25)</li><li>Trend: pathology/radiology FMs</li><li>VLM also ①; filed under ③</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 4 ============ -->
+  <div class="act" style="--ac:var(--purple)"><span class="no">REALITY CHECK</span><h2>Do the numbers hold up? · 现实核查</h2><span class="clock">starts <b>23:45</b> · ~5:10</span></div>
+  <div class="actline" style="--ac:var(--purple)"></div>
+
+  <section class="card divider" style="--ac:var(--purple)">
+    <div class="chead"><span class="n">18</span><span class="t">Divider — reality check</span><span class="dur">0:20</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Say</div><p>"Before the road ahead, a reality check. Two parts: the model you pick — a tuned baseline is competitive — and the evaluation you trust, which is shakier than the leaderboards suggest."</p></div>
+      <div class="col zh"><div class="lbl zh">过渡词</div><p>"在讲未来之前,先做个现实核查。两部分:你选的模型 —— 调好的基线其实很能打;以及你信的评测 —— 它比排行榜看起来更不靠谱。"</p></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--purple)">
+    <div class="chead"><span class="n">19</span><span class="t">First, a fair yardstick: MedIAnomaly</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>First, a fair yardstick. <span class="em">MedIAnomaly</span> (Cai et al., MedIA 2025): a unified comparative study — 7 datasets, 5 modalities, 30 methods across reconstruction (incl. diffusion), feature, and self-supervised families, at image and pixel level. Two headline messages set up the next two slides: <span class="em">simple baselines were underrated</span>, and the <span class="em">evaluation itself is unreliable</span>.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>先立一把公平的尺子。<span class="em">MedIAnomaly</span>(Cai 等,MedIA 2025):统一对比研究 —— 7 个数据集、5 种模态、30 个方法,覆盖重建(含扩散)、特征、自监督几大家,图像级和像素级都评。两个核心结论为后两页铺垫:<span class="em">简单基线被低估了</span>,以及<span class="em">评测本身不可靠</span>。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Fair unified benchmark</li><li><span class="num">7</span> datasets / <span class="num">5</span> modalities / <span class="num">30</span> methods (incl. diffusion)</li><li>Image + pixel level</li><li>Msgs: baselines underrated · eval unreliable</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--purple)">
+    <div class="chead"><span class="n">20</span><span class="t">Don't chase SOTA — a tuned AE is a strong baseline</span><span class="dur">1:50</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Real image-level AUCs from MedIAnomaly. Three things. A tuned AE stays competitive — Brain Tumor 85.9, BraTS 82.6. The <span class="em">scoring metric matters as much as the model</span> — RSNA AE-L2 67.5 → SSIM 80.9. And <span class="em">no single winner</span> — the best flips across datasets: FAE-SSIM, ImageNet features, AnatPaste on ISIC, AutoDDPM on Camelyon16. Don't chase the leaderboard — pick by modality, data regime, constraints.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>这些是 MedIAnomaly 里真实的图像级 AUC。三点。调好的朴素 AE 依然能打 —— Brain Tumor 85.9、BraTS 82.6。<span class="em">打分的度量和模型一样重要</span> —— RSNA 上 AE 用 L2 是 67.5,换 SSIM 跳到 80.9。而且<span class="em">没有通吃赢家</span> —— 最好的随数据集翻转:FAE-SSIM、ImageNet 特征、ISIC 上 AnatPaste、Camelyon16 上 AutoDDPM。别追排行榜 —— 按模态、数据规模、约束选。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Real image-level AUC</li><li>Tuned AE competitive (Brain Tumor <span class="num">85.9</span>)</li><li>Metric: RSNA L2 <span class="num">67.5</span> → SSIM <span class="num">80.9</span></li><li><b>No single winner</b> — flips per dataset</li><li>Pick by modality/data/constraints</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--purple)">
+    <div class="chead"><span class="n">21</span><span class="t">The bug is in the evaluation, not the model</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>The sharper point: the <span class="em">bug is in the evaluation, not the model</span>. The field lacks a fair, comprehensive evaluation, which muddies conclusions. A plain AE hits <span class="em">near-perfect</span> on popular datasets — Hyper-Kvasir 99.5, OCT2017 96.4 — so those datasets can't tell methods apart, and much "SOTA" gain is an evaluation artifact. Takeaway: don't be led by leaderboards; invest in specificity and generalization.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>更尖的一点:<span class="em">病灶在评测,不在模型</span>。领域缺乏公平、全面的评测,导致结论含糊。一个朴素 AE 在常见数据集上就<span class="em">近乎满分</span> —— Hyper-Kvasir 99.5、OCT2017 96.4 —— 说明这些数据集区分不出方法,很多"SOTA"提升只是评测假象。结论:别被排行榜带节奏;把力气投到特异性和泛化上。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li><b>Bug in evaluation</b>, not model</li><li>AE near-perfect: Hyper-Kvasir <span class="num">99.5</span> · OCT2017 <span class="num">96.4</span></li><li>→ can't discriminate; "SOTA" = artifact</li><li>Invest in ② specificity · ③ generalization</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 5 ============ -->
+  <div class="act" style="--ac:var(--crimson)"><span class="no">BARRIERS</span><h2>What still blocks the clinic · 落地避坑</h2><span class="clock">starts <b>28:55</b> · ~5:00</span></div>
+  <div class="actline" style="--ac:var(--crimson)"></div>
+
+  <section class="card divider" style="--ac:var(--crimson)">
+    <div class="chead"><span class="n">22</span><span class="t">Divider — barriers to clinical translation</span><span class="dur">0:20</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Say</div><p>"So what still blocks the clinic? Three translational barriers: a heatmap isn't a diagnosis, 2D loses the volume clinicians read, and a high AUROC isn't clinical usability."</p></div>
+      <div class="col zh"><div class="lbl zh">过渡词</div><p>"那到底还有什么挡在临床门口?三道落地的坎:热图不是诊断,2D 丢掉了医生要读的体积,高 AUROC 不等于临床可用。"</p></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--crimson)">
+    <div class="chead"><span class="n">23</span><span class="t">A heatmap is not a diagnosis</span><span class="dur">1:40</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Barrier one — interpretability. Mostly a blank, and <span class="em">not because it's easy</span>: it's genuinely hard for AD. A heatmap is indirect evidence, not a diagnosis — no lesion name, uncalibrated score, saliency can be <span class="em">unfaithful</span> (some maps barely change even when the model is randomized — Adebayo's sanity checks). What would help: treat the map as a lead, test faithfulness, calibrate into a clinical confidence, move to reasoning-grounded explanations. And interpretability is increasingly a <span class="em">regulatory requirement</span>.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>第一道坎 —— 可解释。它大部分是空白,但不是因为容易:对 AD 来说是真的难。热图是间接证据、不是诊断 —— 没有病名、分数没校准、saliency 还可能<span class="em">不忠实</span>(有些图哪怕把模型随机化都几乎不变 —— Adebayo 的 sanity check)。怎么办:把图当线索,测 faithfulness,把分数校准成有临床意义的置信度,转向 reasoning-grounded 的解释。而且可解释性正越来越是一个<span class="em">监管要求</span>。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Heatmap = indirect, not diagnosis (no name · uncalibrated · unfaithful) — Adebayo</li><li>Genuinely hard for AD (score relative)</li><li>Fix: faithfulness · calibrate · reasoning-grounded</li><li><b>Regulatory requirement</b> (GDPR / EU AI Act)</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--crimson)">
+    <div class="chead"><span class="n">24</span><span class="t">Don't fake 3D by stacking 2D slices</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Barrier two — 3D. Clinicians read <span class="em">volumes</span>, but most methods retreat to 2D slice-by-slice → loses volumetric context, normal distribution harder to learn — a 3D model beats its 2D counterpart, Dice 31.4 vs 25.8. Full 3D generation is compute-bound. What would help: state the 2D cost honestly, or move to latent space — reconstruction there is ~10× faster → 3D feasible. 3D UAD is now its own area with a dedicated benchmark.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>第二道坎 —— 3D。医生读的是<span class="em">体积</span>,但大多数方法退回 2D 逐层做 → 丢体积上下文、正常分布更难学 —— 3D 模型胜过它的 2D 版本,Dice 31.4 对 25.8。完整 3D 生成又受算力限制。怎么办:要么老实说清 2D 的代价,要么走 latent 空间 —— 那里重建大约快 10 倍 → 3D 可行。3D UAD 现在已是有专门 benchmark 的独立方向。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Clinicians read volumes; methods retreat to 2D</li><li>3D beats 2D: Dice <span class="num">31.4</span> vs <span class="num">25.8</span></li><li>3D generation compute-bound</li><li>Fix: latent <span class="num">~10×</span> faster → 3D feasible</li><li>3D UAD = its own area</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--crimson)">
+    <div class="chead"><span class="n">25</span><span class="t">A high AUROC is not "deployable"</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>Barrier three — trust. A high balanced-set AUROC is <span class="em">not "deployable"</span>. At 1% prevalence even 95% specificity buries ~10 real lesions under ~50 false alarms — five to one. Add cross-site domain shift, scarce pixel-level labels, privacy and governance. What would help: ask up front — FPs at 1% prevalence? holds across scanners/sites? who owns privacy and post-deployment monitoring? Design for these, don't bolt them on.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>第三道坎 —— 可信。高的平衡集 AUROC 并不等于<span class="em">"可部署"</span>。在 1% 患病率下,哪怕 95% 特异性,也会把约 10 个真病灶淹没在约 50 个虚警里 —— 五比一。再加上跨中心域漂移、稀缺的像素级标注、隐私和治理。怎么办:一开始就问 —— 1% 患病率下假阳多少?换机器换中心还成立吗?隐私和部署后监测谁负责?建方法时就设计好,别事后再补。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>High AUROC ≠ deployable</li><li>1% prev, 95% spec → <span class="num">~50</span> FP vs <span class="num">~10</span> true (<span class="num">5:1</span>)</li><li>+ domain shift · scarce labels · privacy</li><li>Ask: FP@1%? cross-site? who monitors?</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 6 ============ -->
+  <div class="act" style="--ac:var(--accent)"><span class="no">CLOSE</span><h2>Roadmap &amp; takeaways · 收尾</h2><span class="clock">starts <b>33:55</b> · ~1:30</span></div>
+  <div class="actline" style="--ac:var(--accent)"></div>
+
+  <section class="card" style="--ac:var(--accent)">
+    <div class="chead"><span class="n">26</span><span class="t">Roadmap &amp; takeaways</span><span class="dur">1:30</span></div>
+    <div class="cols">
+      <div class="col full"><div class="lbl full">Full script</div><p>To close. <span class="em">Near-term</span>: standardized benchmarks, latent-diffusion/flow baselines, FM adapters (DINOv2, MadCLIP). <span class="em">Long-term</span>: reasoning-grounded, trustworthy, 3D-native systems. Three takeaways: medical AD = learn-normal, flag-deviation, with two engines (diffusion, VLM adaptation); the real bottlenecks are <span class="em">specificity, 3D, trust</span>, not raw accuracy; and one honest note — the three-tension framing is ours, but the methods and challenges are all cited. Happy to take questions.</p></div>
+      <div class="col zh"><div class="lbl zh">中文口播</div><p>收尾。<span class="em">近期</span>:标准化 benchmark、latent-diffusion / flow 基线、基础模型 adapter(DINOv2、MadCLIP)。<span class="em">远期</span>:reasoning-grounded、可信、3D-native 的系统。三个要点:医学 AD = "学正常、标偏差",两个引擎(扩散、VLM 适配);真正的瓶颈是<span class="em">特异性、3D、信任</span>,不是原始精度;还有一句实话 —— 三张力这个框架是我们的重组,但方法和挑战都出自可引用的文献。欢迎提问。</p></div>
+      <div class="col cue"><div class="lbl cue">Cue</div><ul><li>Near-term: benchmarks · latent/flow · FM adapters</li><li>Long-term: reasoning-grounded · trustworthy · 3D-native</li><li><b>Takeaways:</b> learn-normal + 2 engines · bottlenecks = specificity/3D/trust · framing ours, methods cited</li><li>→ Questions</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" style="--ac:var(--faint)">
+    <div class="chead" style="--ac:var(--muted)"><span class="n" style="background:var(--muted)">27</span><span class="t">References — leave up for Q&amp;A</span><span class="dur">Q&amp;A</span></div>
+    <div class="cols" style="grid-template-columns:1fr 1fr">
+      <div class="col full"><div class="lbl full" style="color:var(--muted)">Note</div><p style="color:var(--muted)">Leave the references slide up during questions. "Verified" tags = sources fetched and checked against the original. Have the MedIAnomaly numbers and the three barriers ready — that's where questions land.</p></div>
+      <div class="col zh" style="border-right:none"><div class="lbl zh" style="color:var(--muted)">备注</div><p style="color:var(--muted)">提问时把参考文献页留在屏幕上。"verified" 表示已拉原文核对。把 MedIAnomaly 的数字和三道坎准备好 —— 问题大多落在这里。</p></div>
+    </div>
+  </section>
+
+  <div class="foot">≈35 min + Q&amp;A · 时间是预算不是死稿 —— 超时先砍 ACT ②。三栏:英文口播 / 中文口播 / cue。基于 deck 自带的 speaker notes 整理。</div>
+
+</div>
+</body>
+</html>

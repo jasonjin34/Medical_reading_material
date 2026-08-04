@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tree-Deck · Anomaly Detection in Medical Imaging</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --panel:#ffffff; --ink:#15172a; --muted:#565b76;
+    --line:#e5e8f1; --accent:#3b5bdb; --accent2:#0ca5a5; --warn:#e8590c;
+    --grad:linear-gradient(135deg,#3b5bdb 0%,#0ca5a5 100%);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--font);background:#20222e;color:var(--ink);overflow:hidden}
+
+  /* ===== app layout: left tree map + right viewer ===== */
+  .app{display:flex;height:100vh;width:100vw}
+  .treemap{width:33%;max-width:430px;min-width:290px;height:100vh;overflow:auto;background:#fff;
+    border-right:1px solid var(--line);padding:22px 20px 40px}
+  .viewer{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#20222e;min-width:0}
+  /* stage is a size CONTAINER so slide type (cqw/cqh) scales to the stage, not the viewport */
+  .stage{position:relative;width:min(95%, 90vh*16/9);aspect-ratio:16/9;background:var(--bg);
+    overflow:hidden;border-radius:8px;box-shadow:0 0 50px rgba(0,0,0,.45);container-type:size;cursor:zoom-in}
+  .slide{position:absolute;inset:0;padding:4.4% 5.4% 7.5%;display:flex;flex-direction:column;
+    opacity:0;pointer-events:none;transition:opacity .25s ease;overflow:hidden}
+  .slide.active{opacity:1;pointer-events:auto}
+
+  /* present (fullscreen) mode */
+  body.present .treemap{display:none}
+  body.present .stage{width:min(100vw,100vh*16/9);border-radius:0;cursor:default}
+  .closep{display:none;position:fixed;top:14px;right:16px;z-index:30;background:#2c2f3d;color:#cfd2e4;
+    border:1px solid #3a3d4e;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:var(--font)}
+  body.present .closep{display:block}
+
+  /* ===== slide type scale (cqw = % of stage width, cqh = % of stage height) ===== */
+  h1{font-size:3.4cqw;line-height:1.1;font-weight:800;letter-spacing:-.6px}
+  h2{font-size:2.55cqw;font-weight:800;line-height:1.12;letter-spacing:-.5px;margin-bottom:.1em}
+  .overline{font-size:1.15cqw;font-weight:800;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+  .overline.t2{color:var(--accent2)} .overline.t3{color:var(--warn)} .overline.fu{color:#7048e8}
+  p,li{font-size:1.55cqw;line-height:1.4;color:var(--ink)}
+  .muted{color:var(--muted)}
+  .rule{width:5.2cqw;height:.5cqw;border-radius:3px;background:var(--grad);margin:.5em 0 .7em}
+  ul{list-style:none;margin-top:.25em}
+  li{position:relative;padding-left:1.35em;margin:.5em 0}
+  li::before{content:"";position:absolute;left:0;top:.5em;width:.58em;height:.58em;border-radius:3px;background:var(--accent)}
+  .slide.t2 li::before{background:var(--accent2)} .slide.t3 li::before{background:var(--warn)}
+  ul.big li{font-size:1.9cqw;line-height:1.4;margin:.62em 0}
+  li.sub{padding-left:2.3em;font-size:1.22cqw;color:var(--muted)}
+  li.sub::before{left:1.05em;top:.55em;width:.42em;height:.42em;border-radius:50%;background:var(--accent2)}
+  .arrow{color:var(--accent2);font-weight:800}
+  .nw{color:var(--accent2);font-weight:800} .old{color:var(--muted)}
+  .evo{font-size:1.05cqw;font-weight:800;color:var(--accent2)}
+  b,strong{font-weight:770}
+  .grow{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .split{display:grid;grid-template-columns:1.04fr .96fr;gap:2.2cqw;align-items:center;flex:1}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqw}
+  /* pitfall slides: two side-by-side panels (pitfall vs how-to-avoid) */
+  .cols.avoid{gap:2cqw;align-items:stretch}
+  .cols.avoid .card h3{margin-bottom:.5em}
+  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.3cqw}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:1cqw;padding:1.2cqw 1.4cqw;box-shadow:0 2px 10px rgba(20,24,60,.04)}
+  .card h3{font-size:1.5cqw;font-weight:790;margin-bottom:.28em}
+  .card p{font-size:1.22cqw;line-height:1.36;color:var(--ink)}
+  .card.accent{border-top:.35cqw solid var(--accent)} .card.teal{border-top:.35cqw solid var(--accent2)} .card.warn{border-top:.35cqw solid var(--warn)}
+  /* application card: icon + case */
+  .appcard{display:flex;gap:1.4cqw;align-items:center}
+  .appcard .ic{flex:none;width:44%;height:auto;border-radius:.7cqw;border:1px solid var(--line)}
+  .appcard .bd h3{font-size:2.05cqw;font-weight:800;margin-bottom:.25em}
+  .appcard .bd .pp{font-size:1.5cqw;color:#3a3f52;line-height:1.36}
+  .appcard .bd .pp b{color:var(--ink);font-weight:770}
+  .refbar{position:absolute;left:5.4%;right:5.4%;bottom:2.6%;font-size:.9cqw;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:.5em;line-height:1.35}
+  .refbar b{color:var(--accent);font-weight:700} .refbar .rn{color:var(--accent);font-weight:700}
+  .spine{text-align:center;font-size:1.45cqw;font-weight:760;margin-top:1cqw;color:var(--ink)}
+  .spine b{color:var(--accent)}
+  /* stat tiles */
+  .stats{display:flex;gap:1.2cqw;flex-wrap:wrap;margin-top:.7em}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:.9cqw;padding:.8cqw 1.1cqw;min-width:7cqw}
+  .stat .n{font-size:2.4cqw;font-weight:800;color:var(--accent);letter-spacing:-.5px;line-height:1}
+  .stat .n.teal{color:var(--accent2)} .stat .n.warn{color:var(--warn)}
+  .stat .l{font-size:.92cqw;color:var(--muted);margin-top:.35em}
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:.5em;font-size:1.18cqw}
+  th,td{text-align:left;padding:.55cqw .7cqw;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{font-size:.95cqw;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:2px solid var(--line)}
+  th.dim{width:17%;font-weight:790;color:var(--ink)}
+  tbody td:first-child{font-weight:770}
+  .dtab td,.dtab th{padding:.32cqw .5cqw}
+  .dtab td.mx{color:var(--warn);font-weight:800}
+  .dtab .dh{display:block;font-weight:400;color:var(--muted);font-size:.76cqw;margin-top:.05em}
+  .dtab .fam{font-size:.72cqw;color:var(--accent2);font-weight:700;margin-left:.25em}
+  /* schematic box-flow */
+  .schematic{display:flex;align-items:center;gap:.6cqw;flex-wrap:wrap;justify-content:center}
+  .schematic .box{background:var(--panel);border:1px solid var(--line);border-radius:.7cqw;padding:.8cqw .95cqw;font-size:1.08cqw;font-weight:700;text-align:center}
+  .schematic .box.hot{border-color:var(--warn);color:var(--warn)} .schematic .box.ac{border-color:var(--accent);color:var(--accent)}
+  .schematic .op{color:var(--accent2);font-size:1.4cqw;font-weight:800}
+  /* pipeline row with mri thumbnails */
+  .flowr{display:flex;align-items:stretch;gap:.55cqw;margin-top:.8cqw}
+  .flowr .st{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:.85cqw;padding:.7cqw .6cqw;text-align:center}
+  .flowr .st.out{border-color:#c9d2f7;background:linear-gradient(180deg,#eef1fe 0%,#fff 70%)}
+  .flowr .st .t{font-weight:790;font-size:1.12cqw;margin-top:.35em}
+  .flowr .st .d{font-size:.82cqw;color:var(--muted);margin-top:.2em;line-height:1.25}
+  .flowr .op{display:flex;align-items:center;color:var(--accent2);font-size:1.5cqw;font-weight:800}
+  /* figures */
+  .figwrap{display:flex;flex-direction:column;align-items:center}
+  .figwrap img{width:100%;max-height:56cqh;object-fit:contain;border:1px solid var(--line);border-radius:1cqw;background:#fff}
+  .figfallback{display:none;align-items:center;justify-content:center;text-align:center;min-height:24cqh;border:2px dashed #cdd2e6;border-radius:1cqw;color:var(--muted);font-size:1.2cqw;font-weight:680;padding:1cqw;background:#fff;flex-direction:column;gap:.3em;width:100%}
+  .figcap{font-size:.95cqw;color:var(--muted);margin-top:.5em;line-height:1.35;text-align:center}
+  .mini{width:100%;height:auto;display:block;border-radius:.6cqw;border:1px solid var(--line)}
+  .trio{display:flex;gap:.6cqw;align-items:flex-end;justify-content:center}
+  .trio .u{flex:1;text-align:center} .trio .u .mini{width:88%}
+  .trio .u .lab{font-size:.88cqw;color:var(--muted);margin-top:.3em;font-weight:700}
+  .trio .op{align-self:center;color:var(--accent2);font-size:1.3cqw;font-weight:800}
+  /* three-tension overview cards (slide 4) — mirrors index.html, figure enlarged */
+  .tcard{display:flex;flex-direction:column}
+  .tcard h3{font-size:1.62cqw;margin-bottom:.15em}
+  .tcard p{font-size:1.24cqw;line-height:1.35;color:var(--ink)}
+  .tcard .figwrap{margin-top:.7em}
+  .tcard .figwrap img{width:100%;height:18cqh;max-height:18cqh;object-fit:contain;border:1px solid var(--line);border-radius:.7cqw;background:#fff}
+  .tcard .figfallback{min-height:18cqh;font-size:1.0cqw}
+  .tcard .ex{font-size:1.0cqw;color:var(--muted);margin-top:.5em;font-style:italic;line-height:1.3}
+  /* chips */
+  .chipgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1cqw;margin-top:.4em}
+  .chip{background:var(--panel);border:1px solid var(--line);border-left:.4cqw solid var(--accent);border-radius:.8cqw;padding:.85cqw 1cqw;font-size:1.15cqw;font-weight:730}
+  .chip.t2{border-left-color:var(--accent2)} .chip.w{border-left-color:var(--warn)}
+  .chip .d{display:block;font-size:.88cqw;color:var(--muted);font-weight:600;margin-top:.25em}
+  .note-in{background:#fff8f2;border:1px solid #f6d9c4;border-left:.35cqw solid var(--warn);border-radius:.7cqw;
+    padding:.9cqw 1.1cqw;font-size:1cqw;color:#7a3d12;margin-top:1cqw}
+  .note-in b{color:var(--warn)}
+  /* divider + title */
+  .slide.divider{background:var(--grad);color:#fff;justify-content:center}
+  .slide.divider .overline{color:rgba(255,255,255,.9)}
+  .slide.divider h1{color:#fff;font-size:3.5cqw}
+  .slide.divider p{color:#fff;font-size:1.6cqw;margin-top:.2em}
+  .slide.divider .rule{background:#fff}
+  .slide.title{justify-content:center}
+  .slide.title h1{font-size:4cqw;margin:.05em 0}
+  .slide.title .subt{font-size:1.9cqw;color:var(--muted);font-weight:650;margin-top:.1em}
+  .slide.title .lead{font-size:1.3cqw;color:var(--muted);margin-top:1em;max-width:74%;line-height:1.4}
+  .tagrow{margin-top:1.2em}
+  .tag{display:inline-block;font-size:1cqw;font-weight:700;letter-spacing:.5px;padding:.3em .8em;border-radius:999px;background:#eef1fe;color:var(--accent);margin:.2em .35em .2em 0}
+  .meta{margin-top:1.3em;font-size:1.2cqw;color:var(--muted)}
+  /* biblio */
+  .biblio{columns:2;column-gap:3cqw;margin-top:.5em;padding-left:3.3cqw}
+  .biblio .ref{font-size:.92cqw;line-height:1.3;margin:.22em 0;break-inside:avoid;padding-left:2.4em;text-indent:-2.4em;color:var(--ink)}
+  .biblio .ref .rn{display:inline-block;color:var(--accent);font-weight:800;min-width:2.4em}
+  .vf{background:#e6f6f6;color:#0a7d7d;font-size:.82cqw;font-weight:800;padding:.05em .5em;border-radius:5px}
+
+  /* ===== left tree map ===== */
+  .tmhead{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent2);margin-bottom:2px}
+  .tmsub{font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.4}
+  .tree{margin-top:4px}
+  .nd{border:1px solid var(--line);border-radius:9px;padding:7px 11px;margin:5px 0;cursor:pointer;background:#fff;transition:.12s}
+  .nd:hover{border-color:#c9d2f7;background:#fafbff}
+  .nd.on{border-color:var(--accent);background:#eef1fe;box-shadow:0 2px 8px rgba(59,91,219,.12)}
+  .nd .q{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:.15em .55em;border-radius:999px;background:#eef1fe;color:var(--accent)}
+  .nd.qt .q{background:#e6f6f6;color:#0a7d7d} .nd.qw .q{background:#fdece1;color:#b7480c} .nd.qg .q{background:#efeafe;color:#7048e8}
+  .nd .tt{font-size:13px;font-weight:750;margin-top:3px;color:var(--ink);line-height:1.25}
+  .nd .lt{font-size:10.5px;color:var(--accent2);font-weight:700;margin-top:2px}
+  .branch{margin-left:12px;border-left:2px solid var(--line);padding-left:13px}
+  .branch.t2{border-left-color:#bfe6e6} .branch.t3{border-left-color:#f7d9c4}
+  .tmfoot{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.5}
+  .btn{background:#eef1fe;color:var(--accent);border:1px solid #dfe4fb;border-radius:7px;padding:6px 12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--font)}
+  .btn:hover{background:#e2e8ff}
+
+  /* viewer chrome */
+  #bar{position:absolute;top:0;left:0;height:3px;background:var(--grad);width:0;z-index:10;transition:width .25s}
+  #counter{position:absolute;bottom:12px;right:16px;font-size:12px;color:#aeb2c8;z-index:10}
+  #ctrls{position:absolute;bottom:10px;left:16px;display:flex;gap:7px;z-index:10}
+  #ctrls button{background:#2c2f3d;color:#cfd2e4;border:1px solid #3a3d4e;border-radius:7px;height:28px;min-width:30px;padding:0 9px;font-size:13px;cursor:pointer}
+  #ctrls button:hover{background:#3a3d55}
+  #notes{position:fixed;left:0;right:0;bottom:0;background:#15161f;color:#c9cde0;font-size:13px;line-height:1.5;padding:12px 20px;border-top:2px solid var(--accent);display:none;z-index:40;max-height:34vh;overflow:auto}
+  #notes.show{display:block} #notes b{color:#fff}
+  @media(max-width:820px){.treemap{display:none}}
+</style>
+</head>
+<body>
+
+<!-- shared textured axial-MRI brain symbol + gradients -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" focusable="false"><defs>
+  <radialGradient id="pshade" cx="40%" cy="34%" r="74%">
+    <stop offset="0%" stop-color="#8a8e9d"/><stop offset="55%" stop-color="#5f6474"/><stop offset="100%" stop-color="#3a3f4e"/>
+  </radialGradient>
+  <filter id="tex" x="-15%" y="-15%" width="130%" height="130%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.09 0.13" numOctaves="3" seed="11" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0" result="na"/>
+    <feComposite in="na" in2="SourceAlpha" operator="in" result="tn"/>
+    <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="tn"/></feMerge>
+  </filter>
+  <radialGradient id="heat" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ffffff"/><stop offset="32%" stop-color="#ffd43b"/>
+    <stop offset="68%" stop-color="#e8590c"/><stop offset="100%" stop-color="#e8590c" stop-opacity="0"/>
+  </radialGradient>
+  <g id="mri">
+    <ellipse cx="60" cy="35" rx="31" ry="30" fill="#c7cad2"/>
+    <ellipse cx="60" cy="35" rx="29.2" ry="28.2" fill="#07080d"/>
+    <ellipse cx="60" cy="35" rx="27.4" ry="26.4" fill="url(#pshade)" filter="url(#tex)"/>
+    <line x1="60" y1="10" x2="60" y2="60" stroke="#20242f" stroke-width="0.8" opacity=".55"/>
+    <path d="M60 26 C55.5 30 53.5 34 56 39 C58 43 60 42 60 37.5 C60 42 62 43 64 39 C66.5 34 64.5 30 60 26 Z" fill="#0a0c13" opacity=".9"/>
+    <g stroke="#2a2e3b" stroke-width="0.7" fill="none" opacity=".55" stroke-linecap="round">
+      <path d="M37 33 C41 31 43 35 40 38"/><path d="M40 24 C44 26 43 30 39 31"/><path d="M47 18 C50 21 48 25 45 26"/>
+      <path d="M53 14 C55 18 53 21 51 23"/><path d="M67 14 C65 18 67 21 69 23"/><path d="M73 18 C70 21 72 25 75 26"/>
+      <path d="M80 24 C76 26 77 30 81 31"/><path d="M83 33 C79 31 77 35 80 38"/>
+      <path d="M42 45 C46 48 50 47 53 45"/><path d="M67 45 C70 47 74 48 78 45"/>
+    </g>
+  </g>
+</defs></svg>
+
+<div class="app">
+
+  <!-- ===================== LEFT: TREE MAP ===================== -->
+  <aside class="treemap">
+    <div class="tmhead">Problem tree · navigation</div>
+    <div class="tree">
+      <div class="nd on" data-node="foundation" data-go="0"><span class="q">Foundation</span><div class="tt">Motivation · setup · payoffs</div></div>
+
+      <div class="nd" data-node="t1" data-go="5"><span class="q">①</span><div class="tt">Represent "normal"</div></div>
+      <div class="branch">
+        <div class="nd" data-node="recon" data-go="6"><span class="q">Reconstruction</span><div class="tt">residual = anomaly</div><div class="lt">→ Synomaly '25</div></div>
+        <div class="nd" data-node="embed" data-go="8"><span class="q">Embedding</span><div class="tt">features + memory bank</div><div class="lt">→ DINOv2 '24–25</div></div>
+      </div>
+
+      <div class="nd qt" data-node="t2" data-go="9"><span class="q">②</span><div class="tt">Fidelity vs sensitivity</div></div>
+      <div class="branch t2">
+        <div class="nd qt" data-node="noise" data-go="11"><span class="q">Noise paradox</span><div class="tt">reconstruction's case</div><div class="lt">→ cDDPM '25</div></div>
+        <div class="nd qt" data-node="featvlm" data-go="13"><span class="q">Feature / VLM</span><div class="tt">no paradox, specificity open</div></div>
+      </div>
+
+      <div class="nd qw" data-node="t3" data-go="14"><span class="q">③</span><div class="tt">Scarcity &amp; generalization</div></div>
+      <div class="branch t3">
+        <div class="nd qw" data-node="selfsup" data-go="15"><span class="q">Self-sup</span><div class="tt">synthesize → proxy seg</div><div class="lt">→ ART-ASyn '25</div></div>
+        <div class="nd qw" data-node="vlm" data-go="16"><span class="q">VLM</span><div class="tt">adapt CLIP, few/zero-shot</div><div class="lt">→ MadCLIP '25</div></div>
+      </div>
+
+      <div class="nd qg" data-node="reality" data-go="18"><span class="q">Reality check</span><div class="tt">the honest state</div></div>
+      <div class="branch t3">
+        <div class="nd qg" data-node="r-model" data-go="19"><span class="q">Models</span><div class="tt">no single winner</div></div>
+        <div class="nd qg" data-node="r-eval" data-go="20"><span class="q">Evaluation</span><div class="tt">the bug in the field</div></div>
+      </div>
+
+      <div class="nd qg" data-node="pitfalls" data-go="21"><span class="q">Translation</span><div class="tt">what blocks the clinic</div></div>
+      <div class="branch t3">
+        <div class="nd qg" data-node="p-interp" data-go="22"><span class="q">Interpretability</span><div class="tt">heatmap ≠ diagnosis</div></div>
+        <div class="nd qg" data-node="p-3d" data-go="23"><span class="q">3D</span><div class="tt">2D loses context</div></div>
+        <div class="nd qg" data-node="p-trust" data-go="24"><span class="q">Trust</span><div class="tt">AUROC ≠ usable</div></div>
+      </div>
+      <div class="nd qg" data-node="frontier" data-go="25"><span class="q">Summary</span><div class="tt">roadmap &amp; takeaways</div></div>
+      <div class="nd" data-node="appendix" data-go="26" style="opacity:.75"><span class="q">Appendix</span><div class="tt">References [1]–[34]</div></div>
+    </div>
+    <div class="tmfoot">
+      <button class="btn" onclick="present(true)">▶ Present (fullscreen)</button>
+    </div>
+  </aside>
+
+  <!-- ===================== RIGHT: VIEWER ===================== -->
+  <div class="viewer">
+    <div id="bar"></div>
+    <button class="closep" onclick="present(false)">✕ Exit fullscreen (Esc)</button>
+    <div class="stage" id="stage" onclick="present(true)">
+
+      <!-- 0 · TITLE -->
+      <section class="slide title" data-node="foundation" data-notes="One breath: a survey of how medical anomaly detection works today, its open problems, and where it's going — organized around three tensions.">
+        <div class="overline">MLMED group talk</div>
+
+        <h1>Anomaly Detection<br>in Medical Imaging</h1>
+        <div class="subt">Three tensions and the road ahead</div>
+        <div class="rule"></div>
+        <div class="lead">How medical anomaly detection works today, the problems it still can't solve, and where the field is heading.</div>
+        <div class="tagrow"><span class="tag">Brain MRI</span><span class="tag">Chest CT</span><span class="tag">Histopathology</span><span class="tag">Retinal OCT</span><span class="tag">Chest X-ray</span></div>
+        <div class="meta">Presenter: Jin Er &nbsp;·&nbsp; 2026</div>
+      </section>
+
+      <!-- 1 · MOTIVATION -->
+      <section class="slide" data-node="foundation" data-notes="The 'why'. Abnormalities are rare, diverse, unseen — you can't label them all. That forces the whole field to train on NORMAL only and flag deviations. The figure: the same idea spans 7 datasets across modalities.">
+        <div class="overline">Motivation · why this matters</div>
+        <h2>You can't label every disease</h2><div class="rule"></div>
+        <div class="split">
+          <ul class="big">
+            <li>Disease is <b>rare, diverse, and long-tailed</b> — most cases are normal</li>
+            <li>You <b>can't enumerate</b> every possible abnormality to label it</li>
+            <li>Anatomy + heterogeneity + <b>clinical safety</b> make supervised models brittle</li>
+            <li><span class="arrow">→</span> The one idea: <b>learn "normal", flag the deviation</b></li>
+          </ul>
+          <div class="figwrap">
+            <img src="figures/medianomaly-recon.png" alt="anomaly detection across 7 datasets" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">Detect-by-deviation across 7 datasets<br><span class="muted" style="font-size:.8em">sample at source</span></div>
+            <div class="figcap">The same <b>learn-normal, flag-deviation</b> idea spans 7 datasets — chest X-ray, brain MRI, retina, dermoscopy, pathology.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[15]</span> Cai, MedIA 2025 · <span class="rn">[18]</span> Pang, ACM CSUR 2021 · <span class="rn">[19]</span> Fernando, ACM CSUR 2021</div>
+      </section>
+
+      <!-- 2 · SETUP -->
+      <section class="slide" data-node="foundation" data-notes="Vocabulary. Train on normal → normal prior → score = deviation. Detection (image-level) vs localization (pixel-level). Flag that metric choice will matter (reality-check slide). The pipeline: input → prior → deviation → anomaly map.">
+        <div class="overline">Setup</div>
+        <h2>How the task is framed</h2><div class="rule"></div>
+        <div class="grow">
+          <ul class="big">
+            <li><b>Train on normal only</b> → build a <b>"normal prior"</b>; anomaly <b>score = deviation</b> from it</li>
+            <li><b>Granularity:</b> image-level detection vs pixel-level localization / segmentation</li>
+            <li><b>Metrics:</b> AUROC · AP · Dice / IoU — <span class="muted">the metric choice turns out to matter</span></li>
+          </ul>
+          <div class="flowr">
+            <div class="st"><svg class="mini" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri"/><ellipse cx="73" cy="27" rx="6" ry="5" fill="#eef1ff" opacity=".5"/><ellipse cx="73" cy="27" rx="3.2" ry="2.8" fill="#f8faff"/></svg><div class="t">Input scan</div><div class="d">patient image</div></div>
+            <div class="op">→</div>
+            <div class="st"><svg class="mini" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri"/></svg><div class="t">Normal prior</div><div class="d">healthy model</div></div>
+            <div class="op">→</div>
+            <div class="st"><svg class="mini" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri" opacity=".22"/><circle cx="73" cy="27" r="14" fill="url(#heat)"/></svg><div class="t">Deviation</div><div class="d">residual · dist · prompt</div></div>
+            <div class="op">→</div>
+            <div class="st out"><svg class="mini" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri"/><circle cx="73" cy="27" r="7" fill="#3b5bdb" opacity=".32"/><circle cx="73" cy="27" r="7" fill="none" stroke="#3b5bdb" stroke-width="2" stroke-dasharray="3 2"/></svg><div class="t">Anomaly map</div><div class="d">detect / localize</div></div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[15]</span> Cai, MedIAnomaly 2025 · <span class="rn">[17]</span> Ruff, Proc. IEEE 2021 · <span class="muted">simulated illustration</span></div>
+      </section>
+
+      <!-- 3 · CLINICAL PAYOFFS -->
+      <section class="slide" data-node="foundation" data-notes="Ground it clinically — what AD actually buys the clinic, so the audience knows why to care: screening/triage on normal-heavy data, localizing lesions without lesion labels, OOD/quality control, and catching rare or novel disease.">
+        <div class="overline">Why it matters · in the clinic</div>
+        <h2>One "normal" model, four clinical jobs</h2><div class="rule"></div>
+        <div class="grow">
+          <div class="cols" style="flex:1;grid-template-rows:1fr 1fr;gap:1.3cqw">
+            <div class="card appcard">
+              <svg class="ic" viewBox="0 0 120 76"><rect width="120" height="76" rx="6" fill="#eef1f7"/>
+                <g fill="#c3c9d6"><rect x="12" y="8" width="26" height="18" rx="3"/><rect x="47" y="8" width="26" height="18" rx="3"/><rect x="82" y="8" width="26" height="18" rx="3"/><rect x="12" y="50" width="26" height="18" rx="3"/><rect x="82" y="50" width="26" height="18" rx="3"/><rect x="12" y="29" width="26" height="18" rx="3"/><rect x="82" y="29" width="26" height="18" rx="3"/><rect x="47" y="50" width="26" height="18" rx="3"/></g>
+                <rect x="47" y="29" width="26" height="18" rx="3" fill="#e8590c"/><rect x="45" y="27" width="30" height="22" rx="4" fill="none" stroke="#e8590c" stroke-width="2"/></svg>
+              <div class="bd"><h3>Screening &amp; triage</h3><div class="pp">Surface the <b>few abnormal scans</b> so clinicians read them first — where per-disease labels can't scale.</div></div>
+            </div>
+            <div class="card appcard">
+              <svg class="ic" viewBox="0 0 120 76"><rect width="120" height="76" fill="#05060a" rx="6"/><use href="#mri"/><ellipse cx="73" cy="27" rx="9" ry="8" fill="#3b5bdb" opacity=".3"/><ellipse cx="73" cy="27" rx="9" ry="8" fill="none" stroke="#3b5bdb" stroke-width="2" stroke-dasharray="3 2"/></svg>
+              <div class="bd"><h3>Localization without labels</h3><div class="pp">A <b>lesion segmentation with zero annotations</b> — the deviation map is already pixel-level.</div></div>
+            </div>
+            <div class="card appcard">
+              <svg class="ic" viewBox="0 0 120 76"><rect width="120" height="76" fill="#05060a" rx="6"/><use href="#mri"/><g stroke="#e8590c" stroke-width="2.4" opacity=".85"><line x1="34" y1="14" x2="86" y2="58"/><line x1="86" y1="14" x2="34" y2="58"/></g><rect x="2" y="2" width="116" height="72" rx="6" fill="none" stroke="#e8590c" stroke-width="2"/></svg>
+              <div class="bd"><h3>OOD / quality control</h3><div class="pp">Reject <b>corrupted / out-of-distribution scans</b> — a gatekeeper before any downstream model.</div></div>
+            </div>
+            <div class="card appcard">
+              <svg class="ic" viewBox="0 0 120 76"><rect width="120" height="76" fill="#05060a" rx="6"/><use href="#mri"/><circle cx="98" cy="18" r="12" fill="#7048e8"/><text x="98" y="23.5" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" font-family="sans-serif">?</text></svg>
+              <div class="bd"><h3>Rare &amp; novel disease</h3><div class="pp">Catch <b>what was never in the training set</b> — AD needs no positive examples.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[19]</span> Fernando, survey ACM CSUR 2021 · <span class="rn">[18]</span> Pang, survey ACM CSUR 2021 · <span class="rn">[15]</span> Cai, MedIAnomaly 2025 · <span class="rn">[21]</span> Zimmerer, MOOD 2022</div>
+      </section>
+
+      <!-- 4 · THREE TENSIONS -->
+      <section class="slide" data-node="foundation" data-notes="The spine. Each tension → how methods answer it; the unresolved parts = future work. Three real paper figures anchor each tension.">
+        <div class="overline">The spine of this talk</div>
+        <h2>Three tensions the field is resolving</h2><div class="rule"></div>
+        <div class="grow">
+          <div class="cols3">
+            <div class="card tcard">
+              <h3><span style="color:var(--accent)">①</span> Represent "normal"</h3>
+              <p>Rebuild the scan and read the <b>residual</b> — or embed it and measure <b>feature distance</b>.</p>
+              <div class="figwrap"><img src="figures/ex-recon.png" alt="reconstruction to anomaly map" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="figfallback">input → reconstruction → anomaly map</div></div>
+              <div class="ex">e.g. on brain MRI, the residual highlights a tumour a normal-trained model can't reconstruct</div>
+            </div>
+            <div class="card tcard">
+              <h3><span style="color:var(--accent2)">②</span> Fidelity vs sensitivity</h3>
+              <p>In reconstruction methods, the <b>noise paradox</b>: erase the lesion without distorting healthy anatomy.</p>
+              <div class="figwrap"><img src="figures/thor.png" alt="DDPM vs THOR" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="figfallback">too much noise → false positives</div></div>
+              <div class="ex">e.g. over-noising also alters healthy anatomy → the pseudo-healthy scan drifts → false positives</div>
+            </div>
+            <div class="card tcard">
+              <h3><span style="color:var(--warn)">③</span> Scarcity &amp; generalization</h3>
+              <p>Almost <b>no abnormal data</b>, and it must work across <b>many modalities</b>.</p>
+              <div class="figwrap"><img src="figures/ex-multimodal.png" alt="MVFA across modalities" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="figfallback">one model → MRI · CT · OCT</div></div>
+              <div class="ex">e.g. MVFA-AD adapts one CLIP backbone to brain MRI, liver CT and retinal OCT</div>
+            </div>
+          </div>
+          <div class="spine"><b>Existing methods = answers</b> to these tensions · <b>the unresolved parts = future work</b></div>
+        </div>
+        <div class="refbar"><b>Sources —</b> ① <span class="rn">[6]</span> AutoDDPM · ② <span class="rn">[7]</span> THOR · ③ <span class="rn">[13]</span> MVFA-AD &nbsp;·&nbsp; three tensions = this talk's re-grouping of <span class="rn">[15][33]</span></div>
+      </section>
+
+      <!-- 5 · DIVIDER ① -->
+      <section class="slide divider" data-node="t1" data-notes="Tension 1: reconstruct vs embed.">
+        <div class="overline">Tension ①</div>
+        <h1>How do we represent<br>"normal"?</h1><div class="rule"></div>
+        <p>Rebuild the image and read the residual · or embed it into a feature space</p>
+      </section>
+
+      <!-- 6 · RECONSTRUCTION AE→GAN -->
+      <section class="slide" data-node="recon" data-notes="Classical reconstruct-and-compare and why it struggled → motivates diffusion. A normal-trained generator can't rebuild pathology, so the residual is the anomaly. AnoGAN→f-AnoGAN. Failures: mode collapse, blur, identity shortcut (lesion copied through). Keep AE family to one line.">
+        <div class="overline">Tension ① · Reconstruction</div>
+        <h2>Reconstruct-and-compare: AE → GAN</h2><div class="rule"></div>
+        <div class="split">
+          <ul>
+            <li>A normal-trained generator <b>can't rebuild pathology</b> → <b>residual = anomaly</b></li>
+            <li>Lineage: <b>AnoGAN → f-AnoGAN</b> (adversarial pseudo-healthy)</li>
+            <li>Failure modes: mode collapse, blur, the <b>"identity shortcut"</b></li>
+            <li class="sub">AE family: AE · VAE · VQ-VAE · MemAE · denoising/context AE — differ in how they bottleneck "normal"</li>
+          </ul>
+          <div class="figwrap">
+            <img src="figures/ex-brain.png" alt="brain MRI reconstruct and compare" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">input → reconstruction → error map → GT</div>
+            <div class="figcap">Input tumour → healthy reconstruction → error maps (L1, SSIM) → ground-truth lesion.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[1]</span> Schlegl, IPMI 2017 · <span class="rn">[2]</span> f-AnoGAN, MedIA 2019 · <span class="rn">[3]</span> Baur, MedIA 2021</div>
+      </section>
+
+      <!-- 7 · DIFFUSION → SYNOMALY -->
+      <section class="slide" data-node="recon" data-notes="Diffusion is now the dominant reconstruction backbone. AnoDDPM: Simplex noise controls anomaly size. AutoDDPM: automatic mask–stitch–resample. Latest: Synomaly multi-stage diffusion (MedIA 2025). The figure: Simplex vs Gaussian on brain MRI.">
+        <div class="overline">Tension ① · Reconstruction</div>
+        <h2>Diffusion becomes the backbone</h2><div class="rule"></div>
+        <div class="split">
+          <div>
+            <ul>
+              <li><b>DDPM:</b> better coverage &amp; fidelity than GAN</li>
+              <li><b>AnoDDPM:</b> Simplex noise → <b>control anomaly size</b>; <b>AutoDDPM:</b> mask–stitch–resample</li>
+              <li><span class="evo">Latest</span> <span class="nw">Synomaly multi-stage diffusion (MedIA '25)</span></li>
+            </ul>
+            <div class="stats"><div class="stat"><div class="n">+25.5%</div><div class="l">Dice (T1 MRI)</div></div><div class="stat"><div class="n teal">+17.6%</div><div class="l">IoU</div></div></div>
+          </div>
+          <div class="figwrap">
+            <img src="figures/anoddpm.png" alt="AnoDDPM Simplex vs Gaussian" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">AnoDDPM · Simplex vs Gaussian</div>
+            <div class="figcap">Simplex noise (top) repairs the lesion and exposes it in the residual; Gaussian (bottom) fails.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[4]</span> DDPM, NeurIPS 2020 · <span class="rn">[5]</span> AnoDDPM, CVPRW 2022 · <span class="rn">[6]</span> AutoDDPM 2023 · <span class="rn">[30]</span> Synomaly, MedIA 2025</div>
+      </section>
+
+      <!-- 8 · EMBEDDING → DINOv2 -->
+      <section class="slide" data-node="embed" data-notes="The other answer: don't generate — embed and compare. Frozen features + memory bank + kNN (PatchCore, industrial origin, strong baseline). In medicine ImageNet features are already strong; the field moves to DINOv2 foundation features — AnomalyDINO, medical DINO-DPMM. The demo: normal features cluster; an anomaly sits far from all of them.">
+        <div class="overline">Tension ① · The other answer</div>
+        <h2>Don't reconstruct — embed &amp; compare</h2><div class="rule"></div>
+        <div class="split" style="grid-template-columns:.74fr 1.26fr">
+          <ul>
+            <li>Frozen <b>features</b> + <b>memory bank</b> + kNN → fast, stable, strong localization</li>
+            <li><span class="old">PatchCore '22 (industrial origin, a strong baseline)</span></li>
+            <li><span class="evo">Latest</span> <span class="nw">DINOv2 foundation features</span>: AnomalyDINO '24 · medical <b>DINO-DPMM</b> (MICCAI '25)</li>
+            <li class="sub">industrial baselines carry over: PaDiM · CFLOW/FastFlow · Reverse Distillation</li>
+          </ul>
+          <div class="figwrap">
+            <img src="figures/dinodpmm.png" alt="DINO-DPMM: DINOv2 features + DPMM + cosine distance" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">DINO-DPMM · DINOv2 features + DPMM</div>
+            <div class="figcap">Medical DINO-DPMM: frozen DINOv2 features → fit a DPMM of "normal" → cosine distance = anomaly heatmap.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[8]</span> PatchCore, CVPR 2022 · <span class="rn">[27]</span> AnomalyDINO 2024 · <span class="rn">[28]</span> DINO-DPMM, MICCAI 2025</div>
+      </section>
+
+      <!-- 9 · DIVIDER ② -->
+      <section class="slide divider" data-node="t2" data-notes="Tension 2: the deployment pain point. Specificity, and reconstruction's noise paradox.">
+        <div class="overline">Tension ②</div>
+        <h1>The specificity bar</h1><div class="rule"></div>
+        <p>False positives decide deployment — with the noise paradox behind them</p>
+      </section>
+
+      <!-- 10 · SPECIFICITY -->
+      <section class="slide t2" data-node="t2" data-notes="Tension 2 is really SPECIFICITY — a bar for every method. A balanced AUROC of 0.95 is not usable: at 1% prevalence, a few % false positives times a huge normal population buries the true lesions, clinicians get alert fatigue and abandon the tool.">
+        <div class="overline t2">Tension ② · the real bar</div>
+        <h2>Why specificity decides deployment</h2><div class="rule"></div>
+        <div class="split">
+          <ul>
+            <li>A balanced <b>AUROC of 0.95</b> ≠ usable</li>
+            <li>At <b>1% prevalence</b>: a few % false positives × many normals → <b>alarms drown the clinician</b></li>
+            <li>→ alert fatigue → <b>abandoned</b>; and "detect anything abnormal" is <b>hard to clear (regulation)</b></li>
+            <li><span class="arrow">⇒</span> <b>almost no unsupervised AD is in clinical use — specificity is the #1 reason</b></li>
+          </ul>
+          <div class="figwrap">
+            <svg viewBox="0 0 200 140" style="width:88%">
+              <rect x="4" y="10" width="192" height="22" rx="4" fill="#e7eaf3"/>
+              <rect x="4" y="10" width="3" height="22" fill="#e8590c"/>
+              <text x="100" y="25" font-size="9" text-anchor="middle" fill="#565b76" font-family="sans-serif">1000 scans · only ~10 true lesions</text>
+              <text x="100" y="52" font-size="8.5" text-anchor="middle" fill="#565b76" font-family="sans-serif">apply a 3% false-positive rate ↓</text>
+              <rect x="26" y="62" width="148" height="22" rx="4" fill="#fdece1"/>
+              <text x="100" y="77" font-size="9.5" text-anchor="middle" fill="#b7480c" font-family="sans-serif" font-weight="700">~30 false alarms   vs   ~10 true</text>
+              <text x="100" y="110" font-size="10" text-anchor="middle" fill="#e8590c" font-family="sans-serif" font-weight="800">false alarms &gt; true positives → distrust</text>
+            </svg>
+            <div class="figcap"><span class="muted">Simulated illustration of the low-prevalence regime.</span></div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[33]</span> Liu, UAD survey 2026 (limited clinical use) · <span class="rn">[6]</span> AutoDDPM · <span class="rn">[7]</span> THOR, MICCAI 2024</div>
+      </section>
+
+      <!-- 11 · NOISE PARADOX -->
+      <section class="slide t2" data-node="noise" data-notes="Reconstruction's own trap: the noise paradox. To erase a lesion you inject noise — too little leaves it (false negatives), too much destroys healthy anatomy so the pseudo-healthy image drifts (false positives). Tuning noise can't win both.">
+        <div class="overline t2">Tension ② · reconstruction's paradox</div>
+        <h2>Erase the lesion, or keep the anatomy?</h2><div class="rule"></div>
+        <div class="split" style="grid-template-columns:.86fr 1.14fr">
+          <ul>
+            <li><b>Too little</b> noise → lesion survives → <b>false negatives</b> (sensitivity↓)</li>
+            <li><b>Too much</b> noise → healthy anatomy destroyed → <b>false positives</b> (specificity↓)</li>
+            <li><span class="old">Early fix: just tune the noise level (AnoDDPM's Simplex)</span> — but you <b>can't win both</b></li>
+            <li><span class="arrow">→</span> so the field switched to <b>guidance</b> (next)</li>
+          </ul>
+          <div class="figwrap">
+            <div class="trio">
+              <div class="u"><svg class="mini" style="width:100%" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri"/><ellipse cx="73" cy="27" rx="5" ry="4.5" fill="#eef1ff" opacity=".7"/></svg><div class="lab" style="color:var(--warn)">too little</div><div style="font-size:.85cqw;color:var(--muted);line-height:1.2;margin-top:.1em">lesion still visible → <b style="color:var(--warn)">FN</b></div></div>
+              <div class="u"><svg class="mini" style="width:100%" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri"/><circle cx="73" cy="27" r="7" fill="none" stroke="#3b5bdb" stroke-width="2" stroke-dasharray="3 2"/></svg><div class="lab" style="color:var(--accent2)">just right</div><div style="font-size:.85cqw;color:var(--muted);line-height:1.2;margin-top:.1em">lesion gone, anatomy intact</div></div>
+              <div class="u"><svg class="mini" style="width:100%" viewBox="0 0 120 70"><rect width="120" height="70" fill="#05060a"/><use href="#mri" opacity=".5"/><circle cx="60" cy="35" r="26" fill="url(#heat)" opacity=".55"/></svg><div class="lab" style="color:var(--warn)">too much</div><div style="font-size:.85cqw;color:var(--muted);line-height:1.2;margin-top:.1em">healthy cortex erased → <b style="color:var(--warn)">FP</b></div></div>
+            </div>
+            <div class="figcap">Tuning the noise level trades false negatives for false positives — <b>no single level wins</b>. <span class="muted">Simulated · not a real case.</span></div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[5]</span> AnoDDPM (Simplex), CVPRW 2022 · <span class="rn">[6]</span> AutoDDPM 2023</div>
+      </section>
+
+      <!-- 12 · GUIDANCE → cDDPM -->
+      <section class="slide t2" data-node="noise" data-notes="How the field responds — guidance instead of tuning noise. THOR (Bercea, Wiestler, Rueckert, Schnabel; MICCAI 2024): during the reverse diffusion it uses intermediate anomaly maps as implicit guidance, so the restoration preserves detail in healthy regions while still erasing the lesion → fewer false positives (brain MRI, wrist X-ray). cDDPM (2025, verified): conditions the denoiser on a latent of the input so it adapts to the patient's intensity without replicating unhealthy structure. Latent + rectified flow (3D, Front. Radiol. 2026): restores in a pretrained-VAE latent with rectified flow → volumetric context, far fewer sampling steps. Net: guidance improves specificity, doesn't solve it. Figure: DDPM vs THOR trajectories with GT.">
+        <div class="overline t2">Tension ② · responses</div>
+        <h2>Guidance &amp; latent restoration</h2><div class="rule"></div>
+        <div class="split">
+          <ul>
+            <li><b>THOR</b> (MICCAI'24): guides denoising with <b>intermediate anomaly maps</b> → keeps healthy detail, erases only the lesion → <b>FP↓</b></li>
+            <li><b>cDDPM</b> (2025): <b>conditions the denoiser on the input's latent</b> → patient-specific, won't replicate pathology</li>
+            <li><b>Latent + rectified flow</b> (3D, 2025): restore in a <b>VAE latent</b> → volumetric context, far fewer steps</li>
+            <li><span class="arrow">⇒</span> <b>guidance cuts false positives but doesn't close specificity — improved, not solved</b></li>
+          </ul>
+          <div class="figwrap">
+            <img src="figures/thor.png" alt="DDPM vs THOR guided restoration" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">THOR · guided restoration</div>
+            <div class="figcap">DDPM (top) vs THOR (guided): the guided trajectory keeps healthy tissue → residual = the true lesion (GT).</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[7]</span> THOR, MICCAI 2024 · <span class="rn">[26]</span> Latent RF (3D), Front. Radiol. 2026 · <span class="rn">[31]</span> cDDPM, CBM 2025</div>
+      </section>
+
+      <!-- 13 · FEATURE/VLM NO PARADOX -->
+      <section class="slide t2" data-node="featvlm" data-notes="The other half: embedding and VLM methods don't reconstruct, so they have no noise paradox — but specificity is still unsolved. A distance score has no obvious clinical operating point, and thresholds drift across scanners/sites. Takeaway: specificity is a bar for ALL methods; the noise paradox is only reconstruction's special case.">
+        <div class="overline t2">Tension ② · the other half</div>
+        <h2>Feature / VLM: no paradox, specificity stays open</h2><div class="rule"></div>
+        <div class="split">
+          <div>
+            <div class="cols" style="grid-template-columns:1fr">
+              <div class="card"><h3><span style="color:var(--accent2)">✓</span> No noise paradox</h3><p class="muted">Embedding / VLM <b>don't reconstruct</b> → no "add-noise-destroys-anatomy" dilemma.</p></div>
+              <div class="card" style="margin-top:1cqw"><h3><span style="color:var(--warn)">✗</span> A different bar</h3><p class="muted">No obvious <b>operating point</b> for a distance score; <b>thresholds drift across sites</b>.</p></div>
+            </div>
+            <div class="note-in"><b>Takeaway:</b> specificity (②) is a bar for <b>all methods</b>; the noise paradox is only reconstruction's special case.</div>
+          </div>
+          <div class="figwrap">
+            <svg viewBox="0 0 200 140" style="width:92%">
+              <line x1="14" y1="110" x2="190" y2="110" stroke="#c9ccd6" stroke-width="1"/>
+              <path d="M20 110 C55 110 55 55 78 55 C101 55 101 110 136 110" fill="none" stroke="#3b5bdb" stroke-width="2"/>
+              <path d="M55 110 C90 110 90 62 113 62 C136 62 136 110 171 110" fill="none" stroke="#0ca5a5" stroke-width="2" stroke-dasharray="4 3"/>
+              <line x1="118" y1="24" x2="118" y2="115" stroke="#e8590c" stroke-width="1.6"/>
+              <text x="118" y="20" font-size="8.5" text-anchor="middle" fill="#e8590c" font-family="sans-serif" font-weight="800">fixed threshold</text>
+              <text x="70" y="128" font-size="8" fill="#3b5bdb" font-family="sans-serif" font-weight="700">site A</text>
+              <text x="150" y="128" font-size="8" fill="#0ca5a5" font-family="sans-serif" font-weight="700">site B (shifted)</text>
+            </svg>
+            <div class="figcap">A threshold tuned on site A misfires on site B. <span class="muted">Simulated.</span></div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[15]</span> MedIAnomaly (evaluation) · synthesis</div>
+      </section>
+
+      <!-- 14 · DIVIDER ③ -->
+      <section class="slide divider" data-node="t3" data-notes="Tension 3: the data problem. Manufacture anomalies, or borrow a foundation model.">
+        <div class="overline">Tension ③</div>
+        <h1>Scarcity &amp; generalization</h1><div class="rule"></div>
+        <p>Two problems — <b>scarcity</b> (no abnormal data) + <b>generalization</b> (many modalities)</p>
+      </section>
+
+      <!-- 15 · SELF-SUPERVISION → ART-ASyn -->
+      <section class="slide t3" data-node="selfsup" data-notes="First answer: manufacture the anomalies you lack. CutPaste, FPI, PII (2020–21) synthesize 'what's wrong' → proxy segmentation. Weakness: synthetic ≠ real (learns paste artifacts, doesn't transfer). Latest: ART-ASyn synthesizes realistic textures at anatomically plausible locations (chest X-ray, 2025). Demo is medical (the real CutPaste figure is industrial).">
+        <div class="overline t3">Tension ③ · Self-supervision</div>
+        <h2>Manufacture the anomalies you lack</h2><div class="rule"></div>
+        <div class="split" style="grid-template-columns:.74fr 1.26fr">
+          <ul>
+            <li><span class="old">CutPaste · FPI · PII (2020–21)</span>: synthesize defects → <b>proxy segmentation</b>, no real anomalies</li>
+            <li>Limit <b>synthetic ≠ real</b> (learns paste artifacts, doesn't transfer)</li>
+            <li><span class="evo">Latest</span> <span class="nw">ART-ASyn: anatomy-aware, realistic texture (CXR, 2025)</span></li>
+            <li><span class="arrow">⇒</span> <b>answers scarcity only</b> (usually single-modality); trained on fake defects → <b>a detector, not an explanation</b></li>
+          </ul>
+          <div class="figwrap">
+            <img src="figures/artasyn.png" alt="ART-ASyn anatomy-aware anomaly synthesis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">ART-ASyn · anatomy-aware synthesis</div>
+            <div class="figcap">ART-ASyn: lung segment → brush dynamics → drawn anomaly → realistic CXR anomaly + mask.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[9]</span> CutPaste, CVPR 2021 · <span class="rn">[10]</span> PII · <span class="rn">[11]</span> FPI · <span class="rn">[32]</span> ART-ASyn 2025</div>
+      </section>
+
+      <!-- 16 · MVFA -->
+      <section class="slide t3" data-node="vlm" data-notes="Second answer: borrow CLIP. MVFA-AD (Huang et al., CVPR 2024 Highlight, arXiv:2403.12570). Why zero-shot CLIP fails: its features are image-level and semantic, but medical anomalies are local and subtle. MVFA's fix: keep CLIP frozen, insert lightweight residual adapters at MULTIPLE encoder levels, and align patch features to text prompts (pixel-level vision-language alignment) — so it can localize (anomaly segmentation, AS) not just classify (anomaly classification, AC). Two branches ensembled: zero-shot (text) + few-shot (a small memory bank of normal features). Evaluated across 5 medical domains (brain MRI, liver CT, retinal OCT, chest X-ray, histopathology); beats April-GAN (CVPR'23 VAND winner) by +7.33% AC. This is where cross-modality generalization comes from — self-supervision doesn't do it.">
+        <div class="overline t3">Tension ③ · VLM adaptation</div>
+        <h2>Borrow a foundation model — MVFA-AD</h2><div class="rule"></div>
+        <div class="split" style="grid-template-columns:.8fr 1.2fr">
+          <div>
+            <ul>
+              <li><b>Why CLIP fails:</b> its features are <b>image-level &amp; semantic</b>; medical anomalies are <b>local &amp; subtle</b></li>
+              <li><b>MVFA's fix:</b> frozen CLIP + lightweight <b>adapters at multiple levels</b> + <b>pixel-level V–L alignment</b> → localize (AS), not just classify (AC)</li>
+              <li>Two branches: <b>zero-shot (text)</b> + <b>few-shot (memory bank)</b>, ensembled</li>
+              <li><span class="arrow">⇒</span> <b>cross-modality generalization comes from here — not self-supervision</b></li>
+            </ul>
+            <div class="stats"><div class="stat"><div class="n">+6.24%</div><div class="l">Zero-shot AUC ↑</div></div><div class="stat"><div class="n teal">+7.33%</div><div class="l">Few-shot AUC ↑ (vs April-GAN)</div></div></div>
+          </div>
+          <div class="figwrap">
+            <img src="figures/mvfa.png" alt="MVFA-AD adapters" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">MVFA-AD · multi-level adapters</div>
+            <div class="figcap">Frozen CLIP + learnable multi-level adapters; zero-shot (text) &amp; few-shot (memory-bank) branches → AC + AS.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[12]</span> CLIP, ICML 2021 · <span class="rn">[13]</span> MVFA-AD, CVPR 2024</div>
+      </section>
+
+      <!-- 17 · MediCLIP → MadCLIP -->
+      <section class="slide t3" data-node="vlm" data-notes="Few-shot / no-real-anomaly extreme, and the broader medical foundation-model trend. MediCLIP: synthetic tasks + learnable prompts + adapters. Latest: MadCLIP beats MVFA cross-dataset (MICCAI 2025). Figure: the MediCLIP architecture.">
+        <div class="overline t3">Tension ③ · VLM adaptation</div>
+        <h2>MediCLIP → MadCLIP &amp; the FM trend</h2><div class="rule"></div>
+        <div class="split">
+          <ul>
+            <li><span class="old">MediCLIP / MVFA (2024)</span>: few-shot, <b>no real anomalies</b> — synthetic tasks + learnable prompts + adapters</li>
+            <li><span class="evo">Latest</span> <span class="nw">MadCLIP: beats MVFA cross-dataset (MICCAI '25)</span></li>
+            <li><span class="arrow">⇒</span> <b>even 2025 SOTA is a better detector, not a better explainer → interpretability is the frontier</b></li>
+            <li class="sub">VLM is also a "represent normal" (①); filed under ③ as it mainly solves scarcity/cross-modality</li>
+          </ul>
+          <div class="figwrap">
+            <img src="figures/mediclip.png" alt="MediCLIP architecture" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">MediCLIP · prompts + adapters → anomaly map</div>
+            <div class="figcap">Synthetic anomaly tasks + prompt tuning + adapters turn CLIP into a medical detector.</div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[14]</span> MediCLIP, MICCAI 2024 · <span class="rn">[29]</span> MadCLIP, MICCAI 2025</div>
+      </section>
+
+      <!-- DIVIDER · REALITY CHECK -->
+      <section class="slide divider" data-node="reality" data-notes="Interlude — a reality check before the road ahead. Two parts: the model you pick (a tuned baseline is competitive), and the evaluation you trust (it's shakier than the leaderboards suggest).">
+        <div class="overline">Reality check</div>
+        <h1>Do the numbers hold up?</h1><div class="rule"></div>
+        <p>The <b>model</b> you pick · and the <b>evaluation</b> you trust</p>
+      </section>
+
+      <!-- REALITY CHECK · THE BENCHMARK (MedIAnomaly intro) -->
+      <section class="slide" data-node="reality" data-notes="Intro the yardstick before the numbers. MedIAnomaly (Cai et al., MedIA 2025) is a fair, unified comparative study of medical anomaly detection: 7 datasets across 5 modalities, 30 methods spanning reconstruction (incl. diffusion), feature, and self-supervised families, evaluated at both image level (detection) and pixel level (localization). Its two headline messages set up the next two slides: (1) simple baselines were underrated — a plainly-implemented AE is far stronger than prior work credited; (2) the evaluation itself is unreliable — several popular datasets are saturated. This is why we trust its numbers over scattered leaderboards.">
+        <div class="overline fu">Reality check · the benchmark</div>
+        <h2>First, a fair yardstick: MedIAnomaly</h2><div class="rule"></div>
+        <div class="grow">
+          <p style="font-size:1.46cqw;line-height:1.44;color:var(--ink);margin:.2em 0 .1em">One <b>unified, controlled</b> comparison instead of scattered leaderboards — <b>every method re-implemented the same way</b>, at both <b>image level</b> (is the scan abnormal?) and <b>pixel level</b> (where?).</p>
+          <div class="stats" style="margin:.8em 0 .35em">
+            <div class="stat"><div class="n">30</div><div class="l" style="font-size:1.04cqw">methods, re-implemented uniformly</div></div>
+            <div class="stat"><div class="n">7</div><div class="l" style="font-size:1.04cqw">datasets · 5 modalities</div></div>
+            <div class="stat"><div class="n">3</div><div class="l" style="font-size:1.04cqw">families: recon (incl. diffusion) · feature · self-sup</div></div>
+            <div class="stat"><div class="n">2</div><div class="l" style="font-size:1.04cqw">tasks: detect + localize</div></div>
+          </div>
+          <p class="muted" style="font-size:1.16cqw;margin:.2em 0 .55em">Two findings frame the next two slides:</p>
+          <div class="cols" style="grid-template-columns:1fr 1fr;gap:1.7cqw">
+            <div class="card" style="padding:1.3cqw 1.6cqw"><h3 style="font-size:1.62cqw">Underrated baselines</h3><p class="muted" style="font-size:1.3cqw;line-height:1.4;margin-top:.35em">A plainly-tuned <b>AE</b> is far stronger than prior work credited — complexity ≠ guaranteed gains. <span class="muted">→ the table, next.</span></p></div>
+            <div class="card" style="padding:1.3cqw 1.6cqw"><h3 style="font-size:1.62cqw">Shaky evaluation</h3><p class="muted" style="font-size:1.3cqw;line-height:1.4;margin-top:.35em">Several <b>popular datasets are saturated</b> → reported "SOTA" gains are partly an <b>evaluation artifact</b>. <span class="muted">→ then.</span></p></div>
+          </div>
+        </div>
+        <div class="refbar"><b>Source —</b> <span class="rn">[15]</span> Cai et al., MedIAnomaly, Medical Image Analysis 2025</div>
+      </section>
+
+      <!-- 18 · REALITY CHECK · MODELS -->
+      <section class="slide" data-node="r-model" data-notes="Reality check — models. Numbers are the REAL image-level AUC from MedIAnomaly Table 5 (5 modalities / 7 datasets / 30 methods; the benchmark spans reconstruction (incl. diffusion: AnoDDPM, AutoDDPM), feature, and self-supervised methods). Story from the real data: a plain, well-tuned AE stays competitive (BraTS 82.6, Brain Tumor 85.9); the residual/scoring metric matters (AE 67.5 → AE-SSIM 80.9 on RSNA); and there is no single winner — the best method flips across datasets (FAE-SSIM on RSNA/LAG, AE-U on VinDr, ResNet18-ImageNet on Brain Tumor, AnatPaste on ISIC, DAE on BraTS, AutoDDPM on Camelyon pathology). A plain AE collapses on pathology (Camelyon16 36.8) but diffusion recovers it (AutoDDPM 80.7) and so do ImageNet features (73.2). Bold cell = best on that dataset. Takeaway: don't chase SOTA; a tuned baseline is strong and the winner is dataset-dependent.">
+        <div class="overline fu">Reality check · models</div>
+        <h2>Don't chase SOTA —<br>a tuned AE is a strong baseline</h2><div class="rule"></div>
+        <div class="grow">
+          <p style="font-size:1.12cqw;color:var(--muted);margin:.1em 0 .45em"><b style="color:var(--ink)">Image-level AUC (%)</b> · MedIAnomaly Table 5 &nbsp;·&nbsp; 5 modalities · 7 datasets · 30 methods &nbsp;·&nbsp; <b style="color:var(--warn)">bold = best on that dataset</b> — the winner keeps changing.</p>
+          <table class="dtab" style="font-size:1.0cqw">
+            <thead><tr>
+              <th class="dim">Method</th>
+              <th>RSNA<span class="dh">CXR</span></th>
+              <th>VinDr<span class="dh">CXR</span></th>
+              <th>Brain&nbsp;T.<span class="dh">MRI</span></th>
+              <th>LAG<span class="dh">retina</span></th>
+              <th>ISIC<span class="dh">derm</span></th>
+              <th>Camelyon<span class="dh">path</span></th>
+              <th>BraTS<span class="dh">MRI</span></th>
+            </tr></thead>
+            <tbody>
+              <tr><td>AE <span class="fam">recon</span></td><td>67.5</td><td>56.4</td><td>85.9</td><td>79.0</td><td>74.5</td><td>36.8</td><td>82.6</td></tr>
+              <tr><td>AE-SSIM</td><td>80.9</td><td>54.5</td><td>92.7</td><td>67.6</td><td>77.0</td><td>38.0</td><td>80.3</td></tr>
+              <tr><td>AE-U</td><td>86.5</td><td class="mx">76.9</td><td>94.4</td><td>80.8</td><td>70.1</td><td>60.6</td><td>83.0</td></tr>
+              <tr><td>DAE</td><td>86.1</td><td>68.6</td><td>83.2</td><td>71.6</td><td>70.0</td><td>65.4</td><td class="mx">85.9</td></tr>
+              <tr><td>AnoDDPM-S <span class="fam">diffusion</span></td><td>79.4</td><td>55.5</td><td>67.2</td><td>58.5</td><td>66.7</td><td>70.6</td><td>82.7</td></tr>
+              <tr><td>AutoDDPM <span class="fam">diffusion</span></td><td>83.6</td><td>69.4</td><td>92.7</td><td>72.4</td><td>73.7</td><td class="mx">80.7</td><td>84.5</td></tr>
+              <tr><td>FAE-SSIM <span class="fam">feature</span></td><td class="mx">91.1</td><td>70.2</td><td>93.2</td><td class="mx">84.6</td><td>77.2</td><td>39.7</td><td>81.6</td></tr>
+              <tr><td>ResNet18 <span class="fam">ImageNet</span></td><td>87.0</td><td>67.4</td><td class="mx">97.2</td><td>80.5</td><td>71.7</td><td>73.2</td><td>72.8</td></tr>
+              <tr><td>AnatPaste <span class="fam">self-sup</span></td><td>88.4</td><td>71.0</td><td>95.1</td><td>71.8</td><td class="mx">80.7</td><td>56.6</td><td>73.7</td></tr>
+              <tr><td>PII</td><td>81.9</td><td>65.7</td><td>83.5</td><td>59.6</td><td>71.9</td><td>44.3</td><td>54.3</td></tr>
+              <tr><td>NSA</td><td>82.4</td><td>62.0</td><td>82.1</td><td>66.0</td><td>73.5</td><td>45.6</td><td>53.5</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:1.22cqw;line-height:1.34;color:var(--ink);margin:.35em 0 .15em"><b>An underrated baseline:</b> a properly-tuned <b>AE</b> rivals far heavier models on most columns — diffusion (AutoDDPM) and ImageNet features pull ahead only on the <b>hard</b> ones (AutoDDPM tops Camelyon pathology, <b>80.7</b> vs AE 36.8), and <b>no single method wins every column</b>.</p>
+          <div class="figcap" style="margin-top:.15em">Metric matters too (AE→AE-SSIM <b>+13</b> on RSNA). Bold = best in that column.</div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[15]</span> Cai, MedIAnomaly, MedIA 2025</div>
+      </section>
+
+      <!-- 19 · REALITY CHECK · EVALUATION -->
+      <section class="slide" data-node="r-eval" data-notes="Reality check, part 2 — evaluation. MedIAnomaly's core message: the field lacks a fair, comprehensive evaluation, which muddies conclusions and holds progress back. A plainly-implemented AE reaches near-perfect scores on common datasets, showing those datasets are unsuitable and that much reported 'SOTA' gain comes from evaluation/dataset differences, not real progress. Takeaway: don't be led by leaderboards; invest in specificity (②) and generalization (③).">
+        <div class="overline fu">Reality check · evaluation</div>
+        <h2>The bug is in the evaluation, not the model</h2><div class="rule"></div>
+        <div class="grow">
+          <div class="split" style="grid-template-columns:1.02fr .98fr;gap:2.2cqw;align-items:center">
+            <div>
+              <p style="font-size:1.42cqw;line-height:1.4;color:var(--ink);margin:.1em 0 .5em"><b>MedIAnomaly's core message:</b> the field <b>lacks a fair, comprehensive evaluation</b> — which muddies conclusions and holds it back. <span class="rn">[15]</span></p>
+              <p style="font-size:1.28cqw;line-height:1.42;color:var(--muted);margin:0 0 .55em"><b style="color:var(--ink)">How to read the chart →</b> on <b>easy</b> datasets a plain AE already scores <b>~99%</b> — the metric is <b>maxed out</b>, so it can't tell methods apart. On <b>hard</b> datasets the same AE swings <b>37–68%</b> — that's where real differences show.</p>
+              <div style="background:#f4f6fb;border:1px solid var(--line);border-radius:.8cqw;padding:.9cqw 1.4cqw;font-size:1.44cqw;line-height:1.36;color:var(--ink)"><b>The conclusion:</b> much reported <b>"SOTA" gain is an evaluation artifact</b> — chasing saturated datasets, not real progress.</div>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:1.16cqw;font-weight:700;color:var(--ink);margin-bottom:.2em">Plain AE · image-level AUC (%)</div>
+              <svg viewBox="0 0 320 168" style="width:98%">
+                <line x1="20" y1="125" x2="300" y2="125" stroke="#d3d6df" stroke-width="1"/>
+                <line x1="20" y1="16" x2="118" y2="16" stroke="#c3c9d6" stroke-width="0.8" stroke-dasharray="3 2"/>
+                <text x="14" y="18" font-size="8" fill="#9aa0b0" font-family="sans-serif" text-anchor="end">100</text>
+                <rect x="34" y="15.8" width="34" height="109.2" rx="2" fill="#b8bdc9"/><text x="51" y="10" font-size="11" text-anchor="middle" fill="#565b76" font-family="sans-serif" font-weight="700">99.5</text><text x="51" y="137" font-size="8.5" text-anchor="middle" fill="#565b76" font-family="sans-serif">Hyper-Kvasir</text>
+                <rect x="76" y="20.7" width="34" height="104.3" rx="2" fill="#b8bdc9"/><text x="93" y="15" font-size="11" text-anchor="middle" fill="#565b76" font-family="sans-serif" font-weight="700">96.4</text><text x="93" y="137" font-size="8.5" text-anchor="middle" fill="#565b76" font-family="sans-serif">OCT2017</text>
+                <rect x="150" y="66.1" width="34" height="58.9" rx="2" fill="#3b5bdb"/><text x="167" y="60" font-size="11" text-anchor="middle" fill="#3b5bdb" font-family="sans-serif" font-weight="800">67.5</text><text x="167" y="137" font-size="8.5" text-anchor="middle" fill="#565b76" font-family="sans-serif">RSNA</text>
+                <rect x="192" y="83.6" width="34" height="41.4" rx="2" fill="#3b5bdb"/><text x="209" y="78" font-size="11" text-anchor="middle" fill="#3b5bdb" font-family="sans-serif" font-weight="800">56.4</text><text x="209" y="137" font-size="8.5" text-anchor="middle" fill="#565b76" font-family="sans-serif">VinDr</text>
+                <rect x="234" y="114.3" width="34" height="10.7" rx="2" fill="#3b5bdb"/><text x="251" y="109" font-size="11" text-anchor="middle" fill="#e8590c" font-family="sans-serif" font-weight="800">36.8</text><text x="251" y="137" font-size="8.5" text-anchor="middle" fill="#565b76" font-family="sans-serif">Camelyon16</text>
+                <text x="72" y="155" font-size="9.5" text-anchor="middle" fill="#8a90a6" font-family="sans-serif" font-weight="700">easy datasets</text>
+                <text x="209" y="155" font-size="9.5" text-anchor="middle" fill="#8a90a6" font-family="sans-serif" font-weight="700">hard datasets</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="refbar"><b>Source —</b> <span class="rn">[15]</span> Cai, MedIAnomaly, MedIA 2025 · <span class="muted">AE image-level AUC (%)</span></div>
+
+      </section>
+
+      <!-- DIVIDER · PITFALLS -->
+      <section class="slide divider" data-node="pitfalls" data-notes="Interlude — the barriers that keep unsupervised AD out of the clinic: a heatmap isn't a diagnosis, 2D loses the 3D context clinicians read, and a high AUROC isn't clinical usability.">
+        <div class="overline">Barriers to clinical translation</div>
+        <h1>What still blocks the clinic</h1><div class="rule"></div>
+        <p>Interpretability · 3D · trust</p>
+      </section>
+
+      <!-- 20 · PITFALL ① · INTERPRETABILITY -->
+      <section class="slide t3" data-node="p-interp" data-notes="Translational barrier 1 — interpretability. It's mostly a blank not because it's easy but because it's genuinely hard for AD. A heatmap is indirect evidence, not a diagnosis (no lesion name, uncalibrated score, saliency can be unfaithful); AD scores are relative/threshold-dependent and hard to align with pathology. How to avoid: don't oversell; treat the map as a lead, test faithfulness, and calibrate the score into clinically meaningful confidence.">
+        <div class="overline t3">Translational barrier ① · interpretability</div>
+        <h2>A heatmap is not a diagnosis</h2><div class="rule"></div>
+        <p class="muted" style="font-size:1.36cqw;margin-bottom:.4em">Genuinely hard: a map shows <b>where</b> — not <b>what</b>, <b>how sure</b>, or <b>why</b>.</p>
+        <div class="split" style="grid-template-columns:.92fr 1.08fr;align-items:center">
+          <div class="figwrap">
+            <img src="figures/interp-mri.png" alt="brain MRI with an anomaly heatmap: localizes but does not name or quantify" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="figfallback">brain MRI → anomaly heatmap</div>
+            <div class="figcap">A heatmap over a <b>brain MRI</b> flags <b>where</b> the deviation is — but names <b>nothing</b>, gives <b>no calibrated confidence</b>, and can't say <b>why</b>. <span class="rn">[31]</span></div>
+          </div>
+          <div>
+            <div class="card" style="padding:1.5cqw 1.8cqw">
+              <h3 style="font-size:1.74cqw;color:var(--warn)">The barrier</h3>
+              <p style="font-size:1.48cqw;line-height:1.4;margin-top:.4em">A heatmap is <b>indirect evidence</b> — no name, <b>uncalibrated</b> score. Saliency can even be <b>unfaithful</b>: some maps barely change when the model is <b>randomized</b> <span class="rn">[36]</span>.</p>
+            </div>
+            <div class="card" style="padding:1.5cqw 1.8cqw;margin-top:1cqw">
+              <h3 style="font-size:1.74cqw;color:var(--accent2)">What would help</h3>
+              <p style="font-size:1.48cqw;line-height:1.4;margin-top:.4em">Treat it as a <b>lead, not a verdict</b>: <b>test faithfulness</b> <span class="rn">[36]</span>, <b>calibrate</b> into clinical confidence, move to <b>named</b> explanations <span class="rn">[35]</span>. It's a <b>regulatory requirement</b> <span class="rn">[37]</span>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[31]</span> cDDPM, CBM 2025 (brain-MRI figure) · <span class="rn">[35]</span> XAD survey, arXiv:2302.06670 · <span class="rn">[36]</span> Adebayo, Sanity Checks, NeurIPS 2018 · <span class="rn">[37]</span> Ahmed, XAI-in-medical review, BMC 2025 · <span class="rn">[33]</span> Liu, UAD survey 2026</div>
+      </section>
+
+      <!-- 21 · PITFALL ② · 3D -->
+      <section class="slide t3" data-node="p-3d" data-notes="Translational barrier 2 — 3D. Don't fake 3D by running 2D slice-by-slice: that loses volumetric context (the normal distribution is harder to learn), and 3D generation is compute-bound. 3D UAD is its own problem (dedicated survey & benchmark). How to avoid: state the 2D cost honestly, or move to latent space — latent reconstruction is proven ~10x faster, making 3D context feasible.">
+        <div class="overline t3">Translational barrier ② · 3D / volumetric</div>
+        <h2>Don't fake 3D by stacking 2D slices</h2><div class="rule"></div>
+        <p style="font-size:1.5cqw;line-height:1.4;color:var(--ink);margin:.2em 0 .4em">Clinicians read the <b>whole volume</b>, but most methods score each <b>2D slice</b> alone — losing 3D context. The fix isn't a giant 3D model; it's doing 3D <b>efficiently</b>.</p>
+        <div class="stats" style="margin:.35em 0 .2em">
+          <div class="stat" style="flex:1"><div class="n">31.4</div><div class="l" style="font-size:1.14cqw"><b>3D-VAE Dice</b> beats its <b>2D</b> version's 25.8 (<b>+5.6</b>) — volumetric context helps. <span class="rn">[38]</span></div></div>
+          <div class="stat" style="flex:1"><div class="n teal">~10×</div><div class="l" style="font-size:1.14cqw"><b>faster in latent space</b> — full-3D becomes <b>affordable</b>. <span class="rn">[26]</span></div></div>
+        </div>
+        <p class="muted" style="font-size:1.16cqw;margin:.4em 0 .1em">3D UAD is now its own benchmark — 4,365 brain-MRI + 376 liver-CT, 21 algorithms. <span class="rn">[34]</span></p>
+        <div class="grow">
+          <div class="cols avoid">
+            <div class="card" style="padding:1.6cqw 1.8cqw">
+              <h3 style="font-size:1.8cqw;color:var(--warn)">The barrier</h3>
+              <p style="font-size:1.54cqw;line-height:1.4;margin-top:.4em"><b>2D slice-by-slice loses volumetric context</b> — a lesion's 3D shape vanishes, so "normal" is harder to model; full 3D generation is <b>compute-bound</b> <span class="rn">[39]</span>.</p>
+            </div>
+            <div class="card" style="padding:1.6cqw 1.8cqw">
+              <h3 style="font-size:1.8cqw;color:var(--accent2)">What would help</h3>
+              <p style="font-size:1.54cqw;line-height:1.4;margin-top:.4em">Not a bigger model — reconstruct in a <b>compact latent space</b>: <b>~10× faster</b> <span class="rn">[26]</span>, making <b>true 3D context</b> affordable.</p>
+            </div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[38]</span> Bengs, 3D spatial-erasing (brain MRI), IJCARS 2021 · <span class="rn">[26]</span> Latent Rectified Flow (3D), Front. Radiol. 2026 · <span class="rn">[34]</span> 3D UAD survey &amp; benchmark 2026 · <span class="rn">[39]</span> Behrendt, brain-MRI UAD review, MedIA 2026</div>
+      </section>
+
+      <!-- 22 · PITFALL ③ · TRUST -->
+      <section class="slide t3" data-node="p-trust" data-notes="Translational barrier 3 — trust. A high balanced-set AUROC is not 'deployable': low-prevalence false positives, cross-site domain shift, scarce pixel-level labels, and privacy/governance are all hard gates. How to avoid: ask up front — how many FPs at 1% prevalence? does it hold across scanners/sites? who owns privacy and post-deployment monitoring? Design for these, don't bolt them on afterwards.">
+        <div class="overline t3">Translational barrier ③ · trust</div>
+        <h2>A high AUROC is not "deployable"</h2><div class="rule"></div>
+        <p style="font-size:1.5cqw;line-height:1.4;color:var(--ink);margin:.2em 0 .4em">A high <b>balanced-set AUROC</b> ≠ <b>deployable</b> — at real prevalence, false alarms drown the true findings:</p>
+        <div style="background:#f4f6fb;border:1px solid var(--line);border-radius:.8cqw;padding:1.1cqw 1.5cqw;margin:.1em 0 .2em">
+          <div style="font-size:1.5cqw;line-height:1.5;color:var(--ink)"><b>1,000</b> scans at <b>~1% prevalence</b> → only <b>~10 true lesions</b>. Even <b>95% specificity</b> fires on 5% of 990 normals → <b>~50 false alarms</b> → <b>5 false : 1 true</b> → <b>alert fatigue</b>.</div>
+          <div class="muted" style="font-size:1.08cqw;margin-top:.4em">Illustrative arithmetic — not paper data.</div>
+        </div>
+        <div class="grow">
+          <div class="cols avoid">
+            <div class="card" style="padding:1.6cqw 1.8cqw">
+              <h3 style="font-size:1.8cqw;color:var(--warn)">The barrier</h3>
+              <p style="font-size:1.54cqw;line-height:1.4;margin-top:.4em">Beyond false positives: <b>cross-site domain shift</b> is a known OOD hazard <span class="rn">[40]</span>, <b>pixel labels are scarce</b>, and <b>privacy &amp; governance</b> <span class="rn">[25]</span>. So far <b>no unsupervised AD is FDA-cleared</b> <span class="rn">[33]</span>.</p>
+            </div>
+            <div class="card" style="padding:1.6cqw 1.8cqw">
+              <h3 style="font-size:1.8cqw;color:var(--accent2)">What would help</h3>
+              <p style="font-size:1.54cqw;line-height:1.4;margin-top:.4em">Ask up front: <b>how many FPs at 1% prevalence?</b> <b>Holds across scanners / sites?</b> <span class="rn">[40]</span> <b>Who owns privacy &amp; monitoring?</b> <span class="rn">[25]</span> Design for it — don't bolt it on.</p>
+            </div>
+          </div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[33]</span> Liu, UAD survey 2026 · <span class="rn">[40]</span> "First, Do No Harm" OOD in medicine 2025 · <span class="rn">[25]</span> Bourtoule, Machine Unlearning, S&amp;P 2021</div>
+      </section>
+
+      <!-- 23 · ROADMAP & TAKEAWAYS -->
+      <section class="slide" data-node="frontier" data-notes="Actionable roadmap + 3 takeaways, then discussion. End with the honest framing note.">
+        <div class="overline fu">Summary</div>
+        <h2>Roadmap &amp; takeaways</h2><div class="rule"></div>
+        <div class="grow">
+          <div class="cols">
+            <div class="card"><h3>Near-term</h3><p class="muted">Standardized benchmarks · latent-diffusion / flow baselines · FM adapters (DINOv2 / MadCLIP).</p></div>
+            <div class="card"><h3>Long-term</h3><p class="muted">Reasoning-grounded, trustworthy, 3D-native systems.</p></div>
+          </div>
+          <ul style="margin-top:.5em">
+            <li>Medical AD = <b>learn-normal, flag-deviation</b>; two engines: <b>diffusion</b> &amp; <b>VLM adaptation</b></li>
+            <li>Real bottlenecks: <b>specificity, 3D, trust, privacy</b> — not raw accuracy</li>
+          </ul>
+          <div class="note-in"><b>Honest note:</b> surveys taxonomize by 4 method families <span style="color:var(--accent);font-weight:800">[15][33]</span>; this talk re-groups into three tensions and promotes specificity to axis ②. The framing is ours; the methods and challenges come from the surveys.</div>
+        </div>
+        <div class="refbar"><b>Sources —</b> <span class="rn">[15]</span> Cai, MedIAnomaly, MedIA 2025 · <span class="rn">[33]</span> Liu, UAD survey 2026 · <span class="rn">[34]</span> 3D UAD survey &amp; benchmark 2026</div>
+      </section>
+
+      <!-- 24 · REFERENCES -->
+      <section class="slide" data-node="appendix" data-notes="Appendix: references, leave up during Q&amp;A. 'verified' = fetched and checked against the source.">
+        <div class="overline">Appendix</div>
+        <h2>References</h2><div class="rule"></div>
+        <div class="grow">
+          <div class="biblio">
+            <div class="ref"><span class="rn">[1]</span> Schlegl et al. <b>AnoGAN</b>. IPMI 2017.</div>
+            <div class="ref"><span class="rn">[2]</span> Schlegl et al. <b>f-AnoGAN</b>. MedIA 2019.</div>
+            <div class="ref"><span class="rn">[3]</span> Baur et al. AE for brain-MR AD. MedIA 2021.</div>
+            <div class="ref"><span class="rn">[4]</span> Ho et al. <b>DDPM</b>. NeurIPS 2020.</div>
+            <div class="ref"><span class="rn">[5]</span> Wyatt et al. <b>AnoDDPM</b>. CVPRW 2022.</div>
+            <div class="ref"><span class="rn">[6]</span> Bercea et al. <b>AutoDDPM</b>. 2023.</div>
+            <div class="ref"><span class="rn">[7]</span> Bercea et al. <b>THOR</b>. MICCAI 2024.</div>
+            <div class="ref"><span class="rn">[8]</span> Roth et al. <b>PatchCore</b>. CVPR 2022.</div>
+            <div class="ref"><span class="rn">[9]</span> Li et al. <b>CutPaste</b>. CVPR 2021.</div>
+            <div class="ref"><span class="rn">[10]</span> Tan et al. <b>PII</b>. MICCAI 2021.</div>
+            <div class="ref"><span class="rn">[11]</span> Tan et al. <b>FPI</b>. 2020.</div>
+            <div class="ref"><span class="rn">[12]</span> Radford et al. <b>CLIP</b>. ICML 2021.</div>
+            <div class="ref"><span class="rn">[13]</span> Huang et al. <b>MVFA-AD</b>. CVPR 2024.</div>
+            <div class="ref"><span class="rn">[14]</span> Zhang et al. <b>MediCLIP</b>. MICCAI 2024.</div>
+            <div class="ref"><span class="rn">[15]</span> Cai et al. <b>MedIAnomaly</b>. MedIA 2025.</div>
+            <div class="ref"><span class="rn">[16]</span> Zhang et al. <b>LPIPS</b>. CVPR 2018.</div>
+            <div class="ref"><span class="rn">[17]</span> Ruff et al. Unifying review. Proc. IEEE 2021.</div>
+            <div class="ref"><span class="rn">[18]</span> Pang et al. AD review. ACM CSUR 2021.</div>
+            <div class="ref"><span class="rn">[19]</span> Fernando et al. Medical AD survey. ACM CSUR 2021.</div>
+            <div class="ref"><span class="rn">[23]</span> Lipman et al. <b>Flow Matching</b>. ICLR 2023.</div>
+            <div class="ref"><span class="rn">[24]</span> Liu et al. <b>Rectified Flow</b>. ICLR 2023.</div>
+            <div class="ref"><span class="rn">[25]</span> Bourtoule et al. <b>Machine Unlearning</b>. IEEE S&amp;P 2021.</div>
+            <div class="ref"><span class="rn">[26]</span> Latent Rectified Flow (3D). Front. Radiol. 2026.</div>
+            <div class="ref"><span class="rn">[27]</span> Damm et al. <b>AnomalyDINO</b>. WACV 2025.</div>
+            <div class="ref"><span class="rn">[28]</span> <b>DINO-DPMM</b>. MICCAI 2025.</div>
+            <div class="ref"><span class="rn">[29]</span> <b>MadCLIP</b>. MICCAI 2025.</div>
+            <div class="ref"><span class="rn">[30]</span> <b>Synomaly</b>. MedIA 2025.</div>
+            <div class="ref"><span class="rn">[31]</span> <b>cDDPM</b>. Comput. Biol. Med. 2025.</div>
+            <div class="ref"><span class="rn">[32]</span> <b>ART-ASyn</b> (CXR). 2025.</div>
+            <div class="ref"><span class="rn">[33]</span> Liu et al. UAD <b>survey</b>. Bioengineering 2026.</div>
+            <div class="ref"><span class="rn">[34]</span> 3D UAD <b>survey &amp; benchmark</b>. J. SJTU (Sci.) 2026.</div>
+            <div class="ref"><span class="rn">[35]</span> <b>Unveiling the Unseen</b>: explainable AD survey. arXiv:2302.06670.</div>
+            <div class="ref"><span class="rn">[36]</span> Adebayo et al. <b>Sanity Checks for Saliency Maps</b>. NeurIPS 2018.</div>
+            <div class="ref"><span class="rn">[37]</span> Ahmed et al. <b>XAI in Medical Imaging</b>: a systematic review. BMC Medical Imaging 2025.</div>
+            <div class="ref"><span class="rn">[38]</span> Bengs et al. <b>3D DL with spatial erasing</b> for unsupervised anomaly segmentation in brain MRI. IJCARS 2021.</div>
+            <div class="ref"><span class="rn">[39]</span> Behrendt et al. <b>A review of DL-based Unsupervised Anomaly Detection in brain MRI</b>. Medical Image Analysis 2026.</div>
+            <div class="ref"><span class="rn">[40]</span> Gu et al. <b>AnomalyGPT</b>: Detecting Industrial Anomalies using Large VLMs. AAAI 2024. arXiv:2308.15366.</div>
+            <div class="ref"><span class="rn">[40]</span> <b>First, Do No Harm</b>: OOD data in medicine. Clin. Transl. Sci. 2025.</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div id="counter">1 / 24</div>
+    <div id="ctrls">
+      <button id="prev" title="Previous (←)">‹</button>
+      <button id="next" title="Next (→)">›</button>
+      <button id="notesBtn" title="Speaker notes (N)">N</button>
+      <button id="presBtn" title="Present (F)">▶</button>
+    </div>
+  </div>
+</div>
+
+<div id="notes"></div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var navs=[].slice.call(document.querySelectorAll('.nd[data-node]'));
+  var bar=document.getElementById('bar'), counter=document.getElementById('counter'), notes=document.getElementById('notes');
+  var cur=0;
+  function updateNotes(){notes.innerHTML='<b>Speaker notes · slide '+(cur+1)+'</b> &nbsp; '+(slides[cur].getAttribute('data-notes')||'—');}
+  function render(){
+    slides.forEach(function(s,i){s.classList.toggle('active',i===cur);});
+    var node=slides[cur].getAttribute('data-node');
+    navs.forEach(function(n){var on=(n.dataset.node===node);n.classList.toggle('on',on);if(on&&n.scrollIntoView){n.scrollIntoView({block:'nearest'});}});
+    counter.textContent=(cur+1)+' / '+slides.length;
+    bar.style.width=(slides.length>1?(cur/(slides.length-1)*100):0)+'%';
+    if(notes.classList.contains('show'))updateNotes();
+  }
+  function go(i){cur=Math.max(0,Math.min(slides.length-1,i));render();}
+  function next(){go(cur+1);} function prev(){go(cur-1);}
+  function present(on){var v=(on===undefined)?!document.body.classList.contains('present'):on;document.body.classList.toggle('present',v);}
+  window.go=go; window.present=present;
+  navs.forEach(function(n){n.addEventListener('click',function(){
+    var i=slides.findIndex(function(s){return s.getAttribute('data-node')===n.dataset.node;});
+    go(i>=0?i:(+n.dataset.go||0));
+  });});
+  document.getElementById('next').onclick=function(e){e.stopPropagation();next();};
+  document.getElementById('prev').onclick=function(e){e.stopPropagation();prev();};
+  document.getElementById('notesBtn').onclick=function(e){e.stopPropagation();notes.classList.toggle('show');updateNotes();};
+  document.getElementById('presBtn').onclick=function(e){e.stopPropagation();present(true);};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+    else if(e.key==='Home'){go(0);} else if(e.key==='End'){go(slides.length-1);}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('show');updateNotes();}
+    else if(e.key==='Escape'){present(false);}
+    else if(e.key==='f'||e.key==='F'||e.key==='p'||e.key==='P'){present();}
+  });
+  render();
+})();
+</script>
+</body>
+</html>

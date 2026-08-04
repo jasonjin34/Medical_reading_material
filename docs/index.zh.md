@@ -8,6 +8,8 @@
 
 见 **[文献综述](literature-review.md)** 与 **[论文关系](relationships.md)**。
 
+🔗 **[幻灯片与讲稿](slides.md)** —— 交互式问题树 deck、完整 deck、storyline 与约 35 分钟讲稿。
+
 ## 阅读清单
 
 | 论文 | 类别 | 相关度 | 获取 |

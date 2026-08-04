@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storyline · 核心问题树 · Anomaly Detection in Medical Imaging</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --panel:#ffffff; --ink:#15172a; --muted:#565b76;
+    --line:#e5e8f1; --accent:#3b5bdb; --accent2:#0ca5a5; --warn:#e8590c;
+    --grad:linear-gradient(135deg,#3b5bdb 0%,#0ca5a5 100%);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;
+    padding:48px 20px 100px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto}
+  .overline{font-size:13px;font-weight:800;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+  h1{font-size:34px;font-weight:800;letter-spacing:-.5px;margin:.15em 0 .1em;line-height:1.1}
+  .sub{color:var(--muted);font-size:16px;margin-bottom:1.2em}
+  .rule{width:74px;height:5px;border-radius:5px;background:var(--grad);margin:.6em 0 1.2em}
+  section{margin:46px 0}
+  h2{font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent2);
+    margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h2 .n{color:var(--accent)}
+  h2 .sec{color:var(--muted);margin-right:.5em}
+  b,strong{font-weight:750}
+  /* key-question tree */
+  .tree{margin-top:6px}
+  .tnode{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 18px;box-shadow:0 2px 10px rgba(20,24,60,.04)}
+  .troot{background:var(--grad);color:#fff;border:none;box-shadow:0 8px 24px rgba(59,91,219,.2)}
+  .troot .rt{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:.92}
+  .troot h3{font-size:21px;font-weight:790;margin-top:5px;line-height:1.2}
+  .troot p{font-size:14px;opacity:.95;margin-top:5px}
+  .branch{margin-left:24px;border-left:2px solid var(--line);padding-left:26px}
+  .branch.sub{margin-left:20px;padding-left:22px;border-left-style:dashed;border-left-color:var(--accent2)}
+  .item{position:relative;margin:14px 0}
+  .item::before{content:"";position:absolute;left:-26px;top:24px;width:24px;height:2px;background:var(--line)}
+  .branch.sub .item::before{left:-22px;width:20px;background:var(--accent2);opacity:.5}
+  .q{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.5px;padding:.2em .75em;border-radius:999px;margin-bottom:.45em}
+  .q.qa{background:#eef1fe;color:var(--accent)}
+  .q.qt{background:#e6f6f6;color:#0a7d7d}
+  .q.qw{background:#fdece1;color:#b7480c}
+  .tnode h4{font-size:16.5px;font-weight:780;margin-bottom:.15em;line-height:1.25}
+  .tnode .ans{font-size:14.5px;color:var(--ink)}
+  .tnode .ans .hl{color:var(--accent);font-weight:750}
+  .tnode .ans .nw{color:var(--accent2);font-weight:770}
+  .tnode .ans .old{color:var(--muted)}
+  .evo{font-size:12px;font-weight:800;color:var(--accent2);letter-spacing:.3px}
+  .note{background:#fff8f2;border:1px solid #f6d9c4;border-left:5px solid var(--warn);border-radius:12px;
+    padding:16px 20px;font-size:15px;color:#7a3d12;margin-top:16px}
+  .note b{color:var(--warn)}
+  /* fact-check table + references */
+  .fc{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+  .fc th,.fc td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  .fc thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:2px solid var(--line)}
+  .fc td.qc{font-weight:770;white-space:nowrap;color:var(--ink)}
+  .v-ok{color:#0a7d7d;font-weight:800} .v-warn{color:var(--warn);font-weight:800}
+  .ref{color:var(--accent);font-weight:750}
+  .conf{display:inline-block;font-size:11px;font-weight:800;padding:.12em .55em;border-radius:6px;white-space:nowrap}
+  .conf.hi{background:#e6f6f6;color:#0a7d7d} .conf.mid{background:#fdece1;color:#b7480c}
+  .refs{list-style:none;margin-top:8px;columns:2;column-gap:2.4vw}
+  .refs li{font-size:13px;line-height:1.4;margin:.4em 0;break-inside:avoid;padding-left:2.2em;text-indent:-2.2em;color:var(--ink)}
+  .refs li .rn{display:inline-block;color:var(--accent);font-weight:800;min-width:1.9em}
+  .verified{background:#e6f6f6;color:#0a7d7d;font-size:12px;font-weight:800;padding:.15em .6em;border-radius:6px}
+  @media(max-width:720px){.refs{columns:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="overline">Storyline · 精简版</div>
+  <h1>Anomaly Detection in Medical Imaging</h1>
+  <div class="sub">只留三样:核心问题树 · Fact-check · 参考文献。</div>
+  <div class="rule"></div>
+
+  <!-- §1 TREE -->
+  <section id="tree">
+    <h2><span class="sec">§1</span>核心问题树 <span class="n">(问题演进版 · 每条线:问题 → 早期 → 局限 → <span style="color:var(--accent2)">最新 2025</span> → 未解)</span></h2>
+    <div class="tree">
+      <div class="tnode troot">
+        <div class="rt">一条主线,三道坎的演进</div>
+        <h3>「学正常 · 标偏差」如何在三道坎上一步步演进</h3>
+        <p>读法:每条线从<b>早期答法</b> → 暴露<b>局限</b> → 走到 <span style="color:#bff0ef">最新(2025)</span>,末端接<b>现实核查</b>与<b>落地避坑</b>。</p>
+      </div>
+      <div class="branch">
+
+        <div class="item"><div class="tnode">
+          <span class="q qa">地基 · 为什么 &amp; 范式</span>
+          <h4>异常开放、标不全 → 学正常、标偏差</h4>
+          <div class="ans">监督枚举疾病不可扩展 → <span class="hl">learn-normal, flag-deviation</span>(全场地基)。 <span class="ref">[18][19]</span></div>
+          <div class="ans" style="margin-top:.5em"><span class="hl">开场钩子</span>:范式很优雅,却<b>几乎没进临床</b> —— 真正落地的都是<b>监督式窄工具</b>(糖网筛查、卒中/急诊分诊);本讲的无监督 AD 还停在 <b>benchmark</b>、临床可用性有限 <span class="ref">[33]</span>。<b>三张力 = 跨不过去的原因</b>(② 最硬)。</div>
+        </div></div>
+
+        <div class="item"><div class="tnode">
+          <span class="q qa">① 怎么表示「正常」</span>
+          <h4>两条路,各自向更强先验/特征演进</h4>
+          <div class="ans">重建 vs 嵌入 —— 见下两支。</div>
+        </div></div>
+        <div class="branch sub">
+          <div class="item"><div class="tnode">
+            <span class="q qa">重建派</span>
+            <h4>学健康生成器 → 画不出病灶 → 残差=异常</h4>
+            <div class="ans"><span class="old">AE/GAN(2017–19)</span> → 局限 <b>identity shortcut · 模糊</b> → <span class="hl">diffusion</span>(AutoDDPM'23 · THOR'24)→ <span class="evo">最新</span> <span class="nw">Synomaly 多阶段扩散(MedIA'25)</span> <span class="ref">[30]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.45em">子家族(差在<b>怎么"卡住"正常先验</b>)—— <b>AE 谱系</b>:AE(空间瓶颈)·VAE(概率隐)·VQ-VAE(离散码本)·MemAE(正常原型记忆)·去噪/上下文 AE(掩码重绘) · <b>GAN</b>:AnoGAN(latent 搜索,慢)→ f-AnoGAN(加 encoder 快) · <b>扩散</b>:DDPM → AnoDDPM(Simplex 噪声控病灶大小)→ AutoDDPM(mask-stitch-resample)→ latent diffusion → Synomaly</div>
+          </div></div>
+          <div class="item"><div class="tnode">
+            <span class="q qa">嵌入派</span>
+            <h4>特征 + memory bank(不重建)</h4>
+            <div class="ans"><span class="old">PatchCore'22(工业·非医学)</span> → <span class="evo">最新</span> <span class="nw">DINOv2 基础模型特征</span>:AnomalyDINO'24 <span class="ref">[27]</span> · 医学 DINO-DPMM(MICCAI'25) <span class="ref">[28]</span></div>
+          </div></div>
+        </div>
+
+        <div class="item"><div class="tnode">
+          <span class="q qt">② 特异性门槛 · The specificity bar</span>
+          <h4>低患病率下,假阳淹没医生 —— 全体方法的临床坎</h4>
+          <div class="ans">平衡集 AUROC 0.95,到 <b>1% 患病率</b>下几个%假阳 × 海量正常 → <b>虚警淹没医生 → alert fatigue → 弃用</b>;「检测一切异常」也<b>难过监管</b>。<span class="hl">specificity 是全体方法的临床坎</span> —— 见下两支怎么应对。</div>
+        </div></div>
+        <div class="branch sub">
+          <div class="item"><div class="tnode">
+            <span class="q qt">重建派机制:噪声悖论</span>
+            <h4>擦病灶 ↔ 毁解剖,两头不讨好</h4>
+            <div class="ans"><span class="old">噪声太小→病灶残留→漏检(敏感↓);太大→毁健康解剖→假阳(特异↓)</span> → 早期靠调噪声(AnoDDPM Simplex 控尺度)→ 局限 <b>调噪声两全不了</b> → <span class="evo">最新</span> <span class="nw">改靠引导:THOR'24 隐式引导 → cDDPM 原图作条件重建(2025)</span> <span class="ref">[7][31]</span></div>
+          </div></div>
+          <div class="item"><div class="tnode">
+            <span class="q qt">feature / VLM:无此悖论</span>
+            <h4>不重建就没有噪声悖论,但特异性仍开放</h4>
+            <div class="ans"><span class="old">嵌入/VLM 不擦不画 → 无悖论</span>,却换来<b>另一套坎</b>:距离分数怎么定临床工作点、跨中心阈值漂移 → <span class="hl">specificity 整体仍未解</span></div>
+          </div></div>
+        </div>
+
+        <div class="item"><div class="tnode">
+          <span class="q qt">③ 稀缺 &amp; 泛化</span>
+          <h4>几乎无异常数据(<b>稀缺</b>)+ 一个模型要跨很多模态(<b>泛化</b>)</h4>
+          <div class="ans">两条路,但<b>不对称</b>:<span class="hl">自造异常 → 只解决「稀缺」</span>;<span class="hl">借基础模型(VLM)→ 稀缺 + 跨模态都答</span>。<b>「跨模态」这半几乎全靠 VLM</b> —— 见下两支。</div>
+        </div></div>
+        <div class="branch sub">
+          <div class="item"><div class="tnode">
+            <span class="q qt">自造异常(self-sup)</span>
+            <h4>合成缺陷 → proxy 分割</h4>
+            <div class="ans"><span class="old">CutPaste 剪贴块 / FPI 异物插值 / PII Poisson 融合(2020–21)</span> → 造出「哪里不对」当 proxy 分割 → 局限 <b>synthetic ≠ real</b>(学到拼贴痕迹、不迁移)→ <span class="evo">最新</span> <span class="nw">ART-ASyn:解剖合理位置 + 真实纹理合成(CXR,2025)</span> <span class="ref">[32]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.4em">⤷ 只答「<b>稀缺</b>」:通常<b>单模态各造各的</b>,不解决跨模态泛化。</div>
+          </div></div>
+          <div class="item"><div class="tnode">
+            <span class="q qt">借基础模型(VLM)</span>
+            <h4>适配 CLIP,少/零样本</h4>
+            <div class="ans"><span class="old">zero-shot CLIP 在医学崩(域 gap)→ MediCLIP 可学 prompt / MVFA 多级 adapter + 像素级 V–L 对齐(2024)</span> → <span class="evo">最新</span> <span class="nw">MadCLIP:跨数据集实测 &gt; MVFA(MICCAI'25)</span> <span class="ref">[29]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.4em">⤷ 注:VLM 也是一种「表示正常」(①),本讲归 ③ 因它主解稀缺/跨模态;<b>「泛化」这条线也横跨 ①</b> —— DINOv2 嵌入(AnomalyDINO / DINO-DPMM)同样是跨模态的一招。</div>
+          </div></div>
+        </div>
+
+        <div class="item"><div class="tnode">
+          <span class="q qw">现实核查</span>
+          <h4>别一味追 diffusion / 新 SOTA —— 先质疑评测,再质疑模型 <span style="font-weight:600;color:var(--muted);font-size:12px">据 MedIAnomaly <span class="ref">[15]</span>(5 模态 / 7 数据集 / 30 方法统一评测)</span></h4>
+          <div class="ans">两层现实:<b>模型没有通吃赢家</b> · <b>领先多来自评测口径</b> —— 见下两支。</div>
+        </div></div>
+        <div class="branch sub">
+          <div class="item"><div class="tnode">
+            <span class="q qw">现实 A · 模型:没有通吃赢家</span>
+            <h4>调好的 AE 就 competitive,扩散并不稳定领先</h4>
+            <div class="ans"><span class="hl">朴素 AE 是很强的基线</span> · <b>扩散随模态大幅波动</b>、并不稳定胜出 · <b>残差度量影响很大</b>(感知/SSIM 常 &gt; L1/L2,依数据集)· <span class="hl">排名随数据集翻转</span> <span class="ref">[15]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.45em">⤷ <b>选型不看榜</b>:<b>模态 · 数据规模 · 可解释性/算力约束</b> 共同决定用重建还是特征/VLM;具体 AUC 依数据集,引用前须再核原文表格。</div>
+          </div></div>
+          <div class="item"><div class="tnode">
+            <span class="q qw">现实 B · 评测:病灶在评测,不在模型</span>
+            <h4>「缺乏公平、全面的评测,导致结论含糊、阻碍发展」</h4>
+            <div class="ans"><span class="old">常见数据集上一个朴素 AE 就近乎满分</span> → 说明数据集本身不合适,<b>旧「SOTA」的领先多来自评测口径/数据集不当</b>而非真实进步 <span class="ref">[15]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.45em">⤷ <b>启示</b>:别被榜单带节奏 —— 把力气从「刷 benchmark」转到 <b>②特异性 / ③泛化</b> 这些还没解决的真问题。</div>
+          </div></div>
+        </div>
+
+        <div class="item"><div class="tnode">
+          <span class="q qw">落地避坑</span>
+          <h4>想落地 AD,先绕开这三个坑:可解释 · 3D · 可信 <span style="font-weight:600;color:var(--muted);font-size:12px">都不是「原始精度」的问题 <span class="ref">[33]</span></span></h4>
+          <div class="ans">每个坑都有<b>具体证据</b>、不是愿景 —— 见下三支,各自「坑 → 怎么避」。</div>
+        </div></div>
+        <div class="branch sub">
+          <div class="item"><div class="tnode">
+            <span class="q qw">落地坑 ① · 可解释</span>
+            <h4>别把热图当解释 —— 对 AD 尤其难</h4>
+            <div class="ans"><b>坑</b>:异常热图只是<b>间接证据、不是诊断</b>(无病名、分数未校准、saliency 可能不忠实),AD 分数<b>相对/阈值依赖、难与病理语义对齐</b> <span class="ref">[33][19]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.45em">⤷ <b>怎么避</b>:别 oversell —— 热图只当线索;真要做可解释,得<b>测 faithfulness</b>、把分数<b>校准成有临床意义的置信度</b>,而不是配一段「看着合理」的说辞 <span class="ref">[33]</span></div>
+          </div></div>
+          <div class="item"><div class="tnode">
+            <span class="q qw">落地坑 ② · 3D / 体数据</span>
+            <h4>别把 2D 逐层套 3D 就当「做了 3D」</h4>
+            <div class="ans"><b>坑</b>:逐层 2D <b>丢体积上下文</b>(正常分布更难学),3D 生成<b>算力是主瓶颈</b> <span class="ref">[26]</span>;3D UAD 已被单列为独立研究方向(专门 survey &amp; benchmark) <span class="ref">[34]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.45em">⤷ <b>怎么避</b>:要么<b>老实说清 2D 的代价</b>,要么走<b>隐空间</b>降算力 —— latent 重建已被证实可提速约 <b>10×</b>、让 3D 上下文变可行 <span class="ref">[26]</span></div>
+          </div></div>
+          <div class="item"><div class="tnode">
+            <span class="q qw">落地坑 ③ · 可信</span>
+            <h4>别只报 AUROC 就说「能用了」</h4>
+            <div class="ans"><b>坑</b>:平衡集上的高 AUROC ≠ 可用 —— <b>低患病率假阳</b> · <b>跨中心域漂移</b>(设备/协议/人群)· <b>数据/像素级标注稀缺</b> · <b>隐私与治理/可问责</b> 都是硬门槛 <span class="ref">[33]</span></div>
+            <div class="ans" style="color:var(--muted);font-size:12.5px;margin-top:.45em">⤷ <b>怎么避</b>:先问三件事 —— <b>低患病率下假阳多少</b>?<b>换一台机器/一个中心还成立吗</b>?<b>隐私与部署后监测谁负责</b>?这些要在建方法时就想,不是发完论文再补 <span class="ref">[33]</span></div>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="note">
+      <b>⚠️ 诚实提醒:</b>标准 survey 把医学 AD 分成 <b>4 类方法</b>(重建 / 特征嵌入 / 自监督 / 基础模型)<span class="ref">[15][33]</span>。本讲把它们<b>重组为三张力</b>:① = 重建 + 嵌入,③ = 自监督 + 基础模型,并把 survey「挑战」里的 <b>specificity 提为一条主轴</b>(②)。<b>方法与挑战都出自 survey、可引;唯「三张力」这个组织方式是本讲的。</b>
+    </div>
+  </section>
+
+  <!-- §2 FACT-CHECK -->
+  <section id="factcheck">
+    <h2><span class="sec">§2</span>Fact-check <span class="n">(只列<b>修改过</b>的节点:② 特异性 · ③ 泛化 · 现实核查)</span></h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:6px">
+      <span class="verified">已核对原文</span> 「现实核查」结论对照 MedIAnomaly 原文(arXiv:2404.04518 / MedIA 2025)逐条核实;树里 ②(特异性)/ ③(VLM 归属)/ 现实核查 三处已按下表修正。
+    </p>
+    <table class="fc">
+      <thead><tr><th>节点</th><th>逻辑</th><th>核实结论 &amp; caveat</th><th>置信</th><th>引用</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="qc">② 特异性</td>
+          <td class="v-warn">⚠️→已修</td>
+          <td><b>特异性 = 全体临床坎(普遍)</b>;<b>噪声悖论 = 重建派特例</b>(feature/VLM 无此悖论)。原树把两者混为一谈,<b>已在树中拆开</b>。</td>
+          <td><span class="conf hi">高</span></td>
+          <td><span class="ref">[6][7]</span></td>
+        </tr>
+        <tr>
+          <td class="qc">③ 泛化</td>
+          <td class="v-ok">✅</td>
+          <td>自造异常(CutPaste/FPI/PII)、借基础模型(MVFA/MediCLIP)均准确。<b>VLM 与 ① 重叠</b> —— 已加注脚说明归 ③。</td>
+          <td><span class="conf hi">高</span></td>
+          <td><span class="ref">[9][10][11][13][14]</span></td>
+        </tr>
+        <tr>
+          <td class="qc">现实核查</td>
+          <td class="v-ok">✅ 已核原文</td>
+          <td>核实 MedIAnomaly:<b>感知/SSIM &gt; L1/L2</b>、<b>简单 AE competitive</b>、<b>ImageNet 特征强基线(依数据集)</b>、<b>无通吃赢家</b>。用词已改 "competitive"(非 "beats SOTA")。</td>
+          <td><span class="conf hi">高 · 核对</span></td>
+          <td><span class="ref">[15]</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:8px">以上为对 §1 树做过<b>实质修改</b>的三处;其余节点(地基 / ① 表示正常 / 前沿)为 ✅ 确认、无需改,已从表中略去。数字型结论(具体 AUC)未上屏,如需引用需再核原文表格。</p>
+  </section>
+
+  <!-- §3 REFERENCES -->
+  <section id="refs">
+    <h2><span class="sec">§3</span>参考文献 <span class="n">(本文档用到的子集 · 与 deck index.html 同编号 · <span class="verified">已核对</span> = 拉过原文)</span></h2>
+    <ul class="refs">
+      <li><span class="rn">[3]</span> Baur et al. <b>Autoencoders for Unsupervised Anomaly Segmentation in Brain MR</b>. Medical Image Analysis 2021.</li>
+      <li><span class="rn">[6]</span> Bercea et al. <b>AutoDDPM</b> (Mask, Stitch, Re-Sample). 2023.</li>
+      <li><span class="rn">[7]</span> Bercea et al. <b>THOR</b> (implicit guidance). MICCAI 2024.</li>
+      <li><span class="rn">[9]</span> Li et al. <b>CutPaste</b>. CVPR 2021.</li>
+      <li><span class="rn">[10]</span> Tan et al. <b>PII</b> (Poisson Image Interpolation). MICCAI 2021.</li>
+      <li><span class="rn">[11]</span> Tan et al. <b>FPI</b> (Foreign Patch Interpolation). 2020.</li>
+      <li><span class="rn">[13]</span> Huang et al. <b>MVFA-AD</b>. CVPR 2024.</li>
+      <li><span class="rn">[14]</span> Zhang et al. <b>MediCLIP</b>. MICCAI 2024.</li>
+      <li><span class="rn">[15]</span> Cai et al. <b>MedIAnomaly</b>. Medical Image Analysis 2025. <span class="verified">已核对</span> arXiv:2404.04518</li>
+      <li><span class="rn">[18]</span> Pang et al. <b>Deep Learning for Anomaly Detection: A Review</b>. ACM Computing Surveys 2021.</li>
+      <li><span class="rn">[19]</span> Fernando et al. <b>Deep Learning for Medical Anomaly Detection: A Survey</b>. ACM Computing Surveys 2021.</li>
+      <li><span class="rn">[26]</span> <b>Image-conditioned Latent Rectified Flow for 3D Medical Anomaly Localisation</b>. Frontiers in Radiology 2025.</li>
+      <li><span class="rn">[27]</span> Damm et al. <b>AnomalyDINO</b>: patch-based few-shot AD with DINOv2. 2024. <span style="color:var(--muted)">arXiv:2405.14529</span></li>
+      <li><span class="rn">[28]</span> <b>Anomaly Detection by Clustering DINO Embeddings (DPMM)</b>. MICCAI 2025.</li>
+      <li><span class="rn">[29]</span> <b>MadCLIP</b>: Few-shot Medical Anomaly Detection with CLIP. MICCAI 2025. <span style="color:var(--muted)">arXiv:2506.23810</span></li>
+      <li><span class="rn">[30]</span> <b>Synomaly Noise &amp; Multi-Stage Diffusion</b>. Medical Image Analysis 2025.</li>
+      <li><span class="rn">[31]</span> <b>Guided Reconstruction with Conditioned Diffusion (cDDPM)</b>. Computers in Biology and Medicine 2025. <span class="verified">已核对</span></li>
+      <li><span class="rn">[32]</span> <b>ART-ASyn</b>: Anatomy-aware Realistic Texture Anomaly Synthesis (Chest X-ray). 2025. <span class="verified">已核对</span> <span style="color:var(--muted)">arXiv:2512.00310</span></li>
+      <li><span class="rn">[33]</span> Liu et al. <b>Unsupervised Anomaly Detection in Medical Imaging: A Survey of Methods, Challenges, and Future Directions</b>. Bioengineering 2026, 13(5):547. <span class="verified">已核对</span> <span style="color:var(--muted)">(本讲三张力框架的方法 taxonomy 出处)</span></li>
+      <li><span class="rn">[34]</span> Yang et al. <b>Unsupervised Anomaly Detection in 3D Medical Imaging via Normal Sample Learning: A Survey &amp; Benchmark</b>. J. Shanghai Jiaotong Univ. (Sci.) 2026, 31(3). <span class="verified">已核对</span></li>
+    </ul>
+  </section>
+
+</div>
+</body>
+</html>

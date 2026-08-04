@@ -33,6 +33,26 @@ CAT_LABEL = {
     "imaging": "Imaging", "competition": "Competitions", "other": "Other",
 }
 
+# Standalone interactive HTML decks + speaker script. These are copied verbatim
+# into docs/<SLIDE_ASSETS>/ (static assets, kept out of the markdown pipeline) and
+# linked from a generated bilingual "Slides & talk" page.
+SLIDES_SRC = ROOT / "slides" / "med-anomaly-detection"
+SLIDE_ASSETS = "talk"
+SLIDE_PAGES = [
+    ("tree-deck.html", "Tree-deck — interactive navigator", "问题树 deck(推荐)",
+     "The talk with a clickable problem-tree sidebar — ← → to navigate, F for fullscreen.",
+     "带可点击问题树导航的 deck —— ← → 翻页,F 全屏。"),
+    ("index.html", "Full deck", "完整 deck",
+     "The linear version of the same talk.",
+     "同一场 talk 的线性版 deck。"),
+    ("storyline.html", "Storyline (one page)", "Storyline 一页版",
+     "The question tree, fact-check, and references on one page.",
+     "核心问题树、Fact-check、参考文献,一页看完。"),
+    ("speaker-script.html", "Speaker script (EN / 中文)", "讲稿(中英对照)",
+     "A ~35-min speaker script — English and Chinese, side by side.",
+     "约 35 分钟讲稿 —— 中英三栏对照。"),
+]
+
 MARKER = re.compile(r"<!--\s*(ZH|EN|ZH/EN)\s*-->\s*")
 
 
@@ -184,6 +204,48 @@ def _meta_block(m: dict, lang: str) -> str:
 
 
 # --------------------------------------------------------------------------- #
+# Standalone HTML decks → docs/talk/ + a linked "Slides & talk" page
+# --------------------------------------------------------------------------- #
+def _copy_slides() -> None:
+    dst = DOCS / SLIDE_ASSETS
+    if dst.exists():
+        shutil.rmtree(dst)
+    if not SLIDES_SRC.is_dir():
+        return
+    dst.mkdir(parents=True, exist_ok=True)
+    for fn, *_ in SLIDE_PAGES:              # only the curated decks, not experiments
+        src = SLIDES_SRC / fn
+        if src.exists():
+            shutil.copyfile(src, dst / fn)
+    figs = SLIDES_SRC / "figures"
+    if figs.is_dir():                        # decks reference figures/ relatively
+        shutil.copytree(figs, dst / "figures", dirs_exist_ok=True)
+
+
+def _slides_page(lang: str) -> str:
+    if lang == "en":
+        out = ["# Slides & talk\n",
+               "Interactive decks and the speaker script for the "
+               "**Anomaly Detection in Medical Imaging** talk. Each opens in a new tab.\n"]
+    else:
+        out = ["# 幻灯片与讲稿\n",
+               "《医学影像异常检测》这场 talk 的交互式 deck 与讲稿。点击在新标签页打开。\n"]
+    for fn, en, zh, den, dzh in SLIDE_PAGES:
+        if not (SLIDES_SRC / fn).exists():
+            continue
+        label = en if lang == "en" else zh
+        desc = den if lang == "en" else dzh
+        out.append(f"- **[{label} ↗]({SLIDE_ASSETS}/{fn}){{target=_blank}}** — {desc}")
+    return "\n".join(out) + "\n"
+
+
+def _write_slides() -> None:
+    _copy_slides()
+    (DOCS / "slides.md").write_text(_slides_page("en"), encoding="utf-8")
+    (DOCS / "slides.zh.md").write_text(_slides_page("zh"), encoding="utf-8")
+
+
+# --------------------------------------------------------------------------- #
 def main() -> None:
     metas = _meta.all_meta()
     papers_out = DOCS / "papers"
@@ -223,6 +285,7 @@ def main() -> None:
     if bib.exists():
         shutil.copyfile(bib, DOCS / "references.bib")
 
+    _write_slides()
     _write_mkdocs(metas)
     print(f"✓ site: {len(metas)} papers × (en+zh), mkdocs.yml (i18n) regenerated")
 
@@ -250,6 +313,8 @@ def _index_text(metas, lang: str) -> str:
             "`python scripts/add_paper.py <url> --category <c> --relevance <r>`.\n",
             "See the **[Literature review](literature-review.md)** and "
             "**[Paper relationships](relationships.md)**.\n",
+            "🔗 **[Slides &amp; talk](slides.md)** — the interactive tree-deck, full deck, "
+            "storyline, and ~35-min speaker script.\n",
             "## Reading list\n",
             "| Paper | Category | Relevance | Access |",
             "|---|---|---|---|",
@@ -263,6 +328,7 @@ def _index_text(metas, lang: str) -> str:
             "一个可搜索、可持续增长的文献库。添加论文:"
             "`python scripts/add_paper.py <url> --category <c> --relevance <r>`。\n",
             "见 **[文献综述](literature-review.md)** 与 **[论文关系](relationships.md)**。\n",
+            "🔗 **[幻灯片与讲稿](slides.md)** —— 交互式问题树 deck、完整 deck、storyline 与约 35 分钟讲稿。\n",
             "## 阅读清单\n",
             "| 论文 | 类别 | 相关度 | 获取 |",
             "|---|---|---|---|",
@@ -291,7 +357,8 @@ def _write_mkdocs(metas) -> None:
 
     nav = ["  - Home: index.md",
            "  - Literature review: literature-review.md",
-           "  - Relationships: relationships.md"]
+           "  - Relationships: relationships.md",
+           "  - Slides & talk: slides.md"]
     if any((ROOT / "glossary").glob("*.yaml")):
         nav.append("  - Glossary: glossary.md")
     nav.append("  - Papers:")

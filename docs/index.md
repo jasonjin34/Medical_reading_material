@@ -8,6 +8,8 @@ A living, searchable literature base. Add a paper with `python scripts/add_paper
 
 See the **[Literature review](literature-review.md)** and **[Paper relationships](relationships.md)**.
 
+🔗 **[Slides &amp; talk](slides.md)** — the interactive tree-deck, full deck, storyline, and ~35-min speaker script.
+
 ## Reading list
 
 | Paper | Category | Relevance | Access |
