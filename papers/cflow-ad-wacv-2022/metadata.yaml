@@ -1,0 +1,36 @@
+id: "cflow-ad-wacv-2022"
+title: "CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows"
+authors:
+  - "Denis Gudovskiy"
+  - "Shun Ishizaka"
+  - "Kazuki Kozuka"
+year: 2022
+venue: "2022 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2107.12571"
+doi: "10.1109/WACV51458.2022.00188"
+arxiv: "2107.12571"
+s2_id: null
+bibkey: "Gudovskiy2021_210712571"
+tags:
+  - "anomaly-detection"
+  - "normalizing-flow"
+  - "density-estimation"
+  - "real-time"
+  - "mvtec-ad"
+related:
+  - "padim-icpr-2020"
+  - "patchcore-cvpr-2022"
+  - "mahalanobis-ood-neurips-2018"
+  - "mvtec-ad-cvpr-2019"
+  - "pathology-ad-bench-mlhealth-2025"
+  - "ad-unifying-review-procieee-2021"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""

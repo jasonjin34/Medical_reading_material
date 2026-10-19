@@ -1,0 +1,35 @@
+id: "diffusion-medical-ad-miccai-2022"
+title: "Diffusion Models for Medical Anomaly Detection"
+authors:
+  - "Julia Wolleb"
+  - "Florentin Bieder"
+  - "Robin Sandkühler"
+  - "Philippe C. Cattin"
+year: 2022
+venue: "Medical Image Computing and Computer Assisted Intervention (MICCAI 2022), LNCS 13438"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2203.04306"
+doi: "10.1007/978-3-031-16452-1_4"
+arxiv: "2203.04306"
+s2_id: null
+bibkey: "Wolleb2022_220304306"
+tags:
+  - "anomaly-detection"
+  - "diffusion"
+  - "DDIM"
+  - "classifier-guidance"
+  - "weak-supervision"
+related:
+  - "histo-miccai-2025"
+  - "counterfactual-diffusion-cancerres-2026"
+  - "medianomaly-media-2025"
+  - "f-anogan-media-2019"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""

@@ -1,0 +1,37 @@
+id: "draem-iccv-2021"
+title: "DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection"
+authors:
+  - "Vitjan Zavrtanik"
+  - "Matej Kristan"
+  - "Danijel Skočaj"
+year: 2021
+venue: "2021 IEEE/CVF International Conference on Computer Vision (ICCV)"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2108.07610"
+doi: "10.1109/ICCV48922.2021.00822"
+arxiv: "2108.07610"
+s2_id: null
+bibkey: "Zavrtanik2021_210807610"
+tags:
+  - "anomaly-detection"
+  - "synthetic-anomalies"
+  - "self-supervised"
+  - "reconstruction"
+  - "segmentation"
+  - "mvtec-ad"
+related:
+  - "mvtec-ad-cvpr-2019"
+  - "padim-icpr-2020"
+  - "f-anogan-media-2019"
+  - "anogan-ipmi-2017"
+  - "pathology-ad-bench-mlhealth-2025"
+  - "medianomaly-media-2025"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""

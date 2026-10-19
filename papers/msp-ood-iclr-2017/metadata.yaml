@@ -1,0 +1,35 @@
+id: "msp-ood-iclr-2017"
+title: "A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks"
+authors:
+  - "Dan Hendrycks"
+  - "Kevin Gimpel"
+year: 2017
+venue: "International Conference on Learning Representations (ICLR 2017)"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/1610.02136"
+doi: ""
+arxiv: "1610.02136"
+s2_id: null
+bibkey: "Hendrycks2016_161002136"
+tags:
+  - "ood-detection"
+  - "softmax-baseline"
+  - "classifier-based"
+  - "misclassification-detection"
+  - "evaluation-protocol"
+related:
+  - "mahalanobis-ood-neurips-2018"
+  - "energy-ood-neurips-2020"
+  - "generalized-ood-survey-ijcv-2024"
+  - "conformal-scrna-bioinformatics-2025"
+  - "histo-nejmai-2024"
+  - "scatac-novel-genomeres-2026"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""

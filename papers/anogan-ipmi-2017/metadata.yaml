@@ -1,0 +1,37 @@
+id: "anogan-ipmi-2017"
+title: "Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery"
+authors:
+  - "Thomas Schlegl"
+  - "Philipp Seeböck"
+  - "Sebastian M. Waldstein"
+  - "Ursula Schmidt-Erfurth"
+  - "Georg Langs"
+year: 2017
+venue: "Information Processing in Medical Imaging (IPMI 2017), LNCS 10265"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/1703.05921"
+doi: "10.1007/978-3-319-59050-9_12"
+arxiv: "1703.05921"
+s2_id: null
+bibkey: "Schlegl2017_170305921"
+tags:
+  - "anomaly-detection"
+  - "GAN"
+  - "reconstruction"
+  - "OCT"
+  - "unsupervised"
+related:
+  - "f-anogan-media-2019"
+  - "deep-svdd-icml-2018"
+  - "ad-unifying-review-procieee-2021"
+  - "spatial-natcommun-2024"
+  - "medianomaly-media-2025"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""

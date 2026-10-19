@@ -1,0 +1,35 @@
+id: "energy-ood-neurips-2020"
+title: "Energy-based Out-of-distribution Detection"
+authors:
+  - "Weitang Liu"
+  - "Xiaoyun Wang"
+  - "John D. Owens"
+  - "Yixuan Li"
+year: 2020
+venue: "Advances in Neural Information Processing Systems 33 (NeurIPS 2020)"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2010.03759"
+doi: ""
+arxiv: "2010.03759"
+s2_id: null
+bibkey: "Liu2020_201003759"
+tags:
+  - "ood-detection"
+  - "energy-score"
+  - "logit-based"
+  - "outlier-exposure"
+  - "post-hoc"
+related:
+  - "msp-ood-iclr-2017"
+  - "mahalanobis-ood-neurips-2018"
+  - "generalized-ood-survey-ijcv-2024"
+  - "histo-nejmai-2024"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""

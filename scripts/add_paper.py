@@ -25,7 +25,7 @@ PAPERS = ROOT / "papers"
 TPL = ROOT / "templates"
 
 CATEGORIES = [
-    "single-cell", "spatial", "virtual-tissue", "histopath",
+    "anomaly", "single-cell", "spatial", "virtual-tissue", "histopath",
     "foundation", "pathology", "imaging", "competition",
     "agents", "ehr", "other",
 ]

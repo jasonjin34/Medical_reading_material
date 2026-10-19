@@ -24,11 +24,11 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 DIRECTION = "Anomaly-detection-based virtual tissue modelling"
 
-CAT_ORDER = ["single-cell", "spatial", "virtual-tissue", "histopath",
+CAT_ORDER = ["anomaly", "single-cell", "spatial", "virtual-tissue", "histopath",
              "foundation", "pathology", "imaging", "competition",
              "agents", "ehr", "other"]
 CAT_LABEL = {
-    "single-cell": "Single-cell", "spatial": "Spatial transcriptomics",
+    "anomaly": "General anomaly detection", "single-cell": "Single-cell", "spatial": "Spatial transcriptomics",
     "virtual-tissue": "Virtual tissues", "histopath": "Histopathology",
     "foundation": "Foundation models", "pathology": "Pathology",
     "imaging": "Imaging", "competition": "Competitions",

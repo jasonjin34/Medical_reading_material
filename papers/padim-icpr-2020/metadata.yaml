@@ -1,0 +1,37 @@
+id: "padim-icpr-2020"
+title: "PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization"
+authors:
+  - "Thomas Defard"
+  - "Aleksandr Setkov"
+  - "Angelique Loesch"
+  - "Romaric Audigier"
+year: 2021
+venue: "Pattern Recognition. ICPR International Workshops and Challenges (ICPR 2020 Workshops), LNCS 12664"
+type: "paper"
+category: "anomaly"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2011.08785"
+doi: "10.1007/978-3-030-68799-1_35"
+arxiv: "2011.08785"
+s2_id: null
+bibkey: "Defard2020_201108785"
+tags:
+  - "anomaly-detection"
+  - "feature-embedding"
+  - "mahalanobis"
+  - "gaussian-density"
+  - "mvtec-ad"
+related:
+  - "patchcore-cvpr-2022"
+  - "cflow-ad-wacv-2022"
+  - "mahalanobis-ood-neurips-2018"
+  - "mvtec-ad-cvpr-2019"
+  - "pathology-ad-bench-mlhealth-2025"
+  - "histo-nejmai-2024"
+status: "complete"
+added: "2026-10-19"
+plans:
+  - "A"
+track: "A0"
+recommended_by: ""
