@@ -1,0 +1,64 @@
+# Quantitative benchmarking of anomaly detection methods in digital pathology images
+
+> **文献键** `Cui_2025` · **来源** Machine Learning: Health(2025) · **类别** histopath · **相关度** high · **获取** open
+> **链接** <https://doi.org/10.1088/3049-477x/ae0f9f> · `status: complete`
+
+---
+
+## 一句话
+Vanderbilt 的 Huo 组(HRLB)把 23 种通用 anomaly detection 方法(重建、特征分布、蒸馏、normalizing flow、合成异常五大类)放到真实病理(Camelyon16、Crohn 结肠、小鼠肾小球)+ 受控合成病理 + MVTec 工业数据上统一评测,系统考察**图像尺度、异常模式「反转」、以及没有异常样本时如何选 epoch** 三个常被忽略的因素;结论是没有通吃的方法,特征分布类整体最好,而真实病理比工业数据难得多(平均 ROC-AUC 约 0.645 对 0.888)。
+
+## 研究问题
+病理图像天然适合「只用正常数据训练」的 anomaly detection:正常组织易得、病灶小而多变、边界模糊且很少有专家标注,还可能是罕见或全新的病变;在临床前毒理里也常用来发现药物引起的组织改变。但现有 AD 算法多为工业缺陷检测设计,病理图像有三大特殊性——**多尺度**(细胞与组织两级)、**染色差异**、**重复纹理且正常/异常边界模糊**——通用方法在这里表现如何并不清楚。此外,已有病理 AD 工作基本用固定 epoch 数训练,从未讨论在验证集也没有异常样本的情况下如何做 model selection。
+
+## 方法
+**方法池**:23 个方法分五族——重建类(GANomaly、SkipGanomaly、DAE、FAE、DFR、HTAES、IGD、UniAD、DRAEM 等)、特征分布类(PatchCore、PaDiM、PANDA、CFA、DFKDE、DFM)、蒸馏类(STFPM、Reverse Distillation、Revisit Distillation、ReContrast、EfficientAD)、normalizing flow(FastFlow、CFLOW-AD、CS-Flow)、合成异常(CutPaste、DRAEM)。代码分别取自 anomalib、UPD_study 及各官方仓库(注:主结果表实际列出 22 行方法)。**统一设置**:输入 256×256,200 epoch,batch 16,有预训练权重就加载,ImageNet 归一化,仅水平翻转增强,不做逐数据集调参。需要 object/patient 级结果时取**前 20% 最高 anomaly score 的均值**聚合;指标为 ROC-AUC(另报 PR-AUC)。**三组实验**:(1) **尺度**——同一区域分别以大图直接下采样和切成小图再聚合两种方式预测;(2) **无偏 epoch 选择**——四种策略:①逐样本最大比值(Reiss et al.:各 checkpoint 的分数除以验证集正常样本平均分,取最大值)、②用含异常的完整验证集选 AUC 最高 epoch(视作上界)、③验证集正常样本 loss 最小、④最后一个 epoch;(3) **正常/异常反转**——在合成密度数据上交换「正常」与「异常」的定义重跑。
+
+## 数据
+**真实病理(3 个)**:Camelyon16 乳腺淋巴结转移(40× 切 768×768;训练 5462 正常,验证 2150 正常 + 2169 肿瘤,测试 4000 正常 + 817 肿瘤);院内 Crohn 病结肠活检(16 例 CD + 53 例健康对照,20×,1812×1812 大块由病理医生标正常/异常,再切 512×512 小块);小鼠肾小球数据(40× H&E,中心裁 3072×3072 与 512×512,只有全部肾小球都正常的块才算正常;原文称其包含 "benign and malignant glomeruli of mice")。**合成病理(2 个)**:在 Unitopatho 的 56 张 2048×2048 正常块上叠加图案——圆 vs 十字(形态差异),以及 75% vs 25% 概率的圆点密度(密度差异),各做大小两个尺度。**工业(2 个)**:MVTec 的 Hazelnut(物体)与 Tile(纹理)作参照。训练集只含正常样本。
+
+## 主要结果
+- **没有通吃的方法**:Reverse Distillation、SkipGanomaly、UniAD 等在某些数据集明显高于平均,在另一些几乎失效。
+- **按方法族**(完整验证集选 epoch,object 级平均 ROC-AUC):特征分布 **0.692** > 蒸馏 **0.600** > 重建 **0.564**;重建类常把异常也重建得很好、反而把正常图重建模糊。
+- **难度差距**:按数据集平均 ROC-AUC,工业 0.888、合成病理 0.636、真实病理 0.645——在工业数据上好用的方法不足以区分病理图像的正常与异常。真实病理上 PANDA 最稳(完整验证集策略平均 0.882;Camelyon16 0.943、结肠 2048 尺度 0.990)。
+- **epoch 选择**:总体排序 完整验证集 > 逐样本 > 最小 loss > 最后 epoch;「最后 epoch」在 20 个数据集设置中有 19 个最差。两种无偏策略(逐样本、最小 loss)都不需要异常样本,逐样本略好,但要保存 N 个 checkpoint、推理成本 N 倍。
+- **尺度**:肾小球小尺度更好(0.650 vs 0.611,小块能看清球内细节);结肠大尺度更好(0.767 vs 0.640,需要隐窝结构与炎症的上下文);合成数据同理——形态类异常小尺度好,密度类异常大尺度好。网络内部的多尺度特征并不能替代输入尺度的选择。
+- **反转**:同一组测试图,「高密度为正常」平均 0.792,「低密度为正常」只有 0.551——**正常模式本身的可学习性**决定了 AD 难度。
+
+## 创新点
+- 首个专门面向病理图像、覆盖五大方法族 23 个方法的统一 AD 基准,并附病理 AD 文献综述。
+- 把「没有异常样本时如何选 epoch」作为显式实验变量——这是此前几乎没人系统讨论的实际问题。
+- 受控合成病理数据(形态 vs 密度、两个尺度、可反转定义),能把尺度、模式类型与正常模式难度这些因素拆开看。
+- 面向临床的使用建议:多算法 ensemble 取一致高分区域、热图辅助、随异常样本积累逐步转向监督学习。
+
+## 局限
+- 全部用默认超参、不逐数据集调参,作者也承认方法间差异的原因因此难以解释。
+- 输入统一缩到 256×256,大尺度块的训练数量受限;且不包含任何病理 foundation model 特征(UNI、Virchow 等)作为 backbone,结论主要针对 ImageNet 时代的方法。
+- 真实数据只有三个,其中两个是院内数据(需 Vanderbilt DUA),肾小球数据是小鼠;只做 patch/object 级分类,没有像素级定位评测。
+- 「完整验证集」策略需要与测试集同分布的异常样本,现实中拿不到,所以它只是上界。
+
+## 与本研究方向的关系
+这篇是 detect 一环在病理图像上的**基准方法学教科书**,而且直接来自做肾脏病理的组(经费含 KPMP Glue Grant,数据含肾小球)。对 **Plan A(肾脏组学异常检测 + KidneyAnomalyBench)** 有四点可直接借用:**(1) 无偏 epoch 选择**——我们的 95 例活检训练只用正常/参考组织,验证集同样没有专家确认的异常,「逐样本最大比值」与「正常样本最小 loss」是可以写进 benchmark 协议的标准做法,「最后 epoch」应明确禁止;**(2) 尺度是一等变量**——肾小球病变要小尺度、间质纤维化/炎症要大尺度,KidneyAnomalyBench 应按解剖单元(肾小球、小管、间质)分别报告,而非一个全局 AUC;**(3) 反转实验揭示「正常的可学习性」**——肾脏正常组织本身异质(皮质/髓质、不同节段小管),参考集的构造会直接决定检出率,这一点在设计 healthy reference 时必须控制;**(4) 受控合成异常**——把这种「已知真值的合成扰动」迁移到 Xenium/snRNA 上(例如注入表达偏移或细胞密度变化),可以作为 benchmark 中带 ground truth 的一层。更重要的是它**没有回答的问题**:只用了 H&E 单模态,无法区分「染色/切片伪影」与「真实病变」,而 Plan A 的核心假设正是用 H&E 与空间组学的**跨模态一致性**来做这个区分——这篇的单模态结果可以作为跨模态方法的对照基线。对 Plan B 的启示较间接:「没有通吃的方法 + 默认超参」提醒我们,agent 在跑 AD 分析时若只用一种方法、一个尺度、最后一个 epoch,其结论应被 verifier 标为低可信。
+
+## 可复用资产
+- **代码与合成数据:** HRLB 的 PathAnomalyDetect 仓库(论文称代码与模拟数据将公开)。
+<https://github.com/hrlblab/PathAnomalyDetect>
+- **方法实现来源:** anomalib 与 UPD_study 两个统一实现库。
+<https://github.com/openvinotoolkit/anomalib> · <https://github.com/iolag/UPD_study>
+- **评测协议:** 四种 epoch 选择策略 + 前 20% 分数均值聚合 + 多尺度对照 + 正常/异常反转,可整体照搬进 KidneyAnomalyBench。
+- **数据:** Camelyon16 公开;结肠与肾小球数据需 Vanderbilt DUA。
+
+## 待读
+- MedIAnomaly(本仓库 `medianomaly-media-2025`)——同类基准在放射/眼底/皮肤等五种模态上的结论,与本文互补。
+- Reiss et al. PANDA 与 Cui et al. 的 epoch 选择前作,看逐样本最大比值策略的理论依据。
+- 把病理 foundation model(UNI2-h、Virchow)作为特征分布类方法的 backbone 重跑这个基准——本文空缺、对我们最相关的一步。
+
+## 引用
+```bibtex
+@article{Cui_2025, title={Quantitative benchmarking of anomaly detection methods in digital pathology images}, volume={1}, ISSN={3049-477X}, url={http://dx.doi.org/10.1088/3049-477x/ae0f9f}, DOI={10.1088/3049-477x/ae0f9f}, number={1}, journal={Machine Learning: Health}, publisher={IOP Publishing}, author={Cui, Can and Zheng, Xindong and Deng, Ruining and Liu, Quan and Yao, Tianyuan and Wilson, Keith T and Coburn, Lori A and Landman, Bennett A and Yang, Haichun and Wang, Yaohong and Huo, Yuankai}, year={2025}, month=Oct, pages={010502} }
+```
+
+
+---
+
+📄 **[AI-ready 全文提取 →](ai-ready.md)**

@@ -1,0 +1,33 @@
+id: "investorbench-arxiv-2024"
+title: "INVESTORBENCH: A Benchmark for Financial Decision-Making Tasks with LLM-based Agent"
+authors:
+  - "Haohang Li"
+  - "Yupeng Cao"
+  - "Yangyang Yu"
+  - "Shashidhar Reddy Javaji"
+  - "Zhiyang Deng"
+  - "Yueru He"
+  - "Yuechen Jiang"
+  - "Zining Zhu"
+  - "Koduvayur Subbalakshmi"
+  - "Guojun Xiong"
+  - "Jimin Huang"
+  - "Lingfei Qian"
+  - "Xueqing Peng"
+  - "Qianqian Xie"
+  - "Jordan W. Suchow"
+year: 2024
+venue: "arXiv preprint"
+type: "paper"
+category: "other"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2412.18174"
+doi: ""
+arxiv: "2412.18174"
+s2_id: null
+bibkey: "Li2024_241218174"
+tags: []
+related: []
+status: "abstract-only"
+added: "2026-09-03"

@@ -1,0 +1,28 @@
+id: "ambient-rna-bench-biorxiv-2026"
+title: "Benchmarking computational decontamination of ambient RNA"
+authors:
+  - "Cargnelli, Cecilie Bøgh"
+  - "Nielsen, Jakob Vennike"
+  - "Skat Madsen, Jesper Grud"
+year: 2026
+venue: "bioRxiv"
+type: "paper"
+category: "single-cell"
+relevance: "medium"
+access: "open"
+url: "https://doi.org/10.64898/2026.01.13.699237"
+doi: "10.64898/2026.01.13.699237"
+arxiv: ""
+s2_id: null
+bibkey: "Cargnelli_2026"
+tags:
+  - "ambient RNA"
+  - "decontamination"
+  - "snRNA-seq"
+  - "benchmark"
+  - "QC"
+related:
+  - "resolvi-natmethods-2026"
+  - "xenium-split-natmethods-2026"
+status: "complete"
+added: "2026-10-19"

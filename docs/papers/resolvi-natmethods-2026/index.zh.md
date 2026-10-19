@@ -1,0 +1,65 @@
+# ResolVI: addressing noise and bias in spatial transcriptomics
+
+> **文献键** `Ergen_2026` · **来源** Nature Methods(2026) · **类别** spatial · **相关度** high · **获取** open
+> **链接** <https://doi.org/10.1038/s41592-026-03212-9> · `status: complete`
+
+---
+
+## 一句话
+resolVI 是 scvi-tools 里的一个 VAE 生成模型,接在**任意分割算法之后**,把每个细胞的观测计数拆成三部分 —— 细胞自身的真实表达、从邻近细胞「扩散」进来的表达、以及每张切片恒定的非特异背景 —— 从而去除分子错配导致的虚假共表达,同时给出批次校正后的概率潜在表示,支持差异表达和空间邻域丰度检验。
+
+## 研究问题
+亚细胞分辨率空间转录组(Xenium、MERSCOPE、CosMx、Stereo-seq、Visium HD)在做细胞级分析前必须**分割 + 定量**:把平面切成近似细胞的区域,再把区域内的分子计数。即使用了 Baysor、ProSeg 这类利用转录本信息的分割方法,分子仍会被分错细胞 —— 原因包括细胞密集、染色信号弱、形状不规则,以及组织处理导致的 RNA 泄漏和**第三维(z 轴)上的细胞重叠**。后果是虚假的跨谱系标志基因共表达(例如小胶质细胞「表达」神经元标志物),这让分析停留在预先定义的细胞大类上,也让新细胞状态的发现变得困难。
+
+## 方法
+**输入**:任意分割/定量得到的细胞×基因计数矩阵、细胞空间坐标、切片 ID。**生成模型**:观测计数 x_ng ~ Poisson(l_n · h_ng),其中 h_ng = Gamma(真实表达 α0·f_θ(z_n,b) + 扩散 α1·Σ β_nN(n)·f_θ(z_N(n),b)) + 背景 α2·bg_sg。真实表达与扩散用负二项(Gamma-Poisson)建模,背景假设无过离散、用 Poisson;α_n(三部分比例)由一个「diffusion encoder」以 Dirichlet 先验做 MAP 估计;每个邻居的贡献 β(默认 20 个邻居)用基于欧氏距离的 RBF 核放进 Dirichlet 先验,越近的细胞越可能是错配来源;背景先验取最低表达 10% 基因的均值(作者发现在 CosMx 上它接近负对照探针计数)。**潜在空间**:用高斯混合先验(而非单峰高斯),既更好区分细胞类型,也允许半监督地接入已知细胞类型标签并训练一个分类器。**去批次**:decoder 接收批次 ID,encoder 默认不接收。**直觉**:VAE 瓶颈假设数据可被低维编码,错配分子让观测谱「更复杂」,最小化 ELBO 会把「无关」分子推给扩散或背景分量。**训练细节**:每细胞 <20 分子的细胞先过滤;对低计数细胞做多项式重采样增强;支持类似 scArches 的 network surgery 做 query 映射;下游提供基于模型的 lvm-DE 差异表达和双侧贝叶斯「差异邻域丰度」检验。
+
+## 数据
+全部为公开数据:**10x Xenium 小鼠脑**(248 基因、约 13 万细胞,原始核分割+扩张;另跑 Baysor、ProSeg、纯核分割);**Vizgen MERSCOPE 两例肝癌活检**(约 150 万细胞、550 基因,比较 6 种分割:原始、三种 Cellpose 设置、Baysor、ProSeg);**Stereo-seq 小鼠冠状脑**(>24,000 基因、>5 万细胞);**10x Visium HD 小鼠脑**(8 µm bin,453,820 个 spot、17,797 基因);**NanoString CosMx 健康 vs 肝癌**(1,000 基因、120 万细胞,用 Baysor 重分割);**DSS 结肠炎 MERFISH 时间序列**(990 基因、52 张切片、140 万细胞,day 0/3/9/21/35)。参照用单细胞/单核 RNA-seq(小鼠脑 Linnarsson 数据、健康肝单核图谱)。
+
+## 主要结果
+- **Xenium 小鼠脑**:resolVI 潜在空间在 scib-metrics 生物保守性与「低/高错配率细胞之间的整合」上优于 PCA、scVI、scANVI(把 α1+α2>20% 定义为高错配率细胞作伪批次);下丘脑小胶质细胞中的神经元标志物 Slc17a6 假阳性被大幅去除,Trem2 保留;同时**保留了**单细胞参照里没有、但有文献支持的内皮细胞 Lyz2 共表达。resolVI 估计的虚假信号比例与(基于标志物知识的)假双阳性率单调相关,而它本身不使用标志物信息。
+- **分割依赖**:利用表达的分割(Baysor、ProSeg)本身降低假双阳性,但残留仍在;resolVI 在每种分割之后都能进一步降低。作者报告 ovrlpy 与 ProSeg 自带的校正「未能去除大部分错误信号」。在肝癌 MERSCOPE 上,Baysor+resolVI 最好,但作者在讨论中**推荐实践中先用 ProSeg**,因为 Baysor 会产生大量少分子细胞、虚增细胞数。
+- **测序型 ST**:Stereo-seq 全基因运行 <20 分钟、内存 <30 GB;Slc17a7+ 细胞中同时 Mbp+ 的比例从 **14.8% 降到 <0.01%**;Visium HD 8 µm bin 上 20 分钟训练完,分出 VIP、SST、NPY 抑制性神经元亚群。
+- **CosMx 肝癌**:去除背景后胆管细胞标志物(SOX4、KRT13、EPCAM)回到门管周围分布;肿瘤中 SPP1–CD68 共表达在校正后**仍保留**(肿瘤相关巨噬细胞表达 SPP1,真实生物学);hotspot 找到两种肿瘤细胞空间模块 —— 低氧免疫抑制区(MIF、ENO1、SPP1、VEGFA)与干扰素促炎区(MX1、IFI6、STAT1),并与巨噬细胞、中性粒细胞、T 细胞亚群的共定位对应。
+- **DSS 结肠炎(140 万细胞,RTX 3090 上训练不到 6 小时)**:day 35 被描述为「几乎完全恢复」,但 resolVI 的差异邻域分析显示隐窝顶端成纤维细胞(Fibro 2)从隐窝间迁移到黏膜下层聚集、Bmp2/5/7 表达下降,并伴随高结肠细胞密度区之外屏障基因(Cldn4、Cldn23、Tnfaip3、Il22ra1)表达降低 —— 即**宏观恢复后组织并未真正回到基线**。
+
+## 创新点
+- 把「分子错配」显式建模成可估计的扩散 + 背景分量,并且与分割算法解耦,任何分割都能接。
+- **每个细胞都得到一个错配比例 α1+α2** —— 一个不依赖标志物知识、却与假双阳性率一致的「技术伪影分数」。
+- 同一个生成模型同时做去噪、去批次、半监督注释、query 映射、差异表达和差异邻域丰度检验。
+- 跨成像型与测序型共六类平台验证,并扩展到百万级细胞。
+
+## 局限
+- **校正质量依赖初始分割**(作者自陈);原始分割下仍残留成纤维细胞–髓系/内皮共表达。
+- 依赖 VAE 瓶颈,对潜在空间设定敏感;作者建议用监督模式缓解。
+- 「错误共表达」的基准由文献标志物和 scRNA 共表达构造,作者承认这些基因对**高度依赖情境**,真实数据中没有 ground truth。
+- 与其他工具的比较由作者自己做;另一组(Bilous 等,本仓库 `xenium-split-natmethods-2026`)的独立比较显示 resolVI 会显著减少表达基因数、产生近空细胞,iLISI 有时略差,并偶尔同时压掉污染和真实 T 细胞程序。
+- 没有肾脏数据;部分图的底层数据仅「合理请求」提供。
+
+## 与本研究方向的关系
+这是 **detect** 这一步之前必须做的「去伪影」层。对 **Plan A**(肾脏 Xenium + snRNA/snATAC + H&E 异常检测)来说,最直接的风险是:在 Xenium 上找出的「异常细胞」其实只是分割/扩散伪影 —— 例如一个近端小管细胞因为紧贴浸润的巨噬细胞而「表达」CD68。resolVI 给每个细胞的 **α1+α2** 正好是一个与疾病无关的**技术伪影协变量**:(1) 可在 KidneyAnomalyBench 中作为「artifact」类的弱标签或分层变量,检验异常分数是否只是在追踪 α;(2) 可与 snRNA 参照、H&E 形态做**跨模态一致性**判断 —— 高异常 + 高 α + snRNA 中不存在该共表达 = 优先判为伪影;高异常 + 低 α + snRNA/snATAC 支持 = 疾病候选。**需要警惕的张力**:肾病里真正的异常状态(例如 `inflammatory-pt-natcommun-2025` 中表达趋化因子、ICAM1、贴着巨噬细胞的炎症性 PT 细胞)恰恰就是「混合样」表型,也正位于免疫细胞密集的纤维化 niche —— 过度校正会把真实异常抹掉。所以 resolVI 应作为**对照条件**(校正前后各跑一次异常检测,比较哪些异常稳定)而不是默认预处理。DSS 结肠炎的结果对 **revert** 也有启示:「宏观恢复」不等于「niche 恢复」,评估逆转时应看邻域组成而不仅是细胞比例。对 **Plan B**:是否做了错配校正、用哪种分割,会直接改变共表达类结论;agent 分析空间组学时若不声明这一步,是一个很具体的 omics 特有失败模式;而且 VAE 训练有随机性,适合纳入 rerun stability 检验。
+
+## 可复用资产
+- **代码:** resolVI 已并入 scvi-tools;复现代码与 Zenodo 存档。
+<https://github.com/scverse/scvi-tools>
+<https://github.com/YosefLab/resolvi-reproducibility>
+<https://doi.org/10.5281/zenodo.19811112>
+- **数据:** 图 2 与图 5 的处理后数据(Dryad);DSS 结肠炎 MERFISH 原始数据(Dryad)。
+<https://doi.org/10.5061/dryad.z08kprrqd>
+<https://doi.org/10.5061/dryad.rjdfn2zh3>
+- **评测协议:** 用单细胞参照定义「互斥标志基因对」并计算假双阳性率 —— 可直接移植到肾脏(用 KPMP/Lake 图谱定义互斥对)。
+
+## 待读
+- ProSeg(Jones 等)与 Baysor —— 作者推荐的初始分割;ovrlpy(本仓库 `ovrlpy-natbiotech-2026`)和 SPLIT(`xenium-split-natmethods-2026`)—— 同一问题的另外两种解法,结论互相矛盾,值得在肾脏数据上自己复现比较。
+- Mitchel 等关于转录本错配造成虚假细胞–细胞通讯的工作;lvm-DE 差异表达框架。
+
+## 引用
+```bibtex
+@article{Ergen_2026, title={ResolVI: addressing noise and bias in spatial transcriptomics}, volume={23}, ISSN={1548-7105}, url={http://dx.doi.org/10.1038/s41592-026-03212-9}, DOI={10.1038/s41592-026-03212-9}, number={10}, journal={Nature Methods}, publisher={Springer Science and Business Media LLC}, author={Ergen, Can and Yosef, Nir}, year={2026}, month=Sept, pages={2003–2014} }
+```
+
+
+---
+
+📄 **[AI-ready 全文提取 →](ai-ready.md)**

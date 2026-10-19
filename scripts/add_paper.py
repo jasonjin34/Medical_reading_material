@@ -26,7 +26,8 @@ TPL = ROOT / "templates"
 
 CATEGORIES = [
     "single-cell", "spatial", "virtual-tissue", "histopath",
-    "foundation", "pathology", "imaging", "competition", "other",
+    "foundation", "pathology", "imaging", "competition",
+    "agents", "ehr", "other",
 ]
 
 

@@ -1,0 +1,64 @@
+# Identifying 3D signal overlaps in spatial transcriptomics data with ovrlpy
+
+> **Bibkey** `Tiesmeyer_2026` · **Venue** Nature Biotechnology (2026) · **Category** spatial · **Relevance** high · **Access** paywall
+> **Link** <https://doi.org/10.1038/s41587-026-03004-8>
+> `status: complete` — 期刊版付费;本精读基于作者公开的 bioRxiv 预印本 v2(2025-08-17,CC BY,"2D, or not 2D? Investigating Vertical Signal Integrity of Tissue Slices",doi:10.1101/2025.01.13.632601)全文。正式发表版可能有修订,数字以预印本为准。
+> Bilingual convention (drives the site's EN⇄中文 switcher): put `<!-- ZH -->` 中文 and `<!-- EN -->` English on their own lines (or inline `- <!-- ZH --> 中文 <!-- EN --> English`). Use `<!-- ZH/EN -->` ONLY for a purely language-neutral line (a bare URL or code token) — never for bilingual prose or labels.
+
+---
+
+## 一句话 / One-liner
+<!-- ZH --> ovrlpy 把成像型空间转录组的 5–15 µm 厚切片在计算上「虚拟切成上下两层」,比较上下层的局部表达相似度,得到一张无监督、无需分割的**垂直信号完整性(VSI)图**,用来定位垂直重叠细胞(z 轴双细胞)、组织褶皱和不准确的细胞分割。
+<!-- EN --> ovrlpy computationally "splits" a 5–15-µm imaging-based spatial-transcriptomics section into virtual top and bottom sub-slices and compares their local expression similarity, producing an unsupervised, segmentation-free **vertical signal integrity (VSI) map** that localizes vertically overlapping cells (z-axis doublets), tissue folds and inaccurate segmentation.
+
+## 研究问题 / Problem
+<!-- ZH --> 成像型 ST(Xenium、MERSCOPE)能以 3D 定位转录本,但几乎所有分析都把数据投影到 2D,分割也在 2D 进行。厚度与细胞直径相当的切片中,同一 x–y 位置上下可能叠着不同细胞,导致分割出的「细胞」混入多个细胞类型的转录本 —— 垂直空间双细胞。作者用简化几何模型(致密组织中的球形细胞)估算:**10 µm 直径细胞在 10 µm 切片中,平均「信号/总量」比只有 0.4**,即投影后的大部分信号可能来自垂直相邻结构。
+<!-- EN --> Imaging-based ST (Xenium, MERSCOPE) localizes transcripts in 3D, but almost all analyses project to 2D and segment in 2D. In sections about as thick as a cell, different cells can stack at the same x–y position, so segmented "cells" mix transcripts from several types — vertical spatial doublets. A simplified geometric model (spherical cells in dense tissue) predicts that **a 10-µm cell in a 10-µm section has an average signal-to-total ratio of only 0.4**, i.e. most projected signal may come from vertically adjacent structures.
+
+## 方法 / Method
+<!-- ZH --> **虚拟分层**:转录本 z 坐标在样本中存在全局漂移,不能用一个全局阈值切分;因此先按 x–y 分箱(通常 1 µm),算每箱转录本 z 均值,再用图上的消息传递(反复对邻箱取平均)做局部平滑,以平滑后的 z 作为每箱的分割点,得到上下两个虚拟子切片。**VSI**:结合作者引用的无监督、无需分割的 SRT 分析算法(预印本引文 12–13;推测为该团队先前的 SSAM/Sainsc 一类方法),在每个局部计算上下子切片的表达相似度,得到 VSI 图;低 VSI = 上下不一致 = 可能存在重叠或伪影。**可视化**:局部极大值处的表达信号被嵌入 2D-UMAP 和 RGB 颜色空间,ROI 内的转录本按 RGB 着色,便于肉眼检查。**用法**:输入含 gene、x、y、z 列的转录本坐标表,PCA 成分数等少量参数;可输出每个细胞的平均 VSI 用于标记双细胞(作者示例阈值:细胞平均 VSI < 0.7)。算法不依赖几何模型,也不依赖细胞形状假设。
+<!-- EN --> **Virtual sub-slicing**: transcript z positions drift globally across a sample, so a single global threshold fails; instead transcripts are binned in x–y (usually 1 µm), the mean z per bin is computed and locally smoothed by graph message passing (repeated neighbour averaging), and the smoothed z serves as each bin's split point, yielding top and bottom virtual sub-slices. **VSI**: building on an unsupervised, segmentation-free SRT analysis algorithm cited in the preprint (refs 12–13; presumably the group's earlier SSAM/Sainsc line), local expression similarity between top and bottom sub-slices gives the VSI map; low VSI = top/bottom disagreement = likely overlap or artifact. **Visualization**: expression signal at local maxima is embedded in 2D UMAP and RGB colour space; transcripts in an ROI are coloured by the RGB embedding for inspection. **Usage**: input a transcript table with gene, x, y, z columns plus a few parameters (e.g. number of PCA components); per-cell mean VSI can flag doublets (the authors' example threshold: mean VSI < 0.7). The algorithm uses neither the geometric model nor cell-shape assumptions.
+
+## 数据 / Data
+<!-- ZH --> 10 µm 厚 Xenium 小鼠冠状脑切片(含重复);MERSCOPE 小鼠冠状脑切片;公开 MERSCOPE 小鼠肝数据;Vizgen 公开的 3D DAPI 分割小鼠脑数据;另用 Baysor、Proseg 做 3D 分割比较。细胞类型注释用 MapMyCells。
+<!-- EN --> A 10-µm Xenium mouse coronal brain section (with replicates); a MERSCOPE mouse coronal brain section; public MERSCOPE mouse liver; Vizgen's public 3D-DAPI-segmented mouse brain; 3D segmentation comparisons with Baysor and Proseg. Cell typing via MapMyCells.
+
+## 主要结果 / Key results
+- <!-- ZH --> **上下层不一致很常见**:Xenium 小鼠脑 162,033 个分割细胞中,上下子切片独立注释后**只有 78% 被判为同一细胞类型**(另两个重复为 80%、79%);胶质细胞、少突胶质细胞、血管细胞尤其容易形成垂直双细胞。海马 CA1 区 152 个抑制性/胶质细胞中只有约 20% 上下一致,多数与相邻兴奋性神经元构成垂直双细胞。MERSCOPE 上全组织一致率 83%,CA1 非神经元细胞 51%。作者提醒这些数字可能高估影响(半个细胞转录本更少,注释更差)。 <!-- EN --> **Top/bottom disagreement is common**: of 162,033 segmented cells in Xenium mouse brain, independently annotated top and bottom halves **agree on cell type for only 78%** (80% and 79% in replicates); glia, oligodendrocytes and vascular cells are especially prone to vertical doublets. In hippocampal CA1, only ~20% of 152 inhibitory/glial cells are consistent, most forming vertical doublets with neighbouring excitatory neurons. MERSCOPE: 83% tissue-wide, 51% for CA1 non-neuronal cells. The authors caution these figures may overstate the impact (half-cells have fewer transcripts and type less reliably).
+- <!-- ZH --> **VSI 图能发现多种伪影**:脑膜、脉络丛、毛细血管持续低 VSI;腹侧脑区若干低 VSI 结构与制片时的组织褶皱一致;体外模拟重叠证实低 VSI 对应细胞重叠;z-stack DAPI 图像验证了垂直双细胞;虚拟子切片整体 VSI 高于完整切片,符合「更薄切片重叠更少」。小鼠肝中内皮与基质细胞更易与肝细胞形成垂直双细胞。 <!-- EN --> **The VSI map exposes multiple artifacts**: meninges, choroid plexus and capillaries are persistently low-VSI; several ventral low-VSI structures match sample-preparation tissue folds; in silico simulated overlaps confirm low VSI marks overlap; z-stack DAPI validates vertical doublets; a virtual sub-slice has higher VSI than the full section, consistent with thinner slices overlapping less. In mouse liver, endothelial and stromal cells more often form vertical doublets with hepatocytes.
+- <!-- ZH --> **作为 3D 分割的 QC**:Baysor/Proseg 3D 分割得到的细胞,其 MapMyCells 相关系数与 ovrlpy VSI 显著相关,但两者都没能正确处理腹侧组织褶皱(大量软脑膜细胞分割错误);在 Vizgen 3D DAPI 分割数据中,ovrlpy 识别的 810 个高置信重叠区域(VSI < 0.5)里**不到 7%** 在该位置存在重叠的核分割。 <!-- EN --> **As QC for 3D segmentation**: for Baysor/Proseg 3D segments, MapMyCells correlation tracks ovrlpy VSI significantly, but both fail on the ventral tissue fold (many leptomeningeal cells mis-segmented); in Vizgen's 3D-DAPI segmentation, **fewer than 7%** of 810 high-confidence ovrlpy overlap regions (VSI < 0.5) had overlapping nucleus segments.
+- <!-- ZH --> **下游影响**:把平均 VSI < 0.7 的细胞标为垂直双细胞后,它们在 UMAP 中位于各单细胞簇之间(与 scRNA 双细胞相似);去除后 Xenium 与 MERSCOPE 的细胞类型分离更清晰;并能识别由重叠污染而非真实亚型造成的虚假空间细胞亚型。 <!-- EN --> **Downstream impact**: cells with mean VSI < 0.7 flagged as vertical doublets sit between singlet clusters in UMAP (like scRNA doublets); removing them sharpens cell-type separation in both Xenium and MERSCOPE, and helps identify spurious spatial subtypes caused by overlap contamination rather than true subtype differences.
+
+## 创新点 / Contributions
+- <!-- ZH --> 首次系统量化 2D 投影造成的垂直污染,并给出简单几何直觉(信号/总量 ≈ 0.4)。 <!-- EN --> First systematic quantification of 2D-projection-induced vertical contamination, with simple geometric intuition (signal-to-total ≈ 0.4).
+- <!-- ZH --> 作者称其为**唯一专注 z 轴空间双细胞的无监督工具**;无需分割、无需参照、不假设细胞形状。 <!-- EN --> Claimed by the authors as **the only unsupervised tool focused on z-axis spatial doublets**; segmentation-free, reference-free, shape-agnostic.
+- <!-- ZH --> 局部平滑的 z 分割点解决全局 z 漂移问题。 <!-- EN --> Locally smoothed z split points handle global z drift.
+- <!-- ZH --> VSI 图既是生物学重叠的指示,也是组织褶皱等**制片伪影的检测器**。 <!-- EN --> The VSI map indicates both biological overlap and **sample-preparation artifacts** such as tissue folds.
+
+## 局限 / Limitations
+- <!-- ZH --> VSI 低既可能是细胞重叠,也可能是褶皱、亚细胞 mRNA 定位或切片不均 —— 作者明确要求用户检查低 VSI 区域的细胞组成来区分来源;VSI 阈值需按情境评估。 <!-- EN --> Low VSI can come from overlap, folds, subcellular mRNA localization or uneven sectioning — the authors explicitly ask users to inspect low-VSI regions' composition to tell sources apart; VSI thresholds need context-specific evaluation.
+- <!-- ZH --> 只适用于有可靠 z 坐标的成像型平台;MERSCOPE 上 z 只有少数离散层。 <!-- EN --> Only applies to imaging platforms with usable z coordinates; on MERSCOPE z takes only a few discrete values.
+- <!-- ZH --> 只在小鼠脑和肝上验证;作者承认尚需针对新兴 3D/多模态分割的系统评估。 <!-- EN --> Validated only on mouse brain and liver; the authors note a systematic evaluation against emerging 3D/multimodal segmentation is still needed.
+- <!-- ZH --> 它标记/去除问题区域,而不是重建纯化表达;resolVI 与 SPLIT 两篇论文的独立比较都认为 ovrlpy 去除的错误信号有限,且会显著减少基因数。 <!-- EN --> It flags/removes problem regions rather than reconstructing purified expression; independent comparisons in both the resolVI and SPLIT papers find ovrlpy removes limited erroneous signal and substantially reduces gene counts.
+
+## 与本研究方向的关系 / Relation to our direction
+<!-- ZH --> 对 **Plan A** 来说,ovrlpy 本身就是一个**技术伪影的无监督异常检测器**:VSI 图是「哪里的信号不可信」的空间地图,和「哪里是疾病」的异常地图正好互补。三种用法:**(1) 负对照通道** —— KidneyAnomalyBench 中,异常检测器给出的高分区域若与低 VSI 区域高度重合(尤其是褶皱),应被判为技术伪影;可把「异常分与 VSI 的相关性」作为基准中的一项诊断指标。**(2) 跨模态一致性** —— 组织褶皱在 H&E 上也可见,低 VSI + H&E 褶皱 = 高置信伪影,这是 Plan A「跨模态一致性区分伪影与疾病」最干净的例子之一。**(3) 肾脏特异风险** —— 肾小球(足细胞、内皮、系膜细胞层叠)、紧密排列的小管与管周毛细血管都是垂直重叠的高发结构(本文在肝中已见内皮细胞易成双细胞);肾 Xenium 有 z 坐标,可直接跑。**对 virtual tissue / revert**:若虚拟组织模型学到的「细胞–邻居」关系部分来自垂直双细胞,扰动预测会被伪共定位污染,VSI 可用于训练数据过滤。对 **Plan B**:「把 3D 数据当 2D 分析、未检查垂直双细胞」是可写进 omics 失败分类表的具体条目;ovrlpy 也是 agent 在 Xenium 分析中应主动调用的 QC 工具。注意本文的低 VSI 本身不区分原因,任何「此区域为伪影」的结论都需要组成检查作为证据。
+<!-- EN --> For **Plan A**, ovrlpy is itself an **unsupervised anomaly detector for technical artifacts**: the VSI map says "where the signal is untrustworthy", complementary to an anomaly map of "where disease is". Three uses: **(1) Negative-control channel** — in KidneyAnomalyBench, high-scoring anomaly regions that coincide with low-VSI regions (especially folds) should be classed as technical; "correlation between anomaly score and VSI" can be a diagnostic metric in the benchmark. **(2) Cross-modal agreement** — tissue folds are also visible on H&E, so low VSI + H&E fold = high-confidence artifact, one of the cleanest instances of Plan A's "cross-modal agreement separates artifacts from disease". **(3) Kidney-specific risk** — glomeruli (stacked podocytes, endothelium, mesangium), tightly packed tubules and peritubular capillaries are prime vertical-overlap structures (endothelial cells were doublet-prone in liver here); kidney Xenium carries z coordinates, so it can be run directly. **For virtual tissue / revert**: if a virtual-tissue model learns cell–neighbour relations partly from vertical doublets, perturbation predictions inherit fake co-localization; VSI can filter training data. For **Plan B**: "analysing 3D data as 2D without checking vertical doublets" is a concrete entry for the omics failure taxonomy, and ovrlpy is a QC tool an agent should proactively call on Xenium. Note that low VSI does not by itself identify the cause, so any "this region is an artifact" claim needs a composition check as evidence.
+
+## 可复用资产 / Reusable assets
+- <!-- ZH --> **代码:** ovrlpy(PyPI / bioconda,`pip install ovrlpy`)与论文复现仓库。 <!-- EN --> **Code:** ovrlpy (PyPI / bioconda, `pip install ovrlpy`) and the paper-reproduction repo.
+<!-- ZH/EN --> <https://github.com/HiDiHlabs/ovrl.py>
+<!-- ZH/EN --> <https://github.com/HiDiHlabs/ovrlpy-publication>
+<!-- ZH/EN --> <https://ovrlpy.readthedocs.io>
+- <!-- ZH --> **预印本:** bioRxiv 全文(CC BY)。 <!-- EN --> **Preprint:** bioRxiv full text (CC BY).
+<!-- ZH/EN --> <https://doi.org/10.1101/2025.01.13.632601>
+- <!-- ZH --> **评测协议:** 虚拟上下分层后独立注释、统计上下一致率 —— 一个无需 ground truth 的分割质量检验,可在肾脏 Xenium 上直接复用。 <!-- EN --> **Eval protocol:** independently annotate virtual top/bottom halves and measure agreement — a ground-truth-free segmentation-quality check reusable on kidney Xenium.
+
+## 待读 / Follow-ups
+- <!-- ZH --> 正式发表版(Nature Biotechnology)与预印本的差异;作者团队的 SSAM / Sainsc 无分割方法。 <!-- EN --> Differences between the Nature Biotechnology version and the preprint; the group's segmentation-free SSAM / Sainsc methods.
+- <!-- ZH --> 与 resolVI(`resolvi-natmethods-2026`)、SPLIT(`xenium-split-natmethods-2026`)在肾脏数据上的联合使用:先用 VSI 去除重叠/褶皱,再做水平溢出校正。 <!-- EN --> Combine with resolVI (`resolvi-natmethods-2026`) and SPLIT (`xenium-split-natmethods-2026`) on kidney data: remove overlaps/folds via VSI first, then correct in-plane spillover.
+
+## 引用 / Cite
+```bibtex
+@article{Tiesmeyer_2026, title={Identifying 3D signal overlaps in spatial transcriptomics data with ovrlpy}, ISSN={1546-1696}, url={http://dx.doi.org/10.1038/s41587-026-03004-8}, DOI={10.1038/s41587-026-03004-8}, journal={Nature Biotechnology}, publisher={Springer Science and Business Media LLC}, author={Tiesmeyer, Sebastian and Müller-Bötticher, Niklas and Malt, Alexander and Ma, Leyao and Marco-Salas, Sergio and Kiessling, Paul and Horn, Paul and Guillot, Adrien and Kuemmerle, Louis B. and Tacke, Frank and Theis, Fabian J. and Kuppe, Christoph and Nilsson, Mats and Eils, Roland and Long, Brian and Ishaque, Naveed}, year={2026}, month=Feb }
+```

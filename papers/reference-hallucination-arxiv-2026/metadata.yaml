@@ -1,0 +1,31 @@
+id: "reference-hallucination-arxiv-2026"
+title: "Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents"
+authors:
+  - "Delip Rao"
+  - "Eric Wong"
+  - "Chris Callison-Burch"
+year: 2026
+venue: "arXiv preprint"
+type: "paper"
+category: "agents"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2604.03173"
+doi: ""
+arxiv: "2604.03173"
+s2_id: null
+bibkey: "Rao2026_260403173"
+tags:
+  - "citation-hallucination"
+  - "deep-research"
+  - "url-validity"
+  - "self-correction"
+  - "tool-use"
+related:
+  - "sourcecheckup-natcommun-2025"
+  - "deeptrace-arxiv-2025"
+  - "deep-research-hallucination-arxiv-2026"
+  - "citation-faithfulness-arxiv-2026"
+  - "citation-blame-emnlp-2026"
+status: "complete"
+added: "2026-10-19"

@@ -1,0 +1,32 @@
+id: "medianomaly-media-2025"
+title: "MedIAnomaly: A comparative study of anomaly detection in medical images"
+authors:
+  - "Cai, Yu"
+  - "Zhang, Weiwen"
+  - "Chen, Hao"
+  - "Cheng, Kwang-Ting"
+year: 2025
+venue: "Medical Image Analysis"
+type: "paper"
+category: "imaging"
+relevance: "medium"
+access: "paywall"
+url: "https://doi.org/10.1016/j.media.2025.103500"
+doi: "10.1016/j.media.2025.103500"
+arxiv: "2404.04518"
+s2_id: null
+bibkey: "Cai_2025"
+tags:
+  - "anomaly-detection"
+  - "benchmark"
+  - "medical-imaging"
+  - "reconstruction"
+  - "self-supervised"
+related:
+  - "pathology-ad-bench-mlhealth-2025"
+  - "histo-nejmai-2024"
+  - "histo-miccai-2025"
+  - "counterfactual-diffusion-cancerres-2026"
+  - "spatial-natcommun-2024"
+status: "complete"
+added: "2026-10-19"

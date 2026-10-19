@@ -1,0 +1,30 @@
+id: "resolvi-natmethods-2026"
+title: "ResolVI: addressing noise and bias in spatial transcriptomics"
+authors:
+  - "Ergen, Can"
+  - "Yosef, Nir"
+year: 2026
+venue: "Nature Methods"
+type: "paper"
+category: "spatial"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1038/s41592-026-03212-9"
+doi: "10.1038/s41592-026-03212-9"
+arxiv: ""
+s2_id: null
+bibkey: "Ergen_2026"
+tags:
+  - "segmentation"
+  - "transcript diffusion"
+  - "denoising"
+  - "scvi-tools"
+  - "spatial QC"
+related:
+  - "xenium-split-natmethods-2026"
+  - "ovrlpy-natbiotech-2026"
+  - "mrvi-natmethods-2025"
+  - "ambient-rna-bench-biorxiv-2026"
+  - "spatial-natcommun-2024"
+status: "complete"
+added: "2026-10-19"

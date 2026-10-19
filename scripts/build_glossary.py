@@ -24,6 +24,7 @@ DOMAIN_ORDER = [
     ("single-cell", "Single-cell / 单细胞"),
     ("oncology-clinical", "Oncology & clinical / 肿瘤与临床"),
     ("cardiology-imaging", "Cardiology & imaging / 心脏与影像"),
+    ("nephrology-clinical", "Nephrology & clinical / 肾脏与临床"),
     ("foundation-models", "Foundation models / 基础模型"),
     ("ml-methods", "ML methods / 机器学习方法"),
     ("general", "General / 通用"),

@@ -1,0 +1,26 @@
+id: "semnovel-jbi-2025"
+title: "SemNovel – A new approach to detecting semantic novelty of biomedical publications using embeddings of large language models"
+authors:
+  - "Peng, Xueqing"
+  - "Xie, Yutong"
+  - "He, Huan"
+  - "Ondov, Brian"
+  - "Raja, Kalpana"
+  - "Liu, Qijia"
+  - "Mei, Qiaozhu"
+  - "Xu, Hua"
+year: 2025
+venue: "Journal of Biomedical Informatics"
+type: "paper"
+category: "other"
+relevance: "medium"
+access: "open"
+url: "https://doi.org/10.1016/j.jbi.2025.104952"
+doi: "10.1016/j.jbi.2025.104952"
+arxiv: ""
+s2_id: "42b1590fde6d1d1737884f5ef728bdb0dd433707"
+bibkey: "Peng_2025"
+tags: []
+related: []
+status: "abstract-only"
+added: "2026-09-03"

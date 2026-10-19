@@ -10,3 +10,6 @@ venv/
 
 # OS
 .DS_Store
+
+# Source PDFs (copyright; kept local only)
+papers/**/*.pdf

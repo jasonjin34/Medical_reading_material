@@ -25,12 +25,15 @@ DOCS = ROOT / "docs"
 DIRECTION = "Anomaly-detection-based virtual tissue modelling"
 
 CAT_ORDER = ["single-cell", "spatial", "virtual-tissue", "histopath",
-             "foundation", "pathology", "imaging", "competition", "other"]
+             "foundation", "pathology", "imaging", "competition",
+             "agents", "ehr", "other"]
 CAT_LABEL = {
     "single-cell": "Single-cell", "spatial": "Spatial transcriptomics",
     "virtual-tissue": "Virtual tissues", "histopath": "Histopathology",
     "foundation": "Foundation models", "pathology": "Pathology",
-    "imaging": "Imaging", "competition": "Competitions", "other": "Other",
+    "imaging": "Imaging", "competition": "Competitions",
+    "agents": "Biomedical agents & evaluation", "ehr": "EHR & patient trajectories",
+    "other": "Other",
 }
 
 # Standalone interactive HTML decks + speaker script. These are copied verbatim

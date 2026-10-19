@@ -1,0 +1,33 @@
+id: "bioml-bench-biorxiv-2025"
+title: "BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML"
+authors:
+  - "Miller, Henry E."
+  - "Greenig, Matthew"
+  - "Tenmann, Benjamin"
+  - "Wang, Bo"
+year: 2025
+venue: "bioRxiv"
+type: "paper"
+category: "agents"
+relevance: "medium"
+access: "open"
+url: "https://doi.org/10.1101/2025.09.01.673319"
+doi: "10.1101/2025.09.01.673319"
+arxiv: ""
+s2_id: null
+bibkey: "Miller_2025"
+tags:
+  - "agent-benchmark"
+  - "biomedical-ml"
+  - "end-to-end"
+  - "leaderboard-percentile"
+  - "failure-modes"
+related:
+  - "biomni-biorxiv-2025"
+  - "bixbench-arxiv-2025"
+  - "biomnibench-biorxiv-2026"
+  - "lab-bench-arxiv-2024"
+  - "virtual-lab-nature-2025"
+  - "cellvoyager-natmethods-2026"
+status: "complete"
+added: "2026-10-19"

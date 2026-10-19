@@ -1,0 +1,30 @@
+id: "linear-baselines-natmethods-2025"
+title: "Deep-learning-based gene perturbation effect prediction does not yet outperform simple linear baselines"
+authors:
+  - "Ahlmann-Eltze, Constantin"
+  - "Huber, Wolfgang"
+  - "Anders, Simon"
+year: 2025
+venue: "Nature Methods"
+type: "paper"
+category: "foundation"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1038/s41592-025-02772-6"
+doi: "10.1038/s41592-025-02772-6"
+arxiv: ""
+s2_id: null
+bibkey: "Ahlmann_Eltze_2025"
+tags:
+  - "perturbation-prediction"
+  - "baselines"
+  - "foundation-model"
+  - "benchmark"
+  - "Perturb-seq"
+related:
+  - "scrna-natmachintell-2026"
+  - "virtual-cell-challenge"
+  - "scfm-zeroshot-genomebiol-2025"
+  - "spatial-biorxiv-2025"
+status: "complete"
+added: "2026-10-19"

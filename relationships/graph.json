@@ -6,8 +6,18 @@
       "kind": "direction"
     },
     {
+      "id": "cat:agents",
+      "label": "agents",
+      "kind": "category"
+    },
+    {
       "id": "cat:competition",
       "label": "competition",
+      "kind": "category"
+    },
+    {
+      "id": "cat:ehr",
+      "label": "ehr",
       "kind": "category"
     },
     {
@@ -23,6 +33,11 @@
     {
       "id": "cat:imaging",
       "label": "imaging",
+      "kind": "category"
+    },
+    {
+      "id": "cat:other",
+      "label": "other",
       "kind": "category"
     },
     {
@@ -46,6 +61,238 @@
       "kind": "category"
     },
     {
+      "id": "abc-agentic-benchmarks-neurips-2025",
+      "label": "Establishing Best Practices for Building Rigorous Agentic Be",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "ailuminate-arxiv-2025",
+      "label": "AILuminate: Introducing v1.0 of the AI Risk and Reliability ",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "ambient-rna-bench-biorxiv-2026",
+      "label": "Benchmarking computational decontamination of ambient RNA",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "autoresearch-failures-arxiv-2026",
+      "label": "How Do Agents Fail on AutoResearch: End-to-End Diagnostic Ev",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "biomednlp-natcommun-2025",
+      "label": "Benchmarking large language models for biomedical natural la",
+      "kind": "paper",
+      "category": "other",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "bioml-bench-biorxiv-2025",
+      "label": "BioML-bench: Evaluation of AI Agents for End-to-End Biomedic",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "biomni-biorxiv-2025",
+      "label": "Biomni: A General-Purpose Biomedical AI Agent",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "biomnibench-biorxiv-2026",
+      "label": "BiomniBench: Process-level Evaluation of LLM Agents for Real",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "bixbench-arxiv-2025",
+      "label": "BixBench: a Comprehensive Benchmark for LLM-based Agents in ",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "cellspectra-natgenet-2025",
+      "label": "Analysis of individual patient pathway coordination in a cro",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "cellvoyager-natmethods-2026",
+      "label": "CellVoyager: AI CompBio agent generates new insights by auto",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "citation-blame-emnlp-2026",
+      "label": "Who is the Agent to Blame? Localizing Faithfulness and Citat",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "citation-faithfulness-arxiv-2026",
+      "label": "Evaluating and Guarding Citation Faithfulness in Agentic Sci",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "clinical-agent-reruns-arxiv-2026",
+      "label": "Same Patient, Different Order: Action-Level Reliability of C",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "co-scientist-nature-2026",
+      "label": "Accelerating scientific discovery with Co-Scientist",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "conformal-scrna-bioinformatics-2025",
+      "label": "Conformal inference for reliable single cell RNA-seq annotat",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "counterfactual-diffusion-cancerres-2026",
+      "label": "Counterfactual Diffusion Models Provide Interpretable Explan",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "damage-scores-cellgenomics-2026",
+      "label": "Cell-type-specific damage scores reveal kidney and liver dis",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "deep-research-hallucination-arxiv-2026",
+      "label": "Why Your Deep Research Agent Fails? On Hallucination Evaluat",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "deepevidence-natmachintell-2026",
+      "label": "Empowering biomedical evidence exploration and synthesis wit",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "deeptrace-arxiv-2025",
+      "label": "DeepTRACE: Auditing Deep Research AI Systems for Tracking Re",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "dkd-spatial-atlas-nature-2026",
+      "label": "Spatial atlas of diabetic kidney disease reveals a B cell-ri",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "ehr-apollo-arxiv-2026",
+      "label": "A multimodal and temporal foundation model for virtual patie",
+      "kind": "paper",
+      "category": "ehr",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "ehr-comet-natmachintell-2025",
+      "label": "A machine learning approach to leveraging electronic health ",
+      "kind": "paper",
+      "category": "ehr",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "ehr-delphi2m-nature-2025",
+      "label": "Learning the natural history of human disease with generativ",
+      "kind": "paper",
+      "category": "ehr",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "ehr-pancreatic-llm-npjdigitmed-2025",
+      "label": "Enhancing EHR-based pancreatic cancer prediction with LLM-de",
+      "kind": "paper",
+      "category": "ehr",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "ehr-pancreatic-trajectory-natmed-2023",
+      "label": "A deep learning algorithm to predict risk of pancreatic canc",
+      "kind": "paper",
+      "category": "ehr",
+      "relevance": "high",
+      "year": 2023
+    },
+    {
+      "id": "falsifiable-ideation-arxiv-2026",
+      "label": "What Proves You Wrong: Benchmarking Language Models on Falsi",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "fev-bioinformatics-agents-arxiv-2026",
+      "label": "Evaluating Agentic Bioinformatics through Function, Evidence",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
       "id": "fm-arxiv-2604",
       "label": "A Generative Foundation Model for Multimodal Histopathology",
       "kind": "paper",
@@ -54,12 +301,44 @@
       "year": 2026
     },
     {
+      "id": "generalization-bias-rsos-2025",
+      "label": "Generalization bias in large language model summarization of",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "he2expr-bench-natcommun-2025",
+      "label": "Benchmarking the translational potential of spatial gene exp",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "healthy-ref-natgenet-2023",
+      "label": "Precise identification of cell states altered in disease usi",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2023
+    },
+    {
       "id": "hest1k-2024",
       "label": "HEST-1k: A Dataset for Spatial Transcriptomics and Histology",
       "kind": "paper",
       "category": "foundation",
       "relevance": "medium",
       "year": 2024
+    },
+    {
+      "id": "heurekabench-arxiv-2026",
+      "label": "HeurekaBench: A Benchmarking Framework for AI Co-scientist",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
     },
     {
       "id": "histo-anomaly-bi-repo",
@@ -94,6 +373,30 @@
       "year": 2026
     },
     {
+      "id": "holistic-agent-leaderboard-iclr-2026",
+      "label": "Holistic Agent Leaderboard: The Missing Infrastructure for A",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "hypogen-llm-colm-2024",
+      "label": "Large Language Models as Biomedical Hypothesis Generators: A",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2024
+    },
+    {
+      "id": "ideation-execution-gap-arxiv-2025",
+      "label": "The Ideation-Execution Gap: Execution Outcomes of LLM-Genera",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
       "id": "imaging-ehjdh-2026",
       "label": "An artificial intelligence model to detect abnormal ejection",
       "kind": "paper",
@@ -108,6 +411,214 @@
       "category": "imaging",
       "relevance": "high",
       "year": 2026
+    },
+    {
+      "id": "inflammatory-pt-natcommun-2025",
+      "label": "Multiomic analysis of human kidney disease identifies a trac",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "investorbench-arxiv-2024",
+      "label": "INVESTORBENCH: A Benchmark for Financial Decision-Making Tas",
+      "kind": "paper",
+      "category": "other",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
+      "id": "kidney-epigenome-nataging-2026",
+      "label": "A cross-species single-cell kidney epigenome atlas reveals e",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "kidney-multimodal-genomebiol-2026",
+      "label": "Systematic evaluation of single-cell multimodal data integra",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "kidney-ssl-histology-scirep-2025",
+      "label": "Unbiased self supervised learning of kidney histology reveal",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "kosmos-arxiv-2025",
+      "label": "Kosmos: An AI Scientist for Autonomous Discovery",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "lab-bench-arxiv-2024",
+      "label": "LAB-Bench: Measuring Capabilities of Language Models for Bio",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
+      "id": "lake-kidney-atlas-nature-2023",
+      "label": "An atlas of healthy and injured cell states and niches in th",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2023
+    },
+    {
+      "id": "linear-baselines-natmethods-2025",
+      "label": "Deep-learning-based gene perturbation effect prediction does",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "llm-judge-healthcare-arxiv-2026",
+      "label": "LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applicat",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "loki-omiclip-natmethods-2025",
+      "label": "A visual–omics foundation model to bridge histopathology wit",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "mast-neurips-2025",
+      "label": "Why Do Multi-Agent LLM Systems Fail?",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "meatrd-aaai-2025",
+      "label": "MEATRD: Multimodal Anomalous Tissue Region Detection Enhance",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "medagentbench-nejmai-2025",
+      "label": "MedAgentBench: A Virtual EHR Environment to Benchmark Medica",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "medianomaly-media-2025",
+      "label": "MedIAnomaly: A comparative study of anomaly detection in med",
+      "kind": "paper",
+      "category": "imaging",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "medical-hallucination-arxiv-2025",
+      "label": "Medical Hallucinations in Foundation Models and Their Impact",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "medragchecker-arxiv-2026",
+      "label": "MedRAGChecker: Claim-Level Verification for Biomedical Retri",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "mrvi-natmethods-2025",
+      "label": "Deep generative modeling of sample-level heterogeneity in si",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "multimodal-integration-bench-natmethods-2025",
+      "label": "Benchmarking single-cell multi-modal data integrations",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "nephrobase-biorxiv-2025",
+      "label": "Nephrobase Cell+: Multimodal Single-Cell Foundation Model fo",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "nicheformer-natmethods-2025",
+      "label": "Nicheformer: a foundation model for single-cell and spatial ",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "nih-kidney-ai-challenge-2026",
+      "label": "Kidney Artificial Intelligence Discovery Challenge: From Neb",
+      "kind": "paper",
+      "category": "competition",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "ovrlpy-natbiotech-2026",
+      "label": "Identifying 3D signal overlaps in spatial transcriptomics da",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "paperqa2-arxiv-2024",
+      "label": "Language agents achieve superhuman synthesis of scientific k",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
+      "id": "pathbench-natcommun-2026",
+      "label": "A benchmark study of vision and pathology foundation models ",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "pathology-ad-bench-mlhealth-2025",
+      "label": "Quantitative benchmarking of anomaly detection methods in di",
+      "kind": "paper",
+      "category": "histopath",
+      "relevance": "high",
+      "year": 2025
     },
     {
       "id": "pathomics-blood-2023",
@@ -134,12 +645,124 @@
       "year": 2023
     },
     {
+      "id": "reference-hallucination-arxiv-2026",
+      "label": "Detecting and Correcting Reference Hallucinations in Commerc",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "refmap-eval-biorxiv-2025",
+      "label": "Automated evaluation of single-cell reference atlas mappings",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "resolvi-natmethods-2026",
+      "label": "ResolVI: addressing noise and bias in spatial transcriptomic",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "robin-nature-2026",
+      "label": "A multi-agent system for automating scientific discovery",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "rq-bench-arxiv-2026",
+      "label": "On the Limits of LLM-as-Judge for Scientific Novelty Assessm",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "sardine-bioinformatics-2025",
+      "label": "Anomaly detection in spatial transcriptomics via spatially l",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "scatac-novel-genomeres-2026",
+      "label": "Robust annotation and discovery of novel cell types in singl",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
+      "id": "scbench-arxiv-2026",
+      "label": "scBench: Evaluating AI Agents on Single-Cell RNA-seq Analysi",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "scbench-long-arxiv-2026",
+      "label": "scBench-Long: Verifiable Benchmarking of Long-Horizon Single",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "scfm-zeroshot-genomebiol-2025",
+      "label": "Zero-shot evaluation reveals limitations of single-cell foun",
+      "kind": "paper",
+      "category": "foundation",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "scirigor-arxiv-2026",
+      "label": "SCIRIGOR:Evaluating Open-Ended Scientific Analysis Beyond Fi",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
+      "id": "scitrace-arxiv-2026",
+      "label": "SciTrace: Trajectory-Aware Safety Reasoning for Scientific D",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
       "id": "scrna-natmachintell-2026",
       "label": "Conditional Monge Gap enables generalizable single-cell pert",
       "kind": "paper",
       "category": "single-cell",
       "relevance": "medium",
       "year": 2026
+    },
+    {
+      "id": "semnovel-jbi-2025",
+      "label": "SemNovel – A new approach to detecting semantic novelty of b",
+      "kind": "paper",
+      "category": "other",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "sourcecheckup-natcommun-2025",
+      "label": "An automated framework for assessing how well LLMs cite rele",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
     },
     {
       "id": "spatial-biorxiv-2025",
@@ -156,6 +779,30 @@
       "category": "spatial",
       "relevance": "medium",
       "year": 2024
+    },
+    {
+      "id": "spatialagent-biorxiv-2025",
+      "label": "SpatialAgent: An autonomous AI agent for spatial biology",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
+    },
+    {
+      "id": "trail-arxiv-2025",
+      "label": "TRAIL: Trace Reasoning and Agentic Issue Localization",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
+      "id": "truthhypo-ijcai-2025",
+      "label": "Toward Reliable Scientific Hypothesis Generation: Evaluating",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "high",
+      "year": 2025
     },
     {
       "id": "uni2-h-model",
@@ -182,18 +829,174 @@
       "year": 2025
     },
     {
+      "id": "virtual-lab-nature-2025",
+      "label": "The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodi",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2025
+    },
+    {
       "id": "virtual-tissue-2501",
       "label": "AI-powered virtual tissues from spatial proteomics for clini",
       "kind": "paper",
       "category": "virtual-tissue",
       "relevance": "high",
       "year": 2025
+    },
+    {
+      "id": "xenium-split-natmethods-2026",
+      "label": "Resolving sensitivity, specificity and signal contamination ",
+      "kind": "paper",
+      "category": "spatial",
+      "relevance": "high",
+      "year": 2026
     }
   ],
   "edges": [
     {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "virtual-lab-nature-2025",
+      "type": "cites"
+    },
+    {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "cellvoyager-natmethods-2026",
+      "type": "cites"
+    },
+    {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "biomni-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "bixbench-arxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "paperqa2-arxiv-2024",
+      "type": "cites"
+    },
+    {
+      "source": "biomni-biorxiv-2025",
+      "target": "lab-bench-arxiv-2024",
+      "type": "cites"
+    },
+    {
+      "source": "cellspectra-natgenet-2025",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "damage-scores-cellgenomics-2026",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "spatialagent-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "virtual-lab-nature-2025",
+      "type": "cites"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "biomni-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "co-scientist-nature-2026",
+      "type": "cites"
+    },
+    {
+      "source": "ehr-delphi2m-nature-2025",
+      "target": "ehr-pancreatic-trajectory-natmed-2023",
+      "type": "cites"
+    },
+    {
+      "source": "ehr-pancreatic-llm-npjdigitmed-2025",
+      "target": "ehr-pancreatic-trajectory-natmed-2023",
+      "type": "cites"
+    },
+    {
+      "source": "healthy-ref-natgenet-2023",
+      "target": "mrvi-natmethods-2025",
+      "type": "cites"
+    },
+    {
       "source": "hest1k-2024",
       "target": "virchow-2024",
+      "type": "cites"
+    },
+    {
+      "source": "hest1k-2024",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "inflammatory-pt-natcommun-2025",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "kidney-multimodal-genomebiol-2026",
+      "target": "inflammatory-pt-natcommun-2025",
+      "type": "cites"
+    },
+    {
+      "source": "kidney-multimodal-genomebiol-2026",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "linear-baselines-natmethods-2025",
+      "target": "scfm-zeroshot-genomebiol-2025",
+      "type": "cites"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "spatial-natcommun-2024",
+      "type": "cites"
+    },
+    {
+      "source": "nicheformer-natmethods-2025",
+      "target": "scfm-zeroshot-genomebiol-2025",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "medianomaly-media-2025",
+      "type": "cites"
+    },
+    {
+      "source": "resolvi-natmethods-2026",
+      "target": "ovrlpy-natbiotech-2026",
+      "type": "cites"
+    },
+    {
+      "source": "scrna-natmachintell-2026",
+      "target": "linear-baselines-natmethods-2025",
+      "type": "cites"
+    },
+    {
+      "source": "virtual-tissue-2501",
+      "target": "loki-omiclip-natmethods-2025",
+      "type": "cites"
+    },
+    {
+      "source": "xenium-split-natmethods-2026",
+      "target": "resolvi-natmethods-2026",
+      "type": "cites"
+    },
+    {
+      "source": "xenium-split-natmethods-2026",
+      "target": "nicheformer-natmethods-2025",
       "type": "cites"
     },
     {
@@ -269,6 +1072,762 @@
       "label": "histopath anomaly det."
     },
     {
+      "source": "pathbench-natcommun-2026",
+      "target": "uni2-h-model",
+      "type": "concept",
+      "label": "pathology FM benchmark"
+    },
+    {
+      "source": "pathbench-natcommun-2026",
+      "target": "virchow-2024",
+      "type": "concept",
+      "label": "pathology FM benchmark"
+    },
+    {
+      "source": "pathbench-natcommun-2026",
+      "target": "fm-arxiv-2604",
+      "type": "concept",
+      "label": "pathology FM benchmark"
+    },
+    {
+      "source": "pathbench-natcommun-2026",
+      "target": "hest1k-2024",
+      "type": "concept",
+      "label": "linear-probe eval protocol"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "semnovel-jbi-2025",
+      "type": "concept",
+      "label": "literature/evidence agents"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "investorbench-arxiv-2024",
+      "type": "concept",
+      "label": "LLM agent benchmark"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "biomednlp-natcommun-2025",
+      "type": "concept",
+      "label": "biomedical LLM benchmark"
+    },
+    {
+      "source": "biomednlp-natcommun-2025",
+      "target": "pathbench-natcommun-2026",
+      "type": "concept",
+      "label": "scale ≠ performance"
+    },
+    {
+      "source": "ehr-pancreatic-trajectory-natmed-2023",
+      "target": "ehr-pancreatic-llm-npjdigitmed-2025",
+      "type": "concept",
+      "label": "pancreatic-cancer EHR risk"
+    },
+    {
+      "source": "ehr-pancreatic-trajectory-natmed-2023",
+      "target": "ehr-delphi2m-nature-2025",
+      "type": "concept",
+      "label": "disease-trajectory transformer"
+    },
+    {
+      "source": "ehr-delphi2m-nature-2025",
+      "target": "ehr-apollo-arxiv-2026",
+      "type": "concept",
+      "label": "patient-trajectory foundation model"
+    },
+    {
+      "source": "ehr-apollo-arxiv-2026",
+      "target": "ehr-comet-natmachintell-2025",
+      "type": "concept",
+      "label": "EHR pretraining → transfer"
+    },
+    {
+      "source": "ehr-comet-natmachintell-2025",
+      "target": "ehr-delphi2m-nature-2025",
+      "type": "concept",
+      "label": "UK Biobank EHR modelling"
+    },
+    {
+      "source": "ehr-apollo-arxiv-2026",
+      "target": "medagentbench-nejmai-2025",
+      "type": "concept",
+      "label": "EHR environment"
+    },
+    {
+      "source": "resolvi-natmethods-2026",
+      "target": "xenium-split-natmethods-2026",
+      "type": "concept",
+      "label": "transcript-misassignment correction"
+    },
+    {
+      "source": "resolvi-natmethods-2026",
+      "target": "ovrlpy-natbiotech-2026",
+      "type": "concept",
+      "label": "segmentation-artifact correction"
+    },
+    {
+      "source": "xenium-split-natmethods-2026",
+      "target": "ovrlpy-natbiotech-2026",
+      "type": "concept",
+      "label": "Xenium contamination"
+    },
+    {
+      "source": "ambient-rna-bench-biorxiv-2026",
+      "target": "xenium-split-natmethods-2026",
+      "type": "concept",
+      "label": "wrong-cell signal contamination"
+    },
+    {
+      "source": "resolvi-natmethods-2026",
+      "target": "mrvi-natmethods-2025",
+      "type": "concept",
+      "label": "scvi-tools generative models"
+    },
+    {
+      "source": "ovrlpy-natbiotech-2026",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "technical vs anatomic anomaly map"
+    },
+    {
+      "source": "inflammatory-pt-natcommun-2025",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "concept",
+      "label": "failed-repair PT state"
+    },
+    {
+      "source": "inflammatory-pt-natcommun-2025",
+      "target": "kidney-epigenome-nataging-2026",
+      "type": "concept",
+      "label": "altered PT state"
+    },
+    {
+      "source": "kidney-epigenome-nataging-2026",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "concept",
+      "label": "kidney atlas PT states"
+    },
+    {
+      "source": "inflammatory-pt-natcommun-2025",
+      "target": "damage-scores-cellgenomics-2026",
+      "type": "concept",
+      "label": "injured kidney cell states"
+    },
+    {
+      "source": "abc-agentic-benchmarks-neurips-2025",
+      "target": "holistic-agent-leaderboard-iclr-2026",
+      "type": "concept",
+      "label": "benchmark rigor → harness"
+    },
+    {
+      "source": "abc-agentic-benchmarks-neurips-2025",
+      "target": "ailuminate-arxiv-2025",
+      "type": "concept",
+      "label": "MLCommons benchmark rigor"
+    },
+    {
+      "source": "mast-neurips-2025",
+      "target": "trail-arxiv-2025",
+      "type": "concept",
+      "label": "agent failure taxonomy"
+    },
+    {
+      "source": "scitrace-arxiv-2026",
+      "target": "trail-arxiv-2025",
+      "type": "concept",
+      "label": "trajectory-level verification"
+    },
+    {
+      "source": "scitrace-arxiv-2026",
+      "target": "ailuminate-arxiv-2025",
+      "type": "concept",
+      "label": "hazard taxonomy"
+    },
+    {
+      "source": "abc-agentic-benchmarks-neurips-2025",
+      "target": "bixbench-arxiv-2025",
+      "type": "concept",
+      "label": "benchmark-validity audit"
+    },
+    {
+      "source": "holistic-agent-leaderboard-iclr-2026",
+      "target": "clinical-agent-reruns-arxiv-2026",
+      "type": "concept",
+      "label": "rerun stability"
+    },
+    {
+      "source": "mast-neurips-2025",
+      "target": "autoresearch-failures-arxiv-2026",
+      "type": "concept",
+      "label": "agent failure taxonomy"
+    },
+    {
+      "source": "trail-arxiv-2025",
+      "target": "llm-judge-healthcare-arxiv-2026",
+      "type": "concept",
+      "label": "LLM-as-judge reliability"
+    },
+    {
+      "source": "healthy-ref-natgenet-2023",
+      "target": "refmap-eval-biorxiv-2025",
+      "type": "concept",
+      "label": "healthy reference → mapping QC"
+    },
+    {
+      "source": "healthy-ref-natgenet-2023",
+      "target": "mrvi-natmethods-2025",
+      "type": "concept",
+      "label": "cluster-free differential abundance"
+    },
+    {
+      "source": "healthy-ref-natgenet-2023",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "concept",
+      "label": "healthy atlas reference"
+    },
+    {
+      "source": "refmap-eval-biorxiv-2025",
+      "target": "conformal-scrna-bioinformatics-2025",
+      "type": "concept",
+      "label": "reference–query shift"
+    },
+    {
+      "source": "conformal-scrna-bioinformatics-2025",
+      "target": "scatac-novel-genomeres-2026",
+      "type": "concept",
+      "label": "out-of-reference cell types"
+    },
+    {
+      "source": "sardine-bioinformatics-2025",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "spatial anomaly detection"
+    },
+    {
+      "source": "sardine-bioinformatics-2025",
+      "target": "meatrd-aaai-2025",
+      "type": "concept",
+      "label": "anomalous region detection"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "H&E + ST anomalous regions"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "hest1k-2024",
+      "type": "concept",
+      "label": "paired H&E + ST"
+    },
+    {
+      "source": "mrvi-natmethods-2025",
+      "target": "scrna-natmachintell-2026",
+      "type": "concept",
+      "label": "counterfactual effect modelling"
+    },
+    {
+      "source": "sourcecheckup-natcommun-2025",
+      "target": "reference-hallucination-arxiv-2026",
+      "type": "concept",
+      "label": "citation support vs existence"
+    },
+    {
+      "source": "sourcecheckup-natcommun-2025",
+      "target": "medragchecker-arxiv-2026",
+      "type": "concept",
+      "label": "claim-level verification"
+    },
+    {
+      "source": "sourcecheckup-natcommun-2025",
+      "target": "deeptrace-arxiv-2025",
+      "type": "concept",
+      "label": "statement × source support"
+    },
+    {
+      "source": "deeptrace-arxiv-2025",
+      "target": "deep-research-hallucination-arxiv-2026",
+      "type": "concept",
+      "label": "deep-research audit"
+    },
+    {
+      "source": "deep-research-hallucination-arxiv-2026",
+      "target": "mast-neurips-2025",
+      "type": "concept",
+      "label": "agent failure taxonomy"
+    },
+    {
+      "source": "medragchecker-arxiv-2026",
+      "target": "deepevidence-natmachintell-2026",
+      "type": "concept",
+      "label": "KG evidence grounding"
+    },
+    {
+      "source": "medragchecker-arxiv-2026",
+      "target": "medical-hallucination-arxiv-2025",
+      "type": "concept",
+      "label": "medical hallucination detection"
+    },
+    {
+      "source": "llm-judge-healthcare-arxiv-2026",
+      "target": "sourcecheckup-natcommun-2025",
+      "type": "concept",
+      "label": "judge vs physician panel"
+    },
+    {
+      "source": "generalization-bias-rsos-2025",
+      "target": "medical-hallucination-arxiv-2025",
+      "type": "concept",
+      "label": "unfaithful medical text"
+    },
+    {
+      "source": "reference-hallucination-arxiv-2026",
+      "target": "citation-faithfulness-arxiv-2026",
+      "type": "concept",
+      "label": "citation reliability"
+    },
+    {
+      "source": "medical-hallucination-arxiv-2025",
+      "target": "biomednlp-natcommun-2025",
+      "type": "concept",
+      "label": "biomedical LLM benchmarking"
+    },
+    {
+      "source": "kidney-multimodal-genomebiol-2026",
+      "target": "multimodal-integration-bench-natmethods-2025",
+      "type": "concept",
+      "label": "multimodal integration benchmark"
+    },
+    {
+      "source": "kidney-multimodal-genomebiol-2026",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "concept",
+      "label": "kidney reference atlas"
+    },
+    {
+      "source": "kidney-multimodal-genomebiol-2026",
+      "target": "nephrobase-biorxiv-2025",
+      "type": "concept",
+      "label": "kidney snRNA/snATAC"
+    },
+    {
+      "source": "nephrobase-biorxiv-2025",
+      "target": "scfm-zeroshot-genomebiol-2025",
+      "type": "concept",
+      "label": "single-cell FM evaluation"
+    },
+    {
+      "source": "scfm-zeroshot-genomebiol-2025",
+      "target": "linear-baselines-natmethods-2025",
+      "type": "concept",
+      "label": "FMs vs simple baselines"
+    },
+    {
+      "source": "linear-baselines-natmethods-2025",
+      "target": "virtual-cell-challenge",
+      "type": "concept",
+      "label": "perturbation benchmark"
+    },
+    {
+      "source": "nicheformer-natmethods-2025",
+      "target": "scfm-zeroshot-genomebiol-2025",
+      "type": "concept",
+      "label": "single-cell FM"
+    },
+    {
+      "source": "loki-omiclip-natmethods-2025",
+      "target": "hest1k-2024",
+      "type": "concept",
+      "label": "histology↔ST pairs"
+    },
+    {
+      "source": "loki-omiclip-natmethods-2025",
+      "target": "he2expr-bench-natcommun-2025",
+      "type": "concept",
+      "label": "H&E→expression"
+    },
+    {
+      "source": "he2expr-bench-natcommun-2025",
+      "target": "hest1k-2024",
+      "type": "concept",
+      "label": "H&E→expression benchmark"
+    },
+    {
+      "source": "multimodal-integration-bench-natmethods-2025",
+      "target": "scatac-novel-genomeres-2026",
+      "type": "concept",
+      "label": "RNA–ATAC cross-modal"
+    },
+    {
+      "source": "rq-bench-arxiv-2026",
+      "target": "ideation-execution-gap-arxiv-2025",
+      "type": "concept",
+      "label": "novelty judging unreliable"
+    },
+    {
+      "source": "rq-bench-arxiv-2026",
+      "target": "llm-judge-healthcare-arxiv-2026",
+      "type": "concept",
+      "label": "LLM-as-judge alignment"
+    },
+    {
+      "source": "rq-bench-arxiv-2026",
+      "target": "semnovel-jbi-2025",
+      "type": "concept",
+      "label": "novelty assessment"
+    },
+    {
+      "source": "falsifiable-ideation-arxiv-2026",
+      "target": "ideation-execution-gap-arxiv-2025",
+      "type": "concept",
+      "label": "testable ≠ successful"
+    },
+    {
+      "source": "truthhypo-ijcai-2025",
+      "target": "hypogen-llm-colm-2024",
+      "type": "concept",
+      "label": "biomedical hypothesis generation"
+    },
+    {
+      "source": "truthhypo-ijcai-2025",
+      "target": "deepevidence-natmachintell-2026",
+      "type": "concept",
+      "label": "KG + literature grounding"
+    },
+    {
+      "source": "scirigor-arxiv-2026",
+      "target": "autoresearch-failures-arxiv-2026",
+      "type": "concept",
+      "label": "unsupported claims"
+    },
+    {
+      "source": "scirigor-arxiv-2026",
+      "target": "fev-bioinformatics-agents-arxiv-2026",
+      "type": "concept",
+      "label": "workflow correctness"
+    },
+    {
+      "source": "scirigor-arxiv-2026",
+      "target": "medragchecker-arxiv-2026",
+      "type": "concept",
+      "label": "claim-to-evidence verification"
+    },
+    {
+      "source": "clinical-agent-reruns-arxiv-2026",
+      "target": "medagentbench-nejmai-2025",
+      "type": "concept",
+      "label": "reruns on MedAgentBench"
+    },
+    {
+      "source": "autoresearch-failures-arxiv-2026",
+      "target": "kosmos-arxiv-2025",
+      "type": "concept",
+      "label": "AI-scientist research"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "biomni-biorxiv-2025",
+      "type": "concept",
+      "label": "bio agent review"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "cellvoyager-natmethods-2026",
+      "type": "concept",
+      "label": "bio agent review"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "spatialagent-biorxiv-2025",
+      "type": "concept",
+      "label": "bio agent review"
+    },
+    {
+      "source": "lab-bench-arxiv-2024",
+      "target": "bixbench-arxiv-2025",
+      "type": "concept",
+      "label": "FutureHouse agent benchmarks"
+    },
+    {
+      "source": "bixbench-arxiv-2025",
+      "target": "biomnibench-biorxiv-2026",
+      "type": "concept",
+      "label": "outcome vs process scoring"
+    },
+    {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "bixbench-arxiv-2025",
+      "type": "concept",
+      "label": "executable bio agent benchmarks"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "biomni-biorxiv-2025",
+      "type": "concept",
+      "label": "built from Biomni traces"
+    },
+    {
+      "source": "lab-bench-arxiv-2024",
+      "target": "paperqa2-arxiv-2024",
+      "type": "concept",
+      "label": "LitQA2"
+    },
+    {
+      "source": "lab-bench-arxiv-2024",
+      "target": "deepevidence-natmachintell-2026",
+      "type": "concept",
+      "label": "LitQA2 evaluation set"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "scbench-arxiv-2026",
+      "type": "concept",
+      "label": "omics-analysis agent benchmarks"
+    },
+    {
+      "source": "medagentbench-nejmai-2025",
+      "target": "llm-judge-healthcare-arxiv-2026",
+      "type": "concept",
+      "label": "healthcare LLM evaluation"
+    },
+    {
+      "source": "citation-blame-emnlp-2026",
+      "target": "citation-faithfulness-arxiv-2026",
+      "type": "concept",
+      "label": "citation faithfulness"
+    },
+    {
+      "source": "citation-blame-emnlp-2026",
+      "target": "trail-arxiv-2025",
+      "type": "concept",
+      "label": "trace-level error localization"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "paperqa2-arxiv-2024",
+      "type": "concept",
+      "label": "audits PaperQA2 citations"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "sourcecheckup-natcommun-2025",
+      "type": "concept",
+      "label": "citation-support auditing"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "conformal-scrna-bioinformatics-2025",
+      "type": "concept",
+      "label": "conformal guarantees"
+    },
+    {
+      "source": "biomni-biorxiv-2025",
+      "target": "spatialagent-biorxiv-2025",
+      "type": "concept",
+      "label": "same lab lineage"
+    },
+    {
+      "source": "biomni-biorxiv-2025",
+      "target": "deepevidence-natmachintell-2026",
+      "type": "concept",
+      "label": "baseline agent"
+    },
+    {
+      "source": "cellvoyager-natmethods-2026",
+      "target": "heurekabench-arxiv-2026",
+      "type": "concept",
+      "label": "single-cell agent evaluation"
+    },
+    {
+      "source": "scbench-arxiv-2026",
+      "target": "scbench-long-arxiv-2026",
+      "type": "concept",
+      "label": "single-step → long-horizon"
+    },
+    {
+      "source": "scbench-long-arxiv-2026",
+      "target": "heurekabench-arxiv-2026",
+      "type": "concept",
+      "label": "claims reproduced before grading"
+    },
+    {
+      "source": "cellvoyager-natmethods-2026",
+      "target": "scbench-arxiv-2026",
+      "type": "concept",
+      "label": "scRNA-seq agent analysis"
+    },
+    {
+      "source": "spatialagent-biorxiv-2025",
+      "target": "xenium-split-natmethods-2026",
+      "type": "concept",
+      "label": "Xenium data"
+    },
+    {
+      "source": "spatialagent-biorxiv-2025",
+      "target": "dkd-spatial-atlas-nature-2026",
+      "type": "concept",
+      "label": "spatial niches"
+    },
+    {
+      "source": "paperqa2-arxiv-2024",
+      "target": "robin-nature-2026",
+      "type": "concept",
+      "label": "FutureHouse literature agent"
+    },
+    {
+      "source": "lake-kidney-atlas-nature-2023",
+      "target": "dkd-spatial-atlas-nature-2026",
+      "type": "concept",
+      "label": "kidney injury states → spatial niches"
+    },
+    {
+      "source": "lake-kidney-atlas-nature-2023",
+      "target": "damage-scores-cellgenomics-2026",
+      "type": "concept",
+      "label": "discrete states vs damage score"
+    },
+    {
+      "source": "lake-kidney-atlas-nature-2023",
+      "target": "cellspectra-natgenet-2025",
+      "type": "concept",
+      "label": "KPMP snRNA reference"
+    },
+    {
+      "source": "lake-kidney-atlas-nature-2023",
+      "target": "nih-kidney-ai-challenge-2026",
+      "type": "concept",
+      "label": "KPMP open data"
+    },
+    {
+      "source": "damage-scores-cellgenomics-2026",
+      "target": "cellspectra-natgenet-2025",
+      "type": "concept",
+      "label": "per-sample injury scoring"
+    },
+    {
+      "source": "nih-kidney-ai-challenge-2026",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "WSI anomaly detection"
+    },
+    {
+      "source": "nih-kidney-ai-challenge-2026",
+      "target": "virtual-cell-challenge",
+      "type": "concept",
+      "label": "community challenge"
+    },
+    {
+      "source": "nih-kidney-ai-challenge-2026",
+      "target": "pathology-ad-bench-mlhealth-2025",
+      "type": "concept",
+      "label": "pathology AD benchmark"
+    },
+    {
+      "source": "counterfactual-diffusion-cancerres-2026",
+      "target": "histo-miccai-2025",
+      "type": "concept",
+      "label": "diffusion on histopathology"
+    },
+    {
+      "source": "counterfactual-diffusion-cancerres-2026",
+      "target": "virtual-tissue-2501",
+      "type": "concept",
+      "label": "virtual perturbation / revert"
+    },
+    {
+      "source": "hypogen-llm-colm-2024",
+      "target": "co-scientist-nature-2026",
+      "type": "concept",
+      "label": "hypothesis generation"
+    },
+    {
+      "source": "hypogen-llm-colm-2024",
+      "target": "semnovel-jbi-2025",
+      "type": "concept",
+      "label": "novelty of biomedical ideas"
+    },
+    {
+      "source": "dkd-spatial-atlas-nature-2026",
+      "target": "xenium-split-natmethods-2026",
+      "type": "concept",
+      "label": "Xenium artifacts"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "medianomaly-media-2025",
+      "type": "concept",
+      "label": "anomaly-detection benchmarks"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "histo-anomaly-bi-repo",
+      "type": "concept",
+      "label": "histology AD methods"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "histopathology AD"
+    },
+    {
+      "source": "medianomaly-media-2025",
+      "target": "histo-miccai-2025",
+      "type": "concept",
+      "label": "diffusion-based AD"
+    },
+    {
+      "source": "kidney-ssl-histology-scirep-2025",
+      "target": "uni2-h-model",
+      "type": "concept",
+      "label": "UNI embeddings comparison"
+    },
+    {
+      "source": "kidney-ssl-histology-scirep-2025",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "concept",
+      "label": "histology vs molecular atlas"
+    },
+    {
+      "source": "co-scientist-nature-2026",
+      "target": "robin-nature-2026",
+      "type": "concept",
+      "label": "AI scientists"
+    },
+    {
+      "source": "co-scientist-nature-2026",
+      "target": "virtual-lab-nature-2025",
+      "type": "concept",
+      "label": "multi-agent research"
+    },
+    {
+      "source": "robin-nature-2026",
+      "target": "kosmos-arxiv-2025",
+      "type": "concept",
+      "label": "FutureHouse lineage"
+    },
+    {
+      "source": "robin-nature-2026",
+      "target": "bixbench-arxiv-2025",
+      "type": "concept",
+      "label": "Finch on BixBench"
+    },
+    {
+      "source": "kosmos-arxiv-2025",
+      "target": "cellvoyager-natmethods-2026",
+      "type": "concept",
+      "label": "autonomous omics analysis"
+    },
+    {
+      "source": "virtual-lab-nature-2025",
+      "target": "biomni-biorxiv-2025",
+      "type": "concept",
+      "label": "multi-agent biomedical systems"
+    },
+    {
       "source": "imaging-nature-2026",
       "target": "imaging-ehjdh-2026",
       "type": "concept",
@@ -287,7 +1846,17 @@
       "label": "pathomics"
     },
     {
+      "source": "cat:agents",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
       "source": "cat:competition",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:ehr",
       "target": "DIRECTION",
       "type": "anchor"
     },
@@ -303,6 +1872,11 @@
     },
     {
       "source": "cat:imaging",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:other",
       "target": "DIRECTION",
       "type": "anchor"
     },
@@ -327,13 +1901,178 @@
       "type": "anchor"
     },
     {
+      "source": "abc-agentic-benchmarks-neurips-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "ailuminate-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "ambient-rna-bench-biorxiv-2026",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "autoresearch-failures-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "biomednlp-natcommun-2025",
+      "target": "cat:other",
+      "type": "in-category"
+    },
+    {
+      "source": "bioml-bench-biorxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "biomni-biorxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "bixbench-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "cellspectra-natgenet-2025",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "cellvoyager-natmethods-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "citation-blame-emnlp-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "clinical-agent-reruns-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "co-scientist-nature-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "conformal-scrna-bioinformatics-2025",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "counterfactual-diffusion-cancerres-2026",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "damage-scores-cellgenomics-2026",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "deep-research-hallucination-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "deepevidence-natmachintell-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "deeptrace-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "dkd-spatial-atlas-nature-2026",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "ehr-apollo-arxiv-2026",
+      "target": "cat:ehr",
+      "type": "in-category"
+    },
+    {
+      "source": "ehr-comet-natmachintell-2025",
+      "target": "cat:ehr",
+      "type": "in-category"
+    },
+    {
+      "source": "ehr-delphi2m-nature-2025",
+      "target": "cat:ehr",
+      "type": "in-category"
+    },
+    {
+      "source": "ehr-pancreatic-llm-npjdigitmed-2025",
+      "target": "cat:ehr",
+      "type": "in-category"
+    },
+    {
+      "source": "ehr-pancreatic-trajectory-natmed-2023",
+      "target": "cat:ehr",
+      "type": "in-category"
+    },
+    {
+      "source": "falsifiable-ideation-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
       "source": "fm-arxiv-2604",
       "target": "cat:foundation",
       "type": "in-category"
     },
     {
+      "source": "generalization-bias-rsos-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "he2expr-bench-natcommun-2025",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "healthy-ref-natgenet-2023",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
       "source": "hest1k-2024",
       "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "heurekabench-arxiv-2026",
+      "target": "cat:agents",
       "type": "in-category"
     },
     {
@@ -357,6 +2096,21 @@
       "type": "in-category"
     },
     {
+      "source": "holistic-agent-leaderboard-iclr-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "hypogen-llm-colm-2024",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "ideation-execution-gap-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
       "source": "imaging-ehjdh-2026",
       "target": "cat:imaging",
       "type": "in-category"
@@ -364,6 +2118,136 @@
     {
       "source": "imaging-nature-2026",
       "target": "cat:imaging",
+      "type": "in-category"
+    },
+    {
+      "source": "inflammatory-pt-natcommun-2025",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "investorbench-arxiv-2024",
+      "target": "cat:other",
+      "type": "in-category"
+    },
+    {
+      "source": "kidney-epigenome-nataging-2026",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "kidney-multimodal-genomebiol-2026",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "kidney-ssl-histology-scirep-2025",
+      "target": "cat:histopath",
+      "type": "in-category"
+    },
+    {
+      "source": "kosmos-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "lab-bench-arxiv-2024",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "lake-kidney-atlas-nature-2023",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "linear-baselines-natmethods-2025",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "llm-judge-healthcare-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "loki-omiclip-natmethods-2025",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "mast-neurips-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "medagentbench-nejmai-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "medianomaly-media-2025",
+      "target": "cat:imaging",
+      "type": "in-category"
+    },
+    {
+      "source": "medical-hallucination-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "medragchecker-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "mrvi-natmethods-2025",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "multimodal-integration-bench-natmethods-2025",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "nephrobase-biorxiv-2025",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "nicheformer-natmethods-2025",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "nih-kidney-ai-challenge-2026",
+      "target": "cat:competition",
+      "type": "in-category"
+    },
+    {
+      "source": "ovrlpy-natbiotech-2026",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "paperqa2-arxiv-2024",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "pathbench-natcommun-2026",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "cat:histopath",
       "type": "in-category"
     },
     {
@@ -382,8 +2266,78 @@
       "type": "in-category"
     },
     {
+      "source": "reference-hallucination-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "refmap-eval-biorxiv-2025",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "resolvi-natmethods-2026",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "robin-nature-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "rq-bench-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "sardine-bioinformatics-2025",
+      "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "scatac-novel-genomeres-2026",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "scbench-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "scbench-long-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "scfm-zeroshot-genomebiol-2025",
+      "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "scirigor-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "scitrace-arxiv-2026",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
       "source": "scrna-natmachintell-2026",
       "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "semnovel-jbi-2025",
+      "target": "cat:other",
+      "type": "in-category"
+    },
+    {
+      "source": "sourcecheckup-natcommun-2025",
+      "target": "cat:agents",
       "type": "in-category"
     },
     {
@@ -394,6 +2348,21 @@
     {
       "source": "spatial-natcommun-2024",
       "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "spatialagent-biorxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "trail-arxiv-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "truthhypo-ijcai-2025",
+      "target": "cat:agents",
       "type": "in-category"
     },
     {
@@ -412,8 +2381,18 @@
       "type": "in-category"
     },
     {
+      "source": "virtual-lab-nature-2025",
+      "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
       "source": "virtual-tissue-2501",
       "target": "cat:virtual-tissue",
+      "type": "in-category"
+    },
+    {
+      "source": "xenium-split-natmethods-2026",
+      "target": "cat:spatial",
       "type": "in-category"
     }
   ],

@@ -1,6 +1,6 @@
 # 术语表 / Glossary
 
-> 92 条医学与机器学习术语,每条含**英文 / 中文 / 德语**名称与解释。随论文增长;编辑 `glossary/terms.yaml` 后运行 `python scripts/build_glossary.py`。
+> 110 条医学与机器学习术语,每条含**英文 / 中文 / 德语**名称与解释。随论文增长;编辑 `glossary/terms.yaml` 后运行 `python scripts/build_glossary.py`。
 
 ## Histopathology / 组织病理
 
@@ -176,12 +176,30 @@
 
 ## Single-cell / 单细胞
 
+### Ambient RNA · 游离 RNA 污染(ambient RNA) · Ambient-RNA
+
+- **EN** — Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike.
+- **中文** — 破裂细胞释放的游离转录本被计入其他液滴,形成背景信号,使本不相关的细胞看起来彼此相似。
+- **DE** — Frei schwebende Transkripte lysierter Zellen, die in andere Tröpfchen mitgezählt werden und ein Hintergrundsignal erzeugen, das unverwandte Zellen ähnlich erscheinen lässt.
+
+### ATAC peak · ATAC 峰 · ATAC-Peak
+
+- **EN** — A genomic interval where transposase cut sites pile up across many nuclei, defining a region of open chromatin and forming the row dimension of the peak-by-cell matrix.
+- **中文** — 转座酶切点在众多细胞核中反复堆积的基因组区间,标定一段开放染色质,并构成「峰 × 细胞」矩阵的行维度。
+- **DE** — Ein genomisches Intervall, in dem sich Transposase-Schnittstellen über viele Zellkerne häufen; definiert offenes Chromatin und bildet die Zeilendimension der Peak-Zell-Matrix.
+
 ### Cell state · 细胞状态 · Zellzustand
 
 - **EN** — The transient functional condition of a cell — such as activated, exhausted, or proliferating — layered on top of its stable cell-type identity.
 - **中文** — 细胞在其稳定的细胞类型身份之上所处的、可变的功能状态,如激活、耗竭或增殖。
 - **DE** — Der vorübergehende funktionelle Zustand einer Zelle — etwa aktiviert, erschöpft oder proliferierend — der ihrer stabilen Zelltyp-Identität überlagert ist.
 - _Seen in / 出现于:_ [`spatial-biorxiv-2025`](papers/spatial-biorxiv-2025/index.md), [`virtual-cell-challenge`](papers/virtual-cell-challenge/index.md)
+
+### Chromatin accessibility · 染色质开放性 · Chromatin-Zugänglichkeit
+
+- **EN** — How physically reachable a stretch of DNA is for transcription machinery; tightly packed regions are effectively switched off, loosened ones are available for expression.
+- **中文** — 一段 DNA 对转录机器的物理可及程度;缠绕紧密的区域等同于被关闭,松开的区域才可能被表达。
+- **DE** — Wie physisch erreichbar ein DNA-Abschnitt für die Transkriptionsmaschinerie ist; dicht gepackte Regionen sind faktisch abgeschaltet, gelockerte stehen zur Expression bereit.
 
 ### CRISPR perturbation · CRISPR 扰动 · CRISPR-Perturbation
 
@@ -190,12 +208,37 @@
 - **DE** — Das gezielte Stilllegen, Aktivieren oder Editieren eines Zielgens mittels CRISPR, um die daraus folgende Änderung des Zellzustands zu beobachten.
 - _Seen in / 出现于:_ [`virtual-cell-challenge`](papers/virtual-cell-challenge/index.md)
 
+### Doublet · 双细胞假象(doublet) · Doublet
+
+- **EN** — A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state.
+- **中文** — 两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。
+- **DE** — Ein technisches Artefakt, bei dem zwei Zellen bzw. Zellkerne unter einem Barcode erfasst und als eine Zelle ausgewertet werden; das chimäre Expressionsprofil kann einen neuen Zellzustand vortäuschen.
+
 ### Gene-expression signature · 基因表达签名 · Genexpressionssignatur
 
 - **EN** — A defined set of genes whose coordinated expression levels mark a particular cell state, disease, or treatment response.
 - **中文** — 一组特定基因,其协同表达水平可标志某种细胞状态、疾病或治疗响应。
 - **DE** — Eine definierte Gruppe von Genen, deren koordinierte Expressionsniveaus einen bestimmten Zellzustand, eine Krankheit oder eine Therapieantwort kennzeichnen.
 - _Seen in / 出现于:_ [`spatial-biorxiv-2025`](papers/spatial-biorxiv-2025/index.md), [`virtual-tissue-2501`](papers/virtual-tissue-2501/index.md)
+
+### Multi-omics · 多组学 · Multi-Omics
+
+- **EN** — Measuring several molecular layers — for example the epigenome and the transcriptome — on the same samples so that the layers can corroborate or contradict one another.
+- **中文** — 在同一批样本上测量多个分子层(例如表观组与转录组),使各层之间可以互相印证或互相矛盾。
+- **DE** — Die Messung mehrerer molekularer Ebenen — etwa Epigenom und Transkriptom — an denselben Proben, sodass sich die Ebenen gegenseitig bestätigen oder widersprechen können.
+- _Seen in / 出现于:_ [`histo-sciencedirect-2026`](papers/histo-sciencedirect-2026/index.md)
+
+### Multi-Omics Factor Analysis (MOFA) · 多组学因子分析(MOFA) · Multi-Omics-Faktoranalyse (MOFA)
+
+- **EN** — An unsupervised integration method that compresses several differently shaped omics matrices into a shared set of latent factors, surfacing variation that co-varies across layers.
+- **中文** — 一种无监督整合方法,把形状各异的多个组学矩阵压缩到一组共享潜因子上,使跨层共变的变异显形。
+- **DE** — Eine unüberwachte Integrationsmethode, die mehrere unterschiedlich geformte Omics-Matrizen in gemeinsame latente Faktoren komprimiert und schichtübergreifend ko-variierende Variation sichtbar macht.
+
+### Multiome (joint RNA + ATAC) · Multiome(RNA 与 ATAC 同核联测) · Multiome (gemeinsam RNA + ATAC)
+
+- **EN** — An assay that measures transcription and chromatin accessibility in the very same nucleus, pairing 'what is expressed' with 'what is permitted' without having to match cells across separate runs.
+- **中文** — 在同一个细胞核里同时测转录与染色质开放性的实验,把「表达了什么」与「允许表达什么」直接配对,无需在两批细胞之间猜对应关系。
+- **DE** — Ein Assay, der Transkription und Chromatin-Zugänglichkeit im selben Zellkern misst und so „was exprimiert wird“ direkt mit „was erlaubt ist“ paart, ohne Zellen zwischen Läufen zuordnen zu müssen.
 
 ### Perturb-seq · Perturb-seq · Perturb-seq
 
@@ -217,6 +260,30 @@
 - **中文** — 一种对单个细胞转录组进行测序的技术,可揭示被批量测序平均掉的细胞类型异质性。
 - **DE** — Eine Technik, die das Transkriptom einzelner Zellen erfasst und die Zelltyp-Heterogenität sichtbar macht, die bei Bulk-Sequenzierung verloren geht.
 - _Seen in / 出现于:_ [`scrna-natmachintell-2026`](papers/scrna-natmachintell-2026/index.md), [`spatial-biorxiv-2025`](papers/spatial-biorxiv-2025/index.md), [`spatial-natcommun-2024`](papers/spatial-natcommun-2024/index.md)
+
+### Single-nucleus ATAC-seq (snATAC-seq) · 单核 ATAC 测序(snATAC-seq) · Einzelkern-ATAC-Sequenzierung (snATAC-seq)
+
+- **EN** — Uses a transposase that cuts only unpacked DNA to map which genomic regions are open per nucleus, revealing which genes are permitted to be expressed rather than which currently are.
+- **中文** — 用只能切开松散 DNA 的转座酶,逐核绘制哪些基因组区域处于开放状态,揭示哪些基因「有资格」表达,而非当前正在表达什么。
+- **DE** — Nutzt eine Transposase, die nur ungepackte DNA schneidet, um pro Zellkern offene Genomregionen zu kartieren; zeigt, welche Gene exprimiert werden dürfen, nicht welche es gerade werden.
+
+### Single-nucleus RNA-seq (snRNA-seq) · 单核 RNA 测序(snRNA-seq) · Einzelkern-RNA-Sequenzierung (snRNA-seq)
+
+- **EN** — Dissociates tissue down to individual nuclei and sequences the RNA in each, giving genome-wide expression per nucleus at the cost of losing every cell's position in the tissue.
+- **中文** — 把组织解离成单个细胞核并分别测其 RNA,得到每个核的全基因组表达,代价是彻底丢失细胞原本在组织中的位置。
+- **DE** — Zerlegt Gewebe in einzelne Zellkerne und sequenziert deren RNA; liefert genomweite Expression pro Kern, verliert dabei aber jede räumliche Position der Zellen.
+
+### Technical dropout (false zero) · 技术性丢失(假零) · Technischer Dropout (falsche Null)
+
+- **EN** — A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once.
+- **中文** — 计数矩阵中因捕获失败而非真的不表达所产生的零;由于真零与假零无法区分,稀疏性同时既是生物学也是噪声。
+- **DE** — Eine Null in der Zählmatrix, die durch fehlgeschlagene Erfassung statt fehlender Expression entsteht; da echte und falsche Nullen ununterscheidbar sind, ist Sparsity zugleich Biologie und Rauschen.
+
+### Transcription-factor motif · 转录因子结合基序 · Transkriptionsfaktor-Motiv
+
+- **EN** — The short DNA sequence pattern a transcription factor recognizes; enrichment of a motif inside accessible regions is the standard evidence for inferring which regulator drives a cell state.
+- **中文** — 转录因子识别的短 DNA 序列模式;开放区域中某基序的富集,是推断哪个调控因子驱动了某种细胞状态的标准证据。
+- **DE** — Das kurze DNA-Sequenzmuster, das ein Transkriptionsfaktor erkennt; die Anreicherung eines Motivs in zugänglichen Regionen ist der Standardbeleg dafür, welcher Regulator einen Zellzustand antreibt.
 
 ### Virtual cell · 虚拟细胞 · Virtuelle Zelle
 
@@ -369,6 +436,33 @@
 - **DE** — Ein abnormaler, oft lebensbedrohlicher Herzrhythmus, der in den Herzkammern entsteht und die mechanistische Ursache der meisten plötzlichen Herztode ist.
 - _Seen in / 出现于:_ [`imaging-nature-2026`](papers/imaging-nature-2026/index.md)
 
+## Nephrology & clinical / 肾脏与临床
+
+### Chronic kidney disease (CKD) · 慢性肾脏病(CKD) · Chronische Nierenerkrankung (CKD)
+
+- **EN** — Progressive, largely irreversible loss of kidney function over months to years; the non-tumor disease setting where computational pathology benchmarks are conspicuously absent.
+- **中文** — 肾功能在数月至数年间进行性、基本不可逆的丧失;正是在这类非肿瘤疾病场景下,计算病理学的基准明显缺席。
+- **DE** — Fortschreitender, weitgehend irreversibler Verlust der Nierenfunktion über Monate bis Jahre; genau jenes nicht-onkologische Krankheitsfeld, in dem Benchmarks der computationalen Pathologie auffällig fehlen.
+
+### Estimated glomerular filtration rate (eGFR) · 估算肾小球滤过率(eGFR) · Geschätzte glomeruläre Filtrationsrate (eGFR)
+
+- **EN** — The standard blood-derived estimate of how much the kidneys filter per minute; its trajectory over years is the clinical outcome any prognostic kidney model is ultimately judged against.
+- **中文** — 由血液指标估算的肾脏每分钟滤过量,是肾功能的标准度量;其多年的变化轨迹,是任何肾脏预后模型最终要对照的临床结局。
+- **DE** — Der blutbasierte Standardschätzwert dafür, wie viel die Nieren pro Minute filtern; sein Verlauf über Jahre ist das klinische Ergebnis, an dem sich jedes prognostische Nierenmodell messen lassen muss.
+
+### Interstitial fibrosis · 间质纤维化 · Interstitielle Fibrose
+
+- **EN** — Scar-tissue accumulation between the functional units of an organ, scored routinely on H&E as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks.
+- **中文** — 器官功能单位之间瘢痕组织的堆积,常规在 H&E 上评分作为粗略的预后标志,也是「检出病变区域」类任务的经典目标。
+- **DE** — Ansammlung von Narbengewebe zwischen den funktionellen Einheiten eines Organs; wird routinemäßig im H&E-Schnitt als grober prognostischer Marker bewertet und ist das klassische Ziel von „Erkenne die erkrankte Region“-Aufgaben.
+- _Seen in / 出现于:_ [`pathomics-npjpo-2026`](papers/pathomics-npjpo-2026/index.md), [`spatial-natcommun-2024`](papers/spatial-natcommun-2024/index.md)
+
+### Kidney biopsy · 肾活检 · Nierenbiopsie
+
+- **EN** — A needle-extracted core of renal tissue a few millimetres long, the shared raw material every kidney modality reads in its own way — stained, dissociated or profiled in situ.
+- **中文** — 用穿刺针取出的数毫米长肾组织条,是所有肾脏 modality 共同的原材料——或染色、或解离、或原位测序,各读各的。
+- **DE** — Ein per Nadel entnommener, wenige Millimeter langer Nierengewebezylinder — das gemeinsame Rohmaterial, das jede Nieren-Modalität auf ihre Weise ausliest: gefärbt, dissoziiert oder in situ profiliert.
+
 ## Foundation models / 基础模型
 
 ### Class token (CLS token) · 分类标记 · CLS-Token
@@ -464,6 +558,13 @@
 - **DE** — Ein Modell, das aus einer Eingabe ein Label vorhersagt (z. B. Risiko aus einem EKG); die Kopplung mit einem generativen Modell macht seine undurchsichtige Entscheidung als Biomarker sichtbar.
 - _Seen in / 出现于:_ [`imaging-nature-2026`](papers/imaging-nature-2026/index.md)
 
+### Evidence graph · 证据图 · Evidenzgraph
+
+- **EN** — An incrementally built graph of the entities, relations and sources an agent has consulted, kept as memory so that every claim can be traced back to where it came from and checked by a human.
+- **中文** — 把 agent 查阅过的实体、关系与出处增量构建成图并作为记忆保存,使每条论断都能回溯到来源、供人工核查。
+- **DE** — Ein inkrementell aufgebauter Graph der Entitäten, Relationen und Quellen, die ein Agent konsultiert hat, als Gedächtnis gespeichert, sodass jede Aussage zu ihrem Ursprung zurückverfolgt und von Menschen geprüft werden kann.
+- _Seen in / 出现于:_ [`deepevidence-natmachintell-2026`](papers/deepevidence-natmachintell-2026/index.md)
+
 ### Flow matching · 流匹配 · Flow Matching
 
 - **EN** — A technique for training continuous-time generative models by regressing a velocity field that transports one distribution into another.
@@ -492,12 +593,26 @@
 - **DE** — Ein Modell, das eine Datenverteilung gut genug lernt, um neue Proben zu synthetisieren, und so Visualisierung, Rekonstruktion oder In-silico-Perturbation ermöglicht.
 - _Seen in / 出现于:_ [`histo-miccai-2025`](papers/histo-miccai-2025/index.md), [`imaging-nature-2026`](papers/imaging-nature-2026/index.md), [`spatial-biorxiv-2025`](papers/spatial-biorxiv-2025/index.md)
 
+### Hallucination · 幻觉 · Halluzination
+
+- **EN** — A model output stated with confidence but unsupported by its sources; in evidence-citing systems it must be measured alongside accuracy, together with what the model silently omitted.
+- **中文** — 模型自信给出、却无来源支撑的输出;在会引用证据的系统里,它必须与准确率并列度量,并连同「模型悄悄漏掉了什么」一起评估。
+- **DE** — Eine selbstbewusst formulierte Modellausgabe ohne Beleg in den Quellen; in evidenzzitierenden Systemen muss sie neben der Genauigkeit gemessen werden — zusammen mit dem, was das Modell stillschweigend ausgelassen hat.
+- _Seen in / 出现于:_ [`biomednlp-natcommun-2025`](papers/biomednlp-natcommun-2025/index.md), [`deepevidence-natmachintell-2026`](papers/deepevidence-natmachintell-2026/index.md)
+
 ### In-silico perturbation · 计算机模拟扰动 · In-silico-Perturbation
 
 - **EN** — Simulating an intervention — deleting/replacing a cell type or applying a drug — inside a model to predict the resulting change and screen for revert targets.
 - **中文** — 在模型内部模拟干预(删除/替换某类细胞或施加药物),以预测由此产生的变化并筛选逆转靶点。
 - **DE** — Das Simulieren eines Eingriffs — Löschen/Ersetzen eines Zelltyps oder Anwenden eines Medikaments — innerhalb eines Modells, um die resultierende Veränderung vorherzusagen und Revert-Ziele zu screenen.
 - _Seen in / 出现于:_ [`scrna-natmachintell-2026`](papers/scrna-natmachintell-2026/index.md), [`spatial-biorxiv-2025`](papers/spatial-biorxiv-2025/index.md), [`virtual-cell-challenge`](papers/virtual-cell-challenge/index.md)
+
+### Linear probing · 线性探针 · Linear Probing
+
+- **EN** — Freezing a pretrained encoder and training only a linear classifier on its features — the standard way to benchmark representation quality itself, and the honest baseline any fancier method must beat.
+- **中文** — 冻结预训练编码器、只在其特征上训练一个线性分类器——评测表示质量本身的标准做法,也是任何更复杂方法都必须先超越的诚实基线。
+- **DE** — Einen vortrainierten Encoder einfrieren und nur einen linearen Klassifikator auf seinen Merkmalen trainieren — der Standardweg, Repräsentationsqualität selbst zu bewerten, und die ehrliche Baseline, die jede aufwendigere Methode zuerst schlagen muss.
+- _Seen in / 出现于:_ [`pathbench-natcommun-2026`](papers/pathbench-natcommun-2026/index.md), [`virtual-tissue-2501`](papers/virtual-tissue-2501/index.md)
 
 ### Maximum mean discrepancy (MMD) · 最大均值差异(MMD) · Maximum Mean Discrepancy (MMD)
 

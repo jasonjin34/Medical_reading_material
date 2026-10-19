@@ -1,0 +1,27 @@
+id: "pathbench-natcommun-2026"
+title: "A benchmark study of vision and pathology foundation models for computational pathology"
+authors:
+  - "Bareja, Rohan"
+  - "Carrillo-Perez, Francisco"
+  - "Zheng, Yuanning"
+  - "Pizurica, Marija"
+  - "Nandi, Tarak Nath"
+  - "Tian, Lu"
+  - "Shen, Jeanne"
+  - "Madduri, Ravi"
+  - "Gevaert, Olivier"
+year: 2026
+venue: "Nature Communications"
+type: "paper"
+category: "foundation"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1038/s41467-026-76004-6"
+doi: "10.1038/s41467-026-76004-6"
+arxiv: ""
+s2_id: "0cc6b91259c49080cf1e7cf06de5fd62df6b906e"
+bibkey: "Bareja_2026"
+tags: []
+related: []
+status: "complete"
+added: "2026-09-03"

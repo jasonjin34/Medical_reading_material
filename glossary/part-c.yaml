@@ -385,3 +385,36 @@
   def_de: "Das Testen eines trainierten Modells an Daten eines unabhängigen Standorts, Landes oder einer Kohorte, die es nie gesehen hat, um die Generalisierbarkeit der Leistung zu belegen."
   tags: [evaluation, generalization]
   seen_in: [imaging-nature-2026, imaging-ehjdh-2026]
+
+- id: linear-probe
+  en: Linear probing
+  zh: 线性探针
+  de: Linear Probing
+  domain: ml-methods
+  def_en: "Freezing a pretrained encoder and training only a linear classifier on its features — the standard way to benchmark representation quality itself, and the honest baseline any fancier method must beat."
+  def_zh: "冻结预训练编码器、只在其特征上训练一个线性分类器——评测表示质量本身的标准做法,也是任何更复杂方法都必须先超越的诚实基线。"
+  def_de: "Einen vortrainierten Encoder einfrieren und nur einen linearen Klassifikator auf seinen Merkmalen trainieren — der Standardweg, Repräsentationsqualität selbst zu bewerten, und die ehrliche Baseline, die jede aufwendigere Methode zuerst schlagen muss."
+  tags: [ml, evaluation, transfer-learning]
+  seen_in: [pathbench-natcommun-2026, virtual-tissue-2501]
+
+- id: evidence-graph
+  en: Evidence graph
+  zh: 证据图
+  de: Evidenzgraph
+  domain: ml-methods
+  def_en: "An incrementally built graph of the entities, relations and sources an agent has consulted, kept as memory so that every claim can be traced back to where it came from and checked by a human."
+  def_zh: "把 agent 查阅过的实体、关系与出处增量构建成图并作为记忆保存,使每条论断都能回溯到来源、供人工核查。"
+  def_de: "Ein inkrementell aufgebauter Graph der Entitäten, Relationen und Quellen, die ein Agent konsultiert hat, als Gedächtnis gespeichert, sodass jede Aussage zu ihrem Ursprung zurückverfolgt und von Menschen geprüft werden kann."
+  tags: [ml, agents, provenance]
+  seen_in: [deepevidence-natmachintell-2026]
+
+- id: hallucination
+  en: Hallucination
+  zh: 幻觉
+  de: Halluzination
+  domain: ml-methods
+  def_en: "A model output stated with confidence but unsupported by its sources; in evidence-citing systems it must be measured alongside accuracy, together with what the model silently omitted."
+  def_zh: "模型自信给出、却无来源支撑的输出;在会引用证据的系统里,它必须与准确率并列度量,并连同「模型悄悄漏掉了什么」一起评估。"
+  def_de: "Eine selbstbewusst formulierte Modellausgabe ohne Beleg in den Quellen; in evidenzzitierenden Systemen muss sie neben der Genauigkeit gemessen werden — zusammen mit dem, was das Modell stillschweigend ausgelassen hat."
+  tags: [ml, llm, evaluation, failure-mode]
+  seen_in: [biomednlp-natcommun-2025, deepevidence-natmachintell-2026]

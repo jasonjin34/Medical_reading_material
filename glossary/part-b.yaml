@@ -374,3 +374,173 @@
   def_de: "Ein schwach überwachtes Paradigma, bei dem ein einzelnes Label einem ganzen Bündel von Instanzen zugeordnet wird, sodass ein Schnitt-Label über viele Bildausschnitte trainiert."
   tags: [ml, weakly-supervised, pathology]
   seen_in: [pathomics-npjpo-2026]
+
+# ---------------------------------------------------------------------------
+# Single-cell & spatial modalities, omics QC artifacts, nephrology clinical
+# (added 2026-09-03 — distilled from the modality close-reading notes)
+# ---------------------------------------------------------------------------
+
+- id: snrna-seq
+  en: Single-nucleus RNA-seq (snRNA-seq)
+  zh: 单核 RNA 测序(snRNA-seq)
+  de: Einzelkern-RNA-Sequenzierung (snRNA-seq)
+  domain: single-cell
+  def_en: "Dissociates tissue down to individual nuclei and sequences the RNA in each, giving genome-wide expression per nucleus at the cost of losing every cell's position in the tissue."
+  def_zh: "把组织解离成单个细胞核并分别测其 RNA,得到每个核的全基因组表达,代价是彻底丢失细胞原本在组织中的位置。"
+  def_de: "Zerlegt Gewebe in einzelne Zellkerne und sequenziert deren RNA; liefert genomweite Expression pro Kern, verliert dabei aber jede räumliche Position der Zellen."
+  tags: [single-cell, transcriptomics, modality]
+  seen_in: []
+
+- id: snatac-seq
+  en: Single-nucleus ATAC-seq (snATAC-seq)
+  zh: 单核 ATAC 测序(snATAC-seq)
+  de: Einzelkern-ATAC-Sequenzierung (snATAC-seq)
+  domain: single-cell
+  def_en: "Uses a transposase that cuts only unpacked DNA to map which genomic regions are open per nucleus, revealing which genes are permitted to be expressed rather than which currently are."
+  def_zh: "用只能切开松散 DNA 的转座酶,逐核绘制哪些基因组区域处于开放状态,揭示哪些基因「有资格」表达,而非当前正在表达什么。"
+  def_de: "Nutzt eine Transposase, die nur ungepackte DNA schneidet, um pro Zellkern offene Genomregionen zu kartieren; zeigt, welche Gene exprimiert werden dürfen, nicht welche es gerade werden."
+  tags: [single-cell, epigenomics, modality]
+  seen_in: []
+
+- id: chromatin-accessibility
+  en: Chromatin accessibility
+  zh: 染色质开放性
+  de: Chromatin-Zugänglichkeit
+  domain: single-cell
+  def_en: "How physically reachable a stretch of DNA is for transcription machinery; tightly packed regions are effectively switched off, loosened ones are available for expression."
+  def_zh: "一段 DNA 对转录机器的物理可及程度;缠绕紧密的区域等同于被关闭,松开的区域才可能被表达。"
+  def_de: "Wie physisch erreichbar ein DNA-Abschnitt für die Transkriptionsmaschinerie ist; dicht gepackte Regionen sind faktisch abgeschaltet, gelockerte stehen zur Expression bereit."
+  tags: [epigenomics, regulation]
+  seen_in: []
+
+- id: atac-peak
+  en: ATAC peak
+  zh: ATAC 峰
+  de: ATAC-Peak
+  domain: single-cell
+  def_en: "A genomic interval where transposase cut sites pile up across many nuclei, defining a region of open chromatin and forming the row dimension of the peak-by-cell matrix."
+  def_zh: "转座酶切点在众多细胞核中反复堆积的基因组区间,标定一段开放染色质,并构成「峰 × 细胞」矩阵的行维度。"
+  def_de: "Ein genomisches Intervall, in dem sich Transposase-Schnittstellen über viele Zellkerne häufen; definiert offenes Chromatin und bildet die Zeilendimension der Peak-Zell-Matrix."
+  tags: [epigenomics, data-structure]
+  seen_in: []
+
+- id: tf-motif
+  en: Transcription-factor motif
+  zh: 转录因子结合基序
+  de: Transkriptionsfaktor-Motiv
+  domain: single-cell
+  def_en: "The short DNA sequence pattern a transcription factor recognizes; enrichment of a motif inside accessible regions is the standard evidence for inferring which regulator drives a cell state."
+  def_zh: "转录因子识别的短 DNA 序列模式;开放区域中某基序的富集,是推断哪个调控因子驱动了某种细胞状态的标准证据。"
+  def_de: "Das kurze DNA-Sequenzmuster, das ein Transkriptionsfaktor erkennt; die Anreicherung eines Motivs in zugänglichen Regionen ist der Standardbeleg dafür, welcher Regulator einen Zellzustand antreibt."
+  tags: [epigenomics, regulation, inference]
+  seen_in: []
+
+- id: multiome
+  en: Multiome (joint RNA + ATAC)
+  zh: Multiome(RNA 与 ATAC 同核联测)
+  de: Multiome (gemeinsam RNA + ATAC)
+  domain: single-cell
+  def_en: "An assay that measures transcription and chromatin accessibility in the very same nucleus, pairing 'what is expressed' with 'what is permitted' without having to match cells across separate runs."
+  def_zh: "在同一个细胞核里同时测转录与染色质开放性的实验,把「表达了什么」与「允许表达什么」直接配对,无需在两批细胞之间猜对应关系。"
+  def_de: "Ein Assay, der Transkription und Chromatin-Zugänglichkeit im selben Zellkern misst und so „was exprimiert wird“ direkt mit „was erlaubt ist“ paart, ohne Zellen zwischen Läufen zuordnen zu müssen."
+  tags: [single-cell, multi-omics, assay]
+  seen_in: []
+
+- id: multi-omics
+  en: Multi-omics
+  zh: 多组学
+  de: Multi-Omics
+  domain: single-cell
+  def_en: "Measuring several molecular layers — for example the epigenome and the transcriptome — on the same samples so that the layers can corroborate or contradict one another."
+  def_zh: "在同一批样本上测量多个分子层(例如表观组与转录组),使各层之间可以互相印证或互相矛盾。"
+  def_de: "Die Messung mehrerer molekularer Ebenen — etwa Epigenom und Transkriptom — an denselben Proben, sodass sich die Ebenen gegenseitig bestätigen oder widersprechen können."
+  tags: [multi-omics, integration]
+  seen_in: [histo-sciencedirect-2026]
+
+- id: mofa
+  en: Multi-Omics Factor Analysis (MOFA)
+  zh: 多组学因子分析(MOFA)
+  de: Multi-Omics-Faktoranalyse (MOFA)
+  domain: single-cell
+  def_en: "An unsupervised integration method that compresses several differently shaped omics matrices into a shared set of latent factors, surfacing variation that co-varies across layers."
+  def_zh: "一种无监督整合方法,把形状各异的多个组学矩阵压缩到一组共享潜因子上,使跨层共变的变异显形。"
+  def_de: "Eine unüberwachte Integrationsmethode, die mehrere unterschiedlich geformte Omics-Matrizen in gemeinsame latente Faktoren komprimiert und schichtübergreifend ko-variierende Variation sichtbar macht."
+  tags: [integration, unsupervised, multi-omics]
+  seen_in: []
+
+- id: doublet
+  en: Doublet
+  zh: 双细胞假象(doublet)
+  de: Doublet
+  domain: single-cell
+  def_en: "A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state."
+  def_zh: "两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。"
+  def_de: "Ein technisches Artefakt, bei dem zwei Zellen bzw. Zellkerne unter einem Barcode erfasst und als eine Zelle ausgewertet werden; das chimäre Expressionsprofil kann einen neuen Zellzustand vortäuschen."
+  tags: [qc, artifact, single-cell]
+  seen_in: []
+
+- id: ambient-rna
+  en: Ambient RNA
+  zh: 游离 RNA 污染(ambient RNA)
+  de: Ambient-RNA
+  domain: single-cell
+  def_en: "Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike."
+  def_zh: "破裂细胞释放的游离转录本被计入其他液滴,形成背景信号,使本不相关的细胞看起来彼此相似。"
+  def_de: "Frei schwebende Transkripte lysierter Zellen, die in andere Tröpfchen mitgezählt werden und ein Hintergrundsignal erzeugen, das unverwandte Zellen ähnlich erscheinen lässt."
+  tags: [qc, artifact, single-cell]
+  seen_in: []
+
+- id: technical-dropout
+  en: Technical dropout (false zero)
+  zh: 技术性丢失(假零)
+  de: Technischer Dropout (falsche Null)
+  domain: single-cell
+  def_en: "A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once."
+  def_zh: "计数矩阵中因捕获失败而非真的不表达所产生的零;由于真零与假零无法区分,稀疏性同时既是生物学也是噪声。"
+  def_de: "Eine Null in der Zählmatrix, die durch fehlgeschlagene Erfassung statt fehlender Expression entsteht; da echte und falsche Nullen ununterscheidbar sind, ist Sparsity zugleich Biologie und Rauschen."
+  tags: [qc, artifact, sparsity]
+  seen_in: []
+
+- id: kidney-biopsy
+  en: Kidney biopsy
+  zh: 肾活检
+  de: Nierenbiopsie
+  domain: nephrology-clinical
+  def_en: "A needle-extracted core of renal tissue a few millimetres long, the shared raw material every kidney modality reads in its own way — stained, dissociated or profiled in situ."
+  def_zh: "用穿刺针取出的数毫米长肾组织条,是所有肾脏 modality 共同的原材料——或染色、或解离、或原位测序,各读各的。"
+  def_de: "Ein per Nadel entnommener, wenige Millimeter langer Nierengewebezylinder — das gemeinsame Rohmaterial, das jede Nieren-Modalität auf ihre Weise ausliest: gefärbt, dissoziiert oder in situ profiliert."
+  tags: [clinical, tissue, nephrology]
+  seen_in: []
+
+- id: egfr-kidney-function
+  en: Estimated glomerular filtration rate (eGFR)
+  zh: 估算肾小球滤过率(eGFR)
+  de: Geschätzte glomeruläre Filtrationsrate (eGFR)
+  domain: nephrology-clinical
+  def_en: "The standard blood-derived estimate of how much the kidneys filter per minute; its trajectory over years is the clinical outcome any prognostic kidney model is ultimately judged against."
+  def_zh: "由血液指标估算的肾脏每分钟滤过量,是肾功能的标准度量;其多年的变化轨迹,是任何肾脏预后模型最终要对照的临床结局。"
+  def_de: "Der blutbasierte Standardschätzwert dafür, wie viel die Nieren pro Minute filtern; sein Verlauf über Jahre ist das klinische Ergebnis, an dem sich jedes prognostische Nierenmodell messen lassen muss."
+  tags: [clinical, outcome, nephrology]
+  seen_in: []
+
+- id: chronic-kidney-disease
+  en: Chronic kidney disease (CKD)
+  zh: 慢性肾脏病(CKD)
+  de: Chronische Nierenerkrankung (CKD)
+  domain: nephrology-clinical
+  def_en: "Progressive, largely irreversible loss of kidney function over months to years; the non-tumor disease setting where computational pathology benchmarks are conspicuously absent."
+  def_zh: "肾功能在数月至数年间进行性、基本不可逆的丧失;正是在这类非肿瘤疾病场景下,计算病理学的基准明显缺席。"
+  def_de: "Fortschreitender, weitgehend irreversibler Verlust der Nierenfunktion über Monate bis Jahre; genau jenes nicht-onkologische Krankheitsfeld, in dem Benchmarks der computationalen Pathologie auffällig fehlen."
+  tags: [clinical, disease, nephrology]
+  seen_in: []
+
+- id: interstitial-fibrosis
+  en: Interstitial fibrosis
+  zh: 间质纤维化
+  de: Interstitielle Fibrose
+  domain: nephrology-clinical
+  def_en: "Scar-tissue accumulation between the functional units of an organ, scored routinely on H&E as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks."
+  def_zh: "器官功能单位之间瘢痕组织的堆积,常规在 H&E 上评分作为粗略的预后标志,也是「检出病变区域」类任务的经典目标。"
+  def_de: "Ansammlung von Narbengewebe zwischen den funktionellen Einheiten eines Organs; wird routinemäßig im H&E-Schnitt als grober prognostischer Marker bewertet und ist das klassische Ziel von „Erkenne die erkrankte Region“-Aufgaben."
+  tags: [clinical, histology, nephrology]
+  seen_in: [pathomics-npjpo-2026, spatial-natcommun-2024]

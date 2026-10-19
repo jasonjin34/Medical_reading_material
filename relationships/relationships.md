@@ -32,33 +32,145 @@
 ```mermaid
 flowchart LR
   DIRECTION(["Anomaly-detection-based virtual tissue modelling"])
+  cat_agents["agents"] --> DIRECTION
   cat_competition["competition"] --> DIRECTION
+  cat_ehr["ehr"] --> DIRECTION
   cat_foundation["foundation"] --> DIRECTION
   cat_histopath["histopath"] --> DIRECTION
   cat_imaging["imaging"] --> DIRECTION
+  cat_other["other"] --> DIRECTION
   cat_pathology["pathology"] --> DIRECTION
   cat_single_cell["single-cell"] --> DIRECTION
   cat_spatial["spatial"] --> DIRECTION
   cat_virtual_tissue["virtual-tissue"] --> DIRECTION
+  abc_agentic_benchmarks_neurips_2025["★Establishing Best Practices for Building"] --> cat_agents
+  ailuminate_arxiv_2025["★AILuminate: Introducing v1.0 of the AI R"] --> cat_agents
+  ambient_rna_bench_biorxiv_2026["Benchmarking computational decontaminati"] --> cat_single_cell
+  autoresearch_failures_arxiv_2026["★How Do Agents Fail on AutoResearch: End-"] --> cat_agents
+  biomednlp_natcommun_2025["Benchmarking large language models for b"] --> cat_other
+  bioml_bench_biorxiv_2025["BioML-bench: Evaluation of AI Agents for"] --> cat_agents
+  biomni_biorxiv_2025["★Biomni: A General-Purpose Biomedical AI "] --> cat_agents
+  biomnibench_biorxiv_2026["★BiomniBench: Process-level Evaluation of"] --> cat_agents
+  bixbench_arxiv_2025["★BixBench: a Comprehensive Benchmark for "] --> cat_agents
+  cellspectra_natgenet_2025["★Analysis of individual patient pathway c"] --> cat_single_cell
+  cellvoyager_natmethods_2026["★CellVoyager: AI CompBio agent generates "] --> cat_agents
+  citation_blame_emnlp_2026["★Who is the Agent to Blame? Localizing Fa"] --> cat_agents
+  citation_faithfulness_arxiv_2026["★Evaluating and Guarding Citation Faithfu"] --> cat_agents
+  clinical_agent_reruns_arxiv_2026["★Same Patient, Different Order: Action-Le"] --> cat_agents
+  co_scientist_nature_2026["★Accelerating scientific discovery with C"] --> cat_agents
+  conformal_scrna_bioinformatics_2025["Conformal inference for reliable single "] --> cat_single_cell
+  counterfactual_diffusion_cancerres_2026["Counterfactual Diffusion Models Provide "] --> cat_histopath
+  damage_scores_cellgenomics_2026["★Cell-type-specific damage scores reveal "] --> cat_single_cell
+  deep_research_hallucination_arxiv_2026["★Why Your Deep Research Agent Fails? On H"] --> cat_agents
+  deepevidence_natmachintell_2026["★Empowering biomedical evidence explorati"] --> cat_agents
+  deeptrace_arxiv_2025["DeepTRACE: Auditing Deep Research AI Sys"] --> cat_agents
+  dkd_spatial_atlas_nature_2026["★Spatial atlas of diabetic kidney disease"] --> cat_spatial
+  ehr_apollo_arxiv_2026["A multimodal and temporal foundation mod"] --> cat_ehr
+  ehr_comet_natmachintell_2025["A machine learning approach to leveragin"] --> cat_ehr
+  ehr_delphi2m_nature_2025["★Learning the natural history of human di"] --> cat_ehr
+  ehr_pancreatic_llm_npjdigitmed_2025["Enhancing EHR-based pancreatic cancer pr"] --> cat_ehr
+  ehr_pancreatic_trajectory_natmed_2023["★A deep learning algorithm to predict ris"] --> cat_ehr
+  falsifiable_ideation_arxiv_2026["What Proves You Wrong: Benchmarking Lang"] --> cat_agents
+  fev_bioinformatics_agents_arxiv_2026["★Evaluating Agentic Bioinformatics throug"] --> cat_agents
   fm_arxiv_2604["A Generative Foundation Model for Multim"] --> cat_foundation
+  generalization_bias_rsos_2025["★Generalization bias in large language mo"] --> cat_agents
+  he2expr_bench_natcommun_2025["Benchmarking the translational potential"] --> cat_histopath
+  healthy_ref_natgenet_2023["★Precise identification of cell states al"] --> cat_single_cell
   hest1k_2024["HEST-1k: A Dataset for Spatial Transcrip"] --> cat_foundation
+  heurekabench_arxiv_2026["HeurekaBench: A Benchmarking Framework f"] --> cat_agents
   histo_anomaly_bi_repo["Boehringer-Ingelheim/anomaly-detection-i"] --> cat_histopath
   histo_miccai_2025["Pathology-Informed Latent Diffusion Mode"] --> cat_histopath
   histo_nejmai_2024["★AI-Based Anomaly Detection for Clinical-"] --> cat_histopath
   histo_sciencedirect_2026["★Spatial biomarker discovery via interpre"] --> cat_histopath
+  holistic_agent_leaderboard_iclr_2026["Holistic Agent Leaderboard: The Missing "] --> cat_agents
+  hypogen_llm_colm_2024["★Large Language Models as Biomedical Hypo"] --> cat_agents
+  ideation_execution_gap_arxiv_2025["The Ideation-Execution Gap: Execution Ou"] --> cat_agents
   imaging_ehjdh_2026["An artificial intelligence model to dete"] --> cat_imaging
   imaging_nature_2026["★An ECG biomarker for sudden cardiac deat"] --> cat_imaging
+  inflammatory_pt_natcommun_2025["Multiomic analysis of human kidney disea"] --> cat_single_cell
+  investorbench_arxiv_2024["INVESTORBENCH: A Benchmark for Financial"] --> cat_other
+  kidney_epigenome_nataging_2026["A cross-species single-cell kidney epige"] --> cat_single_cell
+  kidney_multimodal_genomebiol_2026["★Systematic evaluation of single-cell mul"] --> cat_single_cell
+  kidney_ssl_histology_scirep_2025["Unbiased self supervised learning of kid"] --> cat_histopath
+  kosmos_arxiv_2025["★Kosmos: An AI Scientist for Autonomous D"] --> cat_agents
+  lab_bench_arxiv_2024["LAB-Bench: Measuring Capabilities of Lan"] --> cat_agents
+  lake_kidney_atlas_nature_2023["★An atlas of healthy and injured cell sta"] --> cat_spatial
+  linear_baselines_natmethods_2025["★Deep-learning-based gene perturbation ef"] --> cat_foundation
+  llm_judge_healthcare_arxiv_2026["★LLM-as-a-Judge in Healthcare: A Scoping "] --> cat_agents
+  loki_omiclip_natmethods_2025["★A visual–omics foundation model to bridg"] --> cat_spatial
+  mast_neurips_2025["Why Do Multi-Agent LLM Systems Fail?"] --> cat_agents
+  meatrd_aaai_2025["★MEATRD: Multimodal Anomalous Tissue Regi"] --> cat_spatial
+  medagentbench_nejmai_2025["MedAgentBench: A Virtual EHR Environment"] --> cat_agents
+  medianomaly_media_2025["MedIAnomaly: A comparative study of anom"] --> cat_imaging
+  medical_hallucination_arxiv_2025["Medical Hallucinations in Foundation Mod"] --> cat_agents
+  medragchecker_arxiv_2026["★MedRAGChecker: Claim-Level Verification "] --> cat_agents
+  mrvi_natmethods_2025["Deep generative modeling of sample-level"] --> cat_single_cell
+  multimodal_integration_bench_natmethods_2025["Benchmarking single-cell multi-modal dat"] --> cat_single_cell
+  nephrobase_biorxiv_2025["★Nephrobase Cell+: Multimodal Single-Cell"] --> cat_foundation
+  nicheformer_natmethods_2025["Nicheformer: a foundation model for sing"] --> cat_foundation
+  nih_kidney_ai_challenge_2026["★Kidney Artificial Intelligence Discovery"] --> cat_competition
+  ovrlpy_natbiotech_2026["★Identifying 3D signal overlaps in spatia"] --> cat_spatial
+  paperqa2_arxiv_2024["Language agents achieve superhuman synth"] --> cat_agents
+  pathbench_natcommun_2026["★A benchmark study of vision and patholog"] --> cat_foundation
+  pathology_ad_bench_mlhealth_2025["★Quantitative benchmarking of anomaly det"] --> cat_histopath
   pathomics_blood_2023["A Deep Learning-Based Pathomics Methodol"] --> cat_pathology
   pathomics_npjpo_2026["Deep learning-based pathomics signature "] --> cat_pathology
   pathomics_repo["Cassie07/PathOmics"] --> cat_pathology
+  reference_hallucination_arxiv_2026["Detecting and Correcting Reference Hallu"] --> cat_agents
+  refmap_eval_biorxiv_2025["★Automated evaluation of single-cell refe"] --> cat_single_cell
+  resolvi_natmethods_2026["★ResolVI: addressing noise and bias in sp"] --> cat_spatial
+  robin_nature_2026["★A multi-agent system for automating scie"] --> cat_agents
+  rq_bench_arxiv_2026["★On the Limits of LLM-as-Judge for Scient"] --> cat_agents
+  sardine_bioinformatics_2025["★Anomaly detection in spatial transcripto"] --> cat_spatial
+  scatac_novel_genomeres_2026["Robust annotation and discovery of novel"] --> cat_single_cell
+  scbench_arxiv_2026["★scBench: Evaluating AI Agents on Single-"] --> cat_agents
+  scbench_long_arxiv_2026["★scBench-Long: Verifiable Benchmarking of"] --> cat_agents
+  scfm_zeroshot_genomebiol_2025["★Zero-shot evaluation reveals limitations"] --> cat_foundation
+  scirigor_arxiv_2026["★SCIRIGOR:Evaluating Open-Ended Scientifi"] --> cat_agents
+  scitrace_arxiv_2026["SciTrace: Trajectory-Aware Safety Reason"] --> cat_agents
   scrna_natmachintell_2026["Conditional Monge Gap enables generaliza"] --> cat_single_cell
+  semnovel_jbi_2025["SemNovel – A new approach to detecting s"] --> cat_other
+  sourcecheckup_natcommun_2025["★An automated framework for assessing how"] --> cat_agents
   spatial_biorxiv_2025["★Mapping and reprogramming human tissue m"] --> cat_spatial
   spatial_natcommun_2024["Detecting anomalous anatomic regions in "] --> cat_spatial
+  spatialagent_biorxiv_2025["★SpatialAgent: An autonomous AI agent for"] --> cat_agents
+  trail_arxiv_2025["TRAIL: Trace Reasoning and Agentic Issue"] --> cat_agents
+  truthhypo_ijcai_2025["★Toward Reliable Scientific Hypothesis Ge"] --> cat_agents
   uni2_h_model["MahmoodLab/UNI2-h"] --> cat_foundation
   virchow_2024["A foundation model for clinical-grade co"] --> cat_foundation
   virtual_cell_challenge["Virtual Cell Challenge"] --> cat_competition
+  virtual_lab_nature_2025["The Virtual Lab of AI agents designs new"] --> cat_agents
   virtual_tissue_2501["★AI-powered virtual tissues from spatial "] --> cat_virtual_tissue
+  xenium_split_natmethods_2026["★Resolving sensitivity, specificity and s"] --> cat_spatial
+  bioml_bench_biorxiv_2025 -.->|cites| virtual_lab_nature_2025
+  bioml_bench_biorxiv_2025 -.->|cites| cellvoyager_natmethods_2026
+  bioml_bench_biorxiv_2025 -.->|cites| biomni_biorxiv_2025
+  bioml_bench_biorxiv_2025 -.->|cites| bixbench_arxiv_2025
+  bioml_bench_biorxiv_2025 -.->|cites| paperqa2_arxiv_2024
+  biomni_biorxiv_2025 -.->|cites| lab_bench_arxiv_2024
+  cellspectra_natgenet_2025 -.->|cites| lake_kidney_atlas_nature_2023
+  damage_scores_cellgenomics_2026 -.->|cites| lake_kidney_atlas_nature_2023
+  deepevidence_natmachintell_2026 -.->|cites| spatialagent_biorxiv_2025
+  deepevidence_natmachintell_2026 -.->|cites| virtual_lab_nature_2025
+  deepevidence_natmachintell_2026 -.->|cites| biomni_biorxiv_2025
+  deepevidence_natmachintell_2026 -.->|cites| co_scientist_nature_2026
+  ehr_delphi2m_nature_2025 -.->|cites| ehr_pancreatic_trajectory_natmed_2023
+  ehr_pancreatic_llm_npjdigitmed_2025 -.->|cites| ehr_pancreatic_trajectory_natmed_2023
+  healthy_ref_natgenet_2023 -.->|cites| mrvi_natmethods_2025
   hest1k_2024 -.->|cites| virchow_2024
+  hest1k_2024 -.->|cites| lake_kidney_atlas_nature_2023
+  inflammatory_pt_natcommun_2025 -.->|cites| lake_kidney_atlas_nature_2023
+  kidney_multimodal_genomebiol_2026 -.->|cites| inflammatory_pt_natcommun_2025
+  kidney_multimodal_genomebiol_2026 -.->|cites| lake_kidney_atlas_nature_2023
+  linear_baselines_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
+  meatrd_aaai_2025 -.->|cites| spatial_natcommun_2024
+  nicheformer_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
+  pathology_ad_bench_mlhealth_2025 -.->|cites| medianomaly_media_2025
+  resolvi_natmethods_2026 -.->|cites| ovrlpy_natbiotech_2026
+  scrna_natmachintell_2026 -.->|cites| linear_baselines_natmethods_2025
+  virtual_tissue_2501 -.->|cites| loki_omiclip_natmethods_2025
+  xenium_split_natmethods_2026 -.->|cites| resolvi_natmethods_2026
+  xenium_split_natmethods_2026 -.->|cites| nicheformer_natmethods_2025
   virtual_tissue_2501 ==>|in-silico perturbation| spatial_biorxiv_2025
   spatial_biorxiv_2025 ==>|perturbation/revert| scrna_natmachintell_2026
   scrna_natmachintell_2026 ==>|perturbation benchmark| virtual_cell_challenge
@@ -71,6 +183,132 @@ flowchart LR
   histo_miccai_2025 ==>|reconstruct-to-normal| histo_sciencedirect_2026
   histo_miccai_2025 ==>|histopath anomaly det.| histo_nejmai_2024
   histo_anomaly_bi_repo ==>|histopath anomaly det.| histo_nejmai_2024
+  pathbench_natcommun_2026 ==>|pathology FM benchmark| uni2_h_model
+  pathbench_natcommun_2026 ==>|pathology FM benchmark| virchow_2024
+  pathbench_natcommun_2026 ==>|pathology FM benchmark| fm_arxiv_2604
+  pathbench_natcommun_2026 ==>|linear-probe eval protocol| hest1k_2024
+  deepevidence_natmachintell_2026 ==>|literature/evidence agents| semnovel_jbi_2025
+  deepevidence_natmachintell_2026 ==>|LLM agent benchmark| investorbench_arxiv_2024
+  deepevidence_natmachintell_2026 ==>|biomedical LLM benchmark| biomednlp_natcommun_2025
+  biomednlp_natcommun_2025 ==>|scale ≠ performance| pathbench_natcommun_2026
+  ehr_pancreatic_trajectory_natmed_2023 ==>|pancreatic-cancer EHR risk| ehr_pancreatic_llm_npjdigitmed_2025
+  ehr_pancreatic_trajectory_natmed_2023 ==>|disease-trajectory transformer| ehr_delphi2m_nature_2025
+  ehr_delphi2m_nature_2025 ==>|patient-trajectory foundation model| ehr_apollo_arxiv_2026
+  ehr_apollo_arxiv_2026 ==>|EHR pretraining → transfer| ehr_comet_natmachintell_2025
+  ehr_comet_natmachintell_2025 ==>|UK Biobank EHR modelling| ehr_delphi2m_nature_2025
+  ehr_apollo_arxiv_2026 ==>|EHR environment| medagentbench_nejmai_2025
+  resolvi_natmethods_2026 ==>|transcript-misassignment correction| xenium_split_natmethods_2026
+  resolvi_natmethods_2026 ==>|segmentation-artifact correction| ovrlpy_natbiotech_2026
+  xenium_split_natmethods_2026 ==>|Xenium contamination| ovrlpy_natbiotech_2026
+  ambient_rna_bench_biorxiv_2026 ==>|wrong-cell signal contamination| xenium_split_natmethods_2026
+  resolvi_natmethods_2026 ==>|scvi-tools generative models| mrvi_natmethods_2025
+  ovrlpy_natbiotech_2026 ==>|technical vs anatomic anomaly map| spatial_natcommun_2024
+  inflammatory_pt_natcommun_2025 ==>|failed-repair PT state| lake_kidney_atlas_nature_2023
+  inflammatory_pt_natcommun_2025 ==>|altered PT state| kidney_epigenome_nataging_2026
+  kidney_epigenome_nataging_2026 ==>|kidney atlas PT states| lake_kidney_atlas_nature_2023
+  inflammatory_pt_natcommun_2025 ==>|injured kidney cell states| damage_scores_cellgenomics_2026
+  abc_agentic_benchmarks_neurips_2025 ==>|benchmark rigor → harness| holistic_agent_leaderboard_iclr_2026
+  abc_agentic_benchmarks_neurips_2025 ==>|MLCommons benchmark rigor| ailuminate_arxiv_2025
+  mast_neurips_2025 ==>|agent failure taxonomy| trail_arxiv_2025
+  scitrace_arxiv_2026 ==>|trajectory-level verification| trail_arxiv_2025
+  scitrace_arxiv_2026 ==>|hazard taxonomy| ailuminate_arxiv_2025
+  abc_agentic_benchmarks_neurips_2025 ==>|benchmark-validity audit| bixbench_arxiv_2025
+  holistic_agent_leaderboard_iclr_2026 ==>|rerun stability| clinical_agent_reruns_arxiv_2026
+  mast_neurips_2025 ==>|agent failure taxonomy| autoresearch_failures_arxiv_2026
+  trail_arxiv_2025 ==>|LLM-as-judge reliability| llm_judge_healthcare_arxiv_2026
+  healthy_ref_natgenet_2023 ==>|healthy reference → mapping QC| refmap_eval_biorxiv_2025
+  healthy_ref_natgenet_2023 ==>|cluster-free differential abundance| mrvi_natmethods_2025
+  healthy_ref_natgenet_2023 ==>|healthy atlas reference| lake_kidney_atlas_nature_2023
+  refmap_eval_biorxiv_2025 ==>|reference–query shift| conformal_scrna_bioinformatics_2025
+  conformal_scrna_bioinformatics_2025 ==>|out-of-reference cell types| scatac_novel_genomeres_2026
+  sardine_bioinformatics_2025 ==>|spatial anomaly detection| spatial_natcommun_2024
+  sardine_bioinformatics_2025 ==>|anomalous region detection| meatrd_aaai_2025
+  meatrd_aaai_2025 ==>|H&E + ST anomalous regions| spatial_natcommun_2024
+  meatrd_aaai_2025 ==>|paired H&E + ST| hest1k_2024
+  mrvi_natmethods_2025 ==>|counterfactual effect modelling| scrna_natmachintell_2026
+  sourcecheckup_natcommun_2025 ==>|citation support vs existence| reference_hallucination_arxiv_2026
+  sourcecheckup_natcommun_2025 ==>|claim-level verification| medragchecker_arxiv_2026
+  sourcecheckup_natcommun_2025 ==>|statement × source support| deeptrace_arxiv_2025
+  deeptrace_arxiv_2025 ==>|deep-research audit| deep_research_hallucination_arxiv_2026
+  deep_research_hallucination_arxiv_2026 ==>|agent failure taxonomy| mast_neurips_2025
+  medragchecker_arxiv_2026 ==>|KG evidence grounding| deepevidence_natmachintell_2026
+  medragchecker_arxiv_2026 ==>|medical hallucination detection| medical_hallucination_arxiv_2025
+  llm_judge_healthcare_arxiv_2026 ==>|judge vs physician panel| sourcecheckup_natcommun_2025
+  generalization_bias_rsos_2025 ==>|unfaithful medical text| medical_hallucination_arxiv_2025
+  reference_hallucination_arxiv_2026 ==>|citation reliability| citation_faithfulness_arxiv_2026
+  medical_hallucination_arxiv_2025 ==>|biomedical LLM benchmarking| biomednlp_natcommun_2025
+  kidney_multimodal_genomebiol_2026 ==>|multimodal integration benchmark| multimodal_integration_bench_natmethods_2025
+  kidney_multimodal_genomebiol_2026 ==>|kidney reference atlas| lake_kidney_atlas_nature_2023
+  kidney_multimodal_genomebiol_2026 ==>|kidney snRNA/snATAC| nephrobase_biorxiv_2025
+  nephrobase_biorxiv_2025 ==>|single-cell FM evaluation| scfm_zeroshot_genomebiol_2025
+  scfm_zeroshot_genomebiol_2025 ==>|FMs vs simple baselines| linear_baselines_natmethods_2025
+  linear_baselines_natmethods_2025 ==>|perturbation benchmark| virtual_cell_challenge
+  nicheformer_natmethods_2025 ==>|single-cell FM| scfm_zeroshot_genomebiol_2025
+  loki_omiclip_natmethods_2025 ==>|histology↔ST pairs| hest1k_2024
+  loki_omiclip_natmethods_2025 ==>|H&E→expression| he2expr_bench_natcommun_2025
+  he2expr_bench_natcommun_2025 ==>|H&E→expression benchmark| hest1k_2024
+  multimodal_integration_bench_natmethods_2025 ==>|RNA–ATAC cross-modal| scatac_novel_genomeres_2026
+  rq_bench_arxiv_2026 ==>|novelty judging unreliable| ideation_execution_gap_arxiv_2025
+  rq_bench_arxiv_2026 ==>|LLM-as-judge alignment| llm_judge_healthcare_arxiv_2026
+  rq_bench_arxiv_2026 ==>|novelty assessment| semnovel_jbi_2025
+  falsifiable_ideation_arxiv_2026 ==>|testable ≠ successful| ideation_execution_gap_arxiv_2025
+  truthhypo_ijcai_2025 ==>|biomedical hypothesis generation| hypogen_llm_colm_2024
+  truthhypo_ijcai_2025 ==>|KG + literature grounding| deepevidence_natmachintell_2026
+  scirigor_arxiv_2026 ==>|unsupported claims| autoresearch_failures_arxiv_2026
+  scirigor_arxiv_2026 ==>|workflow correctness| fev_bioinformatics_agents_arxiv_2026
+  scirigor_arxiv_2026 ==>|claim-to-evidence verification| medragchecker_arxiv_2026
+  clinical_agent_reruns_arxiv_2026 ==>|reruns on MedAgentBench| medagentbench_nejmai_2025
+  autoresearch_failures_arxiv_2026 ==>|AI-scientist research| kosmos_arxiv_2025
+  fev_bioinformatics_agents_arxiv_2026 ==>|bio agent review| biomni_biorxiv_2025
+  fev_bioinformatics_agents_arxiv_2026 ==>|bio agent review| cellvoyager_natmethods_2026
+  fev_bioinformatics_agents_arxiv_2026 ==>|bio agent review| spatialagent_biorxiv_2025
+  lab_bench_arxiv_2024 ==>|FutureHouse agent benchmarks| bixbench_arxiv_2025
+  bixbench_arxiv_2025 ==>|outcome vs process scoring| biomnibench_biorxiv_2026
+  bioml_bench_biorxiv_2025 ==>|executable bio agent benchmarks| bixbench_arxiv_2025
+  biomnibench_biorxiv_2026 ==>|built from Biomni traces| biomni_biorxiv_2025
+  lab_bench_arxiv_2024 ==>|LitQA2| paperqa2_arxiv_2024
+  lab_bench_arxiv_2024 ==>|LitQA2 evaluation set| deepevidence_natmachintell_2026
+  biomnibench_biorxiv_2026 ==>|omics-analysis agent benchmarks| scbench_arxiv_2026
+  medagentbench_nejmai_2025 ==>|healthcare LLM evaluation| llm_judge_healthcare_arxiv_2026
+  citation_blame_emnlp_2026 ==>|citation faithfulness| citation_faithfulness_arxiv_2026
+  citation_blame_emnlp_2026 ==>|trace-level error localization| trail_arxiv_2025
+  citation_faithfulness_arxiv_2026 ==>|audits PaperQA2 citations| paperqa2_arxiv_2024
+  citation_faithfulness_arxiv_2026 ==>|citation-support auditing| sourcecheckup_natcommun_2025
+  citation_faithfulness_arxiv_2026 ==>|conformal guarantees| conformal_scrna_bioinformatics_2025
+  biomni_biorxiv_2025 ==>|same lab lineage| spatialagent_biorxiv_2025
+  biomni_biorxiv_2025 ==>|baseline agent| deepevidence_natmachintell_2026
+  cellvoyager_natmethods_2026 ==>|single-cell agent evaluation| heurekabench_arxiv_2026
+  scbench_arxiv_2026 ==>|single-step → long-horizon| scbench_long_arxiv_2026
+  scbench_long_arxiv_2026 ==>|claims reproduced before grading| heurekabench_arxiv_2026
+  cellvoyager_natmethods_2026 ==>|scRNA-seq agent analysis| scbench_arxiv_2026
+  spatialagent_biorxiv_2025 ==>|Xenium data| xenium_split_natmethods_2026
+  spatialagent_biorxiv_2025 ==>|spatial niches| dkd_spatial_atlas_nature_2026
+  paperqa2_arxiv_2024 ==>|FutureHouse literature agent| robin_nature_2026
+  lake_kidney_atlas_nature_2023 ==>|kidney injury states → spatial niches| dkd_spatial_atlas_nature_2026
+  lake_kidney_atlas_nature_2023 ==>|discrete states vs damage score| damage_scores_cellgenomics_2026
+  lake_kidney_atlas_nature_2023 ==>|KPMP snRNA reference| cellspectra_natgenet_2025
+  lake_kidney_atlas_nature_2023 ==>|KPMP open data| nih_kidney_ai_challenge_2026
+  damage_scores_cellgenomics_2026 ==>|per-sample injury scoring| cellspectra_natgenet_2025
+  nih_kidney_ai_challenge_2026 ==>|WSI anomaly detection| histo_nejmai_2024
+  nih_kidney_ai_challenge_2026 ==>|community challenge| virtual_cell_challenge
+  nih_kidney_ai_challenge_2026 ==>|pathology AD benchmark| pathology_ad_bench_mlhealth_2025
+  counterfactual_diffusion_cancerres_2026 ==>|diffusion on histopathology| histo_miccai_2025
+  counterfactual_diffusion_cancerres_2026 ==>|virtual perturbation / revert| virtual_tissue_2501
+  hypogen_llm_colm_2024 ==>|hypothesis generation| co_scientist_nature_2026
+  hypogen_llm_colm_2024 ==>|novelty of biomedical ideas| semnovel_jbi_2025
+  dkd_spatial_atlas_nature_2026 ==>|Xenium artifacts| xenium_split_natmethods_2026
+  pathology_ad_bench_mlhealth_2025 ==>|anomaly-detection benchmarks| medianomaly_media_2025
+  pathology_ad_bench_mlhealth_2025 ==>|histology AD methods| histo_anomaly_bi_repo
+  pathology_ad_bench_mlhealth_2025 ==>|histopathology AD| histo_nejmai_2024
+  medianomaly_media_2025 ==>|diffusion-based AD| histo_miccai_2025
+  kidney_ssl_histology_scirep_2025 ==>|UNI embeddings comparison| uni2_h_model
+  kidney_ssl_histology_scirep_2025 ==>|histology vs molecular atlas| lake_kidney_atlas_nature_2023
+  co_scientist_nature_2026 ==>|AI scientists| robin_nature_2026
+  co_scientist_nature_2026 ==>|multi-agent research| virtual_lab_nature_2025
+  robin_nature_2026 ==>|FutureHouse lineage| kosmos_arxiv_2025
+  robin_nature_2026 ==>|Finch on BixBench| bixbench_arxiv_2025
+  kosmos_arxiv_2025 ==>|autonomous omics analysis| cellvoyager_natmethods_2026
+  virtual_lab_nature_2025 ==>|multi-agent biomedical systems| biomni_biorxiv_2025
   imaging_nature_2026 ==>|medical-imaging biomarker| imaging_ehjdh_2026
   pathomics_repo ==>|pathomics survival| pathomics_npjpo_2026
   pathomics_npjpo_2026 ==>|pathomics| pathomics_blood_2023
@@ -92,6 +330,132 @@ flowchart LR
 | `histo-miccai-2025` | reconstruct-to-normal | `histo-sciencedirect-2026` |
 | `histo-miccai-2025` | histopath anomaly det. | `histo-nejmai-2024` |
 | `histo-anomaly-bi-repo` | histopath anomaly det. | `histo-nejmai-2024` |
+| `pathbench-natcommun-2026` | pathology FM benchmark | `uni2-h-model` |
+| `pathbench-natcommun-2026` | pathology FM benchmark | `virchow-2024` |
+| `pathbench-natcommun-2026` | pathology FM benchmark | `fm-arxiv-2604` |
+| `pathbench-natcommun-2026` | linear-probe eval protocol | `hest1k-2024` |
+| `deepevidence-natmachintell-2026` | literature/evidence agents | `semnovel-jbi-2025` |
+| `deepevidence-natmachintell-2026` | LLM agent benchmark | `investorbench-arxiv-2024` |
+| `deepevidence-natmachintell-2026` | biomedical LLM benchmark | `biomednlp-natcommun-2025` |
+| `biomednlp-natcommun-2025` | scale ≠ performance | `pathbench-natcommun-2026` |
+| `ehr-pancreatic-trajectory-natmed-2023` | pancreatic-cancer EHR risk | `ehr-pancreatic-llm-npjdigitmed-2025` |
+| `ehr-pancreatic-trajectory-natmed-2023` | disease-trajectory transformer | `ehr-delphi2m-nature-2025` |
+| `ehr-delphi2m-nature-2025` | patient-trajectory foundation model | `ehr-apollo-arxiv-2026` |
+| `ehr-apollo-arxiv-2026` | EHR pretraining → transfer | `ehr-comet-natmachintell-2025` |
+| `ehr-comet-natmachintell-2025` | UK Biobank EHR modelling | `ehr-delphi2m-nature-2025` |
+| `ehr-apollo-arxiv-2026` | EHR environment | `medagentbench-nejmai-2025` |
+| `resolvi-natmethods-2026` | transcript-misassignment correction | `xenium-split-natmethods-2026` |
+| `resolvi-natmethods-2026` | segmentation-artifact correction | `ovrlpy-natbiotech-2026` |
+| `xenium-split-natmethods-2026` | Xenium contamination | `ovrlpy-natbiotech-2026` |
+| `ambient-rna-bench-biorxiv-2026` | wrong-cell signal contamination | `xenium-split-natmethods-2026` |
+| `resolvi-natmethods-2026` | scvi-tools generative models | `mrvi-natmethods-2025` |
+| `ovrlpy-natbiotech-2026` | technical vs anatomic anomaly map | `spatial-natcommun-2024` |
+| `inflammatory-pt-natcommun-2025` | failed-repair PT state | `lake-kidney-atlas-nature-2023` |
+| `inflammatory-pt-natcommun-2025` | altered PT state | `kidney-epigenome-nataging-2026` |
+| `kidney-epigenome-nataging-2026` | kidney atlas PT states | `lake-kidney-atlas-nature-2023` |
+| `inflammatory-pt-natcommun-2025` | injured kidney cell states | `damage-scores-cellgenomics-2026` |
+| `abc-agentic-benchmarks-neurips-2025` | benchmark rigor → harness | `holistic-agent-leaderboard-iclr-2026` |
+| `abc-agentic-benchmarks-neurips-2025` | MLCommons benchmark rigor | `ailuminate-arxiv-2025` |
+| `mast-neurips-2025` | agent failure taxonomy | `trail-arxiv-2025` |
+| `scitrace-arxiv-2026` | trajectory-level verification | `trail-arxiv-2025` |
+| `scitrace-arxiv-2026` | hazard taxonomy | `ailuminate-arxiv-2025` |
+| `abc-agentic-benchmarks-neurips-2025` | benchmark-validity audit | `bixbench-arxiv-2025` |
+| `holistic-agent-leaderboard-iclr-2026` | rerun stability | `clinical-agent-reruns-arxiv-2026` |
+| `mast-neurips-2025` | agent failure taxonomy | `autoresearch-failures-arxiv-2026` |
+| `trail-arxiv-2025` | LLM-as-judge reliability | `llm-judge-healthcare-arxiv-2026` |
+| `healthy-ref-natgenet-2023` | healthy reference → mapping QC | `refmap-eval-biorxiv-2025` |
+| `healthy-ref-natgenet-2023` | cluster-free differential abundance | `mrvi-natmethods-2025` |
+| `healthy-ref-natgenet-2023` | healthy atlas reference | `lake-kidney-atlas-nature-2023` |
+| `refmap-eval-biorxiv-2025` | reference–query shift | `conformal-scrna-bioinformatics-2025` |
+| `conformal-scrna-bioinformatics-2025` | out-of-reference cell types | `scatac-novel-genomeres-2026` |
+| `sardine-bioinformatics-2025` | spatial anomaly detection | `spatial-natcommun-2024` |
+| `sardine-bioinformatics-2025` | anomalous region detection | `meatrd-aaai-2025` |
+| `meatrd-aaai-2025` | H&E + ST anomalous regions | `spatial-natcommun-2024` |
+| `meatrd-aaai-2025` | paired H&E + ST | `hest1k-2024` |
+| `mrvi-natmethods-2025` | counterfactual effect modelling | `scrna-natmachintell-2026` |
+| `sourcecheckup-natcommun-2025` | citation support vs existence | `reference-hallucination-arxiv-2026` |
+| `sourcecheckup-natcommun-2025` | claim-level verification | `medragchecker-arxiv-2026` |
+| `sourcecheckup-natcommun-2025` | statement × source support | `deeptrace-arxiv-2025` |
+| `deeptrace-arxiv-2025` | deep-research audit | `deep-research-hallucination-arxiv-2026` |
+| `deep-research-hallucination-arxiv-2026` | agent failure taxonomy | `mast-neurips-2025` |
+| `medragchecker-arxiv-2026` | KG evidence grounding | `deepevidence-natmachintell-2026` |
+| `medragchecker-arxiv-2026` | medical hallucination detection | `medical-hallucination-arxiv-2025` |
+| `llm-judge-healthcare-arxiv-2026` | judge vs physician panel | `sourcecheckup-natcommun-2025` |
+| `generalization-bias-rsos-2025` | unfaithful medical text | `medical-hallucination-arxiv-2025` |
+| `reference-hallucination-arxiv-2026` | citation reliability | `citation-faithfulness-arxiv-2026` |
+| `medical-hallucination-arxiv-2025` | biomedical LLM benchmarking | `biomednlp-natcommun-2025` |
+| `kidney-multimodal-genomebiol-2026` | multimodal integration benchmark | `multimodal-integration-bench-natmethods-2025` |
+| `kidney-multimodal-genomebiol-2026` | kidney reference atlas | `lake-kidney-atlas-nature-2023` |
+| `kidney-multimodal-genomebiol-2026` | kidney snRNA/snATAC | `nephrobase-biorxiv-2025` |
+| `nephrobase-biorxiv-2025` | single-cell FM evaluation | `scfm-zeroshot-genomebiol-2025` |
+| `scfm-zeroshot-genomebiol-2025` | FMs vs simple baselines | `linear-baselines-natmethods-2025` |
+| `linear-baselines-natmethods-2025` | perturbation benchmark | `virtual-cell-challenge` |
+| `nicheformer-natmethods-2025` | single-cell FM | `scfm-zeroshot-genomebiol-2025` |
+| `loki-omiclip-natmethods-2025` | histology↔ST pairs | `hest1k-2024` |
+| `loki-omiclip-natmethods-2025` | H&E→expression | `he2expr-bench-natcommun-2025` |
+| `he2expr-bench-natcommun-2025` | H&E→expression benchmark | `hest1k-2024` |
+| `multimodal-integration-bench-natmethods-2025` | RNA–ATAC cross-modal | `scatac-novel-genomeres-2026` |
+| `rq-bench-arxiv-2026` | novelty judging unreliable | `ideation-execution-gap-arxiv-2025` |
+| `rq-bench-arxiv-2026` | LLM-as-judge alignment | `llm-judge-healthcare-arxiv-2026` |
+| `rq-bench-arxiv-2026` | novelty assessment | `semnovel-jbi-2025` |
+| `falsifiable-ideation-arxiv-2026` | testable ≠ successful | `ideation-execution-gap-arxiv-2025` |
+| `truthhypo-ijcai-2025` | biomedical hypothesis generation | `hypogen-llm-colm-2024` |
+| `truthhypo-ijcai-2025` | KG + literature grounding | `deepevidence-natmachintell-2026` |
+| `scirigor-arxiv-2026` | unsupported claims | `autoresearch-failures-arxiv-2026` |
+| `scirigor-arxiv-2026` | workflow correctness | `fev-bioinformatics-agents-arxiv-2026` |
+| `scirigor-arxiv-2026` | claim-to-evidence verification | `medragchecker-arxiv-2026` |
+| `clinical-agent-reruns-arxiv-2026` | reruns on MedAgentBench | `medagentbench-nejmai-2025` |
+| `autoresearch-failures-arxiv-2026` | AI-scientist research | `kosmos-arxiv-2025` |
+| `fev-bioinformatics-agents-arxiv-2026` | bio agent review | `biomni-biorxiv-2025` |
+| `fev-bioinformatics-agents-arxiv-2026` | bio agent review | `cellvoyager-natmethods-2026` |
+| `fev-bioinformatics-agents-arxiv-2026` | bio agent review | `spatialagent-biorxiv-2025` |
+| `lab-bench-arxiv-2024` | FutureHouse agent benchmarks | `bixbench-arxiv-2025` |
+| `bixbench-arxiv-2025` | outcome vs process scoring | `biomnibench-biorxiv-2026` |
+| `bioml-bench-biorxiv-2025` | executable bio agent benchmarks | `bixbench-arxiv-2025` |
+| `biomnibench-biorxiv-2026` | built from Biomni traces | `biomni-biorxiv-2025` |
+| `lab-bench-arxiv-2024` | LitQA2 | `paperqa2-arxiv-2024` |
+| `lab-bench-arxiv-2024` | LitQA2 evaluation set | `deepevidence-natmachintell-2026` |
+| `biomnibench-biorxiv-2026` | omics-analysis agent benchmarks | `scbench-arxiv-2026` |
+| `medagentbench-nejmai-2025` | healthcare LLM evaluation | `llm-judge-healthcare-arxiv-2026` |
+| `citation-blame-emnlp-2026` | citation faithfulness | `citation-faithfulness-arxiv-2026` |
+| `citation-blame-emnlp-2026` | trace-level error localization | `trail-arxiv-2025` |
+| `citation-faithfulness-arxiv-2026` | audits PaperQA2 citations | `paperqa2-arxiv-2024` |
+| `citation-faithfulness-arxiv-2026` | citation-support auditing | `sourcecheckup-natcommun-2025` |
+| `citation-faithfulness-arxiv-2026` | conformal guarantees | `conformal-scrna-bioinformatics-2025` |
+| `biomni-biorxiv-2025` | same lab lineage | `spatialagent-biorxiv-2025` |
+| `biomni-biorxiv-2025` | baseline agent | `deepevidence-natmachintell-2026` |
+| `cellvoyager-natmethods-2026` | single-cell agent evaluation | `heurekabench-arxiv-2026` |
+| `scbench-arxiv-2026` | single-step → long-horizon | `scbench-long-arxiv-2026` |
+| `scbench-long-arxiv-2026` | claims reproduced before grading | `heurekabench-arxiv-2026` |
+| `cellvoyager-natmethods-2026` | scRNA-seq agent analysis | `scbench-arxiv-2026` |
+| `spatialagent-biorxiv-2025` | Xenium data | `xenium-split-natmethods-2026` |
+| `spatialagent-biorxiv-2025` | spatial niches | `dkd-spatial-atlas-nature-2026` |
+| `paperqa2-arxiv-2024` | FutureHouse literature agent | `robin-nature-2026` |
+| `lake-kidney-atlas-nature-2023` | kidney injury states → spatial niches | `dkd-spatial-atlas-nature-2026` |
+| `lake-kidney-atlas-nature-2023` | discrete states vs damage score | `damage-scores-cellgenomics-2026` |
+| `lake-kidney-atlas-nature-2023` | KPMP snRNA reference | `cellspectra-natgenet-2025` |
+| `lake-kidney-atlas-nature-2023` | KPMP open data | `nih-kidney-ai-challenge-2026` |
+| `damage-scores-cellgenomics-2026` | per-sample injury scoring | `cellspectra-natgenet-2025` |
+| `nih-kidney-ai-challenge-2026` | WSI anomaly detection | `histo-nejmai-2024` |
+| `nih-kidney-ai-challenge-2026` | community challenge | `virtual-cell-challenge` |
+| `nih-kidney-ai-challenge-2026` | pathology AD benchmark | `pathology-ad-bench-mlhealth-2025` |
+| `counterfactual-diffusion-cancerres-2026` | diffusion on histopathology | `histo-miccai-2025` |
+| `counterfactual-diffusion-cancerres-2026` | virtual perturbation / revert | `virtual-tissue-2501` |
+| `hypogen-llm-colm-2024` | hypothesis generation | `co-scientist-nature-2026` |
+| `hypogen-llm-colm-2024` | novelty of biomedical ideas | `semnovel-jbi-2025` |
+| `dkd-spatial-atlas-nature-2026` | Xenium artifacts | `xenium-split-natmethods-2026` |
+| `pathology-ad-bench-mlhealth-2025` | anomaly-detection benchmarks | `medianomaly-media-2025` |
+| `pathology-ad-bench-mlhealth-2025` | histology AD methods | `histo-anomaly-bi-repo` |
+| `pathology-ad-bench-mlhealth-2025` | histopathology AD | `histo-nejmai-2024` |
+| `medianomaly-media-2025` | diffusion-based AD | `histo-miccai-2025` |
+| `kidney-ssl-histology-scirep-2025` | UNI embeddings comparison | `uni2-h-model` |
+| `kidney-ssl-histology-scirep-2025` | histology vs molecular atlas | `lake-kidney-atlas-nature-2023` |
+| `co-scientist-nature-2026` | AI scientists | `robin-nature-2026` |
+| `co-scientist-nature-2026` | multi-agent research | `virtual-lab-nature-2025` |
+| `robin-nature-2026` | FutureHouse lineage | `kosmos-arxiv-2025` |
+| `robin-nature-2026` | Finch on BixBench | `bixbench-arxiv-2025` |
+| `kosmos-arxiv-2025` | autonomous omics analysis | `cellvoyager-natmethods-2026` |
+| `virtual-lab-nature-2025` | multi-agent biomedical systems | `biomni-biorxiv-2025` |
 | `imaging-nature-2026` | medical-imaging biomarker | `imaging-ehjdh-2026` |
 | `pathomics-repo` | pathomics survival | `pathomics-npjpo-2026` |
 | `pathomics-npjpo-2026` | pathomics | `pathomics-blood-2023` |
@@ -100,28 +464,123 @@ flowchart LR
 
 | From | | To |
 |---|---|---|
+| `bioml-bench-biorxiv-2025` | cites | `virtual-lab-nature-2025` |
+| `bioml-bench-biorxiv-2025` | cites | `cellvoyager-natmethods-2026` |
+| `bioml-bench-biorxiv-2025` | cites | `biomni-biorxiv-2025` |
+| `bioml-bench-biorxiv-2025` | cites | `bixbench-arxiv-2025` |
+| `bioml-bench-biorxiv-2025` | cites | `paperqa2-arxiv-2024` |
+| `biomni-biorxiv-2025` | cites | `lab-bench-arxiv-2024` |
+| `cellspectra-natgenet-2025` | cites | `lake-kidney-atlas-nature-2023` |
+| `damage-scores-cellgenomics-2026` | cites | `lake-kidney-atlas-nature-2023` |
+| `deepevidence-natmachintell-2026` | cites | `spatialagent-biorxiv-2025` |
+| `deepevidence-natmachintell-2026` | cites | `virtual-lab-nature-2025` |
+| `deepevidence-natmachintell-2026` | cites | `biomni-biorxiv-2025` |
+| `deepevidence-natmachintell-2026` | cites | `co-scientist-nature-2026` |
+| `ehr-delphi2m-nature-2025` | cites | `ehr-pancreatic-trajectory-natmed-2023` |
+| `ehr-pancreatic-llm-npjdigitmed-2025` | cites | `ehr-pancreatic-trajectory-natmed-2023` |
+| `healthy-ref-natgenet-2023` | cites | `mrvi-natmethods-2025` |
 | `hest1k-2024` | cites | `virchow-2024` |
+| `hest1k-2024` | cites | `lake-kidney-atlas-nature-2023` |
+| `inflammatory-pt-natcommun-2025` | cites | `lake-kidney-atlas-nature-2023` |
+| `kidney-multimodal-genomebiol-2026` | cites | `inflammatory-pt-natcommun-2025` |
+| `kidney-multimodal-genomebiol-2026` | cites | `lake-kidney-atlas-nature-2023` |
+| `linear-baselines-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
+| `meatrd-aaai-2025` | cites | `spatial-natcommun-2024` |
+| `nicheformer-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `medianomaly-media-2025` |
+| `resolvi-natmethods-2026` | cites | `ovrlpy-natbiotech-2026` |
+| `scrna-natmachintell-2026` | cites | `linear-baselines-natmethods-2025` |
+| `virtual-tissue-2501` | cites | `loki-omiclip-natmethods-2025` |
+| `xenium-split-natmethods-2026` | cites | `resolvi-natmethods-2026` |
+| `xenium-split-natmethods-2026` | cites | `nicheformer-natmethods-2025` |
 
 ## 按类别 / By category
 
+### agents
+- [`abc-agentic-benchmarks-neurips-2025`](../papers/abc-agentic-benchmarks-neurips-2025/deep-read.md) — Establishing Best Practices for Building Rigorous Agentic Benchmarks ★
+- [`ailuminate-arxiv-2025`](../papers/ailuminate-arxiv-2025/deep-read.md) — AILuminate: Introducing v1.0 of the AI Risk and Reliability Benchmark from MLCommons ★
+- [`autoresearch-failures-arxiv-2026`](../papers/autoresearch-failures-arxiv-2026/deep-read.md) — How Do Agents Fail on AutoResearch: End-to-End Diagnostic Evaluation on 100 Real-World Frontier Research Tasks ★
+- [`biomni-biorxiv-2025`](../papers/biomni-biorxiv-2025/deep-read.md) — Biomni: A General-Purpose Biomedical AI Agent ★
+- [`biomnibench-biorxiv-2026`](../papers/biomnibench-biorxiv-2026/deep-read.md) — BiomniBench: Process-level Evaluation of LLM Agents for Real-world Biomedical Research ★
+- [`bixbench-arxiv-2025`](../papers/bixbench-arxiv-2025/deep-read.md) — BixBench: a Comprehensive Benchmark for LLM-based Agents in Computational Biology ★
+- [`cellvoyager-natmethods-2026`](../papers/cellvoyager-natmethods-2026/deep-read.md) — CellVoyager: AI CompBio agent generates new insights by autonomously analyzing biological data ★
+- [`citation-blame-emnlp-2026`](../papers/citation-blame-emnlp-2026/deep-read.md) — Who is the Agent to Blame? Localizing Faithfulness and Citation Mistakes in Agentic Deep Research ★
+- [`citation-faithfulness-arxiv-2026`](../papers/citation-faithfulness-arxiv-2026/deep-read.md) — Evaluating and Guarding Citation Faithfulness in Agentic Scientific Synthesis ★
+- [`clinical-agent-reruns-arxiv-2026`](../papers/clinical-agent-reruns-arxiv-2026/deep-read.md) — Same Patient, Different Order: Action-Level Reliability of Clinical LLM Agents Under Repeated Runs ★
+- [`co-scientist-nature-2026`](../papers/co-scientist-nature-2026/deep-read.md) — Accelerating scientific discovery with Co-Scientist ★
+- [`deep-research-hallucination-arxiv-2026`](../papers/deep-research-hallucination-arxiv-2026/deep-read.md) — Why Your Deep Research Agent Fails? On Hallucination Evaluation in Full Research Trajectory ★
+- [`deepevidence-natmachintell-2026`](../papers/deepevidence-natmachintell-2026/deep-read.md) — Empowering biomedical evidence exploration and synthesis with deep knowledge graph research ★
+- [`fev-bioinformatics-agents-arxiv-2026`](../papers/fev-bioinformatics-agents-arxiv-2026/deep-read.md) — Evaluating Agentic Bioinformatics through Function, Evidence, and Validation ★
+- [`generalization-bias-rsos-2025`](../papers/generalization-bias-rsos-2025/deep-read.md) — Generalization bias in large language model summarization of scientific research ★
+- [`hypogen-llm-colm-2024`](../papers/hypogen-llm-colm-2024/deep-read.md) — Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation ★
+- [`kosmos-arxiv-2025`](../papers/kosmos-arxiv-2025/deep-read.md) — Kosmos: An AI Scientist for Autonomous Discovery ★
+- [`llm-judge-healthcare-arxiv-2026`](../papers/llm-judge-healthcare-arxiv-2026/deep-read.md) — LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applications, Methods, and Human Alignment ★
+- [`medragchecker-arxiv-2026`](../papers/medragchecker-arxiv-2026/deep-read.md) — MedRAGChecker: Claim-Level Verification for Biomedical Retrieval-Augmented Generation ★
+- [`robin-nature-2026`](../papers/robin-nature-2026/deep-read.md) — A multi-agent system for automating scientific discovery ★
+- [`rq-bench-arxiv-2026`](../papers/rq-bench-arxiv-2026/deep-read.md) — On the Limits of LLM-as-Judge for Scientific Novelty Assessment ★
+- [`scbench-arxiv-2026`](../papers/scbench-arxiv-2026/deep-read.md) — scBench: Evaluating AI Agents on Single-Cell RNA-seq Analysis ★
+- [`scbench-long-arxiv-2026`](../papers/scbench-long-arxiv-2026/deep-read.md) — scBench-Long: Verifiable Benchmarking of Long-Horizon Single-Cell Biology ★
+- [`scirigor-arxiv-2026`](../papers/scirigor-arxiv-2026/deep-read.md) — SCIRIGOR:Evaluating Open-Ended Scientific Analysis Beyond Final Scores ★
+- [`sourcecheckup-natcommun-2025`](../papers/sourcecheckup-natcommun-2025/deep-read.md) — An automated framework for assessing how well LLMs cite relevant medical references ★
+- [`spatialagent-biorxiv-2025`](../papers/spatialagent-biorxiv-2025/deep-read.md) — SpatialAgent: An autonomous AI agent for spatial biology ★
+- [`truthhypo-ijcai-2025`](../papers/truthhypo-ijcai-2025/deep-read.md) — Toward Reliable Scientific Hypothesis Generation: Evaluating Truthfulness and Hallucination in Large Language Models ★
+- [`bioml-bench-biorxiv-2025`](../papers/bioml-bench-biorxiv-2025/deep-read.md) — BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML
+- [`deeptrace-arxiv-2025`](../papers/deeptrace-arxiv-2025/deep-read.md) — DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence
+- [`falsifiable-ideation-arxiv-2026`](../papers/falsifiable-ideation-arxiv-2026/deep-read.md) — What Proves You Wrong: Benchmarking Language Models on Falsifiable Research Ideation
+- [`heurekabench-arxiv-2026`](../papers/heurekabench-arxiv-2026/deep-read.md) — HeurekaBench: A Benchmarking Framework for AI Co-scientist
+- [`holistic-agent-leaderboard-iclr-2026`](../papers/holistic-agent-leaderboard-iclr-2026/deep-read.md) — Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation
+- [`ideation-execution-gap-arxiv-2025`](../papers/ideation-execution-gap-arxiv-2025/deep-read.md) — The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas
+- [`lab-bench-arxiv-2024`](../papers/lab-bench-arxiv-2024/deep-read.md) — LAB-Bench: Measuring Capabilities of Language Models for Biology Research
+- [`mast-neurips-2025`](../papers/mast-neurips-2025/deep-read.md) — Why Do Multi-Agent LLM Systems Fail?
+- [`medagentbench-nejmai-2025`](../papers/medagentbench-nejmai-2025/deep-read.md) — MedAgentBench: A Virtual EHR Environment to Benchmark Medical LLM Agents
+- [`medical-hallucination-arxiv-2025`](../papers/medical-hallucination-arxiv-2025/deep-read.md) — Medical Hallucinations in Foundation Models and Their Impact on Healthcare
+- [`paperqa2-arxiv-2024`](../papers/paperqa2-arxiv-2024/deep-read.md) — Language agents achieve superhuman synthesis of scientific knowledge
+- [`reference-hallucination-arxiv-2026`](../papers/reference-hallucination-arxiv-2026/deep-read.md) — Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents
+- [`scitrace-arxiv-2026`](../papers/scitrace-arxiv-2026/deep-read.md) — SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents
+- [`trail-arxiv-2025`](../papers/trail-arxiv-2025/deep-read.md) — TRAIL: Trace Reasoning and Agentic Issue Localization
+- [`virtual-lab-nature-2025`](../papers/virtual-lab-nature-2025/deep-read.md) — The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies
+
 ### competition
+- [`nih-kidney-ai-challenge-2026`](../papers/nih-kidney-ai-challenge-2026/deep-read.md) — Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons ★
 - [`virtual-cell-challenge`](../papers/virtual-cell-challenge/deep-read.md) — Virtual Cell Challenge
 
+### ehr
+- [`ehr-delphi2m-nature-2025`](../papers/ehr-delphi2m-nature-2025/deep-read.md) — Learning the natural history of human disease with generative transformers ★
+- [`ehr-pancreatic-trajectory-natmed-2023`](../papers/ehr-pancreatic-trajectory-natmed-2023/deep-read.md) — A deep learning algorithm to predict risk of pancreatic cancer from disease trajectories ★
+- [`ehr-apollo-arxiv-2026`](../papers/ehr-apollo-arxiv-2026/deep-read.md) — A multimodal and temporal foundation model for virtual patient representations at healthcare system scale
+- [`ehr-comet-natmachintell-2025`](../papers/ehr-comet-natmachintell-2025/deep-read.md) — A machine learning approach to leveraging electronic health records for enhanced omics analysis
+- [`ehr-pancreatic-llm-npjdigitmed-2025`](../papers/ehr-pancreatic-llm-npjdigitmed-2025/deep-read.md) — Enhancing EHR-based pancreatic cancer prediction with LLM-derived embeddings
+
 ### foundation
+- [`linear-baselines-natmethods-2025`](../papers/linear-baselines-natmethods-2025/deep-read.md) — Deep-learning-based gene perturbation effect prediction does not yet outperform simple linear baselines ★
+- [`nephrobase-biorxiv-2025`](../papers/nephrobase-biorxiv-2025/deep-read.md) — Nephrobase Cell+: Multimodal Single-Cell Foundation Model for Decoding Kidney Biology ★
+- [`pathbench-natcommun-2026`](../papers/pathbench-natcommun-2026/deep-read.md) — A benchmark study of vision and pathology foundation models for computational pathology ★
+- [`scfm-zeroshot-genomebiol-2025`](../papers/scfm-zeroshot-genomebiol-2025/deep-read.md) — Zero-shot evaluation reveals limitations of single-cell foundation models ★
 - [`fm-arxiv-2604`](../papers/fm-arxiv-2604/deep-read.md) — A Generative Foundation Model for Multimodal Histopathology
 - [`hest1k-2024`](../papers/hest1k-2024/deep-read.md) — HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
+- [`nicheformer-natmethods-2025`](../papers/nicheformer-natmethods-2025/deep-read.md) — Nicheformer: a foundation model for single-cell and spatial omics
 - [`uni2-h-model`](../papers/uni2-h-model/deep-read.md) — MahmoodLab/UNI2-h
 - [`virchow-2024`](../papers/virchow-2024/deep-read.md) — A foundation model for clinical-grade computational pathology and rare cancers detection
 
 ### histopath
 - [`histo-nejmai-2024`](../papers/histo-nejmai-2024/deep-read.md) — AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics ★
 - [`histo-sciencedirect-2026`](../papers/histo-sciencedirect-2026/deep-read.md) — Spatial biomarker discovery via interpretable semantic learning in histopathology ★
+- [`pathology-ad-bench-mlhealth-2025`](../papers/pathology-ad-bench-mlhealth-2025/deep-read.md) — Quantitative benchmarking of anomaly detection methods in digital pathology images ★
+- [`counterfactual-diffusion-cancerres-2026`](../papers/counterfactual-diffusion-cancerres-2026/deep-read.md) — Counterfactual Diffusion Models Provide Interpretable Explanations of Artificial Intelligence Models in Pathology
+- [`he2expr-bench-natcommun-2025`](../papers/he2expr-bench-natcommun-2025/deep-read.md) — Benchmarking the translational potential of spatial gene expression prediction from histology
 - [`histo-anomaly-bi-repo`](../papers/histo-anomaly-bi-repo/deep-read.md) — Boehringer-Ingelheim/anomaly-detection-in-histology
 - [`histo-miccai-2025`](../papers/histo-miccai-2025/deep-read.md) — Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis
+- [`kidney-ssl-histology-scirep-2025`](../papers/kidney-ssl-histology-scirep-2025/deep-read.md) — Unbiased self supervised learning of kidney histology reveals phenotypic and prognostic insights
 
 ### imaging
 - [`imaging-nature-2026`](../papers/imaging-nature-2026/deep-read.md) — An ECG biomarker for sudden cardiac death discovered with deep learning ★
 - [`imaging-ehjdh-2026`](../papers/imaging-ehjdh-2026/deep-read.md) — An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study
+- [`medianomaly-media-2025`](../papers/medianomaly-media-2025/deep-read.md) — MedIAnomaly: A comparative study of anomaly detection in medical images
+
+### other
+- [`biomednlp-natcommun-2025`](../papers/biomednlp-natcommun-2025/deep-read.md) — Benchmarking large language models for biomedical natural language processing applications and recommendations
+- [`investorbench-arxiv-2024`](../papers/investorbench-arxiv-2024/deep-read.md) — INVESTORBENCH: A Benchmark for Financial Decision-Making Tasks with LLM-based Agent
+- [`semnovel-jbi-2025`](../papers/semnovel-jbi-2025/deep-read.md) — SemNovel – A new approach to detecting semantic novelty of biomedical publications using embeddings of large language models
 
 ### pathology
 - [`pathomics-blood-2023`](../papers/pathomics-blood-2023/deep-read.md) — A Deep Learning-Based Pathomics Methodology for Quantifying and Characterizing Nucleated Cells in the Bone Marrow Microenvironment
@@ -129,10 +588,30 @@ flowchart LR
 - [`pathomics-repo`](../papers/pathomics-repo/deep-read.md) — Cassie07/PathOmics
 
 ### single-cell
+- [`cellspectra-natgenet-2025`](../papers/cellspectra-natgenet-2025/deep-read.md) — Analysis of individual patient pathway coordination in a cross-species single-cell kidney atlas ★
+- [`damage-scores-cellgenomics-2026`](../papers/damage-scores-cellgenomics-2026/deep-read.md) — Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics ★
+- [`healthy-ref-natgenet-2023`](../papers/healthy-ref-natgenet-2023/deep-read.md) — Precise identification of cell states altered in disease using healthy single-cell references ★
+- [`kidney-multimodal-genomebiol-2026`](../papers/kidney-multimodal-genomebiol-2026/deep-read.md) — Systematic evaluation of single-cell multimodal data integration enhances cell type resolution and discovery of clinically relevant states in complex tissues ★
+- [`refmap-eval-biorxiv-2025`](../papers/refmap-eval-biorxiv-2025/deep-read.md) — Automated evaluation of single-cell reference atlas mappings enables the identification of disease-associated cell states ★
+- [`ambient-rna-bench-biorxiv-2026`](../papers/ambient-rna-bench-biorxiv-2026/deep-read.md) — Benchmarking computational decontamination of ambient RNA
+- [`conformal-scrna-bioinformatics-2025`](../papers/conformal-scrna-bioinformatics-2025/deep-read.md) — Conformal inference for reliable single cell RNA-seq annotation
+- [`inflammatory-pt-natcommun-2025`](../papers/inflammatory-pt-natcommun-2025/deep-read.md) — Multiomic analysis of human kidney disease identifies a tractable inflammatory and pro-fibrotic tubular cell phenotype
+- [`kidney-epigenome-nataging-2026`](../papers/kidney-epigenome-nataging-2026/deep-read.md) — A cross-species single-cell kidney epigenome atlas reveals epithelial-dominant aging-like states in disease
+- [`mrvi-natmethods-2025`](../papers/mrvi-natmethods-2025/deep-read.md) — Deep generative modeling of sample-level heterogeneity in single-cell genomics
+- [`multimodal-integration-bench-natmethods-2025`](../papers/multimodal-integration-bench-natmethods-2025/deep-read.md) — Benchmarking single-cell multi-modal data integrations
+- [`scatac-novel-genomeres-2026`](../papers/scatac-novel-genomeres-2026/deep-read.md) — Robust annotation and discovery of novel cell types in single-cell ATAC-seq data through cross-modal reference alignment
 - [`scrna-natmachintell-2026`](../papers/scrna-natmachintell-2026/deep-read.md) — Conditional Monge Gap enables generalizable single-cell perturbation modelling
 
 ### spatial
+- [`dkd-spatial-atlas-nature-2026`](../papers/dkd-spatial-atlas-nature-2026/deep-read.md) — Spatial atlas of diabetic kidney disease reveals a B cell-rich subgroup ★
+- [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/deep-read.md) — An atlas of healthy and injured cell states and niches in the human kidney ★
+- [`loki-omiclip-natmethods-2025`](../papers/loki-omiclip-natmethods-2025/deep-read.md) — A visual–omics foundation model to bridge histopathology with spatial transcriptomics ★
+- [`meatrd-aaai-2025`](../papers/meatrd-aaai-2025/deep-read.md) — MEATRD: Multimodal Anomalous Tissue Region Detection Enhanced with Spatial Transcriptomics ★
+- [`ovrlpy-natbiotech-2026`](../papers/ovrlpy-natbiotech-2026/deep-read.md) — Identifying 3D signal overlaps in spatial transcriptomics data with ovrlpy ★
+- [`resolvi-natmethods-2026`](../papers/resolvi-natmethods-2026/deep-read.md) — ResolVI: addressing noise and bias in spatial transcriptomics ★
+- [`sardine-bioinformatics-2025`](../papers/sardine-bioinformatics-2025/deep-read.md) — Anomaly detection in spatial transcriptomics via spatially localized density comparison ★
 - [`spatial-biorxiv-2025`](../papers/spatial-biorxiv-2025/deep-read.md) — Mapping and reprogramming human tissue microenvironments with MintFlow ★
+- [`xenium-split-natmethods-2026`](../papers/xenium-split-natmethods-2026/deep-read.md) — Resolving sensitivity, specificity and signal contamination in Xenium spatial transcriptomics ★
 - [`spatial-natcommun-2024`](../papers/spatial-natcommun-2024/deep-read.md) — Detecting anomalous anatomic regions in spatial transcriptomics with STANDS
 
 ### virtual-tissue

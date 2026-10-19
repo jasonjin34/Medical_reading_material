@@ -1,0 +1,27 @@
+id: "hypogen-llm-colm-2024"
+title: "Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation"
+authors:
+  - "Qi, Biqing"
+  - "Zhang, Kaiyan"
+  - "Tian, Kai"
+  - "Li, Haoxiang"
+  - "Chen, Zhang-Ren"
+  - "Zeng, Sihang"
+  - "Hua, Ermo"
+  - "Hu, Jin-Fang"
+  - "Zhou, Bowen"
+year: 2024
+venue: "COLM 2024 (Conference on Language Modeling)"
+type: "paper"
+category: "agents"
+relevance: "high"
+access: "open"
+url: "https://arxiv.org/abs/2407.08940"
+doi: ""
+arxiv: "2407.08940"
+s2_id: null
+bibkey: "Qi_2024"
+tags: ["hypothesis-generation", "LLM-evaluation", "temporal-split", "multi-agent", "biomedical-literature"]
+related: ["truthhypo-ijcai-2025", "falsifiable-ideation-arxiv-2026", "ideation-execution-gap-arxiv-2025", "co-scientist-nature-2026", "semnovel-jbi-2025", "llm-judge-healthcare-arxiv-2026"]
+status: "complete"
+added: "2026-10-19"

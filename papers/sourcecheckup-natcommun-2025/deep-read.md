@@ -1,0 +1,63 @@
+# An automated framework for assessing how well LLMs cite relevant medical references
+
+> **Bibkey** `Wu_2025` · **Venue** Nature Communications (2025) · **Category** agents · **Relevance** high · **Access** open
+> **Link** <https://doi.org/10.1038/s41467-025-58551-6>
+> `status: complete` — 基于 Nature Communications 开放获取全文精读(补充材料未逐表核对)。
+> Bilingual convention (drives the site's EN⇄中文 switcher): put `<!-- ZH -->` 中文 and `<!-- EN -->` English on their own lines (or inline `- <!-- ZH --> 中文 <!-- EN --> English`). Use `<!-- ZH/EN -->` ONLY for a purely language-neutral line (a bare URL or code token) — never for bilingual prose or labels.
+
+---
+
+## 一句话 / One-liner
+<!-- ZH --> SourceCheckup 是一条全自动的 agent 流水线:出医学问题 → 让 LLM 作答并给出处 → 拆成独立可验证的 statement → 下载 URL 全文 → 用 GPT-4o 逐对判断「这个来源是否支持这句话」;在 7 个模型、800 题、约 5.8 万个 statement–source 对上发现 **50%–90% 的回答并未被其引用完全支持**,即便联网的 GPT-4o(RAG)也只有 55% 的回答完全被支持;该自动核验与三位执业医生共识一致率 88.7%,高于医生之间的平均一致率 86.1%。
+<!-- EN --> SourceCheckup is a fully automated agent pipeline — generate medical questions → have an LLM answer with sources → parse into independently verifiable statements → download URL contents → have GPT-4o judge each statement–source pair. Across 7 models, 800 questions and ~58K statement–source pairs, **50–90% of responses are not fully supported by the sources they cite**; even web-enabled GPT-4o (RAG) is fully supported in only 55% of responses. The automated verifier agrees with a three-doctor consensus 88.7% of the time, above the 86.1% average inter-doctor agreement.
+
+## 研究问题 / Problem
+<!-- ZH --> LLM 已能按要求给出出处,RAG 还能实时搜索,但**给出的来源是否真的支持其医学陈述**一直缺乏系统度量。人工专家标注昂贵、难以复现,且跟不上模型迭代;临床医生把「不能给出可靠出处」列为不信任 LLM 的首要原因,FDA 等监管也需要可审计的出处。作者刻意只评估「陈述是否扎根于可验证来源」,而非「陈述本身对不对」—— 因为医学真值本身常有争议(如网球肘好发年龄有多个重叠答案)。
+<!-- EN --> LLMs now cite sources on request and RAG systems search in real time, but **whether the cited sources actually support their medical statements** had not been systematically measured. Expert annotation is costly, hard to replicate and cannot keep pace with model releases; clinicians cite the inability to provide reliable sources as a top reason for distrust, and regulators such as the FDA need auditable provenance. The authors deliberately evaluate whether statements are grounded in verifiable sources rather than whether they are true, because medical ground truth is often contested (e.g. several overlapping answers for the typical age of tennis elbow).
+
+## 方法 / Method
+<!-- ZH --> 四个模块(均以 GPT-4o 为骨干):**(1) 问题生成** —— 从 400 篇 MayoClinic 页面各生成 1 题,加上 400 条 Reddit r/AskDocs 真实提问,共 800 题(避免 MedQA/PubMedQA 固定题集被记忆);**(2) LLM 作答** —— 要求简短回答 + 结构化来源列表(GPT-4o RAG 需显式要求使用 Bing 搜索);**(3) Statement 与 URL 解析** —— 拆成独立可验证的 statement,下载 URL(仅保留 HTTP 200,PDF 转文本,超 128K token 的丢弃,约 0.1%);**(4) Source Verification** —— 对 M 条 statement × N 个来源做全部 M×N 对的 1-1 判断,statement 至少被一个来源支持即算 supported。三个指标:**Source URL Validity**、**Statement-level Support**、**Response-level Support**(该回答所有 statement 都被支持),延伸自 AIS(Attributable to Identified Sources)。另做 **SourceCleanup** agent:给定不被支持的 statement 与其来源,自动删改为被支持的版本。并以 Claude Sonnet 3.5 复刻全流程检验对 GPT-4o 的偏倚。
+<!-- EN --> Four modules, all with GPT-4o as backbone: **(1) Question generation** — one question from each of 400 MayoClinic pages plus 400 real Reddit r/AskDocs queries, 800 total (avoiding memorization of fixed sets like MedQA/PubMedQA); **(2) LLM answering** — short answer plus a structured source list (GPT-4o RAG had to be explicitly told to use Bing); **(3) Statement and URL parsing** — split into independently verifiable statements, download URLs (HTTP 200 only, PDFs converted, >128K-token pages dropped, ~0.1%); **(4) Source Verification** — all M×N statement–source pairs judged one-to-one; a statement is supported if at least one source supports it. Three metrics extending AIS: **Source URL Validity**, **Statement-level Support**, **Response-level Support** (every statement supported). Plus a **SourceCleanup** agent that removes or rewrites unsupported statements to fit their source, and a full replication with Claude Sonnet 3.5 to test GPT-4o bias.
+
+## 数据 / Data
+<!-- ZH --> 800 题(400 MayoClinic 生成 + 400 Reddit r/AskDocs);约 5.8 万 statement–source 对(来自 800 余篇参考文档);医生标注 400 对 statement–source;额外 HealthSearchQA 300 题验证、100 题端到端人工评估。被评模型:GPT-4o(RAG)、GPT-4o(API)、Claude v2.1、Mistral Medium、Gemini Ultra 1.0(RAG)、Gemini Pro(API)及 Mixtral-8x7b;Llama-2-70b 与 Meditron-7b 因几乎不产出 URL(<5%、<1%)被移出主结果。
+<!-- EN --> 800 questions (400 MayoClinic-generated + 400 Reddit r/AskDocs); ~58K statement–source pairs (from 800+ reference documents); 400 doctor-annotated pairs; an extra 300 HealthSearchQA questions and a 100-question end-to-end human evaluation. Models: GPT-4o (RAG), GPT-4o (API), Claude v2.1, Mistral Medium, Gemini Ultra 1.0 (RAG), Gemini Pro (API), plus Mixtral-8x7b; Llama-2-70b and Meditron-7b were dropped from main results for almost never producing URLs (<5%, <1%).
+
+## 主要结果 / Key results
+<!-- ZH --> **核验器可靠**:与医生共识一致率 88.7%,医生间平均 86.1%,无显著差异(p=0.21);Claude Sonnet 3.5 当核验器一致率 87.0%(与 GPT-4o 无显著差异,p=0.52),两者互相一致 90.1%;开源 Llama 3.1 70B 仅 79.3%。问题生成 100/100 被医生判为合格,statement 解析 330/330、329/330 正确。**模型表现**:GPT-4o(RAG)最好,但 **response-level support 只有 55%**;Gemini Ultra 1.0(RAG)仅 34.5%;Gemini Pro API 约 10%;无联网模型的 URL 有效率仅 40%–70%(GPT-4o API 约 70%)。GPT-4o(RAG)即便被明确要求,也有 >20% 回答不给来源。对 110 个被判「不支持」的 GPT-4o(RAG)对,医生同意率 95.8%(105/110 确认不支持)。**题源效应**:GPT-4o(RAG)在 MayoClinic 题上 response-level support 接近 80%,在 Reddit 题上降到约 30%(p<0.001);HealthSearchQA 上 statement-level 75.7%、response-level 38.4%;端到端人工评估 40.4% vs SourceCheckup 42.4%,高度吻合。将来源合并后,95.1% 原本不支持的 statement 依旧不被支持。**SourceCleanup**:150 条不支持 statement 中删除 34.7%,其余 98 条修改后 85.7% 被支持,合计 90.7% 被删除或正确修改。约 92% 的引用来自美国网站。
+<!-- EN --> **The verifier is reliable**: 88.7% agreement with doctor consensus vs 86.1% average inter-doctor agreement, no significant difference (p = 0.21); Claude Sonnet 3.5 as verifier reaches 87.0% (not different from GPT-4o, p = 0.52) and agrees with GPT-4o 90.1%; open-source Llama 3.1 70B only 79.3%. Doctors judged 100/100 generated questions valid and 330/330 and 329/330 parsed statements correct. **Model results**: GPT-4o (RAG) is best but **only 55% response-level support**; Gemini Ultra 1.0 (RAG) 34.5%; Gemini Pro API ~10%; offline models produce valid URLs only 40–70% of the time (GPT-4o API ~70%). GPT-4o (RAG) gives no sources in >20% of responses even when asked. On 110 GPT-4o (RAG) pairs judged unsupported, doctors agreed 95.8% (105/110 confirmed). **Question-source effect**: GPT-4o (RAG) response-level support is ~80% on MayoClinic but ~30% on Reddit questions (p < 0.001); on HealthSearchQA, 75.7% statement-level and 38.4% response-level; end-to-end human eval 40.4% vs SourceCheckup 42.4%. Merging sources leaves 95.1% of unsupported statements still unsupported. **SourceCleanup**: of 150 unsupported statements, 34.7% removed and 85.7% of the remaining 98 fixed — 90.7% removed or correctly edited. ~92% of cited URLs are US-based.
+
+## 创新点 / Contributions
+- <!-- ZH --> 把「引用是否支持陈述」做成**可自动、可复现、经医生面板验证**的度量,而不是一次性人工审计。 <!-- EN --> Makes "does the citation support the statement?" an **automated, reproducible, doctor-validated** measurement rather than a one-off manual audit.
+- <!-- ZH --> 三级指标(URL 有效 → statement 支持 → response 全支持)把「链接存在」「单句有据」「整答可信」分开。 <!-- EN --> A three-tier metric (URL valid → statement supported → whole response supported) separates link existence, sentence grounding and full-answer trust.
+- <!-- ZH --> 证明「RAG 不是银弹」:联网能消灭 URL 幻觉,却不能保证内容被支持。 <!-- EN --> Shows RAG is no silver bullet: web access removes URL hallucination but not unsupported content.
+- <!-- ZH --> 公开 800 题、5.8 万对与医生标注作为社区资源;SourceCleanup 展示了「核验后修复」闭环。 <!-- EN --> Releases 800 questions, 58K pairs and doctor annotations; SourceCleanup demonstrates a verify-then-repair loop.
+
+## 局限 / Limitations
+- <!-- ZH --> 各自动模块(出题、解析、抽引、核验)误差会累积;医生之间本就不完全一致,单点数据有噪声。 <!-- EN --> Errors accumulate across automated modules (generation, parsing, citation extraction, verification); doctors themselves disagree, so individual data points are noisy.
+- <!-- ZH --> 1-1 statement–source 映射不计「多来源合成才支持」的情况(作者检验后影响很小:95.1% 仍不支持)。 <!-- EN --> One-to-one statement–source mapping ignores support that only emerges from combining sources (checked: 95.1% remain unsupported after merging).
+- <!-- ZH --> 只测「是否被来源支持」,不测正确性;作者提醒可被「逐字照抄来源」这种平凡策略刷满,应与质量指标并用。 <!-- EN --> Measures support, not correctness; a model could trivially max it by quoting sources verbatim, so it must be paired with quality metrics.
+- <!-- ZH --> 评测模型较旧(2024 年初);题源以美国网站为主;部分网站 404/付费墙影响 URL 有效性判断。 <!-- EN --> Models are dated (early 2024); questions are US-centric; 404s and paywalls affect URL validity across institutions.
+- <!-- ZH --> 核验器本身用 GPT-4o,同家族自评存在潜在偏倚(作者用 Claude 复刻部分缓解)。 <!-- EN --> The verifier is GPT-4o itself, with potential same-family bias (partly mitigated by the Claude replication).
+
+## 与本研究方向的关系 / Relation to our direction
+<!-- ZH --> 对 **Plan B** 而言,SourceCheckup 提供了「claim-to-evidence 核验器」的**验证范式**,比方法本身更值得抄:(1) 先证明自动核验器与专家面板的一致率**不低于专家之间的一致率**,再用它规模化评估 —— 这正是 Plan B「校准 verifier」需要的论证结构,只是我们的「专家」是肾脏病理/组学专家,「来源」是 agent 的分析产物与 KPMP/Lake 等参考数据;(2) 三级指标可以直接映射为组学版:**产物存在**(agent 引用的文件/图/表是否真实生成)→ **单条结论被支持**(该结论能否从产物中复现)→ **整份报告全支持**;(3) Reddit vs MayoClinic 的巨大落差提示:**开放式、需要多源综合的问题**(正对应「这个异常区域是疾病还是伪影」这类 Plan A 问题)最容易出现无据陈述,benchmark 应刻意包含此类题。SourceCleanup 的「核验 → 删改」闭环可作为 agent 自我修正的基线。它不涉及数值/统计结论与重复运行稳定性,这两点是 Plan B 需要补的空白。
+<!-- EN --> For **Plan B**, SourceCheckup supplies the **validation paradigm** for a claim-to-evidence verifier — more worth copying than the method itself: (1) first show the automated verifier agrees with an expert panel **at least as well as experts agree with each other**, then use it at scale — exactly the argument structure Plan B's calibrated verifier needs, with kidney pathology/omics experts as the panel and the agent's analysis artefacts plus KPMP/Lake reference data as the "sources"; (2) the three-tier metric maps directly onto an omics version: **artefact exists** (did the cited file/figure/table actually get produced?) → **single conclusion supported** (is it reproducible from the artefacts?) → **whole report supported**; (3) the large Reddit-vs-MayoClinic gap says **open-ended, multi-source questions** — exactly the Plan A-style "is this anomalous region disease or artefact?" — are where unsupported statements concentrate, so a benchmark should deliberately include them. SourceCleanup's verify-then-edit loop is a baseline for agent self-correction. It does not address numerical/statistical conclusions or rerun stability, the two gaps Plan B must fill.
+
+## 可复用资产 / Reusable assets
+- <!-- ZH --> **代码与全部 prompts:** <!-- EN --> **Code and all prompts:**
+<!-- ZH/EN --> <https://github.com/kevinwu23/SourceCheckup>
+<!-- ZH/EN --> <https://doi.org/10.5281/zenodo.15015209>
+- <!-- ZH --> **数据:** 800 题、回答、解析出的 statement、5.8 万 statement–source 对与医生标注(Google Drive,非商业研究用途;原始网页因版权未包含)。 <!-- EN --> **Data:** 800 questions, responses, parsed statements, ~58K statement–source pairs and doctor annotations (Google Drive, non-commercial research use; raw web pages excluded for licensing).
+<!-- ZH/EN --> <https://drive.google.com/drive/folders/1a-i974g3XzLCtZLpTLBbqAwK0olpd5JY>
+- <!-- ZH --> **评测协议:** Source URL Validity / Statement-level Support / Response-level Support;核验器 vs 医生面板一致率 vs 医生间一致率。 <!-- EN --> **Eval protocol:** Source URL Validity / Statement-level Support / Response-level Support; verifier-vs-panel agreement benchmarked against inter-doctor agreement.
+
+## 待读 / Follow-ups
+- <!-- ZH --> ALCE(Gao et al.)、AttributedQA、AIS(Rashkin et al.)—— 归因评估的基础定义。 <!-- EN --> ALCE (Gao et al.), AttributedQA, AIS (Rashkin et al.) — foundational attribution definitions.
+- <!-- ZH --> 本仓库 reference-hallucination-arxiv-2026 对本文「RAG 模型不会 URL 幻觉」的结论做了修正,两篇对读。 <!-- EN --> reference-hallucination-arxiv-2026 in this repo qualifies this paper's "RAG models don't hallucinate URLs" conclusion — read together.
+- <!-- ZH --> 补充表 4/8/10(各模型完整数值、样本量、未被使用的 URL 比例)。 <!-- EN --> Supplementary Tables 4/8/10 (full per-model numbers, sample sizes, fraction of unused URLs).
+
+## 引用 / Cite
+```bibtex
+@article{Wu_2025, title={An automated framework for assessing how well LLMs cite relevant medical references}, volume={16}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-025-58551-6}, DOI={10.1038/s41467-025-58551-6}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Wu, Kevin and Wu, Eric and Wei, Kevin and Zhang, Angela and Casasola, Allison and Nguyen, Teresa and Riantawan, Sith and Shi, Patricia and Ho, Daniel and Zou, James}, year={2025}, month=Apr }
+```

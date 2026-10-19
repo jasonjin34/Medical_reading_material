@@ -1,0 +1,68 @@
+# LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applications, Methods, and Human Alignment
+
+> **Bibkey** `Li2026_260525273` · **Venue** arXiv preprint (2026) · **Category** agents · **Relevance** high · **Access** open
+> **Link** <https://arxiv.org/abs/2605.25273>
+> `status: complete` — 基于 arXiv HTML 全文精读(正文;附录编码本与逐篇表格未逐条核对)。
+> Bilingual convention (drives the site's EN⇄中文 switcher): put `<!-- ZH -->` 中文 and `<!-- EN -->` English on their own lines (or inline `- <!-- ZH --> 中文 <!-- EN --> English`). Use `<!-- ZH/EN -->` ONLY for a purely language-neutral line (a bare URL or code token) — never for bilingual prose or labels.
+
+---
+
+## 一句话 / One-liner
+<!-- ZH --> 一篇 PRISMA 指引的范围综述:在 5 个数据库检索 2023-01 至 2026-02 的文献,纳入 134 篇医疗领域 LLM-as-a-Judge 研究,按健康场景、judge 配置、技术路线、验证设计编码;结论是 judge 与专家的一致性**多为中到强**(一致率中位数 0.83、Cohen's κ 中位数 0.78、相关系数中位数 0.69),但高度依赖任务、rubric 与模型,且几乎没有受控对比研究告诉你哪种配置适合哪种临床任务。
+<!-- EN --> A PRISMA-guided scoping review: five databases searched for January 2023 – February 2026, 134 healthcare LLM-as-a-Judge studies included and coded by health scenario, judge configuration, technique and validation design. Judge–expert alignment is **mostly moderate to strong** (median agreement 0.83, median Cohen's κ 0.78, median correlation 0.69) but strongly task-, rubric- and model-dependent, and there are almost no controlled comparisons showing which configuration suits which clinical task.
+
+## 研究问题 / Problem
+<!-- ZH --> 医疗 LLM 的输出多为非结构化临床文本,专家标注是金标准但慢且贵,BLEU/ROUGE/BERTScore 只量词汇相似而非医学正确性,固定答案基准无法覆盖真实临床的模糊性。LLM-as-a-Judge 是可扩展的替代,但在医疗中的**有效性**缺乏系统检验:judge 可能幻觉、高估推理质量、带偏见,或与被评模型共享失效模式。已有综述多面向通用 LLM 评估,唯一相近的综述(Li et al., 2026a)偏重风险与治理框架。四个 RQ:应用在哪里、用什么模型与技术、如何度量与人类一致性及一致到什么程度、有哪些机会与失效模式。
+<!-- EN --> Healthcare LLM outputs are largely unstructured clinical text; expert annotation is the gold standard but slow and costly, BLEU/ROUGE/BERTScore measure lexical similarity rather than medical correctness, and fixed-answer benchmarks miss real-world ambiguity. LLM-as-a-Judge is a scalable alternative whose **validity** in healthcare is underexamined: judges may hallucinate, overrate reasoning, carry bias or share failure modes with the evaluated model. Prior reviews target general-purpose evaluation; the one close review (Li et al., 2026a) focuses on risk and governance. Four RQs: where it is applied, which models and techniques, how judge–human agreement is measured and how high it is, and what the opportunities and failure modes are.
+
+## 方法 / Method
+<!-- ZH --> **检索**:PubMed、Scopus、DBLP、OpenAlex、arXiv,题名+摘要检索「LLM/GPT/Gemini/Claude/Llama/Qwen/DeepSeek/agent as (a) judge」AND 健康相关词。**筛选**:按年份筛到 474 条 → 去重 287 → 相似性去重 273 → 题名摘要筛选 169 → 获取全文 157 → 双人全文筛选纳入 **134** 篇。**编码**:18 字段的预设编码本,分四组(书目元数据、研究与临床情境、judge 配置、评估与验证),含是否与人类专家比对的二值字段。**框架**:三步 —— (1) 任务与 rubric 定义(单输出打分、成对比较、对参照的事实一致性、安全类别标签);(2) judge 配置与增强(prompt 工程、集成、RAG、校准、微调、蒸馏、多 agent);(3) 验证与偏差缓解(κ/ICC、Pearson/Spearman、分类指标、胜率;随机化顺序、隐藏来源模型、控制长度、重复评审)。
+<!-- EN --> **Search**: PubMed, Scopus, DBLP, OpenAlex, arXiv; title+abstract terms "LLM/GPT/Gemini/Claude/Llama/Qwen/DeepSeek/agent as (a) judge" AND health terms. **Screening**: 474 after year filter → 287 after exact de-duplication → 273 after similarity de-duplication → 169 after title/abstract screening → 157 full texts retrieved → **134** included after dual full-text screening. **Coding**: an 18-field pre-specified codebook in four groups (bibliographic, study/clinical context, judge configuration, evaluation/validation), including a binary "validated against humans" field. **Framework**: three steps — (1) task and rubric specification (single-output scoring, pairwise comparison, factual consistency against a reference, categorical safety labels); (2) judge configuration and enhancement (prompting, ensembles, RAG, calibration, fine-tuning, distillation, multi-agent); (3) validation and bias mitigation (κ/ICC, Pearson/Spearman, classification metrics, win rates; randomized order, source blinding, length control, repeated judgments).
+
+## 数据 / Data
+<!-- ZH --> 134 篇纳入研究(2024 年 7 篇、2025 年 81 篇、2026 年前两个月 46 篇;其中 46 篇为 arXiv 预印本)。用于人类一致性综合的子集:13 篇报告一致率、10 篇报告 Cohen's κ、13 篇报告相关系数(10 Pearson、3 Spearman)。
+<!-- EN --> 134 included studies (7 in 2024, 81 in 2025, 46 in the first two months of 2026; 46 are arXiv preprints). Subsets for alignment synthesis: 13 studies reporting agreement rate, 10 reporting Cohen's κ, 13 reporting correlation (10 Pearson, 3 Spearman).
+
+## 主要结果 / Key results
+<!-- ZH --> **应用分布**:临床决策支持 54 篇(40.3%;其中诊断与筛查 19、精神与行为健康 18、治疗 8、临床安全与质量仅 5)、临床 NLP 28 篇(20.9%;临床文书 21)、医学知识与 QA 24 篇(17.9%)、医学沟通 22 篇(16.4%)。**Judge 模型**:OpenAI 90/134(67.2%;GPT-4o 34 篇最常见)、Google 35(26.1%)、Anthropic 27(20.1%)、Meta 25(18.7%)、Qwen 24(17.9%)、DeepSeek 13(9.7%;DeepSeek-R1 11 篇,单模型第三)。**技术**:prompt 工程 132/134(98.5%),集成 18(13.4%),多 agent 10(7.5%),微调 10(7.5%),校准 8(6.0%),RAG 6(4.5%),蒸馏 5(3.7%)。**人类一致性**:一致率 0.66–0.96(中位数与均值 0.83;最低为细粒度生物医学实体链接 GPT-5.2 的 0.66,最高为 MedGUIDE 四模型集成 0.96);κ 0.59–0.88(中位数 0.78、均值 0.76);相关 0.40–0.94(中位数 0.69、均值 0.68)。**关键细节**:同一 judge 对「至少一位专家」一致 0.83,对「多数专家」降到 0.51;Claude-Opus-4.6 在未扰动医学概念上 κ=0.78、扰动后降到 0.24;一项研究原始一致率 0.80 但 κ 仅 0.59(类别不平衡);异质 judge 集成聚集在高端(如三模型集成 0.90)。**失效模式**:同家族共享盲点导致的相关评估偏差;把流利度/组织性/自信语气当质量;临床语义推理浅(ICD-10 慢性 vs 新诊断混淆);**评估幻觉**(judge 捏造缺陷甚至改写任务);prompt 敏感与跨语言脆弱(英语→基尼亚卢旺达语性能下降)。
+<!-- EN --> **Applications**: Clinical Decision Support 54 (40.3%; diagnosis/screening 19, mental/behavioural health 18, treatment 8, clinical safety/quality only 5), Clinical NLP 28 (20.9%; documentation 21), Medical Knowledge & QA 24 (17.9%), Medical Communication 22 (16.4%). **Judge models**: OpenAI 90/134 (67.2%; GPT-4o most common at 34), Google 35 (26.1%), Anthropic 27 (20.1%), Meta 25 (18.7%), Qwen 24 (17.9%), DeepSeek 13 (9.7%; DeepSeek-R1 in 11, third most-used single model). **Techniques**: prompting 132/134 (98.5%), ensembles 18 (13.4%), multi-agent 10 (7.5%), fine-tuning 10 (7.5%), calibration 8 (6.0%), RAG 6 (4.5%), distillation 5 (3.7%). **Human alignment**: agreement 0.66–0.96 (median and mean 0.83; lowest GPT-5.2 on fine-grained biomedical entity linking, highest the four-model MedGUIDE ensemble); κ 0.59–0.88 (median 0.78, mean 0.76); correlation 0.40–0.94 (median 0.69, mean 0.68). **Telling details**: one judge reaches 0.83 agreement with at-least-one expert but 0.51 against majority-of-experts; Claude-Opus-4.6 has κ = 0.78 on unperturbed medical concepts but 0.24 on perturbed ones; one study reports 0.80 raw agreement but κ = 0.59 (class imbalance); heterogeneous ensembles cluster at the top (e.g. a three-judge ensemble at 0.90). **Failure modes**: correlated bias from shared model families; mistaking fluency/organization/assertive tone for quality; shallow clinical-semantic reasoning (e.g. chronic vs newly inferred ICD-10 diagnoses); **evaluation hallucination** (judges fabricate flaws or even alter the task); prompt sensitivity and cross-lingual fragility (English → Kinyarwanda degradation).
+
+## 创新点 / Contributions
+- <!-- ZH --> 首个系统刻画医疗 LLM-as-a-Judge 应用与**judge–人类一致性**的综述,并给出跨研究的一致率/κ/相关森林图。 <!-- EN --> The first review to systematically map healthcare LLM-as-a-Judge applications and **judge–human alignment**, with cross-study forest plots of agreement, κ and correlation.
+- <!-- ZH --> 三步框架(任务/rubric → judge 配置 → 验证/去偏)与七类技术的实现对照表。 <!-- EN --> A three-step framework (task/rubric → configuration → validation/debiasing) and an implementation table for seven technique families.
+- <!-- ZH --> 归纳五类失效模式,特别点出「评估幻觉」与「同家族相关偏差」。 <!-- EN --> Five failure modes, notably "evaluation hallucination" and same-family correlated bias.
+- <!-- ZH --> 部署建议:风险分层评估、judge 分歧作为不确定性信号路由给人工、审计日志/版本/漂移监测、前瞻性 silent-mode 评估。 <!-- EN --> Deployment guidance: risk-stratified evaluation, judge disagreement as an uncertainty signal for human routing, audit logs/versioning/drift monitoring, prospective silent-mode evaluation.
+
+## 局限 / Limitations
+- <!-- ZH --> 各研究指标、任务、参照标准不同,不做合并估计,只看跨研究模式;人工编码可能受原文描述不全影响。 <!-- EN --> Heterogeneous metrics, tasks and reference standards preclude pooled estimates; manual coding may suffer from incomplete reporting in source papers.
+- <!-- ZH --> 观察到的性能差异可能来自研究设计与报告质量,而非 judge 能力;成本、延迟、可复现性、隐私等部署维度普遍缺报。 <!-- EN --> Observed variation may reflect study design and reporting quality rather than judge capability; cost, latency, reproducibility and privacy are underreported.
+- <!-- ZH --> 领域发展极快、预印本比例高,可能漏掉最新前沿模型;以英语场景为主。 <!-- EN --> Fast-moving field with many preprints; may miss the newest frontier models; predominantly English settings.
+- <!-- ZH --> **不给具体配置推荐** —— 作者明言缺乏在固定临床任务上系统变换 judge 架构/prompt/grounding 的受控比较。(另:讨论部分写「κ 中位数在 0.59–0.93 之间」,与结果部分 0.59–0.88 不一致,以结果部分为准。) <!-- EN --> **No configuration recommendations** — the authors note no controlled comparison varies judge architecture, prompting or grounding on a fixed clinical task. (Also: the Discussion states "median Cohen's κ between 0.59 and 0.93", inconsistent with the Results' 0.59–0.88 range; the Results figure is used here.)
+
+## 与本研究方向的关系 / Relation to our direction
+<!-- ZH --> 对 **Plan B** 而言,这篇是「verifier 本身可不可信」的**证据底图**。Plan B 的校准 verifier 本质上就是一个 LLM-as-a-Judge(判断 agent 的组学结论是否被证据支持),这篇给出三条必须内化的经验:(1) **一致性高度依赖参照标准** —— 「对任一专家 0.83 / 对多数专家 0.51」说明 KidneyAnomalyBench 与 Plan B 的人工标注必须先定义清楚多专家共识协议,并同时报告原始一致率与 κ;(2) **扰动下崩溃**(κ 0.78→0.24)正对应 Plan B 想做的鲁棒性测试:对 agent 的结论做受控扰动(换方向、换细胞类型、换基因),看 verifier 能否识别 —— 这是比静态一致率更有说服力的校准证据;(3) **同家族偏差**意味着 verifier 不应与被评 agent 同底座,或至少要报告跨家族集成的结果。它记录的 judge 分歧作为不确定性信号、风险分层评估、审计日志与漂移监测,也可直接写进 AIRIS WP3 / MLCommons 方向的评估协议。值得注意:134 篇里临床安全与质量只有 5 篇、几乎没有组学/空间数据场景 —— 「LLM judge 用于组学分析结论」本身就是空白。
+<!-- EN --> For **Plan B** this is the **evidence map for whether the verifier itself can be trusted**. Plan B's calibrated verifier is essentially an LLM-as-a-Judge (does the evidence support the agent's omics conclusion?), and three lessons must be internalized: (1) **alignment depends heavily on the reference standard** — "0.83 vs any expert / 0.51 vs majority" means KidneyAnomalyBench and Plan B annotations need a clearly defined multi-expert consensus protocol, reporting both raw agreement and κ; (2) **collapse under perturbation** (κ 0.78 → 0.24) is exactly the robustness test Plan B wants: apply controlled perturbations to agent conclusions (flip direction, cell type, gene) and test whether the verifier catches them — stronger calibration evidence than static agreement; (3) **same-family bias** means the verifier should not share a base model with the evaluated agent, or should report cross-family ensembles. Its treatment of judge disagreement as an uncertainty signal, risk-stratified evaluation, audit logs and drift monitoring can go straight into an AIRIS WP3 / MLCommons-style evaluation protocol. Notably, only 5 of 134 studies address clinical safety/quality and essentially none involve omics or spatial data — "LLM judges for omics-analysis conclusions" is itself an open gap.
+
+## 可复用资产 / Reusable assets
+- <!-- ZH --> **检索式与纳排标准**(表 1),可复用于后续更新或做组学/agent 版综述。 <!-- EN --> **Search string and inclusion/exclusion criteria** (Table 1), reusable for updates or an omics/agent-focused review.
+- <!-- ZH --> **18 字段编码本**(附录表 4)—— 可作为 Plan B 文献梳理与 verifier 报告规范的模板。 <!-- EN --> **18-field codebook** (Appendix Table 4) — a template for Plan B literature coding and verifier reporting standards.
+- <!-- ZH --> **技术–实现对照表**(表 2)与 rubric/metric 分类(表 3)。 <!-- EN --> **Technique–implementation table** (Table 2) and the rubric/metric taxonomy (Table 3).
+- <!-- ZH --> 未见公开代码仓库(综述类,不适用)。 <!-- EN --> No code repository (review paper; not applicable).
+
+## 待读 / Follow-ups
+- <!-- ZH --> MedVAL(Aali et al., 2025):蒸馏出的临床文本 judge,κ=0.67、微调 Qwen3-4B r=0.833。 <!-- EN --> MedVAL (Aali et al., 2025): a distilled clinical-text judge (κ = 0.67; fine-tuned Qwen3-4B r = 0.833).
+- <!-- ZH --> Chung et al. (2025):对 EHR 证据做原子 claim 事实核查(13,290 个命题,一致率 0.89)—— 与 Plan B 形式最接近。 <!-- EN --> Chung et al. (2025): atomic-claim factuality against EHR evidence (13,290 propositions, 0.89 agreement) — closest in form to Plan B.
+- <!-- ZH --> Shawon et al. (2026):扰动医学概念下 judge 崩溃的研究。 <!-- EN --> Shawon et al. (2026): judge collapse on perturbed medical concepts.
+- <!-- ZH --> Li et al. (2026a):医疗 LLM judge 的风险验证与治理框架综述。 <!-- EN --> Li et al. (2026a): review of risk validation and governance frameworks for healthcare LLM judges.
+
+## 引用 / Cite
+```bibtex
+@misc{Li2026_260525273,
+  title = {LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applications, Methods, and Human Alignment},
+  author = {Li, Lingyao and Li, Deyi and Chen, Chen and Ma, Renkai and Yu, Runlong and Lin, Mingquan and Yin, Rui and Fan, Lizhou and Shyr, Cathy and Ma, Siyuan and Liu, Mei and Bethard, Steven},
+  year = {2026},
+  eprint = {2605.25273},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2605.25273}
+}
+```

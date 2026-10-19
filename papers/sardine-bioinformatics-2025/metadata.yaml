@@ -1,0 +1,31 @@
+id: "sardine-bioinformatics-2025"
+title: "Anomaly detection in spatial transcriptomics via spatially localized density comparison"
+authors:
+  - "Hu, Gary"
+  - "Gold, Julian"
+  - "Chitra, Uthsav"
+  - "Joshi, Sunay"
+  - "Raphael, Benjamin J"
+year: 2025
+venue: "Bioinformatics"
+type: "paper"
+category: "spatial"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1093/bioinformatics/btaf242"
+doi: "10.1093/bioinformatics/btaf242"
+arxiv: ""
+s2_id: null
+bibkey: "Hu_2025"
+tags:
+  - "spatial-anomaly"
+  - "differential-abundance"
+  - "density-estimation"
+  - "Visium"
+  - "scan-statistic"
+related:
+  - "spatial-natcommun-2024"
+  - "meatrd-aaai-2025"
+  - "healthy-ref-natgenet-2023"
+status: "complete"
+added: "2026-10-19"

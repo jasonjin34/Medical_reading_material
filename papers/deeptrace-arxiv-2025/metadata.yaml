@@ -1,0 +1,33 @@
+id: "deeptrace-arxiv-2025"
+title: "DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence"
+authors:
+  - "Narayanan Venkit, Pranav"
+  - "Laban, Philippe"
+  - "Zhou, Yilun"
+  - "Huang, Kung-Hsiang"
+  - "Mao, Yixin"
+  - "Wu, Chien-Sheng"
+year: 2025
+venue: "arXiv preprint"
+type: "paper"
+category: "agents"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2509.04499"
+doi: ""
+arxiv: "2509.04499"
+s2_id: null
+bibkey: "NarayananVenkit2025_250904499"
+tags:
+  - "deep-research"
+  - "citation-audit"
+  - "sociotechnical-evaluation"
+  - "sycophancy"
+  - "llm-judge"
+related:
+  - "deep-research-hallucination-arxiv-2026"
+  - "reference-hallucination-arxiv-2026"
+  - "sourcecheckup-natcommun-2025"
+  - "citation-faithfulness-arxiv-2026"
+status: "complete"
+added: "2026-10-19"

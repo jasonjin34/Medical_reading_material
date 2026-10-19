@@ -1,0 +1,18 @@
+id: "nih-kidney-ai-challenge-2026"
+title: "Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons"
+authors: null
+year: 2026
+venue: "NIDDK / NIH (prize challenge, hosted on HeroX)"
+type: "competition"
+category: "competition"
+relevance: "high"
+access: "open"
+url: "https://www.herox.com/KidneyAI"
+doi: ""
+arxiv: ""
+s2_id: null
+bibkey: "nih-kidney-ai-challenge-2026"
+tags: ["competition", "anomaly-detection", "KPMP", "kidney", "whole-slide-images", "human-AI-review"]
+related: ["lake-kidney-atlas-nature-2023", "histo-nejmai-2024", "histo-anomaly-bi-repo", "kidney-ssl-histology-scirep-2025", "pathology-ad-bench-mlhealth-2025", "virtual-cell-challenge"]
+status: "complete"
+added: "2026-10-19"
