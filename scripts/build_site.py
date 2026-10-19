@@ -361,6 +361,7 @@ def _write_mkdocs(metas) -> None:
     nav = ["  - Home: index.md",
            "  - Literature review: literature-review.md",
            "  - Relationships: relationships.md",
+           "  - Knowledge map: knowledge-map.md",
            "  - Slides & talk: slides.md"]
     if any((ROOT / "glossary").glob("*.yaml")):
         nav.append("  - Glossary: glossary.md")

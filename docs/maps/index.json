@@ -1,0 +1,98 @@
+[
+ {
+  "id": "plan-a",
+  "title": {
+   "en": "Plan A — Kidney omics anomaly detection",
+   "zh": "Plan A:肾脏组学异常检测"
+  },
+  "lead": {
+   "en": "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another.",
+   "zh": "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
+  },
+  "stats": {
+   "papers": 39,
+   "concepts": 20,
+   "edges": 136
+  }
+ },
+ {
+  "id": "plan-b",
+  "title": {
+   "en": "Plan B — Trustworthy biomedical agents",
+   "zh": "Plan B:可信的生物医学 agent"
+  },
+  "lead": {
+   "en": "Trace every agent claim back through code and data; calibrate the verifier against experts.",
+   "zh": "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
+  },
+  "stats": {
+   "papers": 48,
+   "concepts": 18,
+   "edges": 165
+  }
+ },
+ {
+  "id": "bridge",
+  "title": {
+   "en": "Bridge — papers in both plans",
+   "zh": "桥：两个 plan 共用的论文"
+  },
+  "lead": {
+   "en": "Papers that Plan A and Plan B both depend on.",
+   "zh": "Plan A 和 Plan B 都要用到的论文。"
+  },
+  "stats": {
+   "papers": 6,
+   "concepts": 17,
+   "edges": 27
+  }
+ },
+ {
+  "id": "sikander",
+  "title": {
+   "en": "Sikander's picks",
+   "zh": "Sikander 推荐"
+  },
+  "lead": {
+   "en": "Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line.",
+   "zh": "Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → revert 排列。"
+  },
+  "stats": {
+   "papers": 28,
+   "concepts": 8,
+   "edges": 62
+  }
+ },
+ {
+  "id": "ehr",
+  "title": {
+   "en": "EHR & patient trajectories",
+   "zh": "电子病历与患者轨迹"
+  },
+  "lead": {
+   "en": "Papers for the Mount Sinai EHR project.",
+   "zh": "Mount Sinai 电子病历项目的论文。"
+  },
+  "stats": {
+   "papers": 5,
+   "concepts": 0,
+   "edges": 5
+  }
+ },
+ {
+  "id": "overview",
+  "title": {
+   "en": "Overview — all papers",
+   "zh": "总览：全部论文"
+  },
+  "lead": {
+   "en": "Every paper, clustered by category. For orientation only; use the views above to read.",
+   "zh": "全部论文按分类聚在一起，只用来看轮廓；细读请用上面的视图。"
+  },
+  "stats": {
+   "papers": 99,
+   "concepts": 0,
+   "edges": 160
+  }
+ }
+]

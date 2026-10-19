@@ -1,0 +1,113 @@
+{
+ "nodes": [
+  {
+   "id": "group-A1",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "A1 \u00b7 Atlases & disease states"
+  },
+  {
+   "id": "lake-kidney-atlas-nature-2023",
+   "type": "file",
+   "file": "_maps/papers/lake-kidney-atlas-nature-2023.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "inflammatory-pt-natcommun-2025",
+   "type": "file",
+   "file": "_maps/papers/inflammatory-pt-natcommun-2025.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A2",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "A2 \u00b7 QC & artifacts"
+  },
+  {
+   "id": "resolvi-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/resolvi-natmethods-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A3",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "A3 \u00b7 Anomaly / OOD detection"
+  },
+  {
+   "id": "conformal-scrna-bioinformatics-2025",
+   "type": "file",
+   "file": "_maps/papers/conformal-scrna-bioinformatics-2025.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-B2",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "B2 \u00b7 Omics-analysis agents"
+  },
+  {
+   "id": "spatialagent-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/spatialagent-biorxiv-2025.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-B3",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "B3 \u00b7 Agent benchmarks"
+  },
+  {
+   "id": "bioml-bench-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/bioml-bench-biorxiv-2025.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "e26",
+   "fromNode": "inflammatory-pt-natcommun-2025",
+   "toNode": "lake-kidney-atlas-nature-2023",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  }
+ ]
+}

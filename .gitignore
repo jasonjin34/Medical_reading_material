@@ -13,3 +13,6 @@ venv/
 
 # Source PDFs (copyright; kept local only)
 papers/**/*.pdf
+
+# Obsidian (open the repo root as a vault; personal config stays local)
+.obsidian/

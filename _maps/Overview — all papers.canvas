@@ -1,0 +1,305 @@
+{
+ "nodes": [
+  {
+   "id": "group-single-cell",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "single-cell \u00b7 Single-cell"
+  },
+  {
+   "id": "damage-scores-cellgenomics-2026",
+   "type": "file",
+   "file": "_maps/papers/damage-scores-cellgenomics-2026.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "kidney-multimodal-genomebiol-2026",
+   "type": "file",
+   "file": "_maps/papers/kidney-multimodal-genomebiol-2026.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-spatial",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 760,
+   "label": "spatial \u00b7 Spatial transcriptomics"
+  },
+  {
+   "id": "dkd-spatial-atlas-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/dkd-spatial-atlas-nature-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "ovrlpy-natbiotech-2026",
+   "type": "file",
+   "file": "_maps/papers/ovrlpy-natbiotech-2026.md",
+   "x": 440,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "resolvi-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/resolvi-natmethods-2026.md",
+   "x": 440,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "xenium-split-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/xenium-split-natmethods-2026.md",
+   "x": 440,
+   "y": 510,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-histopath",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "histopath \u00b7 Histopathology"
+  },
+  {
+   "id": "histo-sciencedirect-2026",
+   "type": "file",
+   "file": "_maps/papers/histo-sciencedirect-2026.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-foundation",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "foundation \u00b7 Foundation models"
+  },
+  {
+   "id": "pathbench-natcommun-2026",
+   "type": "file",
+   "file": "_maps/papers/pathbench-natcommun-2026.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-imaging",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "imaging \u00b7 Imaging"
+  },
+  {
+   "id": "imaging-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/imaging-nature-2026.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-competition",
+   "type": "group",
+   "x": 2180,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "competition \u00b7 Competitions"
+  },
+  {
+   "id": "nih-kidney-ai-challenge-2026",
+   "type": "file",
+   "file": "_maps/papers/nih-kidney-ai-challenge-2026.md",
+   "x": 2200,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-agents",
+   "type": "group",
+   "x": 2620,
+   "y": -60,
+   "width": 440,
+   "height": 1780,
+   "label": "agents \u00b7 Biomedical agents & evaluation"
+  },
+  {
+   "id": "autoresearch-failures-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/autoresearch-failures-arxiv-2026.md",
+   "x": 2640,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "biomnibench-biorxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/biomnibench-biorxiv-2026.md",
+   "x": 2640,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "cellvoyager-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/cellvoyager-natmethods-2026.md",
+   "x": 2640,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "citation-faithfulness-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/citation-faithfulness-arxiv-2026.md",
+   "x": 2640,
+   "y": 510,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "co-scientist-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/co-scientist-nature-2026.md",
+   "x": 2640,
+   "y": 680,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "deepevidence-natmachintell-2026",
+   "type": "file",
+   "file": "_maps/papers/deepevidence-natmachintell-2026.md",
+   "x": 2640,
+   "y": 850,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "fev-bioinformatics-agents-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/fev-bioinformatics-agents-arxiv-2026.md",
+   "x": 2640,
+   "y": 1020,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "llm-judge-healthcare-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/llm-judge-healthcare-arxiv-2026.md",
+   "x": 2640,
+   "y": 1190,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "medragchecker-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/medragchecker-arxiv-2026.md",
+   "x": 2640,
+   "y": 1360,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "deep-research-hallucination-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/deep-research-hallucination-arxiv-2026.md",
+   "x": 2640,
+   "y": 1530,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "e19",
+   "fromNode": "deepevidence-natmachintell-2026",
+   "toNode": "co-scientist-nature-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e33",
+   "fromNode": "resolvi-natmethods-2026",
+   "toNode": "ovrlpy-natbiotech-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e36",
+   "fromNode": "xenium-split-natmethods-2026",
+   "toNode": "resolvi-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e62",
+   "fromNode": "xenium-split-natmethods-2026",
+   "toNode": "ovrlpy-natbiotech-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "Xenium contamination"
+  },
+  {
+   "id": "e90",
+   "fromNode": "medragchecker-arxiv-2026",
+   "toNode": "deepevidence-natmachintell-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "KG evidence grounding"
+  },
+  {
+   "id": "e116",
+   "fromNode": "fev-bioinformatics-agents-arxiv-2026",
+   "toNode": "cellvoyager-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "bio agent review"
+  },
+  {
+   "id": "e145",
+   "fromNode": "dkd-spatial-atlas-nature-2026",
+   "toNode": "xenium-split-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "Xenium artifacts"
+  }
+ ]
+}

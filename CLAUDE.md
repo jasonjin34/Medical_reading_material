@@ -45,11 +45,12 @@ python scripts/add_paper.py <url|doi|arxiv> --category <c> --relevance <high|med
 # then edit papers/<slug>/deep-read.md (fill the bilingual sections)
 python scripts/build_bib.py              # regenerate references.bib
 python scripts/build_relationships.py    # regenerate the graph (queries Semantic Scholar)
+python scripts/build_maps.py             # regenerate knowledge maps: docs/maps/ + _maps/ (Obsidian)
 python scripts/build_site.py             # regenerate docs/ + mkdocs.yml nav
 git add -A && git commit -m "add <slug>: <title>" && git push
 ```
 
-`--category` ∈ `single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · other`.
+`--category` ∈ `single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
 
 Pushing to `main` triggers `.github/workflows/pages.yml`, which runs
 `mkdocs build --strict` and deploys to **https://jasonjin34.github.io/Medical_reading_material/**.
@@ -57,7 +58,7 @@ Pushing to `main` triggers `.github/workflows/pages.yml`, which runs
 ## Rules for editing
 
 - **Generated files are off-limits to hand-edits.** Never edit `references.bib`,
-  `relationships/relationships.md`, `relationships/graph.*`, `docs/**`, or
+  `relationships/relationships.md`, `relationships/graph.*`, `docs/**`, `_maps/**`, or
   `mkdocs.yml`. Edit the *sources* (`citation.bib`, `_narrative.md`, `metadata.yaml`,
   `templates/`, `literature-review.md`) and re-run the build scripts. The build
   scripts are idempotent.
@@ -74,6 +75,14 @@ Pushing to `main` triggers `.github/workflows/pages.yml`, which runs
   not cite each other. Add an edge there when a new paper shares a method/dataset/
   backbone with an existing one.
 - Keep the `id`/folder name (`slug`) and `bibkey` stable once a paper is cited.
+- **Knowledge maps.** Each paper's `metadata.yaml` carries `plans` (A / B / EHR),
+  `track` (its column, e.g. `A3`; a list when it sits in both plans) and
+  `recommended_by`. Views, columns, core concepts and their match patterns live in
+  `maps/views.yaml` (also each plan's `flow:` pipeline steps → Mermaid + flow canvas);
+  short node labels in `maps/labels.yaml`; the viewer is
+  `maps/viewer.html`. Pass `--plans/--track/--recommended-by` to `add_paper.py`
+  and add a label. Open the repo root as an Obsidian vault; `_maps/` is generated —
+  keep personal notes outside it. Plan: `plans/knowledge-map-plan.md`.
 
 ## Commit & verify conventions
 

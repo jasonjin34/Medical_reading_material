@@ -24,8 +24,28 @@ searchable website with an **English ⇄ 中文 language switcher**.
 | `references.bib` | The whole citation library, auto-built |
 | `literature-review.md` | Synthesis across all papers (综述) |
 | `relationships/` | Relationship graph (`graph.json`, `graph.mmd`, `relationships.md`) |
+| `maps/` | Knowledge-map sources: `views.yaml` (views, columns, concepts, pipelines), `labels.yaml`, `viewer.html` |
+| `_maps/` | Obsidian hub notes, MOCs and canvases (auto-generated — do not hand-edit) |
 | `docs/` + `mkdocs.yml` | The GitHub Pages site (auto-generated — do not hand-edit) |
 | `templates/`, `scripts/` | The standardized pipeline (below) |
+
+## Knowledge map
+
+Per-plan graphs of papers and core concepts, plus a pipeline flowchart for each plan.
+They are generated from `maps/views.yaml` and each paper's `plans` / `track` /
+`recommended_by` fields.
+
+- **Web:** the site's [Knowledge map](https://jasonjin34.github.io/Medical_reading_material/knowledge-map/)
+  page. Views: Plan A, Plan B, Bridge (papers in both), Sikander's picks, EHR and Overview.
+  - Groups start collapsed. Click one to open it.
+  - Click a node to see its neighbours; double-click a paper to open its deep-read.
+  - Filters: must-read, year and type.
+- **Obsidian:** open the repo root as a vault.
+  - `_maps/README.md` lists every view. Each view has a MOC, a column canvas and,
+    for the plans, a `— flow.canvas`.
+  - Hub notes embed the deep-reads, so the original files stay unchanged.
+  - Graph view: filter `path:_maps`, colour groups `tag:#plan/A`, `tag:#plan/B`, `tag:#concept`.
+  - `_maps/` is overwritten on every build, so keep your own notes outside it.
 
 ---
 
@@ -47,7 +67,8 @@ python scripts/add_paper.py <url|doi|arxiv> --category <c> --relevance <high|med
 ```
 
 - `<url|doi|arxiv>` — a landing URL, a bare DOI (`10.1038/…`), or an arXiv id (`2406.16192`).
-- `--category` ∈ `single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · other`.
+- `--category` ∈ `single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
+- Knowledge-map placement: `--plans A|B|EHR`, `--track <A1…B7>`, `--recommended-by sikander`; add a short label to `maps/labels.yaml`.
 - Creates `papers/<slug>/` with `metadata.yaml`, `deep-read.md`, `ai-ready.md`, `citation.bib`.
 
 **3. Write the close-reading** — edit `papers/<slug>/deep-read.md`. Keep every
@@ -68,6 +89,7 @@ Use `<!-- ZH/EN -->` for a line that should appear unchanged in both languages
 ```bash
 python scripts/build_bib.py            # references.bib
 python scripts/build_relationships.py  # relationship graph
+python scripts/build_maps.py           # knowledge maps: docs/maps/ + _maps/ (Obsidian)
 python scripts/build_site.py           # docs/ (en + zh) + mkdocs.yml
 ```
 

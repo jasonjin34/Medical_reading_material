@@ -1,0 +1,196 @@
+{
+ "nodes": [
+  {
+   "id": "step-foundations",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "1. Foundations & data / \u57fa\u7840\u6a21\u578b\u4e0e\u6570\u636e (5)"
+  },
+  {
+   "id": "step-foundations-pathbench-natcommun-2026",
+   "type": "file",
+   "file": "_maps/papers/pathbench-natcommun-2026.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-foundations-fm-arxiv-2604",
+   "type": "file",
+   "file": "_maps/papers/fm-arxiv-2604.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-foundations-hest1k-2024",
+   "type": "file",
+   "file": "_maps/papers/hest1k-2024.md",
+   "x": 0,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-detect",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "2. Detect / \u68c0\u6d4b (11)"
+  },
+  {
+   "id": "step-detect-imaging-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/imaging-nature-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-detect-nih-kidney-ai-challenge-2026",
+   "type": "file",
+   "file": "_maps/papers/nih-kidney-ai-challenge-2026.md",
+   "x": 440,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-detect-histo-sciencedirect-2026",
+   "type": "file",
+   "file": "_maps/papers/histo-sciencedirect-2026.md",
+   "x": 440,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-model",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "3. Model / \u5efa\u6a21 (2)"
+  },
+  {
+   "id": "step-model-virtual-tissue-2501",
+   "type": "file",
+   "file": "_maps/papers/virtual-tissue-2501.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-model-virtual-cell-challenge",
+   "type": "file",
+   "file": "_maps/papers/virtual-cell-challenge.md",
+   "x": 880,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-revert",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "4. Revert / \u9006\u8f6c (3)"
+  },
+  {
+   "id": "step-revert-spatial-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/spatial-biorxiv-2025.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-revert-scrna-natmachintell-2026",
+   "type": "file",
+   "file": "_maps/papers/scrna-natmachintell-2026.md",
+   "x": 1320,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-revert-counterfactual-diffusion-cancerres-2026",
+   "type": "file",
+   "file": "_maps/papers/counterfactual-diffusion-cancerres-2026.md",
+   "x": 1320,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-agents",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "5. Agents & evidence / agent \u4e0e\u8bc1\u636e (2)"
+  },
+  {
+   "id": "step-agents-deepevidence-natmachintell-2026",
+   "type": "file",
+   "file": "_maps/papers/deepevidence-natmachintell-2026.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-agents-hypogen-llm-colm-2024",
+   "type": "file",
+   "file": "_maps/papers/hypogen-llm-colm-2024.md",
+   "x": 1760,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "flow1",
+   "fromNode": "step-foundations",
+   "toNode": "step-detect",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow2",
+   "fromNode": "step-detect",
+   "toNode": "step-model",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow3",
+   "fromNode": "step-model",
+   "toNode": "step-revert",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow4",
+   "fromNode": "step-revert",
+   "toNode": "step-agents",
+   "fromSide": "right",
+   "toSide": "left"
+  }
+ ]
+}

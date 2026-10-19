@@ -1,0 +1,682 @@
+{
+ "flow": [],
+ "view": "bridge",
+ "title": {
+  "en": "Bridge — papers in both plans",
+  "zh": "桥：两个 plan 共用的论文"
+ },
+ "lead": {
+  "en": "Papers that Plan A and Plan B both depend on.",
+  "zh": "Plan A 和 Plan B 都要用到的论文。"
+ },
+ "collapsed": false,
+ "wrap": 0,
+ "nodes": [
+  {
+   "id": "group:A1",
+   "kind": "group",
+   "label": {
+    "en": "Atlases & disease states",
+    "zh": "图谱与疾病状态"
+   },
+   "code": "A1",
+   "count": 2,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "lake-kidney-atlas-nature-2023",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Kidney atlas (Lake 2023)",
+   "title": "An atlas of healthy and injured cell states and niches in the human kidney",
+   "year": 2023,
+   "venue": "Nature",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A KPMP / HuBMAP / HCA multimodal single-cell + spatial atlas of the human kidney: >400,000 cells/nuclei (snRNA, scRNA, SNARE-seq2 dual-omics) plus Slide-seq2, Visium and large-scale 3D imaging, spanning 45 healthy reference donors and 48 AKI/CKD patients; it defines 51 main cell types and 28 injury-associated \"altered states\" (cycling, adaptive/maladaptive repair, transitioning, degenerative), localizes them to injury niches, and shows that TAL/PT adaptive-repair signatures predict decline of kidney function.",
+    "zh": "KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 万个细胞/细胞核(snRNA、scRNA、SNARE-seq2 双组学),配合 Slide-seq2、Visium 与大规模 3D 成像,覆盖 45 名健康参照供体与 48 名 AKI/CKD 患者,定义 51 种主要细胞类型和 28 种损伤相关的\"altered states\"(cycling、adaptive/maladaptive repair、transitioning、degenerative),把它们定位到损伤 niche,并发现 TAL/PT 的 adaptive 修复签名可预测肾功能下降。"
+   },
+   "url": {
+    "en": "../papers/lake-kidney-atlas-nature-2023/",
+    "zh": "../zh/papers/lake-kidney-atlas-nature-2023/"
+   },
+   "x": 0,
+   "y": 70
+  },
+  {
+   "id": "inflammatory-pt-natcommun-2025",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Inflammatory PT cells",
+   "title": "Multiomic analysis of human kidney disease identifies a tractable inflammatory and pro-fibrotic tubular cell phenotype",
+   "year": 2025,
+   "venue": "Nature Communications",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Combining snRNA+snATAC multiome with CosMx high-plex single-cell spatial imaging (6,000- and 1,000-plex), the authors identify a VCAM1+ICAM1+ inflammatory proximal-tubule (PT) cell in human kidney disease: a subset of KPMP \"adaptive PT\" cells that expresses chemokines, pro-fibrotic and senescence-associated genes and localizes specifically to the fibrotic niche; it is epigenetically imprinted by HNF4α-network collapse plus AP-1/NF-κB activation; in mice the AP-1 inhibitor T5224 or the senolytic ABT-263 depletes these cells and reduces inflammation and fibrosis.",
+    "zh": "作者把 snRNA+snATAC 多组学与 CosMx 高通量单细胞空间成像(6,000 与 1,000 探针)结合,在人类肾病中找到一类 VCAM1+ICAM1+ 炎症性近端小管(PT)细胞:它们是 KPMP「adaptive PT」的一个亚群,表达趋化因子、促纤维化与衰老相关基因,特异地定位在纤维化 niche;表观上由 HNF4α 网络崩溃 + AP-1/NF-κB 激活锁定;在小鼠中用 AP-1 抑制剂 T5224 或衰老清除剂 ABT-263 能减少这类细胞并减轻炎症和纤维化。"
+   },
+   "url": {
+    "en": "../papers/inflammatory-pt-natcommun-2025/",
+    "zh": "../zh/papers/inflammatory-pt-natcommun-2025/"
+   },
+   "x": 0,
+   "y": 124
+  },
+  {
+   "id": "group:A2",
+   "kind": "group",
+   "label": {
+    "en": "QC & artifacts",
+    "zh": "质控与伪影"
+   },
+   "code": "A2",
+   "count": 1,
+   "x": 270,
+   "y": 0
+  },
+  {
+   "id": "resolvi-natmethods-2026",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "ResolVI",
+   "title": "ResolVI: addressing noise and bias in spatial transcriptomics",
+   "year": 2026,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "resolVI is a VAE-based generative model in scvi-tools that sits downstream of any segmentation algorithm and decomposes each cell's observed counts into three parts — the cell's true expression, expression \"diffused\" in from neighbouring cells, and a per-slice constant non-specific background — removing spurious co-expression caused by molecule misassignment while producing a batch-corrected probabilistic latent representation that supports differential expression and differential niche-abundance testing.",
+    "zh": "resolVI 是 scvi-tools 里的一个 VAE 生成模型,接在任意分割算法之后,把每个细胞的观测计数拆成三部分 —— 细胞自身的真实表达、从邻近细胞「扩散」进来的表达、以及每张切片恒定的非特异背景 —— 从而去除分子错配导致的虚假共表达,同时给出批次校正后的概率潜在表示,支持差异表达和空间邻域丰度检验。"
+   },
+   "url": {
+    "en": "../papers/resolvi-natmethods-2026/",
+    "zh": "../zh/papers/resolvi-natmethods-2026/"
+   },
+   "x": 270,
+   "y": 70
+  },
+  {
+   "id": "group:A3",
+   "kind": "group",
+   "label": {
+    "en": "Anomaly / OOD detection",
+    "zh": "异常 / OOD 检测"
+   },
+   "code": "A3",
+   "count": 1,
+   "x": 540,
+   "y": 0
+  },
+  {
+   "id": "conformal-scrna-bioinformatics-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "Conformal annotation",
+   "title": "Conformal inference for reliable single cell RNA-seq annotation",
+   "year": 2025,
+   "venue": "Bioinformatics",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Adds distribution-free statistical guarantees to automatic scRNA-seq annotation with conformal prediction: an autoencoder + conformal p-values first detects cell types absent from the reference (OOD) with false-positive rate ≤ α₀; the remaining cells get prediction sets with coverage guarantees (standard / classwise / cluster Mondrian taxonomies; APS / RAPS / THR non-conformity scores), where set size is the uncertainty. Departures of the conformal p-values from uniformity also diagnose broken reference–query exchangeability.",
+    "zh": "用 conformal prediction 给 scRNA-seq 自动注释加上分布无关的统计保证:先用自编码器 + conformal p 值检测参照中不存在的细胞类型(OOD),控制假阳性率 ≤ α₀;再对剩下的细胞输出带覆盖保证的预测集合(标准 / classwise / cluster 三种 Mondrian 分类方式,APS / RAPS / THR 三种非一致性分数),集合大小即不确定性;conformal p 值分布偏离均匀还可以用来诊断参照与 query 之间的可交换性是否被破坏。"
+   },
+   "url": {
+    "en": "../papers/conformal-scrna-bioinformatics-2025/",
+    "zh": "../zh/papers/conformal-scrna-bioinformatics-2025/"
+   },
+   "x": 540,
+   "y": 70
+  },
+  {
+   "id": "group:B2",
+   "kind": "group",
+   "label": {
+    "en": "Omics-analysis agents",
+    "zh": "组学分析 agent"
+   },
+   "code": "B2",
+   "count": 1,
+   "x": 810,
+   "y": 0
+  },
+  {
+   "id": "spatialagent-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "SpatialAgent",
+   "title": "SpatialAgent: An autonomous AI agent for spatial biology",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SpatialAgent is the Genentech/Regev-lab agent specialised for spatial omics: a Plan-Act-Conclude architecture with dynamic retrieval over 72 tools / 17 reusable skills, image interpretation, and reporting and verification subagents that audit numerical and visual claims, covering gene-panel design, cell/niche annotation, trajectories, cell–cell communication, imputation and hypothesis generation. It beats established methods and matches or exceeds experts on DLPFC panel design and fetal-heart MERFISH annotation, and designed a 100-gene add-on panel used in a prospective mouse prostate-cancer Xenium study (4.2M cells, 21 samples).",
+    "zh": "SpatialAgent 是 Genentech/Regev 组面向空间组学的专用 agent:Plan-Act-Conclude 架构 + 72 个工具 / 17 个可复用 skill 的动态检索 + 图像解读 + 报告与验证子 agent(逐条审计数值与视觉声明),覆盖基因 panel 设计、细胞/niche 注释、轨迹、细胞通讯、插补与假设生成;在 DLPFC panel 设计、胎儿心脏 MERFISH 注释上胜过既有方法并与专家持平或更优,并在前瞻性小鼠前列腺癌 Xenium 实验中设计了 100 基因附加 panel(实测 4.2M 细胞、21 个样本)。"
+   },
+   "url": {
+    "en": "../papers/spatialagent-biorxiv-2025/",
+    "zh": "../zh/papers/spatialagent-biorxiv-2025/"
+   },
+   "x": 810,
+   "y": 70
+  },
+  {
+   "id": "group:B3",
+   "kind": "group",
+   "label": {
+    "en": "Agent benchmarks",
+    "zh": "agent 基准"
+   },
+   "code": "B3",
+   "count": 1,
+   "x": 1080,
+   "y": 0
+  },
+  {
+   "id": "bioml-bench-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:B3",
+   "label": "BioML-bench",
+   "title": "BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "BioML-bench ports MLE-bench's \"task capsule + automatic grading\" paradigm to biomedicine: 24 end-to-end ML tasks (drug discovery, biomedical imaging, protein engineering, single-cell) where the agent builds the pipeline, trains models and submits predictions, scored as percentiles on largely expert-populated public leaderboards. Four agents (Biomni, STELLA, AIDE, MLAgentBench) average only the 34th–39th percentile, and biomedical specialization confers no consistent advantage.",
+    "zh": "BioML-bench 把 MLE-bench 的「任务 capsule + 自动评分」范式搬到生物医学:24 个端到端 ML 任务(药物发现、医学影像、蛋白工程、单细胞),agent 需自己建 pipeline、训模型、提交预测,再映射到以领域专家为主的公开排行榜百分位。四个 agent(Biomni、STELLA、AIDE、MLAgentBench)平均只到 34–39 百分位,且生物医学专用 agent 并无一致优势。"
+   },
+   "url": {
+    "en": "../papers/bioml-bench-biorxiv-2025/",
+    "zh": "../zh/papers/bioml-bench-biorxiv-2025/"
+   },
+   "x": 1080,
+   "y": 70
+  },
+  {
+   "id": "concept:healthy-reference",
+   "kind": "concept",
+   "label": {
+    "en": "Healthy reference atlas",
+    "zh": "健康参考图谱"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:A1",
+   "slot": 0,
+   "x": 0,
+   "y": 288
+  },
+  {
+   "id": "concept:disease-cell-state",
+   "kind": "concept",
+   "label": {
+    "en": "Injured / failed-repair states",
+    "zh": "损伤 / 修复失败状态"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 3,
+   "home": "group:A1",
+   "slot": 1,
+   "x": 0,
+   "y": 334
+  },
+  {
+   "id": "concept:doublet",
+   "kind": "concept",
+   "label": {
+    "en": "Doublets",
+    "zh": "双细胞 (doublet)"
+   },
+   "definition": {
+    "en": "A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state.",
+    "zh": "两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。"
+   },
+   "count": 1,
+   "home": "group:A1",
+   "slot": 2,
+   "x": 0,
+   "y": 380
+  },
+  {
+   "id": "concept:segmentation-error",
+   "kind": "concept",
+   "label": {
+    "en": "Segmentation errors",
+    "zh": "分割错误"
+   },
+   "definition": {
+    "en": "The image-analysis step of delineating individual cell boundaries so that molecular signals can be assigned to single cells.",
+    "zh": "在图像分析中勾勒单个细胞边界的步骤,以便将分子信号归属到单个细胞。"
+   },
+   "count": 1,
+   "home": "group:A2",
+   "slot": 0,
+   "x": 270,
+   "y": 288
+  },
+  {
+   "id": "concept:spillover",
+   "kind": "concept",
+   "label": {
+    "en": "Signal spillover",
+    "zh": "信号溢出"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:A1",
+   "slot": 3,
+   "x": 0,
+   "y": 426
+  },
+  {
+   "id": "concept:batch-effect",
+   "kind": "concept",
+   "label": {
+    "en": "Batch effects",
+    "zh": "批次效应"
+   },
+   "definition": {
+    "en": "Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected.",
+    "zh": "不同机构、时间或平台采集的数据集之间的系统性非生物学差异,若不校正会混淆分析。"
+   },
+   "count": 2,
+   "home": "group:A1",
+   "slot": 4,
+   "x": 0,
+   "y": 472
+  },
+  {
+   "id": "concept:ood-detection",
+   "kind": "concept",
+   "label": {
+    "en": "OOD / novelty detection",
+    "zh": "分布外 / 新颖性检测"
+   },
+   "definition": {
+    "en": "Flagging inputs that fall outside the data distribution a model was trained on, such as an unseen drug, cell context, or diseased tissue.",
+    "zh": "标记落在模型训练分布之外的输入,如未见过的药物、细胞语境或病变组织。"
+   },
+   "count": 1,
+   "home": "group:A3",
+   "slot": 0,
+   "x": 540,
+   "y": 288
+  },
+  {
+   "id": "concept:mapping-uncertainty",
+   "kind": "concept",
+   "label": {
+    "en": "Reference-mapping uncertainty",
+    "zh": "参考映射不确定性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:A1",
+   "slot": 5,
+   "x": 0,
+   "y": 518
+  },
+  {
+   "id": "concept:conformal",
+   "kind": "concept",
+   "label": {
+    "en": "Conformal guarantees",
+    "zh": "Conformal 保证"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:A3",
+   "slot": 1,
+   "x": 540,
+   "y": 334
+  },
+  {
+   "id": "concept:cross-modal",
+   "kind": "concept",
+   "label": {
+    "en": "Cross-modal agreement",
+    "zh": "跨模态一致性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B2",
+   "slot": 0,
+   "x": 810,
+   "y": 288
+  },
+  {
+   "id": "concept:kpmp",
+   "kind": "concept",
+   "label": {
+    "en": "KPMP data",
+    "zh": "KPMP 数据"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 2,
+   "home": "group:A1",
+   "slot": 6,
+   "x": 0,
+   "y": 564
+  },
+  {
+   "id": "concept:xenium",
+   "kind": "concept",
+   "label": {
+    "en": "Xenium",
+    "zh": "Xenium"
+   },
+   "definition": {
+    "en": "A 10x Genomics imaging-based platform that measures a targeted panel of transcripts in situ at subcellular resolution with single-cell segmentation.",
+    "zh": "一种基于成像的 10x Genomics 平台,在亚细胞分辨率下原位测量目标转录本组合,并进行单细胞分割。"
+   },
+   "count": 4,
+   "home": "group:A1",
+   "slot": 7,
+   "x": 0,
+   "y": 610
+  },
+  {
+   "id": "concept:omics-agent",
+   "kind": "concept",
+   "label": {
+    "en": "Single-cell analysis agents",
+    "zh": "单细胞分析 agent"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B2",
+   "slot": 1,
+   "x": 810,
+   "y": 334
+  },
+  {
+   "id": "concept:claim-evidence",
+   "kind": "concept",
+   "label": {
+    "en": "Claim → evidence chains",
+    "zh": "结论 → 证据链"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B2",
+   "slot": 2,
+   "x": 810,
+   "y": 380
+  },
+  {
+   "id": "concept:rerun-stability",
+   "kind": "concept",
+   "label": {
+    "en": "Rerun stability & replay",
+    "zh": "重跑稳定性与回放"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B3",
+   "slot": 0,
+   "x": 1080,
+   "y": 288
+  },
+  {
+   "id": "concept:failure-taxonomy",
+   "kind": "concept",
+   "label": {
+    "en": "Failure taxonomy",
+    "zh": "失败类型学"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B3",
+   "slot": 1,
+   "x": 1080,
+   "y": 334
+  },
+  {
+   "id": "concept:benchmark-validity",
+   "kind": "concept",
+   "label": {
+    "en": "Benchmark validity",
+    "zh": "基准有效性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 3,
+   "home": "group:A2",
+   "slot": 1,
+   "x": 270,
+   "y": 334
+  }
+ ],
+ "edges": [
+  {
+   "source": "concept:healthy-reference",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:segmentation-error",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:spillover",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ood-detection",
+   "target": "conformal-scrna-bioinformatics-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:mapping-uncertainty",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:conformal",
+   "target": "conformal-scrna-bioinformatics-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "inflammatory-pt-natcommun-2025",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  }
+ ],
+ "stats": {
+  "papers": 6,
+  "concepts": 17,
+  "edges": 27
+ }
+}

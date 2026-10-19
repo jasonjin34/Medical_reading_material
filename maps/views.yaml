@@ -1,0 +1,290 @@
+# Knowledge-map views — hand-written SOURCE for scripts/build_maps.py.
+# Which papers belong to a view comes from each paper's metadata.yaml
+# (`plans`, `track`, `recommended_by`); this file defines the columns (tracks),
+# the core concepts per view and how a concept is matched in deep-read text.
+#
+# concept fields:
+#   label: {en, zh}
+#   match: list of case-insensitive regexes searched in the English lines of deep-read.md
+#   glossary: optional glossary id — its `seen_in` slugs are added as links too
+#   min_hits: minimum regex hits in one deep-read to draw a link (default 2)
+#   max_links: keep only the papers with the most hits (default 6) so no concept becomes a hub
+#
+# view fields besides title/lead/select/tracks/concepts:
+#   concepts_from: [view, …]   reuse another view's concepts; concepts_pick: [id, …] keeps only those
+#   min_links: hide a concept that links fewer papers than this (default 1)
+#   flow: ordered pipeline steps → Mermaid flowchart (site + MOC) and an Obsidian flow canvas.
+#         Each step: id, label {en, zh}, columns: [track/column ids whose papers belong to the step]
+#   wrap: N  when every group is collapsed, lay the group boxes out in rows of N
+
+views:
+  plan-a:
+    title: {en: "Plan A — Kidney omics anomaly detection", zh: "Plan A:肾脏组学异常检测"}
+    lead:
+      en: "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another."
+      zh: "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
+    select: {plans: A}
+    flow:
+      - {id: data, columns: [A1], label: {en: "In-house kidney data + open atlases", zh: "所内肾脏数据 + 公开图谱"}}
+      - {id: qc, columns: [A2], label: {en: "QC & artifact removal", zh: "质控与去伪影"}}
+      - {id: normal, columns: [A5], label: {en: "Model of healthy tissue", zh: "健康组织模型"}}
+      - {id: score, columns: [A3], label: {en: "Anomaly / OOD score", zh: "异常 / OOD 打分"}}
+      - {id: crossmodal, columns: [A4], label: {en: "Cross-modal check", zh: "跨模态验证"}}
+      - {id: eval, columns: [A6], label: {en: "Evaluation vs. experts", zh: "对照专家评测"}}
+    tracks:
+      A1: {en: "Atlases & disease states", zh: "图谱与疾病状态"}
+      A2: {en: "QC & artifacts", zh: "质控与伪影"}
+      A3: {en: "Anomaly / OOD detection", zh: "异常 / OOD 检测"}
+      A4: {en: "Cross-modal consistency", zh: "跨模态一致性"}
+      A5: {en: "Foundation models & baselines", zh: "基础模型与基线"}
+      A6: {en: "Evaluation & benchmarks", zh: "评测与基准"}
+    concepts:
+      healthy-reference:
+        label: {en: "Healthy reference atlas", zh: "健康参考图谱"}
+        match: ['healthy reference', 'reference atlas', 'healthy atlas', 'healthy donors?']
+      disease-cell-state:
+        label: {en: "Injured / failed-repair states", zh: "损伤 / 修复失败状态"}
+        match: ['failed[- ]repair', 'injur(ed|y) (cell )?states?', 'adaptive (PT|state)', 'altered (cell )?states?']
+      damage-score:
+        label: {en: "Damage score", zh: "损伤评分"}
+        match: ['damage scores?', 'injury scores?']
+        min_hits: 1
+      doublet:
+        label: {en: "Doublets", zh: "双细胞 (doublet)"}
+        glossary: doublet
+        match: ['doublets?']
+      ambient-rna:
+        label: {en: "Ambient RNA", zh: "环境 RNA"}
+        glossary: ambient-rna
+        match: ['ambient RNA', 'decontaminat']
+      segmentation-error:
+        label: {en: "Segmentation errors", zh: "分割错误"}
+        glossary: cell-segmentation
+        match: ['segmentation (error|artifact)s?', 'mis-?segment', 'misassign', 'wrong cell']
+      spillover:
+        label: {en: "Signal spillover", zh: "信号溢出"}
+        match: ['spillover', 'signal contamination', 'transcript contamination']
+        min_hits: 1
+      batch-effect:
+        label: {en: "Batch effects", zh: "批次效应"}
+        glossary: batch-effect
+        match: ['batch effects?', 'batch[- ]correct', 'technical variation']
+      ood-detection:
+        label: {en: "OOD / novelty detection", zh: "分布外 / 新颖性检测"}
+        glossary: out-of-distribution-detection
+        match: ['out-of-distribution', '\bOOD\b', 'novel cell types?', 'unseen cell types?']
+        min_hits: 1
+      mapping-uncertainty:
+        label: {en: "Reference-mapping uncertainty", zh: "参考映射不确定性"}
+        match: ['mapping (quality|uncertainty|score)', 'query[- ]to[- ]reference', 'reference mapping']
+        min_hits: 1
+      conformal:
+        label: {en: "Conformal guarantees", zh: "Conformal 保证"}
+        match: ['conformal']
+        min_hits: 1
+      anomalous-region:
+        label: {en: "Anomalous tissue regions", zh: "异常组织区域"}
+        glossary: anomalous-tissue-domain
+        match: ['anomalous (region|tissue|domain)s?', 'anomaly maps?']
+        min_hits: 1
+      cross-modal:
+        label: {en: "Cross-modal agreement", zh: "跨模态一致性"}
+        match: ['cross-modal', 'RNA[–-]ATAC', 'multimodal integration', 'modalit(y|ies) as evidence']
+      he-to-expression:
+        label: {en: "H&E → expression prediction", zh: "H&E → 表达预测"}
+        match: ['expression prediction', 'predict(ed|ing|s)? (gene )?expression', 'histology[- ]to[- ](gene|expression)']
+        min_hits: 1
+      foundation-model:
+        label: {en: "Foundation models", zh: "基础模型"}
+        glossary: foundation-model
+        match: ['foundation models?']
+      linear-baseline:
+        label: {en: "Simple / linear baselines", zh: "简单 / 线性基线"}
+        match: ['linear baselines?', 'simple baselines?', 'PCA baseline']
+        min_hits: 1
+      zero-shot:
+        label: {en: "Zero-shot use", zh: "零样本使用"}
+        match: ['zero-shot']
+      expert-validation:
+        label: {en: "Expert validation", zh: "专家验证"}
+        match: ['expert (review|validation|annotation|label)', 'pathologists?', 'nephrologists?']
+      kpmp:
+        label: {en: "KPMP data", zh: "KPMP 数据"}
+        match: ['KPMP']
+      xenium:
+        label: {en: "Xenium", zh: "Xenium"}
+        glossary: xenium
+        match: ['Xenium']
+
+  plan-b:
+    title: {en: "Plan B — Trustworthy biomedical agents", zh: "Plan B:可信的生物医学 agent"}
+    lead:
+      en: "Trace every agent claim back through code and data; calibrate the verifier against experts."
+      zh: "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
+    select: {plans: B}
+    flow:
+      - {id: run, columns: [B1, B2], label: {en: "Agent runs the analysis", zh: "agent 执行分析"}}
+      - {id: claims, columns: [B4], label: {en: "Extract claims, trace to code / data / citations", zh: "抽取结论，追溯到代码 / 数据 / 引用"}}
+      - {id: judge, columns: [B5], label: {en: "Detect hallucination & judge", zh: "检测幻觉与评审"}}
+      - {id: hypo, columns: [B6], label: {en: "Score hypotheses", zh: "评估假设"}}
+      - {id: reliab, columns: [B7], label: {en: "Reruns & failure analysis", zh: "重跑与失败分析"}}
+      - {id: bench, columns: [B3], label: {en: "Benchmark + expert calibration", zh: "基准 + 专家校准"}}
+    tracks:
+      B1: {en: "Research agents", zh: "科研 agent"}
+      B2: {en: "Omics-analysis agents", zh: "组学分析 agent"}
+      B3: {en: "Agent benchmarks", zh: "agent 基准"}
+      B4: {en: "Claim & citation verification", zh: "结论与引用核查"}
+      B5: {en: "Hallucination & LLM-as-judge", zh: "幻觉与 LLM 评审"}
+      B6: {en: "Hypothesis evaluation", zh: "假设评测"}
+      B7: {en: "Reliability & safety", zh: "可靠性与安全"}
+    concepts:
+      research-agent:
+        label: {en: "AI scientist agents", zh: "AI 科学家 agent"}
+        match: ['AI scientists?', 'research agents?', 'co-scientist', 'autonomous (discovery|research)']
+      multi-agent:
+        label: {en: "Multi-agent systems", zh: "多 agent 系统"}
+        match: ['multi-agent']
+      omics-agent:
+        label: {en: "Single-cell analysis agents", zh: "单细胞分析 agent"}
+        match: ['single-cell (agent|analysis)', 'scRNA-seq analysis', '\.h5ad', 'omics analysis']
+        min_hits: 1
+      trajectory-eval:
+        label: {en: "Trajectory-level evaluation", zh: "轨迹级评测"}
+        match: ['agent trajector', 'trajectory-level', 'full trajector', 'research trajector', 'process-level', 'rubrics?']
+      outcome-eval:
+        label: {en: "Final-answer grading", zh: "只看最终答案的评分"}
+        match: ['final[- ]answer', 'outcome-level', 'deterministic grader', 'exact match']
+        min_hits: 1
+      claim-evidence:
+        label: {en: "Claim → evidence chains", zh: "结论 → 证据链"}
+        match: ['claim[- ]level', 'claim[–-]evidence', 'atomic claims?', 'evidence (chain|graph)s?']
+      citation-faithfulness:
+        label: {en: "Citation faithfulness", zh: "引用忠实度"}
+        match: ['citation (faithfulness|accuracy|support)', 'unsupported (citation|claim)s?', 'attribution']
+      reference-hallucination:
+        label: {en: "Fabricated references", zh: "编造的参考文献"}
+        match: ['fabricated (citation|reference)s?', 'reference hallucination', 'hallucinated (citation|reference)s?']
+        min_hits: 1
+      hallucination:
+        label: {en: "Hallucination", zh: "幻觉"}
+        glossary: hallucination
+        match: ['hallucinat']
+      overclaiming:
+        label: {en: "Overclaiming", zh: "过度宣称"}
+        match: ['overgenerali', 'overclaim', 'overstat']
+      llm-judge:
+        label: {en: "LLM-as-judge", zh: "LLM 评审"}
+        match: ['LLM[- ]as[- ]a?[- ]?judge', 'LLM judges?', 'judge models?']
+      human-calibration:
+        label: {en: "Human / expert calibration", zh: "人工 / 专家校准"}
+        match: ["inter-annotator", "Cohen's", 'Krippendorff', 'human (agreement|alignment)', 'agreement with (human|expert)s?', 'expert (label|annotation|panel)s?']
+      novelty:
+        label: {en: "Novelty", zh: "新颖性"}
+        match: ['novelty']
+      falsifiability:
+        label: {en: "Falsifiability", zh: "可证伪性"}
+        match: ['falsifi']
+        min_hits: 1
+      rerun-stability:
+        label: {en: "Rerun stability & replay", zh: "重跑稳定性与回放"}
+        match: ['reruns?', 'repeated runs', 'replay', 'non-?determinis']
+      failure-taxonomy:
+        label: {en: "Failure taxonomy", zh: "失败类型学"}
+        match: ['failure (taxonomy|modes?|patterns?)', 'error taxonomy']
+      benchmark-validity:
+        label: {en: "Benchmark validity", zh: "基准有效性"}
+        match: ['benchmark validity', 'task validity', 'data contamination', 'leakage']
+        min_hits: 1
+      safety:
+        label: {en: "Safety & hazards", zh: "安全与风险"}
+        match: ['safety', 'hazards?', 'red[- ]team']
+
+  bridge:
+    title: {en: "Bridge — papers in both plans", zh: "桥：两个 plan 共用的论文"}
+    lead:
+      en: "Papers that Plan A and Plan B both depend on."
+      zh: "Plan A 和 Plan B 都要用到的论文。"
+    select: {plans_all: [A, B]}
+    concepts_from: [plan-a, plan-b]
+
+  sikander:
+    title: {en: "Sikander's picks", zh: "Sikander 推荐"}
+    lead:
+      en: "Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line."
+      zh: "Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → revert 排列。"
+    select: {recommended_by: sikander}
+    flow:
+      - {id: foundations, columns: [foundations], label: {en: "Foundations & data", zh: "基础模型与数据"}}
+      - {id: detect, columns: [detect], label: {en: "Detect", zh: "检测"}}
+      - {id: model, columns: [model], label: {en: "Model", zh: "建模"}}
+      - {id: revert, columns: [revert], label: {en: "Revert", zh: "逆转"}}
+      - {id: agents, columns: [agents], label: {en: "Agents & evidence", zh: "agent 与证据"}}
+    concepts_from: [plan-a]
+    concepts_pick: [foundation-model, he-to-expression, cross-modal, ood-detection]
+    min_links: 2
+    concepts:
+      virtual-tissue:
+        label: {en: "Virtual tissue / cell", zh: "虚拟组织 / 细胞"}
+        match: ['virtual (tissue|cell)s?', 'in silico (tissue|perturbation)']
+        min_hits: 1
+      perturbation:
+        label: {en: "Perturbation & counterfactual", zh: "扰动与反事实"}
+        match: ['perturbations?', 'counterfactuals?']
+      spatial-omics:
+        label: {en: "Spatial omics", zh: "空间组学"}
+        match: ['spatial (transcriptomics|omics|proteomics)']
+      risk-trajectory:
+        label: {en: "Risk & disease trajectories", zh: "风险与疾病轨迹"}
+        match: ['risk prediction', 'disease trajector', 'patient trajector', 'time-to-event']
+        min_hits: 1
+    columns:                       # this view uses its own columns, not tracks
+      foundations: {en: "Foundations & data", zh: "基础模型与数据"}
+      detect: {en: "Detect", zh: "检测"}
+      model: {en: "Model", zh: "建模"}
+      revert: {en: "Revert", zh: "逆转"}
+      agents: {en: "Agents & evidence", zh: "agent 与证据"}
+      ehr: {en: "EHR", zh: "电子病历"}
+    column_of:
+      fm-arxiv-2604: foundations
+      hest1k-2024: foundations
+      virchow-2024: foundations
+      uni2-h-model: foundations
+      pathbench-natcommun-2026: foundations
+      spatial-natcommun-2024: detect
+      histo-nejmai-2024: detect
+      histo-anomaly-bi-repo: detect
+      histo-miccai-2025: detect
+      histo-sciencedirect-2026: detect
+      imaging-ehjdh-2026: detect
+      imaging-nature-2026: detect
+      pathomics-npjpo-2026: detect
+      pathomics-blood-2023: detect
+      pathomics-repo: detect
+      nih-kidney-ai-challenge-2026: detect
+      virtual-tissue-2501: model
+      spatial-biorxiv-2025: revert
+      virtual-cell-challenge: model
+      scrna-natmachintell-2026: revert
+      counterfactual-diffusion-cancerres-2026: revert
+      deepevidence-natmachintell-2026: agents
+      hypogen-llm-colm-2024: agents
+      ehr-comet-natmachintell-2025: ehr
+      ehr-apollo-arxiv-2026: ehr
+      ehr-pancreatic-trajectory-natmed-2023: ehr
+      ehr-delphi2m-nature-2025: ehr
+      ehr-pancreatic-llm-npjdigitmed-2025: ehr
+
+  ehr:
+    title: {en: "EHR & patient trajectories", zh: "电子病历与患者轨迹"}
+    lead:
+      en: "Papers for the Mount Sinai EHR project."
+      zh: "Mount Sinai 电子病历项目的论文。"
+    select: {plans: EHR}
+
+  overview:
+    title: {en: "Overview — all papers", zh: "总览：全部论文"}
+    lead:
+      en: "Every paper, clustered by category. For orientation only; use the views above to read."
+      zh: "全部论文按分类聚在一起，只用来看轮廓；细读请用上面的视图。"
+    select: {all: true}
+    wrap: 4                        # collapsed group boxes are wrapped into rows of 4

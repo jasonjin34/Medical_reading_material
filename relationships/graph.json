@@ -885,8 +885,48 @@
       "type": "cites"
     },
     {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "spatialagent-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "bioml-bench-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "biomni-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "bixbench-arxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "biomnibench-biorxiv-2026",
+      "target": "lab-bench-arxiv-2024",
+      "type": "cites"
+    },
+    {
       "source": "cellspectra-natgenet-2025",
       "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "robin-nature-2026",
+      "type": "cites"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "virtual-lab-nature-2025",
+      "type": "cites"
+    },
+    {
+      "source": "citation-faithfulness-arxiv-2026",
+      "target": "sourcecheckup-natcommun-2025",
       "type": "cites"
     },
     {
@@ -972,6 +1012,11 @@
     {
       "source": "pathology-ad-bench-mlhealth-2025",
       "target": "medianomaly-media-2025",
+      "type": "cites"
+    },
+    {
+      "source": "refmap-eval-biorxiv-2025",
+      "target": "healthy-ref-natgenet-2023",
       "type": "cites"
     },
     {

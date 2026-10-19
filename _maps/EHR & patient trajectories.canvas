@@ -1,0 +1,100 @@
+{
+ "nodes": [
+  {
+   "id": "group-EHR",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 930,
+   "label": "EHR \u00b7 EHR & trajectories"
+  },
+  {
+   "id": "ehr-delphi2m-nature-2025",
+   "type": "file",
+   "file": "_maps/papers/ehr-delphi2m-nature-2025.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "ehr-pancreatic-trajectory-natmed-2023",
+   "type": "file",
+   "file": "_maps/papers/ehr-pancreatic-trajectory-natmed-2023.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "ehr-apollo-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/ehr-apollo-arxiv-2026.md",
+   "x": 0,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "ehr-comet-natmachintell-2025",
+   "type": "file",
+   "file": "_maps/papers/ehr-comet-natmachintell-2025.md",
+   "x": 0,
+   "y": 510,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "ehr-pancreatic-llm-npjdigitmed-2025",
+   "type": "file",
+   "file": "_maps/papers/ehr-pancreatic-llm-npjdigitmed-2025.md",
+   "x": 0,
+   "y": 680,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "fromNode": "ehr-delphi2m-nature-2025",
+   "toNode": "ehr-pancreatic-trajectory-natmed-2023",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e1",
+   "fromNode": "ehr-pancreatic-llm-npjdigitmed-2025",
+   "toNode": "ehr-pancreatic-trajectory-natmed-2023",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e2",
+   "fromNode": "ehr-delphi2m-nature-2025",
+   "toNode": "ehr-apollo-arxiv-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "patient-trajectory foundation model"
+  },
+  {
+   "id": "e3",
+   "fromNode": "ehr-apollo-arxiv-2026",
+   "toNode": "ehr-comet-natmachintell-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "EHR pretraining \u2192 transfer"
+  },
+  {
+   "id": "e4",
+   "fromNode": "ehr-comet-natmachintell-2025",
+   "toNode": "ehr-delphi2m-nature-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "UK Biobank EHR modelling"
+  }
+ ]
+}

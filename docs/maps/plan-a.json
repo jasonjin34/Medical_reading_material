@@ -1,0 +1,2431 @@
+{
+ "flow": [
+  {
+   "id": "data",
+   "label": {
+    "en": "In-house kidney data + open atlases",
+    "zh": "所内肾脏数据 + 公开图谱"
+   },
+   "columns": [
+    "A1"
+   ],
+   "count": 7,
+   "papers": [
+    "damage-scores-cellgenomics-2026",
+    "dkd-spatial-atlas-nature-2026",
+    "cellspectra-natgenet-2025",
+    "spatialagent-biorxiv-2025",
+    "lake-kidney-atlas-nature-2023",
+    "kidney-epigenome-nataging-2026",
+    "inflammatory-pt-natcommun-2025"
+   ],
+   "top": [
+    "Damage scores",
+    "DKD spatial atlas",
+    "CellSpectra"
+   ]
+  },
+  {
+   "id": "qc",
+   "label": {
+    "en": "QC & artifact removal",
+    "zh": "质控与去伪影"
+   },
+   "columns": [
+    "A2"
+   ],
+   "count": 4,
+   "papers": [
+    "ovrlpy-natbiotech-2026",
+    "resolvi-natmethods-2026",
+    "xenium-split-natmethods-2026",
+    "ambient-rna-bench-biorxiv-2026"
+   ],
+   "top": [
+    "ovrlpy",
+    "ResolVI",
+    "Xenium contamination (SPLIT)"
+   ]
+  },
+  {
+   "id": "normal",
+   "label": {
+    "en": "Model of healthy tissue",
+    "zh": "健康组织模型"
+   },
+   "columns": [
+    "A5"
+   ],
+   "count": 7,
+   "papers": [
+    "pathbench-natcommun-2026",
+    "linear-baselines-natmethods-2025",
+    "nephrobase-biorxiv-2025",
+    "scfm-zeroshot-genomebiol-2025",
+    "nicheformer-natmethods-2025",
+    "virchow-2024",
+    "uni2-h-model"
+   ],
+   "top": [
+    "Pathology FM benchmark",
+    "Linear baselines win",
+    "Nephrobase Cell+"
+   ]
+  },
+  {
+   "id": "score",
+   "label": {
+    "en": "Anomaly / OOD score",
+    "zh": "异常 / OOD 打分"
+   },
+   "columns": [
+    "A3"
+   ],
+   "count": 9,
+   "papers": [
+    "meatrd-aaai-2025",
+    "refmap-eval-biorxiv-2025",
+    "sardine-bioinformatics-2025",
+    "healthy-ref-natgenet-2023",
+    "scatac-novel-genomeres-2026",
+    "bioml-bench-biorxiv-2025",
+    "conformal-scrna-bioinformatics-2025",
+    "mrvi-natmethods-2025",
+    "spatial-natcommun-2024"
+   ],
+   "top": [
+    "MEATRD",
+    "Reference-mapping QC",
+    "Sardine"
+   ]
+  },
+  {
+   "id": "crossmodal",
+   "label": {
+    "en": "Cross-modal check",
+    "zh": "跨模态验证"
+   },
+   "columns": [
+    "A4"
+   ],
+   "count": 5,
+   "papers": [
+    "kidney-multimodal-genomebiol-2026",
+    "loki-omiclip-natmethods-2025",
+    "he2expr-bench-natcommun-2025",
+    "multimodal-integration-bench-natmethods-2025",
+    "hest1k-2024"
+   ],
+   "top": [
+    "Kidney multiome (mBDRC)",
+    "Loki / OmiCLIP",
+    "H&E→expression benchmark"
+   ]
+  },
+  {
+   "id": "eval",
+   "label": {
+    "en": "Evaluation vs. experts",
+    "zh": "对照专家评测"
+   },
+   "columns": [
+    "A6"
+   ],
+   "count": 7,
+   "papers": [
+    "nih-kidney-ai-challenge-2026",
+    "pathology-ad-bench-mlhealth-2025",
+    "histo-nejmai-2024",
+    "kidney-ssl-histology-scirep-2025",
+    "histo-miccai-2025",
+    "medianomaly-media-2025",
+    "histo-anomaly-bi-repo"
+   ],
+   "top": [
+    "NIH Kidney AI Challenge",
+    "Pathology AD benchmark",
+    "Clinical-grade histo AD"
+   ]
+  }
+ ],
+ "view": "plan-a",
+ "title": {
+  "en": "Plan A — Kidney omics anomaly detection",
+  "zh": "Plan A:肾脏组学异常检测"
+ },
+ "lead": {
+  "en": "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another.",
+  "zh": "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
+ },
+ "collapsed": true,
+ "wrap": 0,
+ "nodes": [
+  {
+   "id": "group:A1",
+   "kind": "group",
+   "label": {
+    "en": "Atlases & disease states",
+    "zh": "图谱与疾病状态"
+   },
+   "code": "A1",
+   "count": 7,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "damage-scores-cellgenomics-2026",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Damage scores",
+   "title": "Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics",
+   "year": 2026,
+   "venue": "Cell Genomics",
+   "relevance": "high",
+   "status": "abstract-only",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A general framework of cell-type-specific continuous damage scores that place individual cells on a health-to-damage axis: 42 genes with consistent changes across many mouse disease models are scored with AUCell, giving the podocyte damage score PDS (CKD/FSGS) and hepatocyte damage score HDS (MASLD/NASH); across mouse and human scRNA, snRNA, spatial transcriptomics, proteomics, histology and clinical data they detect disease-associated damage, align different disease models, and resolve damage variation even among unperturbed control cells.",
+    "zh": "提出一个通用框架,用细胞类型特异的连续损伤分数把单个细胞放在\"健康 → 损伤\"轴上:从大量小鼠疾病模型中挑出一致变化的 42 个基因,用 AUCell 打分,得到足细胞损伤分数 PDS(CKD/FSGS)与肝细胞损伤分数 HDS(MASLD/NASH);在小鼠与人的 scRNA、snRNA、空间转录组、蛋白组、组织学与临床数据中都能检出疾病相关损伤,能\"对齐\"不同疾病模型,并在未扰动的对照细胞中也分辨出损伤程度差异。"
+   },
+   "url": {
+    "en": "../papers/damage-scores-cellgenomics-2026/",
+    "zh": "../zh/papers/damage-scores-cellgenomics-2026/"
+   },
+   "x": 0,
+   "y": 70
+  },
+  {
+   "id": "dkd-spatial-atlas-nature-2026",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "DKD spatial atlas",
+   "title": "Spatial atlas of diabetic kidney disease reveals a B cell-rich subgroup",
+   "year": 2026,
+   "venue": "Nature",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "CosMx (1k genes) and Xenium (5k genes) single-cell spatial transcriptomics on 64 FFPE kidney samples from 58 patients, integrated with a 150-patient snRNA-seq reference via scVI/scANVI into a >5-million-cell cross-platform DKD spatial atlas; it defines 11 reproducible tissue niches and cell-centred \"microenvironments\", finds a profibrotic injured-tubule microenvironment that expands with disease and tracks lower eGFR, and within it a B cell-predominant, TLS-like immune microenvironment marking a faster-progressing DKD subset (B+ DKD, ~8.4%) — yielding a tissue gene signature and a 14-protein plasma panel (UK Biobank external AUC 0.70 vs KFRE 0.63).",
+    "zh": "用 CosMx(1k 基因)与 Xenium(5k 基因) 单细胞空间转录组对 58 名患者的 64 个 FFPE 肾样本建图,并与 150 例 snRNA-seq 参照用 scVI/scANVI 整合成 > 500 万细胞的跨平台 DKD 空间图谱;定义 11 个可复现的组织 niche 与以细胞为中心的\"microenvironment\",发现随病情扩张、与 eGFR 负相关的促纤维化损伤小管微环境,以及其中嵌入的、B 细胞为主的 TLS 样免疫微环境——它标志一个进展更快的 DKD 亚群(B+ DKD,约 8.4%),并据此得到组织基因签名与 14 蛋白血浆 panel(UK Biobank 外部验证 AUC 0.70 vs KFRE 0.63)。"
+   },
+   "url": {
+    "en": "../papers/dkd-spatial-atlas-nature-2026/",
+    "zh": "../zh/papers/dkd-spatial-atlas-nature-2026/"
+   },
+   "x": 0,
+   "y": 124
+  },
+  {
+   "id": "cellspectra-natgenet-2025",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "CellSpectra",
+   "title": "Analysis of individual patient pathway coordination in a cross-species single-cell kidney atlas",
+   "year": 2025,
+   "venue": "Nature Genetics",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Two things: (1) SISKA 1.0 — a cross-species single-nucleus kidney atlas (human, mouse, rat; >1M cells, >140 samples) with 21 main cell types and ~80 cross-species-conserved cell states; (2) CellSpectra — a single-sample statistic: for each cell type × pathway, the first SVD axis of the reference samples' pseudobulk matrix defines the \"coordination pattern\"; a query sample is regressed onto it, and lowered R² plus a χ² test flags loss of coordination in that sample. This powers a patient-level single-cell functional profiling report, rodent-model selection for a patient, and — in a folic-acid kidney-injury model — the CellSpectra-nominated TNF pathway was targeted with etanercept, improving kidney function.",
+    "zh": "两件事:(1) SISKA 1.0 —— 人、小鼠、大鼠 > 100 万细胞、> 140 个样本的跨物种单细胞(snRNA)肾脏图谱,21 个主要细胞类型、近 80 个跨物种保守的细胞状态;(2) CellSpectra —— 一个单样本统计工具:对每个细胞类型 × 通路,用参照样本伪 bulk 矩阵的 SVD 第一主轴作为\"协调模式\",把待测样本回归上去,R² 降低 + χ² 检验即判为该样本该通路\"协调性丢失\";据此生成患者级单细胞功能画像报告、为患者选择最匹配的啮齿类模型,并在叶酸肾损伤模型中由 CellSpectra 提名的 TNF 通路用 etanercept 干预改善了肾功能。"
+   },
+   "url": {
+    "en": "../papers/cellspectra-natgenet-2025/",
+    "zh": "../zh/papers/cellspectra-natgenet-2025/"
+   },
+   "x": 0,
+   "y": 178
+  },
+  {
+   "id": "spatialagent-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "SpatialAgent",
+   "title": "SpatialAgent: An autonomous AI agent for spatial biology",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "B"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SpatialAgent is the Genentech/Regev-lab agent specialised for spatial omics: a Plan-Act-Conclude architecture with dynamic retrieval over 72 tools / 17 reusable skills, image interpretation, and reporting and verification subagents that audit numerical and visual claims, covering gene-panel design, cell/niche annotation, trajectories, cell–cell communication, imputation and hypothesis generation. It beats established methods and matches or exceeds experts on DLPFC panel design and fetal-heart MERFISH annotation, and designed a 100-gene add-on panel used in a prospective mouse prostate-cancer Xenium study (4.2M cells, 21 samples).",
+    "zh": "SpatialAgent 是 Genentech/Regev 组面向空间组学的专用 agent:Plan-Act-Conclude 架构 + 72 个工具 / 17 个可复用 skill 的动态检索 + 图像解读 + 报告与验证子 agent(逐条审计数值与视觉声明),覆盖基因 panel 设计、细胞/niche 注释、轨迹、细胞通讯、插补与假设生成;在 DLPFC panel 设计、胎儿心脏 MERFISH 注释上胜过既有方法并与专家持平或更优,并在前瞻性小鼠前列腺癌 Xenium 实验中设计了 100 基因附加 panel(实测 4.2M 细胞、21 个样本)。"
+   },
+   "url": {
+    "en": "../papers/spatialagent-biorxiv-2025/",
+    "zh": "../zh/papers/spatialagent-biorxiv-2025/"
+   },
+   "x": 0,
+   "y": 232
+  },
+  {
+   "id": "lake-kidney-atlas-nature-2023",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Kidney atlas (Lake 2023)",
+   "title": "An atlas of healthy and injured cell states and niches in the human kidney",
+   "year": 2023,
+   "venue": "Nature",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "B"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A KPMP / HuBMAP / HCA multimodal single-cell + spatial atlas of the human kidney: >400,000 cells/nuclei (snRNA, scRNA, SNARE-seq2 dual-omics) plus Slide-seq2, Visium and large-scale 3D imaging, spanning 45 healthy reference donors and 48 AKI/CKD patients; it defines 51 main cell types and 28 injury-associated \"altered states\" (cycling, adaptive/maladaptive repair, transitioning, degenerative), localizes them to injury niches, and shows that TAL/PT adaptive-repair signatures predict decline of kidney function.",
+    "zh": "KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 万个细胞/细胞核(snRNA、scRNA、SNARE-seq2 双组学),配合 Slide-seq2、Visium 与大规模 3D 成像,覆盖 45 名健康参照供体与 48 名 AKI/CKD 患者,定义 51 种主要细胞类型和 28 种损伤相关的\"altered states\"(cycling、adaptive/maladaptive repair、transitioning、degenerative),把它们定位到损伤 niche,并发现 TAL/PT 的 adaptive 修复签名可预测肾功能下降。"
+   },
+   "url": {
+    "en": "../papers/lake-kidney-atlas-nature-2023/",
+    "zh": "../zh/papers/lake-kidney-atlas-nature-2023/"
+   },
+   "x": 0,
+   "y": 286
+  },
+  {
+   "id": "kidney-epigenome-nataging-2026",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Kidney epigenome atlas",
+   "title": "A cross-species single-cell kidney epigenome atlas reveals epithelial-dominant aging-like states in disease",
+   "year": 2026,
+   "venue": "Nature Aging",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "The authors build a cross-species (human + mouse) single-cell kidney epigenome atlas — single-cell DNA methylation (sciMET) + matched 10x Multiome (RNA+ATAC) + Xenium 5K spatial transcriptomics + scMethyl-Hi-C — and find that disease-associated epigenetic age acceleration is concentrated in tubular epithelial cells (on average 4.8 years), that altered PT cells' methylation and expression changes overlap normal-aging transcriptional trajectories, preferentially hit CpG-island-less lineage genes, and map to spatial niches of unresolved repair.",
+    "zh": "作者构建了一个跨物种(人 + 小鼠)的单细胞肾脏表观基因组图谱 —— 单细胞 DNA 甲基化(sciMET)+ 匹配的 10x Multiome(RNA+ATAC)+ Xenium 5K 空间转录组 + scMethyl-Hi-C —— 发现肾病中的表观遗传年龄加速主要发生在小管上皮细胞(平均快 4.8 年),病变 PT 细胞的甲基化与表达改变和正常衰老的转录轨迹重叠,集中于缺少 CpG 岛的谱系基因,并定位到未完成修复的空间 niche。"
+   },
+   "url": {
+    "en": "../papers/kidney-epigenome-nataging-2026/",
+    "zh": "../zh/papers/kidney-epigenome-nataging-2026/"
+   },
+   "x": 0,
+   "y": 340
+  },
+  {
+   "id": "inflammatory-pt-natcommun-2025",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Inflammatory PT cells",
+   "title": "Multiomic analysis of human kidney disease identifies a tractable inflammatory and pro-fibrotic tubular cell phenotype",
+   "year": 2025,
+   "venue": "Nature Communications",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "B"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Combining snRNA+snATAC multiome with CosMx high-plex single-cell spatial imaging (6,000- and 1,000-plex), the authors identify a VCAM1+ICAM1+ inflammatory proximal-tubule (PT) cell in human kidney disease: a subset of KPMP \"adaptive PT\" cells that expresses chemokines, pro-fibrotic and senescence-associated genes and localizes specifically to the fibrotic niche; it is epigenetically imprinted by HNF4α-network collapse plus AP-1/NF-κB activation; in mice the AP-1 inhibitor T5224 or the senolytic ABT-263 depletes these cells and reduces inflammation and fibrosis.",
+    "zh": "作者把 snRNA+snATAC 多组学与 CosMx 高通量单细胞空间成像(6,000 与 1,000 探针)结合,在人类肾病中找到一类 VCAM1+ICAM1+ 炎症性近端小管(PT)细胞:它们是 KPMP「adaptive PT」的一个亚群,表达趋化因子、促纤维化与衰老相关基因,特异地定位在纤维化 niche;表观上由 HNF4α 网络崩溃 + AP-1/NF-κB 激活锁定;在小鼠中用 AP-1 抑制剂 T5224 或衰老清除剂 ABT-263 能减少这类细胞并减轻炎症和纤维化。"
+   },
+   "url": {
+    "en": "../papers/inflammatory-pt-natcommun-2025/",
+    "zh": "../zh/papers/inflammatory-pt-natcommun-2025/"
+   },
+   "x": 0,
+   "y": 394
+  },
+  {
+   "id": "group:A2",
+   "kind": "group",
+   "label": {
+    "en": "QC & artifacts",
+    "zh": "质控与伪影"
+   },
+   "code": "A2",
+   "count": 4,
+   "x": 270,
+   "y": 0
+  },
+  {
+   "id": "ovrlpy-natbiotech-2026",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "ovrlpy",
+   "title": "Identifying 3D signal overlaps in spatial transcriptomics data with ovrlpy",
+   "year": 2026,
+   "venue": "Nature Biotechnology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "ovrlpy computationally \"splits\" a 5–15-µm imaging-based spatial-transcriptomics section into virtual top and bottom sub-slices and compares their local expression similarity, producing an unsupervised, segmentation-free vertical signal integrity (VSI) map that localizes vertically overlapping cells (z-axis doublets), tissue folds and inaccurate segmentation.",
+    "zh": "ovrlpy 把成像型空间转录组的 5–15 µm 厚切片在计算上「虚拟切成上下两层」,比较上下层的局部表达相似度,得到一张无监督、无需分割的垂直信号完整性(VSI)图,用来定位垂直重叠细胞(z 轴双细胞)、组织褶皱和不准确的细胞分割。"
+   },
+   "url": {
+    "en": "../papers/ovrlpy-natbiotech-2026/",
+    "zh": "../zh/papers/ovrlpy-natbiotech-2026/"
+   },
+   "x": 270,
+   "y": 70
+  },
+  {
+   "id": "resolvi-natmethods-2026",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "ResolVI",
+   "title": "ResolVI: addressing noise and bias in spatial transcriptomics",
+   "year": 2026,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "B"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "resolVI is a VAE-based generative model in scvi-tools that sits downstream of any segmentation algorithm and decomposes each cell's observed counts into three parts — the cell's true expression, expression \"diffused\" in from neighbouring cells, and a per-slice constant non-specific background — removing spurious co-expression caused by molecule misassignment while producing a batch-corrected probabilistic latent representation that supports differential expression and differential niche-abundance testing.",
+    "zh": "resolVI 是 scvi-tools 里的一个 VAE 生成模型,接在任意分割算法之后,把每个细胞的观测计数拆成三部分 —— 细胞自身的真实表达、从邻近细胞「扩散」进来的表达、以及每张切片恒定的非特异背景 —— 从而去除分子错配导致的虚假共表达,同时给出批次校正后的概率潜在表示,支持差异表达和空间邻域丰度检验。"
+   },
+   "url": {
+    "en": "../papers/resolvi-natmethods-2026/",
+    "zh": "../zh/papers/resolvi-natmethods-2026/"
+   },
+   "x": 270,
+   "y": 124
+  },
+  {
+   "id": "xenium-split-natmethods-2026",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "Xenium contamination (SPLIT)",
+   "title": "Resolving sensitivity, specificity and signal contamination in Xenium spatial transcriptomics",
+   "year": 2026,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Using 41 breast-cancer and NSCLC sections from 27 donors (targeted Breast/Lung/Custom IO panels plus the 5K PRIME panel, with matched snRNA-seq and IHC), the authors systematically characterize Xenium sensitivity, specificity and transcript-spillover contamination, and propose SPLIT: take RCTD doublet-mode cell-type weights and split each contaminated cell's counts into \"primary\" and \"secondary\" parts according to reference profiles, keeping the purified primary profile.",
+    "zh": "作者用 27 位供者、41 张乳腺癌与非小细胞肺癌切片(靶向 Breast/Lung/Custom IO 面板 + 5K PRIME 面板,配匹配 snRNA-seq 与 IHC)系统刻画 Xenium 的灵敏度、特异性和转录本溢出(spillover)污染,并提出 SPLIT:用 RCTD doublet 模式的细胞类型权重,把每个被污染细胞的计数按参照谱拆成「主」「次」两部分,只保留主细胞类型的纯化表达。"
+   },
+   "url": {
+    "en": "../papers/xenium-split-natmethods-2026/",
+    "zh": "../zh/papers/xenium-split-natmethods-2026/"
+   },
+   "x": 270,
+   "y": 178
+  },
+  {
+   "id": "ambient-rna-bench-biorxiv-2026",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "Ambient-RNA benchmark",
+   "title": "Benchmarking computational decontamination of ambient RNA",
+   "year": 2026,
+   "venue": "bioRxiv",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "An independent benchmark using simulations, species-mixing experiments of three complexities, a mouse-kidney strain (genotype) mixing experiment and contamination-free negative controls to evaluate 7 ambient-RNA decontamination methods (CellBender, DecontX, FastCAR, scAR, scCDC, SoupX, CellClear) on how much ambient RNA they remove, how much endogenous RNA they keep, and how they change downstream interpretation; no method wins everywhere — CellBender, DecontX (full mode) or SoupX (reduced mode) are recommended — and default decontamination of clean data risks over-correction.",
+    "zh": "一个独立基准,用模拟数据、三种复杂度的物种混合实验、小鼠肾脏品系(基因型)混合实验和无污染负对照,评测 7 种 ambient RNA 去污染方法(CellBender、DecontX、FastCAR、scAR、scCDC、SoupX、CellClear)「去掉多少外源 RNA、保留多少内源 RNA、对下游解读有何影响」;结论是没有通吃的方法,推荐 CellBender、DecontX(full 模式)或 SoupX(reduced 模式),并警告在无污染数据上默认去污染会过度校正。"
+   },
+   "url": {
+    "en": "../papers/ambient-rna-bench-biorxiv-2026/",
+    "zh": "../zh/papers/ambient-rna-bench-biorxiv-2026/"
+   },
+   "x": 270,
+   "y": 232
+  },
+  {
+   "id": "group:A3",
+   "kind": "group",
+   "label": {
+    "en": "Anomaly / OOD detection",
+    "zh": "异常 / OOD 检测"
+   },
+   "code": "A3",
+   "count": 9,
+   "x": 540,
+   "y": 0
+  },
+  {
+   "id": "meatrd-aaai-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "MEATRD",
+   "title": "MEATRD: Multimodal Anomalous Tissue Region Detection Enhanced with Spatial Transcriptomics",
+   "year": 2025,
+   "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "MEATRD is a follow-up from the STANDS group (Xu, Sun et al.): trained only on normal tissue, it treats each Visium spot as a graph node, reconstructs both its H&E patch and its gene expression (core: a masked graph dual-attention transformer, MGDAT, with target-node masking), then trains a Deep-SVDD-style one-class classifier on latent multimodal reconstruction errors for anomaly scoring. On 8 human breast-cancer ST datasets it reaches mean AUC 0.723 / F1 0.741, beating 9 image, ST and multimodal baselines, and catches visually subtle tumour edges.",
+    "zh": "MEATRD 是 STANDS 同组(Xu、Sun 等)的后续工作:只用正常组织训练,把每个 Visium spot 作为图节点,同时重建其 H&E 图块与基因表达(核心是带目标节点 masking 的图双注意力 Transformer,MGDAT),再在潜在多模态重建误差上训练 Deep-SVDD 式的单类分类器做异常打分;在 8 个人乳腺癌 ST 数据上平均 AUC 0.723 / F1 0.741,超过 9 个图像、ST 与多模态基线,并能抓住肉眼难辨的肿瘤边缘。"
+   },
+   "url": {
+    "en": "../papers/meatrd-aaai-2025/",
+    "zh": "../zh/papers/meatrd-aaai-2025/"
+   },
+   "x": 540,
+   "y": 70
+  },
+  {
+   "id": "refmap-eval-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "Reference-mapping QC",
+   "title": "Automated evaluation of single-cell reference atlas mappings enables the identification of disease-associated cell states",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "MapQC (Theis lab) uses the healthy reference atlas's own inter-sample variation as a null distribution to judge whether a query→reference mapping succeeded: query control samples should sit at a \"normal\" distance from the reference (mapQC score < 2), and case samples should be \"abnormally\" distant in some cells (> 2). It catches residual batch effects invisible in UMAPs, prevents artifacts from being reported as disease states, and is more interpretable than repurposed integration metrics (LISI, kBET, etc.).",
+    "zh": "MapQC(Theis 组)用健康参照 atlas 自身的样本间差异作为零分布,来判断一次 query→reference 映射是否成功:query 的 control 样本应与参照「正常地远」(mapQC 分数 < 2),case 样本应在部分细胞中「异常地远」(> 2)。它能检出 UMAP 看不出来的残留 batch effect,防止把 artifact 报告成疾病状态,而且比重新拿来用的整合指标(LISI、kBET 等)更可解释。"
+   },
+   "url": {
+    "en": "../papers/refmap-eval-biorxiv-2025/",
+    "zh": "../zh/papers/refmap-eval-biorxiv-2025/"
+   },
+   "x": 540,
+   "y": 124
+  },
+  {
+   "id": "sardine-bioinformatics-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "Sardine",
+   "title": "Anomaly detection in spatial transcriptomics via spatially localized density comparison",
+   "year": 2025,
+   "venue": "Bioinformatics",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Sardine formalizes \"anomalous-region detection across conditions\" in spatial transcriptomics as the spatially localized differential abundance region problem (SDARP): on multi-condition slices aligned to a common coordinate system, it takes a spatial neighbourhood around every spot, estimates densities on the expression-manifold kNN graph with MELD-style graph smoothing, and compares local densities between conditions — producing an interpretable anomaly score where 0.5 = no change and →1 = anomalous. It is more accurate and more spatially coherent than MELD, Vespucci and STANDS on simulations and two mouse Visium datasets.",
+    "zh": "Sardine 把空间转录组的「条件间异常区域检测」形式化为空间局部化差异丰度问题(SDARP):在对齐到同一坐标系的多条件切片上,对每个 spot 取空间邻域、在表达流形 kNN 图上用 MELD 式图平滑做密度估计,比较两条件的局部密度,得到 0.5 = 无变化、→1 = 异常的可解释 anomaly score;在模拟和两个小鼠 Visium 数据上比 MELD、Vespucci、STANDS 更准、更空间连贯。"
+   },
+   "url": {
+    "en": "../papers/sardine-bioinformatics-2025/",
+    "zh": "../zh/papers/sardine-bioinformatics-2025/"
+   },
+   "x": 540,
+   "y": 178
+  },
+  {
+   "id": "healthy-ref-natgenet-2023",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "Healthy-reference design",
+   "title": "Precise identification of cell states altered in disease using healthy single-cell references",
+   "year": 2023,
+   "venue": "Nature Genetics",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "When using a \"healthy reference\" to find disease-altered cell states, which reference should you use? The authors give a systematic answer: learn the latent space on a large healthy atlas (scVI + scArches mapping), then run differential-abundance testing (Milo) against matched controls only — the ACR (atlas-to-control reference) design. It beats atlas-only (false positives explode) and control-only (misses multiple altered states), and with an atlas available, the number of controls can be cut without inflating FDR.",
+    "zh": "用「健康参照」找疾病改变的细胞状态时,参照该怎么选?作者给出系统答案:用大规模健康 atlas 学 latent space(scVI + scArches 映射),再只拿匹配的 control 样本做差异丰度检验(Milo)——即 ACR(atlas-to-control reference)设计;它比只用 atlas(假阳性暴涨)或只用 control(漏掉多种异常状态)都更准,且有 atlas 时可以少采 control 而不增加 FDR。"
+   },
+   "url": {
+    "en": "../papers/healthy-ref-natgenet-2023/",
+    "zh": "../zh/papers/healthy-ref-natgenet-2023/"
+   },
+   "x": 540,
+   "y": 232
+  },
+  {
+   "id": "scatac-novel-genomeres-2026",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "Novel types in scATAC",
+   "title": "Robust annotation and discovery of novel cell types in single-cell ATAC-seq data through cross-modal reference alignment",
+   "year": 2026,
+   "venue": "Genome Research",
+   "relevance": "medium",
+   "status": "abstract-only",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "CARA is a cross-modal Bayesian framework that transfers cell-type knowledge from an scRNA-seq reference to scATAC-seq: pretraining on scRNA, semi-supervised learning on the target scATAC, plus distribution alignment, dynamic class weighting and novel-type detection — jointly annotating, batch-correcting and flagging populations absent from the reference (novel, rare or aberrant).",
+    "zh": "CARA 是一个跨模态贝叶斯框架,把 scRNA-seq 参照中的细胞类型知识迁移到 scATAC-seq:在 scRNA 上预训练,在目标 scATAC 上做半监督学习,配合分布对齐、动态类别加权和新细胞类型检测,同时完成注释、批次校正和识别参照中不存在的(新的、稀有的或异常的)细胞群。"
+   },
+   "url": {
+    "en": "../papers/scatac-novel-genomeres-2026/",
+    "zh": "../zh/papers/scatac-novel-genomeres-2026/"
+   },
+   "x": 540,
+   "y": 286
+  },
+  {
+   "id": "bioml-bench-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "BioML-bench",
+   "title": "BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "B"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "BioML-bench ports MLE-bench's \"task capsule + automatic grading\" paradigm to biomedicine: 24 end-to-end ML tasks (drug discovery, biomedical imaging, protein engineering, single-cell) where the agent builds the pipeline, trains models and submits predictions, scored as percentiles on largely expert-populated public leaderboards. Four agents (Biomni, STELLA, AIDE, MLAgentBench) average only the 34th–39th percentile, and biomedical specialization confers no consistent advantage.",
+    "zh": "BioML-bench 把 MLE-bench 的「任务 capsule + 自动评分」范式搬到生物医学:24 个端到端 ML 任务(药物发现、医学影像、蛋白工程、单细胞),agent 需自己建 pipeline、训模型、提交预测,再映射到以领域专家为主的公开排行榜百分位。四个 agent(Biomni、STELLA、AIDE、MLAgentBench)平均只到 34–39 百分位,且生物医学专用 agent 并无一致优势。"
+   },
+   "url": {
+    "en": "../papers/bioml-bench-biorxiv-2025/",
+    "zh": "../zh/papers/bioml-bench-biorxiv-2025/"
+   },
+   "x": 540,
+   "y": 340
+  },
+  {
+   "id": "conformal-scrna-bioinformatics-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "Conformal annotation",
+   "title": "Conformal inference for reliable single cell RNA-seq annotation",
+   "year": 2025,
+   "venue": "Bioinformatics",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "B"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Adds distribution-free statistical guarantees to automatic scRNA-seq annotation with conformal prediction: an autoencoder + conformal p-values first detects cell types absent from the reference (OOD) with false-positive rate ≤ α₀; the remaining cells get prediction sets with coverage guarantees (standard / classwise / cluster Mondrian taxonomies; APS / RAPS / THR non-conformity scores), where set size is the uncertainty. Departures of the conformal p-values from uniformity also diagnose broken reference–query exchangeability.",
+    "zh": "用 conformal prediction 给 scRNA-seq 自动注释加上分布无关的统计保证:先用自编码器 + conformal p 值检测参照中不存在的细胞类型(OOD),控制假阳性率 ≤ α₀;再对剩下的细胞输出带覆盖保证的预测集合(标准 / classwise / cluster 三种 Mondrian 分类方式,APS / RAPS / THR 三种非一致性分数),集合大小即不确定性;conformal p 值分布偏离均匀还可以用来诊断参照与 query 之间的可交换性是否被破坏。"
+   },
+   "url": {
+    "en": "../papers/conformal-scrna-bioinformatics-2025/",
+    "zh": "../zh/papers/conformal-scrna-bioinformatics-2025/"
+   },
+   "x": 540,
+   "y": 394
+  },
+  {
+   "id": "mrvi-natmethods-2025",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "MrVI",
+   "title": "Deep generative modeling of sample-level heterogeneity in single-cell genomics",
+   "year": 2025,
+   "venue": "Nature Methods",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "MrVI (multi-resolution variational inference, Yosef lab, built into scvi-tools) is a hierarchical deep generative model with two latent variables: u encodes cell state only (sample-agnostic), z adds sample effects on top of u (free of nuisance factors such as batch). Using counterfactuals — \"what would this cell look like had it come from another sample?\" — it stratifies samples at single-cell resolution (exploratory) and runs cluster-free DE and DA (comparative), finding sample-level differences that show up only in particular cell subsets in COVID-19, sci-Plex drug-screen and Crohn's disease cohorts.",
+    "zh": "MrVI(multi-resolution variational inference,Yosef 组,scvi-tools 内置)是一个两层隐变量的层级深度生成模型:u 只编码细胞状态(与样本无关),z 在 u 基础上加入样本效应(与 batch 等 nuisance 无关);通过反事实——「这个细胞如果来自另一个样本会怎样」——在单细胞分辨率上做样本分层(exploratory)以及不依赖聚类的 DE 与 DA(comparative),在 COVID-19、sci-Plex 药物筛选和克罗恩病队列上发现了只在部分细胞亚群中体现的样本差异。"
+   },
+   "url": {
+    "en": "../papers/mrvi-natmethods-2025/",
+    "zh": "../zh/papers/mrvi-natmethods-2025/"
+   },
+   "x": 540,
+   "y": 448
+  },
+  {
+   "id": "spatial-natcommun-2024",
+   "kind": "paper",
+   "parent": "group:A3",
+   "label": "STANDS",
+   "title": "Detecting anomalous anatomic regions in spatial transcriptomics with STANDS",
+   "year": 2024,
+   "venue": "Nature Communications",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics framework that detects, aligns, and subtypes anomalous tissue domains (ATDs) de novo — training a reconstruction model on normal tissue only and flagging high-reconstruction-error spots — without predefined anomaly markers.",
+    "zh": "STANDS 是一个基于 GAN 的多样本空间转录组框架,以\"只见过正常组织\"的重构模型做异常检测,再对齐、再聚类,de novo 地识别并解剖疾病导致的异常组织域(ATD),无需预设 marker。"
+   },
+   "url": {
+    "en": "../papers/spatial-natcommun-2024/",
+    "zh": "../zh/papers/spatial-natcommun-2024/"
+   },
+   "x": 540,
+   "y": 502
+  },
+  {
+   "id": "group:A4",
+   "kind": "group",
+   "label": {
+    "en": "Cross-modal consistency",
+    "zh": "跨模态一致性"
+   },
+   "code": "A4",
+   "count": 5,
+   "x": 810,
+   "y": 0
+  },
+  {
+   "id": "kidney-multimodal-genomebiol-2026",
+   "kind": "paper",
+   "parent": "group:A4",
+   "label": "Kidney multiome (mBDRC)",
+   "title": "Systematic evaluation of single-cell multimodal data integration enhances cell type resolution and discovery of clinically relevant states in complex tissues",
+   "year": 2026,
+   "venue": "Genome Biology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "On renal cortex from 19 healthy donors the authors run 3' scRNA-seq, 5' scRNA-seq and 10x multiome (snRNA + snATAC) side by side, yielding the 119,744-cell/nucleus benchmark mBDRC, and build scOMM, an interpretable supervised classifier, to systematically compare \"horizontal\" (sc↔sn RNA), \"vertical\" (RNA↔ATAC in the same nuclei) and \"global\" (mosaic/diagonal) integration for resolving kidney cell types and states. Global integration recovers a WFDC2⁺ adaptive-TAL subpopulation and EPO-producing Norn cells that single modalities miss.",
+    "zh": "作者在 19 位健康供体的肾皮质上同时做 3' scRNA-seq、5' scRNA-seq 与 10x multiome(snRNA + snATAC),得到 119,744 个细胞/核的基准数据集 mBDRC,并开发可解释的监督式分类器 scOMM,系统比较「水平(sc↔sn RNA)」「垂直(RNA↔ATAC 同一细胞)」「全局(mosaic/diagonal)」三类整合策略对肾细胞类型/状态分辨率的贡献;全局整合找回了单一模态里看不到的 WFDC2⁺ aTAL 亚群与产 EPO 的 Norn 细胞。"
+   },
+   "url": {
+    "en": "../papers/kidney-multimodal-genomebiol-2026/",
+    "zh": "../zh/papers/kidney-multimodal-genomebiol-2026/"
+   },
+   "x": 810,
+   "y": 70
+  },
+  {
+   "id": "loki-omiclip-natmethods-2025",
+   "kind": "paper",
+   "parent": "group:A4",
+   "label": "Loki / OmiCLIP",
+   "title": "A visual–omics foundation model to bridge histopathology with spatial transcriptomics",
+   "year": 2025,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "OmiCLIP writes each Visium spot's transcriptome as a \"sentence\" of gene symbols ranked by expression and contrastively aligns it with the matching H&E patch in a CLIP/CoCa setup (ST-bank: 2.2M pairs, 1,007 samples, 32 organs); the Loki platform built on top offers five modules — tissue alignment, tissue annotation, cell-type decomposition, image↔transcriptome retrieval and ST expression prediction from H&E.",
+    "zh": "OmiCLIP 把每个 Visium spot 的转录组写成「按表达量排序的基因符号句子」,与对应 H&E patch 做 CLIP/CoCa 式对比学习(ST-bank:2.2M 对、1,007 个样本、32 个器官);在此之上的 Loki 平台提供五个模块 —— 组织对齐、组织注释、细胞类型分解、图像↔转录组检索、从 H&E 预测 ST 表达。"
+   },
+   "url": {
+    "en": "../papers/loki-omiclip-natmethods-2025/",
+    "zh": "../zh/papers/loki-omiclip-natmethods-2025/"
+   },
+   "x": 810,
+   "y": 124
+  },
+  {
+   "id": "he2expr-bench-natcommun-2025",
+   "kind": "paper",
+   "parent": "group:A4",
+   "label": "H&E→expression benchmark",
+   "title": "Benchmarking the translational potential of spatial gene expression prediction from histology",
+   "year": 2025,
+   "venue": "Nature Communications",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "An independent reproduction and evaluation of 11 methods that predict spatial gene expression (SGE) from H&E: 5 SRT datasets plus TCGA-BRCA external validation, 28 metrics spanning accuracy, generalisability, clinical translation (survival), usability and compute. No method wins everywhere; all-gene mean correlation is typically < 0.25, more complex architectures are not better, and survival stratification is mostly non-significant under cross-validation.",
+    "zh": "对 11 个「从 H&E 预测空间基因表达(SGE)」的方法做独立复现与评测:5 个 SRT 数据集 + TCGA-BRCA 外部验证,28 个指标覆盖预测精度、泛化、临床转化(生存)、可用性与计算效率;结论是没有一个方法全面最优,全基因平均相关性普遍 < 0.25,复杂架构并不更好,且在交叉验证下生存分层基本不显著。"
+   },
+   "url": {
+    "en": "../papers/he2expr-bench-natcommun-2025/",
+    "zh": "../zh/papers/he2expr-bench-natcommun-2025/"
+   },
+   "x": 810,
+   "y": 178
+  },
+  {
+   "id": "multimodal-integration-bench-natmethods-2025",
+   "kind": "paper",
+   "parent": "group:A4",
+   "label": "Integration benchmark",
+   "title": "Benchmarking single-cell multi-modal data integrations",
+   "year": 2025,
+   "venue": "Nature Methods",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SCMMIB: a Registered Report benchmarking 40 single-cell multimodal integration algorithms (65 method×task combinations) on six tasks — paired RNA+ATAC, paired RNA+ADT, spatial multi-omics, unpaired RNA+ATAC diagonal, RNA+ATAC mosaic and RNA+ADT mosaic — over 101 benchmark datasets derived from 14 public datasets, scoring usability, accuracy and robustness. Seurat v4 WNN (paired RNA+ATAC) and GLUE (unpaired diagonal) are SOTA for their tasks; MIDAS is SOTA for mosaic cross-modality imputation.",
+    "zh": "SCMMIB:以 Registered Report 形式,对 40 个单细胞多模态整合算法(拆成 65 个「方法×任务」)在 6 类任务上 —— 配对 RNA+ATAC、配对 RNA+ADT、空间多组学、非配对 RNA+ATAC 对角整合、RNA+ATAC mosaic、RNA+ADT mosaic —— 用 14 个公开数据集派生的 101 个基准数据集评估可用性、准确性与鲁棒性;Seurat v4 WNN(配对 RNA+ATAC)与 GLUE(非配对对角)是各自任务的 SOTA,MIDAS 是 mosaic 跨模态插补的 SOTA。"
+   },
+   "url": {
+    "en": "../papers/multimodal-integration-bench-natmethods-2025/",
+    "zh": "../zh/papers/multimodal-integration-bench-natmethods-2025/"
+   },
+   "x": 810,
+   "y": 232
+  },
+  {
+   "id": "hest1k-2024",
+   "kind": "paper",
+   "parent": "group:A4",
+   "label": "HEST-1k",
+   "title": "HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis",
+   "year": 2024,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "HEST-1k is a large, multi-organ, cross-species dataset that aligns 1,229 spatial-transcriptomics (ST) profiles with paired H&E whole-slide images (WSIs) and rich metadata, shipped with the HEST-Library toolkit and HEST-Benchmark for training/evaluating pathology foundation models on morphology-to-expression prediction.",
+    "zh": "HEST-1k 是一个大规模、多器官、跨物种的数据集,把 1,229 个空间转录组(ST)profile 与配对的 H&E 全切片图像(WSI)及丰富元数据对齐,并配套 HEST-Library 工具包与 HEST-Benchmark,用于训练/评测\"从形态学预测基因表达\"的病理基础模型。"
+   },
+   "url": {
+    "en": "../papers/hest1k-2024/",
+    "zh": "../zh/papers/hest1k-2024/"
+   },
+   "x": 810,
+   "y": 286
+  },
+  {
+   "id": "group:A5",
+   "kind": "group",
+   "label": {
+    "en": "Foundation models & baselines",
+    "zh": "基础模型与基线"
+   },
+   "code": "A5",
+   "count": 7,
+   "x": 1080,
+   "y": 0
+  },
+  {
+   "id": "pathbench-natcommun-2026",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "Pathology FM benchmark",
+   "title": "A benchmark study of vision and pathology foundation models for computational pathology",
+   "year": 2026,
+   "venue": "Nature Communications",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "PathBench evaluates 32 foundation models — general vision (VM), general vision-language (VLM), pathology-specific vision (Path-VM) and pathology-specific vision-language (Path-VLM) — under one standardized frozen-feature + linear-probing protocol across 41 tasks, 53 datasets and >17,500 whole-slide images. Path-VMs lead, Path-VLMs lag, neither model size nor pretraining scale consistently predicts downstream performance, and late decision-level ensembling further improves robustness across datasets.",
+    "zh": "PathBench 把 32 个基础模型(通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM)放进同一套「冻结特征 + linear probing」协议,在 41 个任务、53 个数据集、17,500+ 张全切片上统一评测,结论是:Path-VM 最强、Path-VLM 反而落后、模型规模与预训练数据量都不能稳定预测下游表现,而后期决策级集成能进一步提升跨数据集稳健性。"
+   },
+   "url": {
+    "en": "../papers/pathbench-natcommun-2026/",
+    "zh": "../zh/papers/pathbench-natcommun-2026/"
+   },
+   "x": 1080,
+   "y": 70
+  },
+  {
+   "id": "linear-baselines-natmethods-2025",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "Linear baselines win",
+   "title": "Deep-learning-based gene perturbation effect prediction does not yet outperform simple linear baselines",
+   "year": 2025,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "For predicting transcriptomic effects of double perturbations and of unseen single perturbations, none of scGPT, scFoundation, GEARS, CPA, or scBERT / Geneformer / UCE with a linear decoder consistently beats \"additive\", \"no change\", \"mean\" or a simple bilinear model; the only consistent winner is a linear model whose perturbation embedding is pretrained on perturbation data from another cell line.",
+    "zh": "在双扰动与未见单扰动的转录组效应预测上,scGPT、scFoundation、GEARS、CPA 以及接线性解码器的 scBERT / Geneformer / UCE,没有一个稳定超过「加性」「不变」「均值」或一个简单的双线性模型;唯一稳定最好的是在另一细胞系的扰动数据上预训练扰动嵌入的线性模型。"
+   },
+   "url": {
+    "en": "../papers/linear-baselines-natmethods-2025/",
+    "zh": "../zh/papers/linear-baselines-natmethods-2025/"
+   },
+   "x": 1080,
+   "y": 124
+  },
+  {
+   "id": "nephrobase-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "Nephrobase Cell+",
+   "title": "Nephrobase Cell+: Multimodal Single-Cell Foundation Model for Decoding Kidney Biology",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "The Susztak lab pretrains from scratch the first kidney-specific single-cell foundation model, Nephrobase Cell+ (1B and 500M variants): ~39.5M cells/nuclei, 4,319 samples, four species (human, mouse, rat, pig), scRNA / snRNA / snATAC / CosMx / Xenium, ~100B tokens; an encoder-decoder transformer with MoE and adversarial batch removal. On held-out human (KPMP 2025 Q2) and mouse kidney data it beats Geneformer, scGPT, UCE, PCA and an autoencoder on clustering, batch integration, cross-species alignment and \"zero-shot\" annotation.",
+    "zh": "Susztak 组从零预训练了首个肾脏专用单细胞基础模型 Nephrobase Cell+(1B 与 500M 两个版本):约 39.5M 个细胞/核、4,319 个样本、四个物种(人、小鼠、大鼠、猪)、scRNA / snRNA / snATAC / CosMx / Xenium 多模态,约 1000 亿 token;encoder-decoder Transformer + MoE + 对抗去批次;在留出的人(KPMP 2025 Q2)与小鼠肾数据上,聚类、批次整合、跨物种对齐与「零样本」注释均优于 Geneformer、scGPT、UCE、PCA 与 autoencoder。"
+   },
+   "url": {
+    "en": "../papers/nephrobase-biorxiv-2025/",
+    "zh": "../zh/papers/nephrobase-biorxiv-2025/"
+   },
+   "x": 1080,
+   "y": 178
+  },
+  {
+   "id": "scfm-zeroshot-genomebiol-2025",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "scFM zero-shot limits",
+   "title": "Zero-shot evaluation reveals limitations of single-cell foundation models",
+   "year": 2025,
+   "venue": "Genome Biology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Using scGPT and Geneformer cell embeddings zero-shot — no fine-tuning — for cell-type clustering and batch integration, both generally underperform simply selecting HVGs, Harmony and scVI across five datasets; they even struggle at their own pretraining task (masked expression reconstruction) — scGPT without cell embeddings does worse than predicting the mean.",
+    "zh": "不做任何微调、直接用 scGPT 与 Geneformer 的细胞嵌入做细胞类型聚类与批次整合,它们在五个数据集上普遍不如「选 HVG」、Harmony 与 scVI;连预训练任务本身(掩码表达重建)也做得勉强 —— scGPT 不加细胞嵌入时甚至不如「预测均值」。"
+   },
+   "url": {
+    "en": "../papers/scfm-zeroshot-genomebiol-2025/",
+    "zh": "../zh/papers/scfm-zeroshot-genomebiol-2025/"
+   },
+   "x": 1080,
+   "y": 232
+  },
+  {
+   "id": "nicheformer-natmethods-2025",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "Nicheformer",
+   "title": "Nicheformer: a foundation model for single-cell and spatial omics",
+   "year": 2025,
+   "venue": "Nature Methods",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Nicheformer is a 49.3M-parameter transformer foundation model pretrained on SpatialCorpus-110M (57.06M dissociated + 53.8M image-based spatial cells, human and mouse, 73 tissues) with ranked gene tokens plus species/modality/technology context tokens. On newly designed spatial tasks (niche/region labels, neighbourhood composition, neighbourhood density) both linear probing and fine-tuning beat Geneformer, scGPT, UCE, CellPLM, scVI and PCA, and it transfers spatial context onto scRNA-seq.",
+    "zh": "Nicheformer 是一个 49.3M 参数的 Transformer 基础模型,在 SpatialCorpus-110M(57.06M 解离细胞 + 53.8M 成像空间细胞,人和小鼠,73 个组织)上用排序基因 token + 物种/模态/技术上下文 token 预训练;在新设计的空间任务(niche/区域标签、邻域组成、邻域密度)上,linear probing 与微调都优于 Geneformer、scGPT、UCE、CellPLM、scVI、PCA,并能把空间上下文迁移到 scRNA-seq 上。"
+   },
+   "url": {
+    "en": "../papers/nicheformer-natmethods-2025/",
+    "zh": "../zh/papers/nicheformer-natmethods-2025/"
+   },
+   "x": 1080,
+   "y": 286
+  },
+  {
+   "id": "virchow-2024",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "Virchow",
+   "title": "A foundation model for clinical-grade computational pathology and rare cancers detection",
+   "year": 2024,
+   "venue": "Nature Medicine",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "Virchow is a 632M-parameter ViT-H/14 pathology foundation model self-supervised (DINOv2) on 1.5M whole-slide images, serving as a frozen tile-level backbone for pan-cancer detection, biomarker prediction, and cell identification.",
+    "zh": "Virchow 是一个在 150 万张全切片图像(WSI)上用 DINOv2 自监督预训练的 632M 参数 ViT-H/14 病理基础模型,可作为冻结的 tile 级特征骨干,支撑泛癌检测、生物标志物预测与细胞识别等下游任务。"
+   },
+   "url": {
+    "en": "../papers/virchow-2024/",
+    "zh": "../zh/papers/virchow-2024/"
+   },
+   "x": 1080,
+   "y": 340
+  },
+  {
+   "id": "uni2-h-model",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "UNI2-h",
+   "title": "MahmoodLab/UNI2-h",
+   "year": null,
+   "venue": "Hugging Face",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "model",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "UNI2-h is Mahmood Lab's histopathology foundation model: a ViT-H/14 backbone self-supervised with DINOv2 on 200M+ H&E/IHC tiles, turning a 224×224 tissue patch into a 1536-dim embedding usable as a frozen feature extractor for downstream classification, retrieval and MIL.",
+    "zh": "UNI2-h 是 Mahmood Lab 发布的病理学视觉基础模型:一个用 DINOv2 自监督、在 3 亿+ H&E/IHC 图块上预训练的 ViT-H/14 backbone,把 224×224 组织学 patch 编码成 1536 维特征,可直接作为下游分类/检索/MIL 的冻结特征提取器。"
+   },
+   "url": {
+    "en": "../papers/uni2-h-model/",
+    "zh": "../zh/papers/uni2-h-model/"
+   },
+   "x": 1080,
+   "y": 394
+  },
+  {
+   "id": "group:A6",
+   "kind": "group",
+   "label": {
+    "en": "Evaluation & benchmarks",
+    "zh": "评测与基准"
+   },
+   "code": "A6",
+   "count": 7,
+   "x": 1350,
+   "y": 0
+  },
+  {
+   "id": "nih-kidney-ai-challenge-2026",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "NIH Kidney AI Challenge",
+   "title": "Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons",
+   "year": 2026,
+   "venue": "NIDDK / NIH (prize challenge, hosted on HeroX)",
+   "relevance": "high",
+   "status": "complete",
+   "type": "competition",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "A US$100,000 NIDDK prize challenge hosted on HeroX: inspired by astronomy, where AI found rare gravitational lenses and other anomalies in archival telescope images, it asks participants to use only open KPMP Kidney Tissue Atlas data to discover previously unrecognized patterns, objects or anomalies in kidney-biopsy whole-slide images (WSIs), backed by human–AI review with pathologists and nephrologists — the goal is discovery, not classification of known disease states.",
+    "zh": "NIDDK 发起、HeroX 承办的 10 万美元奖金挑战赛:借鉴天文学用 AI 在存档望远镜图像中找引力透镜等稀有异常的经验,要求参赛者只用 KPMP Kidney Tissue Atlas 的公开(open)数据,在肾活检全切片图像(WSI)中发现以往未识别的形态模式/对象/异常,并以病理与肾内科专家的人机协同复核来支撑这些发现 —— 目标是\"发现\",而不是对已知疾病做分类。"
+   },
+   "url": {
+    "en": "../papers/nih-kidney-ai-challenge-2026/",
+    "zh": "../zh/papers/nih-kidney-ai-challenge-2026/"
+   },
+   "x": 1350,
+   "y": 70
+  },
+  {
+   "id": "pathology-ad-bench-mlhealth-2025",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "Pathology AD benchmark",
+   "title": "Quantitative benchmarking of anomaly detection methods in digital pathology images",
+   "year": 2025,
+   "venue": "Machine Learning: Health",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Yuankai Huo's group (HRLB, Vanderbilt) benchmarks 23 generic anomaly-detection methods (reconstruction, feature-distribution, distillation, normalizing-flow and synthetic-anomaly families) under one protocol on real pathology (Camelyon16, Crohn's colon, mouse glomeruli), controlled synthetic pathology and MVTec industrial data, and systematically studies three under-examined factors — image scale, \"reversed\" anomaly patterns, and how to pick a training epoch when no anomalies are available. No method wins everywhere; feature-distribution methods are best overall; and real pathology is far harder than industrial data (mean ROC-AUC ≈ 0.645 vs 0.888).",
+    "zh": "Vanderbilt 的 Huo 组(HRLB)把 23 种通用 anomaly detection 方法(重建、特征分布、蒸馏、normalizing flow、合成异常五大类)放到真实病理(Camelyon16、Crohn 结肠、小鼠肾小球)+ 受控合成病理 + MVTec 工业数据上统一评测,系统考察图像尺度、异常模式「反转」、以及没有异常样本时如何选 epoch 三个常被忽略的因素;结论是没有通吃的方法,特征分布类整体最好,而真实病理比工业数据难得多(平均 ROC-AUC 约 0.645 对 0.888)。"
+   },
+   "url": {
+    "en": "../papers/pathology-ad-bench-mlhealth-2025/",
+    "zh": "../zh/papers/pathology-ad-bench-mlhealth-2025/"
+   },
+   "x": 1350,
+   "y": 124
+  },
+  {
+   "id": "histo-nejmai-2024",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "Clinical-grade histo AD",
+   "title": "AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics",
+   "year": 2024,
+   "venue": "NEJM AI",
+   "relevance": "high",
+   "status": "abstract-only",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "A deep anomaly-detection model trained only on common findings (and normal tissue) detects the full long tail of rare gastrointestinal pathologies it never saw during training, reaching clinical-grade AUROCs on stomach and colon biopsies.",
+    "zh": "只用常见病(及正常组织)训练的深度异常检测模型,无需见过罕见病样本即可在胃、结肠活检中检出长尾罕见病变,达到临床级 AUROC。"
+   },
+   "url": {
+    "en": "../papers/histo-nejmai-2024/",
+    "zh": "../zh/papers/histo-nejmai-2024/"
+   },
+   "x": 1350,
+   "y": 178
+  },
+  {
+   "id": "kidney-ssl-histology-scirep-2025",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "Kidney histology SSL",
+   "title": "Unbiased self supervised learning of kidney histology reveals phenotypic and prognostic insights",
+   "year": 2025,
+   "venue": "Scientific Reports",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "NYU (Tsirigos lab) with JHU/UPenn applies Histomorphological Phenotype Learning (HPL), a self-supervised framework first built for lung-cancer H&E, to 1,421 PAS-stained kidney WSIs: with no pathologist labels, tile embeddings are clustered into histomorphological phenotype clusters (HPCs) and each slide becomes a vector of HPC area fractions. The clusters are visually consistent across five internal/external sets, track pathologist quantifications such as interstitial fibrosis (MIL AUC 0.83), and predict kidney-function decline in the TRIDENT diabetic-nephropathy cohort.",
+    "zh": "NYU(Tsirigos 组)与 JHU/UPenn 把原本为肺癌 H&E 开发的自监督框架 Histomorphological Phenotype Learning(HPL)用到 1,421 张 PAS 染色肾脏 WSI 上:不用任何病理标注,把 tile 嵌入聚成「组织形态表型簇」(HPC),每张切片表示为各 HPC 的面积占比向量;这些簇跨 5 个内外部队列视觉一致、与间质纤维化等病理定量相关(MIL 预测纤维化 AUC 0.83),并能预测 TRIDENT 糖尿病肾病队列的肾功能下降。"
+   },
+   "url": {
+    "en": "../papers/kidney-ssl-histology-scirep-2025/",
+    "zh": "../zh/papers/kidney-ssl-histology-scirep-2025/"
+   },
+   "x": 1350,
+   "y": 232
+  },
+  {
+   "id": "histo-miccai-2025",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "Latent-diffusion AD",
+   "title": "Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis",
+   "year": 2025,
+   "venue": "MICCAI 2025",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "AnoPILaD is a pathology-informed latent diffusion model: a VLM (CONCH) selects normal-tissue keywords that condition an LDM's reconstruction toward normal morphology, and the input-vs-reconstruction discrepancy serves as an unsupervised anomaly score for lymph-node metastasis.",
+    "zh": "AnoPILaD:用病理关键词提示(CONCH 视觉-语言模型选词)引导潜空间扩散模型(Stable Diffusion v1.5 + LoRA)重建\"正常样\"淋巴结组织,再以重建差异作为异常分数,实现无监督的转移灶检测。"
+   },
+   "url": {
+    "en": "../papers/histo-miccai-2025/",
+    "zh": "../zh/papers/histo-miccai-2025/"
+   },
+   "x": 1350,
+   "y": 286
+  },
+  {
+   "id": "medianomaly-media-2025",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "MedIAnomaly",
+   "title": "MedIAnomaly: A comparative study of anomaly detection in medical images",
+   "year": 2025,
+   "venue": "Medical Image Analysis",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Cai, Chen, Cheng et al. (HKUST) build MedIAnomaly, a unified medical-image AD benchmark — 7 datasets, 5 modalities (chest X-ray, brain MRI, fundus, dermoscopy, histopathology), 30 methods — comparing image-level classification and pixel-level segmentation under unified architectures, and dissecting key components one by one (latent size, reconstruction distance, gradient scores, DDPM noise type, ImageNet weights). Headline findings: a plain AE is a strong baseline, ImageNet features are surprisingly strong, and reconstruction quality correlates only weakly with detection performance.",
+    "zh": "HKUST 的 Cai、Chen、Cheng 等搭建了医学图像 anomaly detection 的统一基准 MedIAnomaly:7 个数据集、5 种模态(胸片、脑 MRI、眼底、皮肤镜、病理)、30 种方法,在统一网络结构下比较图像级分类与像素级分割,并逐个拆解关键组件(latent 大小、重建距离函数、梯度分数、DDPM 噪声类型、ImageNet 权重),给出「朴素 AE 是强基线、ImageNet 特征出奇地强、重建质量与检测性能弱相关」等结论。"
+   },
+   "url": {
+    "en": "../papers/medianomaly-media-2025/",
+    "zh": "../zh/papers/medianomaly-media-2025/"
+   },
+   "x": 1350,
+   "y": 340
+  },
+  {
+   "id": "histo-anomaly-bi-repo",
+   "kind": "paper",
+   "parent": "group:A6",
+   "label": "BI histo-AD code",
+   "title": "Boehringer-Ingelheim/anomaly-detection-in-histology",
+   "year": 2022,
+   "venue": "GitHub",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "code",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "An open-source PyTorch repo from Boehringer Ingelheim that learns representations from healthy tissue only, then applies one-class classifiers to flag drug-induced histological anomalies in whole-slide images. Companion code to Zingman et al., *Medical Image Analysis* 2024.",
+    "zh": "Boehringer Ingelheim 开源的 PyTorch 代码库,只用「健康组织」训练表征,再用 one-class 分类器在组织病理全切片上检测药物毒性引起的异常改变。"
+   },
+   "url": {
+    "en": "../papers/histo-anomaly-bi-repo/",
+    "zh": "../zh/papers/histo-anomaly-bi-repo/"
+   },
+   "x": 1350,
+   "y": 394
+  },
+  {
+   "id": "concept:healthy-reference",
+   "kind": "concept",
+   "label": {
+    "en": "Healthy reference atlas",
+    "zh": "健康参考图谱"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 5,
+   "home": "group:A1",
+   "slot": 0,
+   "x": 0,
+   "y": 666
+  },
+  {
+   "id": "concept:disease-cell-state",
+   "kind": "concept",
+   "label": {
+    "en": "Injured / failed-repair states",
+    "zh": "损伤 / 修复失败状态"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:A1",
+   "slot": 1,
+   "x": 0,
+   "y": 712
+  },
+  {
+   "id": "concept:damage-score",
+   "kind": "concept",
+   "label": {
+    "en": "Damage score",
+    "zh": "损伤评分"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 2,
+   "home": "group:A1",
+   "slot": 2,
+   "x": 0,
+   "y": 758
+  },
+  {
+   "id": "concept:doublet",
+   "kind": "concept",
+   "label": {
+    "en": "Doublets",
+    "zh": "双细胞 (doublet)"
+   },
+   "definition": {
+    "en": "A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state.",
+    "zh": "两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。"
+   },
+   "count": 4,
+   "home": "group:A2",
+   "slot": 0,
+   "x": 270,
+   "y": 666
+  },
+  {
+   "id": "concept:ambient-rna",
+   "kind": "concept",
+   "label": {
+    "en": "Ambient RNA",
+    "zh": "环境 RNA"
+   },
+   "definition": {
+    "en": "Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike.",
+    "zh": "破裂细胞释放的游离转录本被计入其他液滴,形成背景信号,使本不相关的细胞看起来彼此相似。"
+   },
+   "count": 2,
+   "home": "group:A2",
+   "slot": 1,
+   "x": 270,
+   "y": 712
+  },
+  {
+   "id": "concept:segmentation-error",
+   "kind": "concept",
+   "label": {
+    "en": "Segmentation errors",
+    "zh": "分割错误"
+   },
+   "definition": {
+    "en": "The image-analysis step of delineating individual cell boundaries so that molecular signals can be assigned to single cells.",
+    "zh": "在图像分析中勾勒单个细胞边界的步骤,以便将分子信号归属到单个细胞。"
+   },
+   "count": 4,
+   "home": "group:A2",
+   "slot": 2,
+   "x": 270,
+   "y": 758
+  },
+  {
+   "id": "concept:spillover",
+   "kind": "concept",
+   "label": {
+    "en": "Signal spillover",
+    "zh": "信号溢出"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 4,
+   "home": "group:A2",
+   "slot": 3,
+   "x": 270,
+   "y": 804
+  },
+  {
+   "id": "concept:batch-effect",
+   "kind": "concept",
+   "label": {
+    "en": "Batch effects",
+    "zh": "批次效应"
+   },
+   "definition": {
+    "en": "Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected.",
+    "zh": "不同机构、时间或平台采集的数据集之间的系统性非生物学差异,若不校正会混淆分析。"
+   },
+   "count": 6,
+   "home": "group:A3",
+   "slot": 0,
+   "x": 540,
+   "y": 666
+  },
+  {
+   "id": "concept:ood-detection",
+   "kind": "concept",
+   "label": {
+    "en": "OOD / novelty detection",
+    "zh": "分布外 / 新颖性检测"
+   },
+   "definition": {
+    "en": "Flagging inputs that fall outside the data distribution a model was trained on, such as an unseen drug, cell context, or diseased tissue.",
+    "zh": "标记落在模型训练分布之外的输入,如未见过的药物、细胞语境或病变组织。"
+   },
+   "count": 2,
+   "home": "group:A3",
+   "slot": 1,
+   "x": 540,
+   "y": 712
+  },
+  {
+   "id": "concept:mapping-uncertainty",
+   "kind": "concept",
+   "label": {
+    "en": "Reference-mapping uncertainty",
+    "zh": "参考映射不确定性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 2,
+   "home": "group:A1",
+   "slot": 3,
+   "x": 0,
+   "y": 804
+  },
+  {
+   "id": "concept:conformal",
+   "kind": "concept",
+   "label": {
+    "en": "Conformal guarantees",
+    "zh": "Conformal 保证"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 2,
+   "home": "group:A3",
+   "slot": 2,
+   "x": 540,
+   "y": 758
+  },
+  {
+   "id": "concept:anomalous-region",
+   "kind": "concept",
+   "label": {
+    "en": "Anomalous tissue regions",
+    "zh": "异常组织区域"
+   },
+   "definition": {
+    "en": "A spatial region of a tissue whose molecular profile deviates from healthy reference tissue, typically because of disease and detected without predefined markers.",
+    "zh": "组织中分子特征偏离健康参考组织的空间区域,通常由疾病导致,可在无预定义标记物的情况下被检出。"
+   },
+   "count": 4,
+   "home": "group:A3",
+   "slot": 3,
+   "x": 540,
+   "y": 804
+  },
+  {
+   "id": "concept:cross-modal",
+   "kind": "concept",
+   "label": {
+    "en": "Cross-modal agreement",
+    "zh": "跨模态一致性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:A3",
+   "slot": 4,
+   "x": 540,
+   "y": 850
+  },
+  {
+   "id": "concept:he-to-expression",
+   "kind": "concept",
+   "label": {
+    "en": "H&E → expression prediction",
+    "zh": "H&E → 表达预测"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 4,
+   "home": "group:A4",
+   "slot": 0,
+   "x": 810,
+   "y": 666
+  },
+  {
+   "id": "concept:foundation-model",
+   "kind": "concept",
+   "label": {
+    "en": "Foundation models",
+    "zh": "基础模型"
+   },
+   "definition": {
+    "en": "A large model pretrained on broad, mostly unlabeled data that can be adapted to many downstream tasks with little extra labeling.",
+    "zh": "在大规模、大多无标注的数据上预训练的大型模型,只需少量额外标注即可适配多种下游任务。"
+   },
+   "count": 6,
+   "home": "group:A5",
+   "slot": 0,
+   "x": 1080,
+   "y": 666
+  },
+  {
+   "id": "concept:linear-baseline",
+   "kind": "concept",
+   "label": {
+    "en": "Simple / linear baselines",
+    "zh": "简单 / 线性基线"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:A5",
+   "slot": 1,
+   "x": 1080,
+   "y": 712
+  },
+  {
+   "id": "concept:zero-shot",
+   "kind": "concept",
+   "label": {
+    "en": "Zero-shot use",
+    "zh": "零样本使用"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 3,
+   "home": "group:A5",
+   "slot": 2,
+   "x": 1080,
+   "y": 758
+  },
+  {
+   "id": "concept:expert-validation",
+   "kind": "concept",
+   "label": {
+    "en": "Expert validation",
+    "zh": "专家验证"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 3,
+   "home": "group:A6",
+   "slot": 0,
+   "x": 1350,
+   "y": 666
+  },
+  {
+   "id": "concept:kpmp",
+   "kind": "concept",
+   "label": {
+    "en": "KPMP data",
+    "zh": "KPMP 数据"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:A1",
+   "slot": 4,
+   "x": 0,
+   "y": 850
+  },
+  {
+   "id": "concept:xenium",
+   "kind": "concept",
+   "label": {
+    "en": "Xenium",
+    "zh": "Xenium"
+   },
+   "definition": {
+    "en": "A 10x Genomics imaging-based platform that measures a targeted panel of transcripts in situ at subcellular resolution with single-cell segmentation.",
+    "zh": "一种基于成像的 10x Genomics 平台,在亚细胞分辨率下原位测量目标转录本组合,并进行单细胞分割。"
+   },
+   "count": 6,
+   "home": "group:A2",
+   "slot": 4,
+   "x": 270,
+   "y": 850
+  }
+ ],
+ "edges": [
+  {
+   "source": "concept:healthy-reference",
+   "target": "healthy-ref-natgenet-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:healthy-reference",
+   "target": "kidney-epigenome-nataging-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:healthy-reference",
+   "target": "kidney-multimodal-genomebiol-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:healthy-reference",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:healthy-reference",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "damage-scores-cellgenomics-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "healthy-ref-natgenet-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "kidney-epigenome-nataging-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "kidney-multimodal-genomebiol-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:disease-cell-state",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:damage-score",
+   "target": "cellspectra-natgenet-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:damage-score",
+   "target": "damage-scores-cellgenomics-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
+   "target": "ovrlpy-natbiotech-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ambient-rna",
+   "target": "ambient-rna-bench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ambient-rna",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:segmentation-error",
+   "target": "hest1k-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:segmentation-error",
+   "target": "nicheformer-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:segmentation-error",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:segmentation-error",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:spillover",
+   "target": "ambient-rna-bench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:spillover",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:spillover",
+   "target": "ovrlpy-natbiotech-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:spillover",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "kidney-ssl-histology-scirep-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "scatac-novel-genomeres-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:batch-effect",
+   "target": "spatial-natcommun-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ood-detection",
+   "target": "conformal-scrna-bioinformatics-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ood-detection",
+   "target": "histo-miccai-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:mapping-uncertainty",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:mapping-uncertainty",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:conformal",
+   "target": "conformal-scrna-bioinformatics-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:conformal",
+   "target": "scatac-novel-genomeres-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:anomalous-region",
+   "target": "meatrd-aaai-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:anomalous-region",
+   "target": "ovrlpy-natbiotech-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:anomalous-region",
+   "target": "sardine-bioinformatics-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:anomalous-region",
+   "target": "spatial-natcommun-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "cellspectra-natgenet-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "kidney-multimodal-genomebiol-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "meatrd-aaai-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "multimodal-integration-bench-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "scatac-novel-genomeres-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "spatial-natcommun-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:he-to-expression",
+   "target": "he2expr-bench-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:he-to-expression",
+   "target": "hest1k-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:he-to-expression",
+   "target": "linear-baselines-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:he-to-expression",
+   "target": "loki-omiclip-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "hest1k-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "histo-nejmai-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "linear-baselines-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "nephrobase-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "nicheformer-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "scfm-zeroshot-genomebiol-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:linear-baseline",
+   "target": "linear-baselines-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:zero-shot",
+   "target": "loki-omiclip-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:zero-shot",
+   "target": "nephrobase-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:zero-shot",
+   "target": "scfm-zeroshot-genomebiol-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:expert-validation",
+   "target": "histo-nejmai-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:expert-validation",
+   "target": "kidney-ssl-histology-scirep-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:expert-validation",
+   "target": "nih-kidney-ai-challenge-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "damage-scores-cellgenomics-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "kidney-epigenome-nataging-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "nephrobase-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:kpmp",
+   "target": "nih-kidney-ai-challenge-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "dkd-spatial-atlas-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "kidney-epigenome-nataging-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "nicheformer-natmethods-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "ovrlpy-natbiotech-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "resolvi-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "cellspectra-natgenet-2025",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "damage-scores-cellgenomics-2026",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "healthy-ref-natgenet-2023",
+   "target": "mrvi-natmethods-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "hest1k-2024",
+   "target": "virchow-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "hest1k-2024",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "inflammatory-pt-natcommun-2025",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "kidney-multimodal-genomebiol-2026",
+   "target": "inflammatory-pt-natcommun-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "kidney-multimodal-genomebiol-2026",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "linear-baselines-natmethods-2025",
+   "target": "scfm-zeroshot-genomebiol-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "meatrd-aaai-2025",
+   "target": "spatial-natcommun-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "nicheformer-natmethods-2025",
+   "target": "scfm-zeroshot-genomebiol-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "medianomaly-media-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "refmap-eval-biorxiv-2025",
+   "target": "healthy-ref-natgenet-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "resolvi-natmethods-2026",
+   "target": "ovrlpy-natbiotech-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "xenium-split-natmethods-2026",
+   "target": "resolvi-natmethods-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "xenium-split-natmethods-2026",
+   "target": "nicheformer-natmethods-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "hest1k-2024",
+   "target": "spatial-natcommun-2024",
+   "kind": "concept",
+   "label": "spatial-omics data"
+  },
+  {
+   "source": "virchow-2024",
+   "target": "uni2-h-model",
+   "kind": "concept",
+   "label": "pathology FM"
+  },
+  {
+   "source": "virchow-2024",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "FM backbone → anomaly det."
+  },
+  {
+   "source": "uni2-h-model",
+   "target": "spatial-natcommun-2024",
+   "kind": "concept",
+   "label": "FM backbone → anomaly det."
+  },
+  {
+   "source": "histo-miccai-2025",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "histopath anomaly det."
+  },
+  {
+   "source": "histo-anomaly-bi-repo",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "histopath anomaly det."
+  },
+  {
+   "source": "pathbench-natcommun-2026",
+   "target": "uni2-h-model",
+   "kind": "concept",
+   "label": "pathology FM benchmark"
+  },
+  {
+   "source": "pathbench-natcommun-2026",
+   "target": "virchow-2024",
+   "kind": "concept",
+   "label": "pathology FM benchmark"
+  },
+  {
+   "source": "pathbench-natcommun-2026",
+   "target": "hest1k-2024",
+   "kind": "concept",
+   "label": "linear-probe eval protocol"
+  },
+  {
+   "source": "xenium-split-natmethods-2026",
+   "target": "ovrlpy-natbiotech-2026",
+   "kind": "concept",
+   "label": "Xenium contamination"
+  },
+  {
+   "source": "ambient-rna-bench-biorxiv-2026",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "concept",
+   "label": "wrong-cell signal contamination"
+  },
+  {
+   "source": "resolvi-natmethods-2026",
+   "target": "mrvi-natmethods-2025",
+   "kind": "concept",
+   "label": "scvi-tools generative models"
+  },
+  {
+   "source": "ovrlpy-natbiotech-2026",
+   "target": "spatial-natcommun-2024",
+   "kind": "concept",
+   "label": "technical vs anatomic anomaly map"
+  },
+  {
+   "source": "inflammatory-pt-natcommun-2025",
+   "target": "kidney-epigenome-nataging-2026",
+   "kind": "concept",
+   "label": "altered PT state"
+  },
+  {
+   "source": "kidney-epigenome-nataging-2026",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "concept",
+   "label": "kidney atlas PT states"
+  },
+  {
+   "source": "inflammatory-pt-natcommun-2025",
+   "target": "damage-scores-cellgenomics-2026",
+   "kind": "concept",
+   "label": "injured kidney cell states"
+  },
+  {
+   "source": "healthy-ref-natgenet-2023",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "concept",
+   "label": "healthy atlas reference"
+  },
+  {
+   "source": "refmap-eval-biorxiv-2025",
+   "target": "conformal-scrna-bioinformatics-2025",
+   "kind": "concept",
+   "label": "reference–query shift"
+  },
+  {
+   "source": "conformal-scrna-bioinformatics-2025",
+   "target": "scatac-novel-genomeres-2026",
+   "kind": "concept",
+   "label": "out-of-reference cell types"
+  },
+  {
+   "source": "sardine-bioinformatics-2025",
+   "target": "spatial-natcommun-2024",
+   "kind": "concept",
+   "label": "spatial anomaly detection"
+  },
+  {
+   "source": "sardine-bioinformatics-2025",
+   "target": "meatrd-aaai-2025",
+   "kind": "concept",
+   "label": "anomalous region detection"
+  },
+  {
+   "source": "meatrd-aaai-2025",
+   "target": "hest1k-2024",
+   "kind": "concept",
+   "label": "paired H&E + ST"
+  },
+  {
+   "source": "kidney-multimodal-genomebiol-2026",
+   "target": "multimodal-integration-bench-natmethods-2025",
+   "kind": "concept",
+   "label": "multimodal integration benchmark"
+  },
+  {
+   "source": "kidney-multimodal-genomebiol-2026",
+   "target": "nephrobase-biorxiv-2025",
+   "kind": "concept",
+   "label": "kidney snRNA/snATAC"
+  },
+  {
+   "source": "nephrobase-biorxiv-2025",
+   "target": "scfm-zeroshot-genomebiol-2025",
+   "kind": "concept",
+   "label": "single-cell FM evaluation"
+  },
+  {
+   "source": "loki-omiclip-natmethods-2025",
+   "target": "hest1k-2024",
+   "kind": "concept",
+   "label": "histology↔ST pairs"
+  },
+  {
+   "source": "loki-omiclip-natmethods-2025",
+   "target": "he2expr-bench-natcommun-2025",
+   "kind": "concept",
+   "label": "H&E→expression"
+  },
+  {
+   "source": "he2expr-bench-natcommun-2025",
+   "target": "hest1k-2024",
+   "kind": "concept",
+   "label": "H&E→expression benchmark"
+  },
+  {
+   "source": "multimodal-integration-bench-natmethods-2025",
+   "target": "scatac-novel-genomeres-2026",
+   "kind": "concept",
+   "label": "RNA–ATAC cross-modal"
+  },
+  {
+   "source": "spatialagent-biorxiv-2025",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "concept",
+   "label": "Xenium data"
+  },
+  {
+   "source": "spatialagent-biorxiv-2025",
+   "target": "dkd-spatial-atlas-nature-2026",
+   "kind": "concept",
+   "label": "spatial niches"
+  },
+  {
+   "source": "lake-kidney-atlas-nature-2023",
+   "target": "dkd-spatial-atlas-nature-2026",
+   "kind": "concept",
+   "label": "kidney injury states → spatial niches"
+  },
+  {
+   "source": "lake-kidney-atlas-nature-2023",
+   "target": "nih-kidney-ai-challenge-2026",
+   "kind": "concept",
+   "label": "KPMP open data"
+  },
+  {
+   "source": "damage-scores-cellgenomics-2026",
+   "target": "cellspectra-natgenet-2025",
+   "kind": "concept",
+   "label": "per-sample injury scoring"
+  },
+  {
+   "source": "nih-kidney-ai-challenge-2026",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "WSI anomaly detection"
+  },
+  {
+   "source": "nih-kidney-ai-challenge-2026",
+   "target": "pathology-ad-bench-mlhealth-2025",
+   "kind": "concept",
+   "label": "pathology AD benchmark"
+  },
+  {
+   "source": "dkd-spatial-atlas-nature-2026",
+   "target": "xenium-split-natmethods-2026",
+   "kind": "concept",
+   "label": "Xenium artifacts"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "histo-anomaly-bi-repo",
+   "kind": "concept",
+   "label": "histology AD methods"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "histopathology AD"
+  },
+  {
+   "source": "medianomaly-media-2025",
+   "target": "histo-miccai-2025",
+   "kind": "concept",
+   "label": "diffusion-based AD"
+  },
+  {
+   "source": "kidney-ssl-histology-scirep-2025",
+   "target": "uni2-h-model",
+   "kind": "concept",
+   "label": "UNI embeddings comparison"
+  },
+  {
+   "source": "kidney-ssl-histology-scirep-2025",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "concept",
+   "label": "histology vs molecular atlas"
+  }
+ ],
+ "stats": {
+  "papers": 39,
+  "concepts": 20,
+  "edges": 136
+ }
+}

@@ -1,0 +1,2836 @@
+{
+ "flow": [
+  {
+   "id": "run",
+   "label": {
+    "en": "Agent runs the analysis",
+    "zh": "agent 执行分析"
+   },
+   "columns": [
+    "B1",
+    "B2"
+   ],
+   "count": 14,
+   "papers": [
+    "co-scientist-nature-2026",
+    "deepevidence-natmachintell-2026",
+    "robin-nature-2026",
+    "biomni-biorxiv-2025",
+    "kosmos-arxiv-2025",
+    "cellvoyager-natmethods-2026",
+    "scbench-arxiv-2026",
+    "scbench-long-arxiv-2026",
+    "spatialagent-biorxiv-2025",
+    "lake-kidney-atlas-nature-2023",
+    "virtual-lab-nature-2025",
+    "paperqa2-arxiv-2024",
+    "heurekabench-arxiv-2026",
+    "inflammatory-pt-natcommun-2025"
+   ],
+   "top": [
+    "Co-Scientist",
+    "DeepEvidence",
+    "Robin"
+   ]
+  },
+  {
+   "id": "claims",
+   "label": {
+    "en": "Extract claims, trace to code / data / citations",
+    "zh": "抽取结论，追溯到代码 / 数据 / 引用"
+   },
+   "columns": [
+    "B4"
+   ],
+   "count": 7,
+   "papers": [
+    "citation-faithfulness-arxiv-2026",
+    "medragchecker-arxiv-2026",
+    "citation-blame-emnlp-2026",
+    "sourcecheckup-natcommun-2025",
+    "reference-hallucination-arxiv-2026",
+    "conformal-scrna-bioinformatics-2025",
+    "deeptrace-arxiv-2025"
+   ],
+   "top": [
+    "Citation faithfulness guard",
+    "MedRAGChecker",
+    "Who is to blame? (citations)"
+   ]
+  },
+  {
+   "id": "judge",
+   "label": {
+    "en": "Detect hallucination & judge",
+    "zh": "检测幻觉与评审"
+   },
+   "columns": [
+    "B5"
+   ],
+   "count": 5,
+   "papers": [
+    "llm-judge-healthcare-arxiv-2026",
+    "deep-research-hallucination-arxiv-2026",
+    "generalization-bias-rsos-2025",
+    "biomednlp-natcommun-2025",
+    "medical-hallucination-arxiv-2025"
+   ],
+   "top": [
+    "LLM-as-judge in healthcare",
+    "PING (trajectory hallucination)",
+    "Overgeneralization bias"
+   ]
+  },
+  {
+   "id": "hypo",
+   "label": {
+    "en": "Score hypotheses",
+    "zh": "评估假设"
+   },
+   "columns": [
+    "B6"
+   ],
+   "count": 6,
+   "papers": [
+    "rq-bench-arxiv-2026",
+    "truthhypo-ijcai-2025",
+    "hypogen-llm-colm-2024",
+    "falsifiable-ideation-arxiv-2026",
+    "ideation-execution-gap-arxiv-2025",
+    "semnovel-jbi-2025"
+   ],
+   "top": [
+    "RQ-Bench",
+    "TruthHypo",
+    "LLM hypothesis generators"
+   ]
+  },
+  {
+   "id": "reliab",
+   "label": {
+    "en": "Reruns & failure analysis",
+    "zh": "重跑与失败分析"
+   },
+   "columns": [
+    "B7"
+   ],
+   "count": 11,
+   "papers": [
+    "autoresearch-failures-arxiv-2026",
+    "fev-bioinformatics-agents-arxiv-2026",
+    "resolvi-natmethods-2026",
+    "clinical-agent-reruns-arxiv-2026",
+    "scirigor-arxiv-2026",
+    "abc-agentic-benchmarks-neurips-2025",
+    "ailuminate-arxiv-2025",
+    "holistic-agent-leaderboard-iclr-2026",
+    "scitrace-arxiv-2026",
+    "mast-neurips-2025",
+    "trail-arxiv-2025"
+   ],
+   "top": [
+    "AutoResearch failures",
+    "FEV review",
+    "ResolVI"
+   ]
+  },
+  {
+   "id": "bench",
+   "label": {
+    "en": "Benchmark + expert calibration",
+    "zh": "基准 + 专家校准"
+   },
+   "columns": [
+    "B3"
+   ],
+   "count": 5,
+   "papers": [
+    "biomnibench-biorxiv-2026",
+    "bixbench-arxiv-2025",
+    "bioml-bench-biorxiv-2025",
+    "medagentbench-nejmai-2025",
+    "lab-bench-arxiv-2024"
+   ],
+   "top": [
+    "BiomniBench",
+    "BixBench",
+    "BioML-bench"
+   ]
+  }
+ ],
+ "view": "plan-b",
+ "title": {
+  "en": "Plan B — Trustworthy biomedical agents",
+  "zh": "Plan B:可信的生物医学 agent"
+ },
+ "lead": {
+  "en": "Trace every agent claim back through code and data; calibrate the verifier against experts.",
+  "zh": "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
+ },
+ "collapsed": true,
+ "wrap": 0,
+ "nodes": [
+  {
+   "id": "group:B1",
+   "kind": "group",
+   "label": {
+    "en": "Research agents",
+    "zh": "科研 agent"
+   },
+   "code": "B1",
+   "count": 7,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "co-scientist-nature-2026",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "Co-Scientist",
+   "title": "Accelerating scientific discovery with Co-Scientist",
+   "year": 2026,
+   "venue": "Nature",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Google's Co-Scientist is a Gemini 2.0–based multi-agent \"structured scientific thinking engine\": a Supervisor schedules six agent types — Generation, Reflection, Ranking, Proximity, Evolution, Meta-review — over an asynchronous task queue, self-improving hypotheses through \"generate–debate–evolve\" plus an Elo tournament as test-time compute scales. It is wet-lab validated in three settings: AML drug repurposing (KIRA6 IC50 10 nM in KG-1a, an 18-fold window over a non-AML control), liver-fibrosis epigenetic targets (2 of 3 active in human hepatic organoids) and the bacterial cf-PICI mechanism (an unpublished finding independently recapitulated in 2 days).",
+    "zh": "Google 的 Co-Scientist 是一个基于 Gemini 2.0 的多智能体「结构化科学思考引擎」:Supervisor 在异步任务队列里调度 Generation、Reflection、Ranking、Proximity、Evolution、Meta-review 六类 agent,以「生成–辩论–进化」加 Elo 锦标赛不断扩展 test-time compute 来自我改进假设;在 AML 药物重定位(KIRA6 对 KG-1a 的 IC50 10 nM,较非 AML 对照有 18 倍窗口)、肝纤维化表观靶点(人肝类器官中 2/3 有效)与细菌 cf-PICI 机制(2 天内独立重现未发表发现)三个场景做了湿实验验证。"
+   },
+   "url": {
+    "en": "../papers/co-scientist-nature-2026/",
+    "zh": "../zh/papers/co-scientist-nature-2026/"
+   },
+   "x": 0,
+   "y": 70
+  },
+  {
+   "id": "deepevidence-natmachintell-2026",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "DeepEvidence",
+   "title": "Empowering biomedical evidence exploration and synthesis with deep knowledge graph research",
+   "year": 2026,
+   "venue": "Nature Machine Intelligence",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "DeepEvidence is a biomedical deep-research agent: an orchestrator plus specialized subagents coordinate breadth-first (BFRS) and depth-first (DFRS) research strategies to explore heterogeneous knowledge bases and literature over long horizons, while incrementally constructing an evidence graph of entities, relations and provenance that makes the research process trackable, attributable and verifiable. It outperforms generic agents across four public benchmarks and seven newly built tasks.",
+    "zh": "DeepEvidence 是一个面向生物医学的 deep research agent:用 orchestrator + 子 agent 的多智能体架构,把「广度优先(BFRS)」与「深度优先(DFRS)」两种检索策略编排起来,跨异构知识库与文献做长程探索,并增量构建一张 evidence graph 记录实体、关系与出处,使整个研究过程可追踪、可归因、可验证;在四个公开基准与七个新建任务上全面超过通用 agent。"
+   },
+   "url": {
+    "en": "../papers/deepevidence-natmachintell-2026/",
+    "zh": "../zh/papers/deepevidence-natmachintell-2026/"
+   },
+   "x": 0,
+   "y": 124
+  },
+  {
+   "id": "robin-nature-2026",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "Robin",
+   "title": "A multi-agent system for automating scientific discovery",
+   "year": 2026,
+   "venue": "Nature",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "FutureHouse's Robin chains literature agents (Crow/Falcon, built on PaperQA2) and a data-analysis agent (Finch) into a lab-in-the-loop cycle: given a disease, it proposes mechanisms, in vitro models and drug candidates; humans run the suggested experiments and upload raw data; Finch runs eight independent analysis trajectories and takes a consensus; Robin updates its hypotheses. For dry AMD it proposed enhancing RPE phagocytosis, found the ROCK inhibitor ripasudil (1.89-fold over DMSO) and KL001, and via RNA-seq uncovered ABCA1 upregulation — all hypotheses, experimental directions, data analyses and data figures in the main text were produced by Robin.",
+    "zh": "FutureHouse 的 Robin 把文献检索 agent(Crow/Falcon,基于 PaperQA2)与数据分析 agent(Finch)串成一个 lab-in-the-loop 闭环:给定疾病,自动提出机制、体外模型与候选药物,人类按其建议做实验并上传原始数据,Finch 跑 8 条独立分析轨迹取共识,Robin 再据此更新假设;在干性 AMD 上,它提出「增强 RPE 吞噬」策略,找到 ROCK 抑制剂 ripasudil(比 DMSO 提升 1.89 倍)与 KL001,并经 RNA-seq 发现 ABCA1 上调——正文所有假设、实验方向、数据分析与数据图均由 Robin 产生。"
+   },
+   "url": {
+    "en": "../papers/robin-nature-2026/",
+    "zh": "../zh/papers/robin-nature-2026/"
+   },
+   "x": 0,
+   "y": 178
+  },
+  {
+   "id": "biomni-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "Biomni",
+   "title": "Biomni: A General-Purpose Biomedical AI Agent",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Biomni is the Leskovec-lab general-purpose biomedical agent: an \"action discovery agent\" mines tasks/tools/databases from 2,500 bioRxiv papers across 25 subfields, which after human verification become the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve a tool subset → plan → write and execute code → iterate) then solves cross-domain tasks zero-shot, with one CRISPR-cloning case validated at the bench. It has become the default baseline for later biomedical-agent papers.",
+    "zh": "Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先用一个 \"action discovery agent\" 从 2,500 篇 bioRxiv 论文(25 个子领域)里挖出任务/工具/数据库,经人工验证后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库),再用基于 CodeAct 的 Biomni-A1(检索工具子集 → 计划 → 写代码执行 → 迭代)零样本完成跨领域任务,并在一个 CRISPR 克隆案例中做了湿实验验证。它已成为后续生物医学 agent 论文的默认基线。"
+   },
+   "url": {
+    "en": "../papers/biomni-biorxiv-2025/",
+    "zh": "../zh/papers/biomni-biorxiv-2025/"
+   },
+   "x": 0,
+   "y": 232
+  },
+  {
+   "id": "kosmos-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "Kosmos",
+   "title": "Kosmos: An AI Scientist for Autonomous Discovery",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Kosmos (Edison Scientific / FutureHouse) is an AI scientist for data-driven discovery: given an open-ended objective and a dataset it runs for up to 12 hours, sharing information between parallel data-analysis and literature-search agents through a structured world model — on average ~200 agent rollouts, ~42,000 lines of code and ~1,500 papers per run — and every report statement cites a code notebook or primary literature. Independent scientists checked 102 statements: 79.4% accurate (data-analysis 85.5%, literature 82.1%, interpretive synthesis only 57.9%).",
+    "zh": "Edison Scientific / FutureHouse 的 Kosmos 是面向「数据驱动发现」的 AI scientist:给定开放式目标与数据集,最长运行 12 小时,用一个结构化 world model 在并行的数据分析 agent 与文献检索 agent 之间共享信息,单次运行平均约 200 次 agent rollout、写约 42,000 行代码、读约 1,500 篇论文,报告中每句话都引用代码 notebook 或原始文献;独立科学家核验 102 条陈述,79.4% 正确(数据分析类 85.5%、文献类 82.1%、解释综合类仅 57.9%)。"
+   },
+   "url": {
+    "en": "../papers/kosmos-arxiv-2025/",
+    "zh": "../zh/papers/kosmos-arxiv-2025/"
+   },
+   "x": 0,
+   "y": 286
+  },
+  {
+   "id": "virtual-lab-nature-2025",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "Virtual Lab",
+   "title": "The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies",
+   "year": 2025,
+   "venue": "Nature",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Stanford's (Zou lab) Virtual Lab with CZ Biohub: an LLM \"PI agent\" leads LLM scientist agents it defines itself (immunologist, ML specialist, computational biologist) plus a Scientific Critic, driving a real interdisciplinary project through \"team meetings + individual meetings\" while the human supplies only high-level agendas and feedback. On a protein-binder design task the agent team autonomously chose and chained three existing public tools (ESM, AlphaFold-Multimer, Rosetta) into a computational pipeline; the resulting candidates were characterized in a human lab, where most expressed and retained their original specificity and two showed improved binding to more recent variants. Across the project the human wrote just 1.3% of all words.",
+    "zh": "Stanford(Zou 组)与 CZ Biohub 的 Virtual Lab:一个 LLM「PI agent」带领若干由它自己定义的 LLM 科学家 agent(免疫学家、机器学习专家、计算生物学家)外加一个 Scientific Critic,通过「团队会议 + 单独会议」推进一个真实的跨学科课题,人类只提供高层议程与反馈;在一个蛋白结合体设计任务上,agent 团队自主选择并串联了三种已有公开工具(ESM、AlphaFold-Multimer、Rosetta)形成计算流程,产出的候选分子经人类实验室表征,多数可表达且保留原有特异性,其中两个显示出对较新变异株的结合改善。全过程人类只写了全部文字的 1.3%。"
+   },
+   "url": {
+    "en": "../papers/virtual-lab-nature-2025/",
+    "zh": "../zh/papers/virtual-lab-nature-2025/"
+   },
+   "x": 0,
+   "y": 340
+  },
+  {
+   "id": "paperqa2-arxiv-2024",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "PaperQA2",
+   "title": "Language agents achieve superhuman synthesis of scientific knowledge",
+   "year": 2024,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "PaperQA2 (FutureHouse) decomposes RAG into agent-orchestrated tools — Paper Search, Gather Evidence (dense retrieval + LLM reranking and contextual summarisation, RCS), Citation Traversal, Generate Answer — exceeding PhD-level humans in precision on the new full-text retrieval benchmark LitQA2, writing gene Wikipedia-style articles (WikiCrow) with fewer \"cited but unsupported\" statements than real Wikipedia, and detecting contradictions in the biology literature at scale (ContraCrow).",
+    "zh": "PaperQA2(FutureHouse)把 RAG 拆成工具交给 agent 编排——Paper Search、Gather Evidence(dense 检索 + LLM 重排与上下文摘要 RCS)、Citation Traversal、Generate Answer——在新建的全文检索基准 LitQA2 上精确率超过博士级人类,写出的基因 Wikipedia 式文章(WikiCrow)比真实 Wikipedia 更少\"引了但不支持\"的陈述,并用 ContraCrow 在生物学文献中大规模检测矛盾。"
+   },
+   "url": {
+    "en": "../papers/paperqa2-arxiv-2024/",
+    "zh": "../zh/papers/paperqa2-arxiv-2024/"
+   },
+   "x": 0,
+   "y": 394
+  },
+  {
+   "id": "group:B2",
+   "kind": "group",
+   "label": {
+    "en": "Omics-analysis agents",
+    "zh": "组学分析 agent"
+   },
+   "code": "B2",
+   "count": 7,
+   "x": 270,
+   "y": 0
+  },
+  {
+   "id": "cellvoyager-natmethods-2026",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "CellVoyager",
+   "title": "CellVoyager: AI CompBio agent generates new insights by autonomously analyzing biological data",
+   "year": 2026,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "CellVoyager (Zou lab, Stanford) is an agent that autonomously explores scRNA-seq data inside a Jupyter notebook: given a published paper and its data, it extracts which analyses were already done, then generates different hypotheses and analysis plans (\"exploration blueprints\"), self-critiques, executes code, reads figures with a vision-language model and replans. It beats its base LLMs on CellBench at predicting the analyses authors performed, and in three re-analysis case studies scored by the original authors it surfaced new hypotheses such as elevated pyroptosis scores in CD8+ T cells in COVID-19 and transcriptional noise in the aging SVZ.",
+    "zh": "CellVoyager(Stanford Zou 组)是一个在 Jupyter notebook 里自主探索 scRNA-seq 数据的 agent:输入一篇已发表论文和它的数据,先提取\"已做过哪些分析\",再生成与之不同的假设与分析计划(exploration blueprint)、自我批评、写代码执行、用视觉语言模型读图、重新规划;在 CellBench 上比底座 LLM 更会\"猜作者做了什么分析\",在三个真实再分析案例中由原文作者打分,提出了 CD8+ T 细胞 pyroptosis 评分升高、SVZ 衰老与转录噪声等新假设。"
+   },
+   "url": {
+    "en": "../papers/cellvoyager-natmethods-2026/",
+    "zh": "../zh/papers/cellvoyager-natmethods-2026/"
+   },
+   "x": 270,
+   "y": 70
+  },
+  {
+   "id": "scbench-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "scBench",
+   "title": "scBench: Evaluating AI Agents on Single-Cell RNA-seq Analysis",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "scBench (LatchBio) is 394 deterministically graded scRNA-seq analysis problems: each gives a real data snapshot taken just before an analysis step, a natural-language task and a grader, across 6 sequencing platforms × 7 task categories. Eight frontier models under one harness reach only 29–53%, and platform matters as much as model (40+ pp drops on less-documented platforms).",
+    "zh": "scBench(LatchBio)是 394 道可确定性判分的 scRNA-seq 分析题:每题给出\"某个分析步骤之前\"的真实数据快照 + 自然语言任务 + 判分器,覆盖 6 个测序平台 × 7 类任务;8 个前沿模型在同一 harness 下准确率仅 29–53%,且平台差异与模型差异一样大(冷门平台掉 40+ 个百分点)。"
+   },
+   "url": {
+    "en": "../papers/scbench-arxiv-2026/",
+    "zh": "../zh/papers/scbench-arxiv-2026/"
+   },
+   "x": 270,
+   "y": 124
+  },
+  {
+   "id": "scbench-long-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "scBench-Long",
+   "title": "scBench-Long: Verifiable Benchmarking of Long-Horizon Single-Cell Biology",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "scBench-Long (LatchBio) moves scBench from single steps to long horizons: 21 evaluations across 5 study systems in which agents start from raw or near-raw single-cell data, with no prescribed method, and must recover a specific scientific conclusion, graded deterministically over controlled vocabularies with companion trajectory rubrics for diagnosis. Across 1,068 trajectories the best model–harness pair (Claude Opus 4.8 + Claude Code) passes only 16/63 (25.4%), and failures are mostly scientific-reasoning failures, not tool-use failures.",
+    "zh": "scBench-Long(LatchBio)把 scBench 从\"单步\"推进到\"长程\":21 个评测、5 个研究系统,要求 agent 从原始或接近原始的单细胞数据出发、不给方法地恢复一个具体的科学结论,结论用受控词表确定性判分,另配轨迹 rubric 做诊断;1,068 条轨迹中最强的模型-harness 组合(Claude Opus 4.8 + Claude Code)也只通过 16/63(25.4%),且失败主要不是工具使用失败,而是科学推理失败。"
+   },
+   "url": {
+    "en": "../papers/scbench-long-arxiv-2026/",
+    "zh": "../zh/papers/scbench-long-arxiv-2026/"
+   },
+   "x": 270,
+   "y": 178
+  },
+  {
+   "id": "spatialagent-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "SpatialAgent",
+   "title": "SpatialAgent: An autonomous AI agent for spatial biology",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "A"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SpatialAgent is the Genentech/Regev-lab agent specialised for spatial omics: a Plan-Act-Conclude architecture with dynamic retrieval over 72 tools / 17 reusable skills, image interpretation, and reporting and verification subagents that audit numerical and visual claims, covering gene-panel design, cell/niche annotation, trajectories, cell–cell communication, imputation and hypothesis generation. It beats established methods and matches or exceeds experts on DLPFC panel design and fetal-heart MERFISH annotation, and designed a 100-gene add-on panel used in a prospective mouse prostate-cancer Xenium study (4.2M cells, 21 samples).",
+    "zh": "SpatialAgent 是 Genentech/Regev 组面向空间组学的专用 agent:Plan-Act-Conclude 架构 + 72 个工具 / 17 个可复用 skill 的动态检索 + 图像解读 + 报告与验证子 agent(逐条审计数值与视觉声明),覆盖基因 panel 设计、细胞/niche 注释、轨迹、细胞通讯、插补与假设生成;在 DLPFC panel 设计、胎儿心脏 MERFISH 注释上胜过既有方法并与专家持平或更优,并在前瞻性小鼠前列腺癌 Xenium 实验中设计了 100 基因附加 panel(实测 4.2M 细胞、21 个样本)。"
+   },
+   "url": {
+    "en": "../papers/spatialagent-biorxiv-2025/",
+    "zh": "../zh/papers/spatialagent-biorxiv-2025/"
+   },
+   "x": 270,
+   "y": 232
+  },
+  {
+   "id": "lake-kidney-atlas-nature-2023",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "Kidney atlas (Lake 2023)",
+   "title": "An atlas of healthy and injured cell states and niches in the human kidney",
+   "year": 2023,
+   "venue": "Nature",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "A"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A KPMP / HuBMAP / HCA multimodal single-cell + spatial atlas of the human kidney: >400,000 cells/nuclei (snRNA, scRNA, SNARE-seq2 dual-omics) plus Slide-seq2, Visium and large-scale 3D imaging, spanning 45 healthy reference donors and 48 AKI/CKD patients; it defines 51 main cell types and 28 injury-associated \"altered states\" (cycling, adaptive/maladaptive repair, transitioning, degenerative), localizes them to injury niches, and shows that TAL/PT adaptive-repair signatures predict decline of kidney function.",
+    "zh": "KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 万个细胞/细胞核(snRNA、scRNA、SNARE-seq2 双组学),配合 Slide-seq2、Visium 与大规模 3D 成像,覆盖 45 名健康参照供体与 48 名 AKI/CKD 患者,定义 51 种主要细胞类型和 28 种损伤相关的\"altered states\"(cycling、adaptive/maladaptive repair、transitioning、degenerative),把它们定位到损伤 niche,并发现 TAL/PT 的 adaptive 修复签名可预测肾功能下降。"
+   },
+   "url": {
+    "en": "../papers/lake-kidney-atlas-nature-2023/",
+    "zh": "../zh/papers/lake-kidney-atlas-nature-2023/"
+   },
+   "x": 270,
+   "y": 286
+  },
+  {
+   "id": "heurekabench-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "HeurekaBench",
+   "title": "HeurekaBench: A Benchmarking Framework for AI Co-scientist",
+   "year": 2026,
+   "venue": "International Conference on Learning Representations (ICLR 2026)",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "HeurekaBench (Brbić lab, EPFL) is a framework for constructing \"AI co-scientist\" benchmarks: a multi-LLM pipeline extracts insights from published papers and their code repositories, matches and composes code workflows, and keeps an insight only after humans run the code and confirm it reproduces the paper's result; validated insights become open-ended (OEQ) and multiple-choice (MCQ) questions. Instantiated for single-cell biology as sc-HeurekaBench (41 validated insights, 50 OEQ + 50 MCQ), scored by an LLM judge that decomposes answers into atomic facts, it compares Biomni, CellVoyager and BixBench-Agent and ablates planner, critic and retriever choices.",
+    "zh": "HeurekaBench(EPFL Brbić 组)是一个构造\"AI co-scientist\"基准的框架:用多 LLM 流水线从已发表论文及其代码仓库中抽取洞见、匹配并生成代码流程,再由人实际运行代码、确认能复现论文结果后才保留,最后转成开放题(OEQ)与选择题(MCQ);在单细胞领域实例化为 sc-HeurekaBench(41 条验证洞见、50 OEQ + 50 MCQ),用原子事实分解的 LLM 评审打分,并用它比较 Biomni、CellVoyager、BixBench-Agent 及 planner / critic / retriever 设计。"
+   },
+   "url": {
+    "en": "../papers/heurekabench-arxiv-2026/",
+    "zh": "../zh/papers/heurekabench-arxiv-2026/"
+   },
+   "x": 270,
+   "y": 340
+  },
+  {
+   "id": "inflammatory-pt-natcommun-2025",
+   "kind": "paper",
+   "parent": "group:B2",
+   "label": "Inflammatory PT cells",
+   "title": "Multiomic analysis of human kidney disease identifies a tractable inflammatory and pro-fibrotic tubular cell phenotype",
+   "year": 2025,
+   "venue": "Nature Communications",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "A"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Combining snRNA+snATAC multiome with CosMx high-plex single-cell spatial imaging (6,000- and 1,000-plex), the authors identify a VCAM1+ICAM1+ inflammatory proximal-tubule (PT) cell in human kidney disease: a subset of KPMP \"adaptive PT\" cells that expresses chemokines, pro-fibrotic and senescence-associated genes and localizes specifically to the fibrotic niche; it is epigenetically imprinted by HNF4α-network collapse plus AP-1/NF-κB activation; in mice the AP-1 inhibitor T5224 or the senolytic ABT-263 depletes these cells and reduces inflammation and fibrosis.",
+    "zh": "作者把 snRNA+snATAC 多组学与 CosMx 高通量单细胞空间成像(6,000 与 1,000 探针)结合,在人类肾病中找到一类 VCAM1+ICAM1+ 炎症性近端小管(PT)细胞:它们是 KPMP「adaptive PT」的一个亚群,表达趋化因子、促纤维化与衰老相关基因,特异地定位在纤维化 niche;表观上由 HNF4α 网络崩溃 + AP-1/NF-κB 激活锁定;在小鼠中用 AP-1 抑制剂 T5224 或衰老清除剂 ABT-263 能减少这类细胞并减轻炎症和纤维化。"
+   },
+   "url": {
+    "en": "../papers/inflammatory-pt-natcommun-2025/",
+    "zh": "../zh/papers/inflammatory-pt-natcommun-2025/"
+   },
+   "x": 270,
+   "y": 394
+  },
+  {
+   "id": "group:B3",
+   "kind": "group",
+   "label": {
+    "en": "Agent benchmarks",
+    "zh": "agent 基准"
+   },
+   "code": "B3",
+   "count": 5,
+   "x": 540,
+   "y": 0
+  },
+  {
+   "id": "biomnibench-biorxiv-2026",
+   "kind": "paper",
+   "parent": "group:B3",
+   "label": "BiomniBench",
+   "title": "BiomniBench: Process-level Evaluation of LLM Agents for Real-world Biomedical Research",
+   "year": 2026,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "BiomniBench is a process-level benchmark for biomedical agents: instead of scoring only the final answer, an LLM judge grades the agent's full analytical trajectory (trace.md + answer.txt) against expert-written (often original-author-written), task-specific A/B/C rubrics. The first release, BiomniBench-DA, has 100 data-analysis tasks built on the public data of Nature/Cell/Science-tier papers. The best configuration (Claude Code + Opus 4.7) reaches only 73.34/100, and the agent harness moves scores more than a model generation does.",
+    "zh": "BiomniBench 是一个过程级(process-level)的生物医学 agent 基准:不只看最终答案,而是用专家(常为原论文作者)编写的、任务特定的 A/B/C 分级 rubric,由 LLM judge 对 agent 的完整分析轨迹(trace.md + answer.txt)打分;首发 BiomniBench-DA 含 100 个基于 Nature/Cell/Science 级论文公开数据的数据分析任务。最佳配置(Claude Code + Opus 4.7)仅 73.34/100,且 agent harness 对分数的影响大于模型换代。"
+   },
+   "url": {
+    "en": "../papers/biomnibench-biorxiv-2026/",
+    "zh": "../zh/papers/biomnibench-biorxiv-2026/"
+   },
+   "x": 540,
+   "y": 70
+  },
+  {
+   "id": "bixbench-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B3",
+   "label": "BixBench",
+   "title": "BixBench: a Comprehensive Benchmark for LLM-based Agents in Computational Biology",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "BixBench (FutureHouse + ScienceMachine) is one of the first agent benchmarks for open-ended bioinformatics data analysis: 61 real analysis \"capsules\" (data + hypothesis + reference notebook) built by PhD-level analysts, with 205 open-answer questions; the agent explores the data in an empty Jupyter notebook and answers. GPT-4o and Claude 3.5 Sonnet reach at best 21% open-answer accuracy, and near-random in the MCQ setting with an \"insufficient information\" option.",
+    "zh": "BixBench(FutureHouse + ScienceMachine)是第一批面向开放式生物信息学数据分析的 agent 基准:61 个由 PhD 级分析师构建的真实分析「capsule」(数据 + 假设 + 参考 notebook)、205 道开放答案题;agent 在空白 Jupyter notebook 里自主探索数据并作答。GPT-4o 与 Claude 3.5 Sonnet 在开放答案下最高仅 21%,MCQ(带「信息不足」选项)下接近随机。"
+   },
+   "url": {
+    "en": "../papers/bixbench-arxiv-2025/",
+    "zh": "../zh/papers/bixbench-arxiv-2025/"
+   },
+   "x": 540,
+   "y": 124
+  },
+  {
+   "id": "bioml-bench-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:B3",
+   "label": "BioML-bench",
+   "title": "BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "A"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "BioML-bench ports MLE-bench's \"task capsule + automatic grading\" paradigm to biomedicine: 24 end-to-end ML tasks (drug discovery, biomedical imaging, protein engineering, single-cell) where the agent builds the pipeline, trains models and submits predictions, scored as percentiles on largely expert-populated public leaderboards. Four agents (Biomni, STELLA, AIDE, MLAgentBench) average only the 34th–39th percentile, and biomedical specialization confers no consistent advantage.",
+    "zh": "BioML-bench 把 MLE-bench 的「任务 capsule + 自动评分」范式搬到生物医学:24 个端到端 ML 任务(药物发现、医学影像、蛋白工程、单细胞),agent 需自己建 pipeline、训模型、提交预测,再映射到以领域专家为主的公开排行榜百分位。四个 agent(Biomni、STELLA、AIDE、MLAgentBench)平均只到 34–39 百分位,且生物医学专用 agent 并无一致优势。"
+   },
+   "url": {
+    "en": "../papers/bioml-bench-biorxiv-2025/",
+    "zh": "../zh/papers/bioml-bench-biorxiv-2025/"
+   },
+   "x": 540,
+   "y": 178
+  },
+  {
+   "id": "medagentbench-nejmai-2025",
+   "kind": "paper",
+   "parent": "group:B3",
+   "label": "MedAgentBench",
+   "title": "MedAgentBench: A Virtual EHR Environment to Benchmark Medical LLM Agents",
+   "year": 2025,
+   "venue": "NEJM AI",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "MedAgentBench (Stanford; Andrew Ng / Jonathan Chen groups) is the first benchmark requiring an LLM agent to autonomously read and write records in a FHIR-compliant virtual EHR: 300 verifiable clinical tasks (10 categories) written by internal-medicine physicians, over 100 patient profiles derived from de-identified real Stanford STARR cases (~785k records). In the preprint the best model, Claude 3.5 Sonnet v2, reaches 69.67% overall success; write (action) tasks are generally harder than read (query) tasks.",
+    "zh": "MedAgentBench(Stanford,Andrew Ng / Jonathan Chen 组)是第一个要求 LLM agent 在 FHIR 兼容的虚拟 EHR 里自主读写病历的基准:300 个由内科医生编写、可验证的临床任务(10 类),100 名基于 Stanford STARR 去标识真实病例的患者档案(约 78.5 万条记录);预印本中最佳模型 Claude 3.5 Sonnet v2 总成功率 69.67%,写操作(action)普遍比查询(query)更难。"
+   },
+   "url": {
+    "en": "../papers/medagentbench-nejmai-2025/",
+    "zh": "../zh/papers/medagentbench-nejmai-2025/"
+   },
+   "x": 540,
+   "y": 232
+  },
+  {
+   "id": "lab-bench-arxiv-2024",
+   "kind": "paper",
+   "parent": "group:B3",
+   "label": "LAB-Bench",
+   "title": "LAB-Bench: Measuring Capabilities of Language Models for Biology Research",
+   "year": 2024,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "LAB-Bench (FutureHouse) is a 2,457-question multiple-choice benchmark of practical biology-research capabilities: literature retrieval and reasoning (LitQA2, SuppQA), figure/table interpretation (FigQA, TableQA), database access (DbQA), protocol troubleshooting (ProtocolQA), and sequence comprehension/manipulation (SeqQA, Cloning Scenarios). Every question has an \"insufficient information\" refusal option; accuracy, precision and coverage are reported against PhD-level human experts. Tool-free frontier models fall well short of humans overall.",
+    "zh": "LAB-Bench(FutureHouse)是一个面向实用生物学研究能力的 2,457 道多选题基准:文献检索与推理(LitQA2、SuppQA)、图表解读(FigQA、TableQA)、数据库查询(DbQA)、实验方案排错(ProtocolQA)、序列理解与操作(SeqQA、Cloning Scenarios);每题都有「信息不足」拒答选项,同时报告 accuracy、precision 与 coverage,并对比 PhD 级人类专家。不带工具的前沿模型整体远逊于人类。"
+   },
+   "url": {
+    "en": "../papers/lab-bench-arxiv-2024/",
+    "zh": "../zh/papers/lab-bench-arxiv-2024/"
+   },
+   "x": 540,
+   "y": 286
+  },
+  {
+   "id": "group:B4",
+   "kind": "group",
+   "label": {
+    "en": "Claim & citation verification",
+    "zh": "结论与引用核查"
+   },
+   "code": "B4",
+   "count": 7,
+   "x": 810,
+   "y": 0
+  },
+  {
+   "id": "citation-faithfulness-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "Citation faithfulness guard",
+   "title": "Evaluating and Guarding Citation Faithfulness in Agentic Scientific Synthesis",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Literature-synthesis agents like OpenScholar and PaperQA2, and their benchmarks, all check whether citations hold — but nobody audits whether the checker itself is reliable. This paper shows that on identical agent outputs the unsupported-citation rate ranges from ~3% to ~18% depending only on verifier strictness; verifiers agree on what is supported but barely agree on what to flag (negative-specific agreement 0.27–0.30). The authors give a gold-anchored evaluation protocol and a split-conformal guard that places a distribution-free, finite-sample guarantee on the catch rate of truly unsupported citations, and show that whether the guarantee transfers is governed by calibration-negative difficulty.",
+    "zh": "OpenScholar、PaperQA2 这类文献综合 agent 及其基准都会「检查引用是否成立」,但没人审计这个检查器本身是否可靠。本文证明:同一批 agent 输出,仅因 verifier 严格度不同,未支持引用率就在 约 3% 到约 18% 之间变动;verifier 们在「哪些被支持」上一致,在「该标记哪些」上却几乎不一致(negative-specific agreement 0.27–0.30)。作者给出以人工金标准为锚的评估协议 + 一个 split-conformal 守卫,对「漏过标记规则的真正未支持引用」给出无分布、有限样本的捕获率保证,并指出保证能否迁移取决于校准负样本的难度。"
+   },
+   "url": {
+    "en": "../papers/citation-faithfulness-arxiv-2026/",
+    "zh": "../zh/papers/citation-faithfulness-arxiv-2026/"
+   },
+   "x": 810,
+   "y": 70
+  },
+  {
+   "id": "medragchecker-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "MedRAGChecker",
+   "title": "MedRAGChecker: Claim-Level Verification for Biomedical Retrieval-Augmented Generation",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "MedRAGChecker decomposes long-form biomedical RAG answers into atomic claims (SPO triples) and verifies each with a distilled NLI checker plus a knowledge-graph (KG) consistency signal, fusing them via selective gating only when NLI confidently entails while the KG confidently conflicts. The headline finding is that KG coverage decides whether the KG helps or hurts: DRKG (62.7% coverage) inflates the hallucination rate to 34.2%, while BioPortal (94.2% coverage) lowers it to 25.2%.",
+    "zh": "MedRAGChecker 把生物医学 RAG 的长答案拆成原子 claim(SPO 三元组),用「蒸馏出的 NLI 检查器 + 知识图谱(KG)一致性信号」逐条核验,并用 selective gating 只在「NLI 很确信蕴含、KG 很确信冲突」时才融合 KG —— 核心发现是 KG 覆盖率决定 KG 是帮忙还是添乱:覆盖率 62.7% 的 DRKG 把幻觉率推高到 34.2%,覆盖率 94.2% 的 BioPortal 把它压到 25.2%。"
+   },
+   "url": {
+    "en": "../papers/medragchecker-arxiv-2026/",
+    "zh": "../zh/papers/medragchecker-arxiv-2026/"
+   },
+   "x": 810,
+   "y": 124
+  },
+  {
+   "id": "citation-blame-emnlp-2026",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "Who is to blame? (citations)",
+   "title": "Who is the Agent to Blame? Localizing Faithfulness and Citation Mistakes in Agentic Deep Research",
+   "year": 2026,
+   "venue": "EMNLP 2026",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "In multi-agent deep-research (DR) systems information passes through agents like a \"telephone game\", and both content and citations can be corrupted along the way. This paper locally tests each agent invocation for faithfulness and verifiability relative to its own inputs, so every citation error in the final report can be traced to the agent that introduced it, and typed into four classes (hallucination, uncited input reliance, uncited output, insufficient citations). In Nvidia AI-Q, 84.7% of final-report errors originate at the orchestrator; two simple interventions guided by this raise citation recall by ~5 points without hurting quality.",
+    "zh": "多智能体 deep research(DR)系统里,信息像「传话游戏」一样逐层传递,内容和引用都会在途中被损坏。本文提出局部测试每一次 agent 调用相对其自身输入的忠实性与可验证性,从而把最终报告里的每个引用错误追溯到引入它的那个 agent,并按四类分型(幻觉、依赖未引用输入、输出无引用、引用不足);在 Nvidia AI-Q 上 84.7% 的最终报告错误源自 orchestrator,据此做的两个简单干预使引用召回率提升约 5 个百分点且不损失质量。"
+   },
+   "url": {
+    "en": "../papers/citation-blame-emnlp-2026/",
+    "zh": "../zh/papers/citation-blame-emnlp-2026/"
+   },
+   "x": 810,
+   "y": 178
+  },
+  {
+   "id": "sourcecheckup-natcommun-2025",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "SourceCheckup",
+   "title": "An automated framework for assessing how well LLMs cite relevant medical references",
+   "year": 2025,
+   "venue": "Nature Communications",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SourceCheckup is a fully automated agent pipeline — generate medical questions → have an LLM answer with sources → parse into independently verifiable statements → download URL contents → have GPT-4o judge each statement–source pair. Across 7 models, 800 questions and ~58K statement–source pairs, 50–90% of responses are not fully supported by the sources they cite; even web-enabled GPT-4o (RAG) is fully supported in only 55% of responses. The automated verifier agrees with a three-doctor consensus 88.7% of the time, above the 86.1% average inter-doctor agreement.",
+    "zh": "SourceCheckup 是一条全自动的 agent 流水线:出医学问题 → 让 LLM 作答并给出处 → 拆成独立可验证的 statement → 下载 URL 全文 → 用 GPT-4o 逐对判断「这个来源是否支持这句话」;在 7 个模型、800 题、约 5.8 万个 statement–source 对上发现 50%–90% 的回答并未被其引用完全支持,即便联网的 GPT-4o(RAG)也只有 55% 的回答完全被支持;该自动核验与三位执业医生共识一致率 88.7%,高于医生之间的平均一致率 86.1%。"
+   },
+   "url": {
+    "en": "../papers/sourcecheckup-natcommun-2025/",
+    "zh": "../zh/papers/sourcecheckup-natcommun-2025/"
+   },
+   "x": 810,
+   "y": 232
+  },
+  {
+   "id": "reference-hallucination-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "Reference hallucinations",
+   "title": "Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Quantifies citation-URL reliability across 10 models/agents on DRBench (53,090 URLs) and 3 models on ExpertQA (168,021 URLs, 32 fields): 3–13% of cited URLs are hallucinated (no Wayback Machine record — likely never existed) and 5–18% are non-resolving; deep research agents cite the most and hallucinate the most. The authors release urlhealth, an 83-line tool that, used for agentic self-correction, cuts non-resolving URLs 6–79× to under 1%.",
+    "zh": "在 10 个模型/agent(DRBench,53,090 个 URL)和 3 个模型(ExpertQA,168,021 个 URL,32 个学科)上量化引用 URL 的可靠性:3%–13% 的引用 URL 是幻觉(Wayback Machine 无任何存档、很可能从未存在),5%–18% 无法解析;deep research agent 引用最多、幻觉率也最高;作者发布 83 行的 urlhealth 工具,作为 agent 的自我纠错工具可把无法解析的 URL 降低 6–79×、到 1% 以下。"
+   },
+   "url": {
+    "en": "../papers/reference-hallucination-arxiv-2026/",
+    "zh": "../zh/papers/reference-hallucination-arxiv-2026/"
+   },
+   "x": 810,
+   "y": 286
+  },
+  {
+   "id": "conformal-scrna-bioinformatics-2025",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "Conformal annotation",
+   "title": "Conformal inference for reliable single cell RNA-seq annotation",
+   "year": 2025,
+   "venue": "Bioinformatics",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "A"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Adds distribution-free statistical guarantees to automatic scRNA-seq annotation with conformal prediction: an autoencoder + conformal p-values first detects cell types absent from the reference (OOD) with false-positive rate ≤ α₀; the remaining cells get prediction sets with coverage guarantees (standard / classwise / cluster Mondrian taxonomies; APS / RAPS / THR non-conformity scores), where set size is the uncertainty. Departures of the conformal p-values from uniformity also diagnose broken reference–query exchangeability.",
+    "zh": "用 conformal prediction 给 scRNA-seq 自动注释加上分布无关的统计保证:先用自编码器 + conformal p 值检测参照中不存在的细胞类型(OOD),控制假阳性率 ≤ α₀;再对剩下的细胞输出带覆盖保证的预测集合(标准 / classwise / cluster 三种 Mondrian 分类方式,APS / RAPS / THR 三种非一致性分数),集合大小即不确定性;conformal p 值分布偏离均匀还可以用来诊断参照与 query 之间的可交换性是否被破坏。"
+   },
+   "url": {
+    "en": "../papers/conformal-scrna-bioinformatics-2025/",
+    "zh": "../zh/papers/conformal-scrna-bioinformatics-2025/"
+   },
+   "x": 810,
+   "y": 340
+  },
+  {
+   "id": "deeptrace-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B4",
+   "label": "DeepTRACE",
+   "title": "DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "DeepTRACE turns community-identified failure cases of generative search engines and deep-research agents (from a prior user study) into eight computable metrics spanning answer text, sources and citations, built on two matrices — a citation matrix (which sources each statement cites) and a factual-support matrix (which sources actually support it). Across 303 questions × 9 public systems: deep-research modes reduce overconfidence but remain highly one-sided on debate queries, leave large fractions of statements unsupported, and reach only 40–80% citation accuracy.",
+    "zh": "DeepTRACE 把先前用户研究中社区识别出的生成式搜索/deep research 失效案例,转化为覆盖「答案文本 · 来源 · 引用」的 8 个可计算指标,核心是两张矩阵 —— 引用矩阵(statement 引了哪些来源)与事实支持矩阵(哪些来源真的支持该 statement);在 303 个问题 × 9 个公开系统上发现:deep research 降低了过度自信,但在辩论题上仍高度片面,无支持 statement 比例很高,引用准确率只有 40%–80%。"
+   },
+   "url": {
+    "en": "../papers/deeptrace-arxiv-2025/",
+    "zh": "../zh/papers/deeptrace-arxiv-2025/"
+   },
+   "x": 810,
+   "y": 394
+  },
+  {
+   "id": "group:B5",
+   "kind": "group",
+   "label": {
+    "en": "Hallucination & LLM-as-judge",
+    "zh": "幻觉与 LLM 评审"
+   },
+   "code": "B5",
+   "count": 5,
+   "x": 1080,
+   "y": 0
+  },
+  {
+   "id": "llm-judge-healthcare-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B5",
+   "label": "LLM-as-judge in healthcare",
+   "title": "LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applications, Methods, and Human Alignment",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A PRISMA-guided scoping review: five databases searched for January 2023 – February 2026, 134 healthcare LLM-as-a-Judge studies included and coded by health scenario, judge configuration, technique and validation design. Judge–expert alignment is mostly moderate to strong (median agreement 0.83, median Cohen's κ 0.78, median correlation 0.69) but strongly task-, rubric- and model-dependent, and there are almost no controlled comparisons showing which configuration suits which clinical task.",
+    "zh": "一篇 PRISMA 指引的范围综述:在 5 个数据库检索 2023-01 至 2026-02 的文献,纳入 134 篇医疗领域 LLM-as-a-Judge 研究,按健康场景、judge 配置、技术路线、验证设计编码;结论是 judge 与专家的一致性多为中到强(一致率中位数 0.83、Cohen's κ 中位数 0.78、相关系数中位数 0.69),但高度依赖任务、rubric 与模型,且几乎没有受控对比研究告诉你哪种配置适合哪种临床任务。"
+   },
+   "url": {
+    "en": "../papers/llm-judge-healthcare-arxiv-2026/",
+    "zh": "../zh/papers/llm-judge-healthcare-arxiv-2026/"
+   },
+   "x": 1080,
+   "y": 70
+  },
+  {
+   "id": "deep-research-hallucination-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B5",
+   "label": "PING (trajectory hallucination)",
+   "title": "Why Your Deep Research Agent Fails? On Hallucination Evaluation in Full Research Trajectory",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Shifts from final-report evaluation to auditing the whole plan–search–summarize trajectory: the PING taxonomy (Propagation, Intent, Noise-induced, Grounding) classifies deep-research-agent (DRA) hallucinations by locus of failure, an evaluation framework decomposes trajectories into atomic actions/claims/sub-queries, and 100 hallucination-prone queries form DeepHalluBench. None of six DRAs is uniformly low-hallucination; failures trace to hallucination propagation and cognitive biases — the temporal \"Anchor Effect\" and semantic \"Homogeneity Bias\".",
+    "zh": "从「只看最终报告」转向「审计整条 plan–search–summarize 轨迹」:提出 PING 分类法(Propagation 传播、Intent 意图、Noise-induced 噪声、Grounding 落地)把 deep research agent(DRA)的幻觉按失效位置分四类,配套把轨迹拆成原子 action/claim/sub-query 的评估框架,并筛出 100 道高幻觉倾向题构成 DeepHalluBench;六个 DRA 无一在所有维度上都低幻觉,失效可追溯到幻觉传播与「锚定效应」「同质化偏差」等认知偏差。"
+   },
+   "url": {
+    "en": "../papers/deep-research-hallucination-arxiv-2026/",
+    "zh": "../zh/papers/deep-research-hallucination-arxiv-2026/"
+   },
+   "x": 1080,
+   "y": 124
+  },
+  {
+   "id": "generalization-bias-rsos-2025",
+   "kind": "paper",
+   "parent": "group:B5",
+   "label": "Overgeneralization bias",
+   "title": "Generalization bias in large language model summarization of scientific research",
+   "year": 2025,
+   "venue": "Royal Society Open Science",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Across 4,900 summaries from 10 prominent LLMs, most models rewrite restricted scientific conclusions into broader generalizations (dropping quantifiers into generics, past into present tense, descriptions into recommendations). LLM article summaries are 4.85× as likely as expert NEJM Journal Watch summaries to contain generalized conclusions; counter-intuitively, explicitly asking for accuracy doubles the effect, and newer models are worse than older ones (Claude being the exception).",
+    "zh": "10 个主流 LLM 生成的 4,900 份科学摘要显示,多数模型会把原文「有限定的结论」改写成更宽泛的泛化(去掉量词变成泛指、过去时变现在时、描述变建议);LLM 文章摘要含泛化结论的几率是 NEJM Journal Watch 人类专家摘要的 4.85 倍;反直觉的是,明确要求「不要引入不准确」反而让泛化翻倍,而且新模型比旧模型更严重(Claude 系列是例外)。"
+   },
+   "url": {
+    "en": "../papers/generalization-bias-rsos-2025/",
+    "zh": "../zh/papers/generalization-bias-rsos-2025/"
+   },
+   "x": 1080,
+   "y": 178
+  },
+  {
+   "id": "biomednlp-natcommun-2025",
+   "kind": "paper",
+   "parent": "group:B5",
+   "label": "BioNLP LLM benchmark",
+   "title": "Benchmarking large language models for biomedical natural language processing applications and recommendations",
+   "year": 2025,
+   "venue": "Nature Communications",
+   "relevance": "medium",
+   "status": "abstract-only",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A systematic evaluation of four LLMs (GPT and LLaMA representatives) across 12 BioNLP benchmarks and six applications — zero-shot, few-shot and fine-tuned — against traditionally fine-tuned BERT/BART. The verdict: traditional fine-tuning still beats zero- and few-shot LLMs on most tasks; GPT-4 leads only on reasoning-type tasks such as medical QA; open-source LLMs need fine-tuning to close the gap. Missing information and hallucination are documented systematically.",
+    "zh": "在 12 个 BioNLP 基准、6 类应用上系统评测四个 LLM(GPT 与 LLaMA 代表)的 zero-shot / few-shot / 微调表现,并与 BERT、BART 的传统微调对比,结论是:多数任务上传统微调仍胜过零样本或少样本 LLM,GPT-4 只在医学问答等推理型任务上占优,开源 LLM 必须微调才能追平;同时系统记录了信息缺失与幻觉问题。"
+   },
+   "url": {
+    "en": "../papers/biomednlp-natcommun-2025/",
+    "zh": "../zh/papers/biomednlp-natcommun-2025/"
+   },
+   "x": 1080,
+   "y": 232
+  },
+  {
+   "id": "medical-hallucination-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B5",
+   "label": "Medical hallucinations",
+   "title": "Medical Hallucinations in Foundation Models and Their Impact on Healthcare",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A combined survey + benchmark + physician annotation + clinician survey: medical hallucination is defined as erroneous, inconsistent or unsupported output that could alter clinical decisions, with a five-cluster taxonomy. On Med-HALT across 11 models, general-purpose models hallucinate less than medical-specialized ones (median hallucination-free baseline 76.6% vs 51.3%), and CoT is the most consistent mitigation; physician annotation of NEJM cases shows errors concentrate in chronological ordering and lab-data understanding rather than diagnosis itself.",
+    "zh": "一篇「综述 + 基准实验 + 医生标注 + 临床调查」的综合性工作:把医学幻觉定义为可能改变临床决策的错误/不一致/无据输出,给出五大类分类法;在 Med-HALT 上测 11 个模型发现通用模型反而比医学专用模型更少幻觉(基线无幻觉比例中位数 76.6% vs 51.3%),CoT 是最稳定的缓解手段;医生在 NEJM 病例上的标注显示,错误更多出在时间顺序与化验数据理解而非诊断本身。"
+   },
+   "url": {
+    "en": "../papers/medical-hallucination-arxiv-2025/",
+    "zh": "../zh/papers/medical-hallucination-arxiv-2025/"
+   },
+   "x": 1080,
+   "y": 286
+  },
+  {
+   "id": "group:B6",
+   "kind": "group",
+   "label": {
+    "en": "Hypothesis evaluation",
+    "zh": "假设评测"
+   },
+   "code": "B6",
+   "count": 6,
+   "x": 1350,
+   "y": 0
+  },
+  {
+   "id": "rq-bench-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B6",
+   "label": "RQ-Bench",
+   "title": "On the Limits of LLM-as-Judge for Scientific Novelty Assessment",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "RQ-Bench reconstructs 1,434 \"author-anchored\" research questions (RQs) from 746 recent arXiv CS papers and uses them to test whether LLM-as-judge can reliably assess scientific novelty: LLM judges consistently rate model-generated RQs as more novel (a \"novelty mirage\"), and side-by-side comparison amplifies the preference — but domain experts reach the opposite conclusion and prefer the author RQs, with human–LLM agreement as low as 22%.",
+    "zh": "RQ-Bench 用 746 篇近期 arXiv CS 论文重建出 1,434 个「作者锚定」的研究问题(RQ),拿来检验 LLM-as-judge 判断科研新颖性是否可靠:LLM 评委一致认为模型生成的 RQ 更新颖(「novelty mirage」),且并排比较时偏好被放大;而领域专家结论相反,更偏好作者原问题 —— 人机一致率低至 22%。"
+   },
+   "url": {
+    "en": "../papers/rq-bench-arxiv-2026/",
+    "zh": "../zh/papers/rq-bench-arxiv-2026/"
+   },
+   "x": 1350,
+   "y": 70
+  },
+  {
+   "id": "truthhypo-ijcai-2025",
+   "kind": "paper",
+   "parent": "group:B6",
+   "label": "TruthHypo",
+   "title": "Toward Reliable Scientific Hypothesis Generation: Evaluating Truthfulness and Hallucination in Large Language Models",
+   "year": 2025,
+   "venue": "IJCAI 2025 (Proceedings of the 34th International Joint Conference on Artificial Intelligence)",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "TruthHypo builds a biomedical hypothesis-generation benchmark from a temporally split PubTator 3.0 knowledge graph (pre-2023 \"seen\", post-2024 \"unseen\") to test whether LLMs propose truthful new relations; the companion KnowHD decomposes each hypothesis and its rationale into atomic claims and checks each against literature and/or the KG — higher groundedness predicts truthfulness, and selecting the most grounded of five candidates improves accuracy.",
+    "zh": "TruthHypo 用 PubTator 3.0 知识图按时间切分(2023 前「已见」、2024 后「未见」)构造生物医学假设生成基准,检验 LLM 能否提出真实的新关系;配套的 KnowHD 把假设及其推理拆成原子论断,逐条对照文献/知识图判断是否 grounded —— groundedness 越高的假设越可能为真,用它在 5 个候选中选优可提升准确率。"
+   },
+   "url": {
+    "en": "../papers/truthhypo-ijcai-2025/",
+    "zh": "../zh/papers/truthhypo-ijcai-2025/"
+   },
+   "x": 1350,
+   "y": 124
+  },
+  {
+   "id": "hypogen-llm-colm-2024",
+   "kind": "paper",
+   "parent": "group:B6",
+   "label": "LLM hypothesis generators",
+   "title": "Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation",
+   "year": 2024,
+   "venue": "COLM 2024 (Conference on Language Modeling)",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "Using a biomedical background → hypothesis dataset split by publication date (pre-Jan-2023 = train/seen, Aug-2023 = unseen), the paper systematically evaluates LLM hypothesis generation in zero-shot, few-shot, fine-tuned, tool-use and multi-agent settings, introduces four rubric metrics (Novelty, Relevance, Significance, Verifiability; scored by GPT-4 and checked against human experts), and finds LLMs can propose novel, later-validated hypotheses even on unseen literature — with \"uncertainty\" (measured by SelfBLEU) trading novelty against verifiability.",
+    "zh": "用按发表时间切分(2023 年 1 月前 = 训练/seen,2023 年 8 月 = unseen)的生物医学「背景知识 → 假设」配对数据集,系统评测 LLM 在 zero-shot / few-shot / 微调 / 工具调用 / 多智能体设置下的假设生成能力,提出 Novelty、Relevance、Significance、Verifiability 四维评分(GPT-4 打分并与人类专家对齐),发现 LLM 在未见文献上也能提出新颖且后来被验证的假设,而\"不确定性\"(SelfBLEU 衡量)在新颖性与可验证性之间形成权衡。"
+   },
+   "url": {
+    "en": "../papers/hypogen-llm-colm-2024/",
+    "zh": "../zh/papers/hypogen-llm-colm-2024/"
+   },
+   "x": 1350,
+   "y": 178
+  },
+  {
+   "id": "falsifiable-ideation-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B6",
+   "label": "Falsifiable ideation",
+   "title": "What Proves You Wrong: Benchmarking Language Models on Falsifiable Research Ideation",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Lit2Test requires every research proposal to follow a six-field contract — literature_gap, hypothesis, minimal_test, decisive_metric, supporting_result, falsifying_result — i.e. to precommit the observation that would prove it wrong, making proposal quality decidable rather than arguable. Across 200 real-paper neighbourhoods and 1,200 pairs judged blind in both orders, it recovers a strict ranking of four frontier models in all 10,000 bootstrap replicates, with separation driven by minimal-test and decisive-metric design rather than fluency.",
+    "zh": "Lit2Test 要求每个研究提案按「六字段契约」写出 —— literature_gap、hypothesis、minimal_test、decisive_metric、supporting_result、falsifying_result —— 即预先承诺能证伪自己的观测,使提案质量「可判定」而非「可争辩」;在 200 个真实论文邻域、1,200 对双向盲评上,它对四个前沿模型给出在 10,000 次 bootstrap 中全部复现的严格排名,区分度主要来自最小检验与决定性指标的设计,而非文笔。"
+   },
+   "url": {
+    "en": "../papers/falsifiable-ideation-arxiv-2026/",
+    "zh": "../zh/papers/falsifiable-ideation-arxiv-2026/"
+   },
+   "x": 1350,
+   "y": 232
+  },
+  {
+   "id": "ideation-execution-gap-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B6",
+   "label": "Ideation–execution gap",
+   "title": "The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Si et al. had found LLM-generated NLP research ideas rated more novel than human-expert ideas; this pre-registered, blinded RCT execution study has 43 experts each spend ~100 hours turning a randomly assigned idea into a 4-page paper, blind-reviewed by 58 reviewers — after execution, LLM ideas' scores fall significantly more on every metric and the ranking even flips: the \"ideation-execution gap\".",
+    "zh": "Si 等人此前发现 LLM 生成的 NLP 研究 idea 被专家评为比人类 idea 更新颖;这篇做了预注册的盲法随机对照执行研究:43 位专家各花 100 小时左右把随机分配的 idea 做成 4 页论文,再由 58 位评审盲审 —— 执行后 LLM idea 的分数在所有指标上下降显著更多,排名甚至翻转,即「ideation-execution gap」。"
+   },
+   "url": {
+    "en": "../papers/ideation-execution-gap-arxiv-2025/",
+    "zh": "../zh/papers/ideation-execution-gap-arxiv-2025/"
+   },
+   "x": 1350,
+   "y": 286
+  },
+  {
+   "id": "semnovel-jbi-2025",
+   "kind": "paper",
+   "parent": "group:B6",
+   "label": "SemNovel",
+   "title": "SemNovel – A new approach to detecting semantic novelty of biomedical publications using embeddings of large language models",
+   "year": 2025,
+   "venue": "Journal of Biomedical Informatics",
+   "relevance": "medium",
+   "status": "abstract-only",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SemNovel projects all of PubMed into a \"semantic universe\" using LLM embeddings and scores a paper's semantic novelty by its distance from prior literature; the score correlates positively with future citations and separates Nobel-Prize-winning work from ordinary papers.",
+    "zh": "SemNovel 用 LLM embedding 把整个 PubMed 投影成一个「语义宇宙」,以一篇论文到既往文献的距离作为语义新颖性分数,该分数与未来引用量正相关,并能把诺奖级研究从普通论文里挑出来。"
+   },
+   "url": {
+    "en": "../papers/semnovel-jbi-2025/",
+    "zh": "../zh/papers/semnovel-jbi-2025/"
+   },
+   "x": 1350,
+   "y": 340
+  },
+  {
+   "id": "group:B7",
+   "kind": "group",
+   "label": {
+    "en": "Reliability & safety",
+    "zh": "可靠性与安全"
+   },
+   "code": "B7",
+   "count": 11,
+   "x": 1620,
+   "y": 0
+  },
+  {
+   "id": "autoresearch-failures-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "AutoResearch failures",
+   "title": "How Do Agents Fail on AutoResearch: End-to-End Diagnostic Evaluation on 100 Real-World Frontier Research Tasks",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "AutoResearchEval runs 8 harness–model combinations on 100 real research tasks derived from frontier papers (7 domains, full lifecycle: ideation → retrieval → execution → analysis → writing → self-review), yielding 800 full trajectories; an agent-as-a-judge that reads every artefact (code, logs, data, reports) annotates them, inducing ARFT, a taxonomy of 45 failure patterns. The conclusion: failures converge on one root cause — agents lack a metacognitive loop (they don't check output against evidence, don't act on problems they find, and don't question the path itself).",
+    "zh": "AutoResearchEval 用 100 个来自前沿论文的真实科研任务(7 个领域、覆盖 ideation → 检索 → 执行 → 分析 → 写作 → 自审全生命周期)跑 8 种 harness–模型组合,得到 800 条完整轨迹;再用读取全部产物(代码、日志、数据、报告)的 agent-as-a-judge 标注,归纳出 45 种失败模式的 ARFT 分类法 —— 结论是所有失败汇聚到一个根因:agent 缺少元认知闭环(不核对产出与证据、发现问题也不修正、不质疑路径本身)。"
+   },
+   "url": {
+    "en": "../papers/autoresearch-failures-arxiv-2026/",
+    "zh": "../zh/papers/autoresearch-failures-arxiv-2026/"
+   },
+   "x": 1620,
+   "y": 70
+  },
+  {
+   "id": "fev-bioinformatics-agents-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "FEV review",
+   "title": "Evaluating Agentic Bioinformatics through Function, Evidence, and Validation",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "This review takes the inspectable workflow trajectory — not architecture or the final answer — as the unit of analysis and introduces the Function–Evidence–Validation (FEV) framework: Function records the workflow operations an agent demonstrably performs (F1–F6), Evidence the traceable sources supporting actions and claims (E1–E6), and Validation the cumulative assurance reached for a specific use case (V0–V4 plus seven qualifiers). Coding 109 bioinformatics agent/agent-adjacent systems and 28 benchmarks, it finds planning and tool execution advancing fast while replayability, provenance, external and prospective empirical validation lag (most systems at V3, only seven at V4).",
+    "zh": "这篇综述把「可检视的工作流轨迹」而非架构或最终答案作为分析单元,提出 Function–Evidence–Validation(FEV)框架:Function 记录 agent 实际演示了哪些工作流操作(F1–F6),Evidence 记录支撑动作与论断的可追溯来源(E1–E6),Validation 记录针对具体用例累积达到的保证等级(V0–V4 + 七个限定符);用它编码了 109 个生物信息 agent/近 agent 系统与 28 个基准 —— 规划与工具执行进展快,而可重放、溯源、外部验证与前瞻实验验证明显滞后(绝大多数停在 V3,仅 7 个到 V4)。"
+   },
+   "url": {
+    "en": "../papers/fev-bioinformatics-agents-arxiv-2026/",
+    "zh": "../zh/papers/fev-bioinformatics-agents-arxiv-2026/"
+   },
+   "x": 1620,
+   "y": 124
+  },
+  {
+   "id": "resolvi-natmethods-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "ResolVI",
+   "title": "ResolVI: addressing noise and bias in spatial transcriptomics",
+   "year": 2026,
+   "venue": "Nature Methods",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A",
+    "B"
+   ],
+   "also_in": [
+    "A"
+   ],
+   "bridge": true,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "resolVI is a VAE-based generative model in scvi-tools that sits downstream of any segmentation algorithm and decomposes each cell's observed counts into three parts — the cell's true expression, expression \"diffused\" in from neighbouring cells, and a per-slice constant non-specific background — removing spurious co-expression caused by molecule misassignment while producing a batch-corrected probabilistic latent representation that supports differential expression and differential niche-abundance testing.",
+    "zh": "resolVI 是 scvi-tools 里的一个 VAE 生成模型,接在任意分割算法之后,把每个细胞的观测计数拆成三部分 —— 细胞自身的真实表达、从邻近细胞「扩散」进来的表达、以及每张切片恒定的非特异背景 —— 从而去除分子错配导致的虚假共表达,同时给出批次校正后的概率潜在表示,支持差异表达和空间邻域丰度检验。"
+   },
+   "url": {
+    "en": "../papers/resolvi-natmethods-2026/",
+    "zh": "../zh/papers/resolvi-natmethods-2026/"
+   },
+   "x": 1620,
+   "y": 178
+  },
+  {
+   "id": "clinical-agent-reruns-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "Same patient, different order",
+   "title": "Same Patient, Different Order: Action-Level Reliability of Clinical LLM Agents Under Repeated Runs",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "The authors propose a \"same-input rerun\" protocol: replay each MedAgentBench task five times with patient and all inputs fixed, and compare not the score but the orders (FHIR write requests) the agent actually issues. Action-level divergence is pervasive and often invisible to the benchmark's verdict: for Llama-3.1-8B at temperature 0.7, all 43 ordering groups emit a different order set across five identical runs, yet in 22 of them the benchmark reports the same verdict.",
+    "zh": "作者提出「same-input rerun」协议:在 MedAgentBench 上把同一任务、同一患者、全部输入固定重跑 5 次,比较的不是分数而是 agent 实际下达的医嘱(FHIR 写请求)—— 结果显示动作层面的分歧普遍存在且常常不被 benchmark 的判分记录:Llama-3.1-8B 在 0.7 温度下 43/43 个下单任务组每次下达的医嘱集合都不同,其中 22 组的 benchmark 判定却完全相同。"
+   },
+   "url": {
+    "en": "../papers/clinical-agent-reruns-arxiv-2026/",
+    "zh": "../zh/papers/clinical-agent-reruns-arxiv-2026/"
+   },
+   "x": 1620,
+   "y": 232
+  },
+  {
+   "id": "scirigor-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "SciRIGOR",
+   "title": "SCIRIGOR:Evaluating Open-Ended Scientific Analysis Beyond Final Scores",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SciRigor reconstructs a scientific-analysis agent's outputs (code, structured results, a figure, atomic claims) as a typed evidence graph, requires every primary claim to keep a complete, same-run verifiable \"data → transform → result → visual/claim\" support path, scores it by weakest link and localises the earliest broken edge. On 100 figure-level cases from Nature and other journals, agents' claims agree with their own results at nearly the same rate whether those results are right or wrong (91.8% vs 91.0%), and the best system achieves only 18.0% strict whole-chain success.",
+    "zh": "SciRigor 把科研分析 agent 的产出(代码、结构化结果、图、原子论断)重建为一张类型化证据图,要求每条主要论断都有一条在同一次运行中可验证的「数据→变换→结果→图/论断」完整支撑路径,并按 weakest-link 打分、定位最早断裂的边;在 100 个来自 Nature 等期刊的图级案例上,agent 的论断与自身结果一致率几乎与结果是否正确无关(91.8% vs 91.0%),最好的系统 strict 全链成功率仅 18.0%。"
+   },
+   "url": {
+    "en": "../papers/scirigor-arxiv-2026/",
+    "zh": "../zh/papers/scirigor-arxiv-2026/"
+   },
+   "x": 1620,
+   "y": 286
+  },
+  {
+   "id": "abc-agentic-benchmarks-neurips-2025",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "ABC checklist",
+   "title": "Establishing Best Practices for Building Rigorous Agentic Benchmarks",
+   "year": 2025,
+   "venue": "NeurIPS 2025 Datasets and Benchmarks Track",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "The authors split \"can this agentic-benchmark score be trusted\" into two conditions — task validity (task success ⇔ the target capability) and outcome validity (a positive evaluation ⇔ genuine task success) — and turn them into an actionable Agentic Benchmark Checklist (ABC). Auditing ten popular agentic benchmarks with it, they find 7 violate outcome validity, 7 violate task validity, and all 10 have reporting gaps, with estimation errors of up to 100% in relative terms.",
+    "zh": "作者把 agent 基准「分数可信」拆成两个条件 —— task validity(任务成功 ⇔ 具备目标能力)与 outcome validity(评测判定为成功 ⇔ 任务真的成功)—— 并据此写出一份可操作的 Agentic Benchmark Checklist (ABC);用它审查 10 个主流 agent 基准,发现 7 个违反 outcome validity、7 个违反 task validity、10 个全部在结果报告上有缺陷,误差最高可达相对 100%。"
+   },
+   "url": {
+    "en": "../papers/abc-agentic-benchmarks-neurips-2025/",
+    "zh": "../zh/papers/abc-agentic-benchmarks-neurips-2025/"
+   },
+   "x": 1620,
+   "y": 340
+  },
+  {
+   "id": "ailuminate-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "AILuminate",
+   "title": "AILuminate: Introducing v1.0 of the AI Risk and Reliability Benchmark from MLCommons",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "AILuminate v1.0 is an industry-standard AI-safety benchmark built through an open process by the MLCommons AI Risk and Reliability working group (with the AI Verify Foundation): an assessment standard (12 hazard categories), 24,000 English prompts (practice + hidden official sets), an ensemble evaluator of fine-tuned guard models with entropy-based tunable thresholds, five-tier grading relative to a \"reference system\" (Poor → Excellent), and the technical and organizational infrastructure for long-term operation.",
+    "zh": "AILuminate v1.0 是 MLCommons AI Risk and Reliability 工作组(与 AI Verify Foundation 合作)通过开放流程打造的行业标准 AI 安全基准:一份评估标准(12 类危害)、24,000 条英文 prompt(练习集 + 隐藏官方集)、由微调 guard 模型组成的评估器集成(基于熵的可调阈值)、相对「参考系统」的五级评分(Poor → Excellent),以及支撑长期运营的技术与组织基础设施。"
+   },
+   "url": {
+    "en": "../papers/ailuminate-arxiv-2025/",
+    "zh": "../zh/papers/ailuminate-arxiv-2025/"
+   },
+   "x": 1620,
+   "y": 394
+  },
+  {
+   "id": "holistic-agent-leaderboard-iclr-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "Holistic Agent Leaderboard",
+   "title": "Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation",
+   "year": 2026,
+   "venue": "ICLR 2026",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "HAL (Holistic Agent Leaderboard) is Princeton-led shared infrastructure for agent evaluation: a standardized harness that parallelizes runs across hundreds of VMs (weeks → hours), three-dimensional analysis of models × scaffolds × benchmarks (9 models, 9 benchmarks, 21,730 rollouts, ~$40,000), and LLM-aided log analysis (Docent) that exposes behaviours accuracy cannot — e.g. searching HuggingFace for benchmark answers, or booking flights with the wrong credit card.",
+    "zh": "HAL(Holistic Agent Leaderboard)是 Princeton 牵头的统一 agent 评测基础设施:标准化 harness 把评测分发到数百台 VM 上并行跑(数周 → 数小时),做「模型 × scaffold × 基准」三维分析(9 个模型、9 个基准、21,730 次 rollout、约 4 万美元),并用 LLM 辅助的日志分析(Docent)揭示准确率看不到的行为 —— 例如去 HuggingFace 搜基准答案、用错信用卡订机票。"
+   },
+   "url": {
+    "en": "../papers/holistic-agent-leaderboard-iclr-2026/",
+    "zh": "../zh/papers/holistic-agent-leaderboard-iclr-2026/"
+   },
+   "x": 1620,
+   "y": 448
+  },
+  {
+   "id": "scitrace-arxiv-2026",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "SciTrace",
+   "title": "SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents",
+   "year": 2026,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "SciTrace (CMU) weaves safety reasoning into every stage of an AI-scientist pipeline: a Safety-Intrinsic Reasoning Loop (SIR) maintains and propagates a cumulative risk state across the Thinker → Experimenter → Writer → Reviewer stages, and a Compositional Tool-Chain Verifier (CTV) checks each tool call against the full call history to ask whether a sequence of individually benign steps adds up to something dangerous. On SciSafetyBench it raises tool-call safety by 14.3 points on average over SafeScientist and catches 78.8% of the compositional risks that single-step monitors miss.",
+    "zh": "SciTrace(CMU)把安全推理「织进」AI scientist 流水线的每一步:Safety-Intrinsic Reasoning Loop (SIR) 在 Thinker → Experimenter → Writer → Reviewer 四个阶段之间维护并传递一个累积风险状态,Compositional Tool-Chain Verifier (CTV) 在每次工具调用前结合完整调用历史判断「这一串单步无害的操作合起来是否危险」;在 SciSafetyBench 上相对 SafeScientist 把工具调用安全率平均提升 14.3 个百分点,并抓到单步监控漏掉的 78.8% 组合式风险。"
+   },
+   "url": {
+    "en": "../papers/scitrace-arxiv-2026/",
+    "zh": "../zh/papers/scitrace-arxiv-2026/"
+   },
+   "x": 1620,
+   "y": 502
+  },
+  {
+   "id": "mast-neurips-2025",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "MAST",
+   "title": "Why Do Multi-Agent LLM Systems Fail?",
+   "year": 2025,
+   "venue": "NeurIPS 2025 Datasets and Benchmarks Track",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A UC Berkeley team applies Grounded Theory to 150+ multi-agent-system (MAS) execution traces to derive MAST, the first empirical MAS failure taxonomy (14 failure modes in 3 categories: system design issues / inter-agent misalignment / task verification) with human agreement κ = 0.88, then scales it with a calibrated LLM annotator (o1, κ = 0.77) into MAST-Data, 1,642 annotated traces across 7 MAS frameworks.",
+    "zh": "UC Berkeley 团队用 Grounded Theory 对 150+ 条多智能体系统(MAS)执行轨迹做质性分析,提炼出首个经验性的多智能体失败分类 MAST(14 种失败模式、3 大类:系统设计问题 / 智能体间失配 / 任务验证),人工标注一致性 κ = 0.88;再用校准过的 LLM 标注器(o1,κ = 0.77)把它扩展成 1,642 条标注轨迹的 MAST-Data,覆盖 7 个 MAS 框架。"
+   },
+   "url": {
+    "en": "../papers/mast-neurips-2025/",
+    "zh": "../zh/papers/mast-neurips-2025/"
+   },
+   "x": 1620,
+   "y": 556
+  },
+  {
+   "id": "trail-arxiv-2025",
+   "kind": "paper",
+   "parent": "group:B7",
+   "label": "TRAIL",
+   "title": "TRAIL: Trace Reasoning and Agentic Issue Localization",
+   "year": 2025,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Patronus AI proposes an agent-error taxonomy (reasoning / planning & coordination / system execution) and releases TRAIL: 148 span-level human-annotated OpenTelemetry agent traces (from GAIA and SWE-bench Lite, 841 errors). Asked to act as trace debuggers that localize and categorize errors, LLMs do poorly — the best, Gemini-2.5-Pro, reaches only ~11% joint accuracy.",
+    "zh": "Patronus AI 提出一套 agent 错误分类(推理 / 规划与协调 / 系统执行三大类),并发布 TRAIL:148 条人工逐 span 标注的 OpenTelemetry 结构化 agent 轨迹(来自 GAIA 与 SWE-bench Lite,共 841 个错误);让 LLM 当「轨迹调试员」去定位并分类错误时,最好的 Gemini-2.5-Pro 联合准确率也只有约 11%。"
+   },
+   "url": {
+    "en": "../papers/trail-arxiv-2025/",
+    "zh": "../zh/papers/trail-arxiv-2025/"
+   },
+   "x": 1620,
+   "y": 610
+  },
+  {
+   "id": "concept:research-agent",
+   "kind": "concept",
+   "label": {
+    "en": "AI scientist agents",
+    "zh": "AI 科学家 agent"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B1",
+   "slot": 0,
+   "x": 0,
+   "y": 774
+  },
+  {
+   "id": "concept:multi-agent",
+   "kind": "concept",
+   "label": {
+    "en": "Multi-agent systems",
+    "zh": "多 agent 系统"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 3,
+   "home": "group:B1",
+   "slot": 1,
+   "x": 0,
+   "y": 820
+  },
+  {
+   "id": "concept:omics-agent",
+   "kind": "concept",
+   "label": {
+    "en": "Single-cell analysis agents",
+    "zh": "单细胞分析 agent"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B2",
+   "slot": 0,
+   "x": 270,
+   "y": 774
+  },
+  {
+   "id": "concept:trajectory-eval",
+   "kind": "concept",
+   "label": {
+    "en": "Trajectory-level evaluation",
+    "zh": "轨迹级评测"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B7",
+   "slot": 0,
+   "x": 1620,
+   "y": 774
+  },
+  {
+   "id": "concept:outcome-eval",
+   "kind": "concept",
+   "label": {
+    "en": "Final-answer grading",
+    "zh": "只看最终答案的评分"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B3",
+   "slot": 0,
+   "x": 540,
+   "y": 774
+  },
+  {
+   "id": "concept:claim-evidence",
+   "kind": "concept",
+   "label": {
+    "en": "Claim → evidence chains",
+    "zh": "结论 → 证据链"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B1",
+   "slot": 2,
+   "x": 0,
+   "y": 866
+  },
+  {
+   "id": "concept:citation-faithfulness",
+   "kind": "concept",
+   "label": {
+    "en": "Citation faithfulness",
+    "zh": "引用忠实度"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 5,
+   "home": "group:B4",
+   "slot": 0,
+   "x": 810,
+   "y": 774
+  },
+  {
+   "id": "concept:reference-hallucination",
+   "kind": "concept",
+   "label": {
+    "en": "Fabricated references",
+    "zh": "编造的参考文献"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 2,
+   "home": "group:B1",
+   "slot": 3,
+   "x": 0,
+   "y": 912
+  },
+  {
+   "id": "concept:hallucination",
+   "kind": "concept",
+   "label": {
+    "en": "Hallucination",
+    "zh": "幻觉"
+   },
+   "definition": {
+    "en": "A model output stated with confidence but unsupported by its sources; in evidence-citing systems it must be measured alongside accuracy, together with what the model silently omitted.",
+    "zh": "模型自信给出、却无来源支撑的输出;在会引用证据的系统里,它必须与准确率并列度量,并连同「模型悄悄漏掉了什么」一起评估。"
+   },
+   "count": 6,
+   "home": "group:B5",
+   "slot": 0,
+   "x": 1080,
+   "y": 774
+  },
+  {
+   "id": "concept:overclaiming",
+   "kind": "concept",
+   "label": {
+    "en": "Overclaiming",
+    "zh": "过度宣称"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B5",
+   "slot": 1,
+   "x": 1080,
+   "y": 820
+  },
+  {
+   "id": "concept:llm-judge",
+   "kind": "concept",
+   "label": {
+    "en": "LLM-as-judge",
+    "zh": "LLM 评审"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B1",
+   "slot": 4,
+   "x": 0,
+   "y": 958
+  },
+  {
+   "id": "concept:human-calibration",
+   "kind": "concept",
+   "label": {
+    "en": "Human / expert calibration",
+    "zh": "人工 / 专家校准"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B4",
+   "slot": 1,
+   "x": 810,
+   "y": 820
+  },
+  {
+   "id": "concept:novelty",
+   "kind": "concept",
+   "label": {
+    "en": "Novelty",
+    "zh": "新颖性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 5,
+   "home": "group:B6",
+   "slot": 0,
+   "x": 1350,
+   "y": 774
+  },
+  {
+   "id": "concept:falsifiability",
+   "kind": "concept",
+   "label": {
+    "en": "Falsifiability",
+    "zh": "可证伪性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 1,
+   "home": "group:B6",
+   "slot": 1,
+   "x": 1350,
+   "y": 820
+  },
+  {
+   "id": "concept:rerun-stability",
+   "kind": "concept",
+   "label": {
+    "en": "Rerun stability & replay",
+    "zh": "重跑稳定性与回放"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B3",
+   "slot": 1,
+   "x": 540,
+   "y": 820
+  },
+  {
+   "id": "concept:failure-taxonomy",
+   "kind": "concept",
+   "label": {
+    "en": "Failure taxonomy",
+    "zh": "失败类型学"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B7",
+   "slot": 1,
+   "x": 1620,
+   "y": 820
+  },
+  {
+   "id": "concept:benchmark-validity",
+   "kind": "concept",
+   "label": {
+    "en": "Benchmark validity",
+    "zh": "基准有效性"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 6,
+   "home": "group:B7",
+   "slot": 2,
+   "x": 1620,
+   "y": 866
+  },
+  {
+   "id": "concept:safety",
+   "kind": "concept",
+   "label": {
+    "en": "Safety & hazards",
+    "zh": "安全与风险"
+   },
+   "definition": {
+    "en": "",
+    "zh": ""
+   },
+   "count": 4,
+   "home": "group:B7",
+   "slot": 3,
+   "x": 1620,
+   "y": 912
+  }
+ ],
+ "edges": [
+  {
+   "source": "concept:research-agent",
+   "target": "autoresearch-failures-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:research-agent",
+   "target": "co-scientist-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:research-agent",
+   "target": "heurekabench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:research-agent",
+   "target": "kosmos-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:research-agent",
+   "target": "reference-hallucination-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:research-agent",
+   "target": "scitrace-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:multi-agent",
+   "target": "co-scientist-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:multi-agent",
+   "target": "hypogen-llm-colm-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:multi-agent",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "biomni-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "bixbench-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "heurekabench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "hypogen-llm-colm-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:omics-agent",
+   "target": "scbench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:trajectory-eval",
+   "target": "autoresearch-failures-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:trajectory-eval",
+   "target": "biomnibench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:trajectory-eval",
+   "target": "holistic-agent-leaderboard-iclr-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:trajectory-eval",
+   "target": "hypogen-llm-colm-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:trajectory-eval",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:trajectory-eval",
+   "target": "scbench-long-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:outcome-eval",
+   "target": "biomnibench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:outcome-eval",
+   "target": "bixbench-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:outcome-eval",
+   "target": "citation-blame-emnlp-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:outcome-eval",
+   "target": "deep-research-hallucination-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:outcome-eval",
+   "target": "fev-bioinformatics-agents-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:outcome-eval",
+   "target": "heurekabench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "deepevidence-natmachintell-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "heurekabench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "kosmos-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "medragchecker-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "scirigor-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:claim-evidence",
+   "target": "truthhypo-ijcai-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:citation-faithfulness",
+   "target": "citation-faithfulness-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:citation-faithfulness",
+   "target": "deep-research-hallucination-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:citation-faithfulness",
+   "target": "deeptrace-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:citation-faithfulness",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:citation-faithfulness",
+   "target": "sourcecheckup-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:reference-hallucination",
+   "target": "biomnibench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:reference-hallucination",
+   "target": "robin-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:hallucination",
+   "target": "biomednlp-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:hallucination",
+   "target": "citation-blame-emnlp-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:hallucination",
+   "target": "deep-research-hallucination-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:hallucination",
+   "target": "medical-hallucination-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:hallucination",
+   "target": "reference-hallucination-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:hallucination",
+   "target": "robin-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:overclaiming",
+   "target": "generalization-bias-rsos-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:llm-judge",
+   "target": "abc-agentic-benchmarks-neurips-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:llm-judge",
+   "target": "biomnibench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:llm-judge",
+   "target": "deeptrace-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:llm-judge",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:llm-judge",
+   "target": "robin-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:llm-judge",
+   "target": "rq-bench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:human-calibration",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:human-calibration",
+   "target": "mast-neurips-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:human-calibration",
+   "target": "medragchecker-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:human-calibration",
+   "target": "rq-bench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:human-calibration",
+   "target": "sourcecheckup-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:human-calibration",
+   "target": "trail-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:novelty",
+   "target": "co-scientist-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:novelty",
+   "target": "hypogen-llm-colm-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:novelty",
+   "target": "kosmos-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:novelty",
+   "target": "rq-bench-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:novelty",
+   "target": "semnovel-jbi-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:falsifiability",
+   "target": "falsifiable-ideation-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "biomnibench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "clinical-agent-reruns-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "fev-bioinformatics-agents-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "holistic-agent-leaderboard-iclr-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
+   "target": "medagentbench-nejmai-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "autoresearch-failures-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "biomednlp-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "mast-neurips-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:failure-taxonomy",
+   "target": "trail-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "abc-agentic-benchmarks-neurips-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "autoresearch-failures-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "falsifiable-ideation-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "holistic-agent-leaderboard-iclr-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:benchmark-validity",
+   "target": "hypogen-llm-colm-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:safety",
+   "target": "ailuminate-arxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:safety",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:safety",
+   "target": "medragchecker-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:safety",
+   "target": "scitrace-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "bioml-bench-biorxiv-2025",
+   "target": "virtual-lab-nature-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "bioml-bench-biorxiv-2025",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "bioml-bench-biorxiv-2025",
+   "target": "biomni-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "bioml-bench-biorxiv-2025",
+   "target": "bixbench-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "bioml-bench-biorxiv-2025",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "biomni-biorxiv-2025",
+   "target": "lab-bench-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "biomnibench-biorxiv-2026",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "biomnibench-biorxiv-2026",
+   "target": "bioml-bench-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "biomnibench-biorxiv-2026",
+   "target": "biomni-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "biomnibench-biorxiv-2026",
+   "target": "bixbench-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "biomnibench-biorxiv-2026",
+   "target": "lab-bench-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "citation-faithfulness-arxiv-2026",
+   "target": "robin-nature-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "citation-faithfulness-arxiv-2026",
+   "target": "virtual-lab-nature-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "citation-faithfulness-arxiv-2026",
+   "target": "sourcecheckup-natcommun-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "virtual-lab-nature-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "biomni-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "co-scientist-nature-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "inflammatory-pt-natcommun-2025",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "semnovel-jbi-2025",
+   "kind": "concept",
+   "label": "literature/evidence agents"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "biomednlp-natcommun-2025",
+   "kind": "concept",
+   "label": "biomedical LLM benchmark"
+  },
+  {
+   "source": "abc-agentic-benchmarks-neurips-2025",
+   "target": "holistic-agent-leaderboard-iclr-2026",
+   "kind": "concept",
+   "label": "benchmark rigor → harness"
+  },
+  {
+   "source": "abc-agentic-benchmarks-neurips-2025",
+   "target": "ailuminate-arxiv-2025",
+   "kind": "concept",
+   "label": "MLCommons benchmark rigor"
+  },
+  {
+   "source": "mast-neurips-2025",
+   "target": "trail-arxiv-2025",
+   "kind": "concept",
+   "label": "agent failure taxonomy"
+  },
+  {
+   "source": "scitrace-arxiv-2026",
+   "target": "trail-arxiv-2025",
+   "kind": "concept",
+   "label": "trajectory-level verification"
+  },
+  {
+   "source": "scitrace-arxiv-2026",
+   "target": "ailuminate-arxiv-2025",
+   "kind": "concept",
+   "label": "hazard taxonomy"
+  },
+  {
+   "source": "abc-agentic-benchmarks-neurips-2025",
+   "target": "bixbench-arxiv-2025",
+   "kind": "concept",
+   "label": "benchmark-validity audit"
+  },
+  {
+   "source": "holistic-agent-leaderboard-iclr-2026",
+   "target": "clinical-agent-reruns-arxiv-2026",
+   "kind": "concept",
+   "label": "rerun stability"
+  },
+  {
+   "source": "mast-neurips-2025",
+   "target": "autoresearch-failures-arxiv-2026",
+   "kind": "concept",
+   "label": "agent failure taxonomy"
+  },
+  {
+   "source": "trail-arxiv-2025",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "concept",
+   "label": "LLM-as-judge reliability"
+  },
+  {
+   "source": "sourcecheckup-natcommun-2025",
+   "target": "reference-hallucination-arxiv-2026",
+   "kind": "concept",
+   "label": "citation support vs existence"
+  },
+  {
+   "source": "sourcecheckup-natcommun-2025",
+   "target": "medragchecker-arxiv-2026",
+   "kind": "concept",
+   "label": "claim-level verification"
+  },
+  {
+   "source": "sourcecheckup-natcommun-2025",
+   "target": "deeptrace-arxiv-2025",
+   "kind": "concept",
+   "label": "statement × source support"
+  },
+  {
+   "source": "deeptrace-arxiv-2025",
+   "target": "deep-research-hallucination-arxiv-2026",
+   "kind": "concept",
+   "label": "deep-research audit"
+  },
+  {
+   "source": "deep-research-hallucination-arxiv-2026",
+   "target": "mast-neurips-2025",
+   "kind": "concept",
+   "label": "agent failure taxonomy"
+  },
+  {
+   "source": "medragchecker-arxiv-2026",
+   "target": "deepevidence-natmachintell-2026",
+   "kind": "concept",
+   "label": "KG evidence grounding"
+  },
+  {
+   "source": "medragchecker-arxiv-2026",
+   "target": "medical-hallucination-arxiv-2025",
+   "kind": "concept",
+   "label": "medical hallucination detection"
+  },
+  {
+   "source": "llm-judge-healthcare-arxiv-2026",
+   "target": "sourcecheckup-natcommun-2025",
+   "kind": "concept",
+   "label": "judge vs physician panel"
+  },
+  {
+   "source": "generalization-bias-rsos-2025",
+   "target": "medical-hallucination-arxiv-2025",
+   "kind": "concept",
+   "label": "unfaithful medical text"
+  },
+  {
+   "source": "reference-hallucination-arxiv-2026",
+   "target": "citation-faithfulness-arxiv-2026",
+   "kind": "concept",
+   "label": "citation reliability"
+  },
+  {
+   "source": "medical-hallucination-arxiv-2025",
+   "target": "biomednlp-natcommun-2025",
+   "kind": "concept",
+   "label": "biomedical LLM benchmarking"
+  },
+  {
+   "source": "rq-bench-arxiv-2026",
+   "target": "ideation-execution-gap-arxiv-2025",
+   "kind": "concept",
+   "label": "novelty judging unreliable"
+  },
+  {
+   "source": "rq-bench-arxiv-2026",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "concept",
+   "label": "LLM-as-judge alignment"
+  },
+  {
+   "source": "rq-bench-arxiv-2026",
+   "target": "semnovel-jbi-2025",
+   "kind": "concept",
+   "label": "novelty assessment"
+  },
+  {
+   "source": "falsifiable-ideation-arxiv-2026",
+   "target": "ideation-execution-gap-arxiv-2025",
+   "kind": "concept",
+   "label": "testable ≠ successful"
+  },
+  {
+   "source": "truthhypo-ijcai-2025",
+   "target": "hypogen-llm-colm-2024",
+   "kind": "concept",
+   "label": "biomedical hypothesis generation"
+  },
+  {
+   "source": "truthhypo-ijcai-2025",
+   "target": "deepevidence-natmachintell-2026",
+   "kind": "concept",
+   "label": "KG + literature grounding"
+  },
+  {
+   "source": "scirigor-arxiv-2026",
+   "target": "autoresearch-failures-arxiv-2026",
+   "kind": "concept",
+   "label": "unsupported claims"
+  },
+  {
+   "source": "scirigor-arxiv-2026",
+   "target": "fev-bioinformatics-agents-arxiv-2026",
+   "kind": "concept",
+   "label": "workflow correctness"
+  },
+  {
+   "source": "scirigor-arxiv-2026",
+   "target": "medragchecker-arxiv-2026",
+   "kind": "concept",
+   "label": "claim-to-evidence verification"
+  },
+  {
+   "source": "clinical-agent-reruns-arxiv-2026",
+   "target": "medagentbench-nejmai-2025",
+   "kind": "concept",
+   "label": "reruns on MedAgentBench"
+  },
+  {
+   "source": "autoresearch-failures-arxiv-2026",
+   "target": "kosmos-arxiv-2025",
+   "kind": "concept",
+   "label": "AI-scientist research"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "biomni-biorxiv-2025",
+   "kind": "concept",
+   "label": "bio agent review"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "concept",
+   "label": "bio agent review"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "concept",
+   "label": "bio agent review"
+  },
+  {
+   "source": "lab-bench-arxiv-2024",
+   "target": "bixbench-arxiv-2025",
+   "kind": "concept",
+   "label": "FutureHouse agent benchmarks"
+  },
+  {
+   "source": "lab-bench-arxiv-2024",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "concept",
+   "label": "LitQA2"
+  },
+  {
+   "source": "lab-bench-arxiv-2024",
+   "target": "deepevidence-natmachintell-2026",
+   "kind": "concept",
+   "label": "LitQA2 evaluation set"
+  },
+  {
+   "source": "biomnibench-biorxiv-2026",
+   "target": "scbench-arxiv-2026",
+   "kind": "concept",
+   "label": "omics-analysis agent benchmarks"
+  },
+  {
+   "source": "medagentbench-nejmai-2025",
+   "target": "llm-judge-healthcare-arxiv-2026",
+   "kind": "concept",
+   "label": "healthcare LLM evaluation"
+  },
+  {
+   "source": "citation-blame-emnlp-2026",
+   "target": "citation-faithfulness-arxiv-2026",
+   "kind": "concept",
+   "label": "citation faithfulness"
+  },
+  {
+   "source": "citation-blame-emnlp-2026",
+   "target": "trail-arxiv-2025",
+   "kind": "concept",
+   "label": "trace-level error localization"
+  },
+  {
+   "source": "citation-faithfulness-arxiv-2026",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "concept",
+   "label": "audits PaperQA2 citations"
+  },
+  {
+   "source": "citation-faithfulness-arxiv-2026",
+   "target": "conformal-scrna-bioinformatics-2025",
+   "kind": "concept",
+   "label": "conformal guarantees"
+  },
+  {
+   "source": "biomni-biorxiv-2025",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "concept",
+   "label": "same lab lineage"
+  },
+  {
+   "source": "cellvoyager-natmethods-2026",
+   "target": "heurekabench-arxiv-2026",
+   "kind": "concept",
+   "label": "single-cell agent evaluation"
+  },
+  {
+   "source": "scbench-arxiv-2026",
+   "target": "scbench-long-arxiv-2026",
+   "kind": "concept",
+   "label": "single-step → long-horizon"
+  },
+  {
+   "source": "scbench-long-arxiv-2026",
+   "target": "heurekabench-arxiv-2026",
+   "kind": "concept",
+   "label": "claims reproduced before grading"
+  },
+  {
+   "source": "cellvoyager-natmethods-2026",
+   "target": "scbench-arxiv-2026",
+   "kind": "concept",
+   "label": "scRNA-seq agent analysis"
+  },
+  {
+   "source": "paperqa2-arxiv-2024",
+   "target": "robin-nature-2026",
+   "kind": "concept",
+   "label": "FutureHouse literature agent"
+  },
+  {
+   "source": "hypogen-llm-colm-2024",
+   "target": "co-scientist-nature-2026",
+   "kind": "concept",
+   "label": "hypothesis generation"
+  },
+  {
+   "source": "hypogen-llm-colm-2024",
+   "target": "semnovel-jbi-2025",
+   "kind": "concept",
+   "label": "novelty of biomedical ideas"
+  },
+  {
+   "source": "co-scientist-nature-2026",
+   "target": "robin-nature-2026",
+   "kind": "concept",
+   "label": "AI scientists"
+  },
+  {
+   "source": "co-scientist-nature-2026",
+   "target": "virtual-lab-nature-2025",
+   "kind": "concept",
+   "label": "multi-agent research"
+  },
+  {
+   "source": "robin-nature-2026",
+   "target": "kosmos-arxiv-2025",
+   "kind": "concept",
+   "label": "FutureHouse lineage"
+  },
+  {
+   "source": "robin-nature-2026",
+   "target": "bixbench-arxiv-2025",
+   "kind": "concept",
+   "label": "Finch on BixBench"
+  },
+  {
+   "source": "kosmos-arxiv-2025",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "concept",
+   "label": "autonomous omics analysis"
+  },
+  {
+   "source": "virtual-lab-nature-2025",
+   "target": "biomni-biorxiv-2025",
+   "kind": "concept",
+   "label": "multi-agent biomedical systems"
+  }
+ ],
+ "stats": {
+  "papers": 48,
+  "concepts": 18,
+  "edges": 165
+ }
+}

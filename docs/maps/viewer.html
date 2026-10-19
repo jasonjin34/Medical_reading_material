@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knowledge Map</title>
+<!-- Source: maps/viewer.html — copied to docs/maps/ by scripts/build_maps.py. Data: docs/maps/<view>.json -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.34.4/cytoscape.min.js"></script>
+<style>
+:root {
+  --bg: #ffffff; --panel: #f7f7f8; --ink: #1f2328; --quiet: #5c6370; --rule: #d9dce1;
+  --a: #2563c9; --a-fill: #e8f0fc; --b: #7c3fc8; --b-fill: #f1eafb;
+  --ehr: #c26a12; --ehr-fill: #fcf0e3; --other: #6b7280; --other-fill: #f0f1f3;
+  --concept: #a37200; --concept-fill: #fff6dc; --group-fill: rgba(120,130,150,0.07);
+  --edge: #8a919c; --hl: #e0452b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17191d; --panel: #1f2227; --ink: #e6e8eb; --quiet: #a2a9b4; --rule: #343841;
+    --a: #6ea2f5; --a-fill: #1c2a42; --b: #b48af0; --b-fill: #2a2140;
+    --ehr: #eba35a; --ehr-fill: #3a2a18; --other: #9aa1ab; --other-fill: #2a2d33;
+    --concept: #e3b341; --concept-fill: #3a3018; --group-fill: rgba(160,170,190,0.07);
+    --edge: #7d8590; --hl: #ff7a5c;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17191d; --panel: #1f2227; --ink: #e6e8eb; --quiet: #a2a9b4; --rule: #343841;
+  --a: #6ea2f5; --a-fill: #1c2a42; --b: #b48af0; --b-fill: #2a2140;
+  --ehr: #eba35a; --ehr-fill: #3a2a18; --other: #9aa1ab; --other-fill: #2a2d33;
+  --concept: #e3b341; --concept-fill: #3a3018; --group-fill: rgba(160,170,190,0.07);
+  --edge: #7d8590; --hl: #ff7a5c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif; }
+#app { display: grid; grid-template-rows: auto 1fr; grid-template-columns: minmax(0, 1fr); height: 100%; }
+header { min-width: 0; padding: 10px 16px; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+header h1 { font-size: 16px; margin: 0; font-weight: 650; }
+header .lead { color: var(--quiet); font-size: 13px; flex-basis: 100%; margin: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-left: auto; }
+button, select, input { font: inherit; font-size: 13px; color: var(--ink); background: var(--panel);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 4px 9px; }
+button:hover { border-color: var(--quiet); cursor: pointer; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+input[type=search] { width: 150px; }
+main { display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 0; min-width: 0; }
+#cy { min-height: 0; }
+aside { border-left: 1px solid var(--rule); background: var(--panel); overflow: auto; padding: 14px 16px; }
+aside h2 { font-size: 15px; margin: 0 0 4px; }
+aside .sub { color: var(--quiet); font-size: 12.5px; margin: 0 0 8px; }
+aside p { margin: 8px 0; }
+aside ul { padding-left: 18px; margin: 6px 0; }
+aside li { margin: 3px 0; }
+aside a { color: var(--a); }
+.chip { display: inline-block; font-size: 11.5px; border: 1px solid var(--rule); border-radius: 10px; padding: 0 7px; margin: 0 4px 4px 0; color: var(--quiet); }
+.chip.high { color: var(--hl); border-color: var(--hl); }
+.legend { font-size: 12px; color: var(--quiet); margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; margin: 0 10px 4px 0; }
+.sw { width: 14px; height: 10px; border-radius: 3px; border: 1.5px solid; display: inline-block; }
+.linkish { background: none; border: 0; padding: 0; color: var(--a); cursor: pointer; text-align: left; }
+#full { display: none; font-size: 13px; color: var(--a); margin-left: auto; }
+body.embed .controls, body.embed aside, body.embed .lead { display: none; }
+body.embed #full { display: inline; }
+body.embed main { grid-template-columns: minmax(0, 1fr); }
+html, body { overflow-x: hidden; }
+@media (max-width: 760px) {
+  .controls { margin-left: 0; width: 100%; }
+  #view { flex: 1 1 100%; max-width: 100%; }
+  main { grid-template-columns: minmax(0, 1fr); grid-template-rows: 62vh auto; }
+  aside { border-left: 0; border-top: 1px solid var(--rule); }
+  input[type=search] { width: 110px; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1 id="title">Knowledge map</h1>
+    <a id="full" target="_blank" rel="noopener">Full screen ↗</a>
+    <div class="controls">
+      <select id="view" aria-label="View"></select>
+      <input id="q" type="search" placeholder="Search" aria-label="Search">
+      <button id="expand" type="button">Expand all</button>
+      <button id="collapse" type="button">Collapse all</button>
+      <button id="must" type="button" aria-pressed="false">Must-read only</button>
+      <select id="year" aria-label="Year"></select>
+      <select id="type" aria-label="Type"></select>
+      <button id="fit" type="button">Fit</button>
+      <button id="lang" type="button">中文</button>
+    </div>
+    <p class="lead" id="lead"></p>
+  </header>
+  <main>
+    <div id="cy" role="img" aria-label="Knowledge map graph"></div>
+    <aside id="panel" aria-live="polite"></aside>
+  </main>
+</div>
+<script>
+(() => {
+  const P = new URLSearchParams(location.search);
+  let VIEW = P.get("view") || "plan-a";
+  let LANG = P.get("lang") === "zh" ? "zh" : "en";
+  const T = {
+    en: { expand: "Expand all", collapse: "Collapse all", must: "Must-read only", fit: "Fit", search: "Search",
+          other: "中文", papers: "papers", open: "Open deep-read ↗", related: "Connected", concepts: "Concepts",
+          collapseG: "Collapse this group", expandG: "Expand this group", alsoIn: "also in Plan",
+          sik: "Sikander's pick", abs: "abstract only", hint: "Click a group to open it. Click a node to see its neighbours; double-click a paper to open its deep-read. Click empty space to reset.",
+          lgPaperA: "Plan A paper", lgPaperB: "Plan B paper", lgEhr: "EHR", lgOther: "other", lgConcept: "concept",
+          lgBridge: "in both plans (double border)", lgMust: "bold = must-read", mentions: "mentioned in", empty: "Nothing matches.",
+          allYears: "All years", since: "Since", allTypes: "All types", lgType: "cut corners = code / model · barrel = competition",
+          types: { paper: "Papers", dataset: "Datasets", model: "Models", code: "Code", competition: "Competitions" } },
+    zh: { expand: "全部展开", collapse: "全部折叠", must: "只看必读", fit: "适应窗口", search: "搜索",
+          other: "EN", papers: "篇", open: "打开精读 ↗", related: "相连", concepts: "概念",
+          collapseG: "折叠此组", expandG: "展开此组", alsoIn: "也在 Plan",
+          sik: "Sikander 推荐", abs: "仅摘要", hint: "点击组框展开；点击节点只看它的邻居；双击论文打开精读；点击空白处复原。",
+          lgPaperA: "Plan A 论文", lgPaperB: "Plan B 论文", lgEhr: "电子病历", lgOther: "其他", lgConcept: "概念",
+          lgBridge: "两个 plan 共用（双线边框）", lgMust: "粗体 = 必读", mentions: "出现于", empty: "没有匹配项。",
+          allYears: "全部年份", since: "起始年份", allTypes: "全部类型", lgType: "切角 = 代码 / 模型 · 桶形 = 竞赛",
+          types: { paper: "论文", dataset: "数据集", model: "模型", code: "代码", competition: "竞赛" } }
+  };
+  const $ = id => document.getElementById(id);
+  const EMBED = P.get("embed") === "1";
+  if (EMBED) document.body.classList.add("embed");
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+  let DATA = null, byId = {}, expanded = new Set(), mustOnly = P.get("must") === "1", cy = null, query = "";
+  let minYear = +P.get("year") || 0, onlyType = P.get("type") || "";
+
+  function planOf(n) {
+    const p = n.plans || [];
+    if (VIEW === "plan-b" && p.includes("B")) return "B";
+    if (p.includes("A")) return "A";
+    if (p.includes("B")) return "B";
+    if (p.includes("EHR")) return "EHR";
+    return "other";
+  }
+
+  // ---------- elements for the current state ----------
+  function passes(n) {          // the filters (must-read, year, type); groups and concepts always pass
+    if (n.kind !== "paper") return true;
+    if (mustOnly && n.relevance !== "high") return false;
+    if (minYear && (n.year || 0) < minYear) return false;
+    if (onlyType && (n.type || "paper") !== onlyType) return false;
+    return true;
+  }
+  function visiblePaper(n) { return expanded.has(n.parent) && passes(n); }
+  function rep(id) {
+    const n = byId[id];
+    if (!n) return null;
+    if (n.kind !== "paper") return id;
+    if (visiblePaper(n)) return id;
+    if (!expanded.has(n.parent)) return passes(n) ? n.parent : null;
+    return null;
+  }
+  function colOf(id) {
+    const n = byId[id];
+    if (!n) return id;
+    if (n.kind === "paper") return n.parent;
+    if (n.kind === "concept") return n.home;
+    return id;
+  }
+  const glabel = g => /^[A-Z]+\d+$/.test(g.code) ? `${g.code} · ${g.label[LANG]}` : g.label[LANG];
+  function elements() {
+    const els = [];
+    const groups = DATA.nodes.filter(n => n.kind === "group");
+    const compact = DATA.wrap && expanded.size === 0;     // all closed: wrap the group boxes into rows
+    let maxY = 40, gi = 0;
+    for (const g of groups) {
+      const kids = DATA.nodes.filter(n => n.parent === g.id && passes(n));
+      if (!kids.length) continue;
+      const lab = glabel(g);
+      const cnt = kids.length === g.count ? `${g.count}` : `${kids.length} / ${g.count}`;
+      if (expanded.has(g.id)) {
+        els.push({ group: "nodes", data: { id: g.id, kind: "group", label: lab }, classes: "group open" });
+        for (const n of kids) {
+          els.push({ group: "nodes", data: { id: n.id, kind: "paper", parent: g.id, label: n.label, plan: planOf(n),
+                     high: n.relevance === "high" ? 1 : 0, bridge: n.bridge ? 1 : 0, type: n.type || "paper" },
+                     position: { x: n.x, y: n.y }, classes: "paper" });
+          maxY = Math.max(maxY, n.y);
+        }
+      } else {
+        els.push({ group: "nodes", data: { id: g.id, kind: "group", label: `${lab}\n${cnt} ${T[LANG].papers}` },
+                   position: compact ? { x: (gi % DATA.wrap) * 270, y: 40 + Math.floor(gi / DATA.wrap) * 110 } : { x: g.x, y: 40 },
+                   classes: "group closed" });
+        gi++;
+      }
+    }
+    const concepts = DATA.nodes.filter(n => n.kind === "concept");
+    const cy0 = maxY + (maxY > 40 ? 110 : 90);
+    for (const c of concepts) {
+      els.push({ group: "nodes", data: { id: c.id, kind: "concept", label: c.label[LANG] },
+                 position: { x: c.x, y: cy0 + c.slot * 46 }, classes: "concept" });
+    }
+    const agg = new Map();
+    const rank = { concept: 3, cites: 2, mentions: 1 };
+    for (const e of DATA.edges) {
+      const a = rep(e.source), b = rep(e.target);
+      if (!a || !b || a === b) continue;
+      const key = a < b ? a + "|" + b : b + "|" + a;
+      const cur = agg.get(key);
+      if (!cur) agg.set(key, { source: a, target: b, kind: e.kind, label: e.label || "", count: 1 });
+      else {
+        cur.count += 1;
+        if (rank[e.kind] > rank[cur.kind]) { cur.kind = e.kind; cur.label = e.label || ""; }
+      }
+    }
+    let i = 0;
+    for (const e of agg.values()) {
+      const label = e.count > 1 ? `${e.count}` : (e.kind === "mentions" ? "" : e.label);
+      const far = colOf(e.source) !== colOf(e.target);
+      const cls = e.kind + (far ? (e.kind === "mentions" ? " far" : " xcol") : "");
+      els.push({ group: "edges", data: { id: "e" + (i++), source: e.source, target: e.target, label,
+                 w: Math.min(1 + Math.log2(e.count), 5) }, classes: cls });
+    }
+    return els;
+  }
+
+  function style() {
+    const c = n => css(n);
+    const fill = { A: c("--a-fill"), B: c("--b-fill"), EHR: c("--ehr-fill"), other: c("--other-fill") };
+    const line = { A: c("--a"), B: c("--b"), EHR: c("--ehr"), other: c("--other") };
+    return [
+      { selector: "node", style: { "font-size": 12, color: c("--ink"), "text-valign": "center", "text-halign": "center",
+          "text-wrap": "wrap", "min-zoomed-font-size": 5 } },
+      { selector: "node.paper", style: { shape: "round-rectangle", width: 214, height: 38, label: "data(label)",
+          "font-size": 13.5, "text-max-width": 200, "text-wrap": "ellipsis",
+          "background-color": ele => fill[ele.data("plan")], "border-color": ele => line[ele.data("plan")],
+          "border-width": ele => ele.data("high") ? 2 : 1,
+          "font-weight": ele => ele.data("high") ? 650 : 400 } },
+      { selector: 'node.paper[type = "code"], node.paper[type = "model"]', style: { shape: "cut-rectangle" } },
+      { selector: 'node.paper[type = "competition"], node.paper[type = "dataset"]', style: { shape: "barrel" } },
+      { selector: "node.paper[bridge = 1]", style: { "border-style": "double", "border-width": 5 } },
+      { selector: "node.concept", style: { shape: "round-rectangle", width: "label", height: 24, padding: 6, label: "data(label)",
+          "background-color": c("--concept-fill"), "border-color": c("--concept"), "border-width": 1.25,
+          "font-size": 13.5, "text-max-width": 170 } },
+      { selector: "node.group.open", style: { shape: "round-rectangle", label: "data(label)", "text-valign": "top",
+          "text-halign": "center", "text-margin-y": -6, "font-size": 15, "font-weight": 650,
+          "background-color": c("--quiet"), "background-opacity": 0.06, "border-color": c("--rule"), "border-width": 1,
+          "border-style": "dashed", padding: 14 } },
+      { selector: "node.group.closed", style: { shape: "round-rectangle", width: 226, height: 70, label: "data(label)",
+          "text-max-width": 210, "font-size": 15, "font-weight": 600,
+          "background-color": c("--panel"), "border-color": c("--quiet"), "border-width": 1.25 } },
+      { selector: "edge", style: { width: ele => Math.max(1.25, ele.data("w")), "curve-style": "bezier", "line-color": c("--edge"),
+          "font-size": 12, color: c("--quiet"), "text-background-color": c("--bg"), "text-background-opacity": 0.9,
+          "text-background-padding": 2, label: "" } },
+      { selector: "edge.mentions", style: { "line-color": c("--concept"), opacity: 0.6 } },
+      { selector: "edge.concept", style: { opacity: 0.8 } },
+      { selector: "edge.cites", style: { "line-style": "dotted", opacity: 0.7 } },
+      { selector: ".faded", style: { opacity: 0.12 } },
+      { selector: "edge.xcol", style: { opacity: 0.18 } },
+      { selector: "edge.far", style: { opacity: 0, events: "no" } },
+      { selector: "edge.hl", style: { opacity: 1, events: "yes", label: "data(label)", "line-color": c("--hl"), "z-index": 9 } },
+      { selector: "node.hl", style: { "border-color": c("--hl"), "border-width": 2.5 } },
+      { selector: "node.match", style: { "border-color": c("--hl"), "border-width": 3 } },
+    ];
+  }
+
+  // ---------- rendering ----------
+  function render(keepFocus) {
+    const focusId = keepFocus && cy && cy.$("node.hl").length === 1 ? cy.$("node.hl").id() : null;
+    if (!cy) {
+      cy = cytoscape({ container: $("cy"), elements: [], style: style(), wheelSensitivity: 0.25,
+                       minZoom: 0.15, maxZoom: 2.5, boxSelectionEnabled: false });
+      bind();
+    }
+    cy.batch(() => { cy.elements().remove(); cy.add(elements()); });
+    cy.layout({ name: "preset", fit: true, padding: 30 }).run();
+    applySearch();
+    if (focusId && cy.getElementById(focusId).length) focus(cy.getElementById(focusId));
+  }
+
+  function bind() {
+    cy.on("tap", "node", ev => {
+      const n = ev.target;
+      if (n.data("kind") === "group" && n.hasClass("closed")) { expanded.add(n.id()); render(); focusGroup(n.id()); return; }
+      focus(n);
+    });
+    cy.on("dbltap", "node.paper", ev => {
+      const d = byId[ev.target.id()];
+      if (d) window.open(d.url[LANG], "_blank", "noopener");
+    });
+    cy.on("tap", ev => { if (ev.target === cy) { clearFocus(); showIntro(); } });
+    cy.on("mouseover", "node", () => { $("cy").style.cursor = "pointer"; });
+    cy.on("mouseout", "node", () => { $("cy").style.cursor = ""; });
+  }
+
+  function clearFocus() { cy.elements().removeClass("faded hl"); }
+  function focus(n) {
+    clearFocus();
+    const hood = n.closedNeighborhood();
+    if (n.isParent()) hood.merge(n.children());
+    cy.elements().not(hood).not("node.group.open").addClass("faded");   // a faded parent would dim its children too
+    n.addClass("hl"); n.connectedEdges().addClass("hl");
+    showPanel(n.id());
+  }
+  function focusGroup(id) { const n = cy.getElementById(id); if (n.length) focus(n); }
+
+  function applySearch() {
+    cy.nodes().removeClass("match");
+    if (!query) return;
+    const q = query.toLowerCase();
+    const hits = DATA.nodes.filter(n => n.kind !== "group" &&
+      ((n.label?.[LANG] ?? n.label ?? "") + " " + (n.title || "")).toLowerCase().includes(q));
+    let changed = false;
+    for (const h of hits) if (h.kind === "paper" && !expanded.has(h.parent)) { expanded.add(h.parent); changed = true; }
+    if (changed) { render(); return; }
+    for (const h of hits) cy.getElementById(h.id).addClass("match");
+  }
+
+  // ---------- side panel ----------
+  function chipList(n) {
+    const t = T[LANG], out = [];
+    if (n.relevance === "high") out.push(`<span class="chip high">must-read</span>`);
+    for (const p of n.plans || []) out.push(`<span class="chip">Plan ${esc(p)}</span>`);
+    if (n.recommended_by === "sikander") out.push(`<span class="chip">${t.sik}</span>`);
+    if (n.status === "abstract-only") out.push(`<span class="chip">${t.abs}</span>`);
+    return out.join("");
+  }
+  function itemBtn(id, text) { return `<button class="linkish" data-go="${esc(id)}">${esc(text)}</button>`; }
+  function showPanel(id) {
+    const t = T[LANG], n = byId[id];
+    let h = "";
+    if (!n) return;
+    if (n.kind === "paper") {
+      h += `<h2>${esc(n.label)}</h2><p class="sub">${esc(n.title)}<br>${esc(n.venue)} ${n.year ?? ""}</p>${chipList(n)}`;
+      if (n.oneliner?.[LANG]) h += `<p>${esc(n.oneliner[LANG])}</p>`;
+      h += `<p><a href="${esc(n.url[LANG])}" target="_blank" rel="noopener">${t.open}</a></p>`;
+      const rel = [], con = [];
+      for (const e of DATA.edges) {
+        if (e.source !== id && e.target !== id) continue;
+        const o = e.source === id ? e.target : e.source, on = byId[o];
+        if (!on) continue;
+        if (on.kind === "concept") con.push(itemBtn(o, on.label[LANG]));
+        else rel.push(`${itemBtn(o, on.label)}${e.label && e.kind !== "mentions" ? ` <span class="sub">— ${esc(e.label)}</span>` : ""}`);
+      }
+      if (rel.length) h += `<h2 style="font-size:13px;margin-top:12px">${t.related}</h2><ul>${rel.map(x => `<li>${x}</li>`).join("")}</ul>`;
+      if (con.length) h += `<h2 style="font-size:13px;margin-top:12px">${t.concepts}</h2><p>${con.join(" · ")}</p>`;
+    } else if (n.kind === "concept") {
+      h += `<h2>${esc(n.label[LANG])}</h2>`;
+      if (n.definition?.[LANG]) h += `<p class="sub">${esc(n.definition[LANG])}</p>`;
+      const ps = DATA.edges.filter(e => e.source === id).map(e => byId[e.target]).filter(Boolean);
+      h += `<p class="sub">${t.mentions}:</p><ul>${ps.map(p => `<li>${itemBtn(p.id, p.label)}</li>`).join("")}</ul>`;
+    } else if (n.kind === "group") {
+      const kids = DATA.nodes.filter(k => k.parent === id);
+      h += `<h2>${esc(glabel(n))}</h2><p class="sub">${kids.length} ${t.papers}</p>`;
+      h += expanded.has(id) ? `<p><button data-collapse="${esc(id)}">${t.collapseG}</button></p>`
+                            : `<p><button data-expand="${esc(id)}">${t.expandG}</button></p>`;
+      h += `<ul>${kids.map(k => `<li>${itemBtn(k.id, k.label)}${k.relevance === "high" ? " ★" : ""}</li>`).join("")}</ul>`;
+    }
+    $("panel").innerHTML = h + legend();
+  }
+  function legend() {
+    const t = T[LANG];
+    const sw = (fill, line) => `<i class="sw" style="background:${css(fill)};border-color:${css(line)}"></i>`;
+    return `<div class="legend"><span>${sw("--a-fill", "--a")}${t.lgPaperA}</span><span>${sw("--b-fill", "--b")}${t.lgPaperB}</span>` +
+           `<span>${sw("--ehr-fill", "--ehr")}${t.lgEhr}</span><span>${sw("--other-fill", "--other")}${t.lgOther}</span>` +
+           `<span>${sw("--concept-fill", "--concept")}${t.lgConcept}</span><br><span>${t.lgBridge}</span><span>${t.lgMust}</span><br><span>${t.lgType}</span></div>`;
+  }
+  function showIntro() {
+    const s = DATA.stats;
+    $("panel").innerHTML = `<h2>${esc(DATA.title[LANG])}</h2><p class="sub">${s.papers} ${T[LANG].papers} · ${s.concepts} ${T[LANG].concepts.toLowerCase()}</p>` +
+      `<p>${esc(DATA.lead[LANG])}</p><p class="sub">${T[LANG].hint}</p>` + legend();
+  }
+  $("panel").addEventListener("click", ev => {
+    const go = ev.target.closest("[data-go]"), ex = ev.target.closest("[data-expand]"), co = ev.target.closest("[data-collapse]");
+    if (go) {
+      const n = byId[go.dataset.go];
+      if (n?.kind === "paper" && !expanded.has(n.parent)) { expanded.add(n.parent); render(); }
+      const el = cy.getElementById(go.dataset.go);
+      if (el.length) { focus(el); cy.animate({ center: { eles: el }, duration: 250 }); }
+    } else if (ex) { expanded.add(ex.dataset.expand); render(); focusGroup(ex.dataset.expand); }
+    else if (co) { expanded.delete(co.dataset.collapse); render(); showPanel(co.dataset.collapse); }
+  });
+
+  // ---------- chrome ----------
+  function labels() {
+    const t = T[LANG];
+    $("expand").textContent = t.expand; $("collapse").textContent = t.collapse; $("must").textContent = t.must;
+    $("fit").textContent = t.fit; $("lang").textContent = t.other; $("q").placeholder = t.search;
+    const years = [...new Set(DATA.nodes.filter(n => n.kind === "paper" && n.year).map(n => n.year))].sort((a, b) => b - a);
+    $("year").innerHTML = `<option value="0">${t.allYears}</option>` +
+      years.slice(0, -1).map(y => `<option value="${y}"${y === minYear ? " selected" : ""}>${t.since} ${y}</option>`).join("");
+    const types = [...new Set(DATA.nodes.filter(n => n.kind === "paper").map(n => n.type || "paper"))];
+    if (onlyType && !types.includes(onlyType)) onlyType = "";
+    $("type").hidden = types.length < 2;
+    $("type").innerHTML = `<option value="">${t.allTypes}</option>` +
+      types.map(k => `<option value="${k}"${k === onlyType ? " selected" : ""}>${t.types[k] || k}</option>`).join("");
+    $("title").textContent = DATA.title[LANG]; $("lead").textContent = DATA.lead[LANG];
+    document.title = DATA.title[LANG]; document.documentElement.lang = LANG === "zh" ? "zh-CN" : "en";
+  }
+  function setUrl() {
+    const u = new URL(location.href);
+    u.searchParams.set("view", VIEW); u.searchParams.set("lang", LANG);
+    for (const [k, v] of [["must", mustOnly ? "1" : ""], ["year", minYear ? String(minYear) : ""], ["type", onlyType]])
+      v ? u.searchParams.set(k, v) : u.searchParams.delete(k);
+    history.replaceState(null, "", u);
+    const f = new URL(u); f.searchParams.delete("embed");
+    $("full").href = f.toString(); $("full").textContent = LANG === "zh" ? "全屏打开 ↗" : "Full screen ↗";
+  }
+  async function loadView(v) {
+    VIEW = v;
+    DATA = await (await fetch(`${v}.json`)).json();
+    byId = Object.fromEntries(DATA.nodes.map(n => [n.id, n]));
+    const all = DATA.nodes.filter(n => n.kind === "group").map(n => n.id);
+    expanded = new Set(DATA.collapsed && P.get("expand") !== "all" ? [] : all);
+    labels(); setUrl(); render(); showIntro();
+    const f = P.get("focus");
+    if (f && byId[f]) {
+      if (byId[f].kind === "paper") { expanded.add(byId[f].parent); render(); }
+      if (byId[f].kind === "group") { expanded.add(f); render(); }
+      focus(cy.getElementById(f));
+    }
+  }
+  $("expand").onclick = () => { DATA.nodes.filter(n => n.kind === "group").forEach(g => expanded.add(g.id)); render(); };
+  $("collapse").onclick = () => { expanded.clear(); render(); showIntro(); };
+  $("must").setAttribute("aria-pressed", String(mustOnly));
+  $("must").onclick = () => { mustOnly = !mustOnly; $("must").setAttribute("aria-pressed", String(mustOnly)); setUrl(); render(true); };
+  $("year").onchange = ev => { minYear = +ev.target.value; setUrl(); render(true); };
+  $("type").onchange = ev => { onlyType = ev.target.value; setUrl(); render(true); };
+  $("fit").onclick = () => cy.fit(undefined, 30);
+  $("lang").onclick = () => { LANG = LANG === "en" ? "zh" : "en"; labels(); setUrl(); render(true); showIntro(); populateViews(); };
+  $("q").addEventListener("input", ev => { query = ev.target.value.trim(); clearFocus(); applySearch(); });
+  $("view").onchange = ev => loadView(ev.target.value);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (cy) { cy.style(style()); showIntro(); } });
+
+  let INDEX = [];
+  function populateViews() {
+    $("view").innerHTML = INDEX.map(v => `<option value="${esc(v.id)}"${v.id === VIEW ? " selected" : ""}>${esc(v.title[LANG])}</option>`).join("");
+  }
+  (async () => {
+    try { INDEX = await (await fetch("index.json")).json(); } catch (e) { INDEX = []; }
+    if (INDEX.length && !INDEX.some(v => v.id === VIEW)) VIEW = INDEX[0].id;
+    populateViews();
+    await loadView(VIEW);
+  })();
+})();
+</script>
+</body>
+</html>

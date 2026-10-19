@@ -1,0 +1,183 @@
+{
+ "nodes": [
+  {
+   "id": "group-foundations",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "foundations \u00b7 Foundations & data"
+  },
+  {
+   "id": "pathbench-natcommun-2026",
+   "type": "file",
+   "file": "_maps/papers/pathbench-natcommun-2026.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-detect",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 760,
+   "label": "detect \u00b7 Detect"
+  },
+  {
+   "id": "imaging-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/imaging-nature-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "nih-kidney-ai-challenge-2026",
+   "type": "file",
+   "file": "_maps/papers/nih-kidney-ai-challenge-2026.md",
+   "x": 440,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "histo-sciencedirect-2026",
+   "type": "file",
+   "file": "_maps/papers/histo-sciencedirect-2026.md",
+   "x": 440,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "histo-nejmai-2024",
+   "type": "file",
+   "file": "_maps/papers/histo-nejmai-2024.md",
+   "x": 440,
+   "y": 510,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-model",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "model \u00b7 Model"
+  },
+  {
+   "id": "virtual-tissue-2501",
+   "type": "file",
+   "file": "_maps/papers/virtual-tissue-2501.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-revert",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "revert \u00b7 Revert"
+  },
+  {
+   "id": "spatial-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/spatial-biorxiv-2025.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-agents",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "agents \u00b7 Agents & evidence"
+  },
+  {
+   "id": "deepevidence-natmachintell-2026",
+   "type": "file",
+   "file": "_maps/papers/deepevidence-natmachintell-2026.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "hypogen-llm-colm-2024",
+   "type": "file",
+   "file": "_maps/papers/hypogen-llm-colm-2024.md",
+   "x": 1760,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-ehr",
+   "type": "group",
+   "x": 2180,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "ehr \u00b7 EHR"
+  },
+  {
+   "id": "ehr-delphi2m-nature-2025",
+   "type": "file",
+   "file": "_maps/papers/ehr-delphi2m-nature-2025.md",
+   "x": 2200,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "ehr-pancreatic-trajectory-natmed-2023",
+   "type": "file",
+   "file": "_maps/papers/ehr-pancreatic-trajectory-natmed-2023.md",
+   "x": 2200,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "e33",
+   "fromNode": "ehr-delphi2m-nature-2025",
+   "toNode": "ehr-pancreatic-trajectory-natmed-2023",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e36",
+   "fromNode": "virtual-tissue-2501",
+   "toNode": "spatial-biorxiv-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "in-silico perturbation"
+  },
+  {
+   "id": "e55",
+   "fromNode": "nih-kidney-ai-challenge-2026",
+   "toNode": "histo-nejmai-2024",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "WSI anomaly detection"
+  }
+ ]
+}

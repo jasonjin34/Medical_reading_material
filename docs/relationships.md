@@ -142,7 +142,15 @@ flowchart LR
   bioml_bench_biorxiv_2025 -.->|cites| bixbench_arxiv_2025
   bioml_bench_biorxiv_2025 -.->|cites| paperqa2_arxiv_2024
   biomni_biorxiv_2025 -.->|cites| lab_bench_arxiv_2024
+  biomnibench_biorxiv_2026 -.->|cites| spatialagent_biorxiv_2025
+  biomnibench_biorxiv_2026 -.->|cites| bioml_bench_biorxiv_2025
+  biomnibench_biorxiv_2026 -.->|cites| biomni_biorxiv_2025
+  biomnibench_biorxiv_2026 -.->|cites| bixbench_arxiv_2025
+  biomnibench_biorxiv_2026 -.->|cites| lab_bench_arxiv_2024
   cellspectra_natgenet_2025 -.->|cites| lake_kidney_atlas_nature_2023
+  citation_faithfulness_arxiv_2026 -.->|cites| robin_nature_2026
+  citation_faithfulness_arxiv_2026 -.->|cites| virtual_lab_nature_2025
+  citation_faithfulness_arxiv_2026 -.->|cites| sourcecheckup_natcommun_2025
   damage_scores_cellgenomics_2026 -.->|cites| lake_kidney_atlas_nature_2023
   deepevidence_natmachintell_2026 -.->|cites| spatialagent_biorxiv_2025
   deepevidence_natmachintell_2026 -.->|cites| virtual_lab_nature_2025
@@ -160,6 +168,7 @@ flowchart LR
   meatrd_aaai_2025 -.->|cites| spatial_natcommun_2024
   nicheformer_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
   pathology_ad_bench_mlhealth_2025 -.->|cites| medianomaly_media_2025
+  refmap_eval_biorxiv_2025 -.->|cites| healthy_ref_natgenet_2023
   resolvi_natmethods_2026 -.->|cites| ovrlpy_natbiotech_2026
   scrna_natmachintell_2026 -.->|cites| linear_baselines_natmethods_2025
   virtual_tissue_2501 -.->|cites| loki_omiclip_natmethods_2025
@@ -464,7 +473,15 @@ flowchart LR
 | `bioml-bench-biorxiv-2025` | cites | `bixbench-arxiv-2025` |
 | `bioml-bench-biorxiv-2025` | cites | `paperqa2-arxiv-2024` |
 | `biomni-biorxiv-2025` | cites | `lab-bench-arxiv-2024` |
+| `biomnibench-biorxiv-2026` | cites | `spatialagent-biorxiv-2025` |
+| `biomnibench-biorxiv-2026` | cites | `bioml-bench-biorxiv-2025` |
+| `biomnibench-biorxiv-2026` | cites | `biomni-biorxiv-2025` |
+| `biomnibench-biorxiv-2026` | cites | `bixbench-arxiv-2025` |
+| `biomnibench-biorxiv-2026` | cites | `lab-bench-arxiv-2024` |
 | `cellspectra-natgenet-2025` | cites | `lake-kidney-atlas-nature-2023` |
+| `citation-faithfulness-arxiv-2026` | cites | `robin-nature-2026` |
+| `citation-faithfulness-arxiv-2026` | cites | `virtual-lab-nature-2025` |
+| `citation-faithfulness-arxiv-2026` | cites | `sourcecheckup-natcommun-2025` |
 | `damage-scores-cellgenomics-2026` | cites | `lake-kidney-atlas-nature-2023` |
 | `deepevidence-natmachintell-2026` | cites | `spatialagent-biorxiv-2025` |
 | `deepevidence-natmachintell-2026` | cites | `virtual-lab-nature-2025` |
@@ -482,6 +499,7 @@ flowchart LR
 | `meatrd-aaai-2025` | cites | `spatial-natcommun-2024` |
 | `nicheformer-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `medianomaly-media-2025` |
+| `refmap-eval-biorxiv-2025` | cites | `healthy-ref-natgenet-2023` |
 | `resolvi-natmethods-2026` | cites | `ovrlpy-natbiotech-2026` |
 | `scrna-natmachintell-2026` | cites | `linear-baselines-natmethods-2025` |
 | `virtual-tissue-2501` | cites | `loki-omiclip-natmethods-2025` |

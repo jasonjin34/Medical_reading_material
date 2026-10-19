@@ -46,7 +46,8 @@ def yaml_dump(meta: dict) -> str:
     lines = []
     order = ["id", "title", "authors", "year", "venue", "type", "category",
              "relevance", "access", "url", "doi", "arxiv", "s2_id", "bibkey",
-             "tags", "related", "status", "added"]
+             "tags", "related", "status", "added",
+             "plans", "track", "recommended_by"]
     for k in order:
         v = meta.get(k)
         if isinstance(v, list):
@@ -93,6 +94,10 @@ def main() -> None:
     ap.add_argument("--relevance", default="medium", choices=["high", "medium", "low"])
     ap.add_argument("--access", default="", choices=["", "open", "paywall", "abstract-only"])
     ap.add_argument("--slug", default="", help="override folder slug")
+    ap.add_argument("--plans", nargs="*", default=[], choices=["A", "B", "EHR"],
+                    help="knowledge-map views this paper belongs to")
+    ap.add_argument("--track", default="", help="column in its view, e.g. A3 or B4 (see maps/views.yaml)")
+    ap.add_argument("--recommended-by", default="", help='e.g. "sikander"')
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()
 
@@ -103,6 +108,9 @@ def main() -> None:
     meta.setdefault("access", "open")
     meta.setdefault("tags", [])
     meta.setdefault("related", [])
+    meta["plans"] = args.plans
+    meta["track"] = args.track
+    meta["recommended_by"] = args.recommended_by
     meta["category"] = args.category
     meta["relevance"] = args.relevance
     meta["added"] = datetime.date.today().isoformat()
