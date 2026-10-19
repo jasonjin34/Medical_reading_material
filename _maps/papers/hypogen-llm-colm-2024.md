@@ -29,7 +29,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — hypothesis generation
 - [[_maps/papers/semnovel-jbi-2025|SemNovel]] — novelty of biomedical ideas
-- [[_maps/papers/truthhypo-ijcai-2025|TruthHypo]] — biomedical hypothesis generation
+- [[_maps/papers/truthhypo-ijcai-2025|TruthHypo]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/benchmark-validity|Benchmark validity]]

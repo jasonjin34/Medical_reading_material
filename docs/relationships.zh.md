@@ -27,6 +27,7 @@
 flowchart LR
   DIRECTION(["Anomaly-detection-based virtual tissue modelling"])
   cat_agents["agents"] --> DIRECTION
+  cat_anomaly["anomaly"] --> DIRECTION
   cat_competition["competition"] --> DIRECTION
   cat_ehr["ehr"] --> DIRECTION
   cat_foundation["foundation"] --> DIRECTION
@@ -38,8 +39,10 @@ flowchart LR
   cat_spatial["spatial"] --> DIRECTION
   cat_virtual_tissue["virtual-tissue"] --> DIRECTION
   abc_agentic_benchmarks_neurips_2025["★Establishing Best Practices for Building"] --> cat_agents
+  ad_unifying_review_procieee_2021["★A Unifying Review of Deep and Shallow An"] --> cat_anomaly
   ailuminate_arxiv_2025["★AILuminate: Introducing v1.0 of the AI R"] --> cat_agents
   ambient_rna_bench_biorxiv_2026["Benchmarking computational decontaminati"] --> cat_single_cell
+  anogan_ipmi_2017["Unsupervised Anomaly Detection with Gene"] --> cat_anomaly
   autoresearch_failures_arxiv_2026["★How Do Agents Fail on AutoResearch: End-"] --> cat_agents
   biomednlp_natcommun_2025["Benchmarking large language models for b"] --> cat_other
   bioml_bench_biorxiv_2025["BioML-bench: Evaluation of AI Agents for"] --> cat_agents
@@ -48,26 +51,34 @@ flowchart LR
   bixbench_arxiv_2025["★BixBench: a Comprehensive Benchmark for "] --> cat_agents
   cellspectra_natgenet_2025["★Analysis of individual patient pathway c"] --> cat_single_cell
   cellvoyager_natmethods_2026["★CellVoyager: AI CompBio agent generates "] --> cat_agents
+  cflow_ad_wacv_2022["CFLOW-AD: Real-Time Unsupervised Anomaly"] --> cat_anomaly
   citation_blame_emnlp_2026["★Who is the Agent to Blame? Localizing Fa"] --> cat_agents
   citation_faithfulness_arxiv_2026["★Evaluating and Guarding Citation Faithfu"] --> cat_agents
   clinical_agent_reruns_arxiv_2026["★Same Patient, Different Order: Action-Le"] --> cat_agents
   co_scientist_nature_2026["★Accelerating scientific discovery with C"] --> cat_agents
+  conformal_outliers_annstat_2023["★Testing for Outliers with Conformal p-va"] --> cat_anomaly
   conformal_scrna_bioinformatics_2025["Conformal inference for reliable single "] --> cat_single_cell
   counterfactual_diffusion_cancerres_2026["Counterfactual Diffusion Models Provide "] --> cat_histopath
   damage_scores_cellgenomics_2026["★Cell-type-specific damage scores reveal "] --> cat_single_cell
   deep_research_hallucination_arxiv_2026["★Why Your Deep Research Agent Fails? On H"] --> cat_agents
+  deep_svdd_icml_2018["★Deep One-Class Classification"] --> cat_anomaly
   deepevidence_natmachintell_2026["★Empowering biomedical evidence explorati"] --> cat_agents
   deeptrace_arxiv_2025["DeepTRACE: Auditing Deep Research AI Sys"] --> cat_agents
+  diffusion_medical_ad_miccai_2022["Diffusion Models for Medical Anomaly Det"] --> cat_anomaly
   dkd_spatial_atlas_nature_2026["★Spatial atlas of diabetic kidney disease"] --> cat_spatial
+  draem_iccv_2021["DRÆM – A discriminatively trained recons"] --> cat_anomaly
   ehr_apollo_arxiv_2026["A multimodal and temporal foundation mod"] --> cat_ehr
   ehr_comet_natmachintell_2025["A machine learning approach to leveragin"] --> cat_ehr
   ehr_delphi2m_nature_2025["★Learning the natural history of human di"] --> cat_ehr
   ehr_pancreatic_llm_npjdigitmed_2025["Enhancing EHR-based pancreatic cancer pr"] --> cat_ehr
   ehr_pancreatic_trajectory_natmed_2023["★A deep learning algorithm to predict ris"] --> cat_ehr
+  energy_ood_neurips_2020["Energy-based Out-of-distribution Detecti"] --> cat_anomaly
+  f_anogan_media_2019["★f-AnoGAN: Fast unsupervised anomaly dete"] --> cat_anomaly
   falsifiable_ideation_arxiv_2026["What Proves You Wrong: Benchmarking Lang"] --> cat_agents
   fev_bioinformatics_agents_arxiv_2026["★Evaluating Agentic Bioinformatics throug"] --> cat_agents
   fm_arxiv_2604["A Generative Foundation Model for Multim"] --> cat_foundation
   generalization_bias_rsos_2025["★Generalization bias in large language mo"] --> cat_agents
+  generalized_ood_survey_ijcv_2024["★Generalized Out-of-Distribution Detectio"] --> cat_anomaly
   he2expr_bench_natcommun_2025["Benchmarking the translational potential"] --> cat_histopath
   healthy_ref_natgenet_2023["★Precise identification of cell states al"] --> cat_single_cell
   hest1k_2024["HEST-1k: A Dataset for Spatial Transcrip"] --> cat_foundation
@@ -92,6 +103,7 @@ flowchart LR
   linear_baselines_natmethods_2025["★Deep-learning-based gene perturbation ef"] --> cat_foundation
   llm_judge_healthcare_arxiv_2026["★LLM-as-a-Judge in Healthcare: A Scoping "] --> cat_agents
   loki_omiclip_natmethods_2025["★A visual–omics foundation model to bridg"] --> cat_spatial
+  mahalanobis_ood_neurips_2018["★A Simple Unified Framework for Detecting"] --> cat_anomaly
   mast_neurips_2025["Why Do Multi-Agent LLM Systems Fail?"] --> cat_agents
   meatrd_aaai_2025["★MEATRD: Multimodal Anomalous Tissue Regi"] --> cat_spatial
   medagentbench_nejmai_2025["MedAgentBench: A Virtual EHR Environment"] --> cat_agents
@@ -99,12 +111,16 @@ flowchart LR
   medical_hallucination_arxiv_2025["Medical Hallucinations in Foundation Mod"] --> cat_agents
   medragchecker_arxiv_2026["★MedRAGChecker: Claim-Level Verification "] --> cat_agents
   mrvi_natmethods_2025["Deep generative modeling of sample-level"] --> cat_single_cell
+  msp_ood_iclr_2017["A Baseline for Detecting Misclassified a"] --> cat_anomaly
   multimodal_integration_bench_natmethods_2025["Benchmarking single-cell multi-modal dat"] --> cat_single_cell
+  mvtec_ad_cvpr_2019["MVTec AD — A Comprehensive Real-World Da"] --> cat_anomaly
   nephrobase_biorxiv_2025["★Nephrobase Cell+: Multimodal Single-Cell"] --> cat_foundation
   nicheformer_natmethods_2025["Nicheformer: a foundation model for sing"] --> cat_foundation
   nih_kidney_ai_challenge_2026["★Kidney Artificial Intelligence Discovery"] --> cat_competition
   ovrlpy_natbiotech_2026["★Identifying 3D signal overlaps in spatia"] --> cat_spatial
+  padim_icpr_2020["PaDiM: A Patch Distribution Modeling Fra"] --> cat_anomaly
   paperqa2_arxiv_2024["Language agents achieve superhuman synth"] --> cat_agents
+  patchcore_cvpr_2022["★Towards Total Recall in Industrial Anoma"] --> cat_anomaly
   pathbench_natcommun_2026["★A benchmark study of vision and patholog"] --> cat_foundation
   pathology_ad_bench_mlhealth_2025["★Quantitative benchmarking of anomaly det"] --> cat_histopath
   pathomics_blood_2023["A Deep Learning-Based Pathomics Methodol"] --> cat_pathology
@@ -151,6 +167,7 @@ flowchart LR
   citation_faithfulness_arxiv_2026 -.->|cites| robin_nature_2026
   citation_faithfulness_arxiv_2026 -.->|cites| virtual_lab_nature_2025
   citation_faithfulness_arxiv_2026 -.->|cites| sourcecheckup_natcommun_2025
+  conformal_scrna_bioinformatics_2025 -.->|cites| conformal_outliers_annstat_2023
   damage_scores_cellgenomics_2026 -.->|cites| lake_kidney_atlas_nature_2023
   deepevidence_natmachintell_2026 -.->|cites| spatialagent_biorxiv_2025
   deepevidence_natmachintell_2026 -.->|cites| virtual_lab_nature_2025
@@ -161,16 +178,37 @@ flowchart LR
   healthy_ref_natgenet_2023 -.->|cites| mrvi_natmethods_2025
   hest1k_2024 -.->|cites| virchow_2024
   hest1k_2024 -.->|cites| lake_kidney_atlas_nature_2023
+  heurekabench_arxiv_2026 -.->|cites| cellvoyager_natmethods_2026
+  heurekabench_arxiv_2026 -.->|cites| biomni_biorxiv_2025
+  heurekabench_arxiv_2026 -.->|cites| robin_nature_2026
+  heurekabench_arxiv_2026 -.->|cites| bixbench_arxiv_2025
+  heurekabench_arxiv_2026 -.->|cites| co_scientist_nature_2026
+  heurekabench_arxiv_2026 -.->|cites| lab_bench_arxiv_2024
   inflammatory_pt_natcommun_2025 -.->|cites| lake_kidney_atlas_nature_2023
+  kidney_epigenome_nataging_2026 -.->|cites| lake_kidney_atlas_nature_2023
   kidney_multimodal_genomebiol_2026 -.->|cites| inflammatory_pt_natcommun_2025
   kidney_multimodal_genomebiol_2026 -.->|cites| lake_kidney_atlas_nature_2023
   linear_baselines_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
   meatrd_aaai_2025 -.->|cites| spatial_natcommun_2024
+  meatrd_aaai_2025 -.->|cites| patchcore_cvpr_2022
+  meatrd_aaai_2025 -.->|cites| mvtec_ad_cvpr_2019
+  meatrd_aaai_2025 -.->|cites| f_anogan_media_2019
+  meatrd_aaai_2025 -.->|cites| deep_svdd_icml_2018
   nicheformer_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
   pathology_ad_bench_mlhealth_2025 -.->|cites| medianomaly_media_2025
+  pathology_ad_bench_mlhealth_2025 -.->|cites| draem_iccv_2021
+  pathology_ad_bench_mlhealth_2025 -.->|cites| cflow_ad_wacv_2022
+  pathology_ad_bench_mlhealth_2025 -.->|cites| patchcore_cvpr_2022
+  pathology_ad_bench_mlhealth_2025 -.->|cites| padim_icpr_2020
+  pathology_ad_bench_mlhealth_2025 -.->|cites| mvtec_ad_cvpr_2019
   refmap_eval_biorxiv_2025 -.->|cites| healthy_ref_natgenet_2023
   resolvi_natmethods_2026 -.->|cites| ovrlpy_natbiotech_2026
+  scbench_long_arxiv_2026 -.->|cites| biomnibench_biorxiv_2026
+  scbench_long_arxiv_2026 -.->|cites| bixbench_arxiv_2025
+  scbench_long_arxiv_2026 -.->|cites| lab_bench_arxiv_2024
   scrna_natmachintell_2026 -.->|cites| linear_baselines_natmethods_2025
+  truthhypo_ijcai_2025 -.->|cites| paperqa2_arxiv_2024
+  truthhypo_ijcai_2025 -.->|cites| hypogen_llm_colm_2024
   virtual_tissue_2501 -.->|cites| loki_omiclip_natmethods_2025
   xenium_split_natmethods_2026 -.->|cites| resolvi_natmethods_2026
   xenium_split_natmethods_2026 -.->|cites| nicheformer_natmethods_2025
@@ -312,6 +350,18 @@ flowchart LR
   robin_nature_2026 ==>|Finch on BixBench| bixbench_arxiv_2025
   kosmos_arxiv_2025 ==>|autonomous omics analysis| cellvoyager_natmethods_2026
   virtual_lab_nature_2025 ==>|multi-agent biomedical systems| biomni_biorxiv_2025
+  anogan_ipmi_2017 ==>|GAN on normal data; reconstruction-residual score| spatial_natcommun_2024
+  diffusion_medical_ad_miccai_2022 ==>|diffusion reconstruct-to-normal AD| histo_miccai_2025
+  diffusion_medical_ad_miccai_2022 ==>|diffusion counterfactuals| counterfactual_diffusion_cancerres_2026
+  patchcore_cvpr_2022 ==>|pretrained features + kNN distance| histo_nejmai_2024
+  patchcore_cvpr_2022 ==>|memory bank of normal features| spatial_natcommun_2024
+  deep_svdd_icml_2018 ==>|one-class boundary on learned features| histo_anomaly_bi_repo
+  cflow_ad_wacv_2022 ==>|density-based anomaly scoring| sardine_bioinformatics_2025
+  mahalanobis_ood_neurips_2018 ==>|distance to a reference distribution| refmap_eval_biorxiv_2025
+  conformal_outliers_annstat_2023 ==>|healthy reference as the null| refmap_eval_biorxiv_2025
+  energy_ood_neurips_2020 ==>|outlier-exposure training| histo_nejmai_2024
+  draem_iccv_2021 ==>|synthetic-anomaly family| medianomaly_media_2025
+  ad_unifying_review_procieee_2021 ==>|multi-paradigm AD taxonomy| medianomaly_media_2025
   imaging_nature_2026 ==>|medical-imaging biomarker| imaging_ehjdh_2026
   pathomics_repo ==>|pathomics survival| pathomics_npjpo_2026
   pathomics_npjpo_2026 ==>|pathomics| pathomics_blood_2023
@@ -459,6 +509,18 @@ flowchart LR
 | `robin-nature-2026` | Finch on BixBench | `bixbench-arxiv-2025` |
 | `kosmos-arxiv-2025` | autonomous omics analysis | `cellvoyager-natmethods-2026` |
 | `virtual-lab-nature-2025` | multi-agent biomedical systems | `biomni-biorxiv-2025` |
+| `anogan-ipmi-2017` | GAN on normal data; reconstruction-residual score | `spatial-natcommun-2024` |
+| `diffusion-medical-ad-miccai-2022` | diffusion reconstruct-to-normal AD | `histo-miccai-2025` |
+| `diffusion-medical-ad-miccai-2022` | diffusion counterfactuals | `counterfactual-diffusion-cancerres-2026` |
+| `patchcore-cvpr-2022` | pretrained features + kNN distance | `histo-nejmai-2024` |
+| `patchcore-cvpr-2022` | memory bank of normal features | `spatial-natcommun-2024` |
+| `deep-svdd-icml-2018` | one-class boundary on learned features | `histo-anomaly-bi-repo` |
+| `cflow-ad-wacv-2022` | density-based anomaly scoring | `sardine-bioinformatics-2025` |
+| `mahalanobis-ood-neurips-2018` | distance to a reference distribution | `refmap-eval-biorxiv-2025` |
+| `conformal-outliers-annstat-2023` | healthy reference as the null | `refmap-eval-biorxiv-2025` |
+| `energy-ood-neurips-2020` | outlier-exposure training | `histo-nejmai-2024` |
+| `draem-iccv-2021` | synthetic-anomaly family | `medianomaly-media-2025` |
+| `ad-unifying-review-procieee-2021` | multi-paradigm AD taxonomy | `medianomaly-media-2025` |
 | `imaging-nature-2026` | medical-imaging biomarker | `imaging-ehjdh-2026` |
 | `pathomics-repo` | pathomics survival | `pathomics-npjpo-2026` |
 | `pathomics-npjpo-2026` | pathomics | `pathomics-blood-2023` |
@@ -482,6 +544,7 @@ flowchart LR
 | `citation-faithfulness-arxiv-2026` | cites | `robin-nature-2026` |
 | `citation-faithfulness-arxiv-2026` | cites | `virtual-lab-nature-2025` |
 | `citation-faithfulness-arxiv-2026` | cites | `sourcecheckup-natcommun-2025` |
+| `conformal-scrna-bioinformatics-2025` | cites | `conformal-outliers-annstat-2023` |
 | `damage-scores-cellgenomics-2026` | cites | `lake-kidney-atlas-nature-2023` |
 | `deepevidence-natmachintell-2026` | cites | `spatialagent-biorxiv-2025` |
 | `deepevidence-natmachintell-2026` | cites | `virtual-lab-nature-2025` |
@@ -492,16 +555,37 @@ flowchart LR
 | `healthy-ref-natgenet-2023` | cites | `mrvi-natmethods-2025` |
 | `hest1k-2024` | cites | `virchow-2024` |
 | `hest1k-2024` | cites | `lake-kidney-atlas-nature-2023` |
+| `heurekabench-arxiv-2026` | cites | `cellvoyager-natmethods-2026` |
+| `heurekabench-arxiv-2026` | cites | `biomni-biorxiv-2025` |
+| `heurekabench-arxiv-2026` | cites | `robin-nature-2026` |
+| `heurekabench-arxiv-2026` | cites | `bixbench-arxiv-2025` |
+| `heurekabench-arxiv-2026` | cites | `co-scientist-nature-2026` |
+| `heurekabench-arxiv-2026` | cites | `lab-bench-arxiv-2024` |
 | `inflammatory-pt-natcommun-2025` | cites | `lake-kidney-atlas-nature-2023` |
+| `kidney-epigenome-nataging-2026` | cites | `lake-kidney-atlas-nature-2023` |
 | `kidney-multimodal-genomebiol-2026` | cites | `inflammatory-pt-natcommun-2025` |
 | `kidney-multimodal-genomebiol-2026` | cites | `lake-kidney-atlas-nature-2023` |
 | `linear-baselines-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
 | `meatrd-aaai-2025` | cites | `spatial-natcommun-2024` |
+| `meatrd-aaai-2025` | cites | `patchcore-cvpr-2022` |
+| `meatrd-aaai-2025` | cites | `mvtec-ad-cvpr-2019` |
+| `meatrd-aaai-2025` | cites | `f-anogan-media-2019` |
+| `meatrd-aaai-2025` | cites | `deep-svdd-icml-2018` |
 | `nicheformer-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `medianomaly-media-2025` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `draem-iccv-2021` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `cflow-ad-wacv-2022` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `patchcore-cvpr-2022` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `padim-icpr-2020` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `mvtec-ad-cvpr-2019` |
 | `refmap-eval-biorxiv-2025` | cites | `healthy-ref-natgenet-2023` |
 | `resolvi-natmethods-2026` | cites | `ovrlpy-natbiotech-2026` |
+| `scbench-long-arxiv-2026` | cites | `biomnibench-biorxiv-2026` |
+| `scbench-long-arxiv-2026` | cites | `bixbench-arxiv-2025` |
+| `scbench-long-arxiv-2026` | cites | `lab-bench-arxiv-2024` |
 | `scrna-natmachintell-2026` | cites | `linear-baselines-natmethods-2025` |
+| `truthhypo-ijcai-2025` | cites | `paperqa2-arxiv-2024` |
+| `truthhypo-ijcai-2025` | cites | `hypogen-llm-colm-2024` |
 | `virtual-tissue-2501` | cites | `loki-omiclip-natmethods-2025` |
 | `xenium-split-natmethods-2026` | cites | `resolvi-natmethods-2026` |
 | `xenium-split-natmethods-2026` | cites | `nicheformer-natmethods-2025` |
@@ -551,6 +635,23 @@ flowchart LR
 - [`scitrace-arxiv-2026`](papers/scitrace-arxiv-2026/index.md) — SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents
 - [`trail-arxiv-2025`](papers/trail-arxiv-2025/index.md) — TRAIL: Trace Reasoning and Agentic Issue Localization
 - [`virtual-lab-nature-2025`](papers/virtual-lab-nature-2025/index.md) — The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies
+
+### anomaly
+- [`ad-unifying-review-procieee-2021`](papers/ad-unifying-review-procieee-2021/index.md) — A Unifying Review of Deep and Shallow Anomaly Detection ★
+- [`conformal-outliers-annstat-2023`](papers/conformal-outliers-annstat-2023/index.md) — Testing for Outliers with Conformal p-values ★
+- [`deep-svdd-icml-2018`](papers/deep-svdd-icml-2018/index.md) — Deep One-Class Classification ★
+- [`f-anogan-media-2019`](papers/f-anogan-media-2019/index.md) — f-AnoGAN: Fast unsupervised anomaly detection with generative adversarial networks ★
+- [`generalized-ood-survey-ijcv-2024`](papers/generalized-ood-survey-ijcv-2024/index.md) — Generalized Out-of-Distribution Detection: A Survey ★
+- [`mahalanobis-ood-neurips-2018`](papers/mahalanobis-ood-neurips-2018/index.md) — A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks ★
+- [`patchcore-cvpr-2022`](papers/patchcore-cvpr-2022/index.md) — Towards Total Recall in Industrial Anomaly Detection ★
+- [`anogan-ipmi-2017`](papers/anogan-ipmi-2017/index.md) — Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery
+- [`cflow-ad-wacv-2022`](papers/cflow-ad-wacv-2022/index.md) — CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows
+- [`diffusion-medical-ad-miccai-2022`](papers/diffusion-medical-ad-miccai-2022/index.md) — Diffusion Models for Medical Anomaly Detection
+- [`draem-iccv-2021`](papers/draem-iccv-2021/index.md) — DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection
+- [`energy-ood-neurips-2020`](papers/energy-ood-neurips-2020/index.md) — Energy-based Out-of-distribution Detection
+- [`msp-ood-iclr-2017`](papers/msp-ood-iclr-2017/index.md) — A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks
+- [`mvtec-ad-cvpr-2019`](papers/mvtec-ad-cvpr-2019/index.md) — MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection
+- [`padim-icpr-2020`](papers/padim-icpr-2020/index.md) — PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization
 
 ### competition
 - [`nih-kidney-ai-challenge-2026`](papers/nih-kidney-ai-challenge-2026/index.md) — Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons ★

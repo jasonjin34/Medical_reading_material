@@ -29,7 +29,9 @@ tags:
 - [[_maps/papers/biomnibench-biorxiv-2026|BiomniBench]] — cites
 - [[_maps/papers/bixbench-arxiv-2025|BixBench]] — FutureHouse agent benchmarks
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — LitQA2 evaluation set
+- [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/paperqa2-arxiv-2024|PaperQA2]] — LitQA2
+- [[_maps/papers/scbench-long-arxiv-2026|scBench-Long]] — cites
 
 ## Deep-read / 精读
 

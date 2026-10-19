@@ -26,9 +26,11 @@ tags:
 > 只用常见病(及正常组织)训练的深度异常检测模型,无需见过罕见病样本即可在胃、结肠活检中检出长尾罕见病变,达到临床级 AUROC。
 
 ## Related papers / 相关论文
+- [[_maps/papers/energy-ood-neurips-2020|Energy OOD]] — outlier-exposure training
 - [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — histopath anomaly det.
 - [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]] — histopath anomaly det.
 - [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]] — WSI anomaly detection
+- [[_maps/papers/patchcore-cvpr-2022|PatchCore]] — pretrained features + kNN distance
 - [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]] — histopathology AD
 - [[_maps/papers/virchow-2024|Virchow]] — FM backbone → anomaly det.
 

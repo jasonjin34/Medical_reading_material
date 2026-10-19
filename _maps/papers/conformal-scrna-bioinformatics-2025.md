@@ -31,6 +31,7 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/citation-faithfulness-arxiv-2026|Citation faithfulness guard]] — conformal guarantees
+- [[_maps/papers/conformal-outliers-annstat-2023|Conformal p-values]] — cites
 - [[_maps/papers/refmap-eval-biorxiv-2025|Reference-mapping QC]] — reference–query shift
 - [[_maps/papers/scatac-novel-genomeres-2026|Novel types in scATAC]] — out-of-reference cell types
 

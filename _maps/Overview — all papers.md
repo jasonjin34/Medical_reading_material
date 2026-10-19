@@ -10,6 +10,23 @@ Every paper, clustered by category. For orientation only; use the views above to
 
 全部论文按分类聚在一起，只用来看轮廓；细读请用上面的视图。
 
+## General anomaly detection / General anomaly detection
+- [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] ★ — Generalized Out-of-Distribution Detection: A Survey
+- [[_maps/papers/conformal-outliers-annstat-2023|Conformal p-values]] ★ — Testing for Outliers with Conformal p-values
+- [[_maps/papers/patchcore-cvpr-2022|PatchCore]] ★ — Towards Total Recall in Industrial Anomaly Detection
+- [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] ★ — A Unifying Review of Deep and Shallow Anomaly Detection
+- [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] ★ — f-AnoGAN: Fast unsupervised anomaly detection with generative adversarial networks
+- [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] ★ — Deep One-Class Classification
+- [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]] ★ — A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks
+- [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows
+- [[_maps/papers/diffusion-medical-ad-miccai-2022|Diffusion AD (medical)]] — Diffusion Models for Medical Anomaly Detection
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection
+- [[_maps/papers/padim-icpr-2020|PaDiM]] — PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization
+- [[_maps/papers/energy-ood-neurips-2020|Energy OOD]] — Energy-based Out-of-distribution Detection
+- [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection
+- [[_maps/papers/anogan-ipmi-2017|AnoGAN]] — Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery
+- [[_maps/papers/msp-ood-iclr-2017|MSP baseline]] — A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks
+
 ## Single-cell / Single-cell
 - [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]] ★ — Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics
 - [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]] ★ — Systematic evaluation of single-cell multimodal data integration enhances cell type resolution and discovery of clinically relevant states in complex tissues

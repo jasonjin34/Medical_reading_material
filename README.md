@@ -24,14 +24,22 @@ searchable website with an **English ⇄ 中文 language switcher**.
 | `references.bib` | The whole citation library, auto-built |
 | `literature-review.md` | Synthesis across all papers (综述) |
 | `relationships/` | Relationship graph (`graph.json`, `graph.mmd`, `relationships.md`) |
-| `maps/` | Knowledge-map sources: `views.yaml` (views, columns, concepts, pipelines), `labels.yaml`, `viewer.html` |
+| `maps/` | Knowledge-map sources: `matrix.yaml` (method × data matrix), `views.yaml` (views, columns, concepts, pipelines), `labels.yaml`, `viewer.html`, `matrix.html` |
 | `_maps/` | Obsidian hub notes, MOCs and canvases (auto-generated — do not hand-edit) |
 | `docs/` + `mkdocs.yml` | The GitHub Pages site (auto-generated — do not hand-edit) |
 | `templates/`, `scripts/` | The standardized pipeline (below) |
 
 ## Knowledge map
 
-Per-plan graphs of papers and core concepts, plus a pipeline flowchart for each plan.
+**Method map (start here).** A matrix with anomaly-detection paradigms as rows
+(reconstruction, memory bank / kNN, density, OOD, conformal, healthy-reference,
+cross-modal, artifacts) and data domains as columns (general → medical imaging →
+histopathology → single-cell → spatial → kidney).
+- Arrows show where a method was carried over.
+- Dashed cells are the gaps Plan A fills.
+- Source: `maps/matrix.yaml`.
+
+**Reading-list views.** Per-plan graphs of papers and core concepts, plus a pipeline flowchart for each plan.
 They are generated from `maps/views.yaml` and each paper's `plans` / `track` /
 `recommended_by` fields.
 
@@ -67,7 +75,7 @@ python scripts/add_paper.py <url|doi|arxiv> --category <c> --relevance <high|med
 ```
 
 - `<url|doi|arxiv>` — a landing URL, a bare DOI (`10.1038/…`), or an arXiv id (`2406.16192`).
-- `--category` ∈ `single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
+- `--category` ∈ `anomaly · single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
 - Knowledge-map placement: `--plans A|B|EHR`, `--track <A1…B7>`, `--recommended-by sikander`; add a short label to `maps/labels.yaml`.
 - Creates `papers/<slug>/` with `metadata.yaml`, `deep-read.md`, `ai-ready.md`, `citation.bib`.
 

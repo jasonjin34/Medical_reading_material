@@ -2,14 +2,22 @@
 
 Each view is its own graph. Groups start collapsed: click a group to open it, click a node to see its neighbours, double-click a paper to open its deep-read.
 
+## Method map
+
+Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what Plan A adds. [Open full screen ↗](maps/matrix.html?lang=en){target=_blank}
+
+<iframe src="../maps/matrix.html?lang=en&embed=1" style="width:100%;height:760px;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px" loading="lazy"></iframe>
+
+## Reading-list views
+
 | View | Papers | Concepts |
 | --- | --- | --- |
-| [Plan A — Kidney omics anomaly detection ↗](maps/viewer.html?view=plan-a&lang=en){target=_blank} — Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another. | 39 | 20 |
+| [Plan A — Kidney omics anomaly detection ↗](maps/viewer.html?view=plan-a&lang=en){target=_blank} — Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another. | 54 | 20 |
 | [Plan B — Trustworthy biomedical agents ↗](maps/viewer.html?view=plan-b&lang=en){target=_blank} — Trace every agent claim back through code and data; calibrate the verifier against experts. | 48 | 18 |
 | [Bridge — papers in both plans ↗](maps/viewer.html?view=bridge&lang=en){target=_blank} — Papers that Plan A and Plan B both depend on. | 6 | 17 |
 | [Sikander's picks ↗](maps/viewer.html?view=sikander&lang=en){target=_blank} — Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line. | 28 | 8 |
 | [EHR & patient trajectories ↗](maps/viewer.html?view=ehr&lang=en){target=_blank} — Papers for the Mount Sinai EHR project. | 5 | 0 |
-| [Overview — all papers ↗](maps/viewer.html?view=overview&lang=en){target=_blank} — Every paper, clustered by category. For orientation only; use the views above to read. | 99 | 0 |
+| [Overview — all papers ↗](maps/viewer.html?view=overview&lang=en){target=_blank} — Every paper, clustered by category. For orientation only; use the views above to read. | 114 | 0 |
 
 ## Pipelines
 
@@ -25,7 +33,7 @@ Damage scores · DKD spatial atlas · CellSpectra`"]
 ovrlpy · ResolVI · Xenium contamination (SPLIT)`"]
   s3["`**3. Model of healthy tissue** (7 papers)
 Pathology FM benchmark · Linear baselines win · Nephrobase Cell+`"]
-  s4["`**4. Anomaly / OOD score** (9 papers)
+  s4["`**4. Anomaly / OOD score (general methods adapted)** (24 papers)
 MEATRD · Reference-mapping QC · Sardine`"]
   s5["`**5. Cross-modal check** (5 papers)
 Kidney multiome (mBDRC) · Loki / OmiCLIP · H&E→expression benchmark`"]
@@ -38,7 +46,7 @@ NIH Kidney AI Challenge · Pathology AD benchmark · Clinical-grade histo AD`"]
   s5 --> s6
 ```
 
-Open in map: [1. In-house kidney data + open atlases](maps/viewer.html?view=plan-a&lang=en&focus=group:A1){target=_blank} · [2. QC & artifact removal](maps/viewer.html?view=plan-a&lang=en&focus=group:A2){target=_blank} · [3. Model of healthy tissue](maps/viewer.html?view=plan-a&lang=en&focus=group:A5){target=_blank} · [4. Anomaly / OOD score](maps/viewer.html?view=plan-a&lang=en&focus=group:A3){target=_blank} · [5. Cross-modal check](maps/viewer.html?view=plan-a&lang=en&focus=group:A4){target=_blank} · [6. Evaluation vs. experts](maps/viewer.html?view=plan-a&lang=en&focus=group:A6){target=_blank}
+Open in map: [1. In-house kidney data + open atlases](maps/viewer.html?view=plan-a&lang=en&focus=group:A1){target=_blank} · [2. QC & artifact removal](maps/viewer.html?view=plan-a&lang=en&focus=group:A2){target=_blank} · [3. Model of healthy tissue](maps/viewer.html?view=plan-a&lang=en&focus=group:A5){target=_blank} · [4. Anomaly / OOD score (general methods adapted)](maps/viewer.html?view=plan-a&lang=en&focus=group:A3){target=_blank} · [5. Cross-modal check](maps/viewer.html?view=plan-a&lang=en&focus=group:A4){target=_blank} · [6. Evaluation vs. experts](maps/viewer.html?view=plan-a&lang=en&focus=group:A6){target=_blank}
 
 ### Plan B — Trustworthy biomedical agents
 
@@ -88,7 +96,7 @@ DeepEvidence · LLM hypothesis generators`"]
 Open in map: [1. Foundations & data](maps/viewer.html?view=sikander&lang=en&focus=group:foundations){target=_blank} · [2. Detect](maps/viewer.html?view=sikander&lang=en&focus=group:detect){target=_blank} · [3. Model](maps/viewer.html?view=sikander&lang=en&focus=group:model){target=_blank} · [4. Revert](maps/viewer.html?view=sikander&lang=en&focus=group:revert){target=_blank} · [5. Agents & evidence](maps/viewer.html?view=sikander&lang=en&focus=group:agents){target=_blank}
 
 
-## Interactive map
+## Plan A — Kidney omics anomaly detection
 
 <iframe src="../maps/viewer.html?view=plan-a&lang=en&embed=1" style="width:100%;height:640px;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px" loading="lazy"></iframe>
 

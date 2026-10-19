@@ -27,7 +27,7 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/inflammatory-pt-natcommun-2025|Inflammatory PT cells]] — altered PT state
-- [[_maps/papers/lake-kidney-atlas-nature-2023|Kidney atlas (Lake 2023)]] — kidney atlas PT states
+- [[_maps/papers/lake-kidney-atlas-nature-2023|Kidney atlas (Lake 2023)]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/disease-cell-state|Injured / failed-repair states]]

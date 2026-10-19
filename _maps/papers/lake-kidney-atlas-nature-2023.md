@@ -36,7 +36,7 @@ tags:
 - [[_maps/papers/healthy-ref-natgenet-2023|Healthy-reference design]] — healthy atlas reference
 - [[_maps/papers/hest1k-2024|HEST-1k]] — cites
 - [[_maps/papers/inflammatory-pt-natcommun-2025|Inflammatory PT cells]] — cites
-- [[_maps/papers/kidney-epigenome-nataging-2026|Kidney epigenome atlas]] — kidney atlas PT states
+- [[_maps/papers/kidney-epigenome-nataging-2026|Kidney epigenome atlas]] — cites
 - [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]] — cites
 - [[_maps/papers/kidney-ssl-histology-scirep-2025|Kidney histology SSL]] — histology vs molecular atlas
 - [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]] — KPMP open data

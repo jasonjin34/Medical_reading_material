@@ -20,7 +20,7 @@ Damage scores · DKD spatial atlas · CellSpectra`"]
 ovrlpy · ResolVI · Xenium contamination (SPLIT)`"]
   s3["`**3. Model of healthy tissue** (7 papers)
 Pathology FM benchmark · Linear baselines win · Nephrobase Cell+`"]
-  s4["`**4. Anomaly / OOD score** (9 papers)
+  s4["`**4. Anomaly / OOD score (general methods adapted)** (24 papers)
 MEATRD · Reference-mapping QC · Sardine`"]
   s5["`**5. Cross-modal check** (5 papers)
 Kidney multiome (mBDRC) · Loki / OmiCLIP · H&E→expression benchmark`"]
@@ -34,6 +34,23 @@ NIH Kidney AI Challenge · Pathology AD benchmark · Clinical-grade histo AD`"]
 ```
 
 Flow canvas: [[_maps/Plan A — Kidney omics anomaly detection — flow.canvas|Plan A — Kidney omics anomaly detection — flow]]
+
+## General AD methods / 通用异常检测方法
+- [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] ★ — Generalized Out-of-Distribution Detection: A Survey
+- [[_maps/papers/conformal-outliers-annstat-2023|Conformal p-values]] ★ — Testing for Outliers with Conformal p-values
+- [[_maps/papers/patchcore-cvpr-2022|PatchCore]] ★ — Towards Total Recall in Industrial Anomaly Detection
+- [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] ★ — A Unifying Review of Deep and Shallow Anomaly Detection
+- [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] ★ — f-AnoGAN: Fast unsupervised anomaly detection with generative adversarial networks
+- [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] ★ — Deep One-Class Classification
+- [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]] ★ — A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks
+- [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows
+- [[_maps/papers/diffusion-medical-ad-miccai-2022|Diffusion AD (medical)]] — Diffusion Models for Medical Anomaly Detection
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection
+- [[_maps/papers/padim-icpr-2020|PaDiM]] — PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization
+- [[_maps/papers/energy-ood-neurips-2020|Energy OOD]] — Energy-based Out-of-distribution Detection
+- [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection
+- [[_maps/papers/anogan-ipmi-2017|AnoGAN]] — Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery
+- [[_maps/papers/msp-ood-iclr-2017|MSP baseline]] — A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks
 
 ## Atlases & disease states / 图谱与疾病状态
 - [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]] ★ — Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics

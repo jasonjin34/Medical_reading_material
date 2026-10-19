@@ -85,6 +85,7 @@ html, body { overflow-x: hidden; }
       <button id="must" type="button" aria-pressed="false">Must-read only</button>
       <select id="year" aria-label="Year"></select>
       <select id="type" aria-label="Type"></select>
+      <a href="matrix.html" id="mxlink" style="font-size:13px;color:var(--a)">Method map →</a>
       <button id="fit" type="button">Fit</button>
       <button id="lang" type="button">中文</button>
     </div>
@@ -107,7 +108,7 @@ html, body { overflow-x: hidden; }
           sik: "Sikander's pick", abs: "abstract only", hint: "Click a group to open it. Click a node to see its neighbours; double-click a paper to open its deep-read. Click empty space to reset.",
           lgPaperA: "Plan A paper", lgPaperB: "Plan B paper", lgEhr: "EHR", lgOther: "other", lgConcept: "concept",
           lgBridge: "in both plans (double border)", lgMust: "bold = must-read", mentions: "mentioned in", empty: "Nothing matches.",
-          allYears: "All years", since: "Since", allTypes: "All types", lgType: "cut corners = code / model · barrel = competition",
+          allYears: "All years", since: "Since", allTypes: "All types", lgType: "cut corners = code / model · barrel = competition", lgLineage: "arrow = method carried over",
           types: { paper: "Papers", dataset: "Datasets", model: "Models", code: "Code", competition: "Competitions" } },
     zh: { expand: "全部展开", collapse: "全部折叠", must: "只看必读", fit: "适应窗口", search: "搜索",
           other: "EN", papers: "篇", open: "打开精读 ↗", related: "相连", concepts: "概念",
@@ -115,7 +116,7 @@ html, body { overflow-x: hidden; }
           sik: "Sikander 推荐", abs: "仅摘要", hint: "点击组框展开；点击节点只看它的邻居；双击论文打开精读；点击空白处复原。",
           lgPaperA: "Plan A 论文", lgPaperB: "Plan B 论文", lgEhr: "电子病历", lgOther: "其他", lgConcept: "概念",
           lgBridge: "两个 plan 共用（双线边框）", lgMust: "粗体 = 必读", mentions: "出现于", empty: "没有匹配项。",
-          allYears: "全部年份", since: "起始年份", allTypes: "全部类型", lgType: "切角 = 代码 / 模型 · 桶形 = 竞赛",
+          allYears: "全部年份", since: "起始年份", allTypes: "全部类型", lgType: "切角 = 代码 / 模型 · 桶形 = 竞赛", lgLineage: "箭头 = 方法迁移",
           types: { paper: "论文", dataset: "数据集", model: "模型", code: "代码", competition: "竞赛" } }
   };
   const $ = id => document.getElementById(id);
@@ -193,7 +194,7 @@ html, body { overflow-x: hidden; }
                  position: { x: c.x, y: cy0 + c.slot * 46 }, classes: "concept" });
     }
     const agg = new Map();
-    const rank = { concept: 3, cites: 2, mentions: 1 };
+    const rank = { lineage: 4, concept: 3, cites: 2, mentions: 1 };
     for (const e of DATA.edges) {
       const a = rep(e.source), b = rep(e.target);
       if (!a || !b || a === b) continue;
@@ -246,6 +247,8 @@ html, body { overflow-x: hidden; }
           "text-background-padding": 2, label: "" } },
       { selector: "edge.mentions", style: { "line-color": c("--concept"), opacity: 0.6 } },
       { selector: "edge.concept", style: { opacity: 0.8 } },
+      { selector: "edge.lineage", style: { "line-color": c("--a"), "target-arrow-shape": "triangle", "target-arrow-color": c("--a"),
+          "arrow-scale": 1.1, opacity: 0.85 } },
       { selector: "edge.cites", style: { "line-style": "dotted", opacity: 0.7 } },
       { selector: ".faded", style: { opacity: 0.12 } },
       { selector: "edge.xcol", style: { opacity: 0.18 } },
@@ -355,7 +358,7 @@ html, body { overflow-x: hidden; }
     const sw = (fill, line) => `<i class="sw" style="background:${css(fill)};border-color:${css(line)}"></i>`;
     return `<div class="legend"><span>${sw("--a-fill", "--a")}${t.lgPaperA}</span><span>${sw("--b-fill", "--b")}${t.lgPaperB}</span>` +
            `<span>${sw("--ehr-fill", "--ehr")}${t.lgEhr}</span><span>${sw("--other-fill", "--other")}${t.lgOther}</span>` +
-           `<span>${sw("--concept-fill", "--concept")}${t.lgConcept}</span><br><span>${t.lgBridge}</span><span>${t.lgMust}</span><br><span>${t.lgType}</span></div>`;
+           `<span>${sw("--concept-fill", "--concept")}${t.lgConcept}</span><br><span>${t.lgLineage}</span><span>${t.lgBridge}</span><span>${t.lgMust}</span><br><span>${t.lgType}</span></div>`;
   }
   function showIntro() {
     const s = DATA.stats;
@@ -378,6 +381,7 @@ html, body { overflow-x: hidden; }
     const t = T[LANG];
     $("expand").textContent = t.expand; $("collapse").textContent = t.collapse; $("must").textContent = t.must;
     $("fit").textContent = t.fit; $("lang").textContent = t.other; $("q").placeholder = t.search;
+    $("mxlink").textContent = LANG === "zh" ? "方法图 →" : "Method map →"; $("mxlink").href = `matrix.html?lang=${LANG}`;
     const years = [...new Set(DATA.nodes.filter(n => n.kind === "paper" && n.year).map(n => n.year))].sort((a, b) => b - a);
     $("year").innerHTML = `<option value="0">${t.allYears}</option>` +
       years.slice(0, -1).map(y => `<option value="${y}"${y === minYear ? " selected" : ""}>${t.since} ${y}</option>`).join("");

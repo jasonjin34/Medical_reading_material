@@ -25,7 +25,12 @@ tags:
 > HeurekaBench(EPFL Brbić 组)是一个构造"AI co-scientist"基准的框架:用多 LLM 流水线从已发表论文及其代码仓库中抽取洞见、匹配并生成代码流程,再由人实际运行代码、确认能复现论文结果后才保留,最后转成开放题(OEQ)与选择题(MCQ);在单细胞领域实例化为 sc-HeurekaBench(41 条验证洞见、50 OEQ + 50 MCQ),用原子事实分解的 LLM 评审打分,并用它比较 Biomni、CellVoyager、BixBench-Agent 及 planner / critic / retriever 设计。
 
 ## Related papers / 相关论文
-- [[_maps/papers/cellvoyager-natmethods-2026|CellVoyager]] — single-cell agent evaluation
+- [[_maps/papers/biomni-biorxiv-2025|Biomni]] — cites
+- [[_maps/papers/bixbench-arxiv-2025|BixBench]] — cites
+- [[_maps/papers/cellvoyager-natmethods-2026|CellVoyager]] — cites
+- [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — cites
+- [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — cites
+- [[_maps/papers/robin-nature-2026|Robin]] — cites
 - [[_maps/papers/scbench-long-arxiv-2026|scBench-Long]] — claims reproduced before grading
 
 ## Concepts / 概念

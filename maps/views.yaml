@@ -15,6 +15,7 @@
 #   min_links: hide a concept that links fewer papers than this (default 1)
 #   flow: ordered pipeline steps → Mermaid flowchart (site + MOC) and an Obsidian flow canvas.
 #         Each step: id, label {en, zh}, columns: [track/column ids whose papers belong to the step]
+#   concepts_skip_tracks: [track, …]  papers in these tracks are not matched to concepts
 #   wrap: N  when every group is collapsed, lay the group boxes out in rows of N
 
 views:
@@ -24,14 +25,16 @@ views:
       en: "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another."
       zh: "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
     select: {plans: A}
+    concepts_skip_tracks: [A0]     # the general-AD classics link in via method arrows, not concepts
     flow:
       - {id: data, columns: [A1], label: {en: "In-house kidney data + open atlases", zh: "所内肾脏数据 + 公开图谱"}}
       - {id: qc, columns: [A2], label: {en: "QC & artifact removal", zh: "质控与去伪影"}}
       - {id: normal, columns: [A5], label: {en: "Model of healthy tissue", zh: "健康组织模型"}}
-      - {id: score, columns: [A3], label: {en: "Anomaly / OOD score", zh: "异常 / OOD 打分"}}
+      - {id: score, columns: [A3, A0], label: {en: "Anomaly / OOD score (general methods adapted)", zh: "异常 / OOD 打分（借用通用方法）"}}
       - {id: crossmodal, columns: [A4], label: {en: "Cross-modal check", zh: "跨模态验证"}}
       - {id: eval, columns: [A6], label: {en: "Evaluation vs. experts", zh: "对照专家评测"}}
     tracks:
+      A0: {en: "General AD methods", zh: "通用异常检测方法"}
       A1: {en: "Atlases & disease states", zh: "图谱与疾病状态"}
       A2: {en: "QC & artifacts", zh: "质控与伪影"}
       A3: {en: "Anomaly / OOD detection", zh: "异常 / OOD 检测"}

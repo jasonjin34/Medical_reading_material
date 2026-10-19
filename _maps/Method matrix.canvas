@@ -1,0 +1,441 @@
+{
+ "nodes": [
+  {
+   "id": "col-general",
+   "type": "text",
+   "text": "## General / industrial\n\u901a\u7528 / \u5de5\u4e1a\u56fe\u50cf",
+   "x": 320,
+   "y": 0,
+   "width": 300,
+   "height": 90,
+   "color": "5"
+  },
+  {
+   "id": "col-medimg",
+   "type": "text",
+   "text": "## Medical imaging\n\u533b\u5b66\u5f71\u50cf",
+   "x": 640,
+   "y": 0,
+   "width": 300,
+   "height": 90,
+   "color": "5"
+  },
+  {
+   "id": "col-histo",
+   "type": "text",
+   "text": "## Histopathology (H&E)\n\u75c5\u7406\u5207\u7247 (H&E)",
+   "x": 960,
+   "y": 0,
+   "width": 300,
+   "height": 90,
+   "color": "5"
+  },
+  {
+   "id": "col-sc",
+   "type": "text",
+   "text": "## Single-cell omics\n\u5355\u7ec6\u80de\u7ec4\u5b66",
+   "x": 1280,
+   "y": 0,
+   "width": 300,
+   "height": 90,
+   "color": "5"
+  },
+  {
+   "id": "col-spatial",
+   "type": "text",
+   "text": "## Spatial omics\n\u7a7a\u95f4\u7ec4\u5b66",
+   "x": 1600,
+   "y": 0,
+   "width": 300,
+   "height": 90,
+   "color": "5"
+  },
+  {
+   "id": "col-kidney",
+   "type": "text",
+   "text": "## Kidney (omics + histology)\n\u80be\u810f\uff08\u7ec4\u5b66 + \u75c5\u7406\uff09",
+   "x": 1920,
+   "y": 0,
+   "width": 300,
+   "height": 90,
+   "color": "5"
+  },
+  {
+   "id": "row-recon",
+   "type": "text",
+   "x": 0,
+   "y": 110,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Reconstruction / generative\n\u91cd\u5efa / \u751f\u6210\u5f0f\n\nLearn to regenerate normal data; a high reconstruction error is anomalous."
+  },
+  {
+   "id": "cell-recon-medimg",
+   "type": "text",
+   "text": "- [[_maps/papers/f-anogan-media-2019|f-AnoGAN]]\n- [[_maps/papers/anogan-ipmi-2017|AnoGAN]]\n- [[_maps/papers/diffusion-medical-ad-miccai-2022|Diffusion AD (medical)]]",
+   "x": 640,
+   "y": 110,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-recon-histo",
+   "type": "text",
+   "text": "- [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]]\n- [[_maps/papers/counterfactual-diffusion-cancerres-2026|Counterfactual diffusion]]",
+   "x": 960,
+   "y": 110,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-recon-spatial",
+   "type": "text",
+   "text": "- [[_maps/papers/meatrd-aaai-2025|MEATRD]]\n- [[_maps/papers/spatial-natcommun-2024|STANDS]]",
+   "x": 1600,
+   "y": 110,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "row-feature",
+   "type": "text",
+   "x": 0,
+   "y": 350,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Feature embedding + memory bank / kNN\n\u7279\u5f81\u5d4c\u5165 + \u8bb0\u5fc6\u5e93 / kNN\n\nEmbed with a pretrained network, store normal features, score by distance to the nearest normal ones."
+  },
+  {
+   "id": "cell-feature-general",
+   "type": "text",
+   "text": "- [[_maps/papers/patchcore-cvpr-2022|PatchCore]]\n- [[_maps/papers/padim-icpr-2020|PaDiM]]",
+   "x": 320,
+   "y": 350,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-feature-histo",
+   "type": "text",
+   "text": "- [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]]",
+   "x": 960,
+   "y": 350,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-feature-kidney",
+   "type": "text",
+   "text": "\n**Plan A:** Plan A baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space.",
+   "x": 1920,
+   "y": 350,
+   "width": 300,
+   "height": 220,
+   "color": "1"
+  },
+  {
+   "id": "row-density",
+   "type": "text",
+   "x": 0,
+   "y": 590,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Density / one-class\n\u5bc6\u5ea6\u4f30\u8ba1 / \u5355\u7c7b\n\nModel the density or a tight boundary of normal data (one-class SVM, Deep SVDD, normalizing flows)."
+  },
+  {
+   "id": "cell-density-general",
+   "type": "text",
+   "text": "- [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]]\n- [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]]",
+   "x": 320,
+   "y": 590,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-density-histo",
+   "type": "text",
+   "text": "- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]]",
+   "x": 960,
+   "y": 590,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-density-spatial",
+   "type": "text",
+   "text": "- [[_maps/papers/sardine-bioinformatics-2025|Sardine]]",
+   "x": 1600,
+   "y": 590,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-density-kidney",
+   "type": "text",
+   "text": "\n**Plan A:** Density of healthy kidney cell states per cell type.",
+   "x": 1920,
+   "y": 590,
+   "width": 300,
+   "height": 220,
+   "color": "1"
+  },
+  {
+   "id": "row-synthetic",
+   "type": "text",
+   "x": 0,
+   "y": 830,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Synthetic anomalies / outlier exposure\n\u5408\u6210\u5f02\u5e38 / \u5f02\u5e38\u66b4\u9732\n\nTrain a classifier against fake or auxiliary anomalies."
+  },
+  {
+   "id": "cell-synthetic-general",
+   "type": "text",
+   "text": "- [[_maps/papers/draem-iccv-2021|DRAEM]]",
+   "x": 320,
+   "y": 830,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-synthetic-histo",
+   "type": "text",
+   "text": "- [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]]",
+   "x": 960,
+   "y": 830,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "row-ood",
+   "type": "text",
+   "x": 0,
+   "y": 1070,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Classifier OOD & reference mapping\n\u5206\u7c7b\u5668 OOD \u4e0e\u53c2\u8003\u6620\u5c04\n\nUse a supervised model's confidence, logits or feature statistics to spot inputs unlike its training data."
+  },
+  {
+   "id": "cell-ood-general",
+   "type": "text",
+   "text": "- [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]]\n- [[_maps/papers/msp-ood-iclr-2017|MSP baseline]]\n- [[_maps/papers/energy-ood-neurips-2020|Energy OOD]]",
+   "x": 320,
+   "y": 1070,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-ood-sc",
+   "type": "text",
+   "text": "- [[_maps/papers/refmap-eval-biorxiv-2025|Reference-mapping QC]]\n- [[_maps/papers/scatac-novel-genomeres-2026|Novel types in scATAC]]",
+   "x": 1280,
+   "y": 1070,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-ood-kidney",
+   "type": "text",
+   "text": "- [[_maps/papers/dkd-spatial-atlas-nature-2026|DKD spatial atlas]]",
+   "x": 1920,
+   "y": 1070,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "row-conformal",
+   "type": "text",
+   "x": 0,
+   "y": 1310,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Conformal / calibrated\n\u4fdd\u5f62 / \u6821\u51c6\n\nTurn any score into a p-value with finite-sample error control."
+  },
+  {
+   "id": "cell-conformal-general",
+   "type": "text",
+   "text": "- [[_maps/papers/conformal-outliers-annstat-2023|Conformal p-values]]",
+   "x": 320,
+   "y": 1310,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-conformal-sc",
+   "type": "text",
+   "text": "- [[_maps/papers/conformal-scrna-bioinformatics-2025|Conformal annotation]]",
+   "x": 1280,
+   "y": 1310,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-conformal-kidney",
+   "type": "text",
+   "text": "\n**Plan A:** Calibrated per-cell anomaly p-values with FDR control.",
+   "x": 1920,
+   "y": 1310,
+   "width": 300,
+   "height": 220,
+   "color": "1"
+  },
+  {
+   "id": "row-reference",
+   "type": "text",
+   "x": 0,
+   "y": 1550,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Healthy-reference comparison & disease scores\n\u5065\u5eb7\u53c2\u8003\u5bf9\u6bd4\u4e0e\u75be\u75c5\u8bc4\u5206\n\nCompare samples or neighbourhoods with a healthy reference; score known disease programmes."
+  },
+  {
+   "id": "cell-reference-sc",
+   "type": "text",
+   "text": "- [[_maps/papers/healthy-ref-natgenet-2023|Healthy-reference design]]\n- [[_maps/papers/mrvi-natmethods-2025|MrVI]]",
+   "x": 1280,
+   "y": 1550,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-reference-kidney",
+   "type": "text",
+   "text": "- [[_maps/papers/cellspectra-natgenet-2025|CellSpectra]]\n- [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]]",
+   "x": 1920,
+   "y": 1550,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "row-crossmodal",
+   "type": "text",
+   "x": 0,
+   "y": 1790,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Cross-modal consistency\n\u8de8\u6a21\u6001\u4e00\u81f4\u6027\n\nPredict one modality from another; disagreement flags artefacts or biology."
+  },
+  {
+   "id": "cell-crossmodal-histo",
+   "type": "text",
+   "text": "- [[_maps/papers/he2expr-bench-natcommun-2025|H&E\u2192expression benchmark]]",
+   "x": 960,
+   "y": 1790,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-crossmodal-spatial",
+   "type": "text",
+   "text": "- [[_maps/papers/loki-omiclip-natmethods-2025|Loki / OmiCLIP]]",
+   "x": 1600,
+   "y": 1790,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-crossmodal-kidney",
+   "type": "text",
+   "text": "- [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]]\n\n**Plan A:** Core idea of Plan A: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.",
+   "x": 1920,
+   "y": 1790,
+   "width": 300,
+   "height": 220,
+   "color": "1"
+  },
+  {
+   "id": "row-artifact",
+   "type": "text",
+   "x": 0,
+   "y": 2030,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Technical artifacts (nuisance anomalies)\n\u6280\u672f\u4f2a\u5f71\uff08\u5e72\u6270\u6027\u5f02\u5e38\uff09\n\nAnomalies that are technical, not biological, and must be removed or modelled first."
+  },
+  {
+   "id": "cell-artifact-sc",
+   "type": "text",
+   "text": "- [[_maps/papers/ambient-rna-bench-biorxiv-2026|Ambient-RNA benchmark]]",
+   "x": 1280,
+   "y": 2030,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-artifact-spatial",
+   "type": "text",
+   "text": "- [[_maps/papers/xenium-split-natmethods-2026|Xenium contamination (SPLIT)]]\n- [[_maps/papers/ovrlpy-natbiotech-2026|ovrlpy]]\n- [[_maps/papers/resolvi-natmethods-2026|ResolVI]]",
+   "x": 1600,
+   "y": 2030,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-artifact-kidney",
+   "type": "text",
+   "text": "\n**Plan A:** Artifact audit of the 95-biopsy Xenium + snRNA data.",
+   "x": 1920,
+   "y": 2030,
+   "width": 300,
+   "height": 220,
+   "color": "1"
+  },
+  {
+   "id": "row-bench",
+   "type": "text",
+   "x": 0,
+   "y": 2270,
+   "width": 300,
+   "height": 220,
+   "color": "4",
+   "text": "## Benchmarks, datasets & surveys\n\u57fa\u51c6\u3001\u6570\u636e\u96c6\u4e0e\u7efc\u8ff0\n\nWhere methods are compared."
+  },
+  {
+   "id": "cell-bench-general",
+   "type": "text",
+   "text": "- [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]]\n- [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]]\n- [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]]",
+   "x": 320,
+   "y": 2270,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-bench-medimg",
+   "type": "text",
+   "text": "- [[_maps/papers/medianomaly-media-2025|MedIAnomaly]]",
+   "x": 640,
+   "y": 2270,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-bench-histo",
+   "type": "text",
+   "text": "- [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]]",
+   "x": 960,
+   "y": 2270,
+   "width": 300,
+   "height": 220
+  },
+  {
+   "id": "cell-bench-kidney",
+   "type": "text",
+   "text": "- [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]]\n\n**Plan A:** KidneyAnomalyBench: expert-validated anomalies.",
+   "x": 1920,
+   "y": 2270,
+   "width": 300,
+   "height": 220,
+   "color": "1"
+  }
+ ],
+ "edges": []
+}

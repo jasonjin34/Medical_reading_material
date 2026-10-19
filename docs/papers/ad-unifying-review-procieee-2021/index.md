@@ -1,0 +1,74 @@
+# A Unifying Review of Deep and Shallow Anomaly Detection
+
+> **Bibkey** `Ruff2020_200911732` · **Venue** Proceedings of the IEEE (2021) · **Category** anomaly · **Relevance** high · **Access** open
+> **Link** <https://doi.org/10.1109/JPROC.2021.3052449> · `status: complete`
+
+---
+
+## One-liner
+This review (TU Berlin / Kloft / Dietterich / Müller groups) unifies anomaly detection under a **probabilistic definition** (an anomaly is a point in a low-density region of the normal law P⁺; the problem is density level-set estimation) and a **five-dimension modelling framework** (loss, model, feature map, regularisation, inference mode), pairing classic "shallow" and deep methods across three families — **probabilistic/density, one-class classification, reconstruction**. A common benchmark on MNIST-C and MVTec-AD plus XAI explanations shows there is no silver bullet — and that a high AUC can be a **Clever Hans** effect driven by spurious correlations.
+
+## Problem
+Deep learning has sharply improved AD on complex data such as images and text, spawning many methods built on generative models, one-class classification and reconstruction. But their implicit assumptions (which anomaly types, what prior on the anomaly distribution, whether training data are clean) are rarely stated, their links to each other and to classic kernel methods are unclear, and evaluation habits (declaring some classes of a classification dataset anomalous) are questionable. The authors provide a unified formal definition, a framework for systematic comparison, an explained empirical assessment with practical advice, and a list of open challenges.
+
+## Method
+**(1) Definition**: the concept of normality is the ground-truth law P⁺ (density p⁺); the anomaly set is A = {x | p⁺(x) ≤ τ}. Central is the **concentration assumption** (normal data concentrate in high-density regions, anomalies do not), so AD ≈ estimating a density level set at level α; anomaly scores give a continuous ranking and the threshold sets the false-alarm rate. **Anomaly types**: point, conditional/contextual (conditional law p⁺(x|t) over time, space or graph), group/collective (each point normal, the joint anomalous), plus the authors' **low-level sensory vs high-level semantic** distinction (a texture cut vs "a dog among cats"). **Data settings**: unsupervised (training data assumed "clean", but in reality a **contaminated** mixture P = (1−η)P⁺ + ηP⁻ plus noise ε), semi-supervised (few labelled normals/anomalies) and supervised; KDE and OC-SVM implicitly assume a uniform anomaly distribution P⁻. **(2) Three families**: **probabilistic** (Gaussian/Mahalanobis, GMM, KDE, energy-based models, VAE/GAN, normalizing flows) — citing Vapnik's principle, full density estimation "solves a more general problem than needed"; **one-class classification** (OC-SVM, SVDD, Deep SVDD…, estimating just one level-set boundary; negative examples graded by informativeness into artificial, auxiliary (e.g. Outlier Exposure) and true anomalies); **reconstruction** (PCA/kernel PCA, autoencoders, prototype clustering such as k-means/VQ). Plus objective-free **distance-based** methods (kNN, LOF, Isolation Forest). **(3) Unifying view**: five modelling dimensions — D1 loss ℓ(s,y), D2 model f_θ(x), D3 feature map φ(x) (raw input / kernel / neural network), D4 regularisation R(f,φ,θ), D5 inference mode (frequentist or Bayesian); a general objective min (1/n)Σℓ(f_θ(xᵢ),yᵢ) + R(f,φ,θ), with Table II slotting dozens of methods into it. **(4) Evaluation and explanation**: benchmark construction and the pros/cons of AUC/AP; a common comparison of nine models (Gaussian, MVE, PCA, KDE, SVDD, kPCA, AGAN, DOCC, AE) on MNIST-C (15 corruptions) and MVTec-AD (15 industrial defect classes); explanations via LRP / "neuralization". **(5) Two worked examples**: Thyroid (OC-SVM) and MVTec 'wood' (KDE's Clever Hans).
+
+## Method lineage
+As a review it spans the three main trunks of the seven paradigms: **reconstruction/generative**, **density/one-class** (with **synthetic/auxiliary anomalies** such as Outlier Exposure as one-class negatives); and its "bridging robustness research" section explicitly treats **classifier-based OOD detection**, calibration, rejection and uncertainty estimation as the same problem (OOD detection is formally "does x lie outside P⁺'s high-density regions"). It does not cover conformal methods or cross-modal consistency. Its role is **the lineage map itself**: Table II shows kernel SVDD and Deep SVDD share the hypersphere model, so semi-supervised and multi-sphere extensions transfer between shallow and deep; deep autoencoders measure reconstruction error in input space whereas kernel PCA does so in feature space — suggesting "reconstruction error in a neural feature space" (later feature-reconstruction methods). AnoGAN is filed as a reconstruction method using the generator as a stochastic decoder and latent search as implicit encoding, with f-AnoGAN and others adding an explicit encoder. The same group later carried the framework to pathology: histo-nejmai-2024 (Ruff, Müller et al.) benchmarks foundation-model features + kNN, one-class fine-tuning and Outlier Exposure.
+
+## Data
+The review's own experiments: **MNIST-C** (train on the standard MNIST training set, test each of 15 corruptions separately; AUC separating corrupted from clean test sets), **MVTec-AD** (15 classes, one model per class) and **Thyroid** (ODDS library; n=3,772, D=6 real-valued features, 93 anomalies ≈2.5%, 60:10:30 split preserving the anomaly ratio). Training details are in Appendix B — e.g. DOCC whitens representations after the first fully connected layer of a pre-trained VGG16 (MVTec-AD) or an EMNIST-letters CNN classifier (MNIST-C); AGAN reuses the AE encoder/decoder as discriminator/generator. Appendix D lists open-source software, tutorials and demos.
+
+## Key results
+**(1) Heterogeneity**: methods vary enormously across corruptions and defect classes. AGAN does generally well on MNIST-C but is systematically outperformed by DOCC on MVTec-AD; more powerful non-linear models are not better on every class, and simple shallow models occasionally win. Extremes in MVTec-AD Table V: 'screw' — SVDD only **8.6**, AGAN **99.6**, DOCC 86.9; 'carpet' — DOCC 90.6, KDE 34.8; 'wood' — KDE **94.7** (best of the nine). **(2) Clever Hans**: LRP explanations of KDE on 'wood' put relevance on the **vertical wood grain**, not the true defect (a liquid stain) — the high AUC stems from a spurious test-set correlation between stripes and anomalies. Replacing the Gaussian kernel with a **Mahalanobis kernel** (effectively a horizontal blur) raises the mean cosine similarity between explanation and ground truth from **0.34 to 0.38** while AUC **drops to 87%**, which the authors consider the more realistic generalisation estimate. Remedies: data extension (add cases that break the spurious correlation), model extension (more flexible models or added structure/regularisation), ensembles. **(3) Thyroid example**: set ν=0.15 from the risk analysis (favouring near-zero misses and robustness to ≈2.5% training contamination); without feature scaling the best validation AUC is only **83.9%**; after **robust scaling** by median and interquartile range (training statistics only), validation AUC is **98.6%**, test AUC **99.2%**, false-alarm rate **14.8%** (close to the preset ν) and miss rate **0**. **(4) Comparative conclusions**: probabilistic and reconstruction methods give continuous rankings, including of inliers; one-class methods usually do not rank inliers but are **more sample-efficient and more robust to non-representative sampling of the normal data**. **(5) Open challenges**: unexplored combinations of modelling dimensions; bridging OOD detection, calibration, uncertainty and adversarial robustness with AD; interpretability and trustworthiness; **the need for challenging, open datasets** (MVTec-AD and the Medical Out-of-Distribution Analysis Challenge are named as good examples, while mainstream benchmarks that repurpose classification datasets are criticised for showcasing new methods' upsides and ignoring failure modes); weak and self-supervision; theory.
+
+## Contributions
+- A probabilistic formal definition of AD that separates anomaly / outlier / novelty and makes often-implicit assumptions explicit: concentration, contamination rate η, and the anomaly prior P⁻.
+- A five-dimension unifying framework (loss, model, feature map, regularisation, inference) with Table II placing shallow and deep methods side by side, and transferable improvements derived from it.
+- Adds the "low-level sensory vs high-level semantic" anomaly type, explaining why deep features are not always better.
+- Brings XAI (LRP / neuralization) into AD evaluation, using a Clever Hans example to show "high AUC ≠ correct decision basis".
+- Worked examples with practical advice (risk assessment → setting ν → robust scaling → explanation → correction).
+
+## Limitations
+- The authors acknowledge including many of their own works (Deep SVDD, Deep SAD…), so the perspective may lean towards one-class and kernel methods.
+- Written in 2020: does not cover the later dominant **pre-trained features + memory bank** (PaDiM, PatchCore), CFLOW, DRAEM-style synthetic anomalies, diffusion-based AD or conformal calibration.
+- The common benchmark is limited (nine models, MNIST-C and MVTec-AD) with no biomedical omics data; medicine appears only as motivation and the small Thyroid example.
+- The framework focuses on loss-based methods; distance-based methods are only briefly grouped.
+
+## Relation to our direction
+This is Plan A's **theoretical backbone**: nearly every question Plan A must answer has a formal name here. **Translating the definitions to kidney omics**: samples = snRNA/snATAC cells, Xenium cells, Visium spots or H&E patches; P⁺ = the normal law represented by KPMP/HuBMAP healthy references; feature map φ = raw counts, scVI latents or H&E foundation-model embeddings (dimension D3); model family = density (Mahalanobis/flow), one-class (Deep SVDD) or reconstruction (AE/f-AnoGAN/diffusion). **Which assumptions break, and the review's term for each**: (1) **contamination** P = (1−η)P⁺ + ηP⁻: "healthy" references contain doublets, ambient-dominated cells and Xenium segmentation/spillover errors (see xenium-split, ovrlpy); the review's Thyroid example shows the remedies — encode a contamination prior through ν and use robust median/IQR scaling. (2) **non-representative sampling**: healthy donors differ from patients in age, sex and centre; the review notes one-class methods are more robust to this, a theoretical reason to prefer Deep-SVDD-type scoring. (3) **contextual anomalies**: the same profile is normal in cortex and anomalous in medulla — model p⁺(x | spatial location / cell type), exactly the conditional law spatial-omics AD needs; Sardine's spatially localised density comparison is one implementation of such conditioning. (4) **group anomalies**: every cell is normal but a region's composition is not (e.g. an immune-infiltrated niche) — requires niche/region-level samples rather than cells. (5) **low- vs high-level anomalies**: staining differences and tissue folds are low-level sensory anomalies, glomerulosclerosis is a high-level semantic one; each feature map leans towards one, which is precisely why Plan A needs multiple modalities. (6) **Clever Hans**: Plan A's most dangerous failure mode — if patient and healthy samples come from different centres or batches, any detector can reach high AUC on batch signatures; the review's prescription (check decision evidence with explanations, add samples that break the spurious correlation, report the corrected lower AUC) belongs in the KidneyAnomalyBench protocol. **Cross-modal agreement** generalises "does the explanation match the true defect" into "do the two modalities' anomaly maps agree": co-occurring H&E and expression anomalies indicate disease, single-modality anomalies suggest artifacts. **Relation to Plan B**: the review's argument that OOD detection, calibration, rejection and uncertainty are one problem is the conceptual basis for Plan B's calibrated verifier and rerun stability; "high AUC may be Clever Hans" maps directly onto the failure type "agent conclusion right, evidence wrong". **Related work already in the repo**: the same group's histo-nejmai-2024 carries one-class and Outlier Exposure into clinical pathology; MedIAnomaly and pathology-ad-bench-mlhealth-2025 build the multi-paradigm common benchmarks the review calls for on medical imaging and pathology, and likewise find highly heterogeneous performance across families; MEATRD on spatial transcriptomics combines reconstruction (D2) with Deep-SVDD-style one-class scoring — an instance of the review's "unexplored combinations of modelling dimensions".
+
+## Reusable assets
+- **Framework:** Table II (the five-dimension table) can directly organise Plan A's method selection and the thesis related-work chapter.
+- **Eval protocol:** the MNIST-C / MVTec-AD common comparison (three families × three feature maps) with AUC plus AP (Appendix A); the Clever Hans workflow (explain → compare with true defect → correct → report corrected metrics).
+- **Practical checklist:** assess asymmetric false-alarm vs miss risks first, encode contamination priors via ν, and do robust feature scaling with training-set statistics only.
+- **Software:** the open-source implementations, tutorials and demos collected in Appendix D.
+
+## Follow-ups
+- Deep SVDD (deep-svdd-icml-2018 in this repo) and Deep SAD (the semi-supervised extension).
+- Outlier Exposure (Hendrycks et al.) and this round's OOD series (msp-ood-iclr-2017, mahalanobis-ood-neurips-2018, energy-ood-neurips-2020, generalized-ood-survey-ijcv-2024).
+- Post-review industrial paradigms: padim-icpr-2020, patchcore-cvpr-2022, draem-iccv-2021, cflow-ad-wacv-2022; plus the original mvtec-ad-cvpr-2019 dataset paper.
+- The Medical Out-of-Distribution Analysis Challenge (the open medical benchmark the review names).
+
+## Cite
+```bibtex
+@article{Ruff2020_200911732,
+  title = {A Unifying Review of Deep and Shallow Anomaly Detection},
+  author = {Ruff, Lukas and Kauffmann, Jacob R. and Vandermeulen, Robert A. and Montavon, Gr{\'e}goire and Samek, Wojciech and Kloft, Marius and Dietterich, Thomas G. and M{\"u}ller, Klaus-Robert},
+  journal = {Proceedings of the IEEE},
+  volume = {109},
+  number = {5},
+  pages = {756--795},
+  year = {2021},
+  doi = {10.1109/JPROC.2021.3052449},
+  eprint = {2009.11732},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2009.11732}
+}
+```
+
+
+---
+
+📄 **[AI-ready full-text extract →](ai-ready.md)**

@@ -50,7 +50,7 @@ python scripts/build_site.py             # regenerate docs/ + mkdocs.yml nav
 git add -A && git commit -m "add <slug>: <title>" && git push
 ```
 
-`--category` ∈ `single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
+`--category` ∈ `anomaly · single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
 
 Pushing to `main` triggers `.github/workflows/pages.yml`, which runs
 `mkdocs build --strict` and deploys to **https://jasonjin34.github.io/Medical_reading_material/**.
@@ -79,7 +79,9 @@ Pushing to `main` triggers `.github/workflows/pages.yml`, which runs
   `track` (its column, e.g. `A3`; a list when it sits in both plans) and
   `recommended_by`. Views, columns, core concepts and their match patterns live in
   `maps/views.yaml` (also each plan's `flow:` pipeline steps → Mermaid + flow canvas);
-  short node labels in `maps/labels.yaml`; the viewer is
+  short node labels in `maps/labels.yaml`; the method × data matrix (AD paradigm × domain cells,
+  Plan A gaps, method-lineage `transfers` backed by the receiving paper's text) in `maps/matrix.yaml` —
+  place every new anomaly-related paper in a cell there; the viewer is
   `maps/viewer.html`. Pass `--plans/--track/--recommended-by` to `add_paper.py`
   and add a label. Open the repo root as an Obsidian vault; `_maps/` is generated —
   keep personal notes outside it. Plan: `plans/knowledge-map-plan.md`.

@@ -31,6 +31,7 @@ tags:
 - [[_maps/papers/bixbench-arxiv-2025|BixBench]] — cites
 - [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — cites
 - [[_maps/papers/scbench-arxiv-2026|scBench]] — omics-analysis agent benchmarks
+- [[_maps/papers/scbench-long-arxiv-2026|scBench-Long]] — cites
 - [[_maps/papers/spatialagent-biorxiv-2025|SpatialAgent]] — cites
 
 ## Concepts / 概念

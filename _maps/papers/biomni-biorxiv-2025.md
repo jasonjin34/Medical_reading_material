@@ -29,6 +29,7 @@ tags:
 - [[_maps/papers/biomnibench-biorxiv-2026|BiomniBench]] — cites
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — cites
 - [[_maps/papers/fev-bioinformatics-agents-arxiv-2026|FEV review]] — bio agent review
+- [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — cites
 - [[_maps/papers/spatialagent-biorxiv-2025|SpatialAgent]] — same lab lineage
 - [[_maps/papers/virtual-lab-nature-2025|Virtual Lab]] — multi-agent biomedical systems

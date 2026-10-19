@@ -2468,8 +2468,74 @@
    "label": "cites"
   },
   {
+   "source": "heurekabench-arxiv-2026",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "heurekabench-arxiv-2026",
+   "target": "biomni-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "heurekabench-arxiv-2026",
+   "target": "robin-nature-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "heurekabench-arxiv-2026",
+   "target": "bixbench-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "heurekabench-arxiv-2026",
+   "target": "co-scientist-nature-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "heurekabench-arxiv-2026",
+   "target": "lab-bench-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "inflammatory-pt-natcommun-2025",
    "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "scbench-long-arxiv-2026",
+   "target": "biomnibench-biorxiv-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "scbench-long-arxiv-2026",
+   "target": "bixbench-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "scbench-long-arxiv-2026",
+   "target": "lab-bench-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "truthhypo-ijcai-2025",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "truthhypo-ijcai-2025",
+   "target": "hypogen-llm-colm-2024",
    "kind": "cites",
    "label": "cites"
   },
@@ -2631,12 +2697,6 @@
   },
   {
    "source": "truthhypo-ijcai-2025",
-   "target": "hypogen-llm-colm-2024",
-   "kind": "concept",
-   "label": "biomedical hypothesis generation"
-  },
-  {
-   "source": "truthhypo-ijcai-2025",
    "target": "deepevidence-natmachintell-2026",
    "kind": "concept",
    "label": "KG + literature grounding"
@@ -2750,12 +2810,6 @@
    "label": "same lab lineage"
   },
   {
-   "source": "cellvoyager-natmethods-2026",
-   "target": "heurekabench-arxiv-2026",
-   "kind": "concept",
-   "label": "single-cell agent evaluation"
-  },
-  {
    "source": "scbench-arxiv-2026",
    "target": "scbench-long-arxiv-2026",
    "kind": "concept",
@@ -2831,6 +2885,6 @@
  "stats": {
   "papers": 48,
   "concepts": 18,
-  "edges": 165
+  "edges": 174
  }
 }

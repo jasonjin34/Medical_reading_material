@@ -14,6 +14,21 @@ See the **[Literature review](literature-review.md)** and **[Paper relationships
 
 | Paper | Category | Relevance | Access |
 |---|---|---|---|
+| [A Unifying Review of Deep and Shallow Anomaly Detection](papers/ad-unifying-review-procieee-2021/index.md) ★ | General anomaly detection | high | open |
+| [Testing for Outliers with Conformal p-values](papers/conformal-outliers-annstat-2023/index.md) ★ | General anomaly detection | high | open |
+| [Deep One-Class Classification](papers/deep-svdd-icml-2018/index.md) ★ | General anomaly detection | high | open |
+| [f-AnoGAN: Fast unsupervised anomaly detection with generative adversarial networks](papers/f-anogan-media-2019/index.md) ★ | General anomaly detection | high | open |
+| [Generalized Out-of-Distribution Detection: A Survey](papers/generalized-ood-survey-ijcv-2024/index.md) ★ | General anomaly detection | high | open |
+| [A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks](papers/mahalanobis-ood-neurips-2018/index.md) ★ | General anomaly detection | high | open |
+| [Towards Total Recall in Industrial Anomaly Detection](papers/patchcore-cvpr-2022/index.md) ★ | General anomaly detection | high | open |
+| [Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery](papers/anogan-ipmi-2017/index.md) | General anomaly detection | medium | open |
+| [CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows](papers/cflow-ad-wacv-2022/index.md) | General anomaly detection | medium | open |
+| [Diffusion Models for Medical Anomaly Detection](papers/diffusion-medical-ad-miccai-2022/index.md) | General anomaly detection | medium | open |
+| [DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection](papers/draem-iccv-2021/index.md) | General anomaly detection | medium | open |
+| [Energy-based Out-of-distribution Detection](papers/energy-ood-neurips-2020/index.md) | General anomaly detection | medium | open |
+| [A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks](papers/msp-ood-iclr-2017/index.md) | General anomaly detection | medium | open |
+| [MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection](papers/mvtec-ad-cvpr-2019/index.md) | General anomaly detection | medium | open |
+| [PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization](papers/padim-icpr-2020/index.md) | General anomaly detection | medium | open |
 | [Analysis of individual patient pathway coordination in a cross-species single-cell kidney atlas](papers/cellspectra-natgenet-2025/index.md) ★ | Single-cell | high | open |
 | [Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics](papers/damage-scores-cellgenomics-2026/index.md) ★ | Single-cell | high | open |
 | [Precise identification of cell states altered in disease using healthy single-cell references](papers/healthy-ref-natgenet-2023/index.md) ★ | Single-cell | high | open |

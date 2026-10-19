@@ -1,0 +1,68 @@
+# Testing for Outliers with Conformal p-values
+
+> **文献键** `Bates2021_210408279` · **来源** The Annals of Statistics(2023) · **类别** anomaly · **相关度** high · **获取** open
+> **链接** <https://doi.org/10.1214/22-AOS2244> · `status: complete`
+
+---
+
+## 一句话
+把**任意**一类分类器 / 异常打分器的输出,经 split-conformal 校准变成每个测试点的 p 值,并从**多重检验**角度研究它们:证明经典(边际)conformal p 值虽然彼此相关,但满足 PRDS,因此 Benjamini–Hochberg(含 Storey 修正)仍精确控制 FDR,而 Fisher 合并检验会失效;再提出**校准条件有效(calibration-conditional valid, CCV)**的 p 值——以概率 1−δ 对「这一份」校准集有效,且彼此独立——并顺带给出任意异常检测算法 FPR 的同时置信上界。
+
+## 研究问题
+给定 2n 个来自未知分布 P_X 的干净(无离群)样本,要判断 n_test 个新的独立样本中哪些是离群(不来自 P_X)。机器学习的一类分类器能打分,但没有零分布、没有阈值、没有统计保证。conformal 推断能把分数变成 p 值,但:(1) 测试点很多时需要控制 **FDR**(报为离群的样本中真内点的期望比例)——而经典 conformal p 值只在**对校准集边际化**时有效,不同测试点的 p 值因共享校准集而相关,FDR 方法通常要求独立或特定依赖结构;(2) 对一个只有**一份**昂贵校准集的实践者,「平均来说有效」并不令人满意——不走运的校准集可能让推断系统性失效;(3) 批量层面的「这一批是否含离群」全局检验也需要独立 p 值。
+
+## 方法
+**设定**:把干净数据分成 D_train(训练打分器 ŝ,小分数 = 更像离群)与 D_cal(n 个校准点);边际 conformal p 值 û_marg(x) = (1 + #{i ∈ D_cal : ŝ(X_i) ≤ ŝ(x)}) / (n+1),对内点满足 P[û ≤ t] ≤ t。**负面结果**:Lemma 1——任意两个内点测试 p 值经任意变换后的相关系数恰为 1/(n+2);Theorem 1——当 m = γn 个测试点时,Fisher 合并检验的边际 I 类错误趋于 Φ̄(z_{1−α}/√(1+γ)),α=5%、γ=3 时达 20.5%,γ→∞ 时趋近 50%;条件 I 类错误的 90 分位在 γ=3 时为 71.7%。给出修正后的有效临界值(式 6)。**正面结果**:Theorem 2——边际 conformal p 值在内点集合上 **PRDS**,于是 BH 在水平 α 下控制 FDR ≤ π₀α(Corollary 1);Theorem 3——加 Storey 修正(λ = K/(n+1))的 BH 也控制 FDR ≤ α(新的 FDR 界)。**CCV p 值**:Theorem 4——若 b₁ ≤ … ≤ b_n 满足 P[U_(1) ≤ b₁, …, U_(n) ≤ b_n] ≥ 1−δ(U 为均匀次序统计量),用分段常数函数 h 调整 û_ccv = h(û_marg),则 P[ P[û_ccv ≤ t | D] ≤ t 对所有 t ] ≥ 1−δ。b 序列有三种构造:**广义 Simes 不等式**(取 k = n/2)、**渐近**(基于经验过程)、**Monte Carlo**(模拟均匀次序统计量,有限样本有效,通常最强)。也比较了 DKWM 不等式(更松)。CCV p 值在给定校准集下彼此独立,可直接用于任何假设独立的多重检验。**扩展**:同一界给出所有阈值 t 上**同时成立**的 FPR 上置信界(Proposition 3),以及对所有 α 同时有效的预测集。
+
+## 方法谱系
+**范式:conformal / 校准(conformal / calibrated)**。它不提出新的异常分数,而是**包裹任意分数**(one-class SVM、isolation forest、LOF,或任何深度 AD/OOD 分数)。建立在 split-conformal 推断(Vovk 等)、此前把 conformal 用于离群检测的工作、BH/Benjamini–Yekutieli 的 PRDS 理论、Storey 修正,以及 Wilks/Tukey 的容忍区间之上;与 Vovk(2012)关于归纳 conformal 预测器条件有效性(calibration-conditional 覆盖)的工作最接近,区别是本文的界对**所有水平同时**成立。**后续**:在本仓库中,`conformal-scrna-bioinformatics-2025` 把它用到单细胞注释——自编码器重构误差作非一致性分数,conformal p 值检测参照中不存在的细胞类型,并可选用本文的 calibration-conditional p 值。综述(`generalized-ood-survey-ijcv-2024`)把 conformal 与 OOD 的交叉列为新兴方向。
+
+## 数据
+**模拟**:R⁵⁰ 中的高斯混合 X = √a·V + W(a=1 为内点,a>1 为离群),每个实践者 n_train = 1000、n_cal = 1000,J = 100 个独立数据集 × L = 100 个测试集;打分器为 one-class SVM。**真实基准**(isolation forest,contamination=0.1;附录另有 one-class SVM 与 LOF):ALOI(d=27,283,301 内点 / 1,508 离群)、Cover(10;286,048 / 2,747)、Credit card(30;284,315 / 492)、KDDCup99(40;47,913 / 200)、Mammography(6;10,923 / 260)、Digits(16;6,714 / 156)、Shuttle(9;45,586 / 3,511)。
+
+## 主要结果
+- **理论**:Fisher 合并检验配边际 conformal p 值在 α=5%、γ=3 时边际 I 类错误 20.5%;BH 与 Storey-BH 在边际意义下精确控制 FDR;CCV p 值以 1−δ 概率对给定校准集有效。
+- **模拟**(BH,名义 FDR 0.1,δ=0.1):CCV p 值让至少 90% 的「实践者」控制住条件 FDR,边际 p 值做不到(除非校准集很大);Monte Carlo 与 Simes 调整的功效略高于渐近调整;所有方法都控制边际 FDR。批量检测(每批 10 个点,Fisher 合并 + Storey-BH)结论相同。
+- **真实数据**(名义 FDR 0.2,isolation forest + Storey-BH,条件 FDR 的 90 分位,边际 vs 条件):Credit card 0.228 vs 0.202,KDDCup99 0.23 vs 0.168,Mammography 0.286 vs 0.17,Digits 0.266 vs 0.173,Shuttle 0.228 vs 0.198,Cover 0.297 vs 0.148——边际校准的 90 分位都超过名义水平;代价是功效下降,如 Digits 平均功效 0.417 → 0.096、Mammography 0.176 → 0.059,而 Shuttle 几乎无损(0.981 vs 0.98)。ALOI 上 isolation forest 几乎没有功效(0)。
+
+## 创新点
+(1) 首次系统研究 conformal 离群 p 值在多重检验下的性质:相关结构(1/(n+2))、Fisher 失效、PRDS ⇒ BH 有效、Storey-BH 有效;(2) 提出对**所有水平同时**成立、以高概率对给定校准集有效且相互独立的 CCV p 值(Simes / 渐近 / Monte Carlo 三种调整);(3) 用集中不等式而非组合论证得到有限样本保证;(4) 任意黑箱异常检测器的 FPR 同时置信带;(5) 开源 Python 包。
+
+## 局限
+要求校准点与测试内点**可交换且相互独立**(高概率界还需要 i.i.d.),这是整个保证的前提;只研究 split-conformal(样本拆分损失数据效率),jackknife+ 或 bootstrap 留作未来;CCV 的更强保证以功效损失为代价(Digits、Mammography 上很明显);功效完全取决于底层打分器(ALOI 上为零)——conformal 只保证有效性,不提升检出能力;对有结构的离群(相互依赖)只做了讨论。
+
+## 与本研究方向的关系
+**这是把 Plan A 的任何异常分数变成「带错误率保证的发现清单」的统计层**。映射:内点 = 健康参照(KPMP、Lake 图谱、HuBMAP 正常肾,或院内 95 例活检中的正常对照)中的细胞/spot/H&E patch;D_train 训练任意打分器(STANDS / MEATRD 的重构误差、Mahalanobis 距离、energy、mapQC 距离),D_cal 计算校准分数;对疾病活检中的每个细胞算 conformal p 值,再用 BH 在成千上万细胞上**控制 FDR**——输出「哪些细胞异常」的清单,FDR 有明确含义,可直接作为 KidneyAnomalyBench 的统计终点。**批量检测**对应「这份活检 / 这个 niche 是否含任何异常细胞」:本文表明对边际 p 值直接用 Fisher 合并是**无效的**,需要 CCV p 值或修正临界值——这一点对样本级结论非常关键。**CCV 保证**对应现实:院内只有一份校准集(一个健康参照),本文给的正是「对这一份参照」的保证。**哪些假设会断**:(1) **可交换性**——校准细胞来自健康 donor,测试细胞来自新 donor/新批次/新平台,批次效应本身就违反可交换性,p 值会变得反保守,**批次效应会被报成发现**;(2) **独立性**——同一 donor 的细胞、空间上相邻的 spot 都相关,而 CCV 的界需要 i.i.d.;按 donor 或 niche 汇总后再检验可能更合适;(3) 疾病活检里的「健康」细胞并不严格来自 P_X;(4) 细胞类型组成不同 → 需要按细胞类型分层校准(Mondrian);(5) **连续疾病状态**下大量细胞都轻度偏移,「离群 = 不来自 P_X」的定义与生物学上「有意义的异常」并不一致;(6) doublet、环境 RNA、分割错误同样「不来自 P_X」——conformal 会**正确地**把它们报出来,所以它不能分辨 artifact 与疾病,这一步仍要靠 Plan A 的跨模态一致性。**仓库中的直接应用**:`conformal-scrna-bioinformatics-2025` 用自编码器 + conformal p 值检测参照外细胞类型,控制 FPR ≤ α₀,并明确提到可用本文的 calibration-conditional p 值(以功效为代价);它还用 p 值偏离均匀来诊断参照与 query 的可交换性是否被破坏——这正好是检测批次效应的手段。`refmap-eval-biorxiv-2025`(mapQC)用参照样本间距离的零分布做 Z 分数,是同一「以参照为零分布」思路的非 conformal 版本;`healthy-ref-natgenet-2023` 用 Milo 的 spatial FDR 做邻域级检验。**对 Plan B**:calibrated verifier 可以直接套这个框架——在一份人工核验过的「正确声明」集合上校准 verifier 分数,对 agent 产出的大量声明计算 conformal p 值,再用 BH 控制「被标为不可信的声明中误报的比例」;FPR 同时置信带让人可以事后选阈值而不失保证;CCV 的「单一校准集」视角也恰好对应 AIRIS WP3 / MLCommons 那种只有一份基准的评测场景。
+
+## 可复用资产
+- **代码:** 作者的 Python 包(边际与 CCV conformal p 值,含复现 notebook)。
+<https://github.com/msesia/conditional-conformal-pvalues>
+- **公式:** û_marg = (1 + #{校准分数 ≤ 测试分数})/(n+1);BH 或 Storey-BH 即可控制 FDR;需要条件保证时用 Monte Carlo CCV 调整(δ=0.1)。
+- **评测设计:** 「J 个实践者 × L 个测试集」的条件 FDR / 功效分布(看 90 分位而非均值)——适合评估肾脏异常检测在不同参照抽样下的稳定性。
+
+## 待读
+- Angelopoulos & Bates《A gentle introduction to conformal prediction》——入门与实践手册。
+- 加权 / 协变量偏移下的 conformal(针对批次效应破坏可交换性的情形),以及 Mondrian(按细胞类型)conformal。
+- 在 KPMP 上:以 donor 为单位拆分训练/校准,检验跨 donor 时 conformal p 值是否仍接近均匀。
+
+## 引用
+```bibtex
+@article{Bates2021_210408279,
+  title = {Testing for Outliers with Conformal p-values},
+  author = {Bates, Stephen and Cand{\`e}s, Emmanuel and Lei, Lihua and Romano, Yaniv and Sesia, Matteo},
+  journal = {The Annals of Statistics},
+  volume = {51},
+  number = {1},
+  pages = {149--178},
+  year = {2023},
+  doi = {10.1214/22-AOS2244},
+  eprint = {2104.08279},
+  archivePrefix = {arXiv},
+  url = {https://doi.org/10.1214/22-AOS2244}
+}
+```
+
+
+---
+
+📄 **[AI-ready 全文提取 →](ai-ready.md)**

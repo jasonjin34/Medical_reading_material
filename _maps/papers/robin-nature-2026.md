@@ -28,6 +28,7 @@ tags:
 - [[_maps/papers/bixbench-arxiv-2025|BixBench]] — Finch on BixBench
 - [[_maps/papers/citation-faithfulness-arxiv-2026|Citation faithfulness guard]] — cites
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — AI scientists
+- [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/kosmos-arxiv-2025|Kosmos]] — FutureHouse lineage
 - [[_maps/papers/paperqa2-arxiv-2024|PaperQA2]] — FutureHouse literature agent
 

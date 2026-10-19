@@ -28,6 +28,8 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/counterfactual-diffusion-cancerres-2026|Counterfactual diffusion]] — diffusion on histopathology
+- [[_maps/papers/diffusion-medical-ad-miccai-2022|Diffusion AD (medical)]] — diffusion reconstruct-to-normal AD
+- [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] — baseline vs latent diffusion
 - [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] — histopath anomaly det.
 - [[_maps/papers/histo-sciencedirect-2026|Spatial biomarker discovery]] — reconstruct-to-normal
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — diffusion-based AD

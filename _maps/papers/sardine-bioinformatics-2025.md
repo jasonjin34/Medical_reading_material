@@ -26,6 +26,7 @@ tags:
 > Sardine 把空间转录组的「条件间异常区域检测」形式化为空间局部化差异丰度问题(SDARP):在对齐到同一坐标系的多条件切片上,对每个 spot 取空间邻域、在表达流形 kNN 图上用 MELD 式图平滑做密度估计,比较两条件的局部密度,得到 0.5 = 无变化、→1 = 异常的可解释 anomaly score;在模拟和两个小鼠 Visium 数据上比 MELD、Vespucci、STANDS 更准、更空间连贯。
 
 ## Related papers / 相关论文
+- [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — density-based anomaly scoring
 - [[_maps/papers/meatrd-aaai-2025|MEATRD]] — anomalous region detection
 - [[_maps/papers/spatial-natcommun-2024|STANDS]] — spatial anomaly detection
 

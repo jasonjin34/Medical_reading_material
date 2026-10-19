@@ -29,8 +29,10 @@ tags:
 - [[_maps/papers/abc-agentic-benchmarks-neurips-2025|ABC checklist]] — benchmark-validity audit
 - [[_maps/papers/bioml-bench-biorxiv-2025|BioML-bench]] — cites
 - [[_maps/papers/biomnibench-biorxiv-2026|BiomniBench]] — cites
+- [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — FutureHouse agent benchmarks
 - [[_maps/papers/robin-nature-2026|Robin]] — Finch on BixBench
+- [[_maps/papers/scbench-long-arxiv-2026|scBench-Long]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/omics-agent|Single-cell analysis agents]]

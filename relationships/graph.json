@@ -11,6 +11,11 @@
       "kind": "category"
     },
     {
+      "id": "cat:anomaly",
+      "label": "anomaly",
+      "kind": "category"
+    },
+    {
       "id": "cat:competition",
       "label": "competition",
       "kind": "category"
@@ -69,6 +74,14 @@
       "year": 2025
     },
     {
+      "id": "ad-unifying-review-procieee-2021",
+      "label": "A Unifying Review of Deep and Shallow Anomaly Detection",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2021
+    },
+    {
       "id": "ailuminate-arxiv-2025",
       "label": "AILuminate: Introducing v1.0 of the AI Risk and Reliability ",
       "kind": "paper",
@@ -83,6 +96,14 @@
       "category": "single-cell",
       "relevance": "medium",
       "year": 2026
+    },
+    {
+      "id": "anogan-ipmi-2017",
+      "label": "Unsupervised Anomaly Detection with Generative Adversarial N",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2017
     },
     {
       "id": "autoresearch-failures-arxiv-2026",
@@ -149,6 +170,14 @@
       "year": 2026
     },
     {
+      "id": "cflow-ad-wacv-2022",
+      "label": "CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Loca",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2022
+    },
+    {
       "id": "citation-blame-emnlp-2026",
       "label": "Who is the Agent to Blame? Localizing Faithfulness and Citat",
       "kind": "paper",
@@ -179,6 +208,14 @@
       "category": "agents",
       "relevance": "high",
       "year": 2026
+    },
+    {
+      "id": "conformal-outliers-annstat-2023",
+      "label": "Testing for Outliers with Conformal p-values",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2023
     },
     {
       "id": "conformal-scrna-bioinformatics-2025",
@@ -213,6 +250,14 @@
       "year": 2026
     },
     {
+      "id": "deep-svdd-icml-2018",
+      "label": "Deep One-Class Classification",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2018
+    },
+    {
       "id": "deepevidence-natmachintell-2026",
       "label": "Empowering biomedical evidence exploration and synthesis wit",
       "kind": "paper",
@@ -229,12 +274,28 @@
       "year": 2025
     },
     {
+      "id": "diffusion-medical-ad-miccai-2022",
+      "label": "Diffusion Models for Medical Anomaly Detection",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2022
+    },
+    {
       "id": "dkd-spatial-atlas-nature-2026",
       "label": "Spatial atlas of diabetic kidney disease reveals a B cell-ri",
       "kind": "paper",
       "category": "spatial",
       "relevance": "high",
       "year": 2026
+    },
+    {
+      "id": "draem-iccv-2021",
+      "label": "DRÆM – A discriminatively trained reconstruction embedding f",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2021
     },
     {
       "id": "ehr-apollo-arxiv-2026",
@@ -277,6 +338,22 @@
       "year": 2023
     },
     {
+      "id": "energy-ood-neurips-2020",
+      "label": "Energy-based Out-of-distribution Detection",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2020
+    },
+    {
+      "id": "f-anogan-media-2019",
+      "label": "f-AnoGAN: Fast unsupervised anomaly detection with generativ",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2019
+    },
+    {
       "id": "falsifiable-ideation-arxiv-2026",
       "label": "What Proves You Wrong: Benchmarking Language Models on Falsi",
       "kind": "paper",
@@ -307,6 +384,14 @@
       "category": "agents",
       "relevance": "high",
       "year": 2025
+    },
+    {
+      "id": "generalized-ood-survey-ijcv-2024",
+      "label": "Generalized Out-of-Distribution Detection: A Survey",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2024
     },
     {
       "id": "he2expr-bench-natcommun-2025",
@@ -501,6 +586,14 @@
       "year": 2025
     },
     {
+      "id": "mahalanobis-ood-neurips-2018",
+      "label": "A Simple Unified Framework for Detecting Out-of-Distribution",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2018
+    },
+    {
       "id": "mast-neurips-2025",
       "label": "Why Do Multi-Agent LLM Systems Fail?",
       "kind": "paper",
@@ -557,12 +650,28 @@
       "year": 2025
     },
     {
+      "id": "msp-ood-iclr-2017",
+      "label": "A Baseline for Detecting Misclassified and Out-of-Distributi",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2017
+    },
+    {
       "id": "multimodal-integration-bench-natmethods-2025",
       "label": "Benchmarking single-cell multi-modal data integrations",
       "kind": "paper",
       "category": "single-cell",
       "relevance": "medium",
       "year": 2025
+    },
+    {
+      "id": "mvtec-ad-cvpr-2019",
+      "label": "MVTec AD — A Comprehensive Real-World Dataset for Unsupervis",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2019
     },
     {
       "id": "nephrobase-biorxiv-2025",
@@ -597,12 +706,28 @@
       "year": 2026
     },
     {
+      "id": "padim-icpr-2020",
+      "label": "PaDiM: A Patch Distribution Modeling Framework for Anomaly D",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "medium",
+      "year": 2021
+    },
+    {
       "id": "paperqa2-arxiv-2024",
       "label": "Language agents achieve superhuman synthesis of scientific k",
       "kind": "paper",
       "category": "agents",
       "relevance": "medium",
       "year": 2024
+    },
+    {
+      "id": "patchcore-cvpr-2022",
+      "label": "Towards Total Recall in Industrial Anomaly Detection",
+      "kind": "paper",
+      "category": "anomaly",
+      "relevance": "high",
+      "year": 2022
     },
     {
       "id": "pathbench-natcommun-2026",
@@ -930,6 +1055,11 @@
       "type": "cites"
     },
     {
+      "source": "conformal-scrna-bioinformatics-2025",
+      "target": "conformal-outliers-annstat-2023",
+      "type": "cites"
+    },
+    {
       "source": "damage-scores-cellgenomics-2026",
       "target": "lake-kidney-atlas-nature-2023",
       "type": "cites"
@@ -980,7 +1110,42 @@
       "type": "cites"
     },
     {
+      "source": "heurekabench-arxiv-2026",
+      "target": "cellvoyager-natmethods-2026",
+      "type": "cites"
+    },
+    {
+      "source": "heurekabench-arxiv-2026",
+      "target": "biomni-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "heurekabench-arxiv-2026",
+      "target": "robin-nature-2026",
+      "type": "cites"
+    },
+    {
+      "source": "heurekabench-arxiv-2026",
+      "target": "bixbench-arxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "heurekabench-arxiv-2026",
+      "target": "co-scientist-nature-2026",
+      "type": "cites"
+    },
+    {
+      "source": "heurekabench-arxiv-2026",
+      "target": "lab-bench-arxiv-2024",
+      "type": "cites"
+    },
+    {
       "source": "inflammatory-pt-natcommun-2025",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "kidney-epigenome-nataging-2026",
       "target": "lake-kidney-atlas-nature-2023",
       "type": "cites"
     },
@@ -1005,6 +1170,26 @@
       "type": "cites"
     },
     {
+      "source": "meatrd-aaai-2025",
+      "target": "patchcore-cvpr-2022",
+      "type": "cites"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "mvtec-ad-cvpr-2019",
+      "type": "cites"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "f-anogan-media-2019",
+      "type": "cites"
+    },
+    {
+      "source": "meatrd-aaai-2025",
+      "target": "deep-svdd-icml-2018",
+      "type": "cites"
+    },
+    {
       "source": "nicheformer-natmethods-2025",
       "target": "scfm-zeroshot-genomebiol-2025",
       "type": "cites"
@@ -1012,6 +1197,31 @@
     {
       "source": "pathology-ad-bench-mlhealth-2025",
       "target": "medianomaly-media-2025",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "draem-iccv-2021",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "cflow-ad-wacv-2022",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "patchcore-cvpr-2022",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "padim-icpr-2020",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "mvtec-ad-cvpr-2019",
       "type": "cites"
     },
     {
@@ -1025,8 +1235,33 @@
       "type": "cites"
     },
     {
+      "source": "scbench-long-arxiv-2026",
+      "target": "biomnibench-biorxiv-2026",
+      "type": "cites"
+    },
+    {
+      "source": "scbench-long-arxiv-2026",
+      "target": "bixbench-arxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "scbench-long-arxiv-2026",
+      "target": "lab-bench-arxiv-2024",
+      "type": "cites"
+    },
+    {
       "source": "scrna-natmachintell-2026",
       "target": "linear-baselines-natmethods-2025",
+      "type": "cites"
+    },
+    {
+      "source": "truthhypo-ijcai-2025",
+      "target": "paperqa2-arxiv-2024",
+      "type": "cites"
+    },
+    {
+      "source": "truthhypo-ijcai-2025",
+      "target": "hypogen-llm-colm-2024",
       "type": "cites"
     },
     {
@@ -1873,6 +2108,78 @@
       "label": "multi-agent biomedical systems"
     },
     {
+      "source": "anogan-ipmi-2017",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "GAN on normal data; reconstruction-residual score"
+    },
+    {
+      "source": "diffusion-medical-ad-miccai-2022",
+      "target": "histo-miccai-2025",
+      "type": "concept",
+      "label": "diffusion reconstruct-to-normal AD"
+    },
+    {
+      "source": "diffusion-medical-ad-miccai-2022",
+      "target": "counterfactual-diffusion-cancerres-2026",
+      "type": "concept",
+      "label": "diffusion counterfactuals"
+    },
+    {
+      "source": "patchcore-cvpr-2022",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "pretrained features + kNN distance"
+    },
+    {
+      "source": "patchcore-cvpr-2022",
+      "target": "spatial-natcommun-2024",
+      "type": "concept",
+      "label": "memory bank of normal features"
+    },
+    {
+      "source": "deep-svdd-icml-2018",
+      "target": "histo-anomaly-bi-repo",
+      "type": "concept",
+      "label": "one-class boundary on learned features"
+    },
+    {
+      "source": "cflow-ad-wacv-2022",
+      "target": "sardine-bioinformatics-2025",
+      "type": "concept",
+      "label": "density-based anomaly scoring"
+    },
+    {
+      "source": "mahalanobis-ood-neurips-2018",
+      "target": "refmap-eval-biorxiv-2025",
+      "type": "concept",
+      "label": "distance to a reference distribution"
+    },
+    {
+      "source": "conformal-outliers-annstat-2023",
+      "target": "refmap-eval-biorxiv-2025",
+      "type": "concept",
+      "label": "healthy reference as the null"
+    },
+    {
+      "source": "energy-ood-neurips-2020",
+      "target": "histo-nejmai-2024",
+      "type": "concept",
+      "label": "outlier-exposure training"
+    },
+    {
+      "source": "draem-iccv-2021",
+      "target": "medianomaly-media-2025",
+      "type": "concept",
+      "label": "synthetic-anomaly family"
+    },
+    {
+      "source": "ad-unifying-review-procieee-2021",
+      "target": "medianomaly-media-2025",
+      "type": "concept",
+      "label": "multi-paradigm AD taxonomy"
+    },
+    {
       "source": "imaging-nature-2026",
       "target": "imaging-ehjdh-2026",
       "type": "concept",
@@ -1892,6 +2199,11 @@
     },
     {
       "source": "cat:agents",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
+      "source": "cat:anomaly",
       "target": "DIRECTION",
       "type": "anchor"
     },
@@ -1951,6 +2263,11 @@
       "type": "in-category"
     },
     {
+      "source": "ad-unifying-review-procieee-2021",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "ailuminate-arxiv-2025",
       "target": "cat:agents",
       "type": "in-category"
@@ -1958,6 +2275,11 @@
     {
       "source": "ambient-rna-bench-biorxiv-2026",
       "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "anogan-ipmi-2017",
+      "target": "cat:anomaly",
       "type": "in-category"
     },
     {
@@ -2001,6 +2323,11 @@
       "type": "in-category"
     },
     {
+      "source": "cflow-ad-wacv-2022",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "citation-blame-emnlp-2026",
       "target": "cat:agents",
       "type": "in-category"
@@ -2018,6 +2345,11 @@
     {
       "source": "co-scientist-nature-2026",
       "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "conformal-outliers-annstat-2023",
+      "target": "cat:anomaly",
       "type": "in-category"
     },
     {
@@ -2041,6 +2373,11 @@
       "type": "in-category"
     },
     {
+      "source": "deep-svdd-icml-2018",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "deepevidence-natmachintell-2026",
       "target": "cat:agents",
       "type": "in-category"
@@ -2051,8 +2388,18 @@
       "type": "in-category"
     },
     {
+      "source": "diffusion-medical-ad-miccai-2022",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "dkd-spatial-atlas-nature-2026",
       "target": "cat:spatial",
+      "type": "in-category"
+    },
+    {
+      "source": "draem-iccv-2021",
+      "target": "cat:anomaly",
       "type": "in-category"
     },
     {
@@ -2081,6 +2428,16 @@
       "type": "in-category"
     },
     {
+      "source": "energy-ood-neurips-2020",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
+      "source": "f-anogan-media-2019",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "falsifiable-ideation-arxiv-2026",
       "target": "cat:agents",
       "type": "in-category"
@@ -2098,6 +2455,11 @@
     {
       "source": "generalization-bias-rsos-2025",
       "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "generalized-ood-survey-ijcv-2024",
+      "target": "cat:anomaly",
       "type": "in-category"
     },
     {
@@ -2221,6 +2583,11 @@
       "type": "in-category"
     },
     {
+      "source": "mahalanobis-ood-neurips-2018",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "mast-neurips-2025",
       "target": "cat:agents",
       "type": "in-category"
@@ -2256,8 +2623,18 @@
       "type": "in-category"
     },
     {
+      "source": "msp-ood-iclr-2017",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "multimodal-integration-bench-natmethods-2025",
       "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
+      "source": "mvtec-ad-cvpr-2019",
+      "target": "cat:anomaly",
       "type": "in-category"
     },
     {
@@ -2281,8 +2658,18 @@
       "type": "in-category"
     },
     {
+      "source": "padim-icpr-2020",
+      "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
       "source": "paperqa2-arxiv-2024",
       "target": "cat:agents",
+      "type": "in-category"
+    },
+    {
+      "source": "patchcore-cvpr-2022",
+      "target": "cat:anomaly",
       "type": "in-category"
     },
     {

@@ -29,6 +29,7 @@ tags:
 - [[_maps/papers/citation-faithfulness-arxiv-2026|Citation faithfulness guard]] — audits PaperQA2 citations
 - [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — LitQA2
 - [[_maps/papers/robin-nature-2026|Robin]] — FutureHouse literature agent
+- [[_maps/papers/truthhypo-ijcai-2025|TruthHypo]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/citation-faithfulness|Citation faithfulness]]

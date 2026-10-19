@@ -1,0 +1,171 @@
+# Method × data matrix — hand-written SOURCE for scripts/build_maps.py.
+# Rows are anomaly-detection paradigms, columns are data domains from general to kidney.
+# Every paper sits in one or more cells; `transfers` are method-lineage arrows
+# ("to" uses / adapts / benchmarks the idea of "from") and must be backed by the
+# to-paper's deep-read. `gaps` mark empty cells Plan A aims to fill.
+
+title: {en: "Method map — anomaly detection from general to kidney", zh: "方法图：从通用异常检测到肾脏"}
+lead:
+  en: "Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what Plan A adds."
+  zh: "行是异常检测的方法范式，列从通用数据一直到肾脏组学。箭头表示方法被迁移到哪里；虚线格是 Plan A 要补的空白。"
+
+cols:
+  general: {en: "General / industrial", zh: "通用 / 工业图像"}
+  medimg: {en: "Medical imaging", zh: "医学影像"}
+  histo: {en: "Histopathology (H&E)", zh: "病理切片 (H&E)"}
+  sc: {en: "Single-cell omics", zh: "单细胞组学"}
+  spatial: {en: "Spatial omics", zh: "空间组学"}
+  kidney: {en: "Kidney (omics + histology)", zh: "肾脏（组学 + 病理）"}
+
+rows:
+  recon:
+    en: "Reconstruction / generative"
+    zh: "重建 / 生成式"
+    idea: {en: "Learn to regenerate normal data; a high reconstruction error is anomalous.", zh: "学会重建正常数据，重建误差大的就是异常。"}
+    omics: {en: "Autoencoders / VAEs on expression (+ histology); error per cell or spot.", zh: "在表达谱（加病理图像）上训练 AE / VAE，按细胞或 spot 计算误差。"}
+  feature:
+    en: "Feature embedding + memory bank / kNN"
+    zh: "特征嵌入 + 记忆库 / kNN"
+    idea: {en: "Embed with a pretrained network, store normal features, score by distance to the nearest normal ones.", zh: "用预训练网络提特征，存下正常样本的特征，用到最近正常特征的距离打分。"}
+    omics: {en: "kNN distance in a scVI / foundation-model latent space built from healthy donors.", zh: "在健康供体构建的 scVI / 基础模型潜空间里算 kNN 距离。"}
+  density:
+    en: "Density / one-class"
+    zh: "密度估计 / 单类"
+    idea: {en: "Model the density or a tight boundary of normal data (one-class SVM, Deep SVDD, normalizing flows).", zh: "对正常数据建模密度或紧致边界（单类 SVM、Deep SVDD、标准化流）。"}
+    omics: {en: "Density of healthy cell states; low likelihood = unexplained state.", zh: "估计健康细胞状态的密度，似然低就是解释不了的状态。"}
+  synthetic:
+    en: "Synthetic anomalies / outlier exposure"
+    zh: "合成异常 / 异常暴露"
+    idea: {en: "Train a classifier against fake or auxiliary anomalies.", zh: "用人造的或外部的异常样本训练分类器。"}
+    omics: {en: "Simulated doublets, ambient RNA or perturbed profiles as negatives.", zh: "用模拟的 doublet、ambient RNA 或扰动后的表达谱作为负样本。"}
+  ood:
+    en: "Classifier OOD & reference mapping"
+    zh: "分类器 OOD 与参考映射"
+    idea: {en: "Use a supervised model's confidence, logits or feature statistics to spot inputs unlike its training data.", zh: "利用监督模型的置信度、logits 或特征统计，找出和训练数据不同的输入。"}
+    omics: {en: "Label-transfer confidence and latent distance to a reference atlas; novel cell types.", zh: "标签迁移的置信度、到参考图谱的潜空间距离；新细胞类型。"}
+  conformal:
+    en: "Conformal / calibrated"
+    zh: "保形 / 校准"
+    idea: {en: "Turn any score into a p-value with finite-sample error control.", zh: "把任意异常分数转成有限样本下误差可控的 p 值。"}
+    omics: {en: "Per-cell anomaly p-values with FDR control across thousands of cells.", zh: "给每个细胞一个异常 p 值，并在成千上万个细胞上控制 FDR。"}
+  reference:
+    en: "Healthy-reference comparison & disease scores"
+    zh: "健康参考对比与疾病评分"
+    idea: {en: "Compare samples or neighbourhoods with a healthy reference; score known disease programmes.", zh: "把样本或邻域和健康参考对比，给已知的疾病程序打分。"}
+    omics: {en: "Differential abundance, sample-level distances, damage / injury scores.", zh: "差异丰度、样本层面的距离、损伤评分。"}
+  crossmodal:
+    en: "Cross-modal consistency"
+    zh: "跨模态一致性"
+    idea: {en: "Predict one modality from another; disagreement flags artefacts or biology.", zh: "用一个模态预测另一个模态，对不上的地方提示伪影或真实生物学变化。"}
+    omics: {en: "RNA ↔ ATAC ↔ Xenium ↔ H&E agreement per cell or region.", zh: "在每个细胞或区域上检查 RNA ↔ ATAC ↔ Xenium ↔ H&E 是否一致。"}
+  artifact:
+    en: "Technical artifacts (nuisance anomalies)"
+    zh: "技术伪影（干扰性异常）"
+    idea: {en: "Anomalies that are technical, not biological, and must be removed or modelled first.", zh: "来自技术而不是生物学的异常，要先去除或建模。"}
+    omics: {en: "Doublets, ambient RNA, segmentation spillover, z-overlap in Xenium.", zh: "doublet、ambient RNA、细胞分割溢出、Xenium 的 z 向重叠。"}
+  bench:
+    en: "Benchmarks, datasets & surveys"
+    zh: "基准、数据集与综述"
+    idea: {en: "Where methods are compared.", zh: "方法在哪里被横向比较。"}
+    omics: {en: "An expert-validated kidney anomaly benchmark (Plan A deliverable).", zh: "经专家验证的肾脏异常基准（Plan A 的产出）。"}
+
+cells:
+  # existing papers
+  spatial-natcommun-2024: [recon, spatial]
+  meatrd-aaai-2025: [recon, spatial]
+  histo-miccai-2025: [recon, histo]
+  counterfactual-diffusion-cancerres-2026: [recon, histo]
+  histo-nejmai-2024: [[synthetic, histo], [feature, histo]]
+  histo-anomaly-bi-repo: [density, histo]
+  sardine-bioinformatics-2025: [density, spatial]
+  refmap-eval-biorxiv-2025: [ood, sc]
+  scatac-novel-genomeres-2026: [ood, sc]
+  dkd-spatial-atlas-nature-2026: [ood, kidney]
+  conformal-scrna-bioinformatics-2025: [conformal, sc]
+  healthy-ref-natgenet-2023: [reference, sc]
+  mrvi-natmethods-2025: [reference, sc]
+  damage-scores-cellgenomics-2026: [reference, kidney]
+  cellspectra-natgenet-2025: [reference, kidney]
+  he2expr-bench-natcommun-2025: [crossmodal, histo]
+  loki-omiclip-natmethods-2025: [crossmodal, spatial]
+  kidney-multimodal-genomebiol-2026: [crossmodal, kidney]
+  ambient-rna-bench-biorxiv-2026: [artifact, sc]
+  xenium-split-natmethods-2026: [artifact, spatial]
+  ovrlpy-natbiotech-2026: [artifact, spatial]
+  resolvi-natmethods-2026: [artifact, spatial]
+  medianomaly-media-2025: [bench, medimg]
+  pathology-ad-bench-mlhealth-2025: [bench, histo]
+  nih-kidney-ai-challenge-2026: [bench, kidney]
+  # classic general AD (round 2)
+  anogan-ipmi-2017: [recon, medimg]
+  f-anogan-media-2019: [recon, medimg]
+  diffusion-medical-ad-miccai-2022: [recon, medimg]
+  padim-icpr-2020: [feature, general]
+  patchcore-cvpr-2022: [feature, general]
+  deep-svdd-icml-2018: [density, general]
+  cflow-ad-wacv-2022: [density, general]
+  draem-iccv-2021: [synthetic, general]
+  msp-ood-iclr-2017: [ood, general]
+  mahalanobis-ood-neurips-2018: [ood, general]
+  energy-ood-neurips-2020: [ood, general]
+  conformal-outliers-annstat-2023: [conformal, general]
+  mvtec-ad-cvpr-2019: [bench, general]
+  ad-unifying-review-procieee-2021: [bench, general]
+  generalized-ood-survey-ijcv-2024: [bench, general]
+
+gaps:
+  - row: feature
+    col: kidney
+    note: {en: "Plan A baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space.", zh: "Plan A 基线：在共享潜空间里算到健康 KPMP / Lake 细胞的 kNN 距离。"}
+  - row: density
+    col: kidney
+    note: {en: "Density of healthy kidney cell states per cell type.", zh: "按细胞类型估计健康肾脏细胞状态的密度。"}
+  - row: conformal
+    col: kidney
+    note: {en: "Calibrated per-cell anomaly p-values with FDR control.", zh: "给每个细胞校准过的异常 p 值，并控制 FDR。"}
+  - row: crossmodal
+    col: kidney
+    note: {en: "Core idea of Plan A: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.", zh: "Plan A 的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。"}
+  - row: artifact
+    col: kidney
+    note: {en: "Artifact audit of the 95-biopsy Xenium + snRNA data.", zh: "对 95 例活检的 Xenium + snRNA 数据做伪影审计。"}
+  - row: bench
+    col: kidney
+    note: {en: "KidneyAnomalyBench: expert-validated anomalies.", zh: "KidneyAnomalyBench：经专家验证的异常。"}
+
+transfers:        # [from, to, label] — "to" uses / adapts / benchmarks "from"; checked in the to-paper's text
+  - [anogan-ipmi-2017, f-anogan-media-2019, "adds an encoder + WGAN to AnoGAN"]
+  - [anogan-ipmi-2017, deep-svdd-icml-2018, "AnoGAN as deep baseline"]
+  - [anogan-ipmi-2017, ad-unifying-review-procieee-2021, "reviewed: GAN reconstruction"]
+  - [f-anogan-media-2019, ad-unifying-review-procieee-2021, "reviewed: GAN + explicit encoder"]
+  - [deep-svdd-icml-2018, ad-unifying-review-procieee-2021, "hypersphere model, shallow ↔ deep"]
+  - [deep-svdd-icml-2018, meatrd-aaai-2025, "Deep-SVDD-style one-class scoring"]
+  - [f-anogan-media-2019, meatrd-aaai-2025, "image baseline"]
+  - [f-anogan-media-2019, histo-miccai-2025, "baseline vs latent diffusion"]
+  - [f-anogan-media-2019, medianomaly-media-2025, "benchmarked (reconstruction family)"]
+  - [mvtec-ad-cvpr-2019, ad-unifying-review-procieee-2021, "benchmarks on MVTec AD"]
+  - [padim-icpr-2020, patchcore-cvpr-2022, "memory bank generalises per-position Gaussians"]
+  - [padim-icpr-2020, cflow-ad-wacv-2022, "flow likelihood generalises PaDiM's Gaussian"]
+  - [mahalanobis-ood-neurips-2018, padim-icpr-2020, "Mahalanobis scoring on pretrained features"]
+  - [mahalanobis-ood-neurips-2018, cflow-ad-wacv-2022, "Gaussian prior as special case"]
+  - [mvtec-ad-cvpr-2019, padim-icpr-2020, "main benchmark"]
+  - [mvtec-ad-cvpr-2019, patchcore-cvpr-2022, "main benchmark"]
+  - [mvtec-ad-cvpr-2019, draem-iccv-2021, "main benchmark"]
+  - [mvtec-ad-cvpr-2019, cflow-ad-wacv-2022, "main benchmark"]
+  - [anogan-ipmi-2017, mvtec-ad-cvpr-2019, "GAN baseline"]
+  - [patchcore-cvpr-2022, pathology-ad-bench-mlhealth-2025, "benchmarked on pathology"]
+  - [padim-icpr-2020, pathology-ad-bench-mlhealth-2025, "benchmarked on pathology"]
+  - [draem-iccv-2021, pathology-ad-bench-mlhealth-2025, "benchmarked on pathology"]
+  - [cflow-ad-wacv-2022, pathology-ad-bench-mlhealth-2025, "benchmarked on pathology"]
+  - [mvtec-ad-cvpr-2019, pathology-ad-bench-mlhealth-2025, "industrial reference datasets"]
+  - [msp-ood-iclr-2017, mahalanobis-ood-neurips-2018, "MSP as baseline"]
+  - [msp-ood-iclr-2017, energy-ood-neurips-2020, "energy replaces softmax score"]
+  - [mahalanobis-ood-neurips-2018, energy-ood-neurips-2020, "benchmarked baseline"]
+  - [conformal-outliers-annstat-2023, conformal-scrna-bioinformatics-2025, "calibration-conditional conformal p-values"]
+  - [msp-ood-iclr-2017, generalized-ood-survey-ijcv-2024, "baseline in OpenOOD"]
+  - [mahalanobis-ood-neurips-2018, generalized-ood-survey-ijcv-2024, "distance-based OOD"]
+  - [energy-ood-neurips-2020, generalized-ood-survey-ijcv-2024, "post-hoc output-based OOD"]
+  - [ad-unifying-review-procieee-2021, generalized-ood-survey-ijcv-2024, "sensory / semantic anomaly split"]
+  - [deep-svdd-icml-2018, generalized-ood-survey-ijcv-2024, "one-class AD reviewed"]
+  - [draem-iccv-2021, generalized-ood-survey-ijcv-2024, "AD method on far-OOD"]
+  - [mvtec-ad-cvpr-2019, generalized-ood-survey-ijcv-2024, "sensory-AD benchmark"]

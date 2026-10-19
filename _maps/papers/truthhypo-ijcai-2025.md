@@ -27,7 +27,8 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — KG + literature grounding
-- [[_maps/papers/hypogen-llm-colm-2024|LLM hypothesis generators]] — biomedical hypothesis generation
+- [[_maps/papers/hypogen-llm-colm-2024|LLM hypothesis generators]] — cites
+- [[_maps/papers/paperqa2-arxiv-2024|PaperQA2]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/claim-evidence|Claim → evidence chains]]

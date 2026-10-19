@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method Map</title>
+<!-- Source: maps/matrix.html — copied to docs/maps/ by scripts/build_maps.py. Data: docs/maps/matrix.json (from maps/matrix.yaml) -->
+<style>
+:root {
+  --bg: #ffffff; --panel: #f7f7f8; --ink: #1f2328; --quiet: #5c6370; --rule: #d9dce1; --cell: #fbfbfc;
+  --a: #2563c9; --a-fill: #e8f0fc; --classic: #3f7d5a; --classic-fill: #e7f4ec;
+  --gap: #c2410c; --gap-fill: #fff4ec; --arrow: #8a919c; --hl: #e0452b; --row: #f1f2f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17191d; --panel: #1f2227; --ink: #e6e8eb; --quiet: #a2a9b4; --rule: #343841; --cell: #1b1d22;
+    --a: #6ea2f5; --a-fill: #1c2a42; --classic: #6cc495; --classic-fill: #1a3326;
+    --gap: #f59e6b; --gap-fill: #3a2418; --arrow: #7d8590; --hl: #ff7a5c; --row: #22252b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17191d; --panel: #1f2227; --ink: #e6e8eb; --quiet: #a2a9b4; --rule: #343841; --cell: #1b1d22;
+  --a: #6ea2f5; --a-fill: #1c2a42; --classic: #6cc495; --classic-fill: #1a3326;
+  --gap: #f59e6b; --gap-fill: #3a2418; --arrow: #7d8590; --hl: #ff7a5c; --row: #22252b;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); overflow-x: hidden;
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif; }
+#app { display: grid; grid-template-rows: auto 1fr; grid-template-columns: minmax(0, 1fr); height: 100%; }
+header { min-width: 0; padding: 10px 16px; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+header h1 { font-size: 16px; margin: 0; font-weight: 650; }
+header .lead { color: var(--quiet); font-size: 13px; flex-basis: 100%; margin: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-left: auto; }
+button { font: inherit; font-size: 13px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 4px 9px; cursor: pointer; }
+button:hover { border-color: var(--quiet); }
+button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.controls a, #full { font-size: 13px; color: var(--a); }
+#full { display: none; margin-left: auto; }
+main { display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 0; min-width: 0; }
+#scroll { overflow: auto; min-height: 0; position: relative; padding: 14px 16px 24px; }
+#wrap { position: relative; min-width: 1060px; }
+#grid { display: grid; grid-template-columns: 210px repeat(var(--ncols), minmax(128px, 1fr)); gap: 6px; position: relative; z-index: 1; }
+.colh { font-weight: 650; font-size: 13px; padding: 6px 8px; text-align: center; align-self: end; }
+.axis { grid-column: 2 / -1; font-size: 12px; color: var(--quiet); display: flex; align-items: center; gap: 8px; padding: 0 8px; }
+.axis::after { content: ""; flex: 1; height: 0; border-top: 1.5px solid var(--rule); }
+.axis span { white-space: nowrap; }
+.rowh { background: var(--row); border-radius: 6px; padding: 8px 10px; cursor: pointer; border: 1px solid transparent; }
+.rowh:hover, .rowh.sel { border-color: var(--quiet); }
+.rowh b { display: block; font-size: 13px; }
+.rowh small { display: block; color: var(--quiet); font-size: 11.5px; line-height: 1.35; margin-top: 3px; }
+.cell { background: var(--cell); border: 1px solid var(--rule); border-radius: 6px; padding: 5px; display: flex; flex-direction: column; gap: 4px; min-height: 46px; }
+.cell.gap { border: 1.5px dashed var(--gap); background: var(--gap-fill); cursor: pointer; }
+.gaptag { font-size: 11px; font-weight: 650; color: var(--gap); }
+.gapnote { font-size: 11.5px; color: var(--quiet); line-height: 1.3; }
+.chip { font: inherit; font-size: 12px; text-align: left; line-height: 1.25; padding: 3px 7px; border-radius: 5px;
+  border: 1px solid var(--a); background: var(--a-fill); color: var(--ink); width: 100%; }
+.chip.classic { border-color: var(--classic); background: var(--classic-fill); }
+.chip.high { font-weight: 650; border-width: 2px; }
+.chip.sel { outline: 2.5px solid var(--hl); outline-offset: 1px; }
+.chip.lit { outline: 1.5px solid var(--hl); }
+.chip.dim, .cell.dim .gapnote { opacity: 0.35; }
+.chip .yr { color: var(--quiet); font-weight: 400; font-size: 11px; }
+svg#arrows { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: visible; }
+svg#arrows path { fill: none; stroke: var(--arrow); stroke-width: 1.4; opacity: 0.55; }
+svg#arrows path.hl { stroke: var(--hl); stroke-width: 2.2; opacity: 0.95; }
+aside { border-left: 1px solid var(--rule); background: var(--panel); overflow: auto; padding: 14px 16px; }
+aside h2 { font-size: 15px; margin: 0 0 4px; }
+aside h3 { font-size: 13px; margin: 14px 0 4px; }
+aside .sub { color: var(--quiet); font-size: 12.5px; margin: 0 0 8px; }
+aside p { margin: 8px 0; }
+aside ul { padding-left: 18px; margin: 6px 0; }
+aside li { margin: 3px 0; }
+aside a { color: var(--a); }
+.tag { display: inline-block; font-size: 11.5px; border: 1px solid var(--rule); border-radius: 10px; padding: 0 7px; margin: 0 4px 4px 0; color: var(--quiet); }
+.linkish { background: none; border: 0; padding: 0; color: var(--a); cursor: pointer; text-align: left; font-size: 14px; }
+.legend { font-size: 12px; color: var(--quiet); margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; margin: 0 10px 4px 0; }
+.sw { width: 14px; height: 10px; border-radius: 3px; border: 1.5px solid; display: inline-block; }
+body.embed .controls, body.embed aside, body.embed .lead { display: none; }
+body.embed #full { display: inline; }
+body.embed main { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 900px) {
+  .controls { margin-left: 0; }
+  main { grid-template-columns: minmax(0, 1fr); grid-template-rows: 65vh auto; }
+  aside { border-left: 0; border-top: 1px solid var(--rule); }
+}
+body.embed main { grid-template-rows: minmax(0, 1fr); }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1 id="title">Method map</h1>
+    <a id="full" target="_blank" rel="noopener">Full screen ↗</a>
+    <div class="controls">
+      <button id="all" type="button" aria-pressed="false">Show method arrows</button>
+      <button id="must" type="button" aria-pressed="false">Must-read only</button>
+      <button id="lang" type="button">中文</button>
+      <a id="views" href="viewer.html?view=plan-a">Reading-list views →</a>
+    </div>
+    <p class="lead" id="lead"></p>
+  </header>
+  <main>
+    <div id="scroll"><div id="wrap"><div id="grid"></div><svg id="arrows" aria-hidden="true"></svg></div></div>
+    <aside id="panel" aria-live="polite"></aside>
+  </main>
+</div>
+<script>
+(() => {
+  const P = new URLSearchParams(location.search);
+  let LANG = P.get("lang") === "zh" ? "zh" : "en";
+  const EMBED = P.get("embed") === "1";
+  if (EMBED) document.body.classList.add("embed");
+  const T = {
+    en: { all: "Show method arrows", must: "Must-read only", other: "中文", views: "Reading-list views →", open: "Open deep-read ↗",
+          inMap: "Show in Plan A map ↗", from: "Builds on", to: "Carried over to", papers: "papers", arrows: "method transfers",
+          gap: "Plan A gap", kidney: "In kidney omics", axis: ["general", "kidney"], rowPapers: "Papers in this row",
+          hint: "Click a paper to see where its method came from and where it went. Click a row title for what the paradigm means in kidney omics. Dashed cells are what Plan A adds.",
+          lgClassic: "classic / general AD", lgDomain: "biomedical paper", lgGap: "Plan A gap", lgMust: "bold = must-read", lgArrow: "arrow = method carried over" },
+    zh: { all: "显示方法迁移箭头", must: "只看必读", other: "EN", views: "按阅读清单的视图 →", open: "打开精读 ↗",
+          inMap: "在 Plan A 图谱中查看 ↗", from: "来源方法", to: "被迁移到", papers: "篇", arrows: "条方法迁移",
+          gap: "Plan A 空白", kidney: "放到肾脏组学里", axis: ["通用", "肾脏"], rowPapers: "这一行的论文",
+          hint: "点论文：看它的方法从哪来、迁移到了哪里。点行标题：看这个范式在肾脏组学里是什么意思。虚线格是 Plan A 要补的空白。",
+          lgClassic: "经典 / 通用 AD", lgDomain: "生物医学论文", lgGap: "Plan A 空白", lgMust: "粗体 = 必读", lgArrow: "箭头 = 方法迁移" }
+  };
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let D = null, sel = null, showAll = false, mustOnly = false;
+
+  function inBench(s) { return Object.entries(D.cells).some(([k, v]) => k.startsWith("bench|") && v.includes(s)); }
+  function visible(s) { return !mustOnly || D.papers[s].relevance === "high"; }
+  function render() {
+    const t = T[LANG], g = $("grid");
+    g.style.setProperty("--ncols", D.cols.length);
+    const gaps = Object.fromEntries(D.gaps.map(x => [`${x.row}|${x.col}`, x]));
+    let h = `<div></div>${D.cols.map(c => `<div class="colh">${esc(c[LANG])}</div>`).join("")}` +
+        `<div></div><div class="axis"><span>${t.axis[0]} →</span><span style="order:2">→ ${t.axis[1]}</span></div>`;
+    for (const r of D.rows) {
+      h += `<div class="rowh" data-row="${r.id}"><b>${esc(r[LANG])}</b><small>${esc(r.idea[LANG])}</small></div>`;
+      for (const c of D.cols) {
+        const k = `${r.id}|${c.id}`, gp = gaps[k];
+        const items = (D.cells[k] || []).filter(visible);
+        h += `<div class="cell${gp ? " gap" : ""}" data-cell="${k}">`;
+        for (const s of items) {
+          const p = D.papers[s];
+          const cls = ["chip", p.category === "anomaly" ? "classic" : "", p.relevance === "high" ? "high" : ""].join(" ");
+          h += `<button class="${cls}" data-p="${s}" data-k="${k}" title="${esc(p.title)}">${esc(p.label)} <span class="yr">${p.year ?? ""}</span></button>`;
+        }
+        if (gp) h += `<span class="gaptag">${t.gap}</span><span class="gapnote">${esc(gp.note[LANG])}</span>`;
+        h += `</div>`;
+      }
+    }
+    g.innerHTML = h;
+    paint();
+  }
+
+  function chipEl(s, near) {
+    const all = [...document.querySelectorAll(`.chip[data-p="${CSS.escape(s)}"]`)];
+    if (all.length < 2 || !near) return all[0];
+    const r0 = near.getBoundingClientRect();
+    return all.sort((a, b) => dist(a, r0) - dist(b, r0))[0];
+  }
+  function dist(el, r0) { const r = el.getBoundingClientRect(); return Math.hypot(r.x - r0.x, r.y - r0.y); }
+
+  function paint() {
+    const svg = $("arrows"), wrap = $("wrap").getBoundingClientRect();
+    svg.setAttribute("width", wrap.width); svg.setAttribute("height", wrap.height);
+    const mk = `<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="${css("--arrow")}"/></marker>` +
+               `<marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="${css("--hl")}"/></marker></defs>`;
+    let out = mk;
+    document.querySelectorAll(".chip").forEach(c => c.classList.remove("sel", "lit", "dim"));
+    const linked = new Set();
+    for (const tr of D.transfers) {
+      const on = sel && (tr.from === sel || tr.to === sel);
+      if (!showAll && !on) continue;
+      if (!on && (inBench(tr.from) || inBench(tr.to))) continue;   // "all" = method → method only; benchmark links on click
+      if (!visible(tr.from) || !visible(tr.to)) continue;
+      const a = chipEl(tr.from), b = chipEl(tr.to, a);
+      if (!a || !b) continue;
+      const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+      const fwd = rb.left >= ra.right - 4;
+      const x1 = (fwd ? ra.right : ra.left) - wrap.left, y1 = ra.top + ra.height / 2 - wrap.top;
+      const x2 = (fwd ? rb.left : rb.right) - wrap.left, y2 = rb.top + rb.height / 2 - wrap.top;
+      const sameCol = Math.abs(ra.left - rb.left) < 4;
+      const bend = sameCol ? 46 : Math.max(30, Math.abs(x2 - x1) / 2.5);
+      const c1 = sameCol ? x1 + bend : x1 + (fwd ? bend : -bend), c2 = sameCol ? x2 + bend : x2 - (fwd ? bend : -bend);
+      const d = sameCol ? `M${ra.right - wrap.left},${y1} C${ra.right - wrap.left + bend},${y1} ${rb.right - wrap.left + bend},${y2} ${rb.right - wrap.left},${y2}`
+                        : `M${x1},${y1} C${c1},${y1} ${c2},${y2} ${x2},${y2}`;
+      out += `<path d="${d}" class="${on ? "hl" : ""}" marker-end="url(#${on ? "ahl" : "ah"})"><title>${esc(tr.label)}</title></path>`;
+      if (on) { linked.add(tr.from); linked.add(tr.to); }
+    }
+    svg.innerHTML = out;
+    if (sel) {
+      document.querySelectorAll(".chip").forEach(c => {
+        const s = c.dataset.p;
+        if (s === sel) c.classList.add("sel"); else if (linked.has(s)) c.classList.add("lit"); else c.classList.add("dim");
+      });
+    }
+  }
+
+  // ---------- panel ----------
+  function item(s) { return `<button class="linkish" data-go="${esc(s)}">${esc(D.papers[s].label)}</button>`; }
+  function showPaper(s) {
+    const t = T[LANG], p = D.papers[s];
+    let h = `<h2>${esc(p.label)}</h2><p class="sub">${esc(p.title)}<br>${esc(p.venue)} ${p.year ?? ""}</p>`;
+    if (p.relevance === "high") h += `<span class="tag" style="color:var(--hl);border-color:var(--hl)">must-read</span>`;
+    for (const pl of p.plans) h += `<span class="tag">Plan ${esc(pl)}</span>`;
+    if (p.oneliner?.[LANG]) h += `<p>${esc(p.oneliner[LANG])}</p>`;
+    h += `<p><a href="${esc(p.url[LANG])}" target="_blank" rel="noopener">${t.open}</a>`;
+    if (p.plans.includes("A")) h += ` · <a href="viewer.html?view=plan-a&lang=${LANG}&focus=${encodeURIComponent(s)}" target="_blank" rel="noopener">${t.inMap}</a>`;
+    h += `</p>`;
+    const ins = D.transfers.filter(x => x.to === s), outs = D.transfers.filter(x => x.from === s);
+    if (ins.length) h += `<h3>${t.from}</h3><ul>${ins.map(x => `<li>${item(x.from)} <span class="sub">— ${esc(x.label)}</span></li>`).join("")}</ul>`;
+    if (outs.length) h += `<h3>${t.to}</h3><ul>${outs.map(x => `<li>${item(x.to)} <span class="sub">— ${esc(x.label)}</span></li>`).join("")}</ul>`;
+    $("panel").innerHTML = h + legend();
+  }
+  function showRow(id) {
+    const t = T[LANG], r = D.rows.find(x => x.id === id);
+    const ps = D.cols.flatMap(c => (D.cells[`${id}|${c.id}`] || []).map(s => [c, s]));
+    let h = `<h2>${esc(r[LANG])}</h2><p>${esc(r.idea[LANG])}</p><h3>${t.kidney}</h3><p>${esc(r.omics[LANG])}</p>`;
+    h += `<h3>${t.rowPapers}</h3><ul>${ps.map(([c, s]) => `<li>${item(s)} <span class="sub">· ${esc(c[LANG])}</span></li>`).join("")}</ul>`;
+    const gs = D.gaps.filter(g => g.row === id);
+    if (gs.length) h += `<h3>${t.gap}</h3><ul>${gs.map(g => `<li>${esc(g.note[LANG])}</li>`).join("")}</ul>`;
+    $("panel").innerHTML = h + legend();
+  }
+  function intro() {
+    const t = T[LANG];
+    $("panel").innerHTML = `<h2>${esc(D.title[LANG])}</h2><p class="sub">${D.stats.papers} ${t.papers} · ${D.stats.transfers} ${t.arrows}</p>` +
+      `<p>${esc(D.lead[LANG])}</p><p class="sub">${t.hint}</p>` + legend();
+  }
+  function legend() {
+    const t = T[LANG], sw = (f, l, dash) => `<i class="sw" style="background:var(${f});border-color:var(${l})${dash ? ";border-style:dashed" : ""}"></i>`;
+    return `<div class="legend"><span>${sw("--classic-fill", "--classic")}${t.lgClassic}</span><span>${sw("--a-fill", "--a")}${t.lgDomain}</span>` +
+           `<span>${sw("--gap-fill", "--gap", 1)}${t.lgGap}</span><br><span>${t.lgMust}</span><span>${t.lgArrow}</span></div>`;
+  }
+
+  function select(s) { sel = s; document.querySelectorAll(".rowh").forEach(r => r.classList.remove("sel")); paint(); if (s) showPaper(s); else intro(); }
+  $("grid").addEventListener("click", ev => {
+    const c = ev.target.closest(".chip"), r = ev.target.closest(".rowh"), g = ev.target.closest(".cell.gap");
+    if (c) { select(sel === c.dataset.p ? null : c.dataset.p); return; }
+    if (r) { sel = null; paint(); document.querySelectorAll(".rowh").forEach(x => x.classList.toggle("sel", x === r)); showRow(r.dataset.row); return; }
+    if (g) { sel = null; paint(); showRow(g.dataset.cell.split("|")[0]); return; }
+    select(null);
+  });
+  $("panel").addEventListener("click", ev => {
+    const go = ev.target.closest("[data-go]");
+    if (!go) return;
+    select(go.dataset.go);
+    const el = chipEl(go.dataset.go);
+    if (el) el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  });
+
+  function labels() {
+    const t = T[LANG];
+    $("all").textContent = t.all; $("must").textContent = t.must; $("lang").textContent = t.other;
+    $("views").textContent = t.views; $("views").href = `viewer.html?view=plan-a&lang=${LANG}`;
+    $("title").textContent = D.title[LANG]; $("lead").textContent = D.lead[LANG];
+    document.title = D.title[LANG]; document.documentElement.lang = LANG === "zh" ? "zh-CN" : "en";
+    const u = new URL(location.href); u.searchParams.set("lang", LANG); history.replaceState(null, "", u);
+    const f = new URL(u); f.searchParams.delete("embed"); $("full").href = f.toString();
+    $("full").textContent = LANG === "zh" ? "全屏打开 ↗" : "Full screen ↗";
+  }
+  $("all").onclick = () => { showAll = !showAll; $("all").setAttribute("aria-pressed", String(showAll)); paint(); };
+  $("must").onclick = () => { mustOnly = !mustOnly; $("must").setAttribute("aria-pressed", String(mustOnly)); if (sel && !visible(sel)) sel = null; render(); };
+  $("lang").onclick = () => { LANG = LANG === "en" ? "zh" : "en"; labels(); render(); sel ? showPaper(sel) : intro(); };
+  addEventListener("resize", () => D && paint());
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => D && paint());
+
+  (async () => {
+    D = await (await fetch("matrix.json")).json();
+    if (P.get("arrows") === "all") { showAll = true; $("all").setAttribute("aria-pressed", "true"); }
+    labels(); render(); intro();
+    const f = P.get("focus");
+    if (f && D.papers[f]) select(f);
+  })();
+})();
+</script>
+</body>
+</html>

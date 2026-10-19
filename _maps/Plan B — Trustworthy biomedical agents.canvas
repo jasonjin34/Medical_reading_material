@@ -278,7 +278,15 @@
    "label": "cites"
   },
   {
-   "id": "e122",
+   "id": "e112",
+   "fromNode": "scbench-long-arxiv-2026",
+   "toNode": "biomnibench-biorxiv-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e133",
    "fromNode": "medragchecker-arxiv-2026",
    "toNode": "deepevidence-natmachintell-2026",
    "fromSide": "right",
@@ -286,7 +294,7 @@
    "label": "KG evidence grounding"
   },
   {
-   "id": "e129",
+   "id": "e140",
    "fromNode": "rq-bench-arxiv-2026",
    "toNode": "llm-judge-healthcare-arxiv-2026",
    "fromSide": "right",
@@ -294,7 +302,7 @@
    "label": "LLM-as-judge alignment"
   },
   {
-   "id": "e134",
+   "id": "e144",
    "fromNode": "scirigor-arxiv-2026",
    "toNode": "autoresearch-failures-arxiv-2026",
    "fromSide": "right",
@@ -302,7 +310,7 @@
    "label": "unsupported claims"
   },
   {
-   "id": "e135",
+   "id": "e145",
    "fromNode": "scirigor-arxiv-2026",
    "toNode": "fev-bioinformatics-agents-arxiv-2026",
    "fromSide": "right",
@@ -310,7 +318,7 @@
    "label": "workflow correctness"
   },
   {
-   "id": "e136",
+   "id": "e146",
    "fromNode": "scirigor-arxiv-2026",
    "toNode": "medragchecker-arxiv-2026",
    "fromSide": "right",
@@ -318,7 +326,7 @@
    "label": "claim-to-evidence verification"
   },
   {
-   "id": "e138",
+   "id": "e148",
    "fromNode": "autoresearch-failures-arxiv-2026",
    "toNode": "kosmos-arxiv-2025",
    "fromSide": "right",
@@ -326,7 +334,7 @@
    "label": "AI-scientist research"
   },
   {
-   "id": "e139",
+   "id": "e149",
    "fromNode": "fev-bioinformatics-agents-arxiv-2026",
    "toNode": "biomni-biorxiv-2025",
    "fromSide": "right",
@@ -334,7 +342,7 @@
    "label": "bio agent review"
   },
   {
-   "id": "e140",
+   "id": "e150",
    "fromNode": "fev-bioinformatics-agents-arxiv-2026",
    "toNode": "cellvoyager-natmethods-2026",
    "fromSide": "right",
@@ -342,7 +350,7 @@
    "label": "bio agent review"
   },
   {
-   "id": "e145",
+   "id": "e155",
    "fromNode": "biomnibench-biorxiv-2026",
    "toNode": "scbench-arxiv-2026",
    "fromSide": "right",
@@ -350,7 +358,7 @@
    "label": "omics-analysis agent benchmarks"
   },
   {
-   "id": "e147",
+   "id": "e157",
    "fromNode": "citation-blame-emnlp-2026",
    "toNode": "citation-faithfulness-arxiv-2026",
    "fromSide": "right",
@@ -358,7 +366,7 @@
    "label": "citation faithfulness"
   },
   {
-   "id": "e153",
+   "id": "e162",
    "fromNode": "scbench-arxiv-2026",
    "toNode": "scbench-long-arxiv-2026",
    "fromSide": "right",
@@ -366,7 +374,7 @@
    "label": "single-step \u2192 long-horizon"
   },
   {
-   "id": "e155",
+   "id": "e164",
    "fromNode": "cellvoyager-natmethods-2026",
    "toNode": "scbench-arxiv-2026",
    "fromSide": "right",
@@ -374,7 +382,7 @@
    "label": "scRNA-seq agent analysis"
   },
   {
-   "id": "e159",
+   "id": "e168",
    "fromNode": "co-scientist-nature-2026",
    "toNode": "robin-nature-2026",
    "fromSide": "right",
@@ -382,7 +390,7 @@
    "label": "AI scientists"
   },
   {
-   "id": "e161",
+   "id": "e170",
    "fromNode": "robin-nature-2026",
    "toNode": "kosmos-arxiv-2025",
    "fromSide": "right",
@@ -390,7 +398,7 @@
    "label": "FutureHouse lineage"
   },
   {
-   "id": "e163",
+   "id": "e172",
    "fromNode": "kosmos-arxiv-2025",
    "toNode": "cellvoyager-natmethods-2026",
    "fromSide": "right",

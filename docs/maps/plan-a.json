@@ -75,23 +75,39 @@
   {
    "id": "score",
    "label": {
-    "en": "Anomaly / OOD score",
-    "zh": "异常 / OOD 打分"
+    "en": "Anomaly / OOD score (general methods adapted)",
+    "zh": "异常 / OOD 打分（借用通用方法）"
    },
    "columns": [
-    "A3"
+    "A3",
+    "A0"
    ],
-   "count": 9,
+   "count": 24,
    "papers": [
     "meatrd-aaai-2025",
     "refmap-eval-biorxiv-2025",
     "sardine-bioinformatics-2025",
     "healthy-ref-natgenet-2023",
+    "generalized-ood-survey-ijcv-2024",
+    "conformal-outliers-annstat-2023",
+    "patchcore-cvpr-2022",
+    "ad-unifying-review-procieee-2021",
+    "f-anogan-media-2019",
+    "deep-svdd-icml-2018",
+    "mahalanobis-ood-neurips-2018",
     "scatac-novel-genomeres-2026",
     "bioml-bench-biorxiv-2025",
     "conformal-scrna-bioinformatics-2025",
     "mrvi-natmethods-2025",
-    "spatial-natcommun-2024"
+    "spatial-natcommun-2024",
+    "cflow-ad-wacv-2022",
+    "diffusion-medical-ad-miccai-2022",
+    "draem-iccv-2021",
+    "padim-icpr-2020",
+    "energy-ood-neurips-2020",
+    "mvtec-ad-cvpr-2019",
+    "anogan-ipmi-2017",
+    "msp-ood-iclr-2017"
    ],
    "top": [
     "MEATRD",
@@ -161,6 +177,438 @@
  "wrap": 0,
  "nodes": [
   {
+   "id": "group:A0",
+   "kind": "group",
+   "label": {
+    "en": "General AD methods",
+    "zh": "通用异常检测方法"
+   },
+   "code": "A0",
+   "count": 15,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "generalized-ood-survey-ijcv-2024",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Generalized OOD survey",
+   "title": "Generalized Out-of-Distribution Detection: A Survey",
+   "year": 2024,
+   "venue": "International Journal of Computer Vision",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Unifies five separately developed sub-fields — anomaly detection (AD), novelty detection (ND), open-set recognition (OSR), OOD detection and outlier detection (OD) — into one \"generalized OOD detection\" framework, distinguishing them along four dichotomies (covariate vs semantic shift, single- vs multi-class ID, whether ID classification is required, inductive vs transductive); systematically reviews OOD methods (classifier outputs, Outlier Exposure, gradients, Bayesian, foundation models, density, distance, reconstruction), runs a unified fair comparison on OpenOOD, and lays out challenges and future directions.",
+    "zh": "把异常检测(AD)、新颖性检测(ND)、开集识别(OSR)、OOD 检测和离群检测(OD)五个各自发展的子领域统一进一个「广义 OOD 检测」框架,用四个二分维度(检测协变量偏移还是语义偏移、ID 是单类还是多类、是否需要 ID 分类、归纳还是直推)厘清它们的区别;系统综述 OOD 检测方法(分类器输出、Outlier Exposure、梯度、贝叶斯、基础模型、密度、距离、重构),在 OpenOOD 上做统一公平对比,并列出挑战与未来方向。"
+   },
+   "url": {
+    "en": "../papers/generalized-ood-survey-ijcv-2024/",
+    "zh": "../zh/papers/generalized-ood-survey-ijcv-2024/"
+   },
+   "x": 0,
+   "y": 70
+  },
+  {
+   "id": "conformal-outliers-annstat-2023",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Conformal p-values",
+   "title": "Testing for Outliers with Conformal p-values",
+   "year": 2023,
+   "venue": "The Annals of Statistics",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Turns the output of any one-class classifier / anomaly scorer into a p-value per test point via split-conformal calibration, and studies these p-values from a multiple-testing perspective: classical (marginal) conformal p-values are mutually dependent but PRDS, so Benjamini–Hochberg (even with Storey's correction) still controls the FDR exactly, while Fisher's combination test breaks; it then constructs calibration-conditionally valid (CCV) p-values — valid with probability 1−δ for *this* calibration set and mutually independent — and, as a by-product, a simultaneous upper confidence bound on the FPR of any outlier-detection algorithm.",
+    "zh": "把任意一类分类器 / 异常打分器的输出,经 split-conformal 校准变成每个测试点的 p 值,并从多重检验角度研究它们:证明经典(边际)conformal p 值虽然彼此相关,但满足 PRDS,因此 Benjamini–Hochberg(含 Storey 修正)仍精确控制 FDR,而 Fisher 合并检验会失效;再提出校准条件有效(calibration-conditional valid, CCV)的 p 值——以概率 1−δ 对「这一份」校准集有效,且彼此独立——并顺带给出任意异常检测算法 FPR 的同时置信上界。"
+   },
+   "url": {
+    "en": "../papers/conformal-outliers-annstat-2023/",
+    "zh": "../zh/papers/conformal-outliers-annstat-2023/"
+   },
+   "x": 0,
+   "y": 124
+  },
+  {
+   "id": "patchcore-cvpr-2022",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "PatchCore",
+   "title": "Towards Total Recall in Industrial Anomaly Detection",
+   "year": 2022,
+   "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "PatchCore stores mid-level, neighbourhood-aggregated patch features of all normal training images in a memory bank, shrinks it to 1–25% with greedy coreset subsampling at almost no loss, and scores a test image by the distance of its most anomalous patch to that patch's nearest normal neighbour — 99.1% image AUROC on MVTec AD (up to 99.6% with an ensemble), more than halving PaDiM's error.",
+    "zh": "PatchCore 把所有正常训练图像的中层、局部邻域聚合的 patch 特征存进一个 memory bank,用 greedy coreset 子采样把它压缩到 1–25% 而几乎不掉性能,测试时以\"最远的那个 patch 到其最近正常邻居的距离\"作为图像异常分数;在 MVTec AD 上图像级 AUROC 99.1%(集成可达 99.6%),把 PaDiM 的误差减半以上。"
+   },
+   "url": {
+    "en": "../papers/patchcore-cvpr-2022/",
+    "zh": "../zh/papers/patchcore-cvpr-2022/"
+   },
+   "x": 0,
+   "y": 178
+  },
+  {
+   "id": "ad-unifying-review-procieee-2021",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Unifying AD review",
+   "title": "A Unifying Review of Deep and Shallow Anomaly Detection",
+   "year": 2021,
+   "venue": "Proceedings of the IEEE",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "This review (TU Berlin / Kloft / Dietterich / Müller groups) unifies anomaly detection under a probabilistic definition (an anomaly is a point in a low-density region of the normal law P⁺; the problem is density level-set estimation) and a five-dimension modelling framework (loss, model, feature map, regularisation, inference mode), pairing classic \"shallow\" and deep methods across three families — probabilistic/density, one-class classification, reconstruction. A common benchmark on MNIST-C and MVTec-AD plus XAI explanations shows there is no silver bullet — and that a high AUC can be a Clever Hans effect driven by spurious correlations.",
+    "zh": "这篇综述(TU Berlin / Kloft / Dietterich / Müller 组)把异常检测统一到一个概率定义(异常 = 正常分布 P⁺ 低密度区的点,问题即密度水平集估计)和一个五维建模框架(损失、模型、特征映射、正则、推断方式)之下,把经典\"浅层\"方法与深度方法按三大族——概率/密度、单类分类、重建——一一对应;再用 MNIST-C 与 MVTec-AD 的统一实验与 XAI 解释表明:没有银弹,而且高 AUC 可能是 Clever Hans(靠虚假相关取得)。"
+   },
+   "url": {
+    "en": "../papers/ad-unifying-review-procieee-2021/",
+    "zh": "../zh/papers/ad-unifying-review-procieee-2021/"
+   },
+   "x": 0,
+   "y": 232
+  },
+  {
+   "id": "f-anogan-media-2019",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "f-AnoGAN",
+   "title": "f-AnoGAN: Fast unsupervised anomaly detection with generative adversarial networks",
+   "year": 2019,
+   "venue": "Medical Image Analysis",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "f-AnoGAN replaces AnoGAN's per-image iterative latent search with a trained encoder E: train a WGAN-GP on healthy OCT patches, then freeze G and D and train E with a \"pixel residual + discriminator-feature residual\" objective (izi_f); at test time one forward pass gives the reconstruction G(E(x)) and the anomaly score. Image-level AUC is 0.930, beating AE / AdvAE / ALI and iterative AnoGAN (0.911), while inference drops from 2 days to 20 seconds.",
+    "zh": "f-AnoGAN 把 AnoGAN 的\"每张图 latent 迭代搜索\"换成一个训练好的编码器 E:先在健康 OCT 图块上训练 WGAN-GP,再固定 G 和 D、用\"像素残差 + 判别器特征残差\"(izi_f)训练 E,测试时一次前向即得重建 G(E(x)) 与异常分数;图像级 AUC 0.930,优于 AE / AdvAE / ALI 与迭代式 AnoGAN(0.911),而推理从 2 天缩到 20 秒。"
+   },
+   "url": {
+    "en": "../papers/f-anogan-media-2019/",
+    "zh": "../zh/papers/f-anogan-media-2019/"
+   },
+   "x": 0,
+   "y": 286
+  },
+  {
+   "id": "deep-svdd-icml-2018",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Deep SVDD",
+   "title": "Deep One-Class Classification",
+   "year": 2018,
+   "venue": "International Conference on Machine Learning (ICML 2018), PMLR 80",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Deep SVDD is, per the authors, the first deep method trained directly on an anomaly-detection objective: a network φ is trained so that normal data's representations fall into a minimum-volume hypersphere around a fixed centre c, and the test-time anomaly score is ‖φ(x) − c‖². The paper also proves which design choices cause \"hypersphere collapse\" (bias terms, bounded activations, a learnable centre) and the ν-property of the soft-boundary variant.",
+    "zh": "Deep SVDD 是第一个直接以异常检测为目标训练的深度方法(作者自述):训练一个神经网络 φ,让正常数据的表示尽量落进一个以固定中心 c 为圆心、体积最小的超球,测试时异常分数就是 ‖φ(x) − c‖²;论文同时证明了哪些网络设计会导致\"超球坍缩\"(偏置项、有界激活、可学习的中心),以及软边界版本的 ν-性质。"
+   },
+   "url": {
+    "en": "../papers/deep-svdd-icml-2018/",
+    "zh": "../zh/papers/deep-svdd-icml-2018/"
+   },
+   "x": 0,
+   "y": 340
+  },
+  {
+   "id": "mahalanobis-ood-neurips-2018",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Mahalanobis OOD",
+   "title": "A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks",
+   "year": 2018,
+   "venue": "Advances in Neural Information Processing Systems 31 (NeurIPS 2018)",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Without retraining a pre-trained softmax classifier, fit class-conditional Gaussians with a tied covariance (GDA/LDA) in its feature space and use the Mahalanobis distance of a test sample to the closest class mean as the confidence score; with input pre-processing and a multi-layer feature ensemble, the same score reached state of the art on both OOD and adversarial-sample detection, was more robust to noisy labels and small training sets, and enabled training-free class-incremental learning.",
+    "zh": "不重新训练任何预训练 softmax 分类器,在它的特征空间里为每一类拟合共享协方差的类条件高斯(即 GDA/LDA),用测试样本到最近类均值的 Mahalanobis 距离作为置信分数;再加上输入预处理与多层特征集成,同一个分数同时在 OOD 检测和对抗样本检测上达到当时最优,对噪声标签和小样本训练集更稳健,还能免训练地做类增量学习。"
+   },
+   "url": {
+    "en": "../papers/mahalanobis-ood-neurips-2018/",
+    "zh": "../zh/papers/mahalanobis-ood-neurips-2018/"
+   },
+   "x": 0,
+   "y": 394
+  },
+  {
+   "id": "cflow-ad-wacv-2022",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "CFLOW-AD",
+   "title": "CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows",
+   "year": 2022,
+   "venue": "2022 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "CFLOW-AD trains, for each scale of an ImageNet-pretrained CNN encoder, a normalizing-flow decoder conditioned on positional encoding that estimates the exact log-likelihood of each patch feature as the anomaly score. The authors show that under a multivariate-Gaussian prior the flow objective reduces to the Mahalanobis distance (so PaDiM is a special case), and CFLOW-AD reaches 98.26% detection AUROC, 98.62% localization AUROC and 94.60% AUPRO on MVTec while being ~10× faster and smaller than PaDiM/SPADE in the same setting.",
+    "zh": "CFLOW-AD 在 ImageNet 预训练 CNN 编码器的多尺度特征上,为每个尺度训练一个以位置编码为条件的 normalizing flow 解码器,直接估计每个 patch 特征的精确对数似然作为异常分数;作者证明在多元高斯先验下 flow 目标退化为 Mahalanobis 距离(即 PaDiM 是其特例),而 CFLOW-AD 在 MVTec 上达到 98.26% 检测 AUROC、98.62% 定位 AUROC、94.60% AUPRO,并比同设置的 PaDiM/SPADE 快且小约 10 倍。"
+   },
+   "url": {
+    "en": "../papers/cflow-ad-wacv-2022/",
+    "zh": "../zh/papers/cflow-ad-wacv-2022/"
+   },
+   "x": 0,
+   "y": 448
+  },
+  {
+   "id": "diffusion-medical-ad-miccai-2022",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Diffusion AD (medical)",
+   "title": "Diffusion Models for Medical Anomaly Detection",
+   "year": 2022,
+   "venue": "Medical Image Computing and Computer Assisted Intervention (MICCAI 2022), LNCS 13438",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "DDIM's deterministic noising encodes a patient image to noise level L; denoising with classifier guidance then \"translates\" it to the healthy class, and the difference between input and output is a pixel-level anomaly map — a weakly supervised AD method needing only image-level (healthy/diseased) labels, described by the authors as the first diffusion model for anomaly detection.",
+    "zh": "用 DDIM 的确定性加噪把病人图像编码到噪声水平 L,再在去噪时加分类器引导把它\"翻译\"成健康类,输入与生成图之差就是像素级异常图 —— 一个只需图像级标签(健康/患病)的弱监督异常检测方法,作者称是首个用于异常检测的扩散模型。"
+   },
+   "url": {
+    "en": "../papers/diffusion-medical-ad-miccai-2022/",
+    "zh": "../zh/papers/diffusion-medical-ad-miccai-2022/"
+   },
+   "x": 0,
+   "y": 502
+  },
+  {
+   "id": "draem-iccv-2021",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "DRAEM",
+   "title": "DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection",
+   "year": 2021,
+   "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "DRÆM recasts surface anomaly detection from \"learn normal only, read the reconstruction error\" into a discriminative problem: it pastes \"just-out-of-distribution\" synthetic anomalies onto normal images (Perlin-noise masks + external textures) and jointly trains a reconstructive sub-network that inpaints them back to normal and a discriminative sub-network that reads \"original ⊕ reconstruction\" and outputs a pixel-level anomaly map — 98.0% image AUROC and 68.4% pixel AP on MVTec AD, +2.5 and +13.4 points over the previous best.",
+    "zh": "DRÆM 把表面异常检测从\"只学正常、看重建误差\"改成判别问题:在正常图像上用 Perlin 噪声 mask + 外部纹理贴出\"刚好越界(just-out-of-distribution)\"的合成异常,同时训练一个把异常修复回正常的重建子网络和一个读取\"原图 ⊕ 重建图\"并输出像素级异常图的判别子网络;MVTec AD 图像级 AUROC 98.0%、像素 AP 68.4%,比此前最好方法分别高 2.5 和 13.4 个百分点。"
+   },
+   "url": {
+    "en": "../papers/draem-iccv-2021/",
+    "zh": "../zh/papers/draem-iccv-2021/"
+   },
+   "x": 0,
+   "y": 556
+  },
+  {
+   "id": "padim-icpr-2020",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "PaDiM",
+   "title": "PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization",
+   "year": 2021,
+   "venue": "Pattern Recognition. ICPR International Workshops and Challenges (ICPR 2020 Workshops), LNCS 12664",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "PaDiM trains no network at all: it embeds every patch position with multi-layer features from an ImageNet-pretrained CNN, fits one multivariate Gaussian N(μ_ij, Σ_ij) per position over the normal training images, and at test time scores each patch by its Mahalanobis distance to produce an anomaly map — reaching 97.5% pixel AUROC / 92.1% PRO on MVTec AD with inference cost independent of training-set size.",
+    "zh": "PaDiM 不训练任何网络:用 ImageNet 预训练 CNN 的多层特征给每个 patch 位置做 embedding,在每个位置上对正常训练图像拟合一个多元高斯 N(μ_ij, Σ_ij),测试时用 Mahalanobis 距离作为 patch 级异常分数,得到异常图;在 MVTec AD 上做到 97.5% 像素级 AUROC / 92.1% PRO,且推理成本与训练集大小无关。"
+   },
+   "url": {
+    "en": "../papers/padim-icpr-2020/",
+    "zh": "../zh/papers/padim-icpr-2020/"
+   },
+   "x": 0,
+   "y": 610
+  },
+  {
+   "id": "energy-ood-neurips-2020",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Energy OOD",
+   "title": "Energy-based Out-of-distribution Detection",
+   "year": 2020,
+   "venue": "Advances in Neural Information Processing Systems 33 (NeurIPS 2020)",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Interpret a classifier's logits as an energy-based model: the free energy E(x) = −T·logsumexp(f(x)/T) is aligned with input density, whereas log-MSP is just the energy of \"logits minus the max logit\", a biased score. So replace softmax confidence with energy — no training, no hyperparameters — and average FPR95 on CIFAR-10 drops by 18.03%; with auxiliary outlier data, energy-bounded fine-tuning with two squared hinge losses widens the ID/OOD energy gap and beats Outlier Exposure.",
+    "zh": "把分类器的 logit 解释为能量模型:free energy E(x) = −T·logsumexp(f(x)/T) 与输入密度对齐,而 log MSP 只是「logit 减去最大 logit」后的 energy,是一个有偏分数;因此直接用 energy 替代 softmax 置信度——不需训练、无超参——就能在 CIFAR-10 上把平均 FPR95 降低 18.03%;若有辅助离群数据,再用两条 squared hinge 损失做 energy-bounded 微调,拉开 ID 与 OOD 的能量差,超过 Outlier Exposure。"
+   },
+   "url": {
+    "en": "../papers/energy-ood-neurips-2020/",
+    "zh": "../zh/papers/energy-ood-neurips-2020/"
+   },
+   "x": 0,
+   "y": 664
+  },
+  {
+   "id": "mvtec-ad-cvpr-2019",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "MVTec AD",
+   "title": "MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection",
+   "year": 2019,
+   "venue": "2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "dataset",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "MVTec AD is the first unsupervised anomaly-detection dataset aimed at real industrial inspection with multiple objects, multiple defect types and pixel-precise ground truth: 15 categories (5 textures + 10 objects), 5,354 high-resolution images, 73 defect types and 1,888 hand-annotated anomalous regions, with defect-free images only in training. The paper also benchmarks AnoGAN, L2/SSIM autoencoders, a CNN feature dictionary, a GMM texture model and a variation model, concluding that no method works well on every category. It became the standard benchmark for virtually all visual AD methods since, including PaDiM, PatchCore, DRÆM and CFLOW-AD.",
+    "zh": "MVTec AD 是第一个面向真实工业检测、多物体、多缺陷、带像素级真值的无监督异常检测数据集:15 个类别(5 纹理 + 10 物体)、5,354 张高分辨率图像、73 种缺陷、1,888 个手工标注的异常区域;训练集只含无缺陷图像。论文同时给出 AnoGAN、L2/SSIM 自编码器、CNN 特征字典、GMM 纹理模型、variation model 的初始基准,结论是没有一种方法在所有类别上都好。它此后成为 PaDiM、PatchCore、DRÆM、CFLOW-AD 等几乎所有视觉 AD 方法的标准评测集。"
+   },
+   "url": {
+    "en": "../papers/mvtec-ad-cvpr-2019/",
+    "zh": "../zh/papers/mvtec-ad-cvpr-2019/"
+   },
+   "x": 0,
+   "y": 718
+  },
+  {
+   "id": "anogan-ipmi-2017",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "AnoGAN",
+   "title": "Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery",
+   "year": 2017,
+   "venue": "Information Processing in Medical Imaging (IPMI 2017), LNCS 10265",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "AnoGAN trains a DCGAN only on healthy retinal OCT patches; at test time it runs 500 gradient-descent steps in latent space to find the \"most similar normal image\" G(z) for each new patch, and scores anomalies by a weighted sum of a pixel residual and a residual on intermediate discriminator features, with the residual image serving as the anomaly map. Per the authors it is the first use of GANs for anomaly detection, and it founds the \"learn normal → reconstruct → read the residual\" paradigm.",
+    "zh": "AnoGAN 只在健康视网膜 OCT 图块上训练一个 DCGAN,测试时对每张新图块在 latent space 里做 500 步梯度下降找到\"最像它的正常图像\" G(z),用像素残差 + 判别器中间层特征残差的加权和作异常分数、残差图作异常定位 —— 这是把 GAN 用于异常检测的首个工作(作者自述),也是\"学正常 → 重建 → 看残差\"这一范式的奠基论文。"
+   },
+   "url": {
+    "en": "../papers/anogan-ipmi-2017/",
+    "zh": "../zh/papers/anogan-ipmi-2017/"
+   },
+   "x": 0,
+   "y": 772
+  },
+  {
+   "id": "msp-ood-iclr-2017",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "MSP baseline",
+   "title": "A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks",
+   "year": 2017,
+   "venue": "International Conference on Learning Representations (ICLR 2017)",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "The founding paper of OOD detection: a trained classifier's maximum softmax probability (MSP) is not a usable confidence on its own (an MNIST classifier assigns 91% \"confidence\" to Gaussian noise), but correctly classified examples have statistically higher MSP than misclassified and out-of-distribution ones, so thresholding MSP detects errors and OOD inputs across vision, NLP and speech. The authors also define standard tasks and metrics (AUROC plus two AUPRs) and show with an \"auxiliary decoder + abnormality module\" that the baseline can be beaten.",
+    "zh": "OOD 检测领域的起点论文:训练好的分类器给出的最大 softmax 概率(MSP)本身不能当作置信度(MNIST 分类器对高斯噪声也给出 91% 的「置信度」),但正确分类样本的 MSP 统计上高于错分样本和分布外样本,所以把 MSP 当阈值分数,就能在视觉、NLP、语音任务上检出错误和 OOD;作者同时定义了一套标准任务与指标(AUROC + 两种 AUPR),并用一个「辅助解码器 + 异常模块」说明这个基线可以被超越。"
+   },
+   "url": {
+    "en": "../papers/msp-ood-iclr-2017/",
+    "zh": "../zh/papers/msp-ood-iclr-2017/"
+   },
+   "x": 0,
+   "y": 826
+  },
+  {
    "id": "group:A1",
    "kind": "group",
    "label": {
@@ -169,7 +617,7 @@
    },
    "code": "A1",
    "count": 7,
-   "x": 0,
+   "x": 270,
    "y": 0
   },
   {
@@ -197,7 +645,7 @@
     "en": "../papers/damage-scores-cellgenomics-2026/",
     "zh": "../zh/papers/damage-scores-cellgenomics-2026/"
    },
-   "x": 0,
+   "x": 270,
    "y": 70
   },
   {
@@ -225,7 +673,7 @@
     "en": "../papers/dkd-spatial-atlas-nature-2026/",
     "zh": "../zh/papers/dkd-spatial-atlas-nature-2026/"
    },
-   "x": 0,
+   "x": 270,
    "y": 124
   },
   {
@@ -253,7 +701,7 @@
     "en": "../papers/cellspectra-natgenet-2025/",
     "zh": "../zh/papers/cellspectra-natgenet-2025/"
    },
-   "x": 0,
+   "x": 270,
    "y": 178
   },
   {
@@ -284,7 +732,7 @@
     "en": "../papers/spatialagent-biorxiv-2025/",
     "zh": "../zh/papers/spatialagent-biorxiv-2025/"
    },
-   "x": 0,
+   "x": 270,
    "y": 232
   },
   {
@@ -315,7 +763,7 @@
     "en": "../papers/lake-kidney-atlas-nature-2023/",
     "zh": "../zh/papers/lake-kidney-atlas-nature-2023/"
    },
-   "x": 0,
+   "x": 270,
    "y": 286
   },
   {
@@ -343,7 +791,7 @@
     "en": "../papers/kidney-epigenome-nataging-2026/",
     "zh": "../zh/papers/kidney-epigenome-nataging-2026/"
    },
-   "x": 0,
+   "x": 270,
    "y": 340
   },
   {
@@ -374,7 +822,7 @@
     "en": "../papers/inflammatory-pt-natcommun-2025/",
     "zh": "../zh/papers/inflammatory-pt-natcommun-2025/"
    },
-   "x": 0,
+   "x": 270,
    "y": 394
   },
   {
@@ -386,7 +834,7 @@
    },
    "code": "A2",
    "count": 4,
-   "x": 270,
+   "x": 540,
    "y": 0
   },
   {
@@ -414,7 +862,7 @@
     "en": "../papers/ovrlpy-natbiotech-2026/",
     "zh": "../zh/papers/ovrlpy-natbiotech-2026/"
    },
-   "x": 270,
+   "x": 540,
    "y": 70
   },
   {
@@ -445,7 +893,7 @@
     "en": "../papers/resolvi-natmethods-2026/",
     "zh": "../zh/papers/resolvi-natmethods-2026/"
    },
-   "x": 270,
+   "x": 540,
    "y": 124
   },
   {
@@ -473,7 +921,7 @@
     "en": "../papers/xenium-split-natmethods-2026/",
     "zh": "../zh/papers/xenium-split-natmethods-2026/"
    },
-   "x": 270,
+   "x": 540,
    "y": 178
   },
   {
@@ -501,7 +949,7 @@
     "en": "../papers/ambient-rna-bench-biorxiv-2026/",
     "zh": "../zh/papers/ambient-rna-bench-biorxiv-2026/"
    },
-   "x": 270,
+   "x": 540,
    "y": 232
   },
   {
@@ -513,7 +961,7 @@
    },
    "code": "A3",
    "count": 9,
-   "x": 540,
+   "x": 810,
    "y": 0
   },
   {
@@ -541,7 +989,7 @@
     "en": "../papers/meatrd-aaai-2025/",
     "zh": "../zh/papers/meatrd-aaai-2025/"
    },
-   "x": 540,
+   "x": 810,
    "y": 70
   },
   {
@@ -569,7 +1017,7 @@
     "en": "../papers/refmap-eval-biorxiv-2025/",
     "zh": "../zh/papers/refmap-eval-biorxiv-2025/"
    },
-   "x": 540,
+   "x": 810,
    "y": 124
   },
   {
@@ -597,7 +1045,7 @@
     "en": "../papers/sardine-bioinformatics-2025/",
     "zh": "../zh/papers/sardine-bioinformatics-2025/"
    },
-   "x": 540,
+   "x": 810,
    "y": 178
   },
   {
@@ -625,7 +1073,7 @@
     "en": "../papers/healthy-ref-natgenet-2023/",
     "zh": "../zh/papers/healthy-ref-natgenet-2023/"
    },
-   "x": 540,
+   "x": 810,
    "y": 232
   },
   {
@@ -653,7 +1101,7 @@
     "en": "../papers/scatac-novel-genomeres-2026/",
     "zh": "../zh/papers/scatac-novel-genomeres-2026/"
    },
-   "x": 540,
+   "x": 810,
    "y": 286
   },
   {
@@ -684,7 +1132,7 @@
     "en": "../papers/bioml-bench-biorxiv-2025/",
     "zh": "../zh/papers/bioml-bench-biorxiv-2025/"
    },
-   "x": 540,
+   "x": 810,
    "y": 340
   },
   {
@@ -715,7 +1163,7 @@
     "en": "../papers/conformal-scrna-bioinformatics-2025/",
     "zh": "../zh/papers/conformal-scrna-bioinformatics-2025/"
    },
-   "x": 540,
+   "x": 810,
    "y": 394
   },
   {
@@ -743,7 +1191,7 @@
     "en": "../papers/mrvi-natmethods-2025/",
     "zh": "../zh/papers/mrvi-natmethods-2025/"
    },
-   "x": 540,
+   "x": 810,
    "y": 448
   },
   {
@@ -771,7 +1219,7 @@
     "en": "../papers/spatial-natcommun-2024/",
     "zh": "../zh/papers/spatial-natcommun-2024/"
    },
-   "x": 540,
+   "x": 810,
    "y": 502
   },
   {
@@ -783,7 +1231,7 @@
    },
    "code": "A4",
    "count": 5,
-   "x": 810,
+   "x": 1080,
    "y": 0
   },
   {
@@ -811,7 +1259,7 @@
     "en": "../papers/kidney-multimodal-genomebiol-2026/",
     "zh": "../zh/papers/kidney-multimodal-genomebiol-2026/"
    },
-   "x": 810,
+   "x": 1080,
    "y": 70
   },
   {
@@ -839,7 +1287,7 @@
     "en": "../papers/loki-omiclip-natmethods-2025/",
     "zh": "../zh/papers/loki-omiclip-natmethods-2025/"
    },
-   "x": 810,
+   "x": 1080,
    "y": 124
   },
   {
@@ -867,7 +1315,7 @@
     "en": "../papers/he2expr-bench-natcommun-2025/",
     "zh": "../zh/papers/he2expr-bench-natcommun-2025/"
    },
-   "x": 810,
+   "x": 1080,
    "y": 178
   },
   {
@@ -895,7 +1343,7 @@
     "en": "../papers/multimodal-integration-bench-natmethods-2025/",
     "zh": "../zh/papers/multimodal-integration-bench-natmethods-2025/"
    },
-   "x": 810,
+   "x": 1080,
    "y": 232
   },
   {
@@ -923,7 +1371,7 @@
     "en": "../papers/hest1k-2024/",
     "zh": "../zh/papers/hest1k-2024/"
    },
-   "x": 810,
+   "x": 1080,
    "y": 286
   },
   {
@@ -935,7 +1383,7 @@
    },
    "code": "A5",
    "count": 7,
-   "x": 1080,
+   "x": 1350,
    "y": 0
   },
   {
@@ -963,7 +1411,7 @@
     "en": "../papers/pathbench-natcommun-2026/",
     "zh": "../zh/papers/pathbench-natcommun-2026/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 70
   },
   {
@@ -991,7 +1439,7 @@
     "en": "../papers/linear-baselines-natmethods-2025/",
     "zh": "../zh/papers/linear-baselines-natmethods-2025/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 124
   },
   {
@@ -1019,7 +1467,7 @@
     "en": "../papers/nephrobase-biorxiv-2025/",
     "zh": "../zh/papers/nephrobase-biorxiv-2025/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 178
   },
   {
@@ -1047,7 +1495,7 @@
     "en": "../papers/scfm-zeroshot-genomebiol-2025/",
     "zh": "../zh/papers/scfm-zeroshot-genomebiol-2025/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 232
   },
   {
@@ -1075,7 +1523,7 @@
     "en": "../papers/nicheformer-natmethods-2025/",
     "zh": "../zh/papers/nicheformer-natmethods-2025/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 286
   },
   {
@@ -1103,7 +1551,7 @@
     "en": "../papers/virchow-2024/",
     "zh": "../zh/papers/virchow-2024/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 340
   },
   {
@@ -1131,7 +1579,7 @@
     "en": "../papers/uni2-h-model/",
     "zh": "../zh/papers/uni2-h-model/"
    },
-   "x": 1080,
+   "x": 1350,
    "y": 394
   },
   {
@@ -1143,7 +1591,7 @@
    },
    "code": "A6",
    "count": 7,
-   "x": 1350,
+   "x": 1620,
    "y": 0
   },
   {
@@ -1171,7 +1619,7 @@
     "en": "../papers/nih-kidney-ai-challenge-2026/",
     "zh": "../zh/papers/nih-kidney-ai-challenge-2026/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 70
   },
   {
@@ -1199,7 +1647,7 @@
     "en": "../papers/pathology-ad-bench-mlhealth-2025/",
     "zh": "../zh/papers/pathology-ad-bench-mlhealth-2025/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 124
   },
   {
@@ -1227,7 +1675,7 @@
     "en": "../papers/histo-nejmai-2024/",
     "zh": "../zh/papers/histo-nejmai-2024/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 178
   },
   {
@@ -1255,7 +1703,7 @@
     "en": "../papers/kidney-ssl-histology-scirep-2025/",
     "zh": "../zh/papers/kidney-ssl-histology-scirep-2025/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 232
   },
   {
@@ -1283,7 +1731,7 @@
     "en": "../papers/histo-miccai-2025/",
     "zh": "../zh/papers/histo-miccai-2025/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 286
   },
   {
@@ -1311,7 +1759,7 @@
     "en": "../papers/medianomaly-media-2025/",
     "zh": "../zh/papers/medianomaly-media-2025/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 340
   },
   {
@@ -1339,7 +1787,7 @@
     "en": "../papers/histo-anomaly-bi-repo/",
     "zh": "../zh/papers/histo-anomaly-bi-repo/"
    },
-   "x": 1350,
+   "x": 1620,
    "y": 394
   },
   {
@@ -1356,8 +1804,8 @@
    "count": 5,
    "home": "group:A1",
    "slot": 0,
-   "x": 0,
-   "y": 666
+   "x": 270,
+   "y": 990
   },
   {
    "id": "concept:disease-cell-state",
@@ -1373,8 +1821,8 @@
    "count": 6,
    "home": "group:A1",
    "slot": 1,
-   "x": 0,
-   "y": 712
+   "x": 270,
+   "y": 1036
   },
   {
    "id": "concept:damage-score",
@@ -1390,8 +1838,8 @@
    "count": 2,
    "home": "group:A1",
    "slot": 2,
-   "x": 0,
-   "y": 758
+   "x": 270,
+   "y": 1082
   },
   {
    "id": "concept:doublet",
@@ -1407,8 +1855,8 @@
    "count": 4,
    "home": "group:A2",
    "slot": 0,
-   "x": 270,
-   "y": 666
+   "x": 540,
+   "y": 990
   },
   {
    "id": "concept:ambient-rna",
@@ -1424,8 +1872,8 @@
    "count": 2,
    "home": "group:A2",
    "slot": 1,
-   "x": 270,
-   "y": 712
+   "x": 540,
+   "y": 1036
   },
   {
    "id": "concept:segmentation-error",
@@ -1441,8 +1889,8 @@
    "count": 4,
    "home": "group:A2",
    "slot": 2,
-   "x": 270,
-   "y": 758
+   "x": 540,
+   "y": 1082
   },
   {
    "id": "concept:spillover",
@@ -1458,8 +1906,8 @@
    "count": 4,
    "home": "group:A2",
    "slot": 3,
-   "x": 270,
-   "y": 804
+   "x": 540,
+   "y": 1128
   },
   {
    "id": "concept:batch-effect",
@@ -1475,8 +1923,8 @@
    "count": 6,
    "home": "group:A3",
    "slot": 0,
-   "x": 540,
-   "y": 666
+   "x": 810,
+   "y": 990
   },
   {
    "id": "concept:ood-detection",
@@ -1492,8 +1940,8 @@
    "count": 2,
    "home": "group:A3",
    "slot": 1,
-   "x": 540,
-   "y": 712
+   "x": 810,
+   "y": 1036
   },
   {
    "id": "concept:mapping-uncertainty",
@@ -1509,8 +1957,8 @@
    "count": 2,
    "home": "group:A1",
    "slot": 3,
-   "x": 0,
-   "y": 804
+   "x": 270,
+   "y": 1128
   },
   {
    "id": "concept:conformal",
@@ -1526,8 +1974,8 @@
    "count": 2,
    "home": "group:A3",
    "slot": 2,
-   "x": 540,
-   "y": 758
+   "x": 810,
+   "y": 1082
   },
   {
    "id": "concept:anomalous-region",
@@ -1543,8 +1991,8 @@
    "count": 4,
    "home": "group:A3",
    "slot": 3,
-   "x": 540,
-   "y": 804
+   "x": 810,
+   "y": 1128
   },
   {
    "id": "concept:cross-modal",
@@ -1560,8 +2008,8 @@
    "count": 6,
    "home": "group:A3",
    "slot": 4,
-   "x": 540,
-   "y": 850
+   "x": 810,
+   "y": 1174
   },
   {
    "id": "concept:he-to-expression",
@@ -1577,8 +2025,8 @@
    "count": 4,
    "home": "group:A4",
    "slot": 0,
-   "x": 810,
-   "y": 666
+   "x": 1080,
+   "y": 990
   },
   {
    "id": "concept:foundation-model",
@@ -1594,8 +2042,8 @@
    "count": 6,
    "home": "group:A5",
    "slot": 0,
-   "x": 1080,
-   "y": 666
+   "x": 1350,
+   "y": 990
   },
   {
    "id": "concept:linear-baseline",
@@ -1611,8 +2059,8 @@
    "count": 1,
    "home": "group:A5",
    "slot": 1,
-   "x": 1080,
-   "y": 712
+   "x": 1350,
+   "y": 1036
   },
   {
    "id": "concept:zero-shot",
@@ -1628,8 +2076,8 @@
    "count": 3,
    "home": "group:A5",
    "slot": 2,
-   "x": 1080,
-   "y": 758
+   "x": 1350,
+   "y": 1082
   },
   {
    "id": "concept:expert-validation",
@@ -1645,8 +2093,8 @@
    "count": 3,
    "home": "group:A6",
    "slot": 0,
-   "x": 1350,
-   "y": 666
+   "x": 1620,
+   "y": 990
   },
   {
    "id": "concept:kpmp",
@@ -1662,8 +2110,8 @@
    "count": 6,
    "home": "group:A1",
    "slot": 4,
-   "x": 0,
-   "y": 850
+   "x": 270,
+   "y": 1174
   },
   {
    "id": "concept:xenium",
@@ -1679,8 +2127,8 @@
    "count": 6,
    "home": "group:A2",
    "slot": 4,
-   "x": 270,
-   "y": 850
+   "x": 540,
+   "y": 1174
   }
  ],
  "edges": [
@@ -2081,6 +2529,12 @@
    "label": "cites"
   },
   {
+   "source": "conformal-scrna-bioinformatics-2025",
+   "target": "conformal-outliers-annstat-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "damage-scores-cellgenomics-2026",
    "target": "lake-kidney-atlas-nature-2023",
    "kind": "cites",
@@ -2111,6 +2565,12 @@
    "label": "cites"
   },
   {
+   "source": "kidney-epigenome-nataging-2026",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "kidney-multimodal-genomebiol-2026",
    "target": "inflammatory-pt-natcommun-2025",
    "kind": "cites",
@@ -2135,6 +2595,30 @@
    "label": "cites"
   },
   {
+   "source": "meatrd-aaai-2025",
+   "target": "patchcore-cvpr-2022",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "meatrd-aaai-2025",
+   "target": "mvtec-ad-cvpr-2019",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "meatrd-aaai-2025",
+   "target": "f-anogan-media-2019",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "meatrd-aaai-2025",
+   "target": "deep-svdd-icml-2018",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "nicheformer-natmethods-2025",
    "target": "scfm-zeroshot-genomebiol-2025",
    "kind": "cites",
@@ -2143,6 +2627,36 @@
   {
    "source": "pathology-ad-bench-mlhealth-2025",
    "target": "medianomaly-media-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "draem-iccv-2021",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "cflow-ad-wacv-2022",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "patchcore-cvpr-2022",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "padim-icpr-2020",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "mvtec-ad-cvpr-2019",
    "kind": "cites",
    "label": "cites"
   },
@@ -2253,12 +2767,6 @@
    "target": "kidney-epigenome-nataging-2026",
    "kind": "concept",
    "label": "altered PT state"
-  },
-  {
-   "source": "kidney-epigenome-nataging-2026",
-   "target": "lake-kidney-atlas-nature-2023",
-   "kind": "concept",
-   "label": "kidney atlas PT states"
   },
   {
    "source": "inflammatory-pt-natcommun-2025",
@@ -2421,11 +2929,239 @@
    "target": "lake-kidney-atlas-nature-2023",
    "kind": "concept",
    "label": "histology vs molecular atlas"
+  },
+  {
+   "source": "anogan-ipmi-2017",
+   "target": "spatial-natcommun-2024",
+   "kind": "concept",
+   "label": "GAN on normal data; reconstruction-residual score"
+  },
+  {
+   "source": "diffusion-medical-ad-miccai-2022",
+   "target": "histo-miccai-2025",
+   "kind": "concept",
+   "label": "diffusion reconstruct-to-normal AD"
+  },
+  {
+   "source": "patchcore-cvpr-2022",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "pretrained features + kNN distance"
+  },
+  {
+   "source": "patchcore-cvpr-2022",
+   "target": "spatial-natcommun-2024",
+   "kind": "concept",
+   "label": "memory bank of normal features"
+  },
+  {
+   "source": "deep-svdd-icml-2018",
+   "target": "histo-anomaly-bi-repo",
+   "kind": "concept",
+   "label": "one-class boundary on learned features"
+  },
+  {
+   "source": "cflow-ad-wacv-2022",
+   "target": "sardine-bioinformatics-2025",
+   "kind": "concept",
+   "label": "density-based anomaly scoring"
+  },
+  {
+   "source": "mahalanobis-ood-neurips-2018",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "concept",
+   "label": "distance to a reference distribution"
+  },
+  {
+   "source": "conformal-outliers-annstat-2023",
+   "target": "refmap-eval-biorxiv-2025",
+   "kind": "concept",
+   "label": "healthy reference as the null"
+  },
+  {
+   "source": "energy-ood-neurips-2020",
+   "target": "histo-nejmai-2024",
+   "kind": "concept",
+   "label": "outlier-exposure training"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "medianomaly-media-2025",
+   "kind": "concept",
+   "label": "synthetic-anomaly family"
+  },
+  {
+   "source": "ad-unifying-review-procieee-2021",
+   "target": "medianomaly-media-2025",
+   "kind": "concept",
+   "label": "multi-paradigm AD taxonomy"
+  },
+  {
+   "source": "anogan-ipmi-2017",
+   "target": "f-anogan-media-2019",
+   "kind": "lineage",
+   "label": "adds an encoder + WGAN to AnoGAN"
+  },
+  {
+   "source": "anogan-ipmi-2017",
+   "target": "deep-svdd-icml-2018",
+   "kind": "lineage",
+   "label": "AnoGAN as deep baseline"
+  },
+  {
+   "source": "anogan-ipmi-2017",
+   "target": "ad-unifying-review-procieee-2021",
+   "kind": "lineage",
+   "label": "reviewed: GAN reconstruction"
+  },
+  {
+   "source": "f-anogan-media-2019",
+   "target": "ad-unifying-review-procieee-2021",
+   "kind": "lineage",
+   "label": "reviewed: GAN + explicit encoder"
+  },
+  {
+   "source": "deep-svdd-icml-2018",
+   "target": "ad-unifying-review-procieee-2021",
+   "kind": "lineage",
+   "label": "hypersphere model, shallow ↔ deep"
+  },
+  {
+   "source": "f-anogan-media-2019",
+   "target": "histo-miccai-2025",
+   "kind": "lineage",
+   "label": "baseline vs latent diffusion"
+  },
+  {
+   "source": "f-anogan-media-2019",
+   "target": "medianomaly-media-2025",
+   "kind": "lineage",
+   "label": "benchmarked (reconstruction family)"
+  },
+  {
+   "source": "mvtec-ad-cvpr-2019",
+   "target": "ad-unifying-review-procieee-2021",
+   "kind": "lineage",
+   "label": "benchmarks on MVTec AD"
+  },
+  {
+   "source": "padim-icpr-2020",
+   "target": "patchcore-cvpr-2022",
+   "kind": "lineage",
+   "label": "memory bank generalises per-position Gaussians"
+  },
+  {
+   "source": "padim-icpr-2020",
+   "target": "cflow-ad-wacv-2022",
+   "kind": "lineage",
+   "label": "flow likelihood generalises PaDiM's Gaussian"
+  },
+  {
+   "source": "mahalanobis-ood-neurips-2018",
+   "target": "padim-icpr-2020",
+   "kind": "lineage",
+   "label": "Mahalanobis scoring on pretrained features"
+  },
+  {
+   "source": "mahalanobis-ood-neurips-2018",
+   "target": "cflow-ad-wacv-2022",
+   "kind": "lineage",
+   "label": "Gaussian prior as special case"
+  },
+  {
+   "source": "mvtec-ad-cvpr-2019",
+   "target": "padim-icpr-2020",
+   "kind": "lineage",
+   "label": "main benchmark"
+  },
+  {
+   "source": "mvtec-ad-cvpr-2019",
+   "target": "patchcore-cvpr-2022",
+   "kind": "lineage",
+   "label": "main benchmark"
+  },
+  {
+   "source": "mvtec-ad-cvpr-2019",
+   "target": "draem-iccv-2021",
+   "kind": "lineage",
+   "label": "main benchmark"
+  },
+  {
+   "source": "mvtec-ad-cvpr-2019",
+   "target": "cflow-ad-wacv-2022",
+   "kind": "lineage",
+   "label": "main benchmark"
+  },
+  {
+   "source": "anogan-ipmi-2017",
+   "target": "mvtec-ad-cvpr-2019",
+   "kind": "lineage",
+   "label": "GAN baseline"
+  },
+  {
+   "source": "msp-ood-iclr-2017",
+   "target": "mahalanobis-ood-neurips-2018",
+   "kind": "lineage",
+   "label": "MSP as baseline"
+  },
+  {
+   "source": "msp-ood-iclr-2017",
+   "target": "energy-ood-neurips-2020",
+   "kind": "lineage",
+   "label": "energy replaces softmax score"
+  },
+  {
+   "source": "mahalanobis-ood-neurips-2018",
+   "target": "energy-ood-neurips-2020",
+   "kind": "lineage",
+   "label": "benchmarked baseline"
+  },
+  {
+   "source": "msp-ood-iclr-2017",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "baseline in OpenOOD"
+  },
+  {
+   "source": "mahalanobis-ood-neurips-2018",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "distance-based OOD"
+  },
+  {
+   "source": "energy-ood-neurips-2020",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "post-hoc output-based OOD"
+  },
+  {
+   "source": "ad-unifying-review-procieee-2021",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "sensory / semantic anomaly split"
+  },
+  {
+   "source": "deep-svdd-icml-2018",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "one-class AD reviewed"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "AD method on far-OOD"
+  },
+  {
+   "source": "mvtec-ad-cvpr-2019",
+   "target": "generalized-ood-survey-ijcv-2024",
+   "kind": "lineage",
+   "label": "sensory-AD benchmark"
   }
  ],
  "stats": {
-  "papers": 39,
+  "papers": 54,
   "concepts": 20,
-  "edges": 136
+  "edges": 184
  }
 }

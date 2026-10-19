@@ -26,6 +26,7 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — cites
+- [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/hypogen-llm-colm-2024|LLM hypothesis generators]] — hypothesis generation
 - [[_maps/papers/robin-nature-2026|Robin]] — AI scientists
 - [[_maps/papers/virtual-lab-nature-2025|Virtual Lab]] — multi-agent research

@@ -25,7 +25,10 @@ tags:
 > scBench-Long(LatchBio)把 scBench 从"单步"推进到"长程":21 个评测、5 个研究系统,要求 agent 从原始或接近原始的单细胞数据出发、不给方法地恢复一个具体的科学结论,结论用受控词表确定性判分,另配轨迹 rubric 做诊断;1,068 条轨迹中最强的模型-harness 组合(Claude Opus 4.8 + Claude Code)也只通过 16/63(25.4%),且失败主要不是工具使用失败,而是科学推理失败。
 
 ## Related papers / 相关论文
+- [[_maps/papers/biomnibench-biorxiv-2026|BiomniBench]] — cites
+- [[_maps/papers/bixbench-arxiv-2025|BixBench]] — cites
 - [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — claims reproduced before grading
+- [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — cites
 - [[_maps/papers/scbench-arxiv-2026|scBench]] — single-step → long-horizon
 
 ## Concepts / 概念

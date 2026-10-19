@@ -4,13 +4,14 @@
 Sources (hand-written):
     papers/*/metadata.yaml     plans / track / recommended_by decide view membership
     maps/views.yaml            columns, core concepts and their match patterns per view
+    maps/matrix.yaml           method × data matrix: cells, Plan A gaps, method-lineage transfers
     maps/labels.yaml           short node labels
     maps/viewer.html           the interactive viewer (copied verbatim)
     scripts/build_relationships.py  CONCEPT_EDGES (paper ↔ paper), via relationships/graph.json
     glossary/*.yaml            definitions + `seen_in` links for concepts
 
 Generated (do not hand-edit):
-    docs/maps/viewer.html, docs/maps/<view>.json
+    docs/maps/viewer.html, docs/maps/<view>.json, docs/maps/matrix.html, docs/maps/matrix.json
     docs/knowledge-map.md, docs/knowledge-map.zh.md
     _maps/                     Obsidian hub notes, concept notes, MOCs and canvases
 
@@ -49,6 +50,17 @@ PLAN_ORDER = ["A", "B", "EHR"]
 # --------------------------------------------------------------------------- #
 def load_views() -> dict:
     return yaml.safe_load((MAPS_SRC / "views.yaml").read_text(encoding="utf-8"))["views"]
+
+
+_MATRIX: dict | None = None
+
+
+def load_matrix() -> dict:
+    global _MATRIX
+    if _MATRIX is None:
+        f = MAPS_SRC / "matrix.yaml"
+        _MATRIX = (yaml.safe_load(f.read_text(encoding="utf-8")) or {}) if f.exists() else {}
+    return _MATRIX
 
 
 def load_glossary() -> dict:
@@ -259,7 +271,8 @@ def build_view(view_id: str, spec: dict, views: dict, metas: list[dict],
 
     # concept nodes: each sits under its "home" column (the column holding most of its papers)
     cspecs = concept_specs(view_id, spec, views)
-    clinks = concept_links(cspecs, papers, glossary)
+    skip = set(spec.get("concepts_skip_tracks", []))
+    clinks = concept_links(cspecs, [m for m in papers if not skip & set(_tracks(m))], glossary)
     col_of_paper = {n["id"]: n["parent"] for n in nodes if n["kind"] == "paper"}
     slots = defaultdict(int)
     cnodes = []
@@ -284,6 +297,10 @@ def build_view(view_id: str, spec: dict, views: dict, metas: list[dict],
     nodes += cnodes
 
     edges += [e for e in load_paper_edges(slugs)]
+    have = {tuple(sorted((e["source"], e["target"]))) for e in edges if e["kind"] != "mentions"}
+    for a, b, lab in load_matrix().get("transfers", []) or []:
+        if a in slugs and b in slugs and tuple(sorted((a, b))) not in have:
+            edges.append({"source": a, "target": b, "kind": "lineage", "label": lab})
     return {
         "flow": flow_steps(spec, nodes),
         "view": view_id,
@@ -320,14 +337,55 @@ def mermaid_flow(d: dict, lang: str) -> str:
     return "\n".join(out)
 
 
+def build_matrix(metas: list[dict]) -> dict:
+    """Method × data matrix: rows = AD paradigms, cols = data domains, papers in cells, lineage arrows."""
+    mx = load_matrix()
+    by_slug = {m["_dir"]: m for m in metas}
+    rows, cols = mx["rows"], mx["cols"]
+    cells, papers, missing = defaultdict(list), {}, []
+    for s, where in mx["cells"].items():
+        if s not in by_slug:
+            missing.append(s)
+            continue
+        pairs = [where] if isinstance(where[0], str) else where
+        for r, c in pairs:
+            if r not in rows or c not in cols:
+                raise SystemExit(f"! matrix: {s} in unknown cell {r}/{c}")
+            cells[f"{r}|{c}"].append(s)
+        m = by_slug[s]
+        papers[s] = {"label": short_label(m), "title": m.get("title", s), "year": m.get("year"),
+                     "venue": m.get("venue") or "", "relevance": m.get("relevance", ""),
+                     "type": m.get("type", "paper"), "category": m.get("category", ""),
+                     "plans": m.get("plans") or [], "oneliner": one_liner(s),
+                     "url": {"en": f"../papers/{s}/", "zh": f"../zh/papers/{s}/"}}
+    if missing:
+        print(f"  ! matrix: not in papers/ yet, skipped: {', '.join(missing)}")
+    for k in cells:
+        cells[k].sort(key=lambda s: (papers[s]["relevance"] != "high", papers[s]["year"] or 0))
+    transfers = []
+    for a, b, lab in mx.get("transfers", []) or []:
+        if a in papers and b in papers:
+            transfers.append({"from": a, "to": b, "label": lab})
+        else:
+            print(f"  ! matrix: transfer {a} → {b} skipped (paper missing)")
+    return {"title": mx["title"], "lead": mx["lead"],
+            "rows": [{"id": k, **v} for k, v in rows.items()],
+            "cols": [{"id": k, **v} for k, v in cols.items()],
+            "cells": dict(cells), "papers": papers, "transfers": transfers,
+            "gaps": mx.get("gaps", []) or [],
+            "stats": {"papers": len(papers), "transfers": len(transfers)}}
+
+
 # --------------------------------------------------------------------------- #
 # Web output
 # --------------------------------------------------------------------------- #
-def write_web(built: dict) -> None:
+def write_web(built: dict, matrix: dict) -> None:
     if MAPS_WEB.exists():
         shutil.rmtree(MAPS_WEB)
     MAPS_WEB.mkdir(parents=True)
     shutil.copyfile(MAPS_SRC / "viewer.html", MAPS_WEB / "viewer.html")
+    shutil.copyfile(MAPS_SRC / "matrix.html", MAPS_WEB / "matrix.html")
+    (MAPS_WEB / "matrix.json").write_text(json.dumps(matrix, ensure_ascii=False, indent=1), encoding="utf-8")
     index = [{"id": vid, "title": d["title"], "lead": d["lead"], "stats": d["stats"]}
              for vid, d in built.items()]
     (MAPS_WEB / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -341,6 +399,14 @@ def write_web(built: dict) -> None:
             "node to see its neighbours, double-click a paper to open its deep-read.\n"
             if lang == "en" else
             "每个视图是一张独立的图。组默认折叠：点击组展开，点击节点只看它的邻居，双击论文打开精读。\n")
+        out.append((f"## Method map\n\n{matrix['lead']['en']} "
+                    f"[Open full screen ↗](maps/matrix.html?lang=en){{target=_blank}}\n" if lang == "en" else
+                    f"## 方法图\n\n{matrix['lead']['zh']} "
+                    f"[全屏打开 ↗](maps/matrix.html?lang=zh){{target=_blank}}\n"))
+        out.append(f'<iframe src="{up}maps/matrix.html?lang={lang}&embed=1" '
+                   f'style="width:100%;height:760px;border:1px solid var(--md-default-fg-color--lightest);'
+                   f'border-radius:6px" loading="lazy"></iframe>\n')
+        out.append("## Reading-list views\n" if lang == "en" else "## 按阅读清单的视图\n")
         out.append("| View | Papers | Concepts |\n| --- | --- | --- |" if lang == "en"
                    else "| 视图 | 论文 | 概念 |\n| --- | --- | --- |")
         for vid, d in built.items():
@@ -361,7 +427,7 @@ def write_web(built: dict) -> None:
                      for i, st in enumerate(d["flow"], 1)]
             out.append(("Open in map: " if lang == "en" else "在图谱中打开：") + " · ".join(steps) + "\n")
         first = next(iter(built))
-        out.append("\n## Interactive map\n" if lang == "en" else "\n## 交互图谱\n")
+        out.append(f"\n## {built[first]['title'][lang]}\n")
         out.append(f'<iframe src="{up}maps/viewer.html?view={first}&lang={lang}&embed=1" '
                    f'style="width:100%;height:640px;border:1px solid var(--md-default-fg-color--lightest);'
                    f'border-radius:6px" loading="lazy"></iframe>\n')
@@ -379,7 +445,7 @@ def _safe(name: str) -> str:
     return re.sub(r'[\\/:*?"<>|#^\[\]]', "-", name).strip()
 
 
-def write_obsidian(built: dict, views: dict, metas: list[dict], glossary: dict) -> None:
+def write_obsidian(built: dict, views: dict, metas: list[dict], glossary: dict, matrix: dict) -> None:
     if VAULT.exists():
         shutil.rmtree(VAULT)
     (VAULT / "papers").mkdir(parents=True)
@@ -471,7 +537,58 @@ def write_obsidian(built: dict, views: dict, metas: list[dict], glossary: dict) 
             moc.append("")
         (VAULT / f"{fname}.md").write_text("\n".join(moc), encoding="utf-8")
         (VAULT / f"{fname}.canvas").write_text(json.dumps(canvas_for(d), indent=1), encoding="utf-8")
+    write_matrix_obsidian(matrix, plink)
+    readme.insert(4, "- [[_maps/Method matrix|Method matrix]] · canvas: [[_maps/Method matrix.canvas|Method matrix.canvas]]")
     (VAULT / "README.md").write_text("\n".join(readme) + "\n", encoding="utf-8")
+
+
+def write_matrix_obsidian(mx: dict, plink) -> None:
+    """Method matrix as a markdown table + lineage list, and a grid canvas of text cards."""
+    gaps = {(g["row"], g["col"]): g["note"] for g in mx["gaps"]}
+    head = "| Paradigm / 范式 | " + " | ".join(f"{c['en']}<br>{c['zh']}" for c in mx["cols"]) + " |"
+    lines = [_fm({"title": mx["title"]["en"], "tags": ["moc", "matrix"]}), f"# {mx['title']['en']}\n",
+             f"{mx['lead']['en']}\n", f"{mx['lead']['zh']}\n", head,
+             "|" + " --- |" * (len(mx["cols"]) + 1)]
+    for r in mx["rows"]:
+        row = [f"**{r['en']}**<br>{r['zh']}"]
+        for c in mx["cols"]:
+            items = [plink(s) for s in mx["cells"].get(f"{r['id']}|{c['id']}", [])]
+            if (r["id"], c["id"]) in gaps:
+                items.append("*Plan A gap*")
+            row.append("<br>".join(items) or "·")
+        lines.append("| " + " | ".join(row) + " |")
+    lines += ["", "## Paradigms / 范式", ""]
+    for r in mx["rows"]:
+        lines += [f"- **{r['en']} / {r['zh']}** — {r['idea']['en']} {r['idea']['zh']}",
+                  f"  - Kidney omics / 肾脏组学: {r['omics']['en']} {r['omics']['zh']}"]
+    if mx["gaps"]:
+        lines += ["", "## Plan A gaps / Plan A 的空白", ""]
+        lines += [f"- {g['row']} × {g['col']}: {g['note']['en']} {g['note']['zh']}" for g in mx["gaps"]]
+    if mx["transfers"]:
+        lines += ["", "## Method lineage / 方法迁移", ""]
+        lines += [f"- {plink(t['from'])} → {plink(t['to'])} — {t['label']}" for t in mx["transfers"]]
+    (VAULT / "Method matrix.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    W, H, GX, GY = 300, 220, 320, 240
+    nodes = [{"id": f"col-{c['id']}", "type": "text", "text": f"## {c['en']}\n{c['zh']}",
+              "x": (j + 1) * GX, "y": 0, "width": W, "height": 90, "color": "5"} for j, c in enumerate(mx["cols"])]
+    for i, r in enumerate(mx["rows"]):
+        y = 110 + i * GY
+        nodes.append({"id": f"row-{r['id']}", "type": "text", "x": 0, "y": y, "width": W, "height": H, "color": "4",
+                      "text": f"## {r['en']}\n{r['zh']}\n\n{r['idea']['en']}"})
+        for j, c in enumerate(mx["cols"]):
+            items = [f"- {plink(s)}" for s in mx["cells"].get(f"{r['id']}|{c['id']}", [])]
+            gap = next((g for g in mx["gaps"] if g["row"] == r["id"] and g["col"] == c["id"]), None)
+            if gap:
+                items.append(f"\n**Plan A:** {gap['note']['en']}")
+            if items:
+                node = {"id": f"cell-{r['id']}-{c['id']}", "type": "text", "text": "\n".join(items),
+                        "x": (j + 1) * GX, "y": y, "width": W, "height": H}
+                if gap:
+                    node["color"] = "1"
+                nodes.append(node)
+    (VAULT / "Method matrix.canvas").write_text(json.dumps({"nodes": nodes, "edges": []}, indent=1),
+                                                encoding="utf-8")
 
 
 def canvas_for(d: dict) -> dict:
@@ -532,12 +649,14 @@ def main() -> None:
     metas = _meta.all_meta()
     glossary = load_glossary()
     built = {vid: build_view(vid, spec, views, metas, glossary) for vid, spec in views.items()}
-    write_web(built)
-    write_obsidian(built, views, metas, glossary)
+    matrix = build_matrix(metas)
+    write_web(built, matrix)
+    write_obsidian(built, views, metas, glossary, matrix)
     for vid, d in built.items():
         s = d["stats"]
         print(f"  {vid:10s} papers={s['papers']:3d} concepts={s['concepts']:2d} edges={s['edges']}")
-    print(f"✓ maps: {len(built)} views → docs/maps/ + _maps/ (Obsidian)")
+    print(f"  matrix     papers={matrix['stats']['papers']:3d} transfers={matrix['stats']['transfers']}")
+    print(f"✓ maps: {len(built)} views + method matrix → docs/maps/ + _maps/ (Obsidian)")
 
 
 if __name__ == "__main__":
