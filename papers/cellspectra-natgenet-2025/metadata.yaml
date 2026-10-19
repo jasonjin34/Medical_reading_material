@@ -32,3 +32,7 @@ tags: ["kidney-atlas", "cross-species", "pathway-coordination", "single-sample-t
 related: ["lake-kidney-atlas-nature-2023", "dkd-spatial-atlas-nature-2026", "damage-scores-cellgenomics-2026", "healthy-ref-natgenet-2023", "mrvi-natmethods-2025"]
 status: "complete"
 added: "2026-10-19"
+plans:
+  - "A"
+track: "A1"
+recommended_by: ""

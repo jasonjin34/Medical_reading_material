@@ -25,3 +25,7 @@ tags: ["hypothesis-generation", "LLM-evaluation", "temporal-split", "multi-agent
 related: ["truthhypo-ijcai-2025", "falsifiable-ideation-arxiv-2026", "ideation-execution-gap-arxiv-2025", "co-scientist-nature-2026", "semnovel-jbi-2025", "llm-judge-healthcare-arxiv-2026"]
 status: "complete"
 added: "2026-10-19"
+plans:
+  - "B"
+track: "B6"
+recommended_by: "sikander"

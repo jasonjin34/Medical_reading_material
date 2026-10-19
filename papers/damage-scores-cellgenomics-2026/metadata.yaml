@@ -38,3 +38,7 @@ tags: ["damage-score", "podocyte", "kidney", "single-cell", "disease-trajectory"
 related: ["lake-kidney-atlas-nature-2023", "cellspectra-natgenet-2025", "dkd-spatial-atlas-nature-2026", "healthy-ref-natgenet-2023"]
 status: "abstract-only"
 added: "2026-10-19"
+plans:
+  - "A"
+track: "A1"
+recommended_by: ""

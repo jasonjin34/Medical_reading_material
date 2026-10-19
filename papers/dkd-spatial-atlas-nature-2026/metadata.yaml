@@ -73,3 +73,7 @@ tags: ["DKD", "Xenium", "CosMx", "spatial-niches", "B-cells", "kidney"]
 related: ["lake-kidney-atlas-nature-2023", "cellspectra-natgenet-2025", "damage-scores-cellgenomics-2026", "resolvi-natmethods-2026", "xenium-split-natmethods-2026", "nicheformer-natmethods-2025"]
 status: "complete"
 added: "2026-10-19"
+plans:
+  - "A"
+track: "A1"
+recommended_by: ""

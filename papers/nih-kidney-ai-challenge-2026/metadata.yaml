@@ -16,3 +16,7 @@ tags: ["competition", "anomaly-detection", "KPMP", "kidney", "whole-slide-images
 related: ["lake-kidney-atlas-nature-2023", "histo-nejmai-2024", "histo-anomaly-bi-repo", "kidney-ssl-histology-scirep-2025", "pathology-ad-bench-mlhealth-2025", "virtual-cell-challenge"]
 status: "complete"
 added: "2026-10-19"
+plans:
+  - "A"
+track: "A6"
+recommended_by: "sikander"

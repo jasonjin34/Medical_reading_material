@@ -28,3 +28,10 @@ related:
   - "healthy-ref-natgenet-2023"
 status: "complete"
 added: "2026-10-19"
+plans:
+  - "A"
+  - "B"
+track:
+  - "A3"
+  - "B4"
+recommended_by: ""

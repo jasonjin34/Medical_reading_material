@@ -186,3 +186,10 @@ tags: ["kidney-atlas", "KPMP", "altered-states", "snRNA-seq", "spatial-transcrip
 related: ["dkd-spatial-atlas-nature-2026", "damage-scores-cellgenomics-2026", "cellspectra-natgenet-2025", "nih-kidney-ai-challenge-2026", "healthy-ref-natgenet-2023", "kidney-multimodal-genomebiol-2026"]
 status: "complete"
 added: "2026-10-19"
+plans:
+  - "A"
+  - "B"
+track:
+  - "A1"
+  - "B2"
+recommended_by: ""
