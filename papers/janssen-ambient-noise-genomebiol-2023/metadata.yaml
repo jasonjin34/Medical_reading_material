@@ -1,0 +1,33 @@
+id: "janssen-ambient-noise-genomebiol-2023"
+title: "The effect of background noise and its removal on the analysis of single-cell expression data"
+authors:
+  - "Janssen, Philipp"
+  - "Kliesmete, Zane"
+  - "Vieth, Beate"
+  - "Adiconis, Xian"
+  - "Simmons, Sean"
+  - "Marshall, Jamie"
+  - "McCabe, Cristin"
+  - "Heyn, Holger"
+  - "Levin, Joshua Z."
+  - "Enard, Wolfgang"
+  - "Hellmann, Ines"
+year: 2023
+venue: "Genome Biology"
+type: "paper"
+category: "single-cell"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1186/s13059-023-02978-x"
+doi: "10.1186/s13059-023-02978-x"
+arxiv: ""
+s2_id: "cf42ae980233c0ec87683876ae31720c9fc2a45e"
+bibkey: "Janssen_2023"
+tags: ["ambient-RNA", "background-noise", "decontamination-benchmark", "CellBender", "SoupX", "DecontX", "mouse-kidney", "snRNA-seq", "genotype-demultiplexing"]
+related: []
+status: "complete"
+added: "2026-10-26"
+plans:
+  - "A"
+track: "A2"
+recommended_by: ""

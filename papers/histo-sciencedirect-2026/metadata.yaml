@@ -27,7 +27,7 @@ url: "https://www.sciencedirect.com/science/article/pii/S153561082600259X"
 doi: "10.1016/j.ccell.2026.05.014"
 arxiv: ""
 s2_id: null
-bibkey: "histo-sciencedirect-2026"
+bibkey: "Liang_2026"
 tags: ["computational-pathology", "spatial-biomarker", "interpretable-ML", "colorectal-cancer", "whole-slide-imaging", "counterfactual-perturbation", "virtual-tissue"]
 related: []
 status: "complete"

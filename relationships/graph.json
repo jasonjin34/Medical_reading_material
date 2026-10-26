@@ -74,6 +74,14 @@
       "year": 2025
     },
     {
+      "id": "abedini-kidney-atlas-natgenet-2024",
+      "label": "Single-cell multi-omic and spatial profiling of human kidney",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2024
+    },
+    {
       "id": "ad-unifying-review-procieee-2021",
       "label": "A Unifying Review of Deep and Shallow Anomaly Detection",
       "kind": "paper",
@@ -274,6 +282,14 @@
       "year": 2025
     },
     {
+      "id": "denisenko-dissociation-bias-genomebiol-2020",
+      "label": "Systematic assessment of tissue dissociation and storage bia",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2020
+    },
+    {
       "id": "diffusion-medical-ad-miccai-2022",
       "label": "Diffusion Models for Medical Anomaly Detection",
       "kind": "paper",
@@ -458,6 +474,14 @@
       "year": 2026
     },
     {
+      "id": "hoeft-genotype-multiplexing-natcommun-2024",
+      "label": "Label-free single-cell RNA multiplexing leveraging genetic v",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2024
+    },
+    {
       "id": "holistic-agent-leaderboard-iclr-2026",
       "label": "Holistic Agent Leaderboard: The Missing Infrastructure for A",
       "kind": "paper",
@@ -514,6 +538,14 @@
       "year": 2024
     },
     {
+      "id": "janssen-ambient-noise-genomebiol-2023",
+      "label": "The effect of background noise and its removal on the analys",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2023
+    },
+    {
       "id": "kidney-epigenome-nataging-2026",
       "label": "A cross-species single-cell kidney epigenome atlas reveals e",
       "kind": "paper",
@@ -562,6 +594,14 @@
       "year": 2023
     },
     {
+      "id": "lake-snrna-pipeline-natcommun-2019",
+      "label": "A single-nucleus RNA-sequencing pipeline to decipher the mol",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2019
+    },
+    {
       "id": "linear-baselines-natmethods-2025",
       "label": "Deep-learning-based gene perturbation effect prediction does",
       "kind": "paper",
@@ -592,6 +632,14 @@
       "category": "anomaly",
       "relevance": "high",
       "year": 2018
+    },
+    {
+      "id": "malone-transplant-chimerism-jasn-2020",
+      "label": "Harnessing Expressed Single Nucleotide Variation and Single ",
+      "kind": "paper",
+      "category": "single-cell",
+      "relevance": "high",
+      "year": 2020
     },
     {
       "id": "mast-neurips-2025",
@@ -1036,6 +1084,11 @@
     },
     {
       "source": "cellspectra-natgenet-2025",
+      "target": "abedini-kidney-atlas-natgenet-2024",
+      "type": "cites"
+    },
+    {
+      "source": "cellspectra-natgenet-2025",
       "target": "lake-kidney-atlas-nature-2023",
       "type": "cites"
     },
@@ -1145,6 +1198,16 @@
       "type": "cites"
     },
     {
+      "source": "janssen-ambient-noise-genomebiol-2023",
+      "target": "denisenko-dissociation-bias-genomebiol-2020",
+      "type": "cites"
+    },
+    {
+      "source": "kidney-epigenome-nataging-2026",
+      "target": "abedini-kidney-atlas-natgenet-2024",
+      "type": "cites"
+    },
+    {
       "source": "kidney-epigenome-nataging-2026",
       "target": "lake-kidney-atlas-nature-2023",
       "type": "cites"
@@ -1157,6 +1220,11 @@
     {
       "source": "kidney-multimodal-genomebiol-2026",
       "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
+    {
+      "source": "lake-kidney-atlas-nature-2023",
+      "target": "lake-snrna-pipeline-natcommun-2019",
       "type": "cites"
     },
     {
@@ -1232,6 +1300,16 @@
     {
       "source": "resolvi-natmethods-2026",
       "target": "ovrlpy-natbiotech-2026",
+      "type": "cites"
+    },
+    {
+      "source": "robin-nature-2026",
+      "target": "bixbench-arxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "robin-nature-2026",
+      "target": "paperqa2-arxiv-2024",
       "type": "cites"
     },
     {
@@ -2263,6 +2341,11 @@
       "type": "in-category"
     },
     {
+      "source": "abedini-kidney-atlas-natgenet-2024",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
       "source": "ad-unifying-review-procieee-2021",
       "target": "cat:anomaly",
       "type": "in-category"
@@ -2388,6 +2471,11 @@
       "type": "in-category"
     },
     {
+      "source": "denisenko-dissociation-bias-genomebiol-2020",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
       "source": "diffusion-medical-ad-miccai-2022",
       "target": "cat:anomaly",
       "type": "in-category"
@@ -2503,6 +2591,11 @@
       "type": "in-category"
     },
     {
+      "source": "hoeft-genotype-multiplexing-natcommun-2024",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
       "source": "holistic-agent-leaderboard-iclr-2026",
       "target": "cat:agents",
       "type": "in-category"
@@ -2538,6 +2631,11 @@
       "type": "in-category"
     },
     {
+      "source": "janssen-ambient-noise-genomebiol-2023",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
       "source": "kidney-epigenome-nataging-2026",
       "target": "cat:single-cell",
       "type": "in-category"
@@ -2568,6 +2666,11 @@
       "type": "in-category"
     },
     {
+      "source": "lake-snrna-pipeline-natcommun-2019",
+      "target": "cat:single-cell",
+      "type": "in-category"
+    },
+    {
       "source": "linear-baselines-natmethods-2025",
       "target": "cat:foundation",
       "type": "in-category"
@@ -2585,6 +2688,11 @@
     {
       "source": "mahalanobis-ood-neurips-2018",
       "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
+      "source": "malone-transplant-chimerism-jasn-2020",
+      "target": "cat:single-cell",
       "type": "in-category"
     },
     {

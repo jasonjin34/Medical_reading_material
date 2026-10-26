@@ -11,7 +11,7 @@ url: "https://virtualcellchallenge.org/"
 doi: "10.1016/j.cell.2025.06.008"
 arxiv: ""
 s2_id: null
-bibkey: "virtual-cell-challenge"
+bibkey: "Roohani_2025"
 tags: ["perturbation-prediction", "single-cell", "Perturb-seq", "virtual-cell", "benchmark", "competition"]
 related: []
 status: "complete"

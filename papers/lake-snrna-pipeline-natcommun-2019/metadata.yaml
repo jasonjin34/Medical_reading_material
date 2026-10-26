@@ -1,0 +1,35 @@
+id: "lake-snrna-pipeline-natcommun-2019"
+title: "A single-nucleus RNA-sequencing pipeline to decipher the molecular anatomy and pathophysiology of human kidneys"
+authors:
+  - "Lake, Blue B."
+  - "Chen, Song"
+  - "Hoshi, Masato"
+  - "Plongthongkum, Nongluk"
+  - "Salamon, Diane"
+  - "Knoten, Amanda"
+  - "Vijayan, Anitha"
+  - "Venkatesh, Ramakrishna"
+  - "Kim, Eric H."
+  - "Gao, Derek"
+  - "Gaut, Joseph"
+  - "Zhang, Kun"
+  - "Jain, Sanjay"
+year: 2019
+venue: "Nature Communications"
+type: "paper"
+category: "single-cell"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1038/s41467-019-10861-2"
+doi: "10.1038/s41467-019-10861-2"
+arxiv: ""
+s2_id: null
+bibkey: "Lake_2019"
+tags: ["snRNA-seq", "snDrop-seq", "KPMP", "tissue-processing", "preanalytical-artifacts", "dissociation-stress", "warm-ischemia", "human-kidney"]
+related: ["lake-kidney-atlas-nature-2023"]
+status: "complete"
+added: "2026-10-26"
+plans:
+  - "A"
+track: "A2"
+recommended_by: ""

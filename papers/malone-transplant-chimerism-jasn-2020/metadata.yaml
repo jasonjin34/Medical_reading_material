@@ -1,0 +1,28 @@
+id: "malone-transplant-chimerism-jasn-2020"
+title: "Harnessing Expressed Single Nucleotide Variation and Single Cell RNA Sequencing To Define Immune Cell Chimerism in the Rejecting Kidney Transplant"
+authors:
+  - "Malone, Andrew F."
+  - "Wu, Haojia"
+  - "Fronick, Catrina"
+  - "Fulton, Robert"
+  - "Gaut, Joseph P."
+  - "Humphreys, Benjamin D."
+year: 2020
+venue: "Journal of the American Society of Nephrology"
+type: "paper"
+category: "single-cell"
+relevance: "high"
+access: "open"
+url: "https://doi.org/10.1681/asn.2020030326"
+doi: "10.1681/ASN.2020030326"
+arxiv: ""
+s2_id: null
+bibkey: "Malone_2020"
+tags: ["kidney-transplant", "scRNA-seq", "10x-5prime", "demuxlet", "WES", "genotype-demultiplexing", "doublets", "chimerism", "GSE145927"]
+related: ["janssen-ambient-noise-genomebiol-2023"]
+status: "complete"
+added: "2026-10-26"
+plans:
+  - "A"
+track: "A2"
+recommended_by: ""
