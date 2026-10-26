@@ -32,7 +32,7 @@ We start at the end. All the biology and lab work in the next modules ends up in
 </tbody>
 <tfoot><tr class="xo-under"><td></td><td colspan="8"><div>特征 · 几万列，绝大多数是 0</div></td><td></td><td><div>分组 ID</div></td><td colspan="2"><div>质量 · 由 X 这一行算出</div></td><td colspan="2"><div>标签 · 人工判读</div></td></tr></tfoot></table></div>
 <p class="xo-hint">点击图片放大，再点一次或按 Esc 关闭</p>
-<ul class="xo-key"><li><span class="xo-ic">行</span><span>一个细胞（核）。左边的 barcode 是它的 ID：一段 16 个字母的 DNA 序列，实验时贴在这个核的每条 RNA 上（模块 5）；前缀 L1、L2 是批次（library），防止不同批次的 barcode 撞号</span></li><li><span class="xo-ic">列</span><span>一个基因；下方色条表示它是哪类细胞的标志基因：青色 PT，蓝色 TAL，紫色足细胞，橙色应激，灰色线粒体</span></li><li><span class="xo-ic">数</span><span>数到的 RNA 分子数，颜色越深越多；灰点是 0</span></li></ul>
+<ul class="xo-key"><li><span class="xo-ic">行</span><span>一个细胞（核）。左边的 barcode 是它的 ID：一段 16 个字母的 DNA 序列，实验时贴在这个核的每条 RNA 上（模块 5.1）；前缀 L1、L2 是批次（library），防止不同批次的 barcode 撞号</span></li><li><span class="xo-ic">列</span><span>一个基因；下方色条表示它是哪类细胞的标志基因：青色 PT，蓝色 TAL，紫色足细胞，橙色应激，灰色线粒体</span></li><li><span class="xo-ic">数</span><span>数到的 RNA 分子数，颜色越深越多；灰点是 0</span></li></ul>
 <figcaption>数字、barcode 和病人编号都是示意，只画了 7 个基因；把鼠标放在一行上，左右两边一起高亮。nCount 是这一行所有数字之和，nFeature 是这一行非零格子的个数，所以本图里两者只按这 7 个基因计算。第 3 行和第 1 行都是 PT，但第 3 行的应激基因 FOS 很高，被标为 altered：这种差别就是我们要检测的异常。</figcaption></figure>
 
 <!-- EN -->
@@ -51,7 +51,7 @@ The figure below draws the two tables side by side: X on the left, obs on the ri
 </tbody>
 <tfoot><tr class="xo-under"><td></td><td colspan="8"><div>features · tens of thousands of columns, mostly 0</div></td><td></td><td><div>group ID</div></td><td colspan="2"><div>quality · computed from the X row</div></td><td colspan="2"><div>labels · assigned by experts</div></td></tr></tfoot></table></div>
 <p class="xo-hint">Click the figure to enlarge; click again or press Esc to close</p>
-<ul class="xo-key"><li><span class="xo-ic">row</span><span>one cell (nucleus). The barcode on the left is its ID: a 16-letter DNA sequence attached to every RNA of this nucleus during the experiment (module 5); the prefix L1, L2 is the library (batch), so barcodes from different batches do not collide</span></li><li><span class="xo-ic">column</span><span>one gene; the bar under its name shows which cell type it marks: teal PT, blue TAL, purple podocyte, orange stress, grey mitochondrial</span></li><li><span class="xo-ic">number</span><span>RNA molecules counted; darker means more, a grey dot is 0</span></li></ul>
+<ul class="xo-key"><li><span class="xo-ic">row</span><span>one cell (nucleus). The barcode on the left is its ID: a 16-letter DNA sequence attached to every RNA of this nucleus during the experiment (module 5.1); the prefix L1, L2 is the library (batch), so barcodes from different batches do not collide</span></li><li><span class="xo-ic">column</span><span>one gene; the bar under its name shows which cell type it marks: teal PT, blue TAL, purple podocyte, orange stress, grey mitochondrial</span></li><li><span class="xo-ic">number</span><span>RNA molecules counted; darker means more, a grey dot is 0</span></li></ul>
 <figcaption>Numbers, barcodes and patient IDs are illustrative, and only 7 genes are drawn; hover over a row to highlight it on both sides. nCount is the sum of the row and nFeature the number of non-zero entries, so here both count only these 7 genes. Rows 3 and 1 are both PT, but row 3 has high FOS, a stress gene, and is labelled altered: that difference is the anomaly we want to detect.</figcaption></figure>
 
 ## 第 1 步 · 计数矩阵 X / Step 1 · The count matrix X
@@ -59,13 +59,13 @@ The figure below draws the two tables side by side: X on the left, obs on the ri
 <!-- ZH -->
 **X** 是一张很大的稀疏整数矩阵：
 
-- **一行 = 一个细胞**（或一个细胞核，模块 5 会讲两者的区别）；
+- **一行 = 一个细胞**（或一个细胞核，模块 5.1 会讲两者的区别）；
 - **一列 = 一个基因**；
 - **一个数字 = 在这个细胞里测到这个基因的 RNA 分子有几条。**
 <!-- EN -->
 **X** is a large, sparse integer matrix:
 
-- **one row = one cell** (or one nucleus; module 5 explains the difference);
+- **one row = one cell** (or one nucleus; module 5.1 explains the difference);
 - **one column = one gene**;
 - **one number = how many RNA molecules of that gene were detected in that cell.**
 
@@ -77,10 +77,10 @@ The numbers in the figure are made up for illustration. The real scale, from Lak
 
 <!-- ZH -->
 !!! tip "计算机类比"
-    把 X 想成一个 `scipy.sparse` 矩阵，行索引是细胞条形码（一串像 `AAACCCAAGCCGATAG` 的 DNA 序列，模块 5 讲它从哪来），列索引是基因名。每一行可以看成这个细胞的"特征向量"，只不过维度有几万、而且几乎全是 0。
+    把 X 想成一个 `scipy.sparse` 矩阵，行索引是细胞条形码（一串像 `AAACCCAAGCCGATAG` 的 DNA 序列，模块 5.1 讲它从哪来），列索引是基因名。每一行可以看成这个细胞的"特征向量"，只不过维度有几万、而且几乎全是 0。
 <!-- EN -->
 !!! tip "Computer analogy"
-    Think of X as a `scipy.sparse` matrix whose row index is the cell barcode (a DNA string like `AAACCCAAGCCGATAG`; module 5 explains where it comes from) and whose column index is the gene name. Each row is that cell's feature vector, just with tens of thousands of dimensions, nearly all zero.
+    Think of X as a `scipy.sparse` matrix whose row index is the cell barcode (a DNA string like `AAACCCAAGCCGATAG`; module 5.1 explains where it comes from) and whose column index is the gene name. Each row is that cell's feature vector, just with tens of thousands of dimensions, nearly all zero.
 
 <!-- ZH -->
 !!! info "生物学提示：LRP2、UMOD 是什么？"
@@ -143,7 +143,7 @@ The obs columns fall into four groups; later modules explain the biology behind 
 |---|---|---|
 | IDs / 标识 | `library` · `patient` · `specimen` | modules 4, 6 / 模块 4、6 |
 | Origin / 来源 | `condition` · `tissue_type` · `region` · `sex` | modules 3, 4 / 模块 3、4 |
-| Quality / 质量 | `nCount_RNA` · `nFeature_RNA` · `percent.mt` | modules 5, 6 / 模块 5、6 |
+| Quality / 质量 | `nCount_RNA` · `nFeature_RNA` · `percent.mt` | modules 5.1, 6 / 模块 5.1、6 |
 | Answers / 答案 | `subclass.l1/l2` · `state.l1/l2` | modules 2, 3 / 模块 2、3 |
 
 <!-- ZH -->

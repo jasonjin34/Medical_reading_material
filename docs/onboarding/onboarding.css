@@ -83,3 +83,25 @@
 .md-typeset .xobs.xo-open table { font-size: clamp(.6rem, 1.15vw, 1rem); }
 .xobs.xo-open .xo-hint { order: -1; }
 body.xo-lock { overflow: hidden; }
+
+/* --- module 5.1: reads -> UMI de-duplication -> counts, three panels with arrows --- */
+.umi { --u1: #0f8b8d; --u2: #3a6fd8; --u3: #8a4fd1; --u4: #d97a1e; --u5: #c2477a;
+  --xo-line: #e3e7ec; --xo-zero: #c3cad3; margin: 1.5em 0; }
+[data-md-color-scheme="slate"] .umi { --u1: #33b5b6; --u2: #6f97ee; --u3: #b083ec; --u4: #f0a050; --u5: #e57aa6;
+  --xo-line: #39414f; --xo-zero: #555e6b; }
+.umi .um-row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; }
+.umi .um-panel { min-width: 0; }
+.umi .um-arrow { font-size: 1.2rem; color: var(--md-default-fg-color--light); }
+.md-typeset .umi .um-h { font-size: .66rem; font-weight: 600; margin: 0 0 .3em; }
+.md-typeset .umi table { display: table; border: 0; border-collapse: separate; border-spacing: 0 2px;
+  font-family: var(--md-code-font-family); font-size: .6rem; background: none; box-shadow: none; }
+.md-typeset .umi th, .md-typeset .umi td { border: 0; padding: .1em .5em; background: none; }
+.md-typeset .umi th { font-family: var(--md-text-font-family); font-weight: 500; color: var(--md-default-fg-color--light);
+  text-align: left; }
+.md-typeset .umi tr.um-dup td { color: var(--md-default-fg-color--lighter); }
+.umi td.um-k { border-left: 3px solid var(--c) !important; }
+.umi .um-gene { font-weight: 600; }
+.md-typeset .umi td.um-n { text-align: center; min-width: 2.2rem; font-weight: 600; }
+.md-typeset .umi td.um-n.um-z { color: var(--xo-zero); font-weight: 400; }
+.md-typeset .umi figcaption { font-size: .68rem; color: var(--md-default-fg-color--light); text-align: left;
+  max-width: none; margin: .8em 0 0; }

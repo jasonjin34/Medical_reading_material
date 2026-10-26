@@ -1,6 +1,6 @@
 # 3 · The kidney
 
-> ⏱ About 45 min · Day 1 · Understand
+> ⏱ About 45 min · Day 1 · Understand · 📖 Background: get the gist, no need to memorise details
 
 !!! abstract "After this module you can answer"
     - What is a nephron, and how does fluid flow through it?

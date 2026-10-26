@@ -91,7 +91,8 @@ nav:
       - onboarding/02-cells-rna.md
       - onboarding/03-kidney.md
       - onboarding/04-patients-tissue.md
-      - onboarding/05-assays.md
+      - onboarding/05-1-assays-rna.md
+      - onboarding/05-2-assays-more.md
       - onboarding/06-artifacts.md
       - onboarding/07-datasets.md
       - onboarding/08-our-problem.md

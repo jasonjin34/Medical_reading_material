@@ -490,11 +490,46 @@ def _onboarding_meta(m: dict, lang: str) -> str:
     t = (f"{mins // 60} 小时" if mins >= 60 and mins % 60 == 0 else f"{mins} 分钟") if lang == "zh" \
         else (f"{mins // 60} h" if mins >= 60 and mins % 60 == 0 else f"{mins} min")
     day = m.get("day", 0)
+    skim = m.get("depth") == "skim"
     if lang == "zh":
         when = {1: "第 1 天 · 读懂", 2: "第 2 天 · 上手（可选）"}.get(day, "")
-        return f"> ⏱ 约 {t}" + (f" · {when}" if when else "")
+        return (f"> ⏱ 约 {t}" + (f" · {when}" if when else "")
+                + (" · 📖 背景知识，大致了解即可，不用记细节" if skim else ""))
     when = {1: "Day 1 · Understand", 2: "Day 2 · Hands-on (optional)"}.get(day, "")
-    return f"> ⏱ About {t}" + (f" · {when}" if when else "")
+    return (f"> ⏱ About {t}" + (f" · {when}" if when else "")
+            + (" · 📖 Background: get the gist, no need to memorise details" if skim else ""))
+
+
+COMPARE = re.compile(r"^@@DATASETS-COMPARE\s+([\w\s-]+?)@@\s*$", re.M)
+COMPARE_ROWS = {   # one row per question of onboarding module 7
+    "en": [("1 · Measured", "assays"), ("2 · People", "people"), ("3 · Tissue", "tissue"),
+           ("4 · Labels", "labels"), ("5 · Processing", "processed"), ("6 · Licence", "licence")],
+    "zh": [("1 · 测了什么", "assays"), ("2 · 多少人", "people"), ("3 · 组织来源", "tissue"),
+           ("4 · 标签", "labels"), ("5 · 处理到哪一步", "processed"), ("6 · 许可", "licence")],
+}
+
+
+def _dataset_compare(ids: list[str], cfg: dict, lang: str) -> str:
+    """Side-by-side table of datasets (columns) by module 7's questions (rows), from datasets.yaml."""
+    by_id = {d["id"]: d for d in cfg["datasets"]}
+    ds = [by_id[i] for i in ids if i in by_id]
+    T = DS_TEXT[lang]
+    head = [(d.get("name_zh") if lang == "zh" and d.get("name_zh") else d["name"]).split(" · ")[0]
+            + ("" if d.get("species") == "human" else f" ({T.get(d.get('species'), d.get('species'))})")
+            for d in ds]
+    out = ["| | " + " | ".join(f"[{h}](../datasets/{d['id']}.md)" for h, d in zip(head, ds)) + " |",
+           "|---|" + "---|" * len(ds)]
+    for label, key in COMPARE_ROWS[lang]:
+        cells = []
+        for d in ds:
+            if key == "assays":
+                v = ("、" if lang == "zh" else ", ").join(_l(cfg["assay_labels"][a], lang)
+                                                          for a in d.get("assays", []))
+            else:
+                v = _l(d.get(key), lang)
+            cells.append(_cell(v) or "—")
+        out.append(f"| **{label}** | " + " | ".join(cells) + " |")
+    return "\n".join(out) + "\n"
 
 
 def _write_onboarding() -> list[dict]:
@@ -509,11 +544,13 @@ def _write_onboarding() -> list[dict]:
         return []
     out.mkdir(parents=True)
     terms = build_glossary.load_terms()
+    ds_cfg = _load_yaml(DATASETS / "datasets.yaml") or {"datasets": [], "assay_labels": {}}
     for m in modules:
         raw = (ONBOARDING / m["file"]).read_text(encoding="utf-8")
         stem = build_glossary.page_name(m)[:-3]
         for lang, suffix in (("en", ".md"), ("zh", ".zh.md")):
             body = split_bilingual(raw, lang)
+            body = COMPARE.sub(lambda mt: _dataset_compare(mt.group(1).split(), ds_cfg, lang), body)
             lines = body.split("\n")
             h1 = next((i for i, ln in enumerate(lines) if ln.startswith("# ")), None)
             if h1 is not None:

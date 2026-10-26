@@ -24,21 +24,21 @@
 </tbody>
 <tfoot><tr class="xo-under"><td></td><td colspan="8"><div>特征 · 几万列，绝大多数是 0</div></td><td></td><td><div>分组 ID</div></td><td colspan="2"><div>质量 · 由 X 这一行算出</div></td><td colspan="2"><div>标签 · 人工判读</div></td></tr></tfoot></table></div>
 <p class="xo-hint">点击图片放大，再点一次或按 Esc 关闭</p>
-<ul class="xo-key"><li><span class="xo-ic">行</span><span>一个细胞（核）。左边的 barcode 是它的 ID：一段 16 个字母的 DNA 序列，实验时贴在这个核的每条 RNA 上（模块 5）；前缀 L1、L2 是批次（library），防止不同批次的 barcode 撞号</span></li><li><span class="xo-ic">列</span><span>一个基因；下方色条表示它是哪类细胞的标志基因：青色 PT，蓝色 TAL，紫色足细胞，橙色应激，灰色线粒体</span></li><li><span class="xo-ic">数</span><span>数到的 RNA 分子数，颜色越深越多；灰点是 0</span></li></ul>
+<ul class="xo-key"><li><span class="xo-ic">行</span><span>一个细胞（核）。左边的 barcode 是它的 ID：一段 16 个字母的 DNA 序列，实验时贴在这个核的每条 RNA 上（模块 5.1）；前缀 L1、L2 是批次（library），防止不同批次的 barcode 撞号</span></li><li><span class="xo-ic">列</span><span>一个基因；下方色条表示它是哪类细胞的标志基因：青色 PT，蓝色 TAL，紫色足细胞，橙色应激，灰色线粒体</span></li><li><span class="xo-ic">数</span><span>数到的 RNA 分子数，颜色越深越多；灰点是 0</span></li></ul>
 <figcaption>数字、barcode 和病人编号都是示意，只画了 7 个基因；把鼠标放在一行上，左右两边一起高亮。nCount 是这一行所有数字之和，nFeature 是这一行非零格子的个数，所以本图里两者只按这 7 个基因计算。第 3 行和第 1 行都是 PT，但第 3 行的应激基因 FOS 很高，被标为 altered：这种差别就是我们要检测的异常。</figcaption></figure>
 
 ## 第 1 步 · 计数矩阵 X
 
 **X** 是一张很大的稀疏整数矩阵：
 
-- **一行 = 一个细胞**（或一个细胞核，模块 5 会讲两者的区别）；
+- **一行 = 一个细胞**（或一个细胞核，模块 5.1 会讲两者的区别）；
 - **一列 = 一个基因**；
 - **一个数字 = 在这个细胞里测到这个基因的 RNA 分子有几条。**
 
 图里的数字是编的，只是示意。真实的规模来自 Lake 2023 的单核数据（我们从 GEO 标签表数出来的）：**203,702 个细胞核**；每个核中位测到 **2,694 个 RNA 分子**，分布在 **1,638 个基因**上。基因总数是几万个，所以每一行里绝大多数位置是 0。这就是为什么 X 要用稀疏矩阵存。
 
 !!! tip "计算机类比"
-    把 X 想成一个 `scipy.sparse` 矩阵，行索引是细胞条形码（一串像 `AAACCCAAGCCGATAG` 的 DNA 序列，模块 5 讲它从哪来），列索引是基因名。每一行可以看成这个细胞的"特征向量"，只不过维度有几万、而且几乎全是 0。
+    把 X 想成一个 `scipy.sparse` 矩阵，行索引是细胞条形码（一串像 `AAACCCAAGCCGATAG` 的 DNA 序列，模块 5.1 讲它从哪来），列索引是基因名。每一行可以看成这个细胞的"特征向量"，只不过维度有几万、而且几乎全是 0。
 
 !!! info "生物学提示：LRP2、UMOD 是什么？"
     列名是**基因名**。举两个例子：
@@ -77,7 +77,7 @@ obs 里的列可以分成四组，后面的模块会逐个解释它们背后的�
 |---|---|---|
 | 标识 | `library` · `patient` · `specimen` | 模块 4、6 |
 | 来源 | `condition` · `tissue_type` · `region` · `sex` | 模块 3、4 |
-| 质量 | `nCount_RNA` · `nFeature_RNA` · `percent.mt` | 模块 5、6 |
+| 质量 | `nCount_RNA` · `nFeature_RNA` · `percent.mt` | 模块 5.1、6 |
 | 答案 | `subclass.l1/l2` · `state.l1/l2` | 模块 2、3 |
 
 还有第三张小表 **var**：每个基因一行，记录基因名等信息。三者装在一起叫 **AnnData**，存成 `.h5ad` 文件。

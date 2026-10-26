@@ -43,6 +43,8 @@ datasets:
   scale: {en: "203,702 nuclei (sn) + 109,741 cells (sc) + 104,809 nuclei (SNARE2)", zh: "单核 203,702 + 单细胞 109,741 + SNARE2 104,809"}
   people: {en: "71 people in the three single-cell parts (35 healthy, 19 CKD, 17 AKI)", zh: "三份单细胞数据合计 71 人（35 健康、19 CKD、17 AKI）"}
   labels: {en: "cell type + reference / altered state for every cell", zh: "每个细胞都有细胞类型和正常 / 改变标签"}
+  tissue: {en: "patients: mostly KPMP biopsies (3 CKD nephrectomies in snCv3); healthy: nephrectomy, deceased donor, living-donor biopsy; cortex, medulla, papilla", zh: "病人：大多是 KPMP 活检（单核数据里有 3 名 CKD 来自肾切除）；健康人：肾切除、死亡供体、活体供体活检；皮质、髓质、乳头"}
+  processed: {en: "filtered counts; raw FASTQ controlled, so no empty droplets", zh: "过滤后的计数；原始 FASTQ 受控，拿不到空液滴"}
   access: open
   licence: "CC BY 4.0 (cellxgene); GEO: not stated"
   oneliner:
@@ -56,8 +58,8 @@ datasets:
     en: "Single-nucleus RNA (snCv3, 203,702 nuclei, 36 people); single-cell RNA (scCv3, 109,741 cells, 45 people, all biopsies); SNARE-seq2 RNA + ATAC in the same nucleus (104,809 nuclei, 7 healthy donors only); spatial (Visium, Slide-seq), not used by us."
     zh: "单核 RNA（snCv3，203,702 核，36 人）；单细胞 RNA（scCv3，109,741 细胞，45 人，全是活检）；SNARE-seq2 同一个核测 RNA + ATAC（104,809 核，只有 7 名健康人）；空间（Visium、Slide-seq），我们不用。"
   samples:
-    en: "The paper reports 45 healthy reference donors and 48 AKI / CKD patients, including people with spatial data only. Healthy tissue comes from tumour nephrectomies, deceased donors and living-donor biopsies; patient tissue from KPMP biopsies. 14 patients have both single-nucleus and single-cell data (counted by us)."
-    zh: "论文写 45 名健康参考供体、48 名 AKI / CKD 病人，其中包括只做了空间测序的人。健康组织来自肿瘤肾切除、死亡供体和活体供体活检；病人组织来自 KPMP 穿刺活检。14 个病人同时有单核和单细胞数据（我们数的）。"
+    en: "The paper reports 45 healthy reference donors and 48 AKI / CKD patients, including people with spatial data only. Healthy tissue comes from partial or total nephrectomies, deceased-donor kidneys not used for transplant, and living-donor biopsies; the paper does not say whether the nephrectomies were for tumours. Patient tissue is mostly KPMP research biopsies, but in the single-nucleus data 3 of the 13 CKD patients are nephrectomies (counted by us). 14 patients have both single-nucleus and single-cell data (counted by us)."
+    zh: "论文写 45 名健康参考供体、48 名 AKI / CKD 病人，其中包括只做了空间测序的人。健康组织来自部分或全部肾切除、没有用于移植的死亡供体肾、活体供体活检；论文没有说肾切除是不是因为肿瘤。病人组织大多是 KPMP 研究用穿刺活检，但单核数据里 13 名 CKD 病人中有 3 名来自肾切除（我们数的）。14 个病人同时有单核和单细胞数据（我们数的）。"
   label_detail:
     en: "`subclass.l1/l2/l3` (17 classes, 75 subclasses) and `state.l1/l2` (reference, degenerative, adaptive, cycling, transitioning); 28 subclasses are altered. Labels were assigned by experts after clustering, not measured."
     zh: "`subclass.l1/l2/l3`（17 个大类、75 个亚类）和 `state.l1/l2`（reference、degenerative、adaptive、cycling、transitioning）；28 个亚类是 altered。标签是聚类后专家判读的，不是测出来的。"
@@ -97,6 +99,8 @@ datasets:
   scale: {en: "338,565 cells / nuclei", zh: "338,565 细胞 / 核"}
   people: {en: "36 control + 45 CKD samples (20 DKD, 25 HKD)", zh: "36 份对照 + 45 份 CKD（20 糖尿病肾病、25 高血压肾病）"}
   labels: {en: "cell types; disease group per sample", zh: "细胞类型；每个样本的疾病组"}
+  tissue: {en: "unaffected tissue from tumour nephrectomies", zh: "肿瘤肾切除的未受累组织"}
+  processed: {en: "ambient (SoupX) and doublets (DoubletFinder) already removed; non-integer counts; no raw data", zh: "已去 ambient（SoupX）和 doublet（DoubletFinder）；计数非整数；没有原始数据"}
   access: open
   licence: "not stated"
   oneliner:
@@ -142,6 +146,8 @@ datasets:
   scale: {en: "119,744 cells / nuclei", zh: "119,744 细胞 / 核"}
   people: {en: "19 healthy donors, 33 samples of normal cortex", zh: "19 名健康供体，33 份正常皮质"}
   labels: {en: "cell types; assay and donor per cell", zh: "细胞类型；每个细胞的测法和供体"}
+  tissue: {en: "normal cortex at nephrectomy; cortex only", zh: "肾切除时取的正常皮质；只有皮质"}
+  processed: {en: "processed matrices (cellxgene, Zenodo); raw at dbGaP, on application", zh: "处理后的矩阵（cellxgene、Zenodo）；原始数据在 dbGaP，要申请"}
   access: open
   licence: "CC BY 4.0 (data); paper CC BY-NC-ND 4.0"
   oneliner:
@@ -187,6 +193,8 @@ datasets:
   scale: {en: "11,490 nuclei", zh: "11,490 核"}
   people: {en: "4 patients (frozen kidney biopsies)", zh: "4 名病人（冷冻肾活检）"}
   labels: {en: "donor by SNP; 250 genotype doublets (2.2%)", zh: "按 SNP 分出的供体；250 个基因型 doublet（2.2%）"}
+  tissue: {en: "frozen kidney biopsies; diagnoses not reported", zh: "冷冻肾活检；没写诊断"}
+  processed: {en: "GEO \"raw\" matrix is in fact filtered; FASTQ open, donor labels must be recomputed", zh: "GEO 上写“raw”的其实已过滤；FASTQ 公开，供体标签要重算"}
   access: open
   licence: "CC BY 4.0 (paper)"
   oneliner:
@@ -319,6 +327,8 @@ datasets:
   scale: {en: "3 single-cell + 2 single-nucleus runs", zh: "3 次单细胞 + 2 次单核"}
   people: {en: "mice of 3 strains (CAST, BL6, SvImJ) pooled per run", zh: "3 个品系小鼠（CAST、BL6、SvImJ）混在一个通道"}
   labels: {en: "contamination fraction per cell (with 95% CI)", zh: "每个细胞的污染比例（含 95% 置信区间）"}
+  tissue: {en: "healthy mouse kidney, 3 strains pooled per run", zh: "健康小鼠肾，3 个品系混在一个通道"}
+  processed: {en: "raw (with empty droplets) + filtered matrices", zh: "raw（含空液滴）+ filtered 矩阵"}
   access: open
   licence: "CC BY 4.0"
   oneliner:

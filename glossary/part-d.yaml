@@ -335,6 +335,36 @@
   tags: [artifact, qc]
   seen_in: [janssen-ambient-noise-genomebiol-2023]
 
+- id: technical-artifact
+  en: Artifact (technical artifact)
+  zh: 伪影（技术伪影）
+  de: Artefakt (technisches Artefakt)
+  domain: single-cell
+  def_en: "A change in the data that does not come from the cell's real state in the body, such as empty droplets, doublets, low-quality cells or ambient RNA; in a broader sense also handling-induced changes such as dissociation stress."
+  def_zh: "数据里不来自细胞在体内真实状态的变化，比如空液滴、doublet、低质量细胞、ambient RNA；广义上也包括解离应激这类由处理诱发的变化。"
+  def_de: "Eine Veränderung in den Daten, die nicht vom realen Zustand der Zelle im Körper stammt, etwa leere Tröpfchen, Doublets, Zellen niedriger Qualität oder Ambient-RNA; im weiteren Sinn auch durch die Verarbeitung ausgelöste Veränderungen wie Dissoziationsstress."
+  tags: [artifact, qc]
+
+- id: quality-control
+  en: Quality control (QC)
+  zh: 质控（QC）
+  de: Qualitätskontrolle (QC)
+  domain: single-cell
+  def_en: "The first step of most single-cell analyses: rows with too few genes, too high a mitochondrial fraction or too many RNA molecules are removed and ambient counts subtracted; thresholds differ by dataset and can also remove injured cells."
+  def_zh: "大多数单细胞分析的第一步：删掉基因太少、线粒体比例太高或 RNA 分子太多的行，并减掉 ambient 计数；阈值因数据而异，也可能把受损细胞一起删掉。"
+  def_de: "Der erste Schritt der meisten Einzelzellanalysen: Zeilen mit zu wenigen Genen, zu hohem mitochondrialem Anteil oder zu vielen RNA-Molekülen werden entfernt und Ambient-Zählungen abgezogen; die Schwellen hängen vom Datensatz ab und können auch geschädigte Zellen entfernen."
+  tags: [qc]
+
+- id: confounder
+  en: Confounder (confounding)
+  zh: 混杂因素
+  de: Störfaktor (Confounder)
+  domain: ml-methods
+  def_en: "A factor that varies together with the label, so a model cannot tell which one it learned; for example, patients and healthy donors measured in separate batches confound batch with disease."
+  def_zh: "和标签一起变化的因素，模型分不清自己学到的是哪个；比如病人和健康人分批测，批次就和'病'混在了一起。"
+  def_de: "Ein Faktor, der zusammen mit dem Label variiert, sodass ein Modell nicht unterscheiden kann, was es gelernt hat; werden etwa Patienten und Gesunde in getrennten Batches gemessen, sind Batch und Krankheit vermengt."
+  tags: [evaluation, confounder]
+
 - id: low-quality-cell
   en: Low-quality cell
   zh: 低质量细胞

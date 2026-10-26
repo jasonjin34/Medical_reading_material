@@ -1,6 +1,6 @@
 # Glossary
 
-> 150 terms, each with a **English / 中文 / Deutsch** name and a one-sentence definition. The first groups follow the onboarding modules (read the group for the module you are on); the rest are terms you meet in the papers, grouped by domain. Source files: `glossary/*.yaml`.
+> 153 terms, each with a **English / 中文 / Deutsch** name and a one-sentence definition. The first groups follow the onboarding modules (read the group for the module you are on); the rest are terms you meet in the papers, grouped by domain. Source files: `glossary/*.yaml`.
 
 ## 1 · Two tables: X and obs
 
@@ -220,14 +220,14 @@
 - _Explained in:_ [4 · Patients and tissue](04-patients-tissue.md)
 - _Seen in:_ [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
-## 5 · Assays: how the data is made
+## 5.1 · Assays: from tissue to the count matrix
 
 ### Single-cell RNA sequencing (scRNA-seq) · 单细胞 RNA 测序(scRNA-seq) {#single-cell-rna-seq}
 
 - **EN** — A technique that profiles the transcriptome of individual cells, revealing cell-type heterogeneity that bulk sequencing averages away.
 - **中文** — 一种对单个细胞转录组进行测序的技术,可揭示被批量测序平均掉的细胞类型异质性。
 - **DE** — Einzelzell-RNA-Sequenzierung (scRNA-seq): Eine Technik, die das Transkriptom einzelner Zellen erfasst und die Zelltyp-Heterogenität sichtbar macht, die bei Bulk-Sequenzierung verloren geht.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.1 · Assays: from tissue to the count matrix](05-1-assays-rna.md)
 - _Seen in:_ [`scrna-natmachintell-2026`](../papers/scrna-natmachintell-2026/index.md), [`spatial-biorxiv-2025`](../papers/spatial-biorxiv-2025/index.md), [`spatial-natcommun-2024`](../papers/spatial-natcommun-2024/index.md)
 
 ### Single-nucleus RNA-seq (snRNA-seq) · 单核 RNA 测序(snRNA-seq) {#snrna-seq}
@@ -235,14 +235,14 @@
 - **EN** — Dissociates tissue down to individual nuclei and sequences the RNA in each, giving genome-wide expression per nucleus at the cost of losing every cell's position in the tissue.
 - **中文** — 把组织解离成单个细胞核并分别测其 RNA,得到每个核的全基因组表达,代价是彻底丢失细胞原本在组织中的位置。
 - **DE** — Einzelkern-RNA-Sequenzierung (snRNA-seq): Zerlegt Gewebe in einzelne Zellkerne und sequenziert deren RNA; liefert genomweite Expression pro Kern, verliert dabei aber jede räumliche Position der Zellen.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.1 · Assays: from tissue to the count matrix](05-1-assays-rna.md)
 
 ### Tissue dissociation · 组织解离 {#tissue-dissociation}
 
 - **EN** — Breaking tissue into single cells, usually with enzymes at 37 °C, before single-cell RNA-seq; needed for whole cells but stresses them.
 - **中文** — 做单细胞 RNA 测序前把组织拆成单个细胞，通常用酶在 37 °C 消化；能得到完整细胞，但会让细胞应激。
 - **DE** — Gewebedissoziation: Zerlegen von Gewebe in Einzelzellen, meist enzymatisch bei 37 °C, vor der Einzelzell-RNA-Sequenzierung; liefert ganze Zellen, setzt sie aber unter Stress.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.1 · Assays: from tissue to the count matrix](05-1-assays-rna.md)
 - _Seen in:_ [`denisenko-dissociation-bias-genomebiol-2020`](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md), [`lake-snrna-pipeline-natcommun-2019`](../papers/lake-snrna-pipeline-natcommun-2019/index.md)
 
 ### 10x Chromium (Cv3) · 10x Chromium（Cv3 = 第 3 版试剂） {#chromium-10x}
@@ -250,7 +250,7 @@
 - **EN** — The most common commercial single-cell platform: it packs each cell or nucleus into an oil droplet with a barcoded bead. Cv3 = Chromium v3 chemistry (snCv3 / scCv3 in Lake 2023).
 - **中文** — 最常用的商业单细胞平台：把每个细胞或核和一颗带条形码的珠子一起包进油滴。Cv3 = Chromium 第 3 版试剂（Lake 2023 里的 snCv3 / scCv3）。
 - **DE** — 10x Chromium (Cv3): Die verbreitetste kommerzielle Einzelzellplattform: sie verpackt jede Zelle bzw. jeden Kern mit einem barcodierten Bead in ein Öltröpfchen. Cv3 = Chromium-v3-Chemie.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.1 · Assays: from tissue to the count matrix](05-1-assays-rna.md)
 - _Seen in:_ [`kidney-multimodal-genomebiol-2026`](../papers/kidney-multimodal-genomebiol-2026/index.md), [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
 ### Cell barcode · 细胞条形码 {#cell-barcode}
@@ -258,56 +258,58 @@
 - **EN** — A short DNA tag attached to every RNA from the same droplet (or the same split-pool path), so reads can be sorted back to their cell; becomes the row ID of the count matrix.
 - **中文** — 贴在同一个油滴（或同一条分池路径）里所有 RNA 上的短 DNA 标签，用来把读段分回各个细胞；它就是计数矩阵的行 ID。
 - **DE** — Zell-Barcode: Ein kurzer DNA-Tag an jeder RNA aus demselben Tröpfchen (oder demselben Split-Pool-Weg), mit dem Reads ihrer Zelle zugeordnet werden; die Zeilen-ID der Zählmatrix.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.1 · Assays: from tissue to the count matrix](05-1-assays-rna.md)
 
 ### UMI (unique molecular identifier) · UMI（分子唯一标识） {#umi}
 
 - **EN** — A random tag on each RNA molecule before amplification, so copies made by PCR can be collapsed; the numbers in the count matrix are UMI counts (nCount_RNA = total UMIs per cell).
 - **中文** — 扩增前贴在每条 RNA 分子上的随机标签，用来去掉 PCR 复制出的重复；计数矩阵里的数字就是 UMI 数（nCount_RNA = 一个细胞的 UMI 总数）。
 - **DE** — UMI (Unique Molecular Identifier): Ein zufälliger Tag an jedem RNA-Molekül vor der Amplifikation, damit PCR-Kopien zusammengefasst werden; die Werte der Zählmatrix sind UMI-Zahlen.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.1 · Assays: from tissue to the count matrix](05-1-assays-rna.md)
+
+## 5.2 · Assays: ATAC, multiome, spatial, pooling
 
 ### Single-nucleus ATAC-seq (snATAC-seq) · 单核 ATAC 测序(snATAC-seq) {#snatac-seq}
 
 - **EN** — Uses a transposase that cuts only unpacked DNA to map which genomic regions are open per nucleus, revealing which genes are permitted to be expressed rather than which currently are.
 - **中文** — 用只能切开松散 DNA 的转座酶,逐核绘制哪些基因组区域处于开放状态,揭示哪些基因「有资格」表达,而非当前正在表达什么。
 - **DE** — Einzelkern-ATAC-Sequenzierung (snATAC-seq): Nutzt eine Transposase, die nur ungepackte DNA schneidet, um pro Zellkern offene Genomregionen zu kartieren; zeigt, welche Gene exprimiert werden dürfen, nicht welche es gerade werden.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 
 ### Chromatin accessibility · 染色质开放性 {#chromatin-accessibility}
 
 - **EN** — How physically reachable a stretch of DNA is for transcription machinery; tightly packed regions are effectively switched off, loosened ones are available for expression.
 - **中文** — 一段 DNA 对转录机器的物理可及程度;缠绕紧密的区域等同于被关闭,松开的区域才可能被表达。
 - **DE** — Chromatin-Zugänglichkeit: Wie physisch erreichbar ein DNA-Abschnitt für die Transkriptionsmaschinerie ist; dicht gepackte Regionen sind faktisch abgeschaltet, gelockerte stehen zur Expression bereit.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 
 ### Tn5 transposase · Tn5 转座酶 {#tn5-transposase}
 
 - **EN** — The enzyme used in ATAC-seq: it can only cut into open (unwound) DNA and inserts sequencing adapters as it cuts, so where it cuts marks accessible chromatin.
 - **中文** — ATAC-seq 用的酶：只能剪进打开（没缠紧）的 DNA，剪的同时插入测序接头，所以它剪过的位置标出了开放染色质。
 - **DE** — Tn5-Transposase: Das Enzym der ATAC-seq: es schneidet nur in offene (entwundene) DNA und fügt dabei Sequenzieradapter ein; seine Schnittstellen markieren zugängliches Chromatin.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 
 ### ATAC peak · ATAC 峰 {#atac-peak}
 
 - **EN** — A genomic interval where transposase cut sites pile up across many nuclei, defining a region of open chromatin and forming the row dimension of the peak-by-cell matrix.
 - **中文** — 转座酶切点在众多细胞核中反复堆积的基因组区间,标定一段开放染色质,并构成「峰 × 细胞」矩阵的行维度。
 - **DE** — ATAC-Peak: Ein genomisches Intervall, in dem sich Transposase-Schnittstellen über viele Zellkerne häufen; definiert offenes Chromatin und bildet die Zeilendimension der Peak-Zell-Matrix.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 
 ### Multiome (joint RNA + ATAC) · Multiome(RNA 与 ATAC 同核联测) {#multiome}
 
 - **EN** — An assay that measures transcription and chromatin accessibility in the very same nucleus, pairing 'what is expressed' with 'what is permitted' without having to match cells across separate runs.
 - **中文** — 在同一个细胞核里同时测转录与染色质开放性的实验,把「表达了什么」与「允许表达什么」直接配对,无需在两批细胞之间猜对应关系。
 - **DE** — Multiome (gemeinsam RNA + ATAC): Ein Assay, der Transkription und Chromatin-Zugänglichkeit im selben Zellkern misst und so „was exprimiert wird“ direkt mit „was erlaubt ist“ paart, ohne Zellen zwischen Läufen zuordnen zu müssen.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 
 ### SNARE-seq2 · SNARE-seq2（SNARE2） {#snare-seq2}
 
 - **EN** — Single-Nucleus chromatin Accessibility and mRNA Expression sequencing, version 2: measures RNA and ATAC in the same nucleus using split-pool (combinatorial) barcoding instead of droplets; used for 7 healthy donors in Lake 2023.
 - **中文** — 单核染色质可及性与 mRNA 表达测序第 2 版：在同一个核里同时测 RNA 和 ATAC，用分池混合编码代替油滴；Lake 2023 用它测了 7 个健康人。
 - **DE** — SNARE-seq2: Single-Nucleus chromatin Accessibility and mRNA Expression sequencing, Version 2: misst RNA und ATAC im selben Kern mit kombinatorischem Split-Pool-Barcoding statt Tröpfchen.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 - _Seen in:_ [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
 ### Spatial transcriptomics · 空间转录组学 {#spatial-transcriptomics}
@@ -315,7 +317,7 @@
 - **EN** — A family of technologies that measure gene expression while preserving each cell's or spot's position within an intact tissue section.
 - **中文** — 一类在保留细胞或位点在完整组织切片中位置的同时测量基因表达的技术。
 - **DE** — Räumliche Transkriptomik: Eine Gruppe von Technologien, die die Genexpression messen und dabei die Position jeder Zelle oder jedes Spots im intakten Gewebeschnitt erhalten.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 - _Seen in:_ [`fm-arxiv-2604`](../papers/fm-arxiv-2604/index.md), [`hest1k-2024`](../papers/hest1k-2024/index.md), [`spatial-biorxiv-2025`](../papers/spatial-biorxiv-2025/index.md), [`spatial-natcommun-2024`](../papers/spatial-natcommun-2024/index.md)
 
 ### Visium · Visium {#visium}
@@ -323,7 +325,7 @@
 - **EN** — A widely used 10x Genomics spatial-transcriptomics platform that captures gene expression on a grid of barcoded spots overlaid on a tissue slide.
 - **中文** — 一种广泛使用的 10x Genomics 空间转录组平台,在覆盖组织切片的条形码位点阵列上捕获基因表达。
 - **DE** — Visium: Eine weit verbreitete Spatial-Transcriptomics-Plattform von 10x Genomics, die Genexpression auf einem Raster barcodierter Spots über einem Gewebeschnitt erfasst.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 - _Seen in:_ [`hest1k-2024`](../papers/hest1k-2024/index.md), [`spatial-natcommun-2024`](../papers/spatial-natcommun-2024/index.md)
 
 ### Xenium · Xenium {#xenium}
@@ -331,7 +333,7 @@
 - **EN** — A 10x Genomics imaging-based platform that measures a targeted panel of transcripts in situ at subcellular resolution with single-cell segmentation.
 - **中文** — 一种基于成像的 10x Genomics 平台,在亚细胞分辨率下原位测量目标转录本组合,并进行单细胞分割。
 - **DE** — Xenium: Eine bildgebungsbasierte 10x-Genomics-Plattform, die ein gezieltes Transkript-Panel in situ mit subzellulärer Auflösung und Einzelzell-Segmentierung misst.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 - _Seen in:_ [`hest1k-2024`](../papers/hest1k-2024/index.md), [`spatial-biorxiv-2025`](../papers/spatial-biorxiv-2025/index.md)
 
 ### SNP / genotype · SNP / 基因型 {#snp-genotype}
@@ -339,7 +341,7 @@
 - **EN** — Single-base differences between people (or mouse strains); the set a person carries is their genotype, a DNA fingerprint stored in VCF files and measured by WES or arrays.
 - **中文** — 人与人（或小鼠品系之间）单个碱基的差异；一个人带的这一整套就是他的基因型，相当于 DNA 指纹，存成 VCF 文件，用 WES 或芯片测得。
 - **DE** — SNP / Genotyp: Einzelbasen-Unterschiede zwischen Personen (oder Mausstämmen); die Gesamtheit ist der Genotyp, ein DNA-Fingerabdruck in VCF-Dateien, gemessen per WES oder Array.
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 - _Seen in:_ [`hoeft-genotype-multiplexing-natcommun-2024`](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md), [`janssen-ambient-noise-genomebiol-2023`](../papers/janssen-ambient-noise-genomebiol-2023/index.md), [`malone-transplant-chimerism-jasn-2020`](../papers/malone-transplant-chimerism-jasn-2020/index.md)
 
 ### Genotype multiplexing / demultiplexing · 基因型混样 / 分人 {#genotype-demultiplexing}
@@ -347,23 +349,16 @@
 - **EN** — Pooling cells from several people in one run and sorting them back by SNPs (demuxlet, souporcell, vireo); it also reveals droplets with two people's SNPs (doublets) and foreign RNA (ambient contamination).
 - **中文** — 把几个人的细胞混在一次实验里测，事后按 SNP 分回各人（demuxlet、souporcell、vireo）；同时能发现带两个人 SNP 的液滴（doublet）和外来 RNA（ambient 污染）。
 - **DE** — Genotyp-Multiplexing / Demultiplexing: Zellen mehrerer Personen gemeinsam messen und per SNPs zurück zuordnen (demuxlet, souporcell, vireo); zeigt zugleich Tröpfchen mit zwei Genotypen (Dubletten) und fremde RNA (Ambient-Kontamination).
-- _Explained in:_ [5 · Assays: how the data is made](05-assays.md)
+- _Explained in:_ [5.2 · Assays: ATAC, multiome, spatial, pooling](05-2-assays-more.md)
 - _Seen in:_ [`hoeft-genotype-multiplexing-natcommun-2024`](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md), [`malone-transplant-chimerism-jasn-2020`](../papers/malone-transplant-chimerism-jasn-2020/index.md)
 
 ## 6 · Artifacts, and biology that looks like one
 
-### Doublet · 双细胞假象(doublet) {#doublet}
+### Artifact (technical artifact) · 伪影（技术伪影） {#technical-artifact}
 
-- **EN** — A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state.
-- **中文** — 两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。
-- **DE** — Doublet: Ein technisches Artefakt, bei dem zwei Zellen bzw. Zellkerne unter einem Barcode erfasst und als eine Zelle ausgewertet werden; das chimäre Expressionsprofil kann einen neuen Zellzustand vortäuschen.
-- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
-
-### Ambient RNA · 游离 RNA 污染(ambient RNA) {#ambient-rna}
-
-- **EN** — Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike.
-- **中文** — 破裂细胞释放的游离转录本被计入其他液滴,形成背景信号,使本不相关的细胞看起来彼此相似。
-- **DE** — Ambient-RNA: Frei schwebende Transkripte lysierter Zellen, die in andere Tröpfchen mitgezählt werden und ein Hintergrundsignal erzeugen, das unverwandte Zellen ähnlich erscheinen lässt.
+- **EN** — A change in the data that does not come from the cell's real state in the body, such as empty droplets, doublets, low-quality cells or ambient RNA; in a broader sense also handling-induced changes such as dissociation stress.
+- **中文** — 数据里不来自细胞在体内真实状态的变化，比如空液滴、doublet、低质量细胞、ambient RNA；广义上也包括解离应激这类由处理诱发的变化。
+- **DE** — Artefakt (technisches Artefakt): Eine Veränderung in den Daten, die nicht vom realen Zustand der Zelle im Körper stammt, etwa leere Tröpfchen, Doublets, Zellen niedriger Qualität oder Ambient-RNA; im weiteren Sinn auch durch die Verarbeitung ausgelöste Veränderungen wie Dissoziationsstress.
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 
 ### Empty droplet · 空液滴 {#empty-droplet}
@@ -374,6 +369,13 @@
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 - _Seen in:_ [`janssen-ambient-noise-genomebiol-2023`](../papers/janssen-ambient-noise-genomebiol-2023/index.md)
 
+### Doublet · 双细胞假象(doublet) {#doublet}
+
+- **EN** — A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state.
+- **中文** — 两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。
+- **DE** — Doublet: Ein technisches Artefakt, bei dem zwei Zellen bzw. Zellkerne unter einem Barcode erfasst und als eine Zelle ausgewertet werden; das chimäre Expressionsprofil kann einen neuen Zellzustand vortäuschen.
+- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
+
 ### Low-quality cell · 低质量细胞 {#low-quality-cell}
 
 - **EN** — A dying or broken cell with few RNA molecules and genes and a high mitochondrial fraction; usually filtered by QC thresholds, but injured cells can look similar.
@@ -382,11 +384,11 @@
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 - _Seen in:_ [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
-### Mitochondrial fraction (percent.mt) · 线粒体比例 {#mitochondrial-fraction}
+### Ambient RNA · 游离 RNA 污染(ambient RNA) {#ambient-rna}
 
-- **EN** — The share of a cell's RNA from mitochondrial genes; a standard QC metric (high = stressed or dying cell). Naturally higher in whole cells than in nuclei.
-- **中文** — 一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标（高 = 细胞应激或快死了）。完整细胞本来就比细胞核高。
-- **DE** — Mitochondrialer Anteil: Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik (hoch = gestresste oder sterbende Zelle). In ganzen Zellen natürlich höher als in Kernen.
+- **EN** — Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike.
+- **中文** — 破裂细胞释放的游离转录本被计入其他液滴,形成背景信号,使本不相关的细胞看起来彼此相似。
+- **DE** — Ambient-RNA: Frei schwebende Transkripte lysierter Zellen, die in andere Tröpfchen mitgezählt werden und ein Hintergrundsignal erzeugen, das unverwandte Zellen ähnlich erscheinen lässt.
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 
 ### Dissociation stress · 解离应激 {#dissociation-stress}
@@ -397,13 +399,6 @@
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 - _Seen in:_ [`denisenko-dissociation-bias-genomebiol-2020`](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md)
 
-### Technical dropout (false zero) · 技术性丢失(假零) {#technical-dropout}
-
-- **EN** — A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once.
-- **中文** — 计数矩阵中因捕获失败而非真的不表达所产生的零;由于真零与假零无法区分,稀疏性同时既是生物学也是噪声。
-- **DE** — Technischer Dropout (falsche Null): Eine Null in der Zählmatrix, die durch fehlgeschlagene Erfassung statt fehlender Expression entsteht; da echte und falsche Nullen ununterscheidbar sind, ist Sparsity zugleich Biologie und Rauschen.
-- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
-
 ### Batch effect · 批次效应 {#batch-effect}
 
 - **EN** — Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected.
@@ -411,6 +406,34 @@
 - **DE** — Batch-Effekt: Systematische, nicht-biologische Variation zwischen Datensätzen, die an verschiedenen Orten, Zeiten oder Plattformen erhoben wurden und die Analyse verfälschen kann, wenn sie nicht korrigiert wird.
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 - _Seen in:_ [`scrna-natmachintell-2026`](../papers/scrna-natmachintell-2026/index.md), [`spatial-biorxiv-2025`](../papers/spatial-biorxiv-2025/index.md)
+
+### Confounder (confounding) · 混杂因素 {#confounder}
+
+- **EN** — A factor that varies together with the label, so a model cannot tell which one it learned; for example, patients and healthy donors measured in separate batches confound batch with disease.
+- **中文** — 和标签一起变化的因素，模型分不清自己学到的是哪个；比如病人和健康人分批测，批次就和'病'混在了一起。
+- **DE** — Störfaktor (Confounder): Ein Faktor, der zusammen mit dem Label variiert, sodass ein Modell nicht unterscheiden kann, was es gelernt hat; werden etwa Patienten und Gesunde in getrennten Batches gemessen, sind Batch und Krankheit vermengt.
+- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
+
+### Technical dropout (false zero) · 技术性丢失(假零) {#technical-dropout}
+
+- **EN** — A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once.
+- **中文** — 计数矩阵中因捕获失败而非真的不表达所产生的零;由于真零与假零无法区分,稀疏性同时既是生物学也是噪声。
+- **DE** — Technischer Dropout (falsche Null): Eine Null in der Zählmatrix, die durch fehlgeschlagene Erfassung statt fehlender Expression entsteht; da echte und falsche Nullen ununterscheidbar sind, ist Sparsity zugleich Biologie und Rauschen.
+- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
+
+### Mitochondrial fraction (percent.mt) · 线粒体比例 {#mitochondrial-fraction}
+
+- **EN** — The share of a cell's RNA from mitochondrial genes; a standard QC metric (high = stressed or dying cell). Naturally higher in whole cells than in nuclei.
+- **中文** — 一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标（高 = 细胞应激或快死了）。完整细胞本来就比细胞核高。
+- **DE** — Mitochondrialer Anteil: Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik (hoch = gestresste oder sterbende Zelle). In ganzen Zellen natürlich höher als in Kernen.
+- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
+
+### Quality control (QC) · 质控（QC） {#quality-control}
+
+- **EN** — The first step of most single-cell analyses: rows with too few genes, too high a mitochondrial fraction or too many RNA molecules are removed and ambient counts subtracted; thresholds differ by dataset and can also remove injured cells.
+- **中文** — 大多数单细胞分析的第一步：删掉基因太少、线粒体比例太高或 RNA 分子太多的行，并减掉 ambient 计数；阈值因数据而异，也可能把受损细胞一起删掉。
+- **DE** — Qualitätskontrolle (QC): Der erste Schritt der meisten Einzelzellanalysen: Zeilen mit zu wenigen Genen, zu hohem mitochondrialem Anteil oder zu vielen RNA-Molekülen werden entfernt und Ambient-Zählungen abgezogen; die Schwellen hängen vom Datensatz ab und können auch geschädigte Zellen entfernen.
+- _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 
 ### Polyploidy / multinucleation · 多倍体 / 多核 {#polyploidy}
 

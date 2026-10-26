@@ -9,6 +9,25 @@
 
 The facts about each dataset are under the **[Datasets](../datasets/index.md)** tab. This module does not go through them one by one; it gives **six questions to ask of any dataset**, with those datasets as examples. Afterwards you will know which lines of a dataset page to look at.
 
+## The big picture: five datasets side by side
+
+One dataset on its own hardly shows what is special about it. Below, five representative datasets sit side by side, one row per question that follows. Skim it first and notice **which rows differ most**; each question below comes back to this table.
+
+| | [Lake 2023](../datasets/lake-2023.md) | [Abedini 2024](../datasets/abedini-2024.md) | [mBDRC 2026](../datasets/mbdrc-2026.md) | [Hoeft 2024](../datasets/hoeft-2024.md) | [Janssen 2023 (mouse)](../datasets/janssen-2023.md) |
+|---|---|---|---|---|---|
+| **1 · Measured** | scRNA, snRNA, multiome, spatial | scRNA, snRNA, ATAC, spatial | scRNA, multiome | snRNA, genotype | scRNA, snRNA, genotype |
+| **2 · People** | 71 people in the three single-cell parts (35 healthy, 19 CKD, 17 AKI) | 36 control + 45 CKD samples (20 DKD, 25 HKD) | 19 healthy donors, 33 samples of normal cortex | 4 patients (frozen kidney biopsies) | mice of 3 strains (CAST, BL6, SvImJ) pooled per run |
+| **3 · Tissue** | patients: mostly KPMP biopsies (3 CKD nephrectomies in snCv3); healthy: nephrectomy, deceased donor, living-donor biopsy; cortex, medulla, papilla | unaffected tissue from tumour nephrectomies | normal cortex at nephrectomy; cortex only | frozen kidney biopsies; diagnoses not reported | healthy mouse kidney, 3 strains pooled per run |
+| **4 · Labels** | cell type + reference / altered state for every cell | cell types; disease group per sample | cell types; assay and donor per cell | donor by SNP; 250 genotype doublets (2.2%) | contamination fraction per cell (with 95% CI) |
+| **5 · Processing** | filtered counts; raw FASTQ controlled, so no empty droplets | ambient (SoupX) and doublets (DoubletFinder) already removed; non-integer counts; no raw data | processed matrices (cellxgene, Zenodo); raw at dbGaP, on application | GEO "raw" matrix is in fact filtered; FASTQ open, donor labels must be recomputed | raw (with empty droplets) + filtered matrices |
+| **6 · Licence** | CC BY 4.0 (cellxgene); GEO: not stated | not stated | CC BY 4.0 (data); paper CC BY-NC-ND 4.0 | CC BY 4.0 (paper) | CC BY 4.0 |
+
+A few contrasts worth noticing:
+
+- **Lake 2023 and Abedini 2024** are both large patient cohorts, but the first has an altered-state label on every cell while the second has only a per-sample disease group, and its artifacts were already cleaned.
+- **mBDRC 2026, Hoeft 2024 and Janssen 2023** are small but carry answers fixed by the design: the assay, donors assigned by SNPs, per-cell contamination. For finding artifacts they are more useful than a big atlas.
+- Only **Janssen 2023** provides raw matrices with empty droplets, but it is mouse.
+
 ## Question 1 · What was measured?
 
 Single-cell or single-nucleus? Is there ATAC? Were two things measured in the same nucleus (multiome)? The assay sets the biases (modules 5 and 6). Example: [Lake 2023](../datasets/lake-2023.md) has all three, but RNA + ATAC only for 7 healthy donors; [Abedini 2024](../datasets/abedini-2024.md) measured RNA and ATAC separately, so the two tables do not describe the same cells.

@@ -18,8 +18,9 @@ Day 1 takes about 6 hours and gets you to the point of understanding the data. D
 | [2 · Cells and RNA](02-cells-rna.md) / [2 · 细胞和 RNA](02-cells-rna.md) | 30 min / 30 分钟 | Where is RNA in a cell; cell type vs cell state? / RNA 在细胞哪里；细胞类型和细胞状态有什么区别？ |
 | [3 · The kidney](03-kidney.md) / [3 · 肾脏](03-kidney.md) | 45 min / 45 分钟 | What are PT and TAL, and why do they get injured first? / PT、TAL 是什么，为什么最先受伤？ |
 | [4 · Patients and tissue](04-patients-tissue.md) / [4 · 病人和取材](04-patients-tissue.md) | 30 min / 30 分钟 | Why do healthy donors also have "abnormal" cells? / 为什么健康人身上也有"异常"细胞？ |
-| [5 · Assays](05-assays.md) / [5 · 测法](05-assays.md) | 90 min / 90 分钟 | Which matrix does each assay produce, and what bias does it carry? / 每种测法产生什么矩阵、带什么偏差？ |
-| [6 · Artifacts](06-artifacts.md) / [6 · 伪影](06-artifacts.md) | 45 min / 45 分钟 | Where do doublets and ambient RNA come from, and why do they look like disease? / doublet 和 ambient 从哪来，为什么会像病？ |
+| [5.1 · Assays: tissue to matrix](05-1-assays-rna.md) / [5.1 · 测法：从组织到矩阵](05-1-assays-rna.md) | 45 min / 45 分钟 | How do barcodes and UMIs turn tissue into X, and what does single-cell vs single-nucleus cost? / barcode 和 UMI 怎么把组织变成 X，单细胞和单核各有什么代价？ |
+| [5.2 · Assays: ATAC, multiome, spatial](05-2-assays-more.md) / [5.2 · 测法：ATAC、多模态、空间](05-2-assays-more.md) | 45 min / 45 分钟 | What other matrices exist besides RNA, and how are pooled people told apart? / 除了 RNA 还有哪些矩阵，混在一起的人怎么分开？ |
+| [6 · Artifacts](06-artifacts.md) / [6 · 伪影](06-artifacts.md) | 60 min / 60 分钟 | Is an abnormal row disease, a measurement artifact, handling or batch? / 一行不正常，是病、测量伪影、处理还是批次？ |
 | [7 · How to read a dataset](07-datasets.md) / [7 · 怎么读懂一份数据集](07-datasets.md) | 40 min / 40 分钟 | Which questions decide whether a dataset is usable? / 判断一份数据能不能用，要问哪几个问题？ |
 | [8 · What we are working on](08-our-problem.md) / [8 · 我们在解决什么问题](08-our-problem.md) | 20 min / 20 分钟 | What do our research topics ask? / 各个研究课题在问什么？ |
 | [9 · Hands-on](09-hands-on.md) / [9 · 动手](09-hands-on.md) | Day 2, 3 h / 第 2 天，3 小时 | Load the data and reproduce a first result / 读入数据，复现第一个结果 |

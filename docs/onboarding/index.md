@@ -14,8 +14,9 @@ Day 1 takes about 6 hours and gets you to the point of understanding the data. D
 | [2 · Cells and RNA](02-cells-rna.md) | 30 min | Where is RNA in a cell; cell type vs cell state? |
 | [3 · The kidney](03-kidney.md) | 45 min | What are PT and TAL, and why do they get injured first? |
 | [4 · Patients and tissue](04-patients-tissue.md) | 30 min | Why do healthy donors also have "abnormal" cells? |
-| [5 · Assays](05-assays.md) | 90 min | Which matrix does each assay produce, and what bias does it carry? |
-| [6 · Artifacts](06-artifacts.md) | 45 min | Where do doublets and ambient RNA come from, and why do they look like disease? |
+| [5.1 · Assays: tissue to matrix](05-1-assays-rna.md) | 45 min | How do barcodes and UMIs turn tissue into X, and what does single-cell vs single-nucleus cost? |
+| [5.2 · Assays: ATAC, multiome, spatial](05-2-assays-more.md) | 45 min | What other matrices exist besides RNA, and how are pooled people told apart? |
+| [6 · Artifacts](06-artifacts.md) | 60 min | Is an abnormal row disease, a measurement artifact, handling or batch? |
 | [7 · How to read a dataset](07-datasets.md) | 40 min | Which questions decide whether a dataset is usable? |
 | [8 · What we are working on](08-our-problem.md) | 20 min | What do our research topics ask? |
 | [9 · Hands-on](09-hands-on.md) | Day 2, 3 h | Load the data and reproduce a first result |

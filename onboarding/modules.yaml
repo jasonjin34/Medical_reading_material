@@ -4,6 +4,7 @@
 # orders the glossary page by module. Terms no module claims are listed at the
 # end of the glossary, grouped by domain.
 # day: 0 = start page, 1 = day 1 (understand), 2 = day 2 (hands-on, optional)
+# depth: skim = background reading; the page header says the gist is enough
 
 - id: start
   file: 00-start.md
@@ -29,6 +30,7 @@
 - id: kidney
   file: 03-kidney.md
   day: 1
+  depth: skim
   minutes: 45
   title: {en: "3 · The kidney", zh: "3 · 肾脏"}
   terms: [nephron, renal-cortex-medulla, glomerulus, podocyte, proximal-tubule, loop-of-henle, thick-ascending-limb, distal-tubule, collecting-duct, interstitial-fibrosis]
@@ -40,19 +42,26 @@
   title: {en: "4 · Patients and tissue", zh: "4 · 病人和取材"}
   terms: [acute-kidney-injury, chronic-kidney-disease, diabetic-kidney-disease, egfr-kidney-function, kidney-biopsy, nephrectomy, deceased-donor, ischaemia]
 
-- id: assays
-  file: 05-assays.md
+- id: assays-rna
+  file: 05-1-assays-rna.md
   day: 1
-  minutes: 90
-  title: {en: "5 · Assays: how the data is made", zh: "5 · 测法：数据是怎么产生的"}
-  terms: [single-cell-rna-seq, snrna-seq, tissue-dissociation, chromium-10x, cell-barcode, umi, snatac-seq, chromatin-accessibility, tn5-transposase, atac-peak, multiome, snare-seq2, spatial-transcriptomics, visium, xenium, snp-genotype, genotype-demultiplexing]
+  minutes: 45
+  title: {en: "5.1 · Assays: from tissue to the count matrix", zh: "5.1 · 测法：从组织到计数矩阵"}
+  terms: [single-cell-rna-seq, snrna-seq, tissue-dissociation, chromium-10x, cell-barcode, umi]
+
+- id: assays-more
+  file: 05-2-assays-more.md
+  day: 1
+  minutes: 45
+  title: {en: "5.2 · Assays: ATAC, multiome, spatial, pooling", zh: "5.2 · 测法：ATAC、多模态、空间、混样"}
+  terms: [snatac-seq, chromatin-accessibility, tn5-transposase, atac-peak, multiome, snare-seq2, spatial-transcriptomics, visium, xenium, snp-genotype, genotype-demultiplexing]
 
 - id: artifacts
   file: 06-artifacts.md
   day: 1
-  minutes: 45
+  minutes: 60
   title: {en: "6 · Artifacts, and biology that looks like one", zh: "6 · 伪影，以及长得像伪影的生物状态"}
-  terms: [doublet, ambient-rna, empty-droplet, low-quality-cell, mitochondrial-fraction, dissociation-stress, technical-dropout, batch-effect, polyploidy]
+  terms: [technical-artifact, empty-droplet, doublet, low-quality-cell, ambient-rna, dissociation-stress, batch-effect, confounder, technical-dropout, mitochondrial-fraction, quality-control, polyploidy]
 
 - id: datasets
   file: 07-datasets.md

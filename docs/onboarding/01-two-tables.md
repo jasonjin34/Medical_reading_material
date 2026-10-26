@@ -24,21 +24,21 @@ The figure below draws the two tables side by side: X on the left, obs on the ri
 </tbody>
 <tfoot><tr class="xo-under"><td></td><td colspan="8"><div>features · tens of thousands of columns, mostly 0</div></td><td></td><td><div>group ID</div></td><td colspan="2"><div>quality · computed from the X row</div></td><td colspan="2"><div>labels · assigned by experts</div></td></tr></tfoot></table></div>
 <p class="xo-hint">Click the figure to enlarge; click again or press Esc to close</p>
-<ul class="xo-key"><li><span class="xo-ic">row</span><span>one cell (nucleus). The barcode on the left is its ID: a 16-letter DNA sequence attached to every RNA of this nucleus during the experiment (module 5); the prefix L1, L2 is the library (batch), so barcodes from different batches do not collide</span></li><li><span class="xo-ic">column</span><span>one gene; the bar under its name shows which cell type it marks: teal PT, blue TAL, purple podocyte, orange stress, grey mitochondrial</span></li><li><span class="xo-ic">number</span><span>RNA molecules counted; darker means more, a grey dot is 0</span></li></ul>
+<ul class="xo-key"><li><span class="xo-ic">row</span><span>one cell (nucleus). The barcode on the left is its ID: a 16-letter DNA sequence attached to every RNA of this nucleus during the experiment (module 5.1); the prefix L1, L2 is the library (batch), so barcodes from different batches do not collide</span></li><li><span class="xo-ic">column</span><span>one gene; the bar under its name shows which cell type it marks: teal PT, blue TAL, purple podocyte, orange stress, grey mitochondrial</span></li><li><span class="xo-ic">number</span><span>RNA molecules counted; darker means more, a grey dot is 0</span></li></ul>
 <figcaption>Numbers, barcodes and patient IDs are illustrative, and only 7 genes are drawn; hover over a row to highlight it on both sides. nCount is the sum of the row and nFeature the number of non-zero entries, so here both count only these 7 genes. Rows 3 and 1 are both PT, but row 3 has high FOS, a stress gene, and is labelled altered: that difference is the anomaly we want to detect.</figcaption></figure>
 
 ## Step 1 · The count matrix X
 
 **X** is a large, sparse integer matrix:
 
-- **one row = one cell** (or one nucleus; module 5 explains the difference);
+- **one row = one cell** (or one nucleus; module 5.1 explains the difference);
 - **one column = one gene**;
 - **one number = how many RNA molecules of that gene were detected in that cell.**
 
 The numbers in the figure are made up for illustration. The real scale, from Lake 2023's single-nucleus data (counted by us from the GEO label table): **203,702 nuclei**; each nucleus has a median of **2,694 RNA molecules** spread over **1,638 genes**. With tens of thousands of genes, almost every entry in a row is 0, which is why X is stored as a sparse matrix.
 
 !!! tip "Computer analogy"
-    Think of X as a `scipy.sparse` matrix whose row index is the cell barcode (a DNA string like `AAACCCAAGCCGATAG`; module 5 explains where it comes from) and whose column index is the gene name. Each row is that cell's feature vector, just with tens of thousands of dimensions, nearly all zero.
+    Think of X as a `scipy.sparse` matrix whose row index is the cell barcode (a DNA string like `AAACCCAAGCCGATAG`; module 5.1 explains where it comes from) and whose column index is the gene name. Each row is that cell's feature vector, just with tens of thousands of dimensions, nearly all zero.
 
 !!! info "Biology note: what are LRP2 and UMOD?"
     The column names are **gene names**. Two examples:
@@ -77,7 +77,7 @@ The obs columns fall into four groups; later modules explain the biology behind 
 |---|---|---|
 | IDs | `library` · `patient` · `specimen` | modules 4, 6 |
 | Origin | `condition` · `tissue_type` · `region` · `sex` | modules 3, 4 |
-| Quality | `nCount_RNA` · `nFeature_RNA` · `percent.mt` | modules 5, 6 |
+| Quality | `nCount_RNA` · `nFeature_RNA` · `percent.mt` | modules 5.1, 6 |
 | Answers | `subclass.l1/l2` · `state.l1/l2` | modules 2, 3 |
 
 A third, small table, **var**, has one row per gene (names and other gene information). The three together form an **AnnData** object, saved as an `.h5ad` file.

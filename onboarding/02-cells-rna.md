@@ -46,11 +46,11 @@ Figure: Wikimedia "Simple diagram of animal cell (en)" by domdomegg, CC BY 4.0.
 <!-- ZH -->
 细胞要用某个基因时，先在核里把这段 DNA **抄写成 RNA**（这一步叫转录，transcription），相当于打印一张"工单"。工单刚打印出来时还在核里，之后被送到胞质，车间照着它生产蛋白质。
 
-所以一个细胞里的 RNA 分两部分：**核里有一小部分刚打印的，胞质里有一大部分已经送出去的。**模块 5 会用到这一点：只测细胞核，就只拿到前一部分。
+所以一个细胞里的 RNA 分两部分：**核里有一小部分刚打印的，胞质里有一大部分已经送出去的。**模块 5.1 会用到这一点：只测细胞核，就只拿到前一部分。
 <!-- EN -->
 When a cell uses a gene, it first **copies that stretch of DNA into RNA** inside the nucleus (transcription), like printing a work order. A freshly printed order is still in the nucleus; it is then shipped to the cytoplasm, where the workshop uses it to build protein.
 
-So a cell's RNA sits in two places: **a small, freshly made part in the nucleus and a larger, shipped part in the cytoplasm.** Module 5 uses this: measuring only the nucleus gets only the first part.
+So a cell's RNA sits in two places: **a small, freshly made part in the nucleus and a larger, shipped part in the cytoplasm.** Module 5.1 uses this: measuring only the nucleus gets only the first part.
 
 <!-- ZH/EN --> ![DNA in the nucleus is transcribed into mRNA, which leaves through nuclear pores to ribosomes in the cytoplasm / 核里的 DNA 被转录成 mRNA，经核孔送到胞质里的核糖体](img/transcription_export.png)
 

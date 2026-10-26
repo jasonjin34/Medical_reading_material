@@ -16,6 +16,28 @@
 <!-- EN -->
 The facts about each dataset are under the **[Datasets](../datasets/index.md)** tab. This module does not go through them one by one; it gives **six questions to ask of any dataset**, with those datasets as examples. Afterwards you will know which lines of a dataset page to look at.
 
+## 先看全貌：五份数据放在一起 / The big picture: five datasets side by side
+
+<!-- ZH -->
+单看一份数据，很难知道它哪里特别。下面把五份有代表性的数据放在一起，每一行是后面的一个问题。先扫一眼，注意它们**在哪些行上差别最大**；后面每个问题都会回到这张表。
+<!-- EN -->
+One dataset on its own hardly shows what is special about it. Below, five representative datasets sit side by side, one row per question that follows. Skim it first and notice **which rows differ most**; each question below comes back to this table.
+
+<!-- ZH/EN --> @@DATASETS-COMPARE lake-2023 abedini-2024 mbdrc-2026 hoeft-2024 janssen-2023@@
+
+<!-- ZH -->
+几个对比值得注意：
+
+- **Lake 2023 和 Abedini 2024** 都是大规模病人队列，但前者每个细胞有改变态标签，后者只有样本层面的疾病组，而且伪影已经被洗过。
+- **mBDRC 2026、Hoeft 2024、Janssen 2023** 规模小，却有实验设计给定的答案：测法、按 SNP 分出的供体、每个细胞的污染比例。找伪影时，它们比大图谱更有用。
+- 只有 **Janssen 2023** 给了含空液滴的 raw 矩阵，但它是小鼠。
+<!-- EN -->
+A few contrasts worth noticing:
+
+- **Lake 2023 and Abedini 2024** are both large patient cohorts, but the first has an altered-state label on every cell while the second has only a per-sample disease group, and its artifacts were already cleaned.
+- **mBDRC 2026, Hoeft 2024 and Janssen 2023** are small but carry answers fixed by the design: the assay, donors assigned by SNPs, per-cell contamination. For finding artifacts they are more useful than a big atlas.
+- Only **Janssen 2023** provides raw matrices with empty droplets, but it is mouse.
+
 ## 问题 1 · 测的是什么？ / Question 1 · What was measured?
 
 <!-- ZH -->

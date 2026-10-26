@@ -28,7 +28,7 @@ Figure: Wikimedia "Simple diagram of animal cell (en)" by domdomegg, CC BY 4.0.
 
 When a cell uses a gene, it first **copies that stretch of DNA into RNA** inside the nucleus (transcription), like printing a work order. A freshly printed order is still in the nucleus; it is then shipped to the cytoplasm, where the workshop uses it to build protein.
 
-So a cell's RNA sits in two places: **a small, freshly made part in the nucleus and a larger, shipped part in the cytoplasm.** Module 5 uses this: measuring only the nucleus gets only the first part.
+So a cell's RNA sits in two places: **a small, freshly made part in the nucleus and a larger, shipped part in the cytoplasm.** Module 5.1 uses this: measuring only the nucleus gets only the first part.
 
 ![DNA in the nucleus is transcribed into mRNA, which leaves through nuclear pores to ribosomes in the cytoplasm / 核里的 DNA 被转录成 mRNA，经核孔送到胞质里的核糖体](img/transcription_export.png)
 
