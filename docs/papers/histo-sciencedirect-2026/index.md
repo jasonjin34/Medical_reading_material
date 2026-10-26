@@ -1,6 +1,6 @@
 # Spatial biomarker discovery via interpretable semantic learning in histopathology
 
-> **Bibkey** `histo-sciencedirect-2026` · **Venue** Cancer Cell (2026) · **Category** histopath · **Relevance** high · **Access** open
+> **Bibkey** `Liang_2026` · **Venue** Cancer Cell (2026) · **Category** histopath · **Relevance** high · **Access** open
 > **Link** <https://www.sciencedirect.com/science/article/pii/S153561082600259X> · `status: complete`
 
 ---

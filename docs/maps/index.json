@@ -2,24 +2,24 @@
  {
   "id": "plan-a",
   "title": {
-   "en": "Plan A — Kidney omics anomaly detection",
-   "zh": "Plan A:肾脏组学异常检测"
+   "en": "Topic 1 — A Benchmark for Anomaly Detection in Kidney Single-Cell Omics",
+   "zh": "课题 1:肾脏单细胞组学异常检测基准"
   },
   "lead": {
    "en": "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another.",
    "zh": "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
   },
   "stats": {
-   "papers": 54,
+   "papers": 60,
    "concepts": 20,
-   "edges": 184
+   "edges": 195
   }
  },
  {
   "id": "plan-b",
   "title": {
-   "en": "Plan B — Trustworthy biomedical agents",
-   "zh": "Plan B:可信的生物医学 agent"
+   "en": "Topic 2 — Verifying the Claims of Biomedical Analysis Agents",
+   "zh": "课题 2:生物医学分析 agent 的结论核查"
   },
   "lead": {
    "en": "Trace every agent claim back through code and data; calibrate the verifier against experts.",
@@ -34,12 +34,12 @@
  {
   "id": "bridge",
   "title": {
-   "en": "Bridge — papers in both plans",
-   "zh": "桥：两个 plan 共用的论文"
+   "en": "Bridge — papers shared across topics",
+   "zh": "桥：多个课题共用的论文"
   },
   "lead": {
-   "en": "Papers that Plan A and Plan B both depend on.",
-   "zh": "Plan A 和 Plan B 都要用到的论文。"
+   "en": "Papers that more than one research topic depends on.",
+   "zh": "不止一个研究课题要用到的论文。"
   },
   "stats": {
    "papers": 6,
@@ -90,9 +90,9 @@
    "zh": "全部论文按分类聚在一起，只用来看轮廓；细读请用上面的视图。"
   },
   "stats": {
-   "papers": 114,
+   "papers": 120,
    "concepts": 0,
-   "edges": 218
+   "edges": 222
   }
  }
 ]

@@ -1,6 +1,6 @@
 # Cassie07/PathOmics
 
-> **Bibkey** `pathomics-repo` · **Venue** GitHub (2023) · **Category** pathology · **Relevance** medium · **Access** open
+> **Bibkey** `Ding2023_PathOmics` · **Venue** GitHub (2023) · **Category** pathology · **Relevance** medium · **Access** open
 > **Link** <https://github.com/Cassie07/PathOmics> · `status: complete`
 
 ---

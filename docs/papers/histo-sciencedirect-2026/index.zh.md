@@ -1,6 +1,6 @@
 # Spatial biomarker discovery via interpretable semantic learning in histopathology
 
-> **文献键** `histo-sciencedirect-2026` · **来源** Cancer Cell(2026) · **类别** histopath · **相关度** high · **获取** open
+> **文献键** `Liang_2026` · **来源** Cancer Cell(2026) · **类别** histopath · **相关度** high · **获取** open
 > **链接** <https://www.sciencedirect.com/science/article/pii/S153561082600259X> · `status: complete`
 
 ---

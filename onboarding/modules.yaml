@@ -1,0 +1,83 @@
+# Onboarding modules: reading order, time budget, and the glossary terms each
+# module teaches. `terms` are glossary ids (glossary/*.yaml); build_site.py puts
+# a "Terms in this module" table at the end of each page, and build_glossary.py
+# orders the glossary page by module. Terms no module claims are listed at the
+# end of the glossary, grouped by domain.
+# day: 0 = start page, 1 = day 1 (understand), 2 = day 2 (hands-on, optional)
+
+- id: start
+  file: 00-start.md
+  day: 0
+  minutes: 5
+  title: {en: "Start here", zh: "从这里开始"}
+  terms: []
+
+- id: two-tables
+  file: 01-two-tables.md
+  day: 1
+  minutes: 30
+  title: {en: "1 · Two tables: X and obs", zh: "1 · 两张表：X 和 obs"}
+  terms: [count-matrix, anndata-h5ad, obs-var, gene-symbol, patient-level-split]
+
+- id: cells-rna
+  file: 02-cells-rna.md
+  day: 1
+  minutes: 30
+  title: {en: "2 · Cells and RNA", zh: "2 · 细胞和 RNA"}
+  terms: [cell-nucleus, transcription, gene-expression-signature, cell-type, cell-state]
+
+- id: kidney
+  file: 03-kidney.md
+  day: 1
+  minutes: 45
+  title: {en: "3 · The kidney", zh: "3 · 肾脏"}
+  terms: [nephron, renal-cortex-medulla, glomerulus, podocyte, proximal-tubule, loop-of-henle, thick-ascending-limb, distal-tubule, collecting-duct, interstitial-fibrosis]
+
+- id: patients-tissue
+  file: 04-patients-tissue.md
+  day: 1
+  minutes: 30
+  title: {en: "4 · Patients and tissue", zh: "4 · 病人和取材"}
+  terms: [acute-kidney-injury, chronic-kidney-disease, diabetic-kidney-disease, egfr-kidney-function, kidney-biopsy, nephrectomy, deceased-donor, ischaemia]
+
+- id: assays
+  file: 05-assays.md
+  day: 1
+  minutes: 90
+  title: {en: "5 · Assays: how the data is made", zh: "5 · 测法：数据是怎么产生的"}
+  terms: [single-cell-rna-seq, snrna-seq, tissue-dissociation, chromium-10x, cell-barcode, umi, snatac-seq, chromatin-accessibility, tn5-transposase, atac-peak, multiome, snare-seq2, spatial-transcriptomics, visium, xenium, snp-genotype, genotype-demultiplexing]
+
+- id: artifacts
+  file: 06-artifacts.md
+  day: 1
+  minutes: 45
+  title: {en: "6 · Artifacts, and biology that looks like one", zh: "6 · 伪影，以及长得像伪影的生物状态"}
+  terms: [doublet, ambient-rna, empty-droplet, low-quality-cell, mitochondrial-fraction, dissociation-stress, technical-dropout, batch-effect, polyploidy]
+
+- id: datasets
+  file: 07-datasets.md
+  day: 1
+  minutes: 40
+  title: {en: "7 · How to read a dataset", zh: "7 · 怎么读懂一份数据集"}
+  terms: [kpmp, cellxgene, geo-sra, dbgap]
+
+- id: our-problem
+  file: 08-our-problem.md
+  day: 1
+  minutes: 20
+  title: {en: "8 · What we are working on", zh: "8 · 我们在解决什么问题"}
+  terms: [anomaly-detection, altered-state, one-class-classification, domain-shift, auroc]
+
+- id: hands-on
+  file: 09-hands-on.md
+  day: 2
+  minutes: 180
+  title: {en: "9 · Hands-on", zh: "9 · 动手"}
+  terms: []
+
+- id: next-reading
+  file: 10-next-reading.md
+  day: 2
+  minutes: 180
+  title: {en: "10 · What to read next", zh: "10 · 接下来读什么"}
+  terms: []

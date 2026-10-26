@@ -26,6 +26,7 @@ tags:
 > 两件事:(1) SISKA 1.0 —— 人、小鼠、大鼠 > 100 万细胞、> 140 个样本的跨物种单细胞(snRNA)肾脏图谱,21 个主要细胞类型、近 80 个跨物种保守的细胞状态;(2) CellSpectra —— 一个单样本统计工具:对每个细胞类型 × 通路,用参照样本伪 bulk 矩阵的 SVD 第一主轴作为"协调模式",把待测样本回归上去,R² 降低 + χ² 检验即判为该样本该通路"协调性丢失";据此生成患者级单细胞功能画像报告、为患者选择最匹配的啮齿类模型,并在叶酸肾损伤模型中由 CellSpectra 提名的 TNF 通路用 etanercept 干预改善了肾功能。
 
 ## Related papers / 相关论文
+- [[_maps/papers/abedini-kidney-atlas-natgenet-2024|Kidney atlas (Abedini 2024)]] — cites
 - [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]] — per-sample injury scoring
 - [[_maps/papers/lake-kidney-atlas-nature-2023|Kidney atlas (Lake 2023)]] — cites
 

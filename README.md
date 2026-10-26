@@ -1,4 +1,4 @@
-# Medical Reading Material
+# Omics AI Handbook
 
 A **living, standardized literature base** for one research direction:
 
@@ -22,6 +22,10 @@ searchable website with an **English ⇄ 中文 language switcher**.
 | `papers/<slug>/metadata.yaml` | Canonical record (doi, venue, tags, relevance…) |
 | `papers/<slug>/citation.bib` | Per-paper BibTeX fragment |
 | `references.bib` | The whole citation library, auto-built |
+| `onboarding/` | Onboarding for newcomers (1–2 days, CS-friendly): modules + `modules.yaml`; the glossary is shown here |
+| `datasets/datasets.yaml` | Facts about every dataset we use; the site's Datasets tab is generated from it |
+| `research/` | The group's research topics (`topics.yaml` + one bilingual page each) |
+| `glossary/*.yaml` | Trilingual glossary terms (EN / 中文 / DE), the single source for the glossary |
 | `literature-review.md` | Synthesis across all papers (综述) |
 | `relationships/` | Relationship graph (`graph.json`, `graph.mmd`, `relationships.md`) |
 | `maps/` | Knowledge-map sources: `matrix.yaml` (method × data matrix), `views.yaml` (views, columns, concepts, pipelines), `labels.yaml`, `viewer.html`, `matrix.html` |

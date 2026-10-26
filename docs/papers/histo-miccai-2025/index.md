@@ -1,6 +1,6 @@
 # Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis
 
-> **Bibkey** `histo-miccai-2025` · **Venue** MICCAI 2025 (2025) · **Category** histopath · **Relevance** medium · **Access** open
+> **Bibkey** `Wang2025_AnoPILaD` · **Venue** MICCAI 2025 (2025) · **Category** histopath · **Relevance** medium · **Access** open
 > **Link** <https://papers.miccai.org/miccai-2025/0675-Paper2270.html> · `status: complete`
 
 ---

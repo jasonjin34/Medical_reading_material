@@ -1,6 +1,6 @@
 # Boehringer-Ingelheim/anomaly-detection-in-histology
 
-> **Bibkey** `histo-anomaly-bi-repo` · **Venue** GitHub (2022) · **Category** histopath · **Relevance** medium · **Access** open
+> **Bibkey** `Zingman2024_anomaly_histology` · **Venue** GitHub (2022) · **Category** histopath · **Relevance** medium · **Access** open
 > **Link** <https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology> · `status: complete`
 
 ---

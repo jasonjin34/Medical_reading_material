@@ -10,18 +10,18 @@
    "label": "1. Foundations & data / \u57fa\u7840\u6a21\u578b\u4e0e\u6570\u636e (5)"
   },
   {
-   "id": "step-foundations-pathbench-natcommun-2026",
+   "id": "step-foundations-fm-arxiv-2604",
    "type": "file",
-   "file": "_maps/papers/pathbench-natcommun-2026.md",
+   "file": "_maps/papers/fm-arxiv-2604.md",
    "x": 0,
    "y": 0,
    "width": 400,
    "height": 140
   },
   {
-   "id": "step-foundations-fm-arxiv-2604",
+   "id": "step-foundations-pathbench-natcommun-2026",
    "type": "file",
-   "file": "_maps/papers/fm-arxiv-2604.md",
+   "file": "_maps/papers/pathbench-natcommun-2026.md",
    "x": 0,
    "y": 170,
    "width": 400,
@@ -55,18 +55,18 @@
    "height": 140
   },
   {
-   "id": "step-detect-nih-kidney-ai-challenge-2026",
+   "id": "step-detect-histo-sciencedirect-2026",
    "type": "file",
-   "file": "_maps/papers/nih-kidney-ai-challenge-2026.md",
+   "file": "_maps/papers/histo-sciencedirect-2026.md",
    "x": 440,
    "y": 170,
    "width": 400,
    "height": 140
   },
   {
-   "id": "step-detect-histo-sciencedirect-2026",
+   "id": "step-detect-imaging-ehjdh-2026",
    "type": "file",
-   "file": "_maps/papers/histo-sciencedirect-2026.md",
+   "file": "_maps/papers/imaging-ehjdh-2026.md",
    "x": 440,
    "y": 340,
    "width": 400,

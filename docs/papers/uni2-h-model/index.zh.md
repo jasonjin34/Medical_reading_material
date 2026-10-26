@@ -1,6 +1,6 @@
 # MahmoodLab/UNI2-h
 
-> **文献键** `uni2-h-model` · **来源** Hugging Face() · **类别** foundation · **相关度** medium · **获取** open
+> **文献键** `MahmoodLab_UNI2h` · **来源** Hugging Face() · **类别** foundation · **相关度** medium · **获取** open
 > **链接** <https://huggingface.co/MahmoodLab/UNI2-h> · `status: complete`
 
 ---

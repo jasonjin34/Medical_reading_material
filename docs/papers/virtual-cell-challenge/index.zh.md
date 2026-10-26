@@ -1,6 +1,6 @@
 # Virtual Cell Challenge
 
-> **文献键** `virtual-cell-challenge` · **来源** Arc Institute (competition; companion paper in Cell)(2025) · **类别** competition · **相关度** medium · **获取** open
+> **文献键** `Roohani_2025` · **来源** Arc Institute (competition; companion paper in Cell)(2025) · **类别** competition · **相关度** medium · **获取** open
 > **链接** <https://virtualcellchallenge.org/> · `status: complete`
 
 ---

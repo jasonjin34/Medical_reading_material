@@ -20,7 +20,7 @@
 
 views:
   plan-a:
-    title: {en: "Plan A — Kidney omics anomaly detection", zh: "Plan A:肾脏组学异常检测"}
+    title: {en: "Topic 1 — A Benchmark for Anomaly Detection in Kidney Single-Cell Omics", zh: "课题 1:肾脏单细胞组学异常检测基准"}
     lead:
       en: "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another."
       zh: "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
@@ -30,7 +30,7 @@ views:
       - {id: data, columns: [A1], label: {en: "In-house kidney data + open atlases", zh: "所内肾脏数据 + 公开图谱"}}
       - {id: qc, columns: [A2], label: {en: "QC & artifact removal", zh: "质控与去伪影"}}
       - {id: normal, columns: [A5], label: {en: "Model of healthy tissue", zh: "健康组织模型"}}
-      - {id: score, columns: [A3, A0], label: {en: "Anomaly / OOD score (general methods adapted)", zh: "异常 / OOD 打分（借用通用方法）"}}
+      - {id: score, columns: [A3, A0], label: {en: "Anomaly / OOD score", zh: "异常 / OOD 打分"}}
       - {id: crossmodal, columns: [A4], label: {en: "Cross-modal check", zh: "跨模态验证"}}
       - {id: eval, columns: [A6], label: {en: "Evaluation vs. experts", zh: "对照专家评测"}}
     tracks:
@@ -120,7 +120,7 @@ views:
         match: ['Xenium']
 
   plan-b:
-    title: {en: "Plan B — Trustworthy biomedical agents", zh: "Plan B:可信的生物医学 agent"}
+    title: {en: "Topic 2 — Verifying the Claims of Biomedical Analysis Agents", zh: "课题 2:生物医学分析 agent 的结论核查"}
     lead:
       en: "Trace every agent claim back through code and data; calibrate the verifier against experts."
       zh: "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
@@ -203,10 +203,10 @@ views:
         match: ['safety', 'hazards?', 'red[- ]team']
 
   bridge:
-    title: {en: "Bridge — papers in both plans", zh: "桥：两个 plan 共用的论文"}
+    title: {en: "Bridge — papers shared across topics", zh: "桥：多个课题共用的论文"}
     lead:
-      en: "Papers that Plan A and Plan B both depend on."
-      zh: "Plan A 和 Plan B 都要用到的论文。"
+      en: "Papers that more than one research topic depends on."
+      zh: "不止一个研究课题要用到的论文。"
     select: {plans_all: [A, B]}
     concepts_from: [plan-a, plan-b]
 

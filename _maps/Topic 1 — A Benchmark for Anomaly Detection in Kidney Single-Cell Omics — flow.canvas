@@ -1,0 +1,257 @@
+{
+ "nodes": [
+  {
+   "id": "step-data",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "1. In-house kidney data + open atlases / \u6240\u5185\u80be\u810f\u6570\u636e + \u516c\u5f00\u56fe\u8c31 (8)"
+  },
+  {
+   "id": "step-data-damage-scores-cellgenomics-2026",
+   "type": "file",
+   "file": "_maps/papers/damage-scores-cellgenomics-2026.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-data-dkd-spatial-atlas-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/dkd-spatial-atlas-nature-2026.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-data-cellspectra-natgenet-2025",
+   "type": "file",
+   "file": "_maps/papers/cellspectra-natgenet-2025.md",
+   "x": 0,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-qc",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "2. QC & artifact removal / \u8d28\u63a7\u4e0e\u53bb\u4f2a\u5f71 (9)"
+  },
+  {
+   "id": "step-qc-ovrlpy-natbiotech-2026",
+   "type": "file",
+   "file": "_maps/papers/ovrlpy-natbiotech-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-qc-resolvi-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/resolvi-natmethods-2026.md",
+   "x": 440,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-qc-xenium-split-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/xenium-split-natmethods-2026.md",
+   "x": 440,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-normal",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "3. Model of healthy tissue / \u5065\u5eb7\u7ec4\u7ec7\u6a21\u578b (7)"
+  },
+  {
+   "id": "step-normal-pathbench-natcommun-2026",
+   "type": "file",
+   "file": "_maps/papers/pathbench-natcommun-2026.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-normal-linear-baselines-natmethods-2025",
+   "type": "file",
+   "file": "_maps/papers/linear-baselines-natmethods-2025.md",
+   "x": 880,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-normal-nephrobase-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/nephrobase-biorxiv-2025.md",
+   "x": 880,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-score",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "4. Anomaly / OOD score / \u5f02\u5e38 / OOD \u6253\u5206 (24)"
+  },
+  {
+   "id": "step-score-meatrd-aaai-2025",
+   "type": "file",
+   "file": "_maps/papers/meatrd-aaai-2025.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-score-refmap-eval-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/refmap-eval-biorxiv-2025.md",
+   "x": 1320,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-score-sardine-bioinformatics-2025",
+   "type": "file",
+   "file": "_maps/papers/sardine-bioinformatics-2025.md",
+   "x": 1320,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-crossmodal",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "5. Cross-modal check / \u8de8\u6a21\u6001\u9a8c\u8bc1 (5)"
+  },
+  {
+   "id": "step-crossmodal-kidney-multimodal-genomebiol-2026",
+   "type": "file",
+   "file": "_maps/papers/kidney-multimodal-genomebiol-2026.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-crossmodal-loki-omiclip-natmethods-2025",
+   "type": "file",
+   "file": "_maps/papers/loki-omiclip-natmethods-2025.md",
+   "x": 1760,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-crossmodal-he2expr-bench-natcommun-2025",
+   "type": "file",
+   "file": "_maps/papers/he2expr-bench-natcommun-2025.md",
+   "x": 1760,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-eval",
+   "type": "group",
+   "x": 2180,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "6. Evaluation vs. experts / \u5bf9\u7167\u4e13\u5bb6\u8bc4\u6d4b (7)"
+  },
+  {
+   "id": "step-eval-nih-kidney-ai-challenge-2026",
+   "type": "file",
+   "file": "_maps/papers/nih-kidney-ai-challenge-2026.md",
+   "x": 2200,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-eval-pathology-ad-bench-mlhealth-2025",
+   "type": "file",
+   "file": "_maps/papers/pathology-ad-bench-mlhealth-2025.md",
+   "x": 2200,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-eval-histo-nejmai-2024",
+   "type": "file",
+   "file": "_maps/papers/histo-nejmai-2024.md",
+   "x": 2200,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "flow1",
+   "fromNode": "step-data",
+   "toNode": "step-qc",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow2",
+   "fromNode": "step-qc",
+   "toNode": "step-normal",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow3",
+   "fromNode": "step-normal",
+   "toNode": "step-score",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow4",
+   "fromNode": "step-score",
+   "toNode": "step-crossmodal",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow5",
+   "fromNode": "step-crossmodal",
+   "toNode": "step-eval",
+   "fromSide": "right",
+   "toSide": "left"
+  }
+ ]
+}

@@ -1,0 +1,257 @@
+{
+ "nodes": [
+  {
+   "id": "step-run",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "1. Agent runs the analysis / agent \u6267\u884c\u5206\u6790 (14)"
+  },
+  {
+   "id": "step-run-co-scientist-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/co-scientist-nature-2026.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-run-deepevidence-natmachintell-2026",
+   "type": "file",
+   "file": "_maps/papers/deepevidence-natmachintell-2026.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-run-robin-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/robin-nature-2026.md",
+   "x": 0,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-claims",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "2. Extract claims, trace to code / data / citations / \u62bd\u53d6\u7ed3\u8bba\uff0c\u8ffd\u6eaf\u5230\u4ee3\u7801 / \u6570\u636e / \u5f15\u7528 (7)"
+  },
+  {
+   "id": "step-claims-citation-faithfulness-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/citation-faithfulness-arxiv-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-claims-medragchecker-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/medragchecker-arxiv-2026.md",
+   "x": 440,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-claims-citation-blame-emnlp-2026",
+   "type": "file",
+   "file": "_maps/papers/citation-blame-emnlp-2026.md",
+   "x": 440,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-judge",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "3. Detect hallucination & judge / \u68c0\u6d4b\u5e7b\u89c9\u4e0e\u8bc4\u5ba1 (5)"
+  },
+  {
+   "id": "step-judge-llm-judge-healthcare-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/llm-judge-healthcare-arxiv-2026.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-judge-deep-research-hallucination-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/deep-research-hallucination-arxiv-2026.md",
+   "x": 880,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-judge-generalization-bias-rsos-2025",
+   "type": "file",
+   "file": "_maps/papers/generalization-bias-rsos-2025.md",
+   "x": 880,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-hypo",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "4. Score hypotheses / \u8bc4\u4f30\u5047\u8bbe (6)"
+  },
+  {
+   "id": "step-hypo-rq-bench-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/rq-bench-arxiv-2026.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-hypo-truthhypo-ijcai-2025",
+   "type": "file",
+   "file": "_maps/papers/truthhypo-ijcai-2025.md",
+   "x": 1320,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-hypo-hypogen-llm-colm-2024",
+   "type": "file",
+   "file": "_maps/papers/hypogen-llm-colm-2024.md",
+   "x": 1320,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-reliab",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "5. Reruns & failure analysis / \u91cd\u8dd1\u4e0e\u5931\u8d25\u5206\u6790 (11)"
+  },
+  {
+   "id": "step-reliab-autoresearch-failures-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/autoresearch-failures-arxiv-2026.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-reliab-fev-bioinformatics-agents-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/fev-bioinformatics-agents-arxiv-2026.md",
+   "x": 1760,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-reliab-clinical-agent-reruns-arxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/clinical-agent-reruns-arxiv-2026.md",
+   "x": 1760,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-bench",
+   "type": "group",
+   "x": 2180,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "6. Benchmark + expert calibration / \u57fa\u51c6 + \u4e13\u5bb6\u6821\u51c6 (5)"
+  },
+  {
+   "id": "step-bench-biomnibench-biorxiv-2026",
+   "type": "file",
+   "file": "_maps/papers/biomnibench-biorxiv-2026.md",
+   "x": 2200,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-bench-bixbench-arxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/bixbench-arxiv-2025.md",
+   "x": 2200,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "step-bench-bioml-bench-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/bioml-bench-biorxiv-2025.md",
+   "x": 2200,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "flow1",
+   "fromNode": "step-run",
+   "toNode": "step-claims",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow2",
+   "fromNode": "step-claims",
+   "toNode": "step-judge",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow3",
+   "fromNode": "step-judge",
+   "toNode": "step-hypo",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow4",
+   "fromNode": "step-hypo",
+   "toNode": "step-reliab",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "flow5",
+   "fromNode": "step-reliab",
+   "toNode": "step-bench",
+   "fromSide": "right",
+   "toSide": "left"
+  }
+ ]
+}

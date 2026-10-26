@@ -1,6 +1,6 @@
 # A Deep Learning-Based Pathomics Methodology for Quantifying and Characterizing Nucleated Cells in the Bone Marrow Microenvironment
 
-> **文献键** `pathomics-blood-2023` · **来源** Blood (65th ASH Annual Meeting, Abstract 2294)(2023) · **类别** pathology · **相关度** medium · **获取** abstract-only
+> **文献键** `Krichevsky_2023` · **来源** Blood (65th ASH Annual Meeting, Abstract 2294)(2023) · **类别** pathology · **相关度** medium · **获取** abstract-only
 > **链接** <https://ashpublications.org/blood/article/142/Supplement%201/2294/499845> · `status: complete`
 
 ---

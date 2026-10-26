@@ -9,20 +9,26 @@
    "columns": [
     "A1"
    ],
-   "count": 7,
+   "count": 8,
    "papers": [
     "damage-scores-cellgenomics-2026",
     "dkd-spatial-atlas-nature-2026",
     "cellspectra-natgenet-2025",
-    "spatialagent-biorxiv-2025",
+    "abedini-kidney-atlas-natgenet-2024",
     "lake-kidney-atlas-nature-2023",
     "kidney-epigenome-nataging-2026",
-    "inflammatory-pt-natcommun-2025"
+    "inflammatory-pt-natcommun-2025",
+    "spatialagent-biorxiv-2025"
    ],
    "top": [
     "Damage scores",
     "DKD spatial atlas",
     "CellSpectra"
+   ],
+   "top_ids": [
+    "damage-scores-cellgenomics-2026",
+    "dkd-spatial-atlas-nature-2026",
+    "cellspectra-natgenet-2025"
    ]
   },
   {
@@ -34,17 +40,27 @@
    "columns": [
     "A2"
    ],
-   "count": 4,
+   "count": 9,
    "papers": [
     "ovrlpy-natbiotech-2026",
     "resolvi-natmethods-2026",
     "xenium-split-natmethods-2026",
+    "hoeft-genotype-multiplexing-natcommun-2024",
+    "janssen-ambient-noise-genomebiol-2023",
+    "denisenko-dissociation-bias-genomebiol-2020",
+    "malone-transplant-chimerism-jasn-2020",
+    "lake-snrna-pipeline-natcommun-2019",
     "ambient-rna-bench-biorxiv-2026"
    ],
    "top": [
     "ovrlpy",
     "ResolVI",
     "Xenium contamination (SPLIT)"
+   ],
+   "top_ids": [
+    "ovrlpy-natbiotech-2026",
+    "resolvi-natmethods-2026",
+    "xenium-split-natmethods-2026"
    ]
   },
   {
@@ -70,13 +86,18 @@
     "Pathology FM benchmark",
     "Linear baselines win",
     "Nephrobase Cell+"
+   ],
+   "top_ids": [
+    "pathbench-natcommun-2026",
+    "linear-baselines-natmethods-2025",
+    "nephrobase-biorxiv-2025"
    ]
   },
   {
    "id": "score",
    "label": {
-    "en": "Anomaly / OOD score (general methods adapted)",
-    "zh": "异常 / OOD 打分（借用通用方法）"
+    "en": "Anomaly / OOD score",
+    "zh": "异常 / OOD 打分"
    },
    "columns": [
     "A3",
@@ -96,7 +117,6 @@
     "deep-svdd-icml-2018",
     "mahalanobis-ood-neurips-2018",
     "scatac-novel-genomeres-2026",
-    "bioml-bench-biorxiv-2025",
     "conformal-scrna-bioinformatics-2025",
     "mrvi-natmethods-2025",
     "spatial-natcommun-2024",
@@ -107,12 +127,18 @@
     "energy-ood-neurips-2020",
     "mvtec-ad-cvpr-2019",
     "anogan-ipmi-2017",
-    "msp-ood-iclr-2017"
+    "msp-ood-iclr-2017",
+    "bioml-bench-biorxiv-2025"
    ],
    "top": [
     "MEATRD",
     "Reference-mapping QC",
     "Sardine"
+   ],
+   "top_ids": [
+    "meatrd-aaai-2025",
+    "refmap-eval-biorxiv-2025",
+    "sardine-bioinformatics-2025"
    ]
   },
   {
@@ -136,6 +162,11 @@
     "Kidney multiome (mBDRC)",
     "Loki / OmiCLIP",
     "H&E→expression benchmark"
+   ],
+   "top_ids": [
+    "kidney-multimodal-genomebiol-2026",
+    "loki-omiclip-natmethods-2025",
+    "he2expr-bench-natcommun-2025"
    ]
   },
   {
@@ -161,13 +192,18 @@
     "NIH Kidney AI Challenge",
     "Pathology AD benchmark",
     "Clinical-grade histo AD"
+   ],
+   "top_ids": [
+    "nih-kidney-ai-challenge-2026",
+    "pathology-ad-bench-mlhealth-2025",
+    "histo-nejmai-2024"
    ]
   }
  ],
  "view": "plan-a",
  "title": {
-  "en": "Plan A — Kidney omics anomaly detection",
-  "zh": "Plan A:肾脏组学异常检测"
+  "en": "Topic 1 — A Benchmark for Anomaly Detection in Kidney Single-Cell Omics",
+  "zh": "课题 1:肾脏单细胞组学异常检测基准"
  },
  "lead": {
   "en": "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another.",
@@ -202,6 +238,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -230,6 +267,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -258,6 +296,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -286,6 +325,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -314,6 +354,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -342,6 +383,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -370,6 +412,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -398,6 +441,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -426,6 +470,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -454,6 +499,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -482,6 +528,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -510,6 +557,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -538,6 +586,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -566,6 +615,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -594,6 +644,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A0",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -616,7 +667,7 @@
     "zh": "图谱与疾病状态"
    },
    "code": "A1",
-   "count": 7,
+   "count": 8,
    "x": 270,
    "y": 0
   },
@@ -634,6 +685,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -662,6 +714,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -690,6 +743,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -719,6 +773,7 @@
     "A",
     "B"
    ],
+   "track0": "B2",
    "also_in": [
     "B"
    ],
@@ -736,6 +791,35 @@
    "y": 232
   },
   {
+   "id": "abedini-kidney-atlas-natgenet-2024",
+   "kind": "paper",
+   "parent": "group:A1",
+   "label": "Kidney atlas (Abedini 2024)",
+   "title": "Single-cell multi-omic and spatial profiling of human kidneys implicates the fibrotic microenvironment in kidney disease progression",
+   "year": 2024,
+   "venue": "Nature Genetics",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A1",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A UPenn (Susztak lab) multi-omic and spatial atlas of the human kidney: 81 samples from 58 participants (Supplementary Table 1 actually lists 57 IDs) profiled by scRNA-seq, snRNA-seq and snATAC-seq (three separate libraries, not multiome), Visium FFPE and CosMx. The integrated SCVI atlas holds 338,565 cells/nuclei in 44 main types and 114 subtypes/states. NMF on Visium finds four microenvironments (glomerular, tubule, fibrotic, immune). A fibrotic-microenvironment gene signature (FME-GS) predicts kidney-function decline in 245 bulk tubule samples with fibrosis < 10% (HR = 3.95), where the pathologist's fibrosis score does not (HR = 1.17).",
+    "zh": "Susztak 实验室(UPenn)的人肾多组学 + 空间图谱:来自 58 名参与者(补充表 1 实际列出 57 个 ID)的 81 份样本,做了 scRNA-seq、snRNA-seq、snATAC-seq(三者独立建库,不是 multiome)、Visium FFPE 和 CosMx。整合后的 SCVI 图谱有 338,565 个细胞/细胞核、44 种主要细胞类型和 114 种亚型/状态。Visium 经 NMF 分出四种微环境(肾小球 / 小管 / 纤维化 / 免疫)。由纤维化微环境得到的 FME 基因签名(FME-GS),在 fibrosis < 10% 的 245 例 bulk 小管样本中仍能预测肾功能下降(HR = 3.95),而病理纤维化评分做不到(HR = 1.17)。"
+   },
+   "url": {
+    "en": "../papers/abedini-kidney-atlas-natgenet-2024/",
+    "zh": "../zh/papers/abedini-kidney-atlas-natgenet-2024/"
+   },
+   "x": 270,
+   "y": 286
+  },
+  {
    "id": "lake-kidney-atlas-nature-2023",
    "kind": "paper",
    "parent": "group:A1",
@@ -750,6 +834,7 @@
     "A",
     "B"
    ],
+   "track0": "A1",
    "also_in": [
     "B"
    ],
@@ -764,7 +849,7 @@
     "zh": "../zh/papers/lake-kidney-atlas-nature-2023/"
    },
    "x": 270,
-   "y": 286
+   "y": 340
   },
   {
    "id": "kidney-epigenome-nataging-2026",
@@ -780,6 +865,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -792,7 +878,7 @@
     "zh": "../zh/papers/kidney-epigenome-nataging-2026/"
    },
    "x": 270,
-   "y": 340
+   "y": 394
   },
   {
    "id": "inflammatory-pt-natcommun-2025",
@@ -809,6 +895,7 @@
     "A",
     "B"
    ],
+   "track0": "A1",
    "also_in": [
     "B"
    ],
@@ -823,7 +910,7 @@
     "zh": "../zh/papers/inflammatory-pt-natcommun-2025/"
    },
    "x": 270,
-   "y": 394
+   "y": 448
   },
   {
    "id": "group:A2",
@@ -833,7 +920,7 @@
     "zh": "质控与伪影"
    },
    "code": "A2",
-   "count": 4,
+   "count": 9,
    "x": 540,
    "y": 0
   },
@@ -851,6 +938,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -880,6 +968,7 @@
     "A",
     "B"
    ],
+   "track0": "A2",
    "also_in": [
     "B"
    ],
@@ -910,6 +999,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -925,6 +1015,151 @@
    "y": 178
   },
   {
+   "id": "hoeft-genotype-multiplexing-natcommun-2024",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "SNP multiplexing (Hoeft)",
+   "title": "Label-free single-cell RNA multiplexing leveraging genetic variability",
+   "year": 2024,
+   "venue": "Nature Communications",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A2",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Hayat/Kramann lab present SoupLadle: reference-free SNP deconvolution of pooled sc/snRNA-seq with Souporcell, then re-assignment of each genotype cluster to a patient by Hamming distance + Kuhn-Munkres matching against per-patient bulkRNA-seq SNPs; it gives the highest recall and least cell-type bias on PBMC, two heart snRNA cohorts and 4 frozen human kidney biopsies (snRNA, 11,490 nuclei).",
+    "zh": "Hayat/Kramann 组提出 SoupLadle:先用 Souporcell 按 SNP 对 pooled sc/snRNA-seq 做无参考 deconvolution,再用每位患者的 bulkRNA-seq SNP 通过 Hamming 距离 + Kuhn-Munkres 匹配把 genotype cluster 还原到患者;在 PBMC、两个心脏 snRNA 队列和 4 例冷冻人肾活检 snRNA(11,490 nuclei)上召回率最高、cell-type bias 最小。"
+   },
+   "url": {
+    "en": "../papers/hoeft-genotype-multiplexing-natcommun-2024/",
+    "zh": "../zh/papers/hoeft-genotype-multiplexing-natcommun-2024/"
+   },
+   "x": 540,
+   "y": 232
+  },
+  {
+   "id": "janssen-ambient-noise-genomebiol-2023",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "Ambient truth, mouse kidney (Janssen)",
+   "title": "The effect of background noise and its removal on the analysis of single-cell expression data",
+   "year": 2023,
+   "venue": "Genome Biology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A2",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Kidney cells from two mouse subspecies (*M. m. castaneus* CAST/EiJ and *M. m. domesticus* C57BL/6J and 129S1/SvImJ) are pooled in one 10x channel so that subspecies-diagnostic homozygous SNPs separate endogenous from foreign molecules, giving a genotype-based ground truth for the per-cell background-noise fraction ρ_cell. Background noise varies widely between replicates and cells (3–35% of UMIs on average), comes mostly from ambient RNA rather than barcode swapping, and — used as ground truth to benchmark CellBender / DecontX / SoupX — CellBender gives the most precise estimates and the biggest gain for marker genes, while clustering and classification are fairly robust to background noise.",
+    "zh": "把来自两个小鼠亚种(*M. m. castaneus* CAST/EiJ 与 *M. m. domesticus* C57BL/6J、129S1/SvImJ)的肾脏细胞混在同一个 10x 通道里,用亚种间纯合 SNP 区分「本细胞的分子」和「外来分子」,从而得到每个细胞背景噪声比例 ρ_cell 的基因型真值;发现背景噪声在重复间、细胞间差异很大(平均 3–35% 的 UMI),主要来自 ambient RNA 而非 barcode swapping,并以此真值评测 CellBender / DecontX / SoupX —— CellBender 估计最准、对 marker 基因改善最大,而聚类与分类对背景噪声相当稳健。"
+   },
+   "url": {
+    "en": "../papers/janssen-ambient-noise-genomebiol-2023/",
+    "zh": "../zh/papers/janssen-ambient-noise-genomebiol-2023/"
+   },
+   "x": 540,
+   "y": 286
+  },
+  {
+   "id": "denisenko-dissociation-bias-genomebiol-2020",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "Dissociation bias, mouse kidney",
+   "title": "Systematic assessment of tissue dissociation and storage biases in single-cell and single-nucleus RNA-seq workflows",
+   "year": 2020,
+   "venue": "Genome Biology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A2",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "A single-system (healthy adult mouse kidney, 10x Chromium), triplicate comparison of 37 °C vs on-ice cold-protease dissociation, fresh vs cryopreserved vs methanol-fixed cells, and scRNA-seq vs three snRNA-seq nuclei workflows (with bulk RNA-seq controls), quantifying protocol-induced expression artifacts (stress genes) and cell-composition biases; all data public as GSE141115.",
+    "zh": "在同一系统(健康成年小鼠肾,10x Chromium)里、三生物学重复地系统比较 37 °C vs 冰上冷蛋白酶解离、新鲜 vs 冻存 vs 甲醇固定、scRNA-seq vs 三种 snRNA-seq 核提取流程(加 bulk RNA-seq 对照),量化每种流程带来的表达伪影(应激基因)和细胞组成偏差;全部数据公开于 GSE141115。"
+   },
+   "url": {
+    "en": "../papers/denisenko-dissociation-bias-genomebiol-2020/",
+    "zh": "../zh/papers/denisenko-dissociation-bias-genomebiol-2020/"
+   },
+   "x": 540,
+   "y": 340
+  },
+  {
+   "id": "malone-transplant-chimerism-jasn-2020",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "Transplant chimerism (Malone)",
+   "title": "Harnessing Expressed Single Nucleotide Variation and Single Cell RNA Sequencing To Define Immune Cell Chimerism in the Rejecting Kidney Transplant",
+   "year": 2020,
+   "venue": "Journal of the American Society of Nephrology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A2",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "Donor/recipient paired whole-exome sequencing provides an SNV reference (.vcf); Demuxlet on 10x 5′ scRNA-seq of five kidney-transplant biopsies (81,139 cells) assigns each cell to donor or recipient, showing donor macrophages persist in non-rejecting grafts with transcriptional programs distinct from recipient macrophages.",
+    "zh": "用 donor/recipient 配对 WES 生成 SNV 参考(.vcf),对 5 个肾移植活检的 10x 5′ scRNA-seq(81,139 个细胞)跑 Demuxlet,逐细胞判定供体/受体来源,发现供体巨噬细胞在非排斥移植肾中可持续存在、且与受体巨噬细胞转录程序不同。"
+   },
+   "url": {
+    "en": "../papers/malone-transplant-chimerism-jasn-2020/",
+    "zh": "../zh/papers/malone-transplant-chimerism-jasn-2020/"
+   },
+   "x": 540,
+   "y": 394
+  },
+  {
+   "id": "lake-snrna-pipeline-natcommun-2019",
+   "kind": "paper",
+   "parent": "group:A2",
+   "label": "Kidney snRNA processing (Lake 2019)",
+   "title": "A single-nucleus RNA-sequencing pipeline to decipher the molecular anatomy and pathophysiology of human kidneys",
+   "year": 2019,
+   "venue": "Nature Communications",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A2",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "",
+   "oneliner": {
+    "en": "An early KPMP methods paper: after comparing 7 kidney tissue preservation/processing methods, it profiles adult human kidney with snDrop-seq (15 individuals, 27 experiments, 47 libraries), yielding 17,659 post-QC nuclei in 30 clusters; it concludes that O.C.T. cryosections preserved in RNAlater (cryoR) give the fewest MT transcripts and stress artifacts with >90% success, whereas enzymatic dissociation (dissocPC/TC) induces a FOS/FOSB/DNAJB1 stress signature and an artifact cluster (PC-2).",
+    "zh": "KPMP 早期的方法学论文:比较 7 种肾组织保存/处理方式后,用 snDrop-seq 对 15 人、27 次实验、47 个文库的成人肾做单核转录组,QC 后 17,659 个细胞核聚成 30 个群;结论是 O.C.T. 冷冻切片 + RNAlater 保存(cryoR) 的 MT 转录本与应激伪影最少、成功率 >90%,而酶解离(dissocPC/TC)诱导 FOS/FOSB/DNAJB1 应激签名并产生一个伪影簇(PC-2)。"
+   },
+   "url": {
+    "en": "../papers/lake-snrna-pipeline-natcommun-2019/",
+    "zh": "../zh/papers/lake-snrna-pipeline-natcommun-2019/"
+   },
+   "x": 540,
+   "y": 448
+  },
+  {
    "id": "ambient-rna-bench-biorxiv-2026",
    "kind": "paper",
    "parent": "group:A2",
@@ -938,6 +1173,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -950,7 +1186,7 @@
     "zh": "../zh/papers/ambient-rna-bench-biorxiv-2026/"
    },
    "x": 540,
-   "y": 232
+   "y": 502
   },
   {
    "id": "group:A3",
@@ -978,6 +1214,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1006,6 +1243,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1034,6 +1272,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1062,6 +1301,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1090,6 +1330,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1119,6 +1360,7 @@
     "A",
     "B"
    ],
+   "track0": "B3",
    "also_in": [
     "B"
    ],
@@ -1150,6 +1392,7 @@
     "A",
     "B"
    ],
+   "track0": "A3",
    "also_in": [
     "B"
    ],
@@ -1180,6 +1423,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1208,6 +1452,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1248,6 +1493,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1276,6 +1522,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1304,6 +1551,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1332,6 +1580,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1360,6 +1609,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1400,6 +1650,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1428,6 +1679,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1456,6 +1708,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1484,6 +1737,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1512,6 +1766,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1540,6 +1795,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1568,6 +1824,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1608,6 +1865,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1636,6 +1894,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1664,6 +1923,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1692,6 +1952,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1720,6 +1981,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1748,6 +2010,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1776,6 +2039,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1852,7 +2116,7 @@
     "en": "A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state.",
     "zh": "两个细胞或细胞核被同一条形码捕获、当作一个细胞分析的技术假象,产生嵌合表达谱,可能被误认为一种新的细胞状态。"
    },
-   "count": 4,
+   "count": 6,
    "home": "group:A2",
    "slot": 0,
    "x": 540,
@@ -1869,7 +2133,7 @@
     "en": "Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike.",
     "zh": "破裂细胞释放的游离转录本被计入其他液滴,形成背景信号,使本不相关的细胞看起来彼此相似。"
    },
-   "count": 2,
+   "count": 5,
    "home": "group:A2",
    "slot": 1,
    "x": 540,
@@ -1971,7 +2235,7 @@
     "en": "",
     "zh": ""
    },
-   "count": 2,
+   "count": 3,
    "home": "group:A3",
    "slot": 2,
    "x": 810,
@@ -2090,7 +2354,7 @@
     "en": "",
     "zh": ""
    },
-   "count": 3,
+   "count": 4,
    "home": "group:A6",
    "slot": 0,
    "x": 1620,
@@ -2199,7 +2463,17 @@
   },
   {
    "source": "concept:doublet",
+   "target": "hoeft-genotype-multiplexing-natcommun-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
    "target": "inflammatory-pt-natcommun-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:doublet",
+   "target": "malone-transplant-chimerism-jasn-2020",
    "kind": "mentions"
   },
   {
@@ -2220,6 +2494,21 @@
   {
    "source": "concept:ambient-rna",
    "target": "ambient-rna-bench-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ambient-rna",
+   "target": "denisenko-dissociation-bias-genomebiol-2020",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ambient-rna",
+   "target": "janssen-ambient-noise-genomebiol-2023",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:ambient-rna",
+   "target": "malone-transplant-chimerism-jasn-2020",
    "kind": "mentions"
   },
   {
@@ -2315,6 +2604,11 @@
   {
    "source": "concept:mapping-uncertainty",
    "target": "refmap-eval-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:conformal",
+   "target": "abedini-kidney-atlas-natgenet-2024",
    "kind": "mentions"
   },
   {
@@ -2449,6 +2743,11 @@
   },
   {
    "source": "concept:expert-validation",
+   "target": "abedini-kidney-atlas-natgenet-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:expert-validation",
    "target": "histo-nejmai-2024",
    "kind": "mentions"
   },
@@ -2464,7 +2763,7 @@
   },
   {
    "source": "concept:kpmp",
-   "target": "damage-scores-cellgenomics-2026",
+   "target": "abedini-kidney-atlas-natgenet-2024",
    "kind": "mentions"
   },
   {
@@ -2474,12 +2773,12 @@
   },
   {
    "source": "concept:kpmp",
-   "target": "kidney-epigenome-nataging-2026",
+   "target": "lake-kidney-atlas-nature-2023",
    "kind": "mentions"
   },
   {
    "source": "concept:kpmp",
-   "target": "lake-kidney-atlas-nature-2023",
+   "target": "lake-snrna-pipeline-natcommun-2019",
    "kind": "mentions"
   },
   {
@@ -2524,6 +2823,12 @@
   },
   {
    "source": "cellspectra-natgenet-2025",
+   "target": "abedini-kidney-atlas-natgenet-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "cellspectra-natgenet-2025",
    "target": "lake-kidney-atlas-nature-2023",
    "kind": "cites",
    "label": "cites"
@@ -2565,6 +2870,18 @@
    "label": "cites"
   },
   {
+   "source": "janssen-ambient-noise-genomebiol-2023",
+   "target": "denisenko-dissociation-bias-genomebiol-2020",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "kidney-epigenome-nataging-2026",
+   "target": "abedini-kidney-atlas-natgenet-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "kidney-epigenome-nataging-2026",
    "target": "lake-kidney-atlas-nature-2023",
    "kind": "cites",
@@ -2579,6 +2896,12 @@
   {
    "source": "kidney-multimodal-genomebiol-2026",
    "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "lake-kidney-atlas-nature-2023",
+   "target": "lake-snrna-pipeline-natcommun-2019",
    "kind": "cites",
    "label": "cites"
   },
@@ -3160,8 +3483,8 @@
   }
  ],
  "stats": {
-  "papers": 54,
+  "papers": 60,
   "concepts": 20,
-  "edges": 184
+  "edges": 195
  }
 }

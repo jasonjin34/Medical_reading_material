@@ -1,6 +1,6 @@
 # MahmoodLab/UNI2-h
 
-> **Bibkey** `uni2-h-model` · **Venue** Hugging Face () · **Category** foundation · **Relevance** medium · **Access** open
+> **Bibkey** `MahmoodLab_UNI2h` · **Venue** Hugging Face () · **Category** foundation · **Relevance** medium · **Access** open
 > **Link** <https://huggingface.co/MahmoodLab/UNI2-h> · `status: complete`
 
 ---

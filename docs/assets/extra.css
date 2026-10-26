@@ -1,0 +1,19 @@
+/* Site look: Material's defaults, with only the header colour taken from the
+   Hayat Lab logo navy (hayatlab.org, #00164b). build_site.py copies this file to
+   docs/assets/extra.css and lists it in mkdocs.yml. */
+
+:root,
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #00164b;
+  --md-primary-fg-color--light: #2b3c6e;
+  --md-primary-fg-color--dark: #000d2e;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+}
+
+/* Keep links and accents in Material's default indigo, as before. */
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: #3f51b5;
+  --md-accent-fg-color: #526cfe;
+}

@@ -1,0 +1,45 @@
+# 生物医学分析 agent 的结论核查
+
+> 课题 2 · 现状：方向已定，具体设计还没开始。下面写的是方向和阅读路线，任务和指标等讨论后再定。
+
+## 研究问题
+
+**AI agent 分析生物数据后给出的结论，哪些真的有证据？**
+
+现在已经有能自己写代码、跑单细胞分析、读文献并给出结论的 agent。它们的报告读起来很像样，但其中一条结论可能来自它真的跑出的结果，也可能来自文献里的常识、甚至是编出来的。只看最终报告，分不出来。我们想做的是：把 agent 的每条结论**追溯到它自己的代码、数据或引用的文献**，判断有没有证据支撑，并用专家标注来校准这个判断。
+
+## 和课题 1 的关系
+
+本课题和 [课题 1](anomaly-benchmark.md) 用同一类数据。课题 1  建立的已知答案（哪些细胞是病、哪些是伪影）正好可以用来检查 agent：比如 agent 分析一份肾脏数据后报告"发现了一个新的损伤细胞群"，我们可以核对它是不是把 doublet 或低质量细胞说成了疾病。理解这些数据需要的背景都在 [入门](../onboarding/index.md) 里。
+
+## 大致流程
+
+这是知识图谱里这个课题的流程，具体每一步做到什么程度还没定：
+
+```mermaid
+flowchart TB
+  A["agent runs the analysis · agent 执行分析"] --> B["extract claims, trace to code / data / citations · 抽取结论，追溯到代码、数据、引用"]
+  B --> C["detect unsupported claims and judge · 检测无依据结论，评审"]
+  C --> D["score hypotheses · 评估假设"]
+  D --> E["reruns and failure analysis · 重跑与失败分析"]
+  E --> F["benchmark + expert calibration · 基准 + 专家校准"]
+```
+
+## 还没定的
+
+- 用哪些 agent、哪些分析任务（单细胞分析、文献问答，还是两者都要）？
+- "有证据"怎么定义：代码跑出来的数字、数据里能复现的结果、被引用文献里确实写了的话，各算几级？
+- 专家标注怎么组织，需要多少条？
+- 和课题 1 的已知答案怎么接：哪些检查可以自动做？
+
+## 阅读路线
+
+先读完 [入门](../onboarding/index.md)，然后：
+
+1. [BixBench](../papers/bixbench-arxiv-2025/index.md)：生物信息学 agent 的基准
+2. [CellVoyager](../papers/cellvoyager-natmethods-2026/index.md)：自动分析单细胞数据的 agent
+3. [PaperQA2](../papers/paperqa2-arxiv-2024/index.md)：基于文献回答问题并给出引用
+4. [引用忠实度](../papers/citation-faithfulness-arxiv-2026/index.md)：引用是否真的支撑结论
+5. [临床 agent 重跑](../papers/clinical-agent-reruns-arxiv-2026/index.md)：同一任务重跑时结果稳不稳
+
+再往后，看 [知识图谱](../knowledge-map.md) 里"课题 2"视图的必读论文，以及"桥"视图里和其他课题共用的论文。

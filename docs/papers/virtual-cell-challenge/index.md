@@ -1,6 +1,6 @@
 # Virtual Cell Challenge
 
-> **Bibkey** `virtual-cell-challenge` · **Venue** Arc Institute (competition; companion paper in Cell) (2025) · **Category** competition · **Relevance** medium · **Access** open
+> **Bibkey** `Roohani_2025` · **Venue** Arc Institute (competition; companion paper in Cell) (2025) · **Category** competition · **Relevance** medium · **Access** open
 > **Link** <https://virtualcellchallenge.org/> · `status: complete`
 
 ---

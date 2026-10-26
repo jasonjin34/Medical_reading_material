@@ -33,7 +33,6 @@ tags:
 ## Concepts / 概念
 - [[_maps/concepts/damage-score|Damage score]]
 - [[_maps/concepts/disease-cell-state|Injured / failed-repair states]]
-- [[_maps/concepts/kpmp|KPMP data]]
 
 ## Deep-read / 精读
 

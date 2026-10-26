@@ -1,0 +1,18 @@
+# Research topics shown under the site's "Research topics" tab.
+# `code` is the internal letter used in papers/*/metadata.yaml (`plans:`) and in
+# maps/views.yaml (`plan-a`, `plan-b`); it never appears on the site.
+# The first entry with id `overview` is the tab's landing page.
+
+- id: overview
+  file: 00-overview.md
+  title: {en: "Research topics", zh: "研究课题"}
+
+- id: anomaly-benchmark
+  file: anomaly-benchmark.md
+  code: A
+  title: {en: "A Benchmark for Anomaly Detection in Kidney Single-Cell Omics", zh: "肾脏单细胞组学异常检测基准"}
+
+- id: agent-claims
+  file: agent-claims.md
+  code: B
+  title: {en: "Verifying the Claims of Biomedical Analysis Agents", zh: "生物医学分析 agent 的结论核查"}

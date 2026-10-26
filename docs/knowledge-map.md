@@ -1,10 +1,15 @@
+---
+hide:
+  - toc
+---
+
 # Knowledge map
 
 Each view is its own graph. Groups start collapsed: click a group to open it, click a node to see its neighbours, double-click a paper to open its deep-read.
 
 ## Method map
 
-Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what Plan A adds. [Open full screen ↗](maps/matrix.html?lang=en){target=_blank}
+Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what Topic 1 adds. [Open full screen ↗](maps/matrix.html?lang=en){target=_blank}
 
 <iframe src="../maps/matrix.html?lang=en&embed=1" style="width:100%;height:760px;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px" loading="lazy"></iframe>
 
@@ -12,91 +17,44 @@ Rows are anomaly-detection paradigms, columns go from general data to kidney omi
 
 | View | Papers | Concepts |
 | --- | --- | --- |
-| [Plan A — Kidney omics anomaly detection ↗](maps/viewer.html?view=plan-a&lang=en){target=_blank} — Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another. | 54 | 20 |
-| [Plan B — Trustworthy biomedical agents ↗](maps/viewer.html?view=plan-b&lang=en){target=_blank} — Trace every agent claim back through code and data; calibrate the verifier against experts. | 48 | 18 |
-| [Bridge — papers in both plans ↗](maps/viewer.html?view=bridge&lang=en){target=_blank} — Papers that Plan A and Plan B both depend on. | 6 | 17 |
+| [Topic 1 — A Benchmark for Anomaly Detection in Kidney Single-Cell Omics ↗](maps/viewer.html?view=plan-a&lang=en){target=_blank} — Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another. | 60 | 20 |
+| [Topic 2 — Verifying the Claims of Biomedical Analysis Agents ↗](maps/viewer.html?view=plan-b&lang=en){target=_blank} — Trace every agent claim back through code and data; calibrate the verifier against experts. | 48 | 18 |
+| [Bridge — papers shared across topics ↗](maps/viewer.html?view=bridge&lang=en){target=_blank} — Papers that more than one research topic depends on. | 6 | 17 |
 | [Sikander's picks ↗](maps/viewer.html?view=sikander&lang=en){target=_blank} — Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line. | 28 | 8 |
 | [EHR & patient trajectories ↗](maps/viewer.html?view=ehr&lang=en){target=_blank} — Papers for the Mount Sinai EHR project. | 5 | 0 |
-| [Overview — all papers ↗](maps/viewer.html?view=overview&lang=en){target=_blank} — Every paper, clustered by category. For orientation only; use the views above to read. | 114 | 0 |
+| [Overview — all papers ↗](maps/viewer.html?view=overview&lang=en){target=_blank} — Every paper, clustered by category. For orientation only; use the views above to read. | 120 | 0 |
 
 ## Pipelines
 
-Each plan as a pipeline; every step lists its must-read papers. The links below each chart open that step in the map.
+Each plan as a pipeline, left to right. Every step lists its must-read papers; Open in map shows that step in the graph.
 
-### Plan A — Kidney omics anomaly detection
+<style>
+.kmflow { display: flex; align-items: stretch; overflow-x: auto; padding: 2px 0 10px; margin: 0.4em 0 1.4em; }
+.kmstep { flex: 1 1 0; min-width: 6.5rem; border: 1px solid var(--md-default-fg-color--lightest);
+  border-top: 3px solid var(--md-accent-fg-color); border-radius: 6px; padding: 0.55em 0.7em 0.6em;
+  background: var(--md-code-bg-color); font-size: 0.7rem; line-height: 1.4; display: flex; flex-direction: column; }
+.kmstep .kmnum { font-size: 0.62rem; font-weight: 700; color: var(--md-default-fg-color--light); letter-spacing: 0.04em; }
+.kmstep .kmtitle { font-weight: 700; font-size: 0.76rem; margin: 0.1em 0 0.35em; }
+.kmstep ul { list-style: none; margin: 0 0 0.4em !important; padding: 0 !important; }
+.kmstep li { margin: 0 0 0.15em !important; }
+.kmstep .kmopen { margin-top: auto; font-size: 0.64rem; }
+.kmarrow { align-self: center; flex: 0 0 auto; padding: 0 0.12em; color: var(--md-default-fg-color--light); font-size: 0.9rem; }
+</style>
 
-```mermaid
-flowchart TD
-  s1["`**1. In-house kidney data + open atlases** (7 papers)
-Damage scores · DKD spatial atlas · CellSpectra`"]
-  s2["`**2. QC & artifact removal** (4 papers)
-ovrlpy · ResolVI · Xenium contamination (SPLIT)`"]
-  s3["`**3. Model of healthy tissue** (7 papers)
-Pathology FM benchmark · Linear baselines win · Nephrobase Cell+`"]
-  s4["`**4. Anomaly / OOD score (general methods adapted)** (24 papers)
-MEATRD · Reference-mapping QC · Sardine`"]
-  s5["`**5. Cross-modal check** (5 papers)
-Kidney multiome (mBDRC) · Loki / OmiCLIP · H&E→expression benchmark`"]
-  s6["`**6. Evaluation vs. experts** (7 papers)
-NIH Kidney AI Challenge · Pathology AD benchmark · Clinical-grade histo AD`"]
-  s1 --> s2
-  s2 --> s3
-  s3 --> s4
-  s4 --> s5
-  s5 --> s6
-```
+### Topic 1 — A Benchmark for Anomaly Detection in Kidney Single-Cell Omics
 
-Open in map: [1. In-house kidney data + open atlases](maps/viewer.html?view=plan-a&lang=en&focus=group:A1){target=_blank} · [2. QC & artifact removal](maps/viewer.html?view=plan-a&lang=en&focus=group:A2){target=_blank} · [3. Model of healthy tissue](maps/viewer.html?view=plan-a&lang=en&focus=group:A5){target=_blank} · [4. Anomaly / OOD score (general methods adapted)](maps/viewer.html?view=plan-a&lang=en&focus=group:A3){target=_blank} · [5. Cross-modal check](maps/viewer.html?view=plan-a&lang=en&focus=group:A4){target=_blank} · [6. Evaluation vs. experts](maps/viewer.html?view=plan-a&lang=en&focus=group:A6){target=_blank}
+<div class="kmflow"><div class="kmstep"><div class="kmnum">STEP 1 · 8 papers</div><div class="kmtitle">In-house kidney data + open atlases</div><ul><li><a href="../papers/damage-scores-cellgenomics-2026/">Damage scores</a></li><li><a href="../papers/dkd-spatial-atlas-nature-2026/">DKD spatial atlas</a></li><li><a href="../papers/cellspectra-natgenet-2025/">CellSpectra</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-a&amp;lang=en&amp;focus=group:A1" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 2 · 9 papers</div><div class="kmtitle">QC &amp; artifact removal</div><ul><li><a href="../papers/ovrlpy-natbiotech-2026/">ovrlpy</a></li><li><a href="../papers/resolvi-natmethods-2026/">ResolVI</a></li><li><a href="../papers/xenium-split-natmethods-2026/">Xenium contamination (SPLIT)</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-a&amp;lang=en&amp;focus=group:A2" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 3 · 7 papers</div><div class="kmtitle">Model of healthy tissue</div><ul><li><a href="../papers/pathbench-natcommun-2026/">Pathology FM benchmark</a></li><li><a href="../papers/linear-baselines-natmethods-2025/">Linear baselines win</a></li><li><a href="../papers/nephrobase-biorxiv-2025/">Nephrobase Cell+</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-a&amp;lang=en&amp;focus=group:A5" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 4 · 24 papers</div><div class="kmtitle">Anomaly / OOD score</div><ul><li><a href="../papers/meatrd-aaai-2025/">MEATRD</a></li><li><a href="../papers/refmap-eval-biorxiv-2025/">Reference-mapping QC</a></li><li><a href="../papers/sardine-bioinformatics-2025/">Sardine</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-a&amp;lang=en&amp;focus=group:A3" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 5 · 5 papers</div><div class="kmtitle">Cross-modal check</div><ul><li><a href="../papers/kidney-multimodal-genomebiol-2026/">Kidney multiome (mBDRC)</a></li><li><a href="../papers/loki-omiclip-natmethods-2025/">Loki / OmiCLIP</a></li><li><a href="../papers/he2expr-bench-natcommun-2025/">H&amp;E→expression benchmark</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-a&amp;lang=en&amp;focus=group:A4" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 6 · 7 papers</div><div class="kmtitle">Evaluation vs. experts</div><ul><li><a href="../papers/nih-kidney-ai-challenge-2026/">NIH Kidney AI Challenge</a></li><li><a href="../papers/pathology-ad-bench-mlhealth-2025/">Pathology AD benchmark</a></li><li><a href="../papers/histo-nejmai-2024/">Clinical-grade histo AD</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-a&amp;lang=en&amp;focus=group:A6" target="_blank" rel="noopener">Open in map ↗</a></div></div>
 
-### Plan B — Trustworthy biomedical agents
+### Topic 2 — Verifying the Claims of Biomedical Analysis Agents
 
-```mermaid
-flowchart TD
-  s1["`**1. Agent runs the analysis** (14 papers)
-Co-Scientist · DeepEvidence · Robin`"]
-  s2["`**2. Extract claims, trace to code / data / citations** (7 papers)
-Citation faithfulness guard · MedRAGChecker · Who is to blame? (citations)`"]
-  s3["`**3. Detect hallucination & judge** (5 papers)
-LLM-as-judge in healthcare · PING (trajectory hallucination) · Overgeneralization bias`"]
-  s4["`**4. Score hypotheses** (6 papers)
-RQ-Bench · TruthHypo · LLM hypothesis generators`"]
-  s5["`**5. Reruns & failure analysis** (11 papers)
-AutoResearch failures · FEV review · ResolVI`"]
-  s6["`**6. Benchmark + expert calibration** (5 papers)
-BiomniBench · BixBench · BioML-bench`"]
-  s1 --> s2
-  s2 --> s3
-  s3 --> s4
-  s4 --> s5
-  s5 --> s6
-```
-
-Open in map: [1. Agent runs the analysis](maps/viewer.html?view=plan-b&lang=en&focus=group:B1){target=_blank} · [2. Extract claims, trace to code / data / citations](maps/viewer.html?view=plan-b&lang=en&focus=group:B4){target=_blank} · [3. Detect hallucination & judge](maps/viewer.html?view=plan-b&lang=en&focus=group:B5){target=_blank} · [4. Score hypotheses](maps/viewer.html?view=plan-b&lang=en&focus=group:B6){target=_blank} · [5. Reruns & failure analysis](maps/viewer.html?view=plan-b&lang=en&focus=group:B7){target=_blank} · [6. Benchmark + expert calibration](maps/viewer.html?view=plan-b&lang=en&focus=group:B3){target=_blank}
+<div class="kmflow"><div class="kmstep"><div class="kmnum">STEP 1 · 14 papers</div><div class="kmtitle">Agent runs the analysis</div><ul><li><a href="../papers/co-scientist-nature-2026/">Co-Scientist</a></li><li><a href="../papers/deepevidence-natmachintell-2026/">DeepEvidence</a></li><li><a href="../papers/robin-nature-2026/">Robin</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-b&amp;lang=en&amp;focus=group:B1" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 2 · 7 papers</div><div class="kmtitle">Extract claims, trace to code / data / citations</div><ul><li><a href="../papers/citation-faithfulness-arxiv-2026/">Citation faithfulness guard</a></li><li><a href="../papers/medragchecker-arxiv-2026/">MedRAGChecker</a></li><li><a href="../papers/citation-blame-emnlp-2026/">Who is to blame? (citations)</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-b&amp;lang=en&amp;focus=group:B4" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 3 · 5 papers</div><div class="kmtitle">Detect hallucination &amp; judge</div><ul><li><a href="../papers/llm-judge-healthcare-arxiv-2026/">LLM-as-judge in healthcare</a></li><li><a href="../papers/deep-research-hallucination-arxiv-2026/">PING (trajectory hallucination)</a></li><li><a href="../papers/generalization-bias-rsos-2025/">Overgeneralization bias</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-b&amp;lang=en&amp;focus=group:B5" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 4 · 6 papers</div><div class="kmtitle">Score hypotheses</div><ul><li><a href="../papers/rq-bench-arxiv-2026/">RQ-Bench</a></li><li><a href="../papers/truthhypo-ijcai-2025/">TruthHypo</a></li><li><a href="../papers/hypogen-llm-colm-2024/">LLM hypothesis generators</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-b&amp;lang=en&amp;focus=group:B6" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 5 · 11 papers</div><div class="kmtitle">Reruns &amp; failure analysis</div><ul><li><a href="../papers/autoresearch-failures-arxiv-2026/">AutoResearch failures</a></li><li><a href="../papers/fev-bioinformatics-agents-arxiv-2026/">FEV review</a></li><li><a href="../papers/clinical-agent-reruns-arxiv-2026/">Same patient, different order</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-b&amp;lang=en&amp;focus=group:B7" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 6 · 5 papers</div><div class="kmtitle">Benchmark + expert calibration</div><ul><li><a href="../papers/biomnibench-biorxiv-2026/">BiomniBench</a></li><li><a href="../papers/bixbench-arxiv-2025/">BixBench</a></li><li><a href="../papers/bioml-bench-biorxiv-2025/">BioML-bench</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=plan-b&amp;lang=en&amp;focus=group:B3" target="_blank" rel="noopener">Open in map ↗</a></div></div>
 
 ### Sikander's picks
 
-```mermaid
-flowchart TD
-  s1["`**1. Foundations & data** (5 papers)
-Pathology FM benchmark · Generative histopathology FM · HEST-1k`"]
-  s2["`**2. Detect** (11 papers)
-ECG sudden-death biomarker · NIH Kidney AI Challenge · Spatial biomarker discovery`"]
-  s3["`**3. Model** (2 papers)
-Virtual tissues (spatial proteomics) · Virtual Cell Challenge`"]
-  s4["`**4. Revert** (3 papers)
-MintFlow · Conditional Monge Gap · Counterfactual diffusion`"]
-  s5["`**5. Agents & evidence** (2 papers)
-DeepEvidence · LLM hypothesis generators`"]
-  s1 --> s2
-  s2 --> s3
-  s3 --> s4
-  s4 --> s5
-```
-
-Open in map: [1. Foundations & data](maps/viewer.html?view=sikander&lang=en&focus=group:foundations){target=_blank} · [2. Detect](maps/viewer.html?view=sikander&lang=en&focus=group:detect){target=_blank} · [3. Model](maps/viewer.html?view=sikander&lang=en&focus=group:model){target=_blank} · [4. Revert](maps/viewer.html?view=sikander&lang=en&focus=group:revert){target=_blank} · [5. Agents & evidence](maps/viewer.html?view=sikander&lang=en&focus=group:agents){target=_blank}
+<div class="kmflow"><div class="kmstep"><div class="kmnum">STEP 1 · 5 papers</div><div class="kmtitle">Foundations &amp; data</div><ul><li><a href="../papers/fm-arxiv-2604/">Generative histopathology FM</a></li><li><a href="../papers/pathbench-natcommun-2026/">Pathology FM benchmark</a></li><li><a href="../papers/hest1k-2024/">HEST-1k</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=sikander&amp;lang=en&amp;focus=group:foundations" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 2 · 11 papers</div><div class="kmtitle">Detect</div><ul><li><a href="../papers/imaging-nature-2026/">ECG sudden-death biomarker</a></li><li><a href="../papers/histo-sciencedirect-2026/">Spatial biomarker discovery</a></li><li><a href="../papers/imaging-ehjdh-2026/">AI ejection fraction</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=sikander&amp;lang=en&amp;focus=group:detect" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 3 · 2 papers</div><div class="kmtitle">Model</div><ul><li><a href="../papers/virtual-tissue-2501/">Virtual tissues (spatial proteomics)</a></li><li><a href="../papers/virtual-cell-challenge/">Virtual Cell Challenge</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=sikander&amp;lang=en&amp;focus=group:model" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 4 · 3 papers</div><div class="kmtitle">Revert</div><ul><li><a href="../papers/spatial-biorxiv-2025/">MintFlow</a></li><li><a href="../papers/scrna-natmachintell-2026/">Conditional Monge Gap</a></li><li><a href="../papers/counterfactual-diffusion-cancerres-2026/">Counterfactual diffusion</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=sikander&amp;lang=en&amp;focus=group:revert" target="_blank" rel="noopener">Open in map ↗</a></div><div class="kmarrow">→</div><div class="kmstep"><div class="kmnum">STEP 5 · 2 papers</div><div class="kmtitle">Agents &amp; evidence</div><ul><li><a href="../papers/deepevidence-natmachintell-2026/">DeepEvidence</a></li><li><a href="../papers/hypogen-llm-colm-2024/">LLM hypothesis generators</a></li></ul><a class="kmopen" href="../maps/viewer.html?view=sikander&amp;lang=en&amp;focus=group:agents" target="_blank" rel="noopener">Open in map ↗</a></div></div>
 
 
-## Plan A — Kidney omics anomaly detection
+## Topic 1 — A Benchmark for Anomaly Detection in Kidney Single-Cell Omics
 
 <iframe src="../maps/viewer.html?view=plan-a&lang=en&embed=1" style="width:100%;height:640px;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px" loading="lazy"></iframe>
 

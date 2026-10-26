@@ -1,0 +1,432 @@
+# Glossary — Part D: kidney omics onboarding (data, cells, kidney anatomy, assays, artifacts)
+# Trilingual (English / 中文 / Deutsch). Which onboarding module teaches each term
+# is set in onboarding/modules.yaml.
+
+# --- data -------------------------------------------------------------------
+- id: count-matrix
+  en: Count matrix
+  zh: 计数矩阵
+  de: Zählmatrix
+  domain: single-cell
+  def_en: "The main single-cell data table: one row per cell (or nucleus), one column per gene, each entry the number of RNA molecules (UMIs) of that gene detected in that cell; very sparse."
+  def_zh: "单细胞数据的主表：每行一个细胞（或细胞核），每列一个基因，数值是该细胞里测到的该基因 RNA 分子数（UMI 数）；非常稀疏。"
+  def_de: "Die zentrale Einzelzell-Tabelle: eine Zeile pro Zelle (oder Zellkern), eine Spalte pro Gen, jeder Eintrag die Zahl der in dieser Zelle gemessenen RNA-Moleküle (UMIs) des Gens; sehr dünn besetzt."
+  tags: [data, matrix]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: anndata-h5ad
+  en: AnnData / h5ad
+  zh: AnnData / h5ad 文件
+  de: AnnData / h5ad
+  domain: single-cell
+  def_en: "The Python (scanpy) container for single-cell data, saved as an .h5ad (HDF5) file: the count matrix X plus per-cell metadata (obs) and per-gene metadata (var)."
+  def_zh: "Python（scanpy）里存单细胞数据的容器，存成 .h5ad（HDF5）文件：计数矩阵 X，加每个细胞的标签表 obs 和每个基因的信息 var。"
+  def_de: "Der Python-(scanpy-)Container für Einzelzelldaten, gespeichert als .h5ad-(HDF5-)Datei: Zählmatrix X plus Metadaten pro Zelle (obs) und pro Gen (var)."
+  tags: [data, format]
+
+- id: obs-var
+  en: obs / var (cell and gene metadata)
+  zh: obs / var（细胞和基因的信息表）
+  de: obs / var (Zell- und Gen-Metadaten)
+  domain: single-cell
+  def_en: "The two tables aligned with the count matrix: obs has one row per cell (patient, library, quality numbers, cell-type and state labels), var has one row per gene (gene name and other gene information)."
+  def_zh: "和计数矩阵对齐的两张表：obs 每个细胞一行（病人、批次、质量指标、细胞类型和状态标签），var 每个基因一行（基因名等信息）。"
+  def_de: "Die zwei an der Zählmatrix ausgerichteten Tabellen: obs hat eine Zeile pro Zelle (Patient, Library, Qualitätswerte, Zelltyp- und Zustandslabels), var eine Zeile pro Gen (Genname und weitere Geninformationen)."
+  tags: [data, format]
+
+- id: gene-symbol
+  en: Gene symbol (HGNC)
+  zh: 基因符号（HGNC）
+  de: Gensymbol (HGNC)
+  domain: single-cell
+  def_en: "The short official name of a human gene set by the HGNC, such as LRP2 or UMOD; used as the column names of the count matrix. A prefix MT- marks genes encoded by mitochondrial DNA."
+  def_zh: "由 HGNC 定的人类基因官方简称，比如 LRP2、UMOD；计数矩阵的列名就是它。MT- 开头的是线粒体 DNA 编码的基因。"
+  def_de: "Der kurze offizielle Name eines menschlichen Gens, festgelegt von der HGNC, z. B. LRP2 oder UMOD; dient als Spaltenname der Zählmatrix. Das Präfix MT- kennzeichnet von mitochondrialer DNA kodierte Gene."
+  tags: [data, naming]
+
+- id: patient-level-split
+  en: Patient-level split (data leakage)
+  zh: 按病人切分（数据泄漏）
+  de: Aufteilung nach Patient (Datenleck)
+  domain: ml-methods
+  def_en: "Putting all cells of one patient (and, where needed, one library) on the same side of the train / test split; splitting cells at random leaks the patient and batch into the test set and inflates the score."
+  def_zh: "把同一个病人（必要时同一次上机）的所有细胞放在训练集或测试集的同一边；按细胞随机切分会把病人和批次信息泄漏到测试集，分数虚高。"
+  def_de: "Alle Zellen eines Patienten (und bei Bedarf einer Library) landen auf derselben Seite der Train-/Test-Aufteilung; eine zufällige Aufteilung nach Zellen lässt Patient und Batch ins Testset durchsickern und schönt das Ergebnis."
+  tags: [evaluation, leakage]
+
+# --- cells and RNA ------------------------------------------------------------
+- id: cell-nucleus
+  en: Nucleus (cell nucleus)
+  zh: 细胞核
+  de: Zellkern
+  domain: single-cell
+  def_en: "The compartment inside a cell that holds the DNA; RNA is made here before it moves out to the cytoplasm."
+  def_zh: "细胞里装 DNA 的部分；RNA 在这里被转录出来，之后再运到胞质。"
+  def_de: "Das Kompartiment der Zelle, das die DNA enthält; RNA wird hier gebildet und dann ins Zytoplasma transportiert."
+  tags: [biology]
+
+- id: transcription
+  en: Transcription (gene expression)
+  zh: 转录（基因表达）
+  de: Transkription (Genexpression)
+  domain: single-cell
+  def_en: "Copying a gene's DNA into RNA; counting a gene's RNA molecules in a cell measures how active (expressed) the gene is."
+  def_zh: "把一个基因的 DNA 抄写成 RNA；数一个细胞里某个基因有几条 RNA，就是在量这个基因的活跃程度（表达量）。"
+  def_de: "Das Abschreiben der DNA eines Gens in RNA; die Zahl der RNA-Moleküle eines Gens in einer Zelle misst, wie aktiv (exprimiert) es ist."
+  tags: [biology]
+
+- id: cell-type
+  en: Cell type
+  zh: 细胞类型
+  de: Zelltyp
+  domain: single-cell
+  def_en: "A stable class of cells with the same job and a characteristic expression profile (e.g. proximal tubule cell); found by clustering cells and checking marker genes."
+  def_zh: "工作相同、表达谱特征一致的一类细胞（例如近端小管细胞）；通过聚类加看标记基因来确定。"
+  def_de: "Eine stabile Klasse von Zellen mit gleicher Aufgabe und typischem Expressionsprofil (z. B. proximale Tubuluszelle); bestimmt durch Clustering und Markergene."
+  tags: [annotation]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+# --- kidney anatomy -----------------------------------------------------------
+- id: nephron
+  en: Nephron
+  zh: 肾单位
+  de: Nephron
+  domain: nephrology-clinical
+  def_en: "The functional unit of the kidney, about a million per kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine."
+  def_zh: "肾脏的功能单位，一个肾约 100 万个：先是一个过滤器（肾小球），后面接一条小管，把有用的东西收回，剩下的成为尿。"
+  def_de: "Die funktionelle Einheit der Niere, etwa eine Million pro Niere: ein Filter (Glomerulus) und ein anschließender Tubulus, der Nützliches zurückgewinnt und Harn übrig lässt."
+  tags: [anatomy]
+
+- id: renal-cortex-medulla
+  en: Renal cortex / medulla / papilla
+  zh: 皮质 / 髓质 / 乳头
+  de: Nierenrinde / Nierenmark / Papille
+  domain: nephrology-clinical
+  def_en: "The kidney's outer layer (cortex, with glomeruli and proximal and distal tubules), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves."
+  def_zh: "肾的外层（皮质，有肾小球、近端和远端小管）、内层（髓质，有髓袢和集合管），以及髓质的尖端（乳头，尿从这里流出）。"
+  def_de: "Äußere Schicht der Niere (Rinde, mit Glomeruli, proximalen und distalen Tubuli), innere Schicht (Mark, mit Henle-Schleifen und Sammelrohren) und die Markspitzen (Papillen), wo der Harn austritt."
+  tags: [anatomy, region]
+  seen_in: [lake-kidney-atlas-nature-2023, kidney-multimodal-genomebiol-2026]
+
+- id: glomerulus
+  en: Glomerulus
+  zh: 肾小球
+  de: Glomerulus
+  domain: nephrology-clinical
+  def_en: "The ball of capillaries at the start of each nephron, inside Bowman's capsule, where blood is filtered."
+  def_zh: "每个肾单位起点的一团毛细血管，包在肾小球囊（Bowman's capsule）里，血液在这里被过滤。"
+  def_de: "Das Kapillarknäuel am Anfang jedes Nephrons in der Bowman-Kapsel, in dem das Blut gefiltert wird."
+  tags: [anatomy]
+
+- id: podocyte
+  en: Podocyte (POD)
+  zh: 足细胞
+  de: Podozyt
+  domain: nephrology-clinical
+  def_en: "Cells wrapped around the glomerular capillaries that form the final filtration barrier; when they are injured, protein leaks into the urine."
+  def_zh: "包在肾小球毛细血管外面的细胞，构成过滤的最后一道屏障；受损时蛋白会漏进尿里。"
+  def_de: "Zellen, die die glomerulären Kapillaren umhüllen und die letzte Filtrationsbarriere bilden; bei Schädigung tritt Eiweiß in den Harn über."
+  tags: [cell-type]
+  seen_in: [damage-scores-cellgenomics-2026, lake-kidney-atlas-nature-2023]
+
+- id: proximal-tubule
+  en: Proximal tubule (PT)
+  zh: 近端小管
+  de: Proximaler Tubulus
+  domain: nephrology-clinical
+  def_en: "The first tubule segment after the glomerulus; reclaims most water, glucose and salt, uses the most energy, and is the first to be injured by ischaemia. The most abundant cell type in kidney atlases."
+  def_zh: "肾小球后面的第一段小管；回收大部分水、葡萄糖和盐，最耗能，缺血时最先受伤。是肾脏图谱里数量最多的细胞类型。"
+  def_de: "Das erste Tubulussegment nach dem Glomerulus; resorbiert den Großteil von Wasser, Glukose und Salz, verbraucht am meisten Energie und wird bei Ischämie zuerst geschädigt."
+  tags: [cell-type]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: loop-of-henle
+  en: Loop of Henle (DTL / ATL)
+  zh: 髓袢（降支细段 / 升支细段）
+  de: Henle-Schleife
+  domain: nephrology-clinical
+  def_en: "The U-shaped tubule segment that dips into the medulla: descending thin limb (DTL), ascending thin limb (ATL), then the thick ascending limb."
+  def_zh: "伸进髓质的 U 形小管段：降支细段（DTL）、升支细段（ATL），再接升支粗段。"
+  def_de: "Das U-förmige Tubulussegment, das ins Mark reicht: absteigender dünner Teil (DTL), aufsteigender dünner Teil (ATL), dann der dicke aufsteigende Teil."
+  tags: [anatomy]
+
+- id: thick-ascending-limb
+  en: Thick ascending limb (TAL)
+  zh: 髓袢升支粗段
+  de: Dicker aufsteigender Teil der Henle-Schleife
+  domain: nephrology-clinical
+  def_en: "The thick part of the loop of Henle that reclaims salt and builds the concentration gradient; like the proximal tubule it is often injured, and its adaptive state (aTAL) was defined in Lake 2023."
+  def_zh: "髓袢变粗的那一段，回收盐、建立浓度梯度；和近端小管一样容易受伤，它的修复态 aTAL 是 Lake 2023 定义的。"
+  def_de: "Der dicke Teil der Henle-Schleife, der Salz resorbiert und den Konzentrationsgradienten aufbaut; wie der proximale Tubulus oft geschädigt (adaptiver Zustand aTAL, Lake 2023)."
+  tags: [cell-type]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: distal-tubule
+  en: Distal convoluted / connecting tubule (DCT / CNT)
+  zh: 远曲小管 / 连接小管
+  de: Distaler Tubulus / Verbindungstubulus
+  domain: nephrology-clinical
+  def_en: "Segments back in the cortex after the loop that fine-tune salt and calcium and connect the nephron to a collecting duct."
+  def_zh: "髓袢之后回到皮质的小管段，微调盐和钙，并把肾单位接到集合管上。"
+  def_de: "Segmente nach der Schleife zurück in der Rinde, die Salz und Kalzium fein regulieren und das Nephron mit dem Sammelrohr verbinden."
+  tags: [cell-type]
+
+- id: collecting-duct
+  en: Collecting duct (PC / IC)
+  zh: 集合管（主细胞 / 闰细胞）
+  de: Sammelrohr (Hauptzellen / Schaltzellen)
+  domain: nephrology-clinical
+  def_en: "The duct that collects fluid from many nephrons and carries it to the papilla; principal cells (PC) set the final water balance, intercalated cells (IC) the acid–base balance."
+  def_zh: "汇集多条肾单位液体、通往乳头的管道；主细胞（PC）决定最后的水平衡，闰细胞（IC）调酸碱。"
+  def_de: "Das Rohr, das die Flüssigkeit vieler Nephrone sammelt und zur Papille leitet; Hauptzellen (PC) regeln den Wasserhaushalt, Schaltzellen (IC) den Säure-Basen-Haushalt."
+  tags: [cell-type]
+
+# --- patients and tissue ------------------------------------------------------
+- id: acute-kidney-injury
+  en: Acute kidney injury (AKI)
+  zh: 急性肾损伤
+  de: Akute Nierenschädigung
+  domain: nephrology-clinical
+  def_en: "A sudden loss of kidney function over hours to days (e.g. after surgery, sepsis or drugs); it can recover, or progress to chronic kidney disease."
+  def_zh: "几小时到几天内肾功能突然下降（如手术、脓毒症、药物之后）；可能恢复，也可能发展成慢性肾病。"
+  def_de: "Ein plötzlicher Verlust der Nierenfunktion über Stunden bis Tage (z. B. nach Operation, Sepsis oder Medikamenten); kann sich erholen oder in eine chronische Nierenerkrankung übergehen."
+  tags: [disease]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: diabetic-kidney-disease
+  en: Diabetic / hypertensive kidney disease (DKD / H-CKD)
+  zh: 糖尿病肾病 / 高血压肾病
+  de: Diabetische / hypertensive Nierenerkrankung
+  domain: nephrology-clinical
+  def_en: "The two most common causes of chronic kidney disease, labelled DKD and H-CKD (or HKD) in kidney atlases."
+  def_zh: "慢性肾病最常见的两种病因，在肾脏图谱里标作 DKD 和 H-CKD（或 HKD）。"
+  def_de: "Die zwei häufigsten Ursachen der chronischen Nierenerkrankung, in Nierenatlanten als DKD und H-CKD (bzw. HKD) bezeichnet."
+  tags: [disease]
+  seen_in: [lake-kidney-atlas-nature-2023, abedini-kidney-atlas-natgenet-2024]
+
+- id: nephrectomy
+  en: Nephrectomy (tumour nephrectomy)
+  zh: 肾切除
+  de: Nephrektomie
+  domain: nephrology-clinical
+  def_en: "Surgical removal of a kidney, usually for a tumour; tissue far from the tumour is used as 'healthy' reference, but it has gone without blood flow for a while."
+  def_zh: "手术切除肾，通常因为肿瘤；离肿瘤远的组织被当作'健康'参考，但它已经缺血了一段时间。"
+  def_de: "Operative Entfernung einer Niere, meist wegen eines Tumors; tumorfernes Gewebe dient als 'gesunde' Referenz, war aber eine Zeit lang ohne Durchblutung."
+  tags: [procurement]
+  seen_in: [lake-kidney-atlas-nature-2023, abedini-kidney-atlas-natgenet-2024, kidney-multimodal-genomebiol-2026]
+
+- id: deceased-donor
+  en: Deceased donor
+  zh: 死亡供体
+  de: Verstorbener Spender
+  domain: nephrology-clinical
+  def_en: "An organ donor whose kidney was not transplanted and was used for research; ischaemia time is usually longer than for biopsies or nephrectomies."
+  def_zh: "器官捐献者的肾最后没被移植、用于研究；缺血时间通常比活检和肾切除更长。"
+  def_de: "Ein Organspender, dessen Niere nicht transplantiert, sondern für die Forschung verwendet wurde; die Ischämiezeit ist meist länger als bei Biopsie oder Nephrektomie."
+  tags: [procurement]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: ischaemia
+  en: Ischaemia (procurement ischaemia)
+  zh: 缺血（取样缺血）
+  de: Ischämie
+  domain: nephrology-clinical
+  def_en: "Lack of blood flow; tissue left without blood during surgery or after death switches on stress genes, which can make healthy cells look injured."
+  def_zh: "血流中断；手术中或死后没有血供的组织会启动应激基因，让健康细胞看起来像受了伤。"
+  def_de: "Fehlende Durchblutung; Gewebe ohne Blutversorgung während einer Operation oder nach dem Tod aktiviert Stressgene, sodass gesunde Zellen geschädigt wirken können."
+  tags: [procurement, artifact]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+# --- assays -------------------------------------------------------------------
+- id: tissue-dissociation
+  en: Tissue dissociation
+  zh: 组织解离
+  de: Gewebedissoziation
+  domain: single-cell
+  def_en: "Breaking tissue into single cells, usually with enzymes at 37 °C, before single-cell RNA-seq; needed for whole cells but stresses them."
+  def_zh: "做单细胞 RNA 测序前把组织拆成单个细胞，通常用酶在 37 °C 消化；能得到完整细胞，但会让细胞应激。"
+  def_de: "Zerlegen von Gewebe in Einzelzellen, meist enzymatisch bei 37 °C, vor der Einzelzell-RNA-Sequenzierung; liefert ganze Zellen, setzt sie aber unter Stress."
+  tags: [protocol]
+  seen_in: [denisenko-dissociation-bias-genomebiol-2020, lake-snrna-pipeline-natcommun-2019]
+
+- id: chromium-10x
+  en: 10x Chromium (Cv3)
+  zh: 10x Chromium（Cv3 = 第 3 版试剂）
+  de: 10x Chromium (Cv3)
+  domain: single-cell
+  def_en: "The most common commercial single-cell platform: it packs each cell or nucleus into an oil droplet with a barcoded bead. Cv3 = Chromium v3 chemistry (snCv3 / scCv3 in Lake 2023)."
+  def_zh: "最常用的商业单细胞平台：把每个细胞或核和一颗带条形码的珠子一起包进油滴。Cv3 = Chromium 第 3 版试剂（Lake 2023 里的 snCv3 / scCv3）。"
+  def_de: "Die verbreitetste kommerzielle Einzelzellplattform: sie verpackt jede Zelle bzw. jeden Kern mit einem barcodierten Bead in ein Öltröpfchen. Cv3 = Chromium-v3-Chemie."
+  tags: [platform]
+  seen_in: [lake-kidney-atlas-nature-2023, kidney-multimodal-genomebiol-2026]
+
+- id: cell-barcode
+  en: Cell barcode
+  zh: 细胞条形码
+  de: Zell-Barcode
+  domain: single-cell
+  def_en: "A short DNA tag attached to every RNA from the same droplet (or the same split-pool path), so reads can be sorted back to their cell; becomes the row ID of the count matrix."
+  def_zh: "贴在同一个油滴（或同一条分池路径）里所有 RNA 上的短 DNA 标签，用来把读段分回各个细胞；它就是计数矩阵的行 ID。"
+  def_de: "Ein kurzer DNA-Tag an jeder RNA aus demselben Tröpfchen (oder demselben Split-Pool-Weg), mit dem Reads ihrer Zelle zugeordnet werden; die Zeilen-ID der Zählmatrix."
+  tags: [sequencing]
+
+- id: umi
+  en: UMI (unique molecular identifier)
+  zh: UMI（分子唯一标识）
+  de: UMI (Unique Molecular Identifier)
+  domain: single-cell
+  def_en: "A random tag on each RNA molecule before amplification, so copies made by PCR can be collapsed; the numbers in the count matrix are UMI counts (nCount_RNA = total UMIs per cell)."
+  def_zh: "扩增前贴在每条 RNA 分子上的随机标签，用来去掉 PCR 复制出的重复；计数矩阵里的数字就是 UMI 数（nCount_RNA = 一个细胞的 UMI 总数）。"
+  def_de: "Ein zufälliger Tag an jedem RNA-Molekül vor der Amplifikation, damit PCR-Kopien zusammengefasst werden; die Werte der Zählmatrix sind UMI-Zahlen."
+  tags: [sequencing]
+
+- id: tn5-transposase
+  en: Tn5 transposase
+  zh: Tn5 转座酶
+  de: Tn5-Transposase
+  domain: single-cell
+  def_en: "The enzyme used in ATAC-seq: it can only cut into open (unwound) DNA and inserts sequencing adapters as it cuts, so where it cuts marks accessible chromatin."
+  def_zh: "ATAC-seq 用的酶：只能剪进打开（没缠紧）的 DNA，剪的同时插入测序接头，所以它剪过的位置标出了开放染色质。"
+  def_de: "Das Enzym der ATAC-seq: es schneidet nur in offene (entwundene) DNA und fügt dabei Sequenzieradapter ein; seine Schnittstellen markieren zugängliches Chromatin."
+  tags: [protocol, atac]
+
+- id: snare-seq2
+  en: SNARE-seq2
+  zh: SNARE-seq2（SNARE2）
+  de: SNARE-seq2
+  domain: single-cell
+  def_en: "Single-Nucleus chromatin Accessibility and mRNA Expression sequencing, version 2: measures RNA and ATAC in the same nucleus using split-pool (combinatorial) barcoding instead of droplets; used for 7 healthy donors in Lake 2023."
+  def_zh: "单核染色质可及性与 mRNA 表达测序第 2 版：在同一个核里同时测 RNA 和 ATAC，用分池混合编码代替油滴；Lake 2023 用它测了 7 个健康人。"
+  def_de: "Single-Nucleus chromatin Accessibility and mRNA Expression sequencing, Version 2: misst RNA und ATAC im selben Kern mit kombinatorischem Split-Pool-Barcoding statt Tröpfchen."
+  tags: [assay, multiome]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: snp-genotype
+  en: SNP / genotype
+  zh: SNP / 基因型
+  de: SNP / Genotyp
+  domain: single-cell
+  def_en: "Single-base differences between people (or mouse strains); the set a person carries is their genotype, a DNA fingerprint stored in VCF files and measured by WES or arrays."
+  def_zh: "人与人（或小鼠品系之间）单个碱基的差异；一个人带的这一整套就是他的基因型，相当于 DNA 指纹，存成 VCF 文件，用 WES 或芯片测得。"
+  def_de: "Einzelbasen-Unterschiede zwischen Personen (oder Mausstämmen); die Gesamtheit ist der Genotyp, ein DNA-Fingerabdruck in VCF-Dateien, gemessen per WES oder Array."
+  tags: [genotype]
+  seen_in: [hoeft-genotype-multiplexing-natcommun-2024, malone-transplant-chimerism-jasn-2020, janssen-ambient-noise-genomebiol-2023]
+
+- id: genotype-demultiplexing
+  en: Genotype multiplexing / demultiplexing
+  zh: 基因型混样 / 分人
+  de: Genotyp-Multiplexing / Demultiplexing
+  domain: single-cell
+  def_en: "Pooling cells from several people in one run and sorting them back by SNPs (demuxlet, souporcell, vireo); it also reveals droplets with two people's SNPs (doublets) and foreign RNA (ambient contamination)."
+  def_zh: "把几个人的细胞混在一次实验里测，事后按 SNP 分回各人（demuxlet、souporcell、vireo）；同时能发现带两个人 SNP 的液滴（doublet）和外来 RNA（ambient 污染）。"
+  def_de: "Zellen mehrerer Personen gemeinsam messen und per SNPs zurück zuordnen (demuxlet, souporcell, vireo); zeigt zugleich Tröpfchen mit zwei Genotypen (Dubletten) und fremde RNA (Ambient-Kontamination)."
+  tags: [genotype, ground-truth]
+  seen_in: [hoeft-genotype-multiplexing-natcommun-2024, malone-transplant-chimerism-jasn-2020]
+
+# --- artifacts ----------------------------------------------------------------
+- id: empty-droplet
+  en: Empty droplet
+  zh: 空液滴
+  de: Leeres Tröpfchen
+  domain: single-cell
+  def_en: "A droplet without a cell; it captures only free-floating RNA, so it samples the ambient profile. Present in the raw matrix, removed from the filtered one."
+  def_zh: "没装细胞的油滴；里面只有漂在液体里的 RNA，所以正好是 ambient 的样本。raw 矩阵里有，filtered 矩阵里被去掉。"
+  def_de: "Ein Tröpfchen ohne Zelle; es enthält nur frei schwebende RNA und ist damit eine Stichprobe des Ambient-Profils. In der Raw-Matrix enthalten, in der gefilterten entfernt."
+  tags: [artifact, qc]
+  seen_in: [janssen-ambient-noise-genomebiol-2023]
+
+- id: low-quality-cell
+  en: Low-quality cell
+  zh: 低质量细胞
+  de: Zelle geringer Qualität
+  domain: single-cell
+  def_en: "A dying or broken cell with few RNA molecules and genes and a high mitochondrial fraction; usually filtered by QC thresholds, but injured cells can look similar."
+  def_zh: "快死或破损的细胞：RNA 分子和基因数少、线粒体比例高；通常按 QC 阈值过滤掉，但受损细胞也可能长得很像。"
+  def_de: "Eine sterbende oder beschädigte Zelle mit wenigen RNA-Molekülen und Genen und hohem Mitochondrienanteil; meist per QC-Schwelle gefiltert, doch geschädigte Zellen sehen ähnlich aus."
+  tags: [artifact, qc]
+  seen_in: [lake-kidney-atlas-nature-2023]
+
+- id: mitochondrial-fraction
+  en: Mitochondrial fraction (percent.mt)
+  zh: 线粒体比例
+  de: Mitochondrialer Anteil
+  domain: single-cell
+  def_en: "The share of a cell's RNA from mitochondrial genes; a standard QC metric (high = stressed or dying cell). Naturally higher in whole cells than in nuclei."
+  def_zh: "一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标（高 = 细胞应激或快死了）。完整细胞本来就比细胞核高。"
+  def_de: "Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik (hoch = gestresste oder sterbende Zelle). In ganzen Zellen natürlich höher als in Kernen."
+  tags: [qc]
+
+- id: dissociation-stress
+  en: Dissociation stress
+  zh: 解离应激
+  de: Dissoziationsstress
+  domain: single-cell
+  def_en: "Stress genes (FOS, JUN, heat-shock genes) switched on while tissue is digested at 37 °C; makes cells look injured although the injury happened in the lab."
+  def_zh: "组织在 37 °C 消化时细胞启动的应激基因（FOS、JUN、热休克蛋白等）；让细胞看起来受了伤，其实伤是在实验室里造成的。"
+  def_de: "Stressgene (FOS, JUN, Hitzeschockgene), die beim Verdau des Gewebes bei 37 °C angeschaltet werden; Zellen wirken geschädigt, obwohl der Schaden im Labor entstand."
+  tags: [artifact]
+  seen_in: [denisenko-dissociation-bias-genomebiol-2020]
+
+- id: polyploidy
+  en: Polyploidy / multinucleation
+  zh: 多倍体 / 多核
+  de: Polyploidie / Mehrkernigkeit
+  domain: nephrology-clinical
+  def_en: "Cells with extra DNA copies or more than one nucleus; after injury some tubular cells become polyploid and some podocytes binucleated. In single-cell data such cells can look like doublets."
+  def_zh: "DNA 拷贝多出来或有不止一个核的细胞；损伤后一些小管细胞会变成多倍体，一些足细胞会变成双核。在单细胞数据里，这类细胞可能看起来像 doublet。"
+  def_de: "Zellen mit zusätzlichen DNA-Kopien oder mehr als einem Kern; nach Schädigung werden manche Tubuluszellen polyploid und manche Podozyten zweikernig. In Einzelzelldaten können sie wie Dubletten aussehen."
+  tags: [biology, artifact-mimic]
+
+# --- datasets and repositories --------------------------------------------------
+- id: kpmp
+  en: KPMP (Kidney Precision Medicine Project)
+  zh: KPMP（肾脏精准医学项目）
+  de: KPMP (Kidney Precision Medicine Project)
+  domain: nephrology-clinical
+  def_en: "An NIH consortium that collects kidney biopsies from AKI and CKD patients and profiles them with single-cell, spatial and imaging assays; the main source of Lake 2023."
+  def_zh: "美国 NIH 的联盟项目，收集 AKI 和 CKD 病人的肾活检，用单细胞、空间和成像方法测；Lake 2023 的主要数据来源。"
+  def_de: "Ein NIH-Konsortium, das Nierenbiopsien von AKI- und CKD-Patienten sammelt und mit Einzelzell-, Raum- und Bildgebungsverfahren profiliert; Hauptquelle von Lake 2023."
+  tags: [consortium, dataset]
+  seen_in: [lake-kidney-atlas-nature-2023, damage-scores-cellgenomics-2026, cellspectra-natgenet-2025]
+
+- id: cellxgene
+  en: CZ CELLxGENE
+  zh: CELLxGENE 数据平台
+  de: CZ CELLxGENE
+  domain: single-cell
+  def_en: "The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; the easiest way to download Lake 2023 and mBDRC."
+  def_zh: "Chan Zuckerberg 的单细胞数据平台，把整理好的数据集统一成 h5ad 文件和标准标签提供下载；下载 Lake 2023 和 mBDRC 最方便的途径。"
+  def_de: "Das Einzelzellportal der Chan-Zuckerberg-Initiative, das kuratierte Datensätze als h5ad mit harmonisierten Metadaten bereitstellt."
+  tags: [repository]
+
+- id: geo-sra
+  en: GEO / SRA
+  zh: GEO / SRA 公共数据库
+  de: GEO / SRA
+  domain: general
+  def_en: "NCBI's public repositories: GEO holds processed data (count matrices, metadata tables), SRA holds raw sequencing reads (FASTQ); free to download."
+  def_zh: "NCBI 的公共数据库：GEO 放处理后的数据（计数矩阵、标签表），SRA 放原始测序读段（FASTQ）；免费下载。"
+  def_de: "Öffentliche NCBI-Datenbanken: GEO enthält prozessierte Daten (Zählmatrizen, Metadaten), SRA rohe Sequenzierreads (FASTQ); frei herunterladbar."
+  tags: [repository]
+
+- id: dbgap
+  en: dbGaP / EGA (controlled access)
+  zh: dbGaP / EGA（受控访问）
+  de: dbGaP / EGA (kontrollierter Zugang)
+  domain: general
+  def_en: "Controlled-access archives for human raw sequencing data that could identify a person; access requires an application and a data-use agreement."
+  def_zh: "存放可识别个人的人类原始测序数据的受控数据库；要提交申请并签数据使用协议才能下载。"
+  def_de: "Archive mit kontrolliertem Zugang für menschliche Rohsequenzdaten, die eine Person identifizieren könnten; Zugang nur per Antrag und Datennutzungsvereinbarung."
+  tags: [repository, access]
+
+# --- the problem --------------------------------------------------------------
+- id: altered-state
+  en: Altered state (reference vs altered)
+  zh: 改变态（参考态 vs 改变态）
+  de: Veränderter Zustand
+  domain: single-cell
+  def_en: "Lake 2023's label for cell states that differ from healthy (degenerative, adaptive/repairing, cycling, transitioning), as opposed to 'reference'; assigned by experts after clustering, and also found in healthy donors."
+  def_zh: "Lake 2023 给偏离健康的细胞状态起的名字（退化、修复、增殖、过渡），与'参考态'相对；是聚类后由专家判读的，健康人身上也有。"
+  def_de: "Lake-2023-Bezeichnung für Zellzustände, die vom Gesunden abweichen (degenerativ, adaptiv/reparierend, zyklisch, im Übergang), im Gegensatz zu 'Referenz'; nach Clustering von Experten vergeben, auch bei Gesunden vorhanden."
+  tags: [annotation, ground-truth]
+  seen_in: [lake-kidney-atlas-nature-2023]

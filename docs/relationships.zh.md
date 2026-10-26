@@ -39,6 +39,7 @@ flowchart LR
   cat_spatial["spatial"] --> DIRECTION
   cat_virtual_tissue["virtual-tissue"] --> DIRECTION
   abc_agentic_benchmarks_neurips_2025["★Establishing Best Practices for Building"] --> cat_agents
+  abedini_kidney_atlas_natgenet_2024["★Single-cell multi-omic and spatial profi"] --> cat_single_cell
   ad_unifying_review_procieee_2021["★A Unifying Review of Deep and Shallow An"] --> cat_anomaly
   ailuminate_arxiv_2025["★AILuminate: Introducing v1.0 of the AI R"] --> cat_agents
   ambient_rna_bench_biorxiv_2026["Benchmarking computational decontaminati"] --> cat_single_cell
@@ -64,6 +65,7 @@ flowchart LR
   deep_svdd_icml_2018["★Deep One-Class Classification"] --> cat_anomaly
   deepevidence_natmachintell_2026["★Empowering biomedical evidence explorati"] --> cat_agents
   deeptrace_arxiv_2025["DeepTRACE: Auditing Deep Research AI Sys"] --> cat_agents
+  denisenko_dissociation_bias_genomebiol_2020["★Systematic assessment of tissue dissocia"] --> cat_single_cell
   diffusion_medical_ad_miccai_2022["Diffusion Models for Medical Anomaly Det"] --> cat_anomaly
   dkd_spatial_atlas_nature_2026["★Spatial atlas of diabetic kidney disease"] --> cat_spatial
   draem_iccv_2021["DRÆM – A discriminatively trained recons"] --> cat_anomaly
@@ -87,6 +89,7 @@ flowchart LR
   histo_miccai_2025["Pathology-Informed Latent Diffusion Mode"] --> cat_histopath
   histo_nejmai_2024["★AI-Based Anomaly Detection for Clinical-"] --> cat_histopath
   histo_sciencedirect_2026["★Spatial biomarker discovery via interpre"] --> cat_histopath
+  hoeft_genotype_multiplexing_natcommun_2024["★Label-free single-cell RNA multiplexing "] --> cat_single_cell
   holistic_agent_leaderboard_iclr_2026["Holistic Agent Leaderboard: The Missing "] --> cat_agents
   hypogen_llm_colm_2024["★Large Language Models as Biomedical Hypo"] --> cat_agents
   ideation_execution_gap_arxiv_2025["The Ideation-Execution Gap: Execution Ou"] --> cat_agents
@@ -94,16 +97,19 @@ flowchart LR
   imaging_nature_2026["★An ECG biomarker for sudden cardiac deat"] --> cat_imaging
   inflammatory_pt_natcommun_2025["Multiomic analysis of human kidney disea"] --> cat_single_cell
   investorbench_arxiv_2024["INVESTORBENCH: A Benchmark for Financial"] --> cat_other
+  janssen_ambient_noise_genomebiol_2023["★The effect of background noise and its r"] --> cat_single_cell
   kidney_epigenome_nataging_2026["A cross-species single-cell kidney epige"] --> cat_single_cell
   kidney_multimodal_genomebiol_2026["★Systematic evaluation of single-cell mul"] --> cat_single_cell
   kidney_ssl_histology_scirep_2025["Unbiased self supervised learning of kid"] --> cat_histopath
   kosmos_arxiv_2025["★Kosmos: An AI Scientist for Autonomous D"] --> cat_agents
   lab_bench_arxiv_2024["LAB-Bench: Measuring Capabilities of Lan"] --> cat_agents
   lake_kidney_atlas_nature_2023["★An atlas of healthy and injured cell sta"] --> cat_spatial
+  lake_snrna_pipeline_natcommun_2019["★A single-nucleus RNA-sequencing pipeline"] --> cat_single_cell
   linear_baselines_natmethods_2025["★Deep-learning-based gene perturbation ef"] --> cat_foundation
   llm_judge_healthcare_arxiv_2026["★LLM-as-a-Judge in Healthcare: A Scoping "] --> cat_agents
   loki_omiclip_natmethods_2025["★A visual–omics foundation model to bridg"] --> cat_spatial
   mahalanobis_ood_neurips_2018["★A Simple Unified Framework for Detecting"] --> cat_anomaly
+  malone_transplant_chimerism_jasn_2020["★Harnessing Expressed Single Nucleotide V"] --> cat_single_cell
   mast_neurips_2025["Why Do Multi-Agent LLM Systems Fail?"] --> cat_agents
   meatrd_aaai_2025["★MEATRD: Multimodal Anomalous Tissue Regi"] --> cat_spatial
   medagentbench_nejmai_2025["MedAgentBench: A Virtual EHR Environment"] --> cat_agents
@@ -163,6 +169,7 @@ flowchart LR
   biomnibench_biorxiv_2026 -.->|cites| biomni_biorxiv_2025
   biomnibench_biorxiv_2026 -.->|cites| bixbench_arxiv_2025
   biomnibench_biorxiv_2026 -.->|cites| lab_bench_arxiv_2024
+  cellspectra_natgenet_2025 -.->|cites| abedini_kidney_atlas_natgenet_2024
   cellspectra_natgenet_2025 -.->|cites| lake_kidney_atlas_nature_2023
   citation_faithfulness_arxiv_2026 -.->|cites| robin_nature_2026
   citation_faithfulness_arxiv_2026 -.->|cites| virtual_lab_nature_2025
@@ -185,9 +192,12 @@ flowchart LR
   heurekabench_arxiv_2026 -.->|cites| co_scientist_nature_2026
   heurekabench_arxiv_2026 -.->|cites| lab_bench_arxiv_2024
   inflammatory_pt_natcommun_2025 -.->|cites| lake_kidney_atlas_nature_2023
+  janssen_ambient_noise_genomebiol_2023 -.->|cites| denisenko_dissociation_bias_genomebiol_2020
+  kidney_epigenome_nataging_2026 -.->|cites| abedini_kidney_atlas_natgenet_2024
   kidney_epigenome_nataging_2026 -.->|cites| lake_kidney_atlas_nature_2023
   kidney_multimodal_genomebiol_2026 -.->|cites| inflammatory_pt_natcommun_2025
   kidney_multimodal_genomebiol_2026 -.->|cites| lake_kidney_atlas_nature_2023
+  lake_kidney_atlas_nature_2023 -.->|cites| lake_snrna_pipeline_natcommun_2019
   linear_baselines_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
   meatrd_aaai_2025 -.->|cites| spatial_natcommun_2024
   meatrd_aaai_2025 -.->|cites| patchcore_cvpr_2022
@@ -203,6 +213,8 @@ flowchart LR
   pathology_ad_bench_mlhealth_2025 -.->|cites| mvtec_ad_cvpr_2019
   refmap_eval_biorxiv_2025 -.->|cites| healthy_ref_natgenet_2023
   resolvi_natmethods_2026 -.->|cites| ovrlpy_natbiotech_2026
+  robin_nature_2026 -.->|cites| bixbench_arxiv_2025
+  robin_nature_2026 -.->|cites| paperqa2_arxiv_2024
   scbench_long_arxiv_2026 -.->|cites| biomnibench_biorxiv_2026
   scbench_long_arxiv_2026 -.->|cites| bixbench_arxiv_2025
   scbench_long_arxiv_2026 -.->|cites| lab_bench_arxiv_2024
@@ -540,6 +552,7 @@ flowchart LR
 | `biomnibench-biorxiv-2026` | cites | `biomni-biorxiv-2025` |
 | `biomnibench-biorxiv-2026` | cites | `bixbench-arxiv-2025` |
 | `biomnibench-biorxiv-2026` | cites | `lab-bench-arxiv-2024` |
+| `cellspectra-natgenet-2025` | cites | `abedini-kidney-atlas-natgenet-2024` |
 | `cellspectra-natgenet-2025` | cites | `lake-kidney-atlas-nature-2023` |
 | `citation-faithfulness-arxiv-2026` | cites | `robin-nature-2026` |
 | `citation-faithfulness-arxiv-2026` | cites | `virtual-lab-nature-2025` |
@@ -562,9 +575,12 @@ flowchart LR
 | `heurekabench-arxiv-2026` | cites | `co-scientist-nature-2026` |
 | `heurekabench-arxiv-2026` | cites | `lab-bench-arxiv-2024` |
 | `inflammatory-pt-natcommun-2025` | cites | `lake-kidney-atlas-nature-2023` |
+| `janssen-ambient-noise-genomebiol-2023` | cites | `denisenko-dissociation-bias-genomebiol-2020` |
+| `kidney-epigenome-nataging-2026` | cites | `abedini-kidney-atlas-natgenet-2024` |
 | `kidney-epigenome-nataging-2026` | cites | `lake-kidney-atlas-nature-2023` |
 | `kidney-multimodal-genomebiol-2026` | cites | `inflammatory-pt-natcommun-2025` |
 | `kidney-multimodal-genomebiol-2026` | cites | `lake-kidney-atlas-nature-2023` |
+| `lake-kidney-atlas-nature-2023` | cites | `lake-snrna-pipeline-natcommun-2019` |
 | `linear-baselines-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
 | `meatrd-aaai-2025` | cites | `spatial-natcommun-2024` |
 | `meatrd-aaai-2025` | cites | `patchcore-cvpr-2022` |
@@ -580,6 +596,8 @@ flowchart LR
 | `pathology-ad-bench-mlhealth-2025` | cites | `mvtec-ad-cvpr-2019` |
 | `refmap-eval-biorxiv-2025` | cites | `healthy-ref-natgenet-2023` |
 | `resolvi-natmethods-2026` | cites | `ovrlpy-natbiotech-2026` |
+| `robin-nature-2026` | cites | `bixbench-arxiv-2025` |
+| `robin-nature-2026` | cites | `paperqa2-arxiv-2024` |
 | `scbench-long-arxiv-2026` | cites | `biomnibench-biorxiv-2026` |
 | `scbench-long-arxiv-2026` | cites | `bixbench-arxiv-2025` |
 | `scbench-long-arxiv-2026` | cites | `lab-bench-arxiv-2024` |
@@ -701,10 +719,16 @@ flowchart LR
 - [`pathomics-repo`](papers/pathomics-repo/index.md) — Cassie07/PathOmics
 
 ### single-cell
+- [`abedini-kidney-atlas-natgenet-2024`](papers/abedini-kidney-atlas-natgenet-2024/index.md) — Single-cell multi-omic and spatial profiling of human kidneys implicates the fibrotic microenvironment in kidney disease progression ★
 - [`cellspectra-natgenet-2025`](papers/cellspectra-natgenet-2025/index.md) — Analysis of individual patient pathway coordination in a cross-species single-cell kidney atlas ★
 - [`damage-scores-cellgenomics-2026`](papers/damage-scores-cellgenomics-2026/index.md) — Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics ★
+- [`denisenko-dissociation-bias-genomebiol-2020`](papers/denisenko-dissociation-bias-genomebiol-2020/index.md) — Systematic assessment of tissue dissociation and storage biases in single-cell and single-nucleus RNA-seq workflows ★
 - [`healthy-ref-natgenet-2023`](papers/healthy-ref-natgenet-2023/index.md) — Precise identification of cell states altered in disease using healthy single-cell references ★
+- [`hoeft-genotype-multiplexing-natcommun-2024`](papers/hoeft-genotype-multiplexing-natcommun-2024/index.md) — Label-free single-cell RNA multiplexing leveraging genetic variability ★
+- [`janssen-ambient-noise-genomebiol-2023`](papers/janssen-ambient-noise-genomebiol-2023/index.md) — The effect of background noise and its removal on the analysis of single-cell expression data ★
 - [`kidney-multimodal-genomebiol-2026`](papers/kidney-multimodal-genomebiol-2026/index.md) — Systematic evaluation of single-cell multimodal data integration enhances cell type resolution and discovery of clinically relevant states in complex tissues ★
+- [`lake-snrna-pipeline-natcommun-2019`](papers/lake-snrna-pipeline-natcommun-2019/index.md) — A single-nucleus RNA-sequencing pipeline to decipher the molecular anatomy and pathophysiology of human kidneys ★
+- [`malone-transplant-chimerism-jasn-2020`](papers/malone-transplant-chimerism-jasn-2020/index.md) — Harnessing Expressed Single Nucleotide Variation and Single Cell RNA Sequencing To Define Immune Cell Chimerism in the Rejecting Kidney Transplant ★
 - [`refmap-eval-biorxiv-2025`](papers/refmap-eval-biorxiv-2025/index.md) — Automated evaluation of single-cell reference atlas mappings enables the identification of disease-associated cell states ★
 - [`ambient-rna-bench-biorxiv-2026`](papers/ambient-rna-bench-biorxiv-2026/index.md) — Benchmarking computational decontamination of ambient RNA
 - [`conformal-scrna-bioinformatics-2025`](papers/conformal-scrna-bioinformatics-2025/index.md) — Conformal inference for reliable single cell RNA-seq annotation

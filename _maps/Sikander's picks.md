@@ -15,9 +15,9 @@ Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → reve
 ```mermaid
 flowchart TD
   s1["`**1. Foundations & data** (5 papers)
-Pathology FM benchmark · Generative histopathology FM · HEST-1k`"]
+Generative histopathology FM · Pathology FM benchmark · HEST-1k`"]
   s2["`**2. Detect** (11 papers)
-ECG sudden-death biomarker · NIH Kidney AI Challenge · Spatial biomarker discovery`"]
+ECG sudden-death biomarker · Spatial biomarker discovery · AI ejection fraction`"]
   s3["`**3. Model** (2 papers)
 Virtual tissues (spatial proteomics) · Virtual Cell Challenge`"]
   s4["`**4. Revert** (3 papers)

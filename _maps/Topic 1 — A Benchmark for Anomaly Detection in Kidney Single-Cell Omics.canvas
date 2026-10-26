@@ -1,0 +1,353 @@
+{
+ "nodes": [
+  {
+   "id": "group-A0",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "A0 \u00b7 General AD methods"
+  },
+  {
+   "id": "generalized-ood-survey-ijcv-2024",
+   "type": "file",
+   "file": "_maps/papers/generalized-ood-survey-ijcv-2024.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A1",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 930,
+   "label": "A1 \u00b7 Atlases & disease states"
+  },
+  {
+   "id": "damage-scores-cellgenomics-2026",
+   "type": "file",
+   "file": "_maps/papers/damage-scores-cellgenomics-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "dkd-spatial-atlas-nature-2026",
+   "type": "file",
+   "file": "_maps/papers/dkd-spatial-atlas-nature-2026.md",
+   "x": 440,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "cellspectra-natgenet-2025",
+   "type": "file",
+   "file": "_maps/papers/cellspectra-natgenet-2025.md",
+   "x": 440,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "spatialagent-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/spatialagent-biorxiv-2025.md",
+   "x": 440,
+   "y": 510,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "abedini-kidney-atlas-natgenet-2024",
+   "type": "file",
+   "file": "_maps/papers/abedini-kidney-atlas-natgenet-2024.md",
+   "x": 440,
+   "y": 680,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A2",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "A2 \u00b7 QC & artifacts"
+  },
+  {
+   "id": "ovrlpy-natbiotech-2026",
+   "type": "file",
+   "file": "_maps/papers/ovrlpy-natbiotech-2026.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "resolvi-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/resolvi-natmethods-2026.md",
+   "x": 880,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "xenium-split-natmethods-2026",
+   "type": "file",
+   "file": "_maps/papers/xenium-split-natmethods-2026.md",
+   "x": 880,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A3",
+   "type": "group",
+   "x": 1300,
+   "y": -60,
+   "width": 440,
+   "height": 590,
+   "label": "A3 \u00b7 Anomaly / OOD detection"
+  },
+  {
+   "id": "meatrd-aaai-2025",
+   "type": "file",
+   "file": "_maps/papers/meatrd-aaai-2025.md",
+   "x": 1320,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "refmap-eval-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/refmap-eval-biorxiv-2025.md",
+   "x": 1320,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "sardine-bioinformatics-2025",
+   "type": "file",
+   "file": "_maps/papers/sardine-bioinformatics-2025.md",
+   "x": 1320,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A4",
+   "type": "group",
+   "x": 1740,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "A4 \u00b7 Cross-modal consistency"
+  },
+  {
+   "id": "kidney-multimodal-genomebiol-2026",
+   "type": "file",
+   "file": "_maps/papers/kidney-multimodal-genomebiol-2026.md",
+   "x": 1760,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "loki-omiclip-natmethods-2025",
+   "type": "file",
+   "file": "_maps/papers/loki-omiclip-natmethods-2025.md",
+   "x": 1760,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A5",
+   "type": "group",
+   "x": 2180,
+   "y": -60,
+   "width": 440,
+   "height": 760,
+   "label": "A5 \u00b7 Foundation models & baselines"
+  },
+  {
+   "id": "pathbench-natcommun-2026",
+   "type": "file",
+   "file": "_maps/papers/pathbench-natcommun-2026.md",
+   "x": 2200,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "linear-baselines-natmethods-2025",
+   "type": "file",
+   "file": "_maps/papers/linear-baselines-natmethods-2025.md",
+   "x": 2200,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "nephrobase-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/nephrobase-biorxiv-2025.md",
+   "x": 2200,
+   "y": 340,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "scfm-zeroshot-genomebiol-2025",
+   "type": "file",
+   "file": "_maps/papers/scfm-zeroshot-genomebiol-2025.md",
+   "x": 2200,
+   "y": 510,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-A6",
+   "type": "group",
+   "x": 2620,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "A6 \u00b7 Evaluation & benchmarks"
+  },
+  {
+   "id": "nih-kidney-ai-challenge-2026",
+   "type": "file",
+   "file": "_maps/papers/nih-kidney-ai-challenge-2026.md",
+   "x": 2640,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "pathology-ad-bench-mlhealth-2025",
+   "type": "file",
+   "file": "_maps/papers/pathology-ad-bench-mlhealth-2025.md",
+   "x": 2640,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "e85",
+   "fromNode": "cellspectra-natgenet-2025",
+   "toNode": "abedini-kidney-atlas-natgenet-2024",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e99",
+   "fromNode": "linear-baselines-natmethods-2025",
+   "toNode": "scfm-zeroshot-genomebiol-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e113",
+   "fromNode": "resolvi-natmethods-2026",
+   "toNode": "ovrlpy-natbiotech-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e114",
+   "fromNode": "xenium-split-natmethods-2026",
+   "toNode": "resolvi-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e125",
+   "fromNode": "xenium-split-natmethods-2026",
+   "toNode": "ovrlpy-natbiotech-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "Xenium contamination"
+  },
+  {
+   "id": "e135",
+   "fromNode": "sardine-bioinformatics-2025",
+   "toNode": "meatrd-aaai-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "anomalous region detection"
+  },
+  {
+   "id": "e138",
+   "fromNode": "kidney-multimodal-genomebiol-2026",
+   "toNode": "nephrobase-biorxiv-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "kidney snRNA/snATAC"
+  },
+  {
+   "id": "e139",
+   "fromNode": "nephrobase-biorxiv-2025",
+   "toNode": "scfm-zeroshot-genomebiol-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "single-cell FM evaluation"
+  },
+  {
+   "id": "e144",
+   "fromNode": "spatialagent-biorxiv-2025",
+   "toNode": "xenium-split-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "Xenium data"
+  },
+  {
+   "id": "e145",
+   "fromNode": "spatialagent-biorxiv-2025",
+   "toNode": "dkd-spatial-atlas-nature-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "spatial niches"
+  },
+  {
+   "id": "e148",
+   "fromNode": "damage-scores-cellgenomics-2026",
+   "toNode": "cellspectra-natgenet-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "per-sample injury scoring"
+  },
+  {
+   "id": "e150",
+   "fromNode": "nih-kidney-ai-challenge-2026",
+   "toNode": "pathology-ad-bench-mlhealth-2025",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "pathology AD benchmark"
+  },
+  {
+   "id": "e151",
+   "fromNode": "dkd-spatial-atlas-nature-2026",
+   "toNode": "xenium-split-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "Xenium artifacts"
+  }
+ ]
+}

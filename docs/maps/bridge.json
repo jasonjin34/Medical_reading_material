@@ -2,12 +2,12 @@
  "flow": [],
  "view": "bridge",
  "title": {
-  "en": "Bridge — papers in both plans",
-  "zh": "桥：两个 plan 共用的论文"
+  "en": "Bridge — papers shared across topics",
+  "zh": "桥：多个课题共用的论文"
  },
  "lead": {
-  "en": "Papers that Plan A and Plan B both depend on.",
-  "zh": "Plan A 和 Plan B 都要用到的论文。"
+  "en": "Papers that more than one research topic depends on.",
+  "zh": "不止一个研究课题要用到的论文。"
  },
  "collapsed": false,
  "wrap": 0,
@@ -39,6 +39,7 @@
     "A",
     "B"
    ],
+   "track0": "A1",
    "also_in": [],
    "bridge": true,
    "recommended_by": "",
@@ -68,6 +69,7 @@
     "A",
     "B"
    ],
+   "track0": "A1",
    "also_in": [],
    "bridge": true,
    "recommended_by": "",
@@ -109,6 +111,7 @@
     "A",
     "B"
    ],
+   "track0": "A2",
    "also_in": [],
    "bridge": true,
    "recommended_by": "",
@@ -150,6 +153,7 @@
     "A",
     "B"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": true,
    "recommended_by": "",
@@ -191,6 +195,7 @@
     "A",
     "B"
    ],
+   "track0": "B2",
    "also_in": [],
    "bridge": true,
    "recommended_by": "",
@@ -232,6 +237,7 @@
     "A",
     "B"
    ],
+   "track0": "B3",
    "also_in": [],
    "bridge": true,
    "recommended_by": "",

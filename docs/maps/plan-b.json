@@ -21,16 +21,21 @@
     "scbench-arxiv-2026",
     "scbench-long-arxiv-2026",
     "spatialagent-biorxiv-2025",
-    "lake-kidney-atlas-nature-2023",
     "virtual-lab-nature-2025",
     "paperqa2-arxiv-2024",
     "heurekabench-arxiv-2026",
+    "lake-kidney-atlas-nature-2023",
     "inflammatory-pt-natcommun-2025"
    ],
    "top": [
     "Co-Scientist",
     "DeepEvidence",
     "Robin"
+   ],
+   "top_ids": [
+    "co-scientist-nature-2026",
+    "deepevidence-natmachintell-2026",
+    "robin-nature-2026"
    ]
   },
   {
@@ -49,13 +54,18 @@
     "citation-blame-emnlp-2026",
     "sourcecheckup-natcommun-2025",
     "reference-hallucination-arxiv-2026",
-    "conformal-scrna-bioinformatics-2025",
-    "deeptrace-arxiv-2025"
+    "deeptrace-arxiv-2025",
+    "conformal-scrna-bioinformatics-2025"
    ],
    "top": [
     "Citation faithfulness guard",
     "MedRAGChecker",
     "Who is to blame? (citations)"
+   ],
+   "top_ids": [
+    "citation-faithfulness-arxiv-2026",
+    "medragchecker-arxiv-2026",
+    "citation-blame-emnlp-2026"
    ]
   },
   {
@@ -79,6 +89,11 @@
     "LLM-as-judge in healthcare",
     "PING (trajectory hallucination)",
     "Overgeneralization bias"
+   ],
+   "top_ids": [
+    "llm-judge-healthcare-arxiv-2026",
+    "deep-research-hallucination-arxiv-2026",
+    "generalization-bias-rsos-2025"
    ]
   },
   {
@@ -103,6 +118,11 @@
     "RQ-Bench",
     "TruthHypo",
     "LLM hypothesis generators"
+   ],
+   "top_ids": [
+    "rq-bench-arxiv-2026",
+    "truthhypo-ijcai-2025",
+    "hypogen-llm-colm-2024"
    ]
   },
   {
@@ -118,7 +138,6 @@
    "papers": [
     "autoresearch-failures-arxiv-2026",
     "fev-bioinformatics-agents-arxiv-2026",
-    "resolvi-natmethods-2026",
     "clinical-agent-reruns-arxiv-2026",
     "scirigor-arxiv-2026",
     "abc-agentic-benchmarks-neurips-2025",
@@ -126,12 +145,18 @@
     "holistic-agent-leaderboard-iclr-2026",
     "scitrace-arxiv-2026",
     "mast-neurips-2025",
-    "trail-arxiv-2025"
+    "trail-arxiv-2025",
+    "resolvi-natmethods-2026"
    ],
    "top": [
     "AutoResearch failures",
     "FEV review",
-    "ResolVI"
+    "Same patient, different order"
+   ],
+   "top_ids": [
+    "autoresearch-failures-arxiv-2026",
+    "fev-bioinformatics-agents-arxiv-2026",
+    "clinical-agent-reruns-arxiv-2026"
    ]
   },
   {
@@ -155,13 +180,18 @@
     "BiomniBench",
     "BixBench",
     "BioML-bench"
+   ],
+   "top_ids": [
+    "biomnibench-biorxiv-2026",
+    "bixbench-arxiv-2025",
+    "bioml-bench-biorxiv-2025"
    ]
   }
  ],
  "view": "plan-b",
  "title": {
-  "en": "Plan B — Trustworthy biomedical agents",
-  "zh": "Plan B:可信的生物医学 agent"
+  "en": "Topic 2 — Verifying the Claims of Biomedical Analysis Agents",
+  "zh": "课题 2:生物医学分析 agent 的结论核查"
  },
  "lead": {
   "en": "Trace every agent claim back through code and data; calibrate the verifier against experts.",
@@ -196,6 +226,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -224,6 +255,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -252,6 +284,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -280,6 +313,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -308,6 +342,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -336,6 +371,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -364,6 +400,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -404,6 +441,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -432,6 +470,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -460,6 +499,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -489,6 +529,7 @@
     "A",
     "B"
    ],
+   "track0": "B2",
    "also_in": [
     "A"
    ],
@@ -520,6 +561,7 @@
     "A",
     "B"
    ],
+   "track0": "A1",
    "also_in": [
     "A"
    ],
@@ -550,6 +592,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B2",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -579,6 +622,7 @@
     "A",
     "B"
    ],
+   "track0": "A1",
    "also_in": [
     "A"
    ],
@@ -621,6 +665,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -649,6 +694,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -678,6 +724,7 @@
     "A",
     "B"
    ],
+   "track0": "B3",
    "also_in": [
     "A"
    ],
@@ -708,6 +755,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -736,6 +784,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -776,6 +825,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -804,6 +854,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -832,6 +883,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -860,6 +912,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -888,6 +941,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -917,6 +971,7 @@
     "A",
     "B"
    ],
+   "track0": "A3",
    "also_in": [
     "A"
    ],
@@ -947,6 +1002,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -987,6 +1043,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1015,6 +1072,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1043,6 +1101,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1071,6 +1130,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1099,6 +1159,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1139,6 +1200,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1167,6 +1229,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1195,6 +1258,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -1223,6 +1287,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1251,6 +1316,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1279,6 +1345,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1319,6 +1386,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1347,6 +1415,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1376,6 +1445,7 @@
     "A",
     "B"
    ],
+   "track0": "A2",
    "also_in": [
     "A"
    ],
@@ -1406,6 +1476,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1434,6 +1505,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1462,6 +1534,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1490,6 +1563,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1518,6 +1592,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1546,6 +1621,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1574,6 +1650,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -1602,6 +1679,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B7",
    "also_in": [],
    "bridge": false,
    "recommended_by": "",
@@ -2510,6 +2588,18 @@
    "label": "cites"
   },
   {
+   "source": "robin-nature-2026",
+   "target": "bixbench-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "robin-nature-2026",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "scbench-long-arxiv-2026",
    "target": "biomnibench-biorxiv-2026",
    "kind": "cites",
@@ -2828,12 +2918,6 @@
    "label": "scRNA-seq agent analysis"
   },
   {
-   "source": "paperqa2-arxiv-2024",
-   "target": "robin-nature-2026",
-   "kind": "concept",
-   "label": "FutureHouse literature agent"
-  },
-  {
    "source": "hypogen-llm-colm-2024",
    "target": "co-scientist-nature-2026",
    "kind": "concept",
@@ -2862,12 +2946,6 @@
    "target": "kosmos-arxiv-2025",
    "kind": "concept",
    "label": "FutureHouse lineage"
-  },
-  {
-   "source": "robin-nature-2026",
-   "target": "bixbench-arxiv-2025",
-   "kind": "concept",
-   "label": "Finch on BixBench"
   },
   {
    "source": "kosmos-arxiv-2025",

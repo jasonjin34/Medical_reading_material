@@ -1,15 +1,22 @@
-site_name: Medical Reading Material
+site_name: Omics AI Handbook
 site_description: Anomaly-detection-based virtual tissue modelling
 theme:
   name: material
   language: en
   palette:
     - scheme: default
+      primary: custom
+      accent: custom
       toggle: {icon: material/weather-night, name: Switch to dark mode}
     - scheme: slate
+      primary: custom
+      accent: custom
       toggle: {icon: material/weather-sunny, name: Switch to light mode}
   features:
+    - navigation.tabs
     - navigation.sections
+    - navigation.indexes
+    - navigation.footer
     - navigation.top
     - search.highlight
     - content.code.copy
@@ -29,11 +36,46 @@ plugins:
         - locale: zh
           name: 中文
           build: true
+          nav_translations:
+            "Home": "首页"
+            "Onboarding": "入门"
+            "Day 1 · Understand": "第 1 天 · 读懂"
+            "Day 2 · Hands-on (optional)": "第 2 天 · 上手（可选）"
+            "Glossary": "名词表"
+            "Papers": "论文"
+            "Datasets": "数据集"
+            "Research topics": "研究课题"
+            "Literature review": "文献综述"
+            "Knowledge map": "知识图谱"
+            "Relationships": "论文关系"
+            "Talks": "报告"
+            "Slides & talk": "幻灯片与讲稿"
+            "General anomaly detection": "通用异常检测"
+            "Single-cell": "单细胞"
+            "Spatial transcriptomics": "空间转录组"
+            "Virtual tissues": "虚拟组织"
+            "Histopathology": "组织病理"
+            "Foundation models": "基础模型"
+            "Pathology": "病理"
+            "Imaging": "医学影像"
+            "Competitions": "竞赛"
+            "Biomedical agents & evaluation": "生物医学智能体与评测"
+            "EHR & patient trajectories": "电子病历与病程"
+            "Other": "其他"
+extra_css:
+  - assets/extra.css
+  - onboarding/onboarding.css
+extra_javascript:
+  - onboarding/onboarding.js
 markdown_extensions:
   - admonition
   - attr_list
   - md_in_html
   - tables
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight
   - pymdownx.superfences:
       custom_fences:
@@ -42,12 +84,42 @@ markdown_extensions:
           format: !!python/name:mermaid2.fence_mermaid_custom
 nav:
   - Home: index.md
-  - Literature review: literature-review.md
-  - Relationships: relationships.md
-  - Knowledge map: knowledge-map.md
-  - Slides & talk: slides.md
-  - Glossary: glossary.md
+  - Onboarding:
+    - onboarding/index.md
+    - Day 1 · Understand:
+      - onboarding/01-two-tables.md
+      - onboarding/02-cells-rna.md
+      - onboarding/03-kidney.md
+      - onboarding/04-patients-tissue.md
+      - onboarding/05-assays.md
+      - onboarding/06-artifacts.md
+      - onboarding/07-datasets.md
+      - onboarding/08-our-problem.md
+    - Day 2 · Hands-on (optional):
+      - onboarding/09-hands-on.md
+      - onboarding/10-next-reading.md
+    - Glossary: onboarding/glossary.md
+  - Datasets:
+    - datasets/index.md
+    - datasets/lake-2023.md
+    - datasets/abedini-2024.md
+    - datasets/mbdrc-2026.md
+    - datasets/hoeft-2024.md
+    - datasets/lake-2019.md
+    - datasets/malone-2020.md
+    - datasets/janssen-2023.md
+    - datasets/denisenko-2020.md
+    - datasets/kpmp.md
+    - datasets/cellxgene.md
+  - Research topics:
+    - research/index.md
+    - research/anomaly-benchmark.md
+    - research/agent-claims.md
   - Papers:
+    - papers/index.md
+    - Literature review: literature-review.md
+    - Knowledge map: knowledge-map.md
+    - Relationships: relationships.md
     - General anomaly detection:
       - "A Unifying Review of Deep and Shallow Anomaly Detection": papers/ad-unifying-review-procieee-2021/index.md
       - "Testing for Outliers with Conformal p-values": papers/conformal-outliers-annstat-2023/index.md
@@ -65,10 +137,16 @@ nav:
       - "MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection": papers/mvtec-ad-cvpr-2019/index.md
       - "PaDiM: A Patch Distribution Modeling Framework for Anomaly Detection and Localization": papers/padim-icpr-2020/index.md
     - Single-cell:
+      - "Single-cell multi-omic and spatial profiling of human kidneys implicates the fibrotic microenvironment in kidney disease progression": papers/abedini-kidney-atlas-natgenet-2024/index.md
       - "Analysis of individual patient pathway coordination in a cross-species single-cell kidney atlas": papers/cellspectra-natgenet-2025/index.md
       - "Cell-type-specific damage scores reveal kidney and liver disease trajectories in single-cell and spatial transcriptomics": papers/damage-scores-cellgenomics-2026/index.md
+      - "Systematic assessment of tissue dissociation and storage biases in single-cell and single-nucleus RNA-seq workflows": papers/denisenko-dissociation-bias-genomebiol-2020/index.md
       - "Precise identification of cell states altered in disease using healthy single-cell references": papers/healthy-ref-natgenet-2023/index.md
+      - "Label-free single-cell RNA multiplexing leveraging genetic variability": papers/hoeft-genotype-multiplexing-natcommun-2024/index.md
+      - "The effect of background noise and its removal on the analysis of single-cell expression data": papers/janssen-ambient-noise-genomebiol-2023/index.md
       - "Systematic evaluation of single-cell multimodal data integration enhances cell type resolution and discovery of clinically relevant states in complex tissues": papers/kidney-multimodal-genomebiol-2026/index.md
+      - "A single-nucleus RNA-sequencing pipeline to decipher the molecular anatomy and pathophysiology of human kidneys": papers/lake-snrna-pipeline-natcommun-2019/index.md
+      - "Harnessing Expressed Single Nucleotide Variation and Single Cell RNA Sequencing To Define Immune Cell Chimerism in the Rejecting Kidney Transplant": papers/malone-transplant-chimerism-jasn-2020/index.md
       - "Automated evaluation of single-cell reference atlas mappings enables the identification of disease-associated cell states": papers/refmap-eval-biorxiv-2025/index.md
       - "Benchmarking computational decontamination of ambient RNA": papers/ambient-rna-bench-biorxiv-2026/index.md
       - "Conformal inference for reliable single cell RNA-seq annotation": papers/conformal-scrna-bioinformatics-2025/index.md
@@ -174,3 +252,5 @@ nav:
       - "Benchmarking large language models for biomedical natural language processing applications and recommendations": papers/biomednlp-natcommun-2025/index.md
       - "INVESTORBENCH: A Benchmark for Financial Decision-Making Tasks with LLM-based Agent": papers/investorbench-arxiv-2024/index.md
       - "SemNovel – A new approach to detecting semantic novelty of biomedical publications using embeddings of large language models": papers/semnovel-jbi-2025/index.md
+  - Talks:
+    - Slides & talk: slides.md

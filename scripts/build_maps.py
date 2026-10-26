@@ -257,7 +257,8 @@ def build_view(view_id: str, spec: dict, views: dict, metas: list[dict],
                 "label": short_label(m), "title": m.get("title", s),
                 "year": m.get("year"), "venue": m.get("venue") or "",
                 "relevance": m.get("relevance", ""), "status": m.get("status", ""),
-                "type": m.get("type", "paper"), "plans": plans, "also_in": other,
+                "type": m.get("type", "paper"), "plans": plans,
+                "track0": (_tracks(m) or [""])[0], "also_in": other,
                 "bridge": "A" in plans and "B" in plans,
                 "recommended_by": m.get("recommended_by", ""),
                 "oneliner": one_liner(s),
@@ -318,11 +319,45 @@ def flow_steps(spec: dict, nodes: list[dict]) -> list[dict]:
     for st in spec.get("flow", []) or []:
         groups = [f"group:{c}" for c in st["columns"]]
         kids = [n for g in groups for n in nodes if n.get("parent") == g]
-        kids.sort(key=lambda n: n["relevance"] != "high")          # stable: keeps column order
+        # papers whose own (first) track is this step come first, then must-reads; stable keeps column order
+        kids.sort(key=lambda n: (n.get("track0") not in st["columns"] and n.get("track0", "") != "",
+                                 n["relevance"] != "high"))
         steps.append({"id": st["id"], "label": st["label"], "columns": st["columns"],
                       "count": len(kids), "papers": [n["id"] for n in kids],
-                      "top": [n["label"] for n in kids[:FLOW_TOP]]})
+                      "top": [n["label"] for n in kids[:FLOW_TOP]], "top_ids": [n["id"] for n in kids[:FLOW_TOP]]})
     return steps
+
+
+FLOW_CSS = """<style>
+.kmflow { display: flex; align-items: stretch; overflow-x: auto; padding: 2px 0 10px; margin: 0.4em 0 1.4em; }
+.kmstep { flex: 1 1 0; min-width: 6.5rem; border: 1px solid var(--md-default-fg-color--lightest);
+  border-top: 3px solid var(--md-accent-fg-color); border-radius: 6px; padding: 0.55em 0.7em 0.6em;
+  background: var(--md-code-bg-color); font-size: 0.7rem; line-height: 1.4; display: flex; flex-direction: column; }
+.kmstep .kmnum { font-size: 0.62rem; font-weight: 700; color: var(--md-default-fg-color--light); letter-spacing: 0.04em; }
+.kmstep .kmtitle { font-weight: 700; font-size: 0.76rem; margin: 0.1em 0 0.35em; }
+.kmstep ul { list-style: none; margin: 0 0 0.4em !important; padding: 0 !important; }
+.kmstep li { margin: 0 0 0.15em !important; }
+.kmstep .kmopen { margin-top: auto; font-size: 0.64rem; }
+.kmarrow { align-self: center; flex: 0 0 auto; padding: 0 0.12em; color: var(--md-default-fg-color--light); font-size: 0.9rem; }
+</style>"""
+
+
+def html_flow(d: dict, vid: str, lang: str, up: str) -> str:
+    """Pipeline as a horizontal row of step cards (raw HTML in the markdown page; links are page-relative)."""
+    esc = lambda t: (str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
+    unit = "papers" if lang == "en" else "篇"
+    step = "STEP" if lang == "en" else "第"
+    open_ = "Open in map ↗" if lang == "en" else "在图谱中打开 ↗"
+    cards = []
+    for i, st in enumerate(d["flow"], 1):
+        items = "".join(f'<li><a href="../papers/{s}/">{esc(lab)}</a></li>'
+                        for s, lab in zip(st["top_ids"], st["top"]))
+        num = f"{step} {i} · {st['count']} {unit}" if lang == "en" else f"第 {i} 步 · {st['count']} {unit}"
+        cards.append(f'<div class="kmstep"><div class="kmnum">{num}</div>'
+                     f'<div class="kmtitle">{esc(st["label"][lang])}</div><ul>{items}</ul>'
+                     f'<a class="kmopen" href="{up}maps/viewer.html?view={vid}&amp;lang={lang}&amp;focus=group:{st["columns"][0]}" '
+                     f'target="_blank" rel="noopener">{open_}</a></div>')
+    return '<div class="kmflow">' + '<div class="kmarrow">→</div>'.join(cards) + "</div>"
 
 
 def mermaid_flow(d: dict, lang: str) -> str:
@@ -393,7 +428,7 @@ def write_web(built: dict, matrix: dict) -> None:
         (MAPS_WEB / f"{vid}.json").write_text(json.dumps(data, ensure_ascii=False, indent=1),
                                               encoding="utf-8")
     for lang, name, up in (("en", "knowledge-map.md", "../"), ("zh", "knowledge-map.zh.md", "../../")):
-        out = ["# Knowledge map\n" if lang == "en" else "# 知识图谱\n"]
+        out = ["---\nhide:\n  - toc\n---\n", "# Knowledge map\n" if lang == "en" else "# 知识图谱\n"]
         out.append(
             "Each view is its own graph. Groups start collapsed: click a group to open it, click a "
             "node to see its neighbours, double-click a paper to open its deep-read.\n"
@@ -416,16 +451,13 @@ def write_web(built: dict, matrix: dict) -> None:
         flows = [(vid, d) for vid, d in built.items() if d["flow"]]
         if flows:
             out.append("\n## Pipelines\n" if lang == "en" else "\n## 流程图\n")
-            out.append("Each plan as a pipeline; every step lists its must-read papers. "
-                       "The links below each chart open that step in the map.\n" if lang == "en" else
-                       "每个 plan 画成一条流程，每一步列出它的必读论文。图下面的链接会在图谱里打开对应的那一步。\n")
+            out.append("Each plan as a pipeline, left to right. Every step lists its must-read papers; "
+                       "Open in map shows that step in the graph.\n" if lang == "en" else
+                       "每个 plan 从左到右画成一条流程。每一步列出它的必读论文；点“在图谱中打开”可在图谱里查看这一步。\n")
+            out.append(FLOW_CSS + "\n")
         for vid, d in flows:
             out.append(f"### {d['title'][lang]}\n")
-            out.append("```mermaid\n" + mermaid_flow(d, lang) + "\n```\n")
-            steps = [f"[{i}. {st['label'][lang]}](maps/viewer.html?view={vid}&lang={lang}"
-                     f"&focus=group:{st['columns'][0]}){{target=_blank}}"
-                     for i, st in enumerate(d["flow"], 1)]
-            out.append(("Open in map: " if lang == "en" else "在图谱中打开：") + " · ".join(steps) + "\n")
+            out.append(html_flow(d, vid, lang, up) + "\n")
         first = next(iter(built))
         out.append(f"\n## {built[first]['title'][lang]}\n")
         out.append(f'<iframe src="{up}maps/viewer.html?view={first}&lang={lang}&embed=1" '
@@ -554,7 +586,7 @@ def write_matrix_obsidian(mx: dict, plink) -> None:
         for c in mx["cols"]:
             items = [plink(s) for s in mx["cells"].get(f"{r['id']}|{c['id']}", [])]
             if (r["id"], c["id"]) in gaps:
-                items.append("*Plan A gap*")
+                items.append("*Topic 1 gap*")
             row.append("<br>".join(items) or "·")
         lines.append("| " + " | ".join(row) + " |")
     lines += ["", "## Paradigms / 范式", ""]
@@ -562,7 +594,7 @@ def write_matrix_obsidian(mx: dict, plink) -> None:
         lines += [f"- **{r['en']} / {r['zh']}** — {r['idea']['en']} {r['idea']['zh']}",
                   f"  - Kidney omics / 肾脏组学: {r['omics']['en']} {r['omics']['zh']}"]
     if mx["gaps"]:
-        lines += ["", "## Plan A gaps / Plan A 的空白", ""]
+        lines += ["", "## Topic 1 gaps / 课题 1 的空白", ""]
         lines += [f"- {g['row']} × {g['col']}: {g['note']['en']} {g['note']['zh']}" for g in mx["gaps"]]
     if mx["transfers"]:
         lines += ["", "## Method lineage / 方法迁移", ""]
@@ -580,7 +612,7 @@ def write_matrix_obsidian(mx: dict, plink) -> None:
             items = [f"- {plink(s)}" for s in mx["cells"].get(f"{r['id']}|{c['id']}", [])]
             gap = next((g for g in mx["gaps"] if g["row"] == r["id"] and g["col"] == c["id"]), None)
             if gap:
-                items.append(f"\n**Plan A:** {gap['note']['en']}")
+                items.append(f"\n**Topic 1:** {gap['note']['en']}")
             if items:
                 node = {"id": f"cell-{r['id']}-{c['id']}", "type": "text", "text": "\n".join(items),
                         "x": (j + 1) * GX, "y": y, "width": W, "height": H}

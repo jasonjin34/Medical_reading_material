@@ -86,6 +86,37 @@ Pushing to `main` triggers `.github/workflows/pages.yml`, which runs
   and add a label. Open the repo root as an Obsidian vault; `_maps/` is generated —
   keep personal notes outside it. Plan: `plans/knowledge-map-plan.md`.
 
+## Onboarding
+
+`onboarding/` is the site's **Onboarding** tab: background for newcomers with a
+computer-science background, meant to be read in 1–2 days. Papers stay in the **Papers** tab.
+- `onboarding/modules.yaml` sets module order, time, day, and the glossary ids each module
+  teaches; each module is one bilingual source file (`<!-- ZH -->` / `<!-- EN -->`, like deep-reads).
+- The glossary lives in this section: `glossary/*.yaml` is the only source of terms (part-d holds
+  the kidney-omics onboarding terms). `build_site.py` appends a "Terms in this module" table to
+  each page and orders the glossary page by module.
+- Numbers must come from data we checked; figures must be CC-licensed, with author and licence
+  in the caption, and stored in `onboarding/img/`. The site is public: no unpublished lab data.
+
+## Datasets and research topics
+
+The site has six tabs: Home · Onboarding · Datasets · Research topics · Papers · Talks.
+- **Datasets** (`datasets/datasets.yaml`, figures in `datasets/img/`): the single source of
+  dataset facts (assays, people, labels, downloads, licence, issues, use per topic). The overview
+  table and one page per dataset are generated; never repeat these facts in onboarding or topic
+  pages, link to `../datasets/<id>.md` instead.
+- **Research topics** (`research/topics.yaml` + one bilingual md per topic): what each topic asks,
+  produces, and its status. Topics are named, never "Plan A / Plan B"; the letters stay only as
+  internal codes (`plans:` in metadata, `plan-a` / `plan-b` view ids).
+
+## Manuscripts
+
+`manuscripts/plan-a/` and `manuscripts/plan-b/` hold the thesis paper drafts in the AAAI-27
+template (single `.tex` file each, `make` to build). They cite the reading library through
+`../../references.bib`; other references go into the paper's `extra.bib`, fetched by DOI.
+Results stay `\TBD` until real code produces them — never fill a number from memory.
+Details: `manuscripts/README.md`. Code for the papers lives in a separate repository.
+
 ## Commit & verify conventions
 
 - Verify before committing non-trivial changes: `mkdocs build --strict` must pass.

@@ -11,16 +11,21 @@
    ],
    "count": 5,
    "papers": [
-    "pathbench-natcommun-2026",
     "fm-arxiv-2604",
+    "pathbench-natcommun-2026",
     "hest1k-2024",
     "virchow-2024",
     "uni2-h-model"
    ],
    "top": [
-    "Pathology FM benchmark",
     "Generative histopathology FM",
+    "Pathology FM benchmark",
     "HEST-1k"
+   ],
+   "top_ids": [
+    "fm-arxiv-2604",
+    "pathbench-natcommun-2026",
+    "hest1k-2024"
    ]
   },
   {
@@ -35,21 +40,26 @@
    "count": 11,
    "papers": [
     "imaging-nature-2026",
-    "nih-kidney-ai-challenge-2026",
     "histo-sciencedirect-2026",
-    "histo-nejmai-2024",
     "imaging-ehjdh-2026",
     "pathomics-npjpo-2026",
-    "histo-miccai-2025",
-    "spatial-natcommun-2024",
     "pathomics-blood-2023",
     "pathomics-repo",
+    "nih-kidney-ai-challenge-2026",
+    "histo-nejmai-2024",
+    "histo-miccai-2025",
+    "spatial-natcommun-2024",
     "histo-anomaly-bi-repo"
    ],
    "top": [
     "ECG sudden-death biomarker",
-    "NIH Kidney AI Challenge",
-    "Spatial biomarker discovery"
+    "Spatial biomarker discovery",
+    "AI ejection fraction"
+   ],
+   "top_ids": [
+    "imaging-nature-2026",
+    "histo-sciencedirect-2026",
+    "imaging-ehjdh-2026"
    ]
   },
   {
@@ -69,6 +79,10 @@
    "top": [
     "Virtual tissues (spatial proteomics)",
     "Virtual Cell Challenge"
+   ],
+   "top_ids": [
+    "virtual-tissue-2501",
+    "virtual-cell-challenge"
    ]
   },
   {
@@ -90,6 +104,11 @@
     "MintFlow",
     "Conditional Monge Gap",
     "Counterfactual diffusion"
+   ],
+   "top_ids": [
+    "spatial-biorxiv-2025",
+    "scrna-natmachintell-2026",
+    "counterfactual-diffusion-cancerres-2026"
    ]
   },
   {
@@ -109,6 +128,10 @@
    "top": [
     "DeepEvidence",
     "LLM hypothesis generators"
+   ],
+   "top_ids": [
+    "deepevidence-natmachintell-2026",
+    "hypogen-llm-colm-2024"
    ]
   }
  ],
@@ -150,6 +173,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -176,6 +200,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -204,6 +229,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A4",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -232,6 +258,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -260,6 +287,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A5",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -298,6 +326,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -326,6 +355,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -352,6 +382,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -380,6 +411,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -406,6 +438,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -432,6 +465,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -460,6 +494,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -488,6 +523,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A3",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -514,6 +550,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -540,6 +577,7 @@
    "status": "complete",
    "type": "code",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -568,6 +606,7 @@
    "plans": [
     "A"
    ],
+   "track0": "A6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -606,6 +645,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -632,6 +672,7 @@
    "status": "complete",
    "type": "competition",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -670,6 +711,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -696,6 +738,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -722,6 +765,7 @@
    "status": "complete",
    "type": "paper",
    "plans": [],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -762,6 +806,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B1",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -790,6 +835,7 @@
    "plans": [
     "B"
    ],
+   "track0": "B6",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -830,6 +876,7 @@
    "plans": [
     "EHR"
    ],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -858,6 +905,7 @@
    "plans": [
     "EHR"
    ],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -886,6 +934,7 @@
    "plans": [
     "EHR"
    ],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -914,6 +963,7 @@
    "plans": [
     "EHR"
    ],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",
@@ -942,6 +992,7 @@
    "plans": [
     "EHR"
    ],
+   "track0": "",
    "also_in": [],
    "bridge": false,
    "recommended_by": "sikander",

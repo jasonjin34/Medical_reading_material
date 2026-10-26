@@ -25,12 +25,12 @@ tags:
 > FutureHouse 的 Robin 把文献检索 agent(Crow/Falcon,基于 PaperQA2)与数据分析 agent(Finch)串成一个 lab-in-the-loop 闭环:给定疾病,自动提出机制、体外模型与候选药物,人类按其建议做实验并上传原始数据,Finch 跑 8 条独立分析轨迹取共识,Robin 再据此更新假设;在干性 AMD 上,它提出「增强 RPE 吞噬」策略,找到 ROCK 抑制剂 ripasudil(比 DMSO 提升 1.89 倍)与 KL001,并经 RNA-seq 发现 ABCA1 上调——正文所有假设、实验方向、数据分析与数据图均由 Robin 产生。
 
 ## Related papers / 相关论文
-- [[_maps/papers/bixbench-arxiv-2025|BixBench]] — Finch on BixBench
+- [[_maps/papers/bixbench-arxiv-2025|BixBench]] — cites
 - [[_maps/papers/citation-faithfulness-arxiv-2026|Citation faithfulness guard]] — cites
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — AI scientists
 - [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/kosmos-arxiv-2025|Kosmos]] — FutureHouse lineage
-- [[_maps/papers/paperqa2-arxiv-2024|PaperQA2]] — FutureHouse literature agent
+- [[_maps/papers/paperqa2-arxiv-2024|PaperQA2]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/hallucination|Hallucination]]

@@ -113,15 +113,15 @@ body.embed main { grid-template-rows: minmax(0, 1fr); }
   if (EMBED) document.body.classList.add("embed");
   const T = {
     en: { all: "Show method arrows", must: "Must-read only", other: "中文", views: "Reading-list views →", open: "Open deep-read ↗",
-          inMap: "Show in Plan A map ↗", from: "Builds on", to: "Carried over to", papers: "papers", arrows: "method transfers",
-          gap: "Plan A gap", kidney: "In kidney omics", axis: ["general", "kidney"], rowPapers: "Papers in this row",
-          hint: "Click a paper to see where its method came from and where it went. Click a row title for what the paradigm means in kidney omics. Dashed cells are what Plan A adds.",
-          lgClassic: "classic / general AD", lgDomain: "biomedical paper", lgGap: "Plan A gap", lgMust: "bold = must-read", lgArrow: "arrow = method carried over" },
+          inMap: "Show in Topic 1 map ↗", from: "Builds on", to: "Carried over to", papers: "papers", arrows: "method transfers",
+          gap: "Topic 1 gap", kidney: "In kidney omics", axis: ["general", "kidney"], rowPapers: "Papers in this row",
+          hint: "Click a paper to see where its method came from and where it went. Click a row title for what the paradigm means in kidney omics. Dashed cells are what Topic 1 adds.",
+          lgClassic: "classic / general AD", lgDomain: "biomedical paper", lgGap: "Topic 1 gap", lgMust: "bold = must-read", lgArrow: "arrow = method carried over" },
     zh: { all: "显示方法迁移箭头", must: "只看必读", other: "EN", views: "按阅读清单的视图 →", open: "打开精读 ↗",
-          inMap: "在 Plan A 图谱中查看 ↗", from: "来源方法", to: "被迁移到", papers: "篇", arrows: "条方法迁移",
-          gap: "Plan A 空白", kidney: "放到肾脏组学里", axis: ["通用", "肾脏"], rowPapers: "这一行的论文",
-          hint: "点论文：看它的方法从哪来、迁移到了哪里。点行标题：看这个范式在肾脏组学里是什么意思。虚线格是 Plan A 要补的空白。",
-          lgClassic: "经典 / 通用 AD", lgDomain: "生物医学论文", lgGap: "Plan A 空白", lgMust: "粗体 = 必读", lgArrow: "箭头 = 方法迁移" }
+          inMap: "在课题 1 图谱中查看 ↗", from: "来源方法", to: "被迁移到", papers: "篇", arrows: "条方法迁移",
+          gap: "课题 1 空白", kidney: "放到肾脏组学里", axis: ["通用", "肾脏"], rowPapers: "这一行的论文",
+          hint: "点论文：看它的方法从哪来、迁移到了哪里。点行标题：看这个范式在肾脏组学里是什么意思。虚线格是课题 1 要补的空白。",
+          lgClassic: "经典 / 通用 AD", lgDomain: "生物医学论文", lgGap: "课题 1 空白", lgMust: "粗体 = 必读", lgArrow: "箭头 = 方法迁移" }
   };
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);

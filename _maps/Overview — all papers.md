@@ -32,7 +32,13 @@ Every paper, clustered by category. For orientation only; use the views above to
 - [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]] ★ — Systematic evaluation of single-cell multimodal data integration enhances cell type resolution and discovery of clinically relevant states in complex tissues
 - [[_maps/papers/cellspectra-natgenet-2025|CellSpectra]] ★ — Analysis of individual patient pathway coordination in a cross-species single-cell kidney atlas
 - [[_maps/papers/refmap-eval-biorxiv-2025|Reference-mapping QC]] ★ — Automated evaluation of single-cell reference atlas mappings enables the identification of disease-associated cell states
+- [[_maps/papers/abedini-kidney-atlas-natgenet-2024|Kidney atlas (Abedini 2024)]] ★ — Single-cell multi-omic and spatial profiling of human kidneys implicates the fibrotic microenvironment in kidney disease progression
+- [[_maps/papers/hoeft-genotype-multiplexing-natcommun-2024|SNP multiplexing (Hoeft)]] ★ — Label-free single-cell RNA multiplexing leveraging genetic variability
+- [[_maps/papers/janssen-ambient-noise-genomebiol-2023|Ambient truth, mouse kidney (Janssen)]] ★ — The effect of background noise and its removal on the analysis of single-cell expression data
 - [[_maps/papers/healthy-ref-natgenet-2023|Healthy-reference design]] ★ — Precise identification of cell states altered in disease using healthy single-cell references
+- [[_maps/papers/denisenko-dissociation-bias-genomebiol-2020|Dissociation bias, mouse kidney]] ★ — Systematic assessment of tissue dissociation and storage biases in single-cell and single-nucleus RNA-seq workflows
+- [[_maps/papers/malone-transplant-chimerism-jasn-2020|Transplant chimerism (Malone)]] ★ — Harnessing Expressed Single Nucleotide Variation and Single Cell RNA Sequencing To Define Immune Cell Chimerism in the Rejecting Kidney Transplant
+- [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]] ★ — A single-nucleus RNA-sequencing pipeline to decipher the molecular anatomy and pathophysiology of human kidneys
 - [[_maps/papers/ambient-rna-bench-biorxiv-2026|Ambient-RNA benchmark]] — Benchmarking computational decontamination of ambient RNA
 - [[_maps/papers/scrna-natmachintell-2026|Conditional Monge Gap]] — Conditional Monge Gap enables generalizable single-cell perturbation modelling
 - [[_maps/papers/kidney-epigenome-nataging-2026|Kidney epigenome atlas]] — A cross-species single-cell kidney epigenome atlas reveals epithelial-dominant aging-like states in disease

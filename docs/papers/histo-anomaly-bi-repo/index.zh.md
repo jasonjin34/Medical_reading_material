@@ -1,6 +1,6 @@
 # Boehringer-Ingelheim/anomaly-detection-in-histology
 
-> **文献键** `histo-anomaly-bi-repo` · **来源** GitHub(2022) · **类别** histopath · **相关度** medium · **获取** open
+> **文献键** `Zingman2024_anomaly_histology` · **来源** GitHub(2022) · **类别** histopath · **相关度** medium · **获取** open
 > **链接** <https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology> · `status: complete`
 
 ---

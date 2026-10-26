@@ -39,6 +39,7 @@ tags:
 - [[_maps/papers/kidney-epigenome-nataging-2026|Kidney epigenome atlas]] — cites
 - [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]] — cites
 - [[_maps/papers/kidney-ssl-histology-scirep-2025|Kidney histology SSL]] — histology vs molecular atlas
+- [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]] — cites
 - [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]] — KPMP open data
 
 ## Concepts / 概念

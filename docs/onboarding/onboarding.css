@@ -1,0 +1,85 @@
+/* Onboarding figures. Copied to docs/onboarding/ by build_site.py and loaded via extra_css. */
+
+/* site-wide: wider reading column than Material's default 61rem */
+.md-grid { max-width: 76rem; }
+
+/* --- module 1: X and obs drawn as one table, so a row is visibly the same cell on both sides --- */
+.xobs {
+  --xo-pt: #0f8b8d;      /* proximal tubule */
+  --xo-tal: #3a6fd8;     /* thick ascending limb */
+  --xo-pod: #8a4fd1;     /* podocyte */
+  --xo-stress: #d97a1e;  /* stress / altered */
+  --xo-mito: #7d8794;
+  --xo-line: #e3e7ec;
+  --xo-zero: #c3cad3;
+  --xo-hover: #eef2f8;
+  margin: 1.5em 0;
+}
+[data-md-color-scheme="slate"] .xobs {
+  --xo-pt: #33b5b6; --xo-tal: #6f97ee; --xo-pod: #b083ec; --xo-stress: #f0a050; --xo-mito: #9aa4b1;
+  --xo-line: #39414f; --xo-zero: #555e6b; --xo-hover: #262c38;
+}
+.xobs .xo-scroll { overflow-x: auto; padding-bottom: 4px; }
+/* override Material's default table look */
+.md-typeset .xobs table { display: table; border: 0; border-collapse: separate; border-spacing: 0;
+  font-size: .56rem; font-variant-numeric: tabular-nums; background: none; box-shadow: none; }
+.md-typeset .xobs th, .md-typeset .xobs td { padding: 0; border: 0; background: none; vertical-align: middle; }
+.md-typeset .xobs tbody tr:hover { background: none; box-shadow: none; }
+
+.md-typeset .xobs .xo-cap th { font-weight: 600; text-align: left; padding: 0 0 .4em; }
+.xobs .xo-tag { font-family: var(--md-code-font-family); font-size: 1.1em; margin-right: .3em; }
+.xobs .xo-sub { font-weight: 400; color: var(--md-default-fg-color--light); }
+
+.md-typeset .xobs .xo-genes th { font-family: var(--md-code-font-family); font-weight: 500; font-size: .9em;
+  text-align: center; min-width: 2.6em; padding: 0 .1em .5em; }
+.xobs .xo-genes th i { display: block; height: 3px; width: 1.2em; margin: .25em auto 0; border-radius: 2px; }
+.md-typeset .xobs .xo-genes th.xo-o { text-align: left; color: var(--md-default-fg-color--light);
+  font-weight: 500; padding-left: .7em; padding-right: .5em; }
+.md-typeset .xobs .xo-genes th.xo-n { text-align: right; padding-right: 1em; }
+
+.md-typeset .xobs td.xo-bc { font-family: var(--md-code-font-family); color: var(--md-default-fg-color--light);
+  padding: 0 .7em 0 .3em; white-space: nowrap; }
+.md-typeset .xobs td.xo-x { height: 2.2em; text-align: center; font-family: var(--md-code-font-family); }
+.xobs td.xo-x b { display: grid; place-items: center; width: 2.2em; height: 1.8em; margin: auto;
+  border-radius: 5px; font-weight: 500; background: color-mix(in oklab, var(--c) var(--a), transparent); }
+.xobs td.xo-x.xo-z b { background: none; color: var(--xo-zero); font-weight: 400; }
+.md-typeset .xobs td.xo-more { color: var(--xo-zero); text-align: center; width: 1.6em; }
+.md-typeset .xobs td.xo-seam { width: 1em; }
+.xobs td.xo-seam div { width: 2px; height: 2.2em; margin: auto; background: var(--xo-line); }
+.md-typeset .xobs td.xo-o { padding: 0 .5em 0 .7em; white-space: nowrap; }
+.md-typeset .xobs td.xo-n { font-family: var(--md-code-font-family); text-align: right; padding-right: 1em; }
+.xobs .xo-chip { display: inline-flex; align-items: center; gap: .35em; font-weight: 500; }
+.xobs .xo-chip::before { content: ""; width: .5em; height: .5em; border-radius: 50%; background: var(--c); }
+.xobs .xo-pill { font-size: .92em; padding: .1em .6em; border-radius: 99px; border: 1px solid var(--xo-line);
+  color: var(--md-default-fg-color--light); }
+.xobs .xo-pill.xo-alt { border-color: var(--xo-stress); color: var(--xo-stress); font-weight: 500; }
+
+/* the whole row lights up across both tables */
+.md-typeset .xobs tbody tr:hover td, .md-typeset .xobs tbody tr:focus td { background: var(--xo-hover); }
+.md-typeset .xobs tbody tr:hover td:first-child { border-radius: 6px 0 0 6px; }
+.md-typeset .xobs tbody tr:hover td:last-child { border-radius: 0 6px 6px 0; }
+.xobs tbody tr { outline: none; }
+
+.md-typeset .xobs .xo-under td { padding-top: .5em; font-size: .92em; color: var(--md-default-fg-color--light);
+  text-align: center; }
+.xobs .xo-under td div { border-top: 1.5px solid var(--xo-line); padding-top: .35em; margin: 0 .25em; }
+
+.md-typeset .xobs ul.xo-key { list-style: none; margin: .8em 0 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .5em 1.6em; font-size: .72rem; }
+.md-typeset .xobs ul.xo-key li { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .6em; }
+.xobs .xo-ic { font-family: var(--md-code-font-family); font-size: .9em; padding: 0 .45em; height: fit-content;
+  border: 1px solid var(--xo-line); border-radius: 4px; color: var(--md-default-fg-color--light); }
+.md-typeset .xobs figcaption { font-size: .68rem; color: var(--md-default-fg-color--light); text-align: left;
+  max-width: none; margin: .8em 0 0; }
+
+/* small inline, click to enlarge (onboarding.js toggles .xo-open) */
+.xobs .xo-scroll { cursor: zoom-in; }
+.xobs .xo-hint { font-size: .64rem; color: var(--md-default-fg-color--light); margin: .2em 0 0; }
+.xobs.xo-open { position: fixed; inset: 0; z-index: 10; margin: 0; overflow: auto;
+  padding: 3rem max(1.5rem, env(safe-area-inset-left, 0px)) 2rem;
+  background: var(--md-default-bg-color); display: grid; align-content: center; justify-items: center; }
+.xobs.xo-open > * { max-width: 100%; }
+.xobs.xo-open .xo-scroll { cursor: zoom-out; }
+.md-typeset .xobs.xo-open table { font-size: clamp(.6rem, 1.15vw, 1rem); }
+.xobs.xo-open .xo-hint { order: -1; }
+body.xo-lock { overflow: hidden; }

@@ -128,7 +128,7 @@
   {
    "id": "cell-feature-kidney",
    "type": "text",
-   "text": "\n**Plan A:** Plan A baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space.",
+   "text": "\n**Topic 1:** Topic 1 baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space.",
    "x": 1920,
    "y": 350,
    "width": 300,
@@ -175,7 +175,7 @@
   {
    "id": "cell-density-kidney",
    "type": "text",
-   "text": "\n**Plan A:** Density of healthy kidney cell states per cell type.",
+   "text": "\n**Topic 1:** Density of healthy kidney cell states per cell type.",
    "x": 1920,
    "y": 590,
    "width": 300,
@@ -278,7 +278,7 @@
   {
    "id": "cell-conformal-kidney",
    "type": "text",
-   "text": "\n**Plan A:** Calibrated per-cell anomaly p-values with FDR control.",
+   "text": "\n**Topic 1:** Calibrated per-cell anomaly p-values with FDR control.",
    "x": 1920,
    "y": 1310,
    "width": 300,
@@ -307,7 +307,7 @@
   {
    "id": "cell-reference-kidney",
    "type": "text",
-   "text": "- [[_maps/papers/cellspectra-natgenet-2025|CellSpectra]]\n- [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]]",
+   "text": "- [[_maps/papers/abedini-kidney-atlas-natgenet-2024|Kidney atlas (Abedini 2024)]]\n- [[_maps/papers/cellspectra-natgenet-2025|CellSpectra]]\n- [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]]",
    "x": 1920,
    "y": 1550,
    "width": 300,
@@ -344,7 +344,7 @@
   {
    "id": "cell-crossmodal-kidney",
    "type": "text",
-   "text": "- [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]]\n\n**Plan A:** Core idea of Plan A: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.",
+   "text": "- [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]]\n\n**Topic 1:** Core idea of Topic 1: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.",
    "x": 1920,
    "y": 1790,
    "width": 300,
@@ -382,7 +382,7 @@
   {
    "id": "cell-artifact-kidney",
    "type": "text",
-   "text": "\n**Plan A:** Artifact audit of the 95-biopsy Xenium + snRNA data.",
+   "text": "- [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]]\n- [[_maps/papers/malone-transplant-chimerism-jasn-2020|Transplant chimerism (Malone)]]\n- [[_maps/papers/denisenko-dissociation-bias-genomebiol-2020|Dissociation bias, mouse kidney]]\n- [[_maps/papers/janssen-ambient-noise-genomebiol-2023|Ambient truth, mouse kidney (Janssen)]]\n- [[_maps/papers/hoeft-genotype-multiplexing-natcommun-2024|SNP multiplexing (Hoeft)]]\n\n**Topic 1:** Artifact audit of the 95-biopsy Xenium + snRNA data.",
    "x": 1920,
    "y": 2030,
    "width": 300,
@@ -429,7 +429,7 @@
   {
    "id": "cell-bench-kidney",
    "type": "text",
-   "text": "- [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]]\n\n**Plan A:** KidneyAnomalyBench: expert-validated anomalies.",
+   "text": "- [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]]\n\n**Topic 1:** KidneyAnomalyBench: expert-validated anomalies.",
    "x": 1920,
    "y": 2270,
    "width": 300,

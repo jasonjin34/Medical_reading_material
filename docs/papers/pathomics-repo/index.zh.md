@@ -1,6 +1,6 @@
 # Cassie07/PathOmics
 
-> **文献键** `pathomics-repo` · **来源** GitHub(2023) · **类别** pathology · **相关度** medium · **获取** open
+> **文献键** `Ding2023_PathOmics` · **来源** GitHub(2023) · **类别** pathology · **相关度** medium · **获取** open
 > **链接** <https://github.com/Cassie07/PathOmics> · `status: complete`
 
 ---
