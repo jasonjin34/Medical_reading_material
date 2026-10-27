@@ -80,7 +80,7 @@ python scripts/add_paper.py <url|doi|arxiv> --category <c> --relevance <high|med
 
 - `<url|doi|arxiv>` — a landing URL, a bare DOI (`10.1038/…`), or an arXiv id (`2406.16192`).
 - `--category` ∈ `anomaly · single-cell · spatial · virtual-tissue · histopath · foundation · pathology · imaging · competition · agents · ehr · other`.
-- Knowledge-map placement: `--plans A|B|EHR`, `--track <A1…B7>`, `--recommended-by sikander`; add a short label to `maps/labels.yaml`.
+- Knowledge-map placement: `--plans A|B|EHR`, `--track <A1…B7>`, `--recommended-by core-reading`; add a short label to `maps/labels.yaml`.
 - Creates `papers/<slug>/` with `metadata.yaml`, `deep-read.md`, `ai-ready.md`, `citation.bib`.
 
 **3. Write the close-reading** — edit `papers/<slug>/deep-read.md`. Keep every

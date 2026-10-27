@@ -9,9 +9,9 @@
 A deep anomaly-detection model trained only on "frequent findings" (normal tissue plus common diseases) of stomach and colon biopsies — best variant: Outlier Exposure — detects the long tail of 56 rarer entities it never saw, with slide-AUROC 95.0% (stomach) and 91.0% (colon), and transfers to a second hospital and scanner without retraining.
 
 ## Takeaways
-- "Normal" here means **frequent findings** (including common diseases such as chronic gastritis), and "anomaly" means the rare long tail; the top-10 diagnoses cover ~90% (stomach) / 91% (colon) of cases (Fig. 1).
+- "Normal" here means **frequent findings** (including common diseases such as chronic gastritis), and "anomaly" means the rare long tail; the frequent findings — 10 diagnoses in all (6 stomach, 4 colon) — make up 90% of stomach and 91% of colon cases (Fig. 1, App. Table 2).
 - The best method is Outlier Exposure: slides from other organs serve as "auxiliary anomalies" for a binary classifier; the anomaly score is the predicted anomaly-class probability (Methods §2.3).
-- The choice of OE data matters more than architecture or loss: ImageNet as OE barely works (colon slide-AUROC 52.17%), while same-hospital multi-organ slides work best (91.49%) (App. Table 11).
+- The choice of OE data matters more than architecture or loss: ImageNet as OE barely works (colon slide-AUROC 52.17%), TCGA gives 82.73%, the same-hospital multi-organ set (Charité OE mixed) 88.48%, and the full OE set (adding small intestine and the other GI organ) 91.49%, which the authors call the strongest overall (single split, not 5-fold; App. Table 11, D.2).
 - At a 100%-sensitivity threshold, 36.2% of stomach cases could be called "not abnormal"; for colon only 4.21% (§3.1).
 - Failures are very subtle changes (pseudomelanosis coli, intestinal spirochaetosis; slide-AUROC ~20–24%); the authors point to multi-scale context or semi-supervised methods (App. Table 6, Discussion).
 
@@ -22,7 +22,7 @@ Most pathology AI is supervised and only recognises common diagnoses with enough
 1. **Pre-processing**: tissue is detected on each H&E whole-slide image (WSI) and tiled into 340×340-pixel patches at 20× (~0.5 µm/pixel); patches with >80% background are dropped; Reinhard stain normalisation is applied (App. B.4).
 2. **Training data**: separate models for stomach and colon; "normal" = frequent-finding patches of that organ. Low-grade adenomas are removed from training so that high-grade lesions stay detectable (§2.2, App. C.7). Anomalies are **never** used in training.
 3. **Paradigm A — self-supervised features + kNN**: CTransPath (a Swin Transformer pretrained on 32,220 H&E slides from TCGA and PAIP) embeds patches and a modified kNN distance scores them; a variant fine-tunes CTransPath with a PANDA-style one-class (OCC) loss (§2.3, App. B.2).
-4. **Paradigm B — Outlier Exposure (best)**: auxiliary anomalies = 2,901 slides of other organs (prostate 599, kidney 459, liver 402, lung 401, small intestine 283, breast 204, other 553) plus normal patches of the other GI organ. A binary cross-entropy classifier separates normal from auxiliary patches with class-balanced batches; OE patches are 50% "near" tissue (stomach, colon, small intestine) and 50% "far" tissue; OE patches with cosine similarity >0.9 to normal patches are removed to drop shared tissue such as connective tissue and muscle (§2.3, App. B.2, Table 2c). The main results use CTransPath fine-tuned on the OE task; a ResNet-18 trained from scratch performs about the same (App. D.4, Table 15).
+4. **Paradigm B — Outlier Exposure (best)**: auxiliary anomalies = 2,901 slides of other organs (prostate 599, kidney 459, liver 402, lung 401, small intestine 283, breast 204, other 553) plus normal patches of the other GI organ. A binary cross-entropy classifier separates normal from auxiliary patches with class-balanced batches; OE patches are 50% "near" tissue (stomach, colon, small intestine) and 50% "far" tissue; OE patches with cosine similarity >0.9 to normal patches are removed to drop shared tissue such as connective tissue and muscle (§2.3, App. B.2, Table 2c). Our reading: Table 1's OE numbers equal the CTransPath row of App. Table 15, so the main results appear to use CTransPath fine-tuned on the OE task (the text does not say so; Fig. 2 shows a generic CNN); a ResNet-18 trained from scratch performs about the same (§2.3, App. D.4, Table 15).
 5. **Scoring and aggregation**: patch score = anomaly-class probability, averaged over 10 test-time-augmented views; slide score = mean of the top-10% patch scores (§2.2, App. B.3).
 6. **Heatmaps**: patches are extracted with 75-pixel overlap and overlapping scores are averaged into a smooth heatmap (App. B.3).
 7. **Evaluation**: 5-fold cross-validation; slide-AUROC (from diagnosis labels) and patch-AUROC (from pathologist region annotations); the external LMU cohort gets slide-AUROC only, without retraining (§2.2, App. B.5).
@@ -32,7 +32,7 @@ Most pathology AI is supervised and only recognises common diagnoses with enough
 flowchart LR
   A["H&E WSI<br/>stomach or colon"] --> B["340x340 patches<br/>stain normalised"]
   B --> C["Frequent-finding patches<br/>label normal"]
-  D["2,901 other-organ slides<br/>auxiliary anomalies"] --> E["Binary classifier<br/>CTransPath or ResNet-18, BCE"]
+  D["2,901 other-organ slides<br/>+ normal patches of other GI organ<br/>auxiliary anomalies"] --> E["Binary classifier<br/>CTransPath or ResNet-18, BCE"]
   C --> E
   E --> F["Patch score =<br/>P anomaly, 10x TTA"]
   F --> G["Slide score =<br/>mean of top 10%"]
@@ -40,7 +40,7 @@ flowchart LR
 ```
 
 ## Data
-5,423 slides and ~17 million image patches from two hospitals (§3; the abstract says 5,423 cases). **Charité (Berlin) primary cohort**: routine 2020/2021 slides, 1,973 frequent-finding slides (stomach 961, colon 1,012) and 200 anomalous slides (126 from 2020/2021, 74 from 2000–2021 archives), 65 diagnoses, 3DHistech P1000 scanner; all anomalous slides have region annotations (diagnosis-defining regions, other anomalous regions such as tumour-adjacent inflammation, artifacts) (§2.1). Plus 2,901 other-organ slides as OE auxiliary data (App. Table 2c). **LMU (Munich) external cohort**: 192 gastric and 157 colon slides (frequent: 63 colon / 164 stomach; anomalous: 94 colon / 28 stomach), 2020–2023, Leica Aperio GT 450 scanner, >500k patches, no pixel annotations (§3.3, App. B.5). The data are not public.
+5,423 slides and ~17 million image patches from two hospitals (§3; the abstract says 5,423 cases). **Charité (Berlin) primary cohort**: routine 2020/2021 slides, 1,973 frequent-finding slides (stomach 961, colon 1,012) and 200 anomalous slides (126 from 2020/2021, 74 from 2000–2021 archives), 65 diagnoses, 3DHistech P1000 scanner; all anomalous slides have region annotations (diagnosis-defining regions, other anomalous regions such as tumour-adjacent inflammation, artifacts) (§2.1). Plus 2,901 other-organ slides as OE auxiliary data (App. Table 2c). **LMU (Munich) external cohort**: 192 gastric and 157 colon slides (frequent: 63 colon / 164 stomach; anomalous: 94 colon / 28 stomach), 2020–2023, Leica Aperio GT 450 scanner, >500k patches, no pixel annotations (§3.3, App. B.5). The preprint mentions no data release.
 
 ## Key results
 - **Charité main result (OE)**: slide-AUROC 95.04 ± 0.54% (stomach) and 91.01 ± 0.69% (colon); patch-AUROC 91.37 ± 0.34% and 90.47 ± 0.33%. Best self-supervised slide-AUROC: 94.95% stomach, 89.76% colon (kNN) (Table 1).
@@ -55,12 +55,12 @@ flowchart LR
 - Recasts long-tail diagnosis as anomaly detection trained on frequent findings only, evaluated on routine data with 65 diagnoses rather than a single anomaly type such as lymph-node metastasis (Discussion, App. A.3).
 - The authors state this is the first use of Outlier Exposure in histopathology, with a systematic ablation of OE data choice (similarity vs diversity trade-off) (App. A.1, D.2).
 - External validation across hospital and scanner, showing colour and test-time augmentations matter mainly on the external cohort (App. D.3, Tables 13–14).
-- A clinical use pattern: slide anomaly score plus heatmap for triage and auto-clearing (Fig. 2).
+- A proposed clinical use: slide anomaly score plus heatmap to detect abnormal cases and highlight abnormal regions, which the authors say may enable automated workflows in the future (Fig. 2).
 
 ## Limitations
 - (Authors) very subtle colon changes are missed (pseudomelanosis coli, collagenous/lymphocytic colitis, spirochaetosis), some of which need special stains even for pathologists (Discussion).
 - (Authors) single 340-pixel patches miss architectural changes such as colon mucosal architecture; multi-scale methods are needed (Discussion, App. C.7).
-- (Authors) low-grade adenomas were deliberately removed from training, showing that the "normal" boundary is set by hand (§2.2, App. C.7).
+- Low-grade adenomas were deliberately removed from training to separate non-neoplastic colon tissue from high-grade lesions (§2.2, App. C.7). Our reading: this shows the "normal" boundary has to be set by hand.
 - Our reading: colon external AUROC (85.88%) and colon auto-clear rate (4.21%) are much weaker than stomach; the LMU cohort also excluded slides with lab-specific tearing artifacts (App. B.5), so real deployment may be harder.
 - Our reading: it outputs only "anomalous or not, and where", not a diagnosis or a biological explanation; the preprint gives no public data or code link.
 
@@ -92,7 +92,7 @@ _Source: https://arxiv.org/html/2406.14866 (Fig 2)  ·  License: arXiv preprint 
 _Source: https://arxiv.org/html/2406.14866 (Fig 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Slide anomaly-score distributions](figures/fig3.png)
-**Fig 3.** Slide anomaly scores by diagnosis for the OE model on one Charité validation split: frequent findings separate clearly from most anomalous diagnoses.
+**Fig 3.** Slide anomaly scores by diagnosis for the OE model on one Charité validation split (stomach panel only; the paper's figure shows stomach on top and colon below): frequent findings separate clearly from most anomalous diagnoses.
 _Source: https://arxiv.org/html/2406.14866 (Fig 3)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Long-tail distribution of GI diagnoses](figures/fig4.png)
@@ -131,7 +131,7 @@ _Source: https://arxiv.org/html/2406.14866 (Tables 1 & 4)  ·  License: arXiv pr
 
 ## Cite
 ```bibtex
-@article{Dippel_2024, title={AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics}, volume={1}, ISSN={2836-9386}, url={http://dx.doi.org/10.1056/AIoa2400468}, DOI={10.1056/aioa2400468}, number={11}, journal={NEJM AI}, publisher={Massachusetts Medical Society}, author={Dippel, Jonas and Prenißl, Niklas and Hense, Julius and Liznerski, Philipp and Winterhoff, Tobias and Schallenberg, Simon and Kloft, Marius and Buchstab, Oliver and Horst, David and Alber, Maximilian and Ruff, Lukas and Müller, Klaus-Robert and Klauschen, Frederick}, year={2024}, month=Oct }
+@article{Dippel_2024, title={AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics}, volume={1}, ISSN={2836-9386}, url={http://dx.doi.org/10.1056/AIoa2400468}, DOI={10.1056/aioa2400468}, number={11}, journal={NEJM AI}, publisher={Massachusetts Medical Society}, author={Dippel, Jonas and Prenißl, Niklas and Hense, Julius and Liznerski, Philipp and Winterhoff, Tobias and Schallenberg, Simon and Kloft, Marius and Buchstab, Oliver and Horst, David and Alber, Maximilian and Ruff, Lukas and Müller, Klaus-Robert and Klauschen, Frederick}, year={2024}, month=Oct, note={Preprint: arXiv:2406.14866} }
 ```
 
 

@@ -36,7 +36,7 @@ OpenScholar、PaperQA2 这类文献综合 agent 及其基准都会「检查引�
 - 作者提醒:截断段落(只看前缀)会把未支持率虚高数倍,须用滑窗读全文。
 
 ## 与本研究方向的关系
-这几乎就是 **Plan B「calibrated verifier」** 的原型,而且在方法上与我们的计划高度吻合:**(1) 「verifier 是要被验证的仪器」**这一立场,正是我们在肾脏 omics 场景应采取的 —— 不能只报告「agent 的 claim 中 X% 未被证据支持」,必须同时报告用哪个 verifier、在什么金标准上验证、工作点在哪。**(2) Split-conformal 捕获率保证**可以直接移植:把 claim–citation 对换成 claim–evidence 对(evidence 可以是文献段落,也可以是 agent 实际跑出的统计表/图),在专家标注的金标准上校准 τ,给出「漏检的未支持 claim ≤ α」的保证,并预先声明复核预算。**(3) 校准负样本难度**这一发现对我们特别关键:肾脏 omics 中真正难的错误(如把 ambient RNA 污染导致的信号说成疾病特征、把 Xenium 分割伪影说成细胞状态)与「容易的干扰项」完全不同 —— 金标准负样本必须来自真实 agent 错误(这与 Plan A 中「专家验证的 KidneyAnomalyBench」可以共用标注流程)。**(4) 范围对照的结论**(守卫不检验结论正确性,PubMedQA κ = 0.02)提醒我们:claim-to-evidence 验证与「结论是否为真」是两层问题,Plan B 的 omics verifier 需要第二层 —— 证据本身(数据)是否可靠,即 Plan A 的跨模态一致性正好能提供。与 citation-blame-emnlp-2026 互补:那篇负责**定位**错误发生在哪个 agent,这篇负责对 verifier 的判断**给出统计保证**。
+这几乎就是 **课题 2「calibrated verifier」** 的原型,而且在方法上与我们的计划高度吻合:**(1) 「verifier 是要被验证的仪器」**这一立场,正是我们在肾脏 omics 场景应采取的 —— 不能只报告「agent 的 claim 中 X% 未被证据支持」,必须同时报告用哪个 verifier、在什么金标准上验证、工作点在哪。**(2) Split-conformal 捕获率保证**可以直接移植:把 claim–citation 对换成 claim–evidence 对(evidence 可以是文献段落,也可以是 agent 实际跑出的统计表/图),在专家标注的金标准上校准 τ,给出「漏检的未支持 claim ≤ α」的保证,并预先声明复核预算。**(3) 校准负样本难度**这一发现对我们特别关键:肾脏 omics 中真正难的错误(如把 ambient RNA 污染导致的信号说成疾病特征、把 Xenium 分割伪影说成细胞状态)与「容易的干扰项」完全不同 —— 金标准负样本必须来自真实 agent 错误(这与课题 1 中「专家验证的 KidneyAnomalyBench」可以共用标注流程)。**(4) 范围对照的结论**(守卫不检验结论正确性,PubMedQA κ = 0.02)提醒我们:claim-to-evidence 验证与「结论是否为真」是两层问题,课题 2 的 omics verifier 需要第二层 —— 证据本身(数据)是否可靠,即课题 1 的跨模态一致性正好能提供。与 citation-blame-emnlp-2026 互补:那篇负责**定位**错误发生在哪个 agent,这篇负责对 verifier 的判断**给出统计保证**。
 
 ## 可复用资产
 - **代码(MIT,单 GPU/CPU 审计工具包):**

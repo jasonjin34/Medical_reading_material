@@ -38,7 +38,7 @@ flowchart LR
 ```
 
 ## 数据
-**问答基准**:LAB-Bench 的 DbQA(数据库问答)和 SeqQA(DNA/蛋白序列推理):45 题开发集用于调工具和数据库接口,315 题留出测试集,三次独立运行取平均;因 API 成本只取全基准 12.5%,按子任务比例抽样,允许"信息不足"弃答(Results;Methods §"Q&A Benchmarks")。HLE:生物/医学子学科每科最多 5 题,共 52 题,无开发集(正文写 14 个子学科,Methods 列出 13 个名字)(Methods)。问答基准与 6 个通用基线比较,细节在 Supplementary Notes A(Results)。
+**问答基准**:LAB-Bench 的 DbQA(数据库问答)和 SeqQA(DNA/蛋白序列推理):45 题开发集用于调工具和数据库接口,315 题留出测试集,三次独立运行取平均;因 API 成本只取全基准 12.5%,按子任务比例抽样,允许"信息不足"弃答(Results;Methods §"Q&A Benchmarks")。HLE:生物/医学子学科每科最多 5 题,共 52 题,无开发集(Results 与 Methods 都写 14 个子学科,但 Methods 只列出 13 个名字)(Results;Methods)。问答基准与 6 个通用基线比较,细节在 Supplementary Notes A(Results)。
 **8 个新任务**(Methods §"Curating real-world benchmarks"):变异优先级(Open Targets Genetics 真值集,准确率);GWAS 因果基因(Shringarpure et al. 数据,准确率);CRISPR 扰动筛选设计(Schmidt et al.,18,939 个候选基因中选若干个使扰动效应最大,只用 IL-2 一个 screen,指标为平均扰动后效应);scRNA-seq 细胞注释(CellxGene 等,通常约 10 个作者标注的细胞类型,按比例抽 20k–50k 细胞,LLM 语义匹配评分并由人工复核);微生物组差异丰度(5 个数据集,与人类专家结果比较);药物重定位(Huang et al. 数据,以 EHR 中临床医生的 off-label 处方模式作对齐分数);罕见病诊断(MyGene2,Alsentzer et al. 整理,专家诊断为真值);患者致病基因排序(Alsentzer et al.)。
 **案例数据**:可穿戴 —— 30 名参与者的 CGM(连续血糖监测,传感器同时记录皮肤温度)数据,Results 写 458 个 Excel 文件,Methods 写 485 个温度文件(每个以推定的进餐时间为中心,前 2 小时后 4 小时);10 人 227 晚睡眠;血液组学:脂质组 652 特征 / 147 样本,代谢组 731 特征 / 147 样本,蛋白组 1,470 特征 / 20 样本(Results;Methods)。Multiome —— To et al. 2024 人胚胎骨骼发育数据,约 336,000 个细胞核的 snRNA-seq + snATAC-seq(单细胞核转录组 + 染色质可及性),5–11 周,5 个解剖部位,原样下载使用(Results;Methods)。
 
@@ -48,7 +48,7 @@ flowchart LR
 - **8 个新任务**:相对 base LLM(Claude Sonnet 3.7,无工具)平均相对提升 402.3%,相对 ReAct+Code 43.0%,相对 Biomni-ReAct 20.4%;逐任务的提升标在 Fig. 2b,详细数字在 Supplementary Notes B(Results;Fig. 2b)。每个任务平均 6–24 步,用到 0–4 个专用工具、1–8 个软件包、0–3 个 data lake 条目;信息综合类任务(CRISPR 筛选、GWAS)主要查数据库(KEGG、Reactome)和文献,生物信息分析类(微生物组、单细胞注释)主要写代码调用 scanpy 等库(Results)。
 - **可穿戴案例**:自主跑完 10 步流程(由血糖峰推断进餐、取餐前/后温度窗口、个体间归一化、汇总),报告餐后体温平均升高 2.19 °C,中位 1.10 °C,个体间范围 −0.11 到 15.56 °C(Results;Fig. 3b–d);睡眠数据中报告睡眠效率周三最高、周日下降,作息规律性比总时长与睡眠质量相关性更强(Results)。
 - **Multiome 案例**:10 步 GRN 流程(pySCENIC 配置、GRNBoost2 推断基因调控网络、cisTarget 修剪、AUCell 计算 regulon 活性、用 ATAC 可及性过滤靶基因等),约 5 小时完成,得到 566–589 个 regulon;复现了 RUNX2、HHIP 受 TWIST1、LMX1B、ALX4 等调控的已知关系,并提出 AUTS2、ZFHX3、PBX1 在多个骨骼谱系中活性很高;limb mesenchyme 细胞平均 regulon 活性最高(Results;Fig. 3f–h)。
-- **克隆基准**:盲评专家认为 Biomni 的 protocol 在准确性和完整性上与资深人类专家相当,明显好于受训者,且用时少得多(Results;Fig. 4a);正文没有给出具体分数。Results 写 10 个任务、4 个对象(Claude 3.7、Biomni、受训者、资深专家),Methods 写 20 道开放题、3 位人类专家、1 位盲评者、准确性与完整性各 1–5 分(Methods §"Wetlab Benchmark…")。
+- **克隆基准**:盲评认为 Biomni 的 protocol 在准确性和完整性上与资深人类专家相当,且用时少得多;正文说受训者的提交"常不完整或欠佳",Fig. 4a 图注写 Biomni"显著高于"受训者(Results;Fig. 4a);正文没有给出具体分数。Results 写 10 个任务、4 个对象(Claude 3.7、Biomni、受训者、资深专家)、"盲评专家评审者"(复数),Methods 写 20 道开放题、3 位人类专家、1 位独立盲评者、准确性与完整性各 1–5 分(Methods §"Wetlab Benchmark…")。
 - **湿实验**:把靶向人 B2M 基因的 sgRNA 克隆进 lentiCRISPR v2 Blast 质粒;Biomni 设计 3 条 sgRNA、带 BsmBI 突出端的寡核苷酸、Golden Gate 组装与转化 protocol 及 U6 测序引物;科学家原样执行,次日长出菌落,挑 2 个测序,均完全比对(Results;Fig. 4b–e)。
 
 ## 创新点
@@ -62,7 +62,7 @@ flowchart LR
 - 作者自述:评测任务只覆盖领域的一部分;动作发现只取最新文献,可能漏掉仍有用的经典方法;在需要细致临床判断、新的实验推理、分析创新或深度生物学综合的任务上仍有困难,并非所有任务都达到专家水平(Discussion)。
 - 我们的理解:**评测粒度粗** —— LAB-Bench 只用 12.5% 子集;8 个任务在正文只给平均"相对提升",而 base LLM 接近 0 的任务(Fig. 2b 中有 "+inf")会把平均相对提升拉得很大;问答基准中 Biomni 用哪个底座 LLM 正文未写明。
 - 我们的理解:**结论只有人工读 trace 核对**(Methods §"Manual verification"),没有独立验证、没有置信度、没有重跑稳定性;PBX1 被同时称为"新"和"已确立"。可穿戴案例中个体餐后升温最高 15.56 °C,作为生理变化不太可能,更像数据伪影,但文中未讨论;测量的是 CGM 传感器的皮肤温度(Methods),Fig. 3d 却写成"core body temperature"。
-- 文中数字前后不一:论文数(Abstract "tens of thousands" vs Results 2,500);克隆基准(10 vs 20 题);可穿戴文件(458 vs 485);HLE 子学科(14 vs 列出 13 个)。
+- 文中数字前后不一:论文数(Abstract "tens of thousands" vs Results 2,500);克隆基准(10 vs 20 题;盲评者复数 vs 1 位);可穿戴文件(458 vs 485);HLE 子学科(写 14 个,Methods 只列出 13 个)。
 - 后续独立评测:HeurekaBench(单细胞开放研究问题)中 Biomni 开放题正确性 2.31/5(Lite 版,三 agent 均用 Claude-4-Sonnet),换不同 planner 的全集消融最高 2.58;SpatialAgent 的心脏 MERFISH 细胞注释中,Biomni(Claude Sonnet 4.5,3 次运行)总体准确率 0.394,标签偏向内皮细胞(label collapse)(来源:`heurekabench-arxiv-2026` Table 1–2、`spatialagent-biorxiv-2025` 细胞注释段落)。
 
 ## 与本研究方向的关系
@@ -86,7 +86,7 @@ Biomni 处在 detect → model → revert 链条的**分析执行层**:它不做
 
 ## 引用
 ```bibtex
-@article{Huang2025_Biomni, title={Biomni: A General-Purpose Biomedical AI Agent}, url={http://dx.doi.org/10.1101/2025.05.30.656746}, DOI={10.1101/2025.05.30.656746}, journal={bioRxiv}, publisher={openRxiv}, author={Huang, Kexin and Zhang, Serena and Wang, Hanchen and Qu, Yuanhao and Lu, Yingzhou and Roohani, Yusuf and Li, Ryan and Qiu, Lin and Li, Gavin and Zhang, Junze and Yin, Di and Marwaha, Shruti and Carter, Jennefer N. and Zhou, Xin and Wheeler, Matthew and Bernstein, Jonathan A. and Wang, Mengdi and He, Peng and Zhou, Jingtian and Snyder, Michael and Cong, Le and Regev, Aviv and Leskovec, Jure}, year={2025}, month=June }
+@article{Huang2025_Biomni, title={Biomni: A General-Purpose Biomedical AI Agent}, url={http://dx.doi.org/10.1101/2025.05.30.656746}, DOI={10.1101/2025.05.30.656746}, journal={bioRxiv}, publisher={openRxiv}, author={Huang, Kexin and Zhang, Serena and Wang, Hanchen and Qu, Yuanhao and Lu, Yingzhou and Roohani, Yusuf and Li, Ryan and Qiu, Lin and Li, Gavin and Zhang, Junze and Yin, Di and Marwaha, Shruti and Carter, Jennefer N. and Zhou, Xin and Wheeler, Matthew and Bernstein, Jonathan A. and Wang, Mengdi and He, Peng and Zhou, Jingtian and Snyder, Michael and Cong, Le and Regev, Aviv and Leskovec, Jure}, year={2025}, month=jun }
 ```
 
 

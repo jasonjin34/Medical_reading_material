@@ -34,7 +34,7 @@ MedAgentBench(Stanford,Andrew Ng / Jonathan Chen 组)是第一个要求 LLM agen
 - 本笔记基于预印本;正式版数字可能不同。
 
 ## 与本研究方向的关系
-这是 EHR 线的代表论文。对 **Sinai EHR / 患者轨迹项目**:(1) 它的 FHIR 环境 + 患者抽样流程(锚定一个常见化验、提取五年纵向数据、时间抖动、合成标识符)是在 Mount Sinai 去标识数据上搭「虚拟 EHR 沙箱」的现成模板;(2) 它的任务几乎都是单时点原子操作,**没有患者轨迹层面的推理**(趋势、事件序列、预后),这正是轨迹项目可以补的维度 —— 例如「过去 12 个月 eGFR 斜率是否提示 CKD 进展,若是则开肾内科转诊」这类纵向任务。对实验室 **心-代谢-肾(cardiometabolic-kidney)agents / 基础模型**:任务里已有 HbA1C 重开、补钾等代谢/电解质任务,扩展出 eGFR、UACR、血钾-ACEi/ARB 联动这类肾脏相关的 action 任务很自然,且血钾补充本身就是肾功能依赖的高风险医嘱。对 **Plan B**:它坚持 pass@1 并自承未测重复可靠性,正好留出 rerun-stability 的空位;它的规则化 payload 校验是「claim/action-to-evidence」验证的结构化版本 —— agent 声称「已按阈值补钾」,检查器核对剂量是否真由化验值推出。
+这是 EHR 线的代表论文。对 **Sinai EHR / 患者轨迹项目**:(1) 它的 FHIR 环境 + 患者抽样流程(锚定一个常见化验、提取五年纵向数据、时间抖动、合成标识符)是在 Mount Sinai 去标识数据上搭「虚拟 EHR 沙箱」的现成模板;(2) 它的任务几乎都是单时点原子操作,**没有患者轨迹层面的推理**(趋势、事件序列、预后),这正是轨迹项目可以补的维度 —— 例如「过去 12 个月 eGFR 斜率是否提示 CKD 进展,若是则开肾内科转诊」这类纵向任务。对 **心-代谢-肾(cardiometabolic-kidney)方向的 agent / 基础模型**:任务里已有 HbA1C 重开、补钾等代谢/电解质任务,扩展出 eGFR、UACR、血钾-ACEi/ARB 联动这类肾脏相关的 action 任务很自然,且血钾补充本身就是肾功能依赖的高风险医嘱。对 **课题 2**:它坚持 pass@1 并自承未测重复可靠性,正好留出 rerun-stability 的空位;它的规则化 payload 校验是「claim/action-to-evidence」验证的结构化版本 —— agent 声称「已按阈值补钾」,检查器核对剂量是否真由化验值推出。
 
 ## 可复用资产
 - **代码:** MedAgentBench 评测框架(基于 AgentBench)。

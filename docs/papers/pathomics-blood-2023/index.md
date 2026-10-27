@@ -1,6 +1,6 @@
 # A Deep Learning-Based Pathomics Methodology for Quantifying and Characterizing Nucleated Cells in the Bone Marrow Microenvironment
 
-> **Bibkey** `Krichevsky_2023` · **Venue** Blood (65th ASH Annual Meeting, Abstract 2294) (2023) · **Category** pathology · **Relevance** medium · **Access** abstract-only
+> **Bibkey** `Krichevsky_2023` · **Venue** Blood 142 (Supplement 1): 2294 (conference abstract) (2023) · **Category** pathology · **Relevance** medium · **Access** abstract-only
 > **Link** <https://ashpublications.org/blood/article/142/Supplement%201/2294/499845> · `status: abstract-only`
 
 ---
@@ -57,7 +57,7 @@ Single centre (Weill Cornell Medicine, with Stony Brook University review): 54 m
 - Proposes nuclear-feature extraction + clustering as an interpretable pathomics pipeline for hypothesis-driven research (a pilot / proof of concept, per the authors).
 
 ## Limitations
-- (Authors) A pilot study; future work needs a larger cohort of diagnostic WSIs, other MPN subtypes and links to tools such as immune-cell detection.
+- (Authors) A pilot study; future work is to apply these insights to a large cohort of diagnostic WSIs from other MPN subtypes and to correlate findings with tools such as immune-cell detection models.
 - Our reading: only 54 PV patients from one centre and no MF or other subtypes; agreement is measured against pathology reports, which are themselves the subjective estimates the authors criticise.
 - Our reading: the best r = 0.7 / ICC = 0.6 is only moderate agreement, and "K-means separated new and progressing PV" comes with no number or statistical test.
 - Our reading: a conference abstract with no full paper or code; Figures 1–2 are not visible and method details (magnification, feature dimensions, number of clusters) are missing.
@@ -73,12 +73,12 @@ Indirectly related to detect → model → revert; its value is in the tissue-re
 - Evaluation recipe: r + ICC for numeric and Cohen's κ for categorical cellularity against pathology reports.
 
 ## Follow-ups
-- Check whether the group has published a full paper (larger cohort, other MPN subtypes, quantified clustering).
+- Check whether the group has published a full paper (large cohort of other MPN subtypes, quantified clustering).
 - Abstract refs [4] Hou L, Sci Data 2020 (large-scale nucleus segmentation) and [5] HistoCartography (Jaume G, PMLR 2021) as candidate tools for kidney nucleus segmentation.
 
 ## Figures & tables
 
-This entry is an ASH 2023 *Blood* conference abstract (Abstract 2294; DOI 10.1182/blood-2023-191272); Figure 1 (cellularity heatmaps) and Figure 2 (K-means clustering) referenced in the abstract are not visible in the public metadata; the numeric results (r, ICC, κ) are listed under Key results above. Abstract: <https://ashpublications.org/blood/article/142/Supplement%201/2294/499845>
+This entry is a conference abstract in *Blood* 142, Supplement 1 (published by ASH) (Abstract 2294; DOI 10.1182/blood-2023-191272); Figure 1 (cellularity heatmaps) and Figure 2 (K-means clustering) referenced in the abstract are not visible in the public metadata; the numeric results (r, ICC, κ) are listed under Key results above. Abstract: <https://ashpublications.org/blood/article/142/Supplement%201/2294/499845>
 
 ## Cite
 ```bibtex

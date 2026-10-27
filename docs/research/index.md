@@ -28,4 +28,4 @@ The group's research topics live here, one page each with the same template: wha
 
 ## How the topics connect
 
-Topic 1 asks which anomalies in the data are real; Topic 2 asks which statements an agent makes are true. They share the same data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+Topic 1 asks which anomalies in the data are real; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.

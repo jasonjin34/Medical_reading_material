@@ -260,7 +260,7 @@
    "track0": "B1",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "DeepEvidence is a biomedical deep-research agent: an orchestrator dispatches two kinds of subagent — breadth-first BFRS and depth-first DFRS — that write code to query 17 heterogeneous knowledge bases and the literature, while incrementally building an evidence graph with provenance. With the same base LLM (GPT-5) for every agent, it beats Biomni and ToolUniverse on four open benchmarks and on new drug-discovery, preclinical, clinical-trial and evidence-based-medicine tasks (Abstract; Figs. 1–5).",
     "zh": "DeepEvidence 是一个面向生物医学的 deep research agent:一个 orchestrator 调度两类子 agent —— 广度优先的 BFRS 和深度优先的 DFRS —— 通过写代码去查 17 个异构知识库与文献,同时增量构建一张带出处(provenance)的 evidence graph;在同一底座 LLM(GPT-5)下,它在 4 个公开基准和一组新建的药物发现、临床前、临床试验、循证医学任务上都超过 Biomni 与 ToolUniverse(Abstract;Fig. 1–5)。"
@@ -318,7 +318,7 @@
    "track0": "B1",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "Biomni is the Leskovec-lab general-purpose biomedical agent: an action discovery agent reads the 100 most recent papers in each of bioRxiv's 25 subject categories (2,500 papers) and extracts tasks, software and databases, which are implemented and tested by humans into the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve relevant tools → write a plan → write and run code → revise the plan from results) then solves cross-domain tasks zero-shot, plus one CRISPR-cloning wet-lab run that followed its protocol verbatim (Results §\"Overview of Biomni\"; Fig. 1; Fig. 4).",
     "zh": "Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先让一个 action discovery agent 读 bioRxiv 25 个学科各 100 篇最新论文(共 2,500 篇),抽取任务、软件和数据库,经人工实现与测试后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库);再用基于 CodeAct 的 agent Biomni-A1(检索相关工具 → 写计划 → 写代码执行 → 根据结果修改计划)零样本完成跨领域任务,并有一个按其 protocol 原样执行的 CRISPR 克隆湿实验(Results §\"Overview of Biomni\";Fig. 1;Fig. 4)。"
@@ -376,7 +376,7 @@
    "track0": "B1",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "A reproducible target-discovery pipeline that combines a single-cell skin-cancer atlas, scored features from six public knowledge bases, and three LLMs (for feature weighting and for target nomination); its top-ranked target GPNMB was built into a CAR T cell (T cells engineered to kill whatever carries a chosen surface protein) that cleared tumours in mouse xenograft models of leukaemia, melanoma and colorectal cancer.",
     "zh": "把单细胞转录组图谱 + 六个公共知识库的\"打分特征\" + 三个 LLM 的加权与提名组合成一条可复现的靶点发现流水线,流水线选出的头号靶点 GPNMB 被做成 CAR T 细胞(一种把 T 细胞改造成\"认准某个表面蛋白就杀\"的活细胞药),并在白血病、黑色素瘤、结直肠癌三种小鼠移植瘤模型里显示强效抗肿瘤活性。"
@@ -405,7 +405,7 @@
    "track0": "B1",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "A biotech company's org chart rebuilt as a team of LLM agents: a Chief Scientific Officer agent takes a scientific question, decomposes it and delegates to eight specialist scientist agents across four research divisions, which call 100-plus tools and public databases through MCP servers to run real computation, with the CSO integrating the results; the authors demonstrate it on three translational case studies — large-scale annotation of 55,984 clinical trials, a B7-H3 lung-cancer target assessment, and a post-mortem of a failed ulcerative-colitis trial.",
     "zh": "把一家生物技术公司的组织架构照搬成 LLM agent 团队:一个\"首席科学官\"(CSO)agent 接收科学问题、拆解并分派给四个科研部门下的八个专科 scientist agent,后者通过 MCP server 调用 100 多个工具与公共数据库做真实计算,再由 CSO 汇总;作者用它做了三个转化医学案例(5.6 万条临床试验的大规模标注分析、B7-H3 肺癌靶点评估、一个失败的溃疡性结肠炎试验的复盘)。"
@@ -1321,7 +1321,7 @@
    "track0": "B6",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "The authors automatically extract \"background → hypothesis\" pairs from PubMed papers, split them by publication date (before Jan 2023 = train/seen, Aug 2023 = unseen) so test data cannot have been seen in training, and systematically evaluate 2023-era LLMs at proposing biomedical hypotheses zero-shot, few-shot, fine-tuned, with tools and as a multi-agent system, scoring Novelty / Relevance / Significance / Verifiability on 0–3 (LLM judge + human experts) (Abstract; §2–4).",
     "zh": "作者从 PubMed 文献中自动抽取「背景知识 → 假设」配对,按发表时间切分(2023 年 1 月前 = 训练/seen,2023 年 8 月 = unseen)以避免测试数据被模型训练见过,系统评测 2023 年代 LLM 在 zero-shot、few-shot、微调、工具调用和多智能体设置下提出生物医学假设的能力,用 Novelty / Relevance / Significance / Verifiability 四个 0–3 分维度(LLM 评审 + 人类专家)打分(Abstract;§2–4)。"
@@ -1782,7 +1782,7 @@
     "en": "",
     "zh": ""
    },
-   "count": 4,
+   "count": 5,
    "home": "group:B1",
    "slot": 1,
    "x": 0,
@@ -2095,6 +2095,11 @@
   {
    "source": "concept:multi-agent",
    "target": "co-scientist-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:multi-agent",
+   "target": "deepevidence-natmachintell-2026",
    "kind": "mentions"
   },
   {
@@ -3093,6 +3098,6 @@
  "stats": {
   "papers": 50,
   "concepts": 18,
-  "edges": 186
+  "edges": 187
  }
 }

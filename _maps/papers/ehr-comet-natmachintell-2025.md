@@ -9,9 +9,9 @@ track: []
 year: 2025
 relevance: medium
 category: ehr
-recommended_by: sikander
+recommended_by: core-reading
 views:
-- sikander
+- reading-list
 - ehr
 - overview
 tags:

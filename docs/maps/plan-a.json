@@ -3,8 +3,8 @@
   {
    "id": "data",
    "label": {
-    "en": "In-house kidney data + open atlases",
-    "zh": "所内肾脏数据 + 公开图谱"
+    "en": "Public kidney atlases",
+    "zh": "公开肾脏图谱"
    },
    "columns": [
     "A1"
@@ -79,8 +79,8 @@
     "nephrobase-biorxiv-2025",
     "scfm-zeroshot-genomebiol-2025",
     "nicheformer-natmethods-2025",
-    "virchow-2024",
-    "uni2-h-model"
+    "uni2-h-model",
+    "virchow-2024"
    ],
    "top": [
     "Pathology FM benchmark",
@@ -445,7 +445,7 @@
    "track0": "A0",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "CLEAR treats a CT scan as a stack of 2D axial slices: a frozen encoder trained by self-supervised contrastive learning embeds each slice, and attention-based multiple-instance learning (ABMIL) aggregates them into a patient-level prediction; the proposed LeCL feeds lesion-centred crops to one encoder branch so that representations focus on abnormalities. With 22–36M-parameter models it matches or slightly beats BiomedCLIP on three tasks.",
     "zh": "CLEAR 框架把 CT 当作一叠 2D 轴位切片:用自监督对比学习训练的编码器(冻结)给每张切片提特征,再用注意力多示例学习(ABMIL)聚合成病人级预测;其中提出的 LeCL 在对比学习中让一路编码器看到以病灶为中心的裁剪,使表征更关注异常。用约 2–4 千万参数的模型,在三项任务上与 BiomedCLIP 相当或略好。"
@@ -1485,7 +1485,7 @@
    "track0": "A3",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics (ST) framework: it learns to reconstruct normal spots from a \"normal\" reference section, flags poorly reconstructed spots in target sections as anomalous tissue domains (ATDs), aligns several samples into the reference space, and clusters the anomalies into subtypes that are shared across samples or sample-specific — without any predefined anomaly marker genes.",
     "zh": "STANDS 是一套基于 GAN 的多样本空间转录组(ST)框架:先在\"正常\"参考切片上学会重建正常 spot,把重建得差的 spot 标为异常组织域(ATD);再把多个样本对齐到参考空间;最后把异常聚成\"跨样本共享 / 样本特有\"的亚型——全程不需要预先给出异常 marker 基因。"
@@ -1632,7 +1632,7 @@
    "label": "HEST-1k",
    "title": "HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis",
    "year": 2024,
-   "venue": "arXiv preprint",
+   "venue": "NeurIPS 2024 (Datasets and Benchmarks Track, Spotlight)",
    "relevance": "medium",
    "status": "complete",
    "type": "paper",
@@ -1642,7 +1642,7 @@
    "track0": "A4",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "HEST-1k unifies 1,229 spatial-transcriptomics (ST) samples from 153 public and internal cohorts into one format — H&E whole-slide image + aligned spot-level expression + metadata — and ships the HEST-Library Python package and HEST-Benchmark, which scores 11 pathology foundation models on predicting gene expression from H&E patches across 9 tasks (Abstract, §1).",
     "zh": "HEST-1k 把 153 个公开与内部队列中的 1,229 个空间转录组(ST)样本统一成\"H&E 全切片 + 对齐的 spot 表达矩阵 + 元数据\"的标准格式,配套 Python 工具包 HEST-Library 和\"从 H&E patch 预测基因表达\"的 HEST-Benchmark(9 个任务、11 个病理基础模型)(Abstract, §1)。"
@@ -1683,7 +1683,7 @@
    "track0": "A5",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "This Stanford (Gevaert lab) benchmark evaluates 32 foundation models in four categories — general vision (VM), general vision-language (VLM), pathology vision (Path-VM) and pathology vision-language (Path-VLM) — all frozen with only a linear probe trained, on 41 tasks, 53 datasets and >17,500 WSIs. Path-VMs lead but differences among the top models are mostly non-significant, Path-VMs beat Path-VLMs, neither model size nor pretraining data size consistently predicts downstream performance, and majority-vote ensembling improves aggregate performance (Abstract).",
     "zh": "这篇 Stanford(Gevaert 组)的 benchmark 把 32 个基础模型分成四类——通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM——全部冻结、只训 linear probe,在 41 个任务、53 个数据集、17,500+ 张 WSI 上统一评测:Path-VM 稳居前列但头部模型之间差异多不显著,Path-VM 优于 Path-VLM,模型规模和预训练数据量都不能稳定预测下游表现,多数投票集成在总体上进一步提升(Abstract)。"
@@ -1812,6 +1812,35 @@
    "y": 286
   },
   {
+   "id": "uni2-h-model",
+   "kind": "paper",
+   "parent": "group:A5",
+   "label": "UNI2-h",
+   "title": "MahmoodLab/UNI2-h",
+   "year": 2025,
+   "venue": "Hugging Face",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "model",
+   "plans": [
+    "A"
+   ],
+   "track0": "A5",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "core-reading",
+   "oneliner": {
+    "en": "UNI2-h is a pathology vision foundation model from the Mahmood Lab (Harvard / BWH): a 681M-parameter custom ViT-H/14 trained with the DINOv2 recipe on 200M+ H&E and IHC tiles from Mass General Brigham, mapping a 224×224 tissue tile to a 1,536-dim feature for frozen downstream use (model card §\"Model Description\", §\"Training Details\").",
+    "zh": "UNI2-h 是 Mahmood Lab(Harvard / BWH)发布的病理视觉基础模型:一个 681M 参数的定制 ViT-H/14,用 DINOv2 配方在 Mass General Brigham 的 2 亿+ 个 H&E 与 IHC 图块上自监督训练,把 224×224 组织图块编码为 1,536 维特征,供下游冻结使用(model card §\"Model Description\"、§\"Training Details\")。"
+   },
+   "url": {
+    "en": "../papers/uni2-h-model/",
+    "zh": "../zh/papers/uni2-h-model/"
+   },
+   "x": 1350,
+   "y": 340
+  },
+  {
    "id": "virchow-2024",
    "kind": "paper",
    "parent": "group:A5",
@@ -1828,7 +1857,7 @@
    "track0": "A5",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "Virchow is a 632M-parameter ViT-H/14 pathology foundation model trained by Paige and Microsoft Research with DINOv2 self-supervision on ~1.5M H&E whole-slide images (WSIs) from MSKCC; an aggregator trained on its frozen tile embeddings performs pan-cancer detection across 16 cancer types with specimen-level AUC 0.950, and 0.937 on the 7 rare cancers (Abstract; Fig. 2b–c).",
     "zh": "Virchow 是 Paige 与 Microsoft Research 用 DINOv2 自监督在 MSKCC 约 150 万张 H&E 全切片(WSI)上训练的 632M 参数 ViT-H/14 病理基础模型;在它的冻结 tile 嵌入上训练一个聚合器,就能做跨 16 种癌的\"泛癌检测\",标本级 AUC 0.950,其中 7 种罕见癌 AUC 0.937(Abstract;Fig. 2b–c)。"
@@ -1836,35 +1865,6 @@
    "url": {
     "en": "../papers/virchow-2024/",
     "zh": "../zh/papers/virchow-2024/"
-   },
-   "x": 1350,
-   "y": 340
-  },
-  {
-   "id": "uni2-h-model",
-   "kind": "paper",
-   "parent": "group:A5",
-   "label": "UNI2-h",
-   "title": "MahmoodLab/UNI2-h",
-   "year": null,
-   "venue": "Hugging Face",
-   "relevance": "medium",
-   "status": "complete",
-   "type": "model",
-   "plans": [
-    "A"
-   ],
-   "track0": "A5",
-   "also_in": [],
-   "bridge": false,
-   "recommended_by": "sikander",
-   "oneliner": {
-    "en": "UNI2-h is a pathology vision foundation model from the Mahmood Lab (Harvard / BWH): a 681M-parameter custom ViT-H/14 trained with the DINOv2 recipe on 200M+ H&E and IHC tiles from Mass General Brigham, mapping a 224×224 tissue tile to a 1,536-dim feature for frozen downstream use (model card §\"Model Description\", §\"Training Details\").",
-    "zh": "UNI2-h 是 Mahmood Lab(Harvard / BWH)发布的病理视觉基础模型:一个 681M 参数的定制 ViT-H/14,用 DINOv2 配方在 Mass General Brigham 的 2 亿+ 个 H&E 与 IHC 图块上自监督训练,把 224×224 组织图块编码为 1,536 维特征,供下游冻结使用(model card §\"Model Description\"、§\"Training Details\")。"
-   },
-   "url": {
-    "en": "../papers/uni2-h-model/",
-    "zh": "../zh/papers/uni2-h-model/"
    },
    "x": 1350,
    "y": 394
@@ -1898,7 +1898,7 @@
    "track0": "A6",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "A US$100,000 NIDDK prize challenge hosted on HeroX: inspired by astronomy, where AI found rare gravitational lenses and other anomalies in archival telescope images, it asks participants to use only open KPMP Kidney Tissue Atlas data to discover previously unrecognized patterns, objects or anomalies in kidney-biopsy whole-slide images (WSIs), backed by human–AI review with pathologists and nephrologists — the goal is discovery, not classification of known disease states.",
     "zh": "NIDDK 发起、HeroX 承办的 10 万美元奖金挑战赛:借鉴天文学用 AI 在存档望远镜图像中找引力透镜等稀有异常的经验,要求参赛者只用 KPMP Kidney Tissue Atlas 的公开(open)数据,在肾活检全切片图像(WSI)中发现以往未识别的形态模式/对象/异常,并以病理与肾内科专家的人机协同复核来支撑这些发现 —— 目标是\"发现\",而不是对已知疾病做分类。"
@@ -1956,7 +1956,7 @@
    "track0": "A6",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "A deep anomaly-detection model trained only on \"frequent findings\" (normal tissue plus common diseases) of stomach and colon biopsies — best variant: Outlier Exposure — detects the long tail of 56 rarer entities it never saw, with slide-AUROC 95.0% (stomach) and 91.0% (colon), and transfers to a second hospital and scanner without retraining.",
     "zh": "只用\"常见诊断\"(正常组织 + 常见病)的胃、结肠活检切片训练深度异常检测模型(最佳为 Outlier Exposure),不需要见过任何罕见病,就能检出长尾中的 56 种少见病变:slide-AUROC 胃 95.0%、结肠 91.0%,并可泛化到另一家医院和另一种扫描仪。"
@@ -2014,10 +2014,10 @@
    "track0": "A6",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
-    "en": "AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 \"normal tissue\" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).",
-    "zh": "AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个\"正常组织关键词\"里挑出最贴切的 5 个作为提示,把输入\"重建成正常样子\",输入与重建的差异就是异常分;在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。"
+    "en": "AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 \"normal tissue\" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score (the paper does not name the distance; the released code computes latent-space MSE and pixel LPIPS) — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).",
+    "zh": "AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个\"正常组织关键词\"里挑出最贴切的 5 个作为提示,把输入\"重建成正常样子\",输入与重建的差异就是异常分(论文未说明用哪种距离;公开代码计算潜空间 MSE 和像素级 LPIPS 两种分数);在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。"
    },
    "url": {
     "en": "../papers/histo-miccai-2025/",
@@ -2072,7 +2072,7 @@
    "track0": "A6",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "A PyTorch repository from Boehringer Ingelheim: a CNN is trained on healthy tissue from several species, organs and two stains (auxiliary classification + center-loss), then a one-class SVM is fit on healthy features of the target tissue to find drug-induced histological alterations in whole-slide images; companion paper: Zingman et al., *Medical Image Analysis* 2024.",
     "zh": "Boehringer Ingelheim 的 PyTorch 代码库:先在多物种、多器官、两种染色的健康组织上训练 CNN(辅助分类任务 + center-loss),再在目标组织的健康特征上训练 one-class SVM,用来在全切片中找出药物引起的组织病理改变;配套论文为 Zingman et al., *Medical Image Analysis* 2024。"

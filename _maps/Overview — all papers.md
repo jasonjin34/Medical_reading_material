@@ -80,9 +80,9 @@ Every paper, clustered by category. For orientation only; use the views above to
 - [[_maps/papers/scfm-zeroshot-genomebiol-2025|scFM zero-shot limits]] ★ — Zero-shot evaluation reveals limitations of single-cell foundation models
 - [[_maps/papers/fm-arxiv-2604|Generative histopathology FM]] — A Generative Foundation Model for Multimodal Histopathology
 - [[_maps/papers/nicheformer-natmethods-2025|Nicheformer]] — Nicheformer: a foundation model for single-cell and spatial omics
+- [[_maps/papers/uni2-h-model|UNI2-h]] — MahmoodLab/UNI2-h
 - [[_maps/papers/hest1k-2024|HEST-1k]] — HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
 - [[_maps/papers/virchow-2024|Virchow]] — A foundation model for clinical-grade computational pathology and rare cancers detection
-- [[_maps/papers/uni2-h-model|UNI2-h]] — MahmoodLab/UNI2-h
 
 ## Pathology / Pathology
 - [[_maps/papers/pathomics-npjpo-2026|Pathomics signature]] — Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study

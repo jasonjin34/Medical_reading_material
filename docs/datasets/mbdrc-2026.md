@@ -1,6 +1,6 @@
 # mBDRC 2026 · One donor, three assays
 
-> The same healthy kidney cortex split and measured with three assays: differences caused by the assay are a real, design-given answer, no injection needed.
+> Healthy kidney cortex from 19 donors, measured with up to three assays (in the cellxgene file 3 of 18 donors have all three, 8 have two): differences caused by the assay are a design-given answer, no injection needed.
 
 **Species** human · **Assays** scRNA · multiome · **Access** open
 
@@ -12,7 +12,7 @@
 | People / samples | 19 healthy donors, 33 samples of normal cortex |
 | Labels | cell types; assay and donor per cell |
 | Licence | CC BY 4.0 (data); paper CC BY-NC-ND 4.0 |
-| Paper | Acera-Mateos M et al. Genome Biol 2026. · [deep-read](../papers/kidney-multimodal-genomebiol-2026/index.md) |
+| Paper | Acera-Mateos M et al. Genome Biol 2026;27:64. doi:10.1186/s13059-026-04002-4 · [deep-read](../papers/kidney-multimodal-genomebiol-2026/index.md) |
 
 ![mBDRC 2026 · One donor, three assays](img/mbdrc_fig1.jpg)
 
@@ -24,15 +24,16 @@
 
 ## People and samples
 
-19 healthy donors; normal cortex taken at nephrectomy. Cortex only, no medulla.
+19 healthy donors (the paper's term); normal tissue from the unaffected part of total nephrectomies, cut into about 25 biopsy-sized cores and kept in different media (CryoStor, RNAlater, OCT, liquid nitrogen). Cortex only, no medulla. Paper: 33 samples, 25 from donors with several samples and 8 from donors with one.
 
 ## Labels
 
-Cell types, plus the assay and donor of every cell. Key number from the paper: the assay explains about 24% of expression variance, the donor about 3%.
+Cell types, plus the assay and donor of every cell. Key number from the paper (3′ scRNA vs snRNA, 5 donors, 14 cell types): the assay explains a median 24% of expression variance, the donor about 3%.
 
 ## Known issues
 
 - Healthy donors only, and cortex only.
+- Only 3 donors have all three assays; assay is also confounded with the tissue core and its preservation medium.
 
 ## Download
 
@@ -62,4 +63,4 @@ adata.obs.groupby(["donor_id", "assay"], observed=True).size()
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is a false alarm (tier 2). Also extends the healthy reference.
+- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is treated as a false alarm (tier 2; our design choice). Also extends the healthy reference.

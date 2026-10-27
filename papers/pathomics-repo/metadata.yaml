@@ -1,6 +1,10 @@
 id: "pathomics-repo"
 title: "Cassie07/PathOmics"
-authors: null
+authors:
+  - "Ding, Kexin"
+  - "Zhou, Mu"
+  - "Metaxas, Dimitris N."
+  - "Zhang, Shaoting"
 year: 2023
 venue: "GitHub"
 type: "code"
@@ -8,8 +12,8 @@ category: "pathology"
 relevance: "medium"
 access: "open"
 url: "https://github.com/Cassie07/PathOmics"
-doi: ""
-arxiv: ""
+doi: "10.1007/978-3-031-43987-2_60"
+arxiv: "2307.11952"
 s2_id: null
 bibkey: "Ding2023_PathOmics"
 tags: []
@@ -18,4 +22,4 @@ status: "complete"
 added: "2026-08-03"
 plans: []
 track: ""
-recommended_by: "sikander"
+recommended_by: "core-reading"

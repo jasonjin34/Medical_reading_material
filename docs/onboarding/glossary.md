@@ -22,7 +22,7 @@
 ### obs / var (cell and gene metadata) · obs / var（细胞和基因的信息表） {#obs-var}
 
 - **EN** — The two tables aligned with the count matrix: obs has one row per cell (patient, library, quality numbers, cell-type and state labels), var has one row per gene (gene name and other gene information).
-- **中文** — 和计数矩阵对齐的两张表：obs 每个细胞一行（病人、批次、质量指标、细胞类型和状态标签），var 每个基因一行（基因名等信息）。
+- **中文** — 和计数矩阵对齐的两张表：obs 每个细胞一行（病人、文库、质量指标、细胞类型和状态标签），var 每个基因一行（基因名等信息）。
 - **DE** — obs / var (Zell- und Gen-Metadaten): Die zwei an der Zählmatrix ausgerichteten Tabellen: obs hat eine Zeile pro Zelle (Patient, Library, Qualitätswerte, Zelltyp- und Zustandslabels), var eine Zeile pro Gen (Genname und weitere Geninformationen).
 - _Explained in:_ [1 · Two tables: X and obs](01-two-tables.md)
 
@@ -36,7 +36,7 @@
 ### Patient-level split (data leakage) · 按病人切分（数据泄漏） {#patient-level-split}
 
 - **EN** — Putting all cells of one patient (and, where needed, one library) on the same side of the train / test split; splitting cells at random leaks the patient and batch into the test set and inflates the score.
-- **中文** — 把同一个病人（必要时同一次上机）的所有细胞放在训练集或测试集的同一边；按细胞随机切分会把病人和批次信息泄漏到测试集，分数虚高。
+- **中文** — 把同一个病人（必要时同一个文库）的所有细胞放在训练集或测试集的同一边；按细胞随机切分会把病人和批次信息泄漏到测试集，分数虚高。
 - **DE** — Aufteilung nach Patient (Datenleck): Alle Zellen eines Patienten (und bei Bedarf einer Library) landen auf derselben Seite der Train-/Test-Aufteilung; eine zufällige Aufteilung nach Zellen lässt Patient und Batch ins Testset durchsickern und schönt das Ergebnis.
 - _Explained in:_ [1 · Two tables: X and obs](01-two-tables.md)
 
@@ -44,9 +44,9 @@
 
 ### Nucleus (cell nucleus) · 细胞核 {#cell-nucleus}
 
-- **EN** — The compartment inside a cell that holds the DNA; RNA is made here before it moves out to the cytoplasm.
-- **中文** — 细胞里装 DNA 的部分；RNA 在这里被转录出来，之后再运到胞质。
-- **DE** — Zellkern: Das Kompartiment der Zelle, das die DNA enthält; RNA wird hier gebildet und dann ins Zytoplasma transportiert.
+- **EN** — The compartment inside a cell that holds the DNA; RNA of nuclear genes is made here before it moves out to the cytoplasm (mitochondrial genes are transcribed inside the mitochondria).
+- **中文** — 细胞里装 DNA 的部分；核基因的 RNA 在这里被转录出来，之后再运到胞质（线粒体基因在线粒体里转录）。
+- **DE** — Zellkern: Das Kompartiment der Zelle, das die DNA enthält; die RNA der Kerngene wird hier gebildet und dann ins Zytoplasma transportiert (mitochondriale Gene werden in den Mitochondrien transkribiert).
 - _Explained in:_ [2 · Cells and RNA](02-cells-rna.md)
 
 ### Transcription (gene expression) · 转录（基因表达） {#transcription}
@@ -84,16 +84,16 @@
 
 ### Nephron · 肾单位 {#nephron}
 
-- **EN** — The functional unit of the kidney, about a million per kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine.
-- **中文** — 肾脏的功能单位，一个肾约 100 万个：先是一个过滤器（肾小球），后面接一条小管，把有用的东西收回，剩下的成为尿。
-- **DE** — Nephron: Die funktionelle Einheit der Niere, etwa eine Million pro Niere: ein Filter (Glomerulus) und ein anschließender Tubulus, der Nützliches zurückgewinnt und Harn übrig lässt.
+- **EN** — The functional unit of the kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine. The number per kidney differs up to 10-fold between people (one study of Japanese living donors: about 650,000 on average).
+- **中文** — 肾脏的功能单位：先是一个过滤器（肾小球），后面接一条小管，把有用的东西收回，剩下的成为尿。每个肾的数量因人而异，可差 10 倍（一项日本活体供肾者研究：平均约 65 万个）。
+- **DE** — Nephron: Die funktionelle Einheit der Niere: ein Filter (Glomerulus) und ein anschließender Tubulus, der Nützliches zurückgewinnt und Harn übrig lässt. Die Anzahl pro Niere unterscheidet sich zwischen Menschen bis zu zehnfach (eine Studie an japanischen Lebendspendern: im Mittel etwa 650.000).
 - _Explained in:_ [3 · The kidney](03-kidney.md)
 
 ### Renal cortex / medulla / papilla · 皮质 / 髓质 / 乳头 {#renal-cortex-medulla}
 
-- **EN** — The kidney's outer layer (cortex, with glomeruli and proximal and distal tubules), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves.
-- **中文** — 肾的外层（皮质，有肾小球、近端和远端小管）、内层（髓质，有髓袢和集合管），以及髓质的尖端（乳头，尿从这里流出）。
-- **DE** — Nierenrinde / Nierenmark / Papille: Äußere Schicht der Niere (Rinde, mit Glomeruli, proximalen und distalen Tubuli), innere Schicht (Mark, mit Henle-Schleifen und Sammelrohren) und die Markspitzen (Papillen), wo der Harn austritt.
+- **EN** — The kidney's outer layer (cortex, with glomeruli, proximal and distal tubules and the first part of the collecting ducts), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves.
+- **中文** — 肾的外层（皮质，有肾小球、近端和远端小管，以及集合管的起始段）、内层（髓质，有髓袢和集合管），以及髓质的尖端（乳头，尿从这里流出）。
+- **DE** — Nierenrinde / Nierenmark / Papille: Äußere Schicht der Niere (Rinde, mit Glomeruli, proximalen und distalen Tubuli und dem Anfang der Sammelrohre), innere Schicht (Mark, mit Henle-Schleifen und Sammelrohren) und die Markspitzen (Papillen), wo der Harn austritt.
 - _Explained in:_ [3 · The kidney](03-kidney.md)
 - _Seen in:_ [`kidney-multimodal-genomebiol-2026`](../papers/kidney-multimodal-genomebiol-2026/index.md), [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
@@ -114,9 +114,9 @@
 
 ### Proximal tubule (PT) · 近端小管 {#proximal-tubule}
 
-- **EN** — The first tubule segment after the glomerulus; reclaims most water, glucose and salt, uses the most energy, and is the first to be injured by ischaemia. The most abundant cell type in kidney atlases.
-- **中文** — 肾小球后面的第一段小管；回收大部分水、葡萄糖和盐，最耗能，缺血时最先受伤。是肾脏图谱里数量最多的细胞类型。
-- **DE** — Proximaler Tubulus: Das erste Tubulussegment nach dem Glomerulus; resorbiert den Großteil von Wasser, Glukose und Salz, verbraucht am meisten Energie und wird bei Ischämie zuerst geschädigt.
+- **EN** — The first tubule segment after the glomerulus; reclaims about 60–70% of the water and salt and nearly all of the glucose; highly metabolically active and, in most animal models, the cell type most sensitive to ischaemia. The most abundant cell type in kidney atlases.
+- **中文** — 肾小球后面的第一段小管；回收约 60–70% 的水和盐、几乎全部的葡萄糖；代谢非常活跃，在多数动物模型里是对缺血最敏感的细胞。是肾脏图谱里数量最多的细胞类型。
+- **DE** — Proximaler Tubulus: Das erste Tubulussegment nach dem Glomerulus; resorbiert etwa 60–70 % von Wasser und Salz und fast die gesamte Glukose; stoffwechselaktiv und in den meisten Tiermodellen der gegenüber Ischämie empfindlichste Zelltyp. Der häufigste Zelltyp in Nierenatlanten.
 - _Explained in:_ [3 · The kidney](03-kidney.md)
 - _Seen in:_ [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
@@ -151,9 +151,9 @@
 
 ### Interstitial fibrosis · 间质纤维化 {#interstitial-fibrosis}
 
-- **EN** — Scar-tissue accumulation between the functional units of an organ, scored routinely on H&E as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks.
-- **中文** — 器官功能单位之间瘢痕组织的堆积,常规在 H&E 上评分作为粗略的预后标志,也是「检出病变区域」类任务的经典目标。
-- **DE** — Interstitielle Fibrose: Ansammlung von Narbengewebe zwischen den funktionellen Einheiten eines Organs; wird routinemäßig im H&E-Schnitt als grober prognostischer Marker bewertet und ist das klassische Ziel von „Erkenne die erkrankte Region“-Aufgaben.
+- **EN** — Scar-tissue accumulation between the functional units of an organ, scored routinely on kidney biopsies (read on several stains such as H&E, PAS and trichrome) as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks.
+- **中文** — 器官功能单位之间瘢痕组织的堆积,常规在肾活检上评分(结合 H&E、PAS、三色染色等多种染色)作为粗略的预后标志,也是「检出病变区域」类任务的经典目标。
+- **DE** — Interstitielle Fibrose: Ansammlung von Narbengewebe zwischen den funktionellen Einheiten eines Organs; wird routinemäßig an Nierenbiopsien (anhand mehrerer Färbungen wie H&E, PAS und Trichrom) als grober prognostischer Marker bewertet und ist das klassische Ziel von „Erkenne die erkrankte Region“-Aufgaben.
 - _Explained in:_ [3 · The kidney](03-kidney.md)
 - _Seen in:_ [`pathomics-npjpo-2026`](../papers/pathomics-npjpo-2026/index.md), [`spatial-natcommun-2024`](../papers/spatial-natcommun-2024/index.md)
 
@@ -423,9 +423,9 @@
 
 ### Mitochondrial fraction (percent.mt) · 线粒体比例 {#mitochondrial-fraction}
 
-- **EN** — The share of a cell's RNA from mitochondrial genes; a standard QC metric (high = stressed or dying cell). Naturally higher in whole cells than in nuclei.
-- **中文** — 一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标（高 = 细胞应激或快死了）。完整细胞本来就比细胞核高。
-- **DE** — Mitochondrialer Anteil: Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik (hoch = gestresste oder sterbende Zelle). In ganzen Zellen natürlich höher als in Kernen.
+- **EN** — The share of a cell's RNA from mitochondrial genes; a standard QC metric. In whole cells a high value suggests a broken or dying cell; nuclei contain no mitochondrial transcripts of their own, so values are naturally much lower, and a high value reflects mitochondria stuck to the nucleus or tissue handling.
+- **中文** — 一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标。完整细胞里偏高，提示细胞破损或快死了；细胞核本身不表达线粒体转录本，所以数值本来就低得多，偏高反映的是粘在核上的线粒体或组织处理的影响。
+- **DE** — Mitochondrialer Anteil: Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik. In ganzen Zellen deutet ein hoher Wert auf eine beschädigte oder sterbende Zelle hin; Kerne exprimieren selbst keine mitochondrialen Transkripte, daher sind die Werte dort viel niedriger, und ein hoher Wert spiegelt am Kern haftende Mitochondrien oder die Gewebeverarbeitung wider.
 - _Explained in:_ [6 · Artifacts, and biology that looks like one](06-artifacts.md)
 
 ### Quality control (QC) · 质控（QC） {#quality-control}
@@ -454,9 +454,9 @@
 
 ### CZ CELLxGENE · CELLxGENE 数据平台 {#cellxgene}
 
-- **EN** — The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; the easiest way to download Lake 2023 and mBDRC.
-- **中文** — Chan Zuckerberg 的单细胞数据平台，把整理好的数据集统一成 h5ad 文件和标准标签提供下载；下载 Lake 2023 和 mBDRC 最方便的途径。
-- **DE** — CZ CELLxGENE: Das Einzelzellportal der Chan-Zuckerberg-Initiative, das kuratierte Datensätze als h5ad mit harmonisierten Metadaten bereitstellt.
+- **EN** — The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; a convenient way to download Lake 2023 and mBDRC. Column names differ from the authors' GEO tables (e.g. donor_id), X is normalised with raw counts in raw.X, and the Lake single-nucleus and single-cell files do not include the author state labels.
+- **中文** — Chan Zuckerberg 的单细胞数据平台，把整理好的数据集统一成 h5ad 文件和标准标签提供下载；下载 Lake 2023 和 mBDRC 的方便途径。列名和作者在 GEO 上的标签表不同（如 donor_id），X 是归一化后的值、原始计数在 raw.X，Lake 的单核和单细胞文件里没有作者的 state 标签。
+- **DE** — CZ CELLxGENE: Das Einzelzellportal der Chan-Zuckerberg-Initiative, das kuratierte Datensätze als h5ad mit harmonisierten Metadaten bereitstellt. Spaltennamen weichen von den GEO-Tabellen der Autoren ab (z. B. donor_id), X ist normalisiert, die Rohzählungen liegen in raw.X.
 - _Explained in:_ [7 · How to read a dataset](07-datasets.md)
 
 ### GEO / SRA · GEO / SRA 公共数据库 {#geo-sra}
@@ -501,9 +501,9 @@
 
 ### Domain shift · 域偏移 {#domain-shift}
 
-- **EN** — A drop in model performance when test data differs from training data, for example due to a different scanner or staining protocol.
-- **中文** — 当测试数据与训练数据不同(例如换了扫描仪或染色方案)时导致的模型性能下降。
-- **DE** — Domänenverschiebung: Ein Leistungsabfall des Modells, wenn Testdaten von den Trainingsdaten abweichen, etwa durch einen anderen Scanner oder ein anderes Färbeprotokoll.
+- **EN** — A difference between the training and test data distributions, for example due to a different scanner, staining protocol or assay; it typically lowers model performance.
+- **中文** — 训练数据和测试数据分布之间的差异(例如换了扫描仪、染色方案或测法);通常会让模型性能下降。
+- **DE** — Domänenverschiebung: Ein Unterschied zwischen den Verteilungen von Trainings- und Testdaten, etwa durch einen anderen Scanner, ein anderes Färbeprotokoll oder Assay; senkt typischerweise die Modellleistung.
 - _Explained in:_ [8 · What we are working on](08-our-problem.md)
 - _Seen in:_ [`histo-miccai-2025`](../papers/histo-miccai-2025/index.md), [`uni2-h-model`](../papers/uni2-h-model/index.md), [`virchow-2024`](../papers/virchow-2024/index.md)
 

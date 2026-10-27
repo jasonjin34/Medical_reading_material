@@ -391,7 +391,7 @@
   {
    "id": "cell-artifact-kidney",
    "type": "text",
-   "text": "- [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]]\n- [[_maps/papers/malone-transplant-chimerism-jasn-2020|Transplant chimerism (Malone)]]\n- [[_maps/papers/denisenko-dissociation-bias-genomebiol-2020|Dissociation bias, mouse kidney]]\n- [[_maps/papers/janssen-ambient-noise-genomebiol-2023|Ambient truth, mouse kidney (Janssen)]]\n- [[_maps/papers/hoeft-genotype-multiplexing-natcommun-2024|SNP multiplexing (Hoeft)]]\n\n**Topic 1:** Artifact audit of the 95-biopsy Xenium + snRNA data.",
+   "text": "- [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]]\n- [[_maps/papers/malone-transplant-chimerism-jasn-2020|Transplant chimerism (Malone)]]\n- [[_maps/papers/denisenko-dissociation-bias-genomebiol-2020|Dissociation bias, mouse kidney]]\n- [[_maps/papers/janssen-ambient-noise-genomebiol-2023|Ambient truth, mouse kidney (Janssen)]]\n- [[_maps/papers/hoeft-genotype-multiplexing-natcommun-2024|SNP multiplexing (Hoeft)]]\n\n**Topic 1:** Artifact audit of public kidney snRNA + spatial data.",
    "x": 1920,
    "y": 2030,
    "width": 300,

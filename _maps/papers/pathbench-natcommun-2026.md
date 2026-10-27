@@ -10,10 +10,10 @@ track:
 year: 2026
 relevance: high
 category: foundation
-recommended_by: sikander
+recommended_by: core-reading
 views:
 - plan-a
-- sikander
+- reading-list
 - overview
 tags:
 - paper

@@ -12,14 +12,14 @@ The authors extract features from gastric-cancer H&E whole-slide images with a m
 - Scale: 3,138 patients in 5 cohorts (training HMUCH 1,257; validation HMUSH 752, QMUSH 540, YKPH 319, TCGA-STAD 270) (Methods "Study design").
 - The final signature is a linear formula: PSGC = weighted sum of 11 numbered features (feature3, feature17, …), cut at −1.37 into high/low risk; log-rank p < 0.0001 in all 5 cohorts (Results; Fig. 2A).
 - Large effect: in the training cohort, high-PSGC patients have 21.0 months less restricted mean survival time at 60 months and 49.0 months less at 108 months (Table 2).
-- Treatment claims are weak: chemotherapy benefit comes from a small subgroup analysis without key confounders (authors' own words); immunotherapy response is predicted by algorithms (TIDE, ImmuCellAI, submap), not observed in a treated cohort (Results; Discussion).
+- Our reading: treatment claims are weak: chemotherapy benefit comes from a small subgroup analysis without key confounders (authors' own words); immunotherapy response is predicted by algorithms (TIDE, ImmuCellAI, submap), not observed in a treated cohort (Results; Discussion).
 - Interpretation: high-risk regions show nuclear pleomorphism, high cellularity and tumour–stroma fibrosis; low-risk regions show intraepithelial neoplasia and intestinal metaplasia (Figs. 4–5); high PSGC is enriched for EMT, angiogenesis and myogenesis pathways (Fig. 6A).
 
 ## Problem
 Gastric-cancer (GC) prognosis and treatment decisions rely mainly on TNM staging (tumour depth, nodes, metastasis), yet patients with the same stage and treatment have very different outcomes (Introduction). Molecular markers (MSI, tumour mutation burden, PD-L1, EBV) are limited by sample, technical, time and cost constraints. The authors want a fast, cheap, interpretable pathomics signature from routine H&E slides that predicts overall survival (OS) and indicates who benefits from adjuvant chemotherapy or immunotherapy.
 
 ## Method
-1. **Slides and preprocessing**: slides from 4 hospitals scanned on Aperio AT2 at 20× (0.5 µm/px); TCGA slides downloaded. WSIs are tiled into non-overlapping 512×512 patches, background removed by Canny edge count, Macenko stain normalization, RGB z-scoring, and flip/blur/colour augmentation (Methods).
+1. **Slides and preprocessing**: slides from the four non-TCGA cohorts scanned on Aperio AT2 at 20× (0.5 µm/px); TCGA slides downloaded. WSIs are tiled into non-overlapping 512×512 patches, background removed by Canny edge count, Macenko stain normalization, RGB z-scoring, and flip/blur/colour augmentation (Methods).
 2. **Multi-scale bags**: each WSI is a bag with patch instances at 10× and 20×; a pretrained Swin Transformer gives D = 1024 features (Methods "Pathomics feature extraction").
 3. **Graph + GCN**: within each scale, patches are nodes and an edge is added when feature cosine similarity > δ (feature similarity, not spatial adjacency); a GCN updates node features (δ not reported in the main text).
 4. **Gated-attention MIL**: node features are pooled with gated attention a_i ∝ exp(wᵀ(tanh(Vx_i) ⊙ σ(Ux_i))) into a bag vector z; multi-head gated attention with concatenated heads.
@@ -35,17 +35,17 @@ flowchart LR
   B --> C["Similarity graph per scale<br/>cosine above delta + GCN"]
   C --> D["Multi-head gated attention<br/>bag vector per scale"]
   D --> E["Concat 10x and 20x"]
-  E --> F["LASSO-Cox<br/>11 features to PSGC"]
+  E -. "features, derivation not stated" .-> F["LASSO-Cox<br/>11 features to PSGC"]
   F --> G["Cutoff -1.37<br/>high vs low risk"]
   G --> H["Survival, chemo subgroup,<br/>immune and drug predictions"]
   G --> I["SHAP, heatmaps, clusters,<br/>GSEA and WGCNA"]
 ```
 
 ## Data
-Retrospective multicentre study, 3,138 H&E slides / patients: training HMUCH (Harbin Medical University Cancer Hospital, 1,257, 2014–2016), validation 1 HMUSH (752), validation 2 QMUSH (540), validation 3 YKPH (319), validation 4 TCGA-STAD (270) (Methods "Study design"). Inclusion: ≥ 18 years, R0 resection, ≥ 90-day survival, no other tumours, complete data; neoadjuvant therapy excluded. Median age 60, 71.64% male, 69.50% advanced disease (Results; Table 1). Follow-up: HMUCH median 92.33 months, 5-year OS 72.79%; TCGA-STAD median 19.9 months, 5-year OS 45.66%. Transcriptomes: 193 training-cohort mRNA-seq (GEO GSE184336, GSE179252) and 225 TCGA samples (Methods).
+Retrospective multicentre study, 3,138 H&E slides / patients: training HMUCH (the paper's "our Hospital"; by the authors' affiliation, inferred to be Harbin Medical University Cancer Hospital; 1,257, 2014–2016), validation 1 HMUSH (752), validation 2 QMUSH (540), validation 3 YKPH (319), validation 4 TCGA-STAD (270) (Methods "Study design"). Inclusion: ≥ 18 years, R0 resection, ≥ 90-day survival, no other tumours, complete data; neoadjuvant therapy excluded. Median age 60, 71.64% male, 69.50% advanced disease (Results; Table 1). Follow-up: HMUCH median 92.33 months, 5-year OS 72.79%; TCGA-STAD median 19.9 months, 5-year OS 45.66%. Transcriptomes: 193 training-cohort mRNA-seq (GEO GSE184336, GSE179252) and 225 TCGA samples (Methods).
 
 ## Key results
-- **Signature**: 11 features selected; SHAP ranks feature17 first, then feature8, feature3, feature34; feature10 contributes least (Results; Fig. 4A).
+- **Signature**: LASSO-Cox selects 11 features (Supplementary Fig. 1A–B); SHAP ranks feature17 first, then feature8, feature3, feature34; feature10 contributes least (Results; Fig. 4A).
 - **Prognosis**: cutoff −1.37; log-rank p < 0.0001 in all 5 cohorts (Fig. 2A); PSGC is independent in multivariable Cox in training and validation (Results; HRs are in Supplementary Table 2, not read).
 - **RMST**: high minus low PSGC RMST at 60 months: HMUCH −21.0, HMUSH −20.0, QMUSH −17.4, YKPH −21.9, TCGA-STAD −18.4 months, all p < 0.0001 (Table 2).
 - **Gain over TNM**: PSGC + TNM has higher C-index than TNM alone (Supplementary Table 5, not read), higher time-dependent AUROC (Fig. 2B), lower prediction error (Fig. 2C) and positive NRI/IDI at several time points (Table 3).
@@ -107,7 +107,7 @@ _Source: Wang et al., npj Precis. Oncol. 10:206 (2026), Table 2 · CC BY-NC-ND 4
 
 ## Cite
 ```bibtex
-@article{Wang_2026, title={Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study}, volume={10}, ISSN={2397-768X}, url={http://dx.doi.org/10.1038/s41698-026-01381-6}, DOI={10.1038/s41698-026-01381-6}, number={1}, journal={npj Precision Oncology}, publisher={Springer Science and Business Media LLC}, author={Wang, Hao and Li, Hao and Ma, Keru and Mo, Genshen and Yan, Meihong and Zhang, Xinyue and Xie, Haonan and Huang, Yuze and Li, Huiying and Xue, Yingwei and Han, Peng and Lou, Shenghan}, year={2026}, month=Apr }
+@article{Wang_2026, title={Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study}, volume={10}, ISSN={2397-768X}, url={http://dx.doi.org/10.1038/s41698-026-01381-6}, DOI={10.1038/s41698-026-01381-6}, number={1}, pages={206}, journal={npj Precision Oncology}, publisher={Springer Science and Business Media LLC}, author={Wang, Hao and Li, Hao and Ma, Keru and Mo, Genshen and Yan, Meihong and Zhang, Xinyue and Xie, Haonan and Huang, Yuze and Li, Huiying and Xue, Yingwei and Han, Peng and Lou, Shenghan}, year={2026}, month=Apr }
 ```
 
 

@@ -16,7 +16,7 @@ A CT-ViT encoder (3D vision transformer from GenerateCT) classifies left-ventric
 - On temporally later "independent consecutive" test sets AUROC drops to 0.742 (Columbia) / 0.735 (Weill Cornell), with balanced accuracy only ~0.57 (Results).
 
 ## Problem
-Heart failure affects over 64 million people worldwide; many with early systolic dysfunction (HFrEF / HFmrEF) are asymptomatic and undiagnosed and miss guideline-directed medical therapy (GDMT) that slows progression (Introduction). EF normally needs dedicated tests such as echocardiography or cardiac MRI, while more than 80 million CTs are performed yearly in the USA and chest CT is common but never used for cardiac function (Introduction). The question: can reduced EF be screened directly from incidental non-gated (not synchronised to the heartbeat), non-contrast chest CTs?
+Heart failure affects over 64 million people worldwide; many with early systolic dysfunction (HFrEF / HFmrEF) are asymptomatic and undiagnosed and miss guideline-directed medical therapy (GDMT) that slows progression (Introduction). EF normally needs dedicated tests such as echocardiography or cardiac MRI (Discussion); more than 80 million CTs are performed yearly in the USA and chest CT is common (Introduction). AI on CT has already been used to predict cardiovascular risk (e.g. quantifying coronary calcium, left atrial volume and left ventricular mass index; Introduction, Discussion), but the authors say computing EF from non-gated, non-contrast chest CT has not been explored before (Discussion). The question: can reduced EF be screened directly from incidental non-gated (not synchronised to the heartbeat), non-contrast chest CTs?
 
 ## Method
 1. **Paired data**: adults with a non-contrast chest CT at Columbia (CU) or Weill Cornell (WCM) between Jul 2005 and Aug 2023 and an echocardiogram within 6 months; after filtering and linkage, 34,058 CT–echo pairs from 19,410 patients (Methods §Data curation).
@@ -66,13 +66,13 @@ flowchart LR
 - Authors: 2D-echo EF has 8–21% intra- and 6–13% inter-observer variation; measurement methods (Simpson biplane, single plane, visual) were not consistently recorded; EF may change between CT and echo, so labels are noisy (Discussion).
 - Authors: non-contrast CT only; Grad-CAM gives qualitative case-level explanations without population-level interpretability (no voxel-level registration across scans); the effect of artifacts or low-quality scans was not studied (Discussion).
 - Our reading: pacemakers, sternal wires and central-line scars highlighted by Grad-CAM are traces of prior treatment, so the model may partly recognise already-diagnosed, treated patients, which weakens its value for screening the undiagnosed.
-- Our reading: balanced accuracy ~0.57 means low recall of the positive class at the default threshold; the ~0.8 F1 is probably carried mostly by the majority normal class (~83%) (the radiologist comparison explicitly uses weighted F1; the F1 type for the main results is not stated).
+- Our reading: on the two later independent consecutive test sets balanced accuracy is only 0.571 / 0.563 (while F1 is 0.809 / 0.825), which points to low positive-class recall at the default threshold, with F1 probably carried mostly by the majority normal class (~83%) (the radiologist comparison explicitly uses weighted F1; the F1 type for the main results is not stated); the hold-out balanced accuracy is given only in Fig. 4C. In the Discussion the authors pick a specificity-first threshold instead: at 80% specificity, CU sensitivity is 64%.
 
 ## Relation to our direction
 Our reading: this is supervised classification, not unsupervised anomaly detection, and relates only indirectly to **detect** in detect → model → revert. Three lessons for Topic 1. (1) **Opportunistic reuse of existing data**: mining images taken for other reasons for unlabelled disease signal resembles our aim of finding diseased regions in routine H&E / spatial omics. (2) **Shortcut features**: Grad-CAM shows the model uses pacemakers, surgical wires and line scars — traces of treatment; in kidney data the analogues could be biopsy-needle tracks, preparation artifacts or site-specific staining, exactly what Topic 1 wants cross-modal agreement to rule out. (3) **Evaluation design to copy**: temporally later test sets, stratification by acquisition conditions (here the CT–echo interval), a naive clinical-feature baseline (ICD codes) and a blinded expert comparison all fit KidneyAnomalyBench's protocol. Nothing on virtual tissue or reversion.
 
 ## Reusable assets
-- **Code and weights**: the paper says preprocessing, training and evaluation code plus trained weights will be released on GitHub on publication (Code and model weight availability); the repository exists, but we did not check whether weights are uploaded.
+- **Code and weights**: the paper says preprocessing, training and evaluation code plus trained weights will be released on GitHub on publication (Code and model weight availability); the repository exists; as of 2026-10-27 it holds code only (main.py, archs.py, transformer.py, preprocessing scripts and notebooks, README.txt) and no trained weight files.
 <https://github.com/ZB-WCM/AI_CT_LVEF>
 - **Backbone**: the CT-ViT encoder from GenerateCT (spatial + slice attention for 3D CT) (Methods).
 - **Preprocessing recipe**: HU window [−1000, 1000], 2 mm isotropic, 164³ volume (Methods).
@@ -96,7 +96,7 @@ The article is open access (CC BY); full text and figures are on PMC and the OUP
 
 **Fig 5** (interpretability): Grad-CAM saliency maps on axial CT for four reduced-EF patients. See <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F5>
 
-_Others: Fig 3 study design · Fig 6 error Venn diagrams (model vs radiologists) · Fig 7 calibration curves · Fig 8 decision curves; Table 1 population · Table 2 acquisition parameters · Table 3 diagnosis codes · Table 4 CT–echo intervals · Table 5 subgroup AUROC · Table 6 RF/XGBoost baselines · Table 7 F1 vs radiologists · Table 8 echo operator and source. (Note: the text cites the Grad-CAM examples as "Figure 6A–D", which does not match the figure captions.)_
+_Others: Fig 3 study design · Fig 6 error Venn diagrams (model vs radiologists) · Fig 7 calibration curves · Fig 8 decision curves; Table 1 population · Table 2 acquisition parameters · Table 3 diagnosis codes · Table 4 CT–echo intervals · Table 5 subgroup AUROC · Table 6 RF/XGBoost baselines · Table 7 F1 vs radiologists · Table 8 echo operator and source. (Note: the in-text figure numbers do not match the captions: the Grad-CAM examples are cited as "Figure 6A–D" (caption: Fig 5), the calibration curves as "Figure 5" (caption: Fig 7) and the Venn diagrams as "Figure 7" (caption: Fig 6); this note follows the caption numbering.)_
 
 ### Results
 
@@ -104,15 +104,15 @@ _Others: Fig 3 study design · Fig 6 error Venn diagrams (model vs radiologists)
 
 | Cohort | n pairs | AUROC | F1 | Source |
 |---|---|---|---|---|
-| CU hold-out test | 5,174 | 0.786 ± 0.005 | 0.822 ± 0.005 | Results, Table 5 |
-| WCM external validation | 8,110 | 0.762 ± 0.007 | 0.812 ± 0.005 | Results, Table 5 |
+| CU hold-out test | 5,174 | 0.786 ± 0.005 | 0.822 ± 0.005 | AUROC Table 5; F1 Results |
+| WCM external validation | 8,110 | 0.762 ± 0.007 | 0.812 ± 0.005 | AUROC Table 5; F1 Results |
 | CU independent consecutive | 1,411 | 0.742 | 0.809 | Results |
 | WCM independent consecutive | 817 | 0.735 | 0.825 | Results |
 | XGBoost baseline (CU / WCM) | — | 0.607 / 0.592 | 0.309 / 0.312 | Table 6 |
 
 ## Cite
 ```bibtex
-@article{Raikhelkar_2026, title={An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study}, volume={7}, ISSN={2634-3916}, url={http://dx.doi.org/10.1093/ehjdh/ztag088}, DOI={10.1093/ehjdh/ztag088}, number={6}, journal={European Heart Journal - Digital Health}, publisher={Oxford University Press (OUP)}, author={Raikhelkar, Jayant and Bai, Zilong and Beecy, Ashley N and Richter, Ilan and Liu, Fengbei and Nizam, Nusrat Binta and Kishore, Varsha and Kelsey, Chris and vanMaanen, David and Ruhl, Jeffrey and Tesfuzigta, Naomi and Lancet, Erica and Leb, Jay and Legasto, Alan and Elias, Pierre and Poterucha, Timothy and Kumaraiah, Deepa and Prince, Martin and Wang, Fei and Sayer, Gabriel and Estrin, Deborah and Sabuncu, Mert and Uriel, Nir}, year={2026}, month=June }
+@article{Raikhelkar_2026, title={An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study}, volume={7}, ISSN={2634-3916}, url={http://dx.doi.org/10.1093/ehjdh/ztag088}, DOI={10.1093/ehjdh/ztag088}, number={6}, journal={European Heart Journal - Digital Health}, publisher={Oxford University Press (OUP)}, author={Raikhelkar, Jayant and Bai, Zilong and Beecy, Ashley N and Richter, Ilan and Liu, Fengbei and Nizam, Nusrat Binta and Kishore, Varsha and Kelsey, Chris and vanMaanen, David and Ruhl, Jeffrey and Tesfuzigta, Naomi and Lancet, Erica and Leb, Jay and Legasto, Alan and Elias, Pierre and Poterucha, Timothy and Kumaraiah, Deepa and Prince, Martin and Wang, Fei and Sayer, Gabriel and Estrin, Deborah and Sabuncu, Mert and Uriel, Nir}, year={2026}, month=jun }
 ```
 
 

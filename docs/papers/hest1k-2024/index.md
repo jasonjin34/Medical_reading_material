@@ -1,6 +1,6 @@
 # HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
 
-> **Bibkey** `Jaume2024_240616192` · **Venue** arXiv preprint (2024) · **Category** foundation · **Relevance** medium · **Access** open
+> **Bibkey** `Jaume2024_240616192` · **Venue** NeurIPS 2024 (Datasets and Benchmarks Track, Spotlight) (2024) · **Category** foundation · **Relevance** medium · **Access** open
 > **Link** <https://arxiv.org/abs/2406.16192> · `status: complete`
 
 ---
@@ -42,7 +42,7 @@ flowchart LR
 ```
 
 ## Data
-HEST-1k (v2): 1,229 samples, 153 cohorts, 26 organs, two species (human, mouse); 367 cancer samples from 25 cancer types; ~2.1M spot-level (patch, expression) pairs and 76.4M nuclei (Abstract, §3.3). Nucleus classes: neoplastic 17.6M, stromal 21.5M, normal epithelial 4.9M, inflammatory 15.4M, necrotic 76k; 62.1k nuclei per slide on average (§3.3). Technologies: STv1, Visium, Visium HD, Xenium (Fig. 1a). Sample types (Fig. 1a): healthy 345, cancer 367, other pathological 453, treated 53, among others. The full download exceeds 1 TB (§4). By source: NCBI 696 samples, Spatial-Research 139, Mendeley 118, 10x Genomics 112, internal 28, etc. (Table A1). **Kidney**: Fig. 1a lists 70 kidney samples; the appendix tables include 23 Visium samples from the Lake et al. atlas of healthy and injured human kidney, 7 from a kidney-papilla stone-disease atlas, 4 from a kidney-injury epithelial–immune study, plus several mouse kidney samples (Tables A2, A5). Benchmark tasks are small: IDC 4 patients, PRAD 2 patients (23 samples), PAAD 3, SKCM 2, COAD 2, READ 2, ccRCC 24, LUAD 2, lymph-node IDC 4 (Table A11). The GitHub README now states 1,276 samples, so the collection has kept growing after the paper (README, accessed 2026-10).
+HEST-1k (v2): 1,229 samples, 153 cohorts, 26 organs, two species (human, mouse); 367 cancer samples from 25 cancer types; ~2.1M spot-level (patch, expression) pairs and 76.4M nuclei (Abstract, §3.3). Nucleus classes: neoplastic 17.6M, stromal 21.5M, normal epithelial 4.9M, inflammatory 15.4M, necrotic 76k; 62.1k nuclei per slide on average (§3.3). Note: these class counts sum to only ~59.5M, not 76.4M; they are identical to v1 §3.3 (where the total was 59.6 million, matching the class sum), so v2 appears to have updated the total but not the breakdown (a source inconsistency). Technologies: STv1, Visium, Visium HD, Xenium (Fig. 1a). Sample types (Fig. 1a): healthy 345, cancer 367, other pathological 453, treated 53, among others. The full download exceeds 1 TB (§4). By source: NCBI 696 samples, Spatial-Research 139, Mendeley 118, 10x Genomics 112, internal 28, etc. (Table A1). **Kidney**: Fig. 1a lists 70 kidney samples; the appendix tables include 23 Visium samples from the Lake et al. atlas of healthy and injured human kidney, 7 from a kidney-papilla stone-disease atlas, 4 from a kidney-injury epithelial–immune study, plus several mouse kidney samples (Tables A2–A5; the Lake atlas is in A5, the stone-disease and kidney-injury entries in A4). Benchmark tasks are small: IDC 4 patients, PRAD 2 patients (23 samples), PAAD 3, SKCM 2, COAD 2, READ 2, ccRCC 24, LUAD 2, lymph-node IDC 4 samples (Table A11 says 4 patients, App. C.3 says 2) (Table A11). The GitHub README now states 1,276 samples, so the collection has kept growing after the paper (README, accessed 2026-10).
 
 ## Key results
 
@@ -55,7 +55,7 @@ HEST-1k (v2): 1,229 samples, 153 cohorts, 26 organs, two species (human, mouse);
 - **Multimodal fine-tuning**: CONCH-FT is trained on 47,051 patch–expression pairs (238 shared genes) from 5 Xenium breast cancer samples; on BCNB (1,058 WSIs) with mean pooling + logistic regression: ER AUC 0.881→0.884, PR AUC 0.810→0.818, HER2 AUC 0.715→0.724, but HER2 balanced accuracy drops 0.624→0.615; embedding rank 144.66→146.47 (Table 2).
 
 ## Contributions
-- The largest public paired ST + H&E WSI collection at the time (1,229 samples, 26 organs, 2 species), all re-aligned and reformatted (Abstract, §3).
+- A public paired ST + H&E WSI collection (1,229 samples, 26 organs, 2 species), all re-aligned and reformatted (Abstract, §3).
 - HEST-Library: tooling for legacy data (format conversion, automatic fiducial alignment, pixel-size inference, tissue segmentation, patching, metadata-filtered download, batch-effect visualisation plus ComBat/Harmony/MNN wrappers) (§4).
 - HEST-Benchmark: a patient-stratified expression-prediction benchmark with a fixed 50-gene panel per task, with results for 11 encoders under 3 readouts and scaling trends (§5, Fig. 2).
 
@@ -66,10 +66,10 @@ HEST-1k (v2): 1,229 samples, 153 cohorts, 26 organs, two species (human, mouse);
 - Authors: CONCH-FT used only 5 paired slides (§7); data are research-only, not for diagnosis (App. A).
 - Our reading: most tasks have only 2–4 patients and fold SDs of up to ~0.1 (Table 1), so model differences of ~0.5% are unlikely to be significant.
 - Our reading: the benchmark covers cancers only; its single kidney task is ccRCC (kidney cancer), not non-tumour kidney disease such as CKD/AKI.
-- Our reading: small inconsistencies — COAD is Visium in the text but Xenium in Table A11; Remedis is SimCLR in §5.2 but iBOT in Table A12. Check the code/metadata before relying on these.
+- Our reading: small inconsistencies — COAD is Visium in the text but Xenium in Table A11; Remedis is SimCLR in §5.2 but iBOT in Table A12; LYMPH-IDC has 4 patients in Table A11 but 2 in App. C.3; the nucleus class counts do not add up to the total (see Data). The GitHub README news of 30.08.24 ("New COAD task based on 4 Xenium samples") supports Xenium as in Table A11. Check the code/metadata before relying on these.
 
 ## Relation to our direction
-Our reading: HEST-1k is not an anomaly-detection paper; in detect → model → revert it is mainly a **data substrate for "model"** and a **cross-modal tool for "detect"**. (1) For Topic 1 (kidney single-cell / spatial anomaly detection): HEST's format (pyramidal TIFF + AnnData + spot-aligned patches) and alignment pipeline can be reused to organise the H&E + Xenium in our ~95-biopsy study; its 70 kidney samples, including the Lake atlas, can serve as external reference ("normal") data or an extra test set. (2) Expression-from-H&E is only moderately predictable (Pearson ~0.2–0.6), which matters for our hypothesis that cross-modal agreement separates artifacts from disease: a region where H&E-predicted and measured expression disagree could be a true molecular anomaly or just predictor error, so cross-modal disagreement must be calibrated against the normal-tissue prediction error for that tissue type before being used as an anomaly score. (3) The readout changes the ranking (Table A13), a reminder to fix and publish the feature/readout protocol in any anomaly benchmark. (4) No perturbation or reversion content.
+Our reading: HEST-1k is not an anomaly-detection paper; in detect → model → revert it is mainly a **data substrate for "model"** and a **cross-modal tool for "detect"**. (1) For Topic 1 (kidney single-cell / spatial anomaly detection): HEST's format (pyramidal TIFF + AnnData + spot-aligned patches) and alignment pipeline can be reused to organise H&E and spatial-omics data from the kidney samples to be tested; its 70 kidney samples, including the Lake atlas, can serve as external reference ("normal") data or an extra test set. (2) Expression-from-H&E is only moderately predictable (Pearson ~0.2–0.6), which matters for our hypothesis that cross-modal agreement separates artifacts from disease: a region where H&E-predicted and measured expression disagree could be a true molecular anomaly or just predictor error, so cross-modal disagreement must be calibrated against the normal-tissue prediction error for that tissue type before being used as an anomaly score. (3) The readout changes the ranking (Table A13), a reminder to fix and publish the feature/readout protocol in any anomaly benchmark. (4) No perturbation or reversion content.
 
 ## Reusable assets
 - **Code and benchmark**: HEST-Library and HEST-Benchmark (`pip install -e ".[benchmark]"`, tutorial `tutorials/4-Running-HEST-Benchmark.ipynb`) (README).
@@ -88,7 +88,7 @@ Our reading: HEST-1k is not an anomaly-detection paper; in detect → model → 
 ## Figures & tables
 
 ![HEST overview](figures/fig1.png)
-**Fig 1.** Overview of HEST (this image is from arXiv v1 and shows 1,108 samples; the v2 text reports 1,229): the HEST-1k dataset, HEST-Library functions, and three applications — foundation-model benchmarking, biomarker exploration, multimodal representation learning.
+**Fig 1.** Overview of HEST (this image is from arXiv v1 and all its panel numbers are v1 values, e.g. kidney n=45, 10 tasks, 9 patch encoders, species 573+535=1,108 samples; this note uses the v2 values: kidney 70, 9 tasks, 11 encoders, 1,229 samples): the HEST-1k dataset, HEST-Library functions, and three applications — foundation-model benchmarking, biomarker exploration, multimodal representation learning.
 _Source: https://arxiv.org/html/2406.16192v1/x1.png  ·  License: arXiv (open) / paper CC BY-NC-SA 4.0_
 
 ![Biomarker discovery](figures/fig2.png)
@@ -117,10 +117,13 @@ _Source: arXiv:2406.16192v2, Table 1 (bold re-marked by us from the values)._
 
 ## Cite
 ```bibtex
-@misc{Jaume2024_240616192,
+@inproceedings{Jaume2024_240616192,
   title = {HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis},
   author = {Guillaume Jaume and Paul Doucet and Andrew H. Song and Ming Y. Lu and Cristina Almagro-Pérez and Sophia J. Wagner and Anurag J. Vaidya and Richard J. Chen and Drew F. K. Williamson and Ahrong Kim and Faisal Mahmood},
+  booktitle = {Advances in Neural Information Processing Systems 37 (NeurIPS 2024), Datasets and Benchmarks Track},
+  pages = {53798--53833},
   year = {2024},
+  doi = {10.52202/079017-1704},
   eprint = {2406.16192},
   archivePrefix = {arXiv},
   url = {https://arxiv.org/abs/2406.16192}

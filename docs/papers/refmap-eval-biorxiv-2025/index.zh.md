@@ -38,7 +38,7 @@ MapQC(Theis 组)用健康参照 atlas 自身的**样本间差异作为零分布*
 - 只有两个案例(肺、子宫内膜),Z>2 阈值依赖近似高斯假设;预印本,未经同行评审。
 
 ## 与本研究方向的关系
-这篇是 **Plan A 最关键的「artifact vs 疾病」工具之一**,也是 Dann et al.(`healthy-ref-natgenet-2023`)ACR 设计的直接延续:mapQC 本质上是一个「以健康 atlas 为零分布的样本级异常分数」,> 2 就是异常——而本文最重要的贡献是指出**这个异常可能来自 batch / 环境 RNA / 解离应激 / doublet,而不一定是疾病**,并给出 control 检验来区分。Plan A 可以直接把院内 95 例活检的 snRNA 映射到 Lake 肾脏 atlas / KPMP 参照,用 mapQC 检查 control(如 KPMP 参照组织或院内正常组织)是否正常;本文 IPF 内皮簇的 artifact 基因清单(IGKC、IGHA1、FOSB、RPS4Y1)和 AS 低质量细胞特征(低 counts、低 MALAT1、双系共表达)可以直接成为 KidneyAnomalyBench 的 **artifact 类别**与负样本标签。与跨模态一致性结合:一个 snRNA 中 mapQC > 2 的群体,如果在 snATAC / Xenium 中找不到对应异常,就更可能是 artifact。对 **Plan B**:「已发表的疾病特异状态其实是 artifact」正是 claim-to-evidence 核查要抓的东西——agent 声称发现疾病状态时,verifier 应要求 mapQC 式的 control 检验证据;mapQC 的 Z 分数也是天然可校准的置信度信号,可作为 calibrated verifier 的输入特征。
+这篇是 **课题 1 最关键的「artifact vs 疾病」工具之一**,也是 Dann et al.(`healthy-ref-natgenet-2023`)ACR 设计的直接延续:mapQC 本质上是一个「以健康 atlas 为零分布的样本级异常分数」,> 2 就是异常——而本文最重要的贡献是指出**这个异常可能来自 batch / 环境 RNA / 解离应激 / doublet,而不一定是疾病**,并给出 control 检验来区分。课题 1 可以直接把待测肾样本的 snRNA 映射到 Lake 肾脏 atlas / KPMP 参照,用 mapQC 检查 control(如 KPMP 参照组织或其他正常肾组织)是否正常;本文 IPF 内皮簇的 artifact 基因清单(IGKC、IGHA1、FOSB、RPS4Y1)和 AS 低质量细胞特征(低 counts、低 MALAT1、双系共表达)可以直接成为 KidneyAnomalyBench 的 **artifact 类别**与负样本标签。与跨模态一致性结合:一个 snRNA 中 mapQC > 2 的群体,如果在 snATAC / Xenium 中找不到对应异常,就更可能是 artifact。对 **课题 2**:「已发表的疾病特异状态其实是 artifact」正是 claim-to-evidence 核查要抓的东西——agent 声称发现疾病状态时,verifier 应要求 mapQC 式的 control 检验证据;mapQC 的 Z 分数也是天然可校准的置信度信号,可作为 calibrated verifier 的输入特征。
 
 ## 可复用资产
 - **mapQC 软件包**:

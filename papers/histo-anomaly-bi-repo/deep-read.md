@@ -1,8 +1,8 @@
 # Boehringer-Ingelheim/anomaly-detection-in-histology
 
-> **Bibkey** `histo-anomaly-bi-repo` · **Venue** GitHub (2022) · **Category** histopath · **Relevance** medium · **Access** open
+> **Bibkey** `Zingman2024_anomaly_histology` · **Venue** GitHub (2022) · **Category** histopath · **Relevance** medium · **Access** open
 > **Link** <https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology>
-> `status: complete` — 本页只基于仓库 README 及其中两张图(`docs/Scheme_extended.png`、`docs/tox_pattern.png`),未精读配套论文。/ Based only on the repository README and its two figures; the companion paper was not read here.
+> `status: complete` — 本页主要基于仓库 README 及其中两张图(`docs/Scheme_extended.png`、`docs/tox_pattern.png`);个别方法细节另外对照了仓库代码(`configs/`、`models/pretrained_networks.py`)和配套论文 arXiv:2210.07675,已在文中注明。论文未全文精读。/ Based mainly on the repository README and its two figures; a few method details were checked against the repo code (`configs/`, `models/pretrained_networks.py`) and the companion paper arXiv:2210.07675, as marked in the text. The paper was not read in full.
 
 ---
 
@@ -22,15 +22,15 @@
 <!-- EN --> In the README's words, the paper develops anomaly detection for whole-slide images (WSIs) of stained tissue in order to **routinely screen** histopathology data for abnormal alterations (README intro). The setting is toxicity assessment in drug development: after dosing, pathologists must find compound-induced tissue changes (README figure caption). Our reading: such changes are diverse and not known in advance, so labelling each kind is impractical, which is why learning only "normal" is attractive.
 
 ## 方法 / Method
-<!-- ZH --> 1. **输入**:健康组织图块,来自小鼠(脑、心、肾、肝、肺、胰、脾)和大鼠(肝),每种都有 H&E 和 Masson 三色(Masson's Trichrome,一种把胶原纤维染成蓝/绿色的染色)两个版本(README 数据目录结构)。
-<!-- ZH --> 2. **第 1 步 表征学习**:CNN 编码器做辅助分类,类别是"物种 + 器官 + 染色"组合(如 Mouse, liver, H&E);训练时用 class mix-up 颜色增强;损失 = 交叉熵 + λ·center-loss,使每类特征聚成紧致的簇(README 图 Scheme_extended A)。按染色分别训练(`configs/cfg_training_cnn.py` 中 `data_staining` = `HE` 或 `Masson`)(README Training)。
-<!-- ZH --> 3. **骨干**:预训练模型文件名为 `EfficientNet_B0_320_...`,即 EfficientNet-B0(我们的理解:320 应是输入尺寸,README 未明说)(README)。
+<!-- ZH --> 1. **输入**:健康组织图块,来自小鼠(脑、心、肾、肝、肺、胰、脾)和大鼠(肝),每种都有 H&E 和 Masson 三色(Masson's Trichrome,一种特殊染色;论文 Fig. 6B 的说明中,纤维化在这种染色下呈蓝色)两个版本(README 数据目录结构)。
+<!-- ZH --> 2. **第 1 步 表征学习**:CNN 编码器做辅助分类,类别是"物种 + 器官 + 染色"组合(如 Mouse, liver, H&E);训练时用 class mix-up 颜色增强;损失 = 交叉熵 + λ·center-loss(README 图 Scheme_extended A)。README 的图画的是"各类特征形成紧致簇",但论文和代码中 center-loss 只作用于目标类(如小鼠肝 + 某一种染色),让这一类更紧致;论文也试过对所有类加 center-loss,效果不如只对目标类(论文 Sec. 4.5.4 / Table 6;`configs/cfg_training_cnn.py` 中 `centerloss_classes`)。每种目标染色各出一个模型(`data_staining` = `HE` 或 `Masson`,README Training),但每个 CNN 的辅助分类都用全部 16 个类别(两种染色都在内);`data_staining` 只决定 center-loss 的目标类和 one-class SVM 的训练图块(`configs/cfg_training_cnn.py`;论文 Sec. 4.3)。
+<!-- ZH --> 3. **骨干**:EfficientNet-B0(ImageNet 预训练),去掉最后一个 stage,输出 320 维特征向量;文件名 `EfficientNet_B0_320_...` 中的 320 指这个特征维度,不是输入尺寸(论文 Sec. 3.1.3;`models/pretrained_networks.py` 中 `n_features = 320`)。输入图块为 256×256 像素、0.442 µm/像素(论文 Sec. 4.2;`patch_size = (256, 256)`)。
 <!-- ZH --> 4. **第 2 步 one-class 分类器**:冻结编码器,用目标类别(如小鼠肝)健康图块的特征训练 one-class SVM,在特征空间围出"正常"区域(README 图 B;`anomaly_detector.py`)。
 <!-- ZH --> 5. **推理**:WSI 切成图块 → 冻结 CNN 提特征 → 冻结 one-class SVM 给出异常分 α → α > t 判为异常,在整张切片上标出异常图块(README 图 C)。
 <!-- ZH --> 6. **评估**:在 NAFLD 测试集上报告平衡准确率、AU-ROC、F1;README 还说明了如何在同一数据上跑 Anomalib 中的方法和 DPA 作对比(README Evaluation)。
-<!-- EN --> 1. **Input**: healthy tissue tiles from mouse (brain, heart, kidney, liver, lung, pancreas, spleen) and rat (liver), each in H&E and Masson's Trichrome (a stain that colours collagen fibres blue/green) (README data folder tree).
-<!-- EN --> 2. **Step 1, representation learning**: a CNN encoder solves an auxiliary classification over species + organ + stain categories (e.g. Mouse, liver, H&E), with class mix-up colour augmentation and loss = cross-entropy + λ·center-loss, which yields compact per-class feature clusters (README figure Scheme_extended A). One model per stain (`data_staining` = `HE` or `Masson` in `configs/cfg_training_cnn.py`) (README Training).
-<!-- EN --> 3. **Backbone**: pretrained files are named `EfficientNet_B0_320_...`, i.e. EfficientNet-B0 (our reading: 320 is likely the input size; the README does not say) (README).
+<!-- EN --> 1. **Input**: healthy tissue tiles from mouse (brain, heart, kidney, liver, lung, pancreas, spleen) and rat (liver), each in H&E and Masson's Trichrome (a special stain; in the paper's Fig. 6B text, fibrosis appears blue in this stain) (README data folder tree).
+<!-- EN --> 2. **Step 1, representation learning**: a CNN encoder solves an auxiliary classification over species + organ + stain categories (e.g. Mouse, liver, H&E), with class mix-up colour augmentation and loss = cross-entropy + λ·center-loss (README figure Scheme_extended A). The README figure draws compact clusters for every class, but in the paper and code the center-loss acts only on the target class (e.g. mouse liver in one stain), making that class compact; applying it to all classes was tested and was worse (paper Sec. 4.5.4 / Table 6; `centerloss_classes` in `configs/cfg_training_cnn.py`). There is one model per target stain (`data_staining` = `HE` or `Masson`, README Training), but each CNN's auxiliary classifier is trained on all 16 categories, both stains included; `data_staining` only selects the center-loss target class and the one-class SVM's training tiles (`configs/cfg_training_cnn.py`; paper Sec. 4.3).
+<!-- EN --> 3. **Backbone**: EfficientNet-B0 (ImageNet-pretrained) with its last stage removed, giving a 320-dimensional feature vector; the 320 in the filename `EfficientNet_B0_320_...` is this feature dimension, not the input size (paper Sec. 3.1.3; `n_features = 320` in `models/pretrained_networks.py`). Input tiles are 256×256 px at 0.442 µm/px (paper Sec. 4.2; `patch_size = (256, 256)`).
 <!-- EN --> 4. **Step 2, one-class classifier**: with the encoder frozen, a one-class SVM is fit on features of healthy tiles of the target category (e.g. mouse liver), enclosing the "normal" region of feature space (README figure B; `anomaly_detector.py`).
 <!-- EN --> 5. **Inference**: WSI → tiles → frozen CNN features → frozen one-class SVM score α → anomaly if α > t, giving a map of abnormal tiles over the slide (README figure C).
 <!-- EN --> 6. **Evaluation**: balanced accuracy, AU-ROC and F1 on the NAFLD test set; the README also explains how to run Anomalib methods and DPA on the same data for comparison (README Evaluation).
@@ -48,12 +48,12 @@ flowchart LR
 ```
 
 ## 数据 / Data
-<!-- ZH --> 全部在 OSF(<https://osf.io/gqutd/>)。**训练集**(`data/train/`):16 个文件夹 = 小鼠 7 个器官 × 2 种染色 + 大鼠肝 × 2 种染色,只含正常组织。**评测集**(`data/test/`):正常小鼠肝 vs NAFLD 小鼠肝,H&E 与 Masson 各一套。另有 `trained models/` 文件夹放预训练 CNN 和 one-class SVM(README "Setting up dataset")。README 没有给出图块数量或切片数量。
-<!-- EN --> Everything is on OSF (<https://osf.io/gqutd/>). **Training** (`data/train/`): 16 folders = 7 mouse organs × 2 stains + rat liver × 2 stains, normal tissue only. **Evaluation** (`data/test/`): normal vs NAFLD mouse liver, one set each for H&E and Masson. A `trained models/` folder holds the pretrained CNNs and one-class SVMs (README "Setting up dataset"). The README gives no tile or slide counts.
+<!-- ZH --> 全部在 OSF(<https://osf.io/gqutd/>)。**训练集**(`data/train/`):16 个文件夹 = 小鼠 7 个器官 × 2 种染色 + 大鼠肝 × 2 种染色,只含正常组织。**评测集**(`data/test/`):正常小鼠肝 vs NAFLD 小鼠肝,H&E 与 Masson 各一套。另有 `trained models/` 文件夹放预训练 CNN 和 one-class SVM(README "Setting up dataset")。README 没有给出图块数量或切片数量;论文给出:辅助任务每个类别约 7000 个图块(共 16 类),one-class 分类器用的健康小鼠肝图块来自 204 张(Masson)和 347 张(H&E)WSI(论文 Sec. 4.2、4.4)。
+<!-- EN --> Everything is on OSF (<https://osf.io/gqutd/>). **Training** (`data/train/`): 16 folders = 7 mouse organs × 2 stains + rat liver × 2 stains, normal tissue only. **Evaluation** (`data/test/`): normal vs NAFLD mouse liver, one set each for H&E and Masson. A `trained models/` folder holds the pretrained CNNs and one-class SVMs (README "Setting up dataset"). The README gives no tile or slide counts; the paper gives about 7000 tiles per category (16 categories) for the auxiliary task, and healthy mouse-liver tiles for the one-class classifier from 204 (Masson) and 347 (H&E) WSIs (paper Sec. 4.2, 4.4).
 
 ## 主要结果 / Key results
-<!-- ZH --> README 只给出一个结果表("Expected performance of anomaly detection with BIHN models")和一个应用示例图;论文中的基线对比和消融未在此核对。
-<!-- EN --> The README gives one results table ("Expected performance of anomaly detection with BIHN models") and one application figure; baseline comparisons and ablations in the paper were not checked here.
+<!-- ZH --> README 只给出一个结果表("Expected performance of anomaly detection with BIHN models")和一个应用示例图。论文摘要称:该方法在一个已公开的肝脏异常数据集上优于现有的异常检测方法,并与专门为肝脏异常定量设计的常规方法结果相当(arXiv 摘要);具体基线数值本页未核对。
+<!-- EN --> The README gives one results table ("Expected performance of anomaly detection with BIHN models") and one application figure. The paper's abstract says the system outperforms established AD methods on a published dataset of liver anomalies and gives results comparable to conventional methods tailored for quantifying liver anomalies (arXiv abstract); the baseline numbers were not checked here.
 - <!-- ZH --> **H&E**:平衡准确率 94.20%、AU-ROC 97.33%、F1 94.09%(README 表)。 <!-- EN --> **H&E**: balanced accuracy 94.20%, AU-ROC 97.33%, F1 94.09% (README table).
 - <!-- ZH --> **Masson 三色**:平衡准确率 97.51%、AU-ROC 99.03%、F1 97.51%(README 表)。 <!-- EN --> **Masson's Trichrome**: balanced accuracy 97.51%, AU-ROC 99.03%, F1 97.51% (README table).
 - <!-- ZH --> **毒性筛查示例**:小鼠肝中"异常图块比例"随实验化合物剂量(对照 / 低 / 中 / 高)升高,星号表示与对照组均值相比有统计显著差异;对照组中血液等非病理结构造成少量假阳性;处理组中的检出经病理学家确认为病理改变(README 图 tox_pattern A–B)。 <!-- EN --> **Toxicity example**: in mouse liver the fraction of abnormal tiles rises with compound dose (control / low / mid / high), stars mark significance vs the control mean; in controls, blood and a few other non-pathological structures cause some false positives; detections in treated groups were confirmed as pathological by a pathologist (README figure tox_pattern A–B).
@@ -61,7 +61,7 @@ flowchart LR
 
 ## 创新点 / Contributions
 - <!-- ZH --> 用"物种-器官-染色"这样的现成类别做辅助任务来学适合异常检测的表征,而不是用病变标注(README 图 A)。 <!-- EN --> Uses readily available species-organ-stain categories as an auxiliary task to learn anomaly-friendly representations, instead of lesion labels (README figure A).
-- <!-- ZH --> center-loss 让同类特征更紧致,再接 one-class SVM(README 图 A–B)。 <!-- EN --> Center-loss makes same-class features compact, followed by a one-class SVM (README figures A–B).
+- <!-- ZH --> center-loss 让目标类特征更紧致,再接 one-class SVM(README 图 A–B);去掉 center-loss 后性能下降 3.4%(论文 Sec. 4.5.4,Table 6)。 <!-- EN --> Center-loss makes the target-class features compact, followed by a one-class SVM (README figures A–B); removing center-loss lowers performance by 3.4% (paper Sec. 4.5.4, Table 6).
 - <!-- ZH --> 公开了带 NAFLD 病变的评测数据集、训练数据和预训练模型,并给出与 Anomalib、DPA 对比的说明(README)。 <!-- EN --> Releases an evaluation dataset with NAFLD pathology, the training data and pretrained models, plus instructions for comparing against Anomalib and DPA (README).
 - <!-- ZH --> 第三方评价:Dippel et al. 2024(本库 `histo-nejmai-2024`,App. A.3)指出该工作同样用到其他组织类型(肝、脑、肾、心、肺、胰、脾),但用它们来优化表征后再接 one-class 分类器,与 Outlier Exposure 不同。 <!-- EN --> Third-party view: Dippel et al. 2024 (this library's `histo-nejmai-2024`, App. A.3) notes that this work also uses other tissue types (liver, brain, kidney, heart, lung, pancreas, spleen), but to optimise representations followed by a one-class classifier, which differs from Outlier Exposure.
 
@@ -70,7 +70,7 @@ flowchart LR
 - <!-- ZH --> 只有啮齿类动物、两种染色;没有人类组织。 <!-- EN --> Rodents and two stains only; no human tissue.
 - <!-- ZH --> 我们的理解:输出是图块级的"是否异常",没有类型、严重程度或分子层面的解释。 <!-- EN --> Our reading: the output is a tile-level abnormal / normal call, with no type, severity or molecular explanation.
 - <!-- ZH --> 我们的理解:对照组中血液等结构会被判为异常(README 图注),说明"正常"训练集如果没覆盖某些正常结构就会产生假阳性。 <!-- EN --> Our reading: blood and similar structures are flagged in controls (README caption), i.e. any normal structure missing from the healthy training set becomes a false positive.
-- <!-- ZH --> 本页未读配套论文,论文中的基线对比、消融、数据规模均未核实。 <!-- EN --> The companion paper was not read here; its baselines, ablations and data sizes are unverified.
+- <!-- ZH --> 本页未全文精读配套论文,论文中的基线数值和大部分消融未核实。 <!-- EN --> The companion paper was not read in full here; its baseline numbers and most ablations are unverified.
 
 ## 与本研究方向的关系 / Relation to our direction
 <!-- ZH --> 这是 pipeline 第一环(detect)在**药物扰动**场景下的直接例子:只学健康组织,找出药物造成的改变,并能看到剂量-反应关系——正好是"检测因疾病或药物扰动而改变的区域"。我们的理解:对课题 1 有三点用处。(1) 训练集含小鼠肾(H&E 与 Masson),公开的 CNN 可直接作为肾脏切片的特征提取器,搭一个"冻结特征 + one-class SVM"的弱基线;(2) "用元数据类别(物种 / 器官 / 染色)做辅助任务"可以类比到组学:用供体、组织部位、测序批次等现成标签学表征,再在健康参考上做 one-class;(3) "异常图块比例随剂量上升"是一种不需要逐区域标注的验证方式,可用于有剂量或疾病分期梯度的肾脏数据。第二、三环(virtual tissue、revert)不涉及。
@@ -83,14 +83,14 @@ flowchart LR
 - <!-- ZH --> **对比基线说明**:README 给出在 NAFLD 数据上运行 Anomalib(<https://github.com/openvinotoolkit/anomalib>)和 DPA(<https://github.com/ninatu/anomaly_detection>)的配置方法。 <!-- EN --> **Baseline instructions**: the README explains how to run Anomalib (<https://github.com/openvinotoolkit/anomalib>) and DPA (<https://github.com/ninatu/anomaly_detection>) on the NAFLD data.
 
 ## 待读 / Follow-ups
-- <!-- ZH --> 精读配套论文:Zingman I, Stierstorfer B, Lempp C, Heinemann F. *Medical Image Analysis* 92:103067 (2024),DOI 10.1016/j.media.2023.103067,arXiv:2210.07675——核对基线、消融和数据规模。 <!-- EN --> Read the companion paper: Zingman I, Stierstorfer B, Lempp C, Heinemann F. *Medical Image Analysis* 92:103067 (2024), DOI 10.1016/j.media.2023.103067, arXiv:2210.07675 — check baselines, ablations and data sizes.
+- <!-- ZH --> 精读配套论文:Zingman I, Stierstorfer B, Lempp C, Heinemann F. *Medical Image Analysis* 92:103067 (2024),DOI 10.1016/j.media.2023.103067,arXiv:2210.07675——核对基线数值和消融。 <!-- EN --> Read the companion paper: Zingman I, Stierstorfer B, Lempp C, Heinemann F. *Medical Image Analysis* 92:103067 (2024), DOI 10.1016/j.media.2023.103067, arXiv:2210.07675 — check baseline numbers and ablations.
 - <!-- ZH --> 在小鼠肾或人肾 H&E 上试用公开的 BIHN CNN 作为特征提取器,与病理基础模型(如 CTransPath)对比。 <!-- EN --> Try the public BIHN CNN as a feature extractor on mouse or human kidney H&E and compare with a pathology foundation model such as CTransPath.
 
 ## 图表 / Figures & tables
 
 ![Method overview](figures/fig1.png)
-<!-- ZH --> **图1.** 方法总览。**A(训练第 1 步)**:在健康组织(多种物种 / 器官 / 染色类别)上用辅助分类任务训练 CNN 编码器,配合 class mix-up 颜色增强,损失为交叉熵 + center-loss(𝓛=𝓛_CE+λ𝓛_CL),使各类特征形成紧致簇。**B(训练第 2 步)**:冻结编码器,在目标类别健康组织的特征上训练 one-class SVM,在特征空间划出"正常"边界。**C(推理)**:全切片切成图块 → 冻结 CNN 提特征 → 冻结 one-class SVM 输出异常分 α → 阈值判定(α>t 为异常),在整张 WSI 上标出检出的异常区域。
-<!-- EN --> **Fig 1.** Method overview. **A (Training step 1):** a CNN encoder is trained on healthy tissue (many species/organ/stain categories) via an auxiliary classification task with class mix-up colour augmentation; the loss is cross-entropy + center-loss (𝓛=𝓛_CE+λ𝓛_CL), producing compact feature clusters per category. **B (Training step 2):** with the encoder frozen, a one-class SVM is fit on features of the target-category healthy tissue, drawing a "normal" boundary in feature space. **C (Inference):** a whole-slide scan is tiled → frozen CNN features → frozen one-class SVM emits anomaly score α → threshold decision (α>t ⇒ anomaly), yielding a WSI map of detected anomalies.
+<!-- ZH --> **图1.** 方法总览。**A(训练第 1 步)**:在健康组织(多种物种 / 器官 / 染色类别)上用辅助分类任务训练 CNN 编码器,配合 class mix-up 颜色增强,损失为交叉熵 + center-loss(𝓛=𝓛_CE+λ𝓛_CL);图中画的是各类特征形成紧致簇(论文最终设置只对目标类加 center-loss,见上文方法)。**B(训练第 2 步)**:冻结编码器,在目标类别健康组织的特征上训练 one-class SVM,在特征空间划出"正常"边界。**C(推理)**:全切片切成图块 → 冻结 CNN 提特征 → 冻结 one-class SVM 输出异常分 α → 阈值判定(α>t 为异常),在整张 WSI 上标出检出的异常区域。
+<!-- EN --> **Fig 1.** Method overview. **A (Training step 1):** a CNN encoder is trained on healthy tissue (many species/organ/stain categories) via an auxiliary classification task with class mix-up colour augmentation; the loss is cross-entropy + center-loss (𝓛=𝓛_CE+λ𝓛_CL); the figure shows compact clusters per category (the paper's final setting applies center-loss to the target class only; see Method). **B (Training step 2):** with the encoder frozen, a one-class SVM is fit on features of the target-category healthy tissue, drawing a "normal" boundary in feature space. **C (Inference):** a whole-slide scan is tiled → frozen CNN features → frozen one-class SVM emits anomaly score α → threshold decision (α>t ⇒ anomaly), yielding a WSI map of detected anomalies.
 <!-- ZH/EN --> _Source: https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology/blob/master/docs/Scheme_extended.png  ·  License: MIT (repo) / arXiv:2210.07675_
 
 ![Detected anomalies](figures/fig2.png)
@@ -119,6 +119,8 @@ flowchart LR
   volume = {92},
   pages = {103067},
   year = {2024},
-  doi = {10.1016/j.media.2023.103067}
+  doi = {10.1016/j.media.2023.103067},
+  note = {Code: https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology; preprint arXiv:2210.07675},
+  url = {https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology}
 }
 ```

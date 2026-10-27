@@ -539,8 +539,8 @@
   zh: 间质纤维化
   de: Interstitielle Fibrose
   domain: nephrology-clinical
-  def_en: "Scar-tissue accumulation between the functional units of an organ, scored routinely on H&E as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks."
-  def_zh: "器官功能单位之间瘢痕组织的堆积,常规在 H&E 上评分作为粗略的预后标志,也是「检出病变区域」类任务的经典目标。"
-  def_de: "Ansammlung von Narbengewebe zwischen den funktionellen Einheiten eines Organs; wird routinemäßig im H&E-Schnitt als grober prognostischer Marker bewertet und ist das klassische Ziel von „Erkenne die erkrankte Region“-Aufgaben."
+  def_en: "Scar-tissue accumulation between the functional units of an organ, scored routinely on kidney biopsies (read on several stains such as H&E, PAS and trichrome) as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks."
+  def_zh: "器官功能单位之间瘢痕组织的堆积,常规在肾活检上评分(结合 H&E、PAS、三色染色等多种染色)作为粗略的预后标志,也是「检出病变区域」类任务的经典目标。"
+  def_de: "Ansammlung von Narbengewebe zwischen den funktionellen Einheiten eines Organs; wird routinemäßig an Nierenbiopsien (anhand mehrerer Färbungen wie H&E, PAS und Trichrom) als grober prognostischer Marker bewertet und ist das klassische Ziel von „Erkenne die erkrankte Region“-Aufgaben."
   tags: [clinical, histology, nephrology]
   seen_in: [pathomics-npjpo-2026, spatial-natcommun-2024]

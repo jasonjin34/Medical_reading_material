@@ -8,35 +8,35 @@
 <!-- ZH -->
 **一个看起来异常的细胞，是病造成的，还是测量造成的？**
 
-肾脏单细胞和单核数据里，有些细胞和健康组织对不上。它可能真的病了，也可能是测量过程造成的（doublet、ambient RNA、低质量细胞、取样或消化时的应激），而这两种情况看起来很像。现有方法会把两者都标成"异常"，但还没有一个带已知答案的数据集，能检验它们分不分得清、误报有多少。所以，建立在这些"异常细胞"之上的发现到底有多可信，现在说不清。
+肾脏单细胞和单核数据里，有些细胞和健康组织对不上。它可能真的病了，也可能是测量过程造成的（doublet、ambient RNA、低质量细胞、取样或消化时的应激），而这两种情况看起来很像。我们的理解（截至 2026 年 10 月）：现有方法会把两者都标成"异常"，而我们没找到一个带已知答案的数据集，能检验它们分不分得清、误报有多少。所以，建立在这些"异常细胞"之上的发现到底有多可信，现在说不清。
 <!-- EN -->
 **Is an abnormal-looking cell caused by disease, or by measurement?**
 
-In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Current methods flag both as "anomalous", but no dataset with known answers exists to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
+In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Our reading (as of 2026-10): current methods flag both as "anomalous", and we found no dataset with known answers to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
 
 ## 为什么重要 / Why it matters
 
 <!-- ZH -->
-- **测量问题造出过假的生物学结论。**在人脑单核数据里，一个被注释为"未成熟少突胶质细胞"的群，后来发现是被神经元 ambient RNA 污染的胶质细胞。doublet 会制造样本里并不存在的"中间状态"。
-- **肾脏数据尤其容易受影响。**小鼠肾的混合品系实验里，单核样本的背景污染明显高于配对的单细胞样本（[Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md)：35% 对 11%、17% 对 3%）。而单核正是肾脏活检最常用的测法。
-- **病和测量的信号本来就重叠。**Lake 2023 挑候选损伤状态时，部分依据是"基因少、线粒体转录多"，这也是低质量细胞的典型特征（我们的解读）；健康参考组织里也有 altered 状态，作者认为可能来自取样缺血或正常衰老（[Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)）。我们自己从 GEO 标签表里也数到：单核数据里健康人有 26% 的核是 altered。
+- **测量问题造出过假的生物学结论。**在人脑单核数据里，以前被注释为"未成熟少突胶质细胞"的核，后来发现是被神经元 ambient RNA 污染的胶质细胞（[Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)）。
+- **肾脏单核数据的背景污染可以很高。**小鼠肾的混合品系实验里，用冷冻组织做的单核样本，背景污染明显高于来自同一批样本的单细胞样本（[Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md)：35% 对 11%、17% 对 3%）。冷冻的肾活检只能做单核（[Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md)："snRNA, but not scRNA, can be performed from frozen tissue"）。
+- **病和测量的信号本来就重叠。**Lake 2023 挑候选损伤状态时，部分依据是"基因少、线粒体转录多"，这也是低质量细胞的典型特征（我们的解读）；健康参考组织里也有 altered 状态，作者认为可能来自取样缺血或正常衰老（[Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)）。我们自己从 GEO 标签表里也数到：单核数据里健康人有 26% 的核是 altered（88,460 个健康人核里的 22,774 个）。
 <!-- EN -->
-- **Measurement effects have produced false biology.** In human brain single-nucleus data, a population annotated as "immature oligodendrocytes" turned out to be glia contaminated with neuronal ambient RNA, and doublets create "intermediate states" that do not exist in the sample.
-- **Kidney data are especially exposed.** In mixed-strain mouse kidney, background contamination was clearly higher in single-nucleus than in matched single-cell samples ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md): 35% vs 11%, 17% vs 3%), and single-nucleus is the usual assay for kidney biopsies.
-- **Disease and measurement signals overlap.** Lake 2023 picked candidate injury states partly by few genes detected and many mitochondrial transcripts, which are also the usual signs of a low-quality cell (our reading); altered states also occur in healthy reference tissue, which the authors attribute possibly to ischaemia during acquisition or normal ageing ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)). From the GEO label table we counted that 26% of nuclei from healthy donors are altered.
+- **Measurement effects have produced false biology.** In human brain single-nucleus data, nuclei previously annotated as "immature oligodendrocytes" turned out to be glia contaminated with neuronal ambient RNA ([Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)).
+- **Background contamination in kidney single-nucleus data can be high.** In mixed-strain mouse kidney, single-nucleus samples made from frozen tissue had clearly more background contamination than single-cell samples from the same material ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md): 35% vs 11%, 17% vs 3%). Frozen kidney biopsies can only be profiled by single-nucleus ([Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md): "snRNA, but not scRNA, can be performed from frozen tissue").
+- **Disease and measurement signals overlap.** Lake 2023 picked candidate injury states partly by few genes detected and many mitochondrial transcripts, which are also the usual signs of a low-quality cell (our reading); altered states also occur in healthy reference tissue, which the authors attribute possibly to ischaemia during acquisition or normal ageing ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)). From the GEO label table we counted that 26% of nuclei from healthy donors are altered (22,774 of 88,460).
 
 ## 为什么还没解决 / Why it is unsolved
 
 <!-- ZH -->
-- **伪影基准没有"病"这一维。**doublet 和 ambient 各有自己的基准（如 [ambient 去除基准](../papers/ambient-rna-bench-biorxiv-2026/index.md)），但每个只管一种伪影，不含疾病状态。
-- **找疾病状态的方法不区分伪影。**用健康参考找"改变的细胞状态"的方法（如 [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)）目标是找疾病状态，本身不判断报出来的细胞是不是伪影。
-- **没有误报控制。**常见的注释流程不给统计保证；conformal 方法能界定误报率（[Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)、[单细胞 conformal](../papers/conformal-scrna-bioinformatics-2025/index.md)），但还没在肾脏数据上系统检验过。
-- **没有测试平台。**通用异常检测基准里没有单细胞或组学表达数据；我们没找到肾脏组学的异常检测基准（2026 年 10 月检索）。
+- **伪影基准没有"病"这一维。**我们的理解（截至 2026 年 10 月）：doublet 和 ambient 各有自己的基准，我们找到的每个只管一种伪影，不含疾病状态。例如 [ambient 去除基准](../papers/ambient-rna-bench-biorxiv-2026/index.md) 用的是模拟数据、物种混合和基因型混合实验。
+- **找疾病状态的方法不区分伪影。**用健康参考找"改变的细胞状态"的方法（如 [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)）目标是找疾病状态；我们的理解：方法本身不判断报出来的细胞是不是伪影。doublet 和低质量细胞只在预处理时去掉（去掉一个疑似 doublet 的簇、只保留至少 1,000 个分子的细胞），没有 ambient 的处理；作者提醒的技术性误报来源是残余批次效应（Extended Data Fig. 7b,c）。
+- **没有误报控制。**现有注释流程里，带"拒判"选项的那些通常也只靠人为设定的条件，不给统计保证（[单细胞 conformal](../papers/conformal-scrna-bioinformatics-2025/index.md)："do not provide statistical guarantees"）；conformal 方法能界定误报率（[Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)），但前提是参考和查询数据可交换：单细胞 conformal 那篇里，查询来自肺肿瘤病人时，误报率保证就不成立了。我们的理解（截至 2026 年 10 月）：还没有人在肾脏数据上系统检验过。
+- **没有测试平台。**我们的理解（截至 2026 年 10 月）：我们看过的通用异常检测基准里没有单细胞表达数据，也没找到肾脏组学的异常检测基准。
 <!-- EN -->
-- **Artifact benchmarks have no disease axis.** Doublets and ambient RNA have their own benchmarks (for example the [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md)), but each covers one artifact and no disease states.
-- **Disease-state detection does not separate artifacts.** Methods that find altered cell states against a healthy reference (for example [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)) aim at disease states and do not judge whether a flagged cell is an artifact.
-- **There is no error control.** Common annotation pipelines give no statistical guarantee; conformal methods can bound the false-alarm rate ([Bates 2023](../papers/conformal-outliers-annstat-2023/index.md), [conformal for single-cell](../papers/conformal-scrna-bioinformatics-2025/index.md)) but have not been tested systematically on kidney data.
-- **There is no test bed.** General anomaly-detection benchmarks contain no single-cell or omics expression data, and we found no anomaly-detection benchmark for kidney omics (search, October 2026).
+- **Artifact benchmarks have no disease axis.** Our reading (as of 2026-10): doublets and ambient RNA have their own benchmarks, and each one we found covers one artifact and no disease states. For example, the [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) uses simulated data, species-mixing and genotype-mixing experiments.
+- **Disease-state detection does not separate artifacts.** Methods that find altered cell states against a healthy reference (for example [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)) aim at disease states. Our reading: the method itself does not judge whether a flagged cell is an artifact. Doublets and low-quality cells are only removed in preprocessing (one suspected doublet cluster dropped, only cells with at least 1,000 molecules kept), with no ambient-RNA step; the technical source of false positives the authors warn about is residual batch effects (Extended Data Fig. 7b,c).
+- **There is no error control.** Annotation pipelines that offer a reject option usually rely on arbitrary assumptions and give no statistical guarantee ([conformal for single-cell](../papers/conformal-scrna-bioinformatics-2025/index.md): they "do not provide statistical guarantees"). Conformal methods can bound the false-alarm rate ([Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)), but only when reference and query are exchangeable: in the single-cell conformal paper, the false-alarm guarantee failed when the query came from lung-tumour patients. Our reading (as of 2026-10): this has not been tested systematically on kidney data.
+- **There is no test bed.** Our reading (as of 2026-10): the general anomaly-detection benchmarks we looked at contain no single-cell expression data, and we found no anomaly-detection benchmark for kidney omics.
 
 ## 要做出什么 / What we will produce
 
@@ -65,11 +65,11 @@ Public kidney data only: human first, mouse only for calibration. What each data
 | Dataset / 数据 | Answers / 提供哪一边 | Role / 在基准里干什么 |
 |---|---|---|
 | [Lake 2023](../datasets/lake-2023.md) | disease / 病 | healthy reference + disease-state labels / 健康参考 + 疾病状态标签 |
-| [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement / 测量 | same donors measured by three assays: any "anomaly" between them is a false alarm / 同一人三种测法，之间报出的"异常"一定是误报 |
+| [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement / 测量 | 11 of 18 donors measured by two or three assays (3 have all three; cellxgene file): an "anomaly" flagged only between assays of the same donor is treated as a false alarm (our design choice; tissue pieces and preservation also differ) / 18 名供体里有 11 人用两到三种方法测过（3 人三种都有；cellxgene 文件）：同一人只因换测法报出的"异常"按误报处理（这是我们的设定；组织块和保存方式也不同） |
 | [Abedini 2024](../datasets/abedini-2024.md) | disease / 病 | second lab and cohort: do false alarms stay under control? / 换实验室、换一批人，误报能不能控住 |
 | [Janssen 2023](../datasets/janssen-2023.md) | measurement / 测量 | mouse; real ambient measured by genotype, used to calibrate injection / 小鼠；按基因型测出的真实 ambient，用来校准注入 |
 | [Hoeft 2024](../datasets/hoeft-2024.md) | measurement / 测量 | under discussion: real human-kidney doublets and ambient from pooled donors / 讨论中：多人混样得到的真实人肾 doublet 和 ambient |
-| [Lake 2019](../datasets/lake-2019.md) | measurement / 测量 | under discussion: same patients, different storage and processing / 讨论中：同一病人、不同保存和处理方式 |
+| [Lake 2019](../datasets/lake-2019.md) | measurement / 测量 | under discussion: tissue from the same person kept and processed in different ways / 讨论中：同一个人的组织，用不同方式保存和处理 |
 
 <!-- ZH -->
 **划分：**按供体划分，不按细胞，同一个人不会同时出现在训练和测试里；划分文件随数据集一起发布。
@@ -89,14 +89,14 @@ Ground truth comes in three tiers: **tier 1** is artifacts we inject ourselves, 
 | T2 | find measurement errors / 找出测量错误 | tier 1 / 一级 | AUROC, AUPRC |
 | T2b | is an assay change flagged as anomalous? / 换测法会不会被当成异常 | tier 2 / 二级 | false-alarm rate ≤ α / 误报率 ≤ α |
 | T3 | separate disease from measurement / 分清病和测量错误 | tiers 1–3 / 一到三级 | macro-F1, confusion matrix / 宏平均 F1、混淆矩阵 |
-| T4 | do false alarms stay controlled in a new lab? / 换实验室后误报控不控得住 | every call on healthy donors is false / 健康人身上报出的全算误报 | observed rate vs α / 实际误报率 vs 设定的 α |
+| T4 | do false alarms stay controlled in a new lab? / 换实验室后误报控不控得住 | every call on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, see above) / 健康人身上报出的都按误报算（这是我们的设定；健康组织里也有 altered 细胞，见上文） | observed rate vs α / 实际误报率 vs 设定的 α |
 
 <!-- ZH -->
 !!! warning "已知的坑"
-    直接拿 Lake 的 altered 标签当"病"的答案会循环：单核数据里，最大的 altered 组（degenerative）基因数不到正常细胞的一半、线粒体比例约是 5 倍，一个只看 QC 指标的打分器就可能拿到高分。所以基准里必须有"只用 QC 指标"的基线，并且按状态（degenerative / adaptive）分开报结果。
+    我们的理解：直接拿 Lake 的 altered 标签当"病"的答案，有一部分是循环的（作者也用了损伤标记基因和 AKI / CKD 富集，不只看 QC 特征）：单核数据里，最大的 altered 组（degenerative）基因数不到正常细胞的一半、线粒体比例约是 5 倍，一个只看 QC 指标的打分器就可能拿到高分。所以基准里必须有"只用 QC 指标"的基线，并且按状态（degenerative / adaptive）分开报结果。
 <!-- EN -->
 !!! warning "A known trap"
-    Using Lake's altered labels directly as disease ground truth is circular: in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive).
+    Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive).
 
 ## 还没定的 / Open questions
 

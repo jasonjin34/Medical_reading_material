@@ -15,7 +15,7 @@ KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 
 **单细胞多组学**:10x Chromium v3 单核(snCv3)与单细胞(scCv3)RNA-seq,以及 SNARE-seq2(同一细胞核的 RNA + 染色质可及性)。snCv3 先做无监督聚类(100 个群 → 77 个 subclass),再作为锚把 scCv3 与 SNARE2 映射到同一 embedding 并转移标签。**Altered states** 依据既往研究与已知损伤特征(Supplementary Table 10)人工界定,并通过映射到小鼠 AKI(IRI)时间序列模型来确认其时间进程。**空间**:Slide-seq2(10 µm bead,6 人 67 个 puck)、Visium(55 µm spot,22 人 23 个样本)做反卷积/标签转移与共定位分析;3D 多重免疫荧光 + 无标记细胞术(3DTC,含 SHG 胶原信号)对 15 名个体做邻域分析(约 1.2M 邻域)与社区检测得到 niche。**下游**:轨迹推断与 RNA velocity、模块检测、SNARE2 的 chromVAR 转录因子活性与 GRN(含模拟 TF 扰动)、配体–受体互作、GWAS/eQTL 富集;临床关联用 NEPTUNE 队列(生存分析,ESRD 或 eGFR 下降 40% 的复合终点)与 ERCB 队列。为减少采样/技术偏差,很多样本用多于一种技术处理以做交叉验证。
 
 ## 数据
-摘要层面:45 名健康参照供体、48 名患者,> 40 万高质量细胞/细胞核;整合转录组分析覆盖 58 个参照组织(35 名供体)与 52 个疾病组织(36 名患者)。样本来源包括健康参照(肿瘤肾切除旁组织、死亡供体、活体供体活检)与 KPMP 的 AKI/CKD 活检;单细胞实验用了 15 例 CKD、12 例 AKI、18 例活体供体活检核心。Visium 共 146,460 个 spot(22 人);3DTC 分类 1,540,563 个细胞、14 类细胞、14 个 niche。临床:NEPTUNE(正文 193 例、图注 199 例)、ERCB 131 例。
+摘要层面:45 名健康参照供体、48 名患者,> 40 万高质量细胞/细胞核;整合转录组分析覆盖 58 个参照组织(35 名供体)与 52 个疾病组织(36 名患者)。样本来源包括健康参照(部分或全部肾切除、死亡供体、活体供体活检;论文没说肾切除是否因肿瘤)与 KPMP 的 AKI/CKD 活检;单细胞实验用了 15 例 CKD、12 例 AKI、18 例活体供体活检核心。Visium 共 146,460 个 spot(22 人);3DTC 分类 1,540,563 个细胞、14 类细胞、14 个 niche。临床:NEPTUNE(正文 193 例、图注 199 例)、ERCB 131 例。
 
 ## 主要结果
 - **细胞类型**:51 种主要(canonical)细胞类型,含稀有与此前未描述的群体,并附 marker、开放染色质与 TF motif 图谱;Slide-seq/Visium 重现肾小体、JGA、皮髓质过渡(ATL→M-TAL→C-TAL)等空间组织。
@@ -37,7 +37,7 @@ KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 
 - KPMP 原始测序数据为受控访问;不同来源(肾切除、死亡供体、活检)存在采样差异。
 
 ## 与本研究方向的关系
-这是 **Plan A 的参照骨架**。detect → model → revert 中的"detect"需要一个"什么是正常"的参照流形,而 Lake 2023 正是肾脏领域事实上的健康参照 + 损伤状态标注:(1) **Azimuth 健康参照**可直接作为异常检测的 reference(把我们 95 例活检的 snRNA 映射上去,映射置信度低/距离远即候选异常);(2) **28 个 altered states 提供"已知异常"的弱标签** —— KidneyAnomalyBench 可以用它们做第一层评测(检测器能否在不看标签的情况下把 aPT/aTAL/degenerative 排在前面),再把"Lake 标签之外"的高异常分数细胞作为待专家验证的新发现;(3) 它自陈 altered states 也出现在参照组织里(取样缺血、衰老) —— 这正是 Plan A "跨模态一致性区分伪影与疾病"要解决的混淆:单一模态上看起来"受损"的细胞,若 snATAC/Xenium/H&E 不一致,更可能是取样伪影;(4) 同一样本多技术交叉验证的设计,是我们 snRNA + snATAC + Xenium + H&E 设计的直接前例;(5) 它是 NIH Kidney AI 挑战所用 KPMP open 数据的主要来源之一,其细胞状态可用于挑战第 3 项评审标准的患者分层。对 "model/revert":TFAP2B 模拟扰动打断修复轨迹,是 GRN 层面"虚拟扰动"的早期示例,可与 virtual tissue 的扰动预测对照。对 **Plan B**,它是 agent 分析肾脏组学时最常被引用的"已知结论"来源,可用来构造 claim-to-evidence 的 ground truth(例如"aTAL 标记为 PROM1/DCDC2/ITGB6")与检测"复述文献 vs 从数据得出"的测试。
+这是 **课题 1 的参照骨架**。detect → model → revert 中的"detect"需要一个"什么是正常"的参照流形,而 Lake 2023 正是肾脏领域事实上的健康参照 + 损伤状态标注:(1) **Azimuth 健康参照**可直接作为异常检测的 reference(把待检测样本的 snRNA 映射上去,映射置信度低/距离远即候选异常);(2) **28 个 altered states 提供"已知异常"的弱标签** —— KidneyAnomalyBench 可以用它们做第一层评测(检测器能否在不看标签的情况下把 aPT/aTAL/degenerative 排在前面),再把"Lake 标签之外"的高异常分数细胞作为待专家验证的新发现;(3) 它自陈 altered states 也出现在参照组织里(取样缺血、衰老) —— 这正是课题 1 "跨模态一致性区分伪影与疾病"要解决的混淆:单一模态上看起来"受损"的细胞,若 snATAC/Xenium/H&E 不一致,更可能是取样伪影;(4) 同一样本多技术交叉验证的设计,是多模态设计(如 snRNA + snATAC + 空间转录组 + H&E)的直接前例;(5) 它是 NIH Kidney AI 挑战所用 KPMP open 数据的主要来源之一,其细胞状态可用于挑战第 3 项评审标准的患者分层。对 "model/revert":TFAP2B 模拟扰动打断修复轨迹,是 GRN 层面"虚拟扰动"的早期示例,可与 virtual tissue 的扰动预测对照。对 **课题 2**,它是 agent 分析肾脏组学时最常被引用的"已知结论"来源,可用来构造 claim-to-evidence 的 ground truth(例如"aTAL 标记为 PROM1/DCDC2/ITGB6")与检测"复述文献 vs 从数据得出"的测试。
 
 ## 可复用资产
 - **数据(处理后):** GEO Superseries GSE183279(snCv3、scCv3、SNARE2、Slide-seq、Visium)。
@@ -54,7 +54,7 @@ KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 
 ## 待读
 - Kirita 等小鼠 AKI 时间序列(本文用于验证 altered states 的时间进程)。
 - 后续用 Lake 参照做损伤打分的工作:本仓库的 damage-scores(Padvitski 2026)、CellSpectra(Klötzer 2025)与 DKD 空间图谱(Dumoulin 2026)。
-- KPMP 后续的 Xenium / 多组学发布,以及 HuBMAP 肾脏数据,以对齐我们的模态组合。
+- KPMP 后续的 Xenium / 多组学发布,以及 HuBMAP 肾脏数据,以覆盖多模态(单细胞 + 空间)设计。
 
 ## 引用
 ```bibtex

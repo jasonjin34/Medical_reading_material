@@ -41,7 +41,7 @@
    "track0": "",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "Delphi-2M turns GPT-2 into a continuous-time, competing-risk generative model of disease: given a person's ICD-10 diagnoses ordered by age at first diagnosis (1,256 diseases) plus sex, BMI, smoking and alcohol, it predicts which disease (or death) comes next and how long until it happens. Trained on 0.4M UK Biobank participants with only 2.2M parameters, it reaches an average age–sex-stratified AUC of ~0.76 across >1,000 diseases in internal validation, 0.67 on 1.93M Danish individuals with no parameter changes, and can sample synthetic future health trajectories up to 20 years ahead (Abstract; Fig. 2b; Fig. 5a).",
     "zh": "Delphi-2M 把 GPT-2 改成连续时间、竞争风险的疾病生成模型:输入一个人按首诊年龄排列的 ICD-10 诊断(1,256 种疾病)以及性别、BMI、吸烟、饮酒,输出下一事件是哪种病(或死亡)以及多久之后发生;在 40 万 UK Biobank 参与者上训练、仅 220 万参数,内部验证中 >1,000 种疾病的平均年龄-性别分层 AUC 约 0.76,不改参数用于 193 万丹麦人平均 AUC 0.67,并能采样最长 20 年的合成未来健康轨迹(Abstract;Fig. 2b;Fig. 5a)。"
@@ -70,7 +70,7 @@
    "track0": "",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "CancerRiskNet: using only timestamped ICD diagnosis-code sequences (disease trajectories), a Transformer trained on the Danish National Patient Registry (DNPR; 6.2M patients and 23,985 pancreatic cancer cases after filtering) predicts whether pancreatic cancer occurs within 3/6/12/36/60 months after the assessment time. The 36-month AUROC is 0.879, and the abstract reports 0.83 when the last 3 months before diagnosis are removed from training. Applied unchanged to the US Veterans Affairs system (US-VA) it drops to 0.710; retrained on VA data it reaches 0.775 (abstract: 0.78) (Abstract; Results).",
     "zh": "CancerRiskNet:只用带时间戳的 ICD 诊断码序列(disease trajectory,疾病轨迹),在丹麦全国患者登记(DNPR;过滤后 620 万人、23,985 例胰腺癌)上训练 Transformer,同时预测评估时刻之后 3/6/12/36/60 个月内是否发生胰腺癌;36 个月窗口 AUROC 0.879,训练时去掉确诊前 3 个月的数据后摘要报告 0.83;不改参数直接用于美国退伍军人系统(US-VA)降到 0.710,在 VA 上重新训练后为 0.775(摘要:0.78)(Abstract;Results)。"
@@ -99,7 +99,7 @@
    "track0": "",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "APOLLO (Mahmood lab, Mass General Brigham): a temporal Transformer pretrained by modality-specific masked reconstruction on 7,155,044 patients, ~25.3B medical events and 28 modalities (codes, medications, labs, vitals, flowsheets, clinical text, pathology/blood-smear images) from 17 hospitals, 1992–2025, compressing a whole care history into one \"virtual patient\" vector. Frozen vector → PCA → linear Cox beats an age–sex baseline on most of 261 prognostic tasks in a 1.43M-patient held-out test set, and supports patient retrieval on 61 cohorts (Abstract; Results).",
     "zh": "APOLLO(Mahmood 组,Mass General Brigham):在 17 家医院 1992–2025 年 7,155,044 名病人、约 253 亿条医疗事件、28 种模态(诊断码、用药、化验、生命体征、flowsheet、临床文本、病理/血涂片图像)上用「模态特定 mask 的掩码重建」预训练一个时间 Transformer,把整个就医史压成一个「虚拟病人」向量;冻结向量 → PCA → 线性 Cox,在 143 万人留出测试集的 261 个预后任务上多数显著超过年龄-性别基线,并支持 61 个队列的病人检索(Abstract;Results)。"
@@ -128,7 +128,7 @@
    "track0": "",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "COMET (Aghaeepour lab, Stanford): omics studies usually have tens to hundreds of samples while the matching EHR covers tens of thousands — pretrain a GRU on the large EHR-only cohort, transfer its frozen weights into a multimodal EHR + omics network that adaptively blends early and late fusion; on a 61-person pregnancy proteomics cohort (days to labour) and a 559-person UK Biobank cancer proteomics cohort (3-year mortality) it beats a same-architecture baseline without pretraining, and the proteins it relies on agree better with known biology (Abstract; Results).",
     "zh": "COMET(Aghaeepour 组,Stanford):组学研究通常只有几十到几百个样本,而同一来源的 EHR 有数万人 —— 先在「只有 EHR」的大队列上预训练一个 GRU,再把冻结的权重迁移进 EHR + 组学的多模态网络(早融合与晚融合的自适应混合);在 61 人妊娠蛋白组(预测距分娩天数)和 559 人 UK Biobank 癌症蛋白组(预测 3 年死亡)上,预测都优于同结构无预训练的基线,模型看重的蛋白也更符合已知生物学(Abstract;Results)。"
@@ -157,7 +157,7 @@
    "track0": "",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "sikander",
+   "recommended_by": "core-reading",
    "oneliner": {
     "en": "In a CancerRiskNet-style pancreatic cancer (PC) trajectory Transformer, randomly initialized code embeddings are replaced with LLM text embeddings of OMOP concept names (OpenAI text-embedding-3-small). On EHRs from two US hospitals, Columbia (CUMC) and Cedars-Sinai (CSMC), 6–12-month-ahead AUROC rises from 0.60/0.82 to 0.67/0.86, and reaches 0.82/0.89 after excluding data from the 0–3 months before diagnosis (Abstract; Table 2).",
     "zh": "在 CancerRiskNet 式的胰腺癌(PC)轨迹 Transformer 中,把随机初始化的诊断码嵌入换成 LLM 对 OMOP 概念名称的文本嵌入(OpenAI text-embedding-3-small);在 Columbia(CUMC)与 Cedars-Sinai(CSMC)两家美国医院的 EHR 上,确诊前 6–12 个月预测 AUROC 由 0.60/0.82 升到 0.67/0.86,再排除确诊前 0–3 个月数据后为 0.82/0.89(Abstract;Table 2)。"

@@ -33,7 +33,7 @@ scBench(LatchBio)是 394 道**可确定性判分**的 scRNA-seq 分析题:每题
 - 只判最终 JSON,不判中间步骤是否合理(可能"对的答案、错的理由")。
 
 ## 与本研究方向的关系
-对 **Plan B** 这是最该"照抄方法学"的一篇:我们要为分析肾脏组学的 agent 建可信度评估,scBench 给出了**如何把一个分析步骤变成可验证题目**的完整配方——复现 → JSON schema → 判分器族 → 用多种合理方法校准容差 → 删除捷径字段 → 三种作弊检验。这些可以直接用来构造肾脏版题目(在 KPMP/Lake/内部 snRNA 数据上做 QC 阈值、PT 亚型分型、损伤态 marker 差异表达等)。它的两个发现直接关系到我们:**(1) 平台效应 ≥ 模型效应**——我们的数据横跨 snRNA、snATAC、Xenium,预计 Xenium/snATAC 这类文档较少的模态上 agent 会大幅掉分,这本身就是组学特有失败分类的一个维度;**(2) 差异表达与细胞分型最难、最有区分度**——而这恰是"异常细胞态"判定所依赖的步骤。对 **Plan A**,DistributionComparison 的"每个类别都必须通过、不能忽略稀有细胞类型"规则,与 KidneyAnomalyBench 需要防止"稀有病态被平均掉"的设计目标一致;其 scientific/procedural/observational 的题型划分也可用于给专家标注的异常基准分层。需要注意它只判最终答案,Plan B 的 claim-to-evidence 核查和重跑稳定性正是它没有覆盖的部分。
+对 **课题 2** 这是最该"照抄方法学"的一篇:我们要为分析肾脏组学的 agent 建可信度评估,scBench 给出了**如何把一个分析步骤变成可验证题目**的完整配方——复现 → JSON schema → 判分器族 → 用多种合理方法校准容差 → 删除捷径字段 → 三种作弊检验。这些可以直接用来构造肾脏版题目(在 KPMP/Lake 等 snRNA 数据上做 QC 阈值、PT 亚型分型、损伤态 marker 差异表达等)。它的两个发现直接关系到我们:**(1) 平台效应 ≥ 模型效应**——肾脏多模态数据常横跨 snRNA、snATAC、Xenium,预计 Xenium/snATAC 这类文档较少的模态上 agent 会大幅掉分,这本身就是组学特有失败分类的一个维度;**(2) 差异表达与细胞分型最难、最有区分度**——而这恰是"异常细胞态"判定所依赖的步骤。对 **课题 1**,DistributionComparison 的"每个类别都必须通过、不能忽略稀有细胞类型"规则,与 KidneyAnomalyBench 需要防止"稀有病态被平均掉"的设计目标一致;其 scientific/procedural/observational 的题型划分也可用于给专家标注的异常基准分层。需要注意它只判最终答案,课题 2 的 claim-to-evidence 核查和重跑稳定性正是它没有覆盖的部分。
 
 ## 可复用资产
 - **代码:** 评测框架、判分器、linter、agent harness;30 道公开题与完整轨迹;支持接入自定义 agent。

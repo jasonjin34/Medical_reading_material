@@ -89,7 +89,7 @@
 | [Same Patient, Different Order: Action-Level Reliability of Clinical LLM Agents Under Repeated Runs](clinical-agent-reruns-arxiv-2026/index.md) ★ | Biomedical agents & evaluation | high | open |
 | [Accelerating scientific discovery with Co-Scientist](co-scientist-nature-2026/index.md) ★ | Biomedical agents & evaluation | high | open |
 | [Why Your Deep Research Agent Fails? On Hallucination Evaluation in Full Research Trajectory](deep-research-hallucination-arxiv-2026/index.md) ★ | Biomedical agents & evaluation | high | open |
-| [Empowering biomedical evidence exploration and synthesis with deep knowledge graph research](deepevidence-natmachintell-2026/index.md) ★ | Biomedical agents & evaluation | high | open |
+| [Empowering biomedical evidence exploration and synthesis with deep knowledge graph research](deepevidence-natmachintell-2026/index.md) ★ | Biomedical agents & evaluation | high | paywall |
 | [Evaluating Agentic Bioinformatics through Function, Evidence, and Validation](fev-bioinformatics-agents-arxiv-2026/index.md) ★ | Biomedical agents & evaluation | high | open |
 | [Generalization bias in large language model summarization of scientific research](generalization-bias-rsos-2025/index.md) ★ | Biomedical agents & evaluation | high | open |
 | [Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation](hypogen-llm-colm-2024/index.md) ★ | Biomedical agents & evaluation | high | open |

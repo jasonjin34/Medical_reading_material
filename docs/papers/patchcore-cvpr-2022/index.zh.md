@@ -41,7 +41,7 @@ PatchCore 把所有正常训练图像的**中层、局部邻域聚合的 patch �
 - 评测几乎全在 MVTec,而 MVTec 已接近饱和(99%+),对真实场景的区分力有限。
 
 ## 与本研究方向的关系
-PatchCore 是 Plan A 中**最值得直接移植的经典 AD 方法**,原因是它的三个部件在组学里都有干净的对应。**映射**:memory bank = 健康参考中所有细胞 / spot 的 embedding(scVI、scGPT/Geneformer 类基础模型、或 Nicheformer 这类空间感知 embedding);patch 的"局部邻域聚合" = 对 Xenium/Visium 的空间邻居做 pooling(即 niche 特征);测试分数 = 细胞到最近健康邻居的距离;图像级分数 = 一块活检 / 一个解剖区域中最异常细胞(或 top-k 平均)的分数。H&E 端可以原样使用:UNI2-h / Virchow 的 patch embedding + PatchCore,这正是 virchow-2024 待读里写的方案。**coreset 是关键**:健康图谱动辄数十万到百万细胞,coreset 既解决 kNN 的规模问题,又保证稀有健康细胞类型(如足细胞、肾小球旁细胞)不被随机子采样丢掉 —— 等价于"覆盖率优先的健康参考压缩"。**哪些假设会破**:(1) **bank 污染**:健康供体也有年龄相关的局灶损伤、ambient RNA 污染和 doublet,这些会进入 bank 并"掩护"测试集里的同类异常;(2) **batch effect**:新活检若与参考来自不同批次 / 平台,最近邻距离整体抬升,所有细胞都像异常 —— 需要先做 scArches 式映射或在 bank 中纳入多批次正常样本;(3) **连续疾病态**:kNN 距离给出的是"离健康多远",不区分方向,因此 injured PT 与 doublet 可能拿到相同分数;(4) **没有像素 mask**,PatchCore 赖以报告的像素 AUROC / PRO 在组学里要换成按细胞的专家标签或已知真值的合成扰动。Plan A 的跨模态一致性正好补 (2)(3):同一个细胞/区域在 RNA、ATAC、Xenium、H&E 四个 bank 里**都**远离健康邻居,才更可能是疾病而非技术伪影。**仓库里已有的同类思想**:pathology-ad-bench-mlhealth-2025 直接评测 PatchCore 于小鼠肾小球等病理数据;histo-nejmai-2024 用病理基础模型 CTransPath 特征 + 改进 kNN 打分,是 PatchCore 思想在病理的近亲;spatial-natcommun-2024(STANDS)也用了 memory bank,但那是为了在 GAN 重建中抑制 mode collapse,与 PatchCore 的"正常特征库 + kNN"用途不同。对 Plan B:kNN 距离没有校准,验证器应要求 agent 报告阈值来源(例如用 conformal-scrna-bioinformatics-2025 式的 conformal p 值)。
+PatchCore 是课题 1 中**最值得直接移植的经典 AD 方法**,原因是它的三个部件在组学里都有干净的对应。**映射**:memory bank = 健康参考中所有细胞 / spot 的 embedding(scVI、scGPT/Geneformer 类基础模型、或 Nicheformer 这类空间感知 embedding);patch 的"局部邻域聚合" = 对 Xenium/Visium 的空间邻居做 pooling(即 niche 特征);测试分数 = 细胞到最近健康邻居的距离;图像级分数 = 一块活检 / 一个解剖区域中最异常细胞(或 top-k 平均)的分数。H&E 端可以原样使用:UNI2-h / Virchow 的 patch embedding + PatchCore,这正是 virchow-2024 待读里写的方案。**coreset 是关键**:健康图谱动辄数十万到百万细胞,coreset 既解决 kNN 的规模问题,又保证稀有健康细胞类型(如足细胞、肾小球旁细胞)不被随机子采样丢掉 —— 等价于"覆盖率优先的健康参考压缩"。**哪些假设会破**:(1) **bank 污染**:健康供体也有年龄相关的局灶损伤、ambient RNA 污染和 doublet,这些会进入 bank 并"掩护"测试集里的同类异常;(2) **batch effect**:新活检若与参考来自不同批次 / 平台,最近邻距离整体抬升,所有细胞都像异常 —— 需要先做 scArches 式映射或在 bank 中纳入多批次正常样本;(3) **连续疾病态**:kNN 距离给出的是"离健康多远",不区分方向,因此 injured PT 与 doublet 可能拿到相同分数;(4) **没有像素 mask**,PatchCore 赖以报告的像素 AUROC / PRO 在组学里要换成按细胞的专家标签或已知真值的合成扰动。课题 1 的跨模态一致性正好补 (2)(3):同一个细胞/区域在 RNA、ATAC、Xenium、H&E 四个 bank 里**都**远离健康邻居,才更可能是疾病而非技术伪影。**仓库里已有的同类思想**:pathology-ad-bench-mlhealth-2025 直接评测 PatchCore 于小鼠肾小球等病理数据;histo-nejmai-2024 用病理基础模型 CTransPath 特征 + 改进 kNN 打分,是 PatchCore 思想在病理的近亲;spatial-natcommun-2024(STANDS)也用了 memory bank,但那是为了在 GAN 重建中抑制 mode collapse,与 PatchCore 的"正常特征库 + kNN"用途不同。对课题 2:kNN 距离没有校准,验证器应要求 agent 报告阈值来源(例如用 conformal-scrna-bioinformatics-2025 式的 conformal p 值)。
 
 ## 可复用资产
 - **代码:** 官方实现(Amazon Science),含 coreset 选择与 faiss 近邻检索。
@@ -53,7 +53,7 @@ PatchCore 是 Plan A 中**最值得直接移植的经典 AD 方法**,原因是�
 ## 待读
 - SPADE(Cohen & Hoshen 2020)与 DN2(Bergman 等 2020):PatchCore 的直接前作。
 - 关于 memory bank 污染 / 训练集含异常时 PatchCore 鲁棒性的后续工作(例如 SoftPatch 一类)—— 对"健康供体并不完全健康"至关重要。
-- 在 UNI2-h 嵌入上对 95 例活检 H&E 跑 PatchCore,与 Xenium 侧的细胞级 kNN 分数做跨模态一致性对比。
+- 在 UNI2-h 嵌入上对待测肾样本(或 KPMP 公开 WSI)的 H&E 跑 PatchCore,与 Xenium 侧的细胞级 kNN 分数做跨模态一致性对比。
 
 ## 引用
 ```bibtex

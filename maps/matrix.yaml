@@ -135,7 +135,7 @@ gaps:
     note: {en: "Core idea of Topic 1: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.", zh: "课题 1 的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。"}
   - row: artifact
     col: kidney
-    note: {en: "Artifact audit of the 95-biopsy Xenium + snRNA data.", zh: "对 95 例活检的 Xenium + snRNA 数据做伪影审计。"}
+    note: {en: "Artifact audit of public kidney snRNA + spatial data.", zh: "对公开的肾脏 snRNA + 空间数据做伪影审计。"}
   - row: bench
     col: kidney
     note: {en: "KidneyAnomalyBench: expert-validated anomalies.", zh: "KidneyAnomalyBench：经专家验证的异常。"}

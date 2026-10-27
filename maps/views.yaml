@@ -27,7 +27,7 @@ views:
     select: {plans: A}
     concepts_skip_tracks: [A0]     # the general-AD classics link in via method arrows, not concepts
     flow:
-      - {id: data, columns: [A1], label: {en: "In-house kidney data + open atlases", zh: "所内肾脏数据 + 公开图谱"}}
+      - {id: data, columns: [A1], label: {en: "Public kidney atlases", zh: "公开肾脏图谱"}}
       - {id: qc, columns: [A2], label: {en: "QC & artifact removal", zh: "质控与去伪影"}}
       - {id: normal, columns: [A5], label: {en: "Model of healthy tissue", zh: "健康组织模型"}}
       - {id: score, columns: [A3, A0], label: {en: "Anomaly / OOD score", zh: "异常 / OOD 打分"}}
@@ -210,12 +210,12 @@ views:
     select: {plans_all: [A, B]}
     concepts_from: [plan-a, plan-b]
 
-  sikander:
-    title: {en: "Sikander's picks", zh: "Sikander 推荐"}
+  reading-list:
+    title: {en: "Core reading list", zh: "核心阅读清单"}
     lead:
-      en: "Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line."
-      zh: "Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。"
-    select: {recommended_by: sikander}
+      en: "The core background reading, on the detect → model → revert line."
+      zh: "核心背景阅读，按 detect → model → revert 排列。"
+    select: {recommended_by: core-reading}
     flow:
       - {id: foundations, columns: [foundations], label: {en: "Foundations & data", zh: "基础模型与数据"}}
       - {id: detect, columns: [detect], label: {en: "Detect", zh: "检测"}}

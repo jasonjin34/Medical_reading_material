@@ -10,10 +10,10 @@ track:
 year: 2026
 relevance: high
 category: agents
-recommended_by: sikander
+recommended_by: core-reading
 views:
 - plan-b
-- sikander
+- reading-list
 - overview
 tags:
 - paper
@@ -41,6 +41,7 @@ tags:
 
 ## Concepts / 概念
 - [[_maps/concepts/claim-evidence|Claim → evidence chains]]
+- [[_maps/concepts/multi-agent|Multi-agent systems]]
 - [[_maps/concepts/research-agent|AI scientist agents]]
 - [[_maps/concepts/trajectory-eval|Trajectory-level evaluation]]
 

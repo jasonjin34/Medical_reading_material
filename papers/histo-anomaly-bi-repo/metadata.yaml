@@ -1,6 +1,10 @@
 id: "histo-anomaly-bi-repo"
 title: "Boehringer-Ingelheim/anomaly-detection-in-histology"
-authors: null
+authors:
+  - "Zingman, Igor"
+  - "Stierstorfer, Birgit"
+  - "Lempp, Charlotte"
+  - "Heinemann, Fabian"
 year: 2022
 venue: "GitHub"
 type: "code"
@@ -8,8 +12,8 @@ category: "histopath"
 relevance: "medium"
 access: "open"
 url: "https://github.com/Boehringer-Ingelheim/anomaly-detection-in-histology"
-doi: ""
-arxiv: ""
+doi: "10.1016/j.media.2023.103067"
+arxiv: "2210.07675"
 s2_id: null
 bibkey: "Zingman2024_anomaly_histology"
 tags: []
@@ -19,4 +23,4 @@ added: "2026-08-03"
 plans:
   - "A"
 track: "A6"
-recommended_by: "sikander"
+recommended_by: "core-reading"

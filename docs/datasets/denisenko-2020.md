@@ -12,7 +12,7 @@
 | People / samples | 3 mice per arm |
 | Labels | dissociation / storage arm per sample |
 | Licence | CC BY 4.0 |
-| Paper | Denisenko E et al. Genome Biol 2020. · [deep-read](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md) |
+| Paper | Denisenko E et al. Genome Biol 2020;21:130. doi:10.1186/s13059-020-02048-6 · [deep-read](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md) |
 
 ![Denisenko 2020 · Dissociation and storage in mouse kidney](img/denisenko2020_fig1.jpg)
 
@@ -39,7 +39,7 @@ A 17-gene stress signature (Fos, Jun, Atf3, Egr1, heat-shock genes …); in 8 of
 | Format | File | Size | Link |
 |---|---|---|---|
 | `TXT` | GEO GSE141115: 54 per-library gene × cell count tables (after QC) | 250 MB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE141115) |
-| `FASTQ` | SRA SRP233496 (336 runs) | ≈ 580 GB | — |
+| `FASTQ` | SRA SRP233496 (336 runs) | ≈ 400 GB (SRA) | — |
 
 Cell-type labels are in the paper's Additional file 3.
 

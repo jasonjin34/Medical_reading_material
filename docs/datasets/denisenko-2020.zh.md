@@ -12,7 +12,7 @@
 | 人 / 样本 | 每组 3 只小鼠 |
 | 标签 | 每个样本的解离 / 保存方式 |
 | 许可 | CC BY 4.0 |
-| 论文 | Denisenko E et al. Genome Biol 2020. · [精读](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md) |
+| 论文 | Denisenko E et al. Genome Biol 2020;21:130. doi:10.1186/s13059-020-02048-6 · [精读](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md) |
 
 ![Denisenko 2020 · 小鼠肾解离与保存](img/denisenko2020_fig1.jpg)
 
@@ -39,7 +39,7 @@
 | 格式 | 文件 | 大小 | 链接 |
 |---|---|---|---|
 | `TXT` | GEO GSE141115：54 个文库各一个“基因 × 细胞”计数表（QC 后） | 250 MB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE141115) |
-| `FASTQ` | SRA SRP233496（336 个 run） | ≈ 580 GB | — |
+| `FASTQ` | SRA SRP233496（336 个 run） | ≈ 400 GB (SRA) | — |
 
 细胞类型标签在论文附件 Additional file 3。
 

@@ -53,7 +53,7 @@ KPMP 早期的方法学论文:比较 7 种肾组织保存/处理方式后,用 sn
 - 作为"正常"参照受限于供体的合并症(作者自述)。
 
 ## 与本研究方向的关系
-处在 **detect** 一环的**负对照/干扰源**位置。Plan A 的 benchmark 要检验 anomaly detector 能否把疾病与测量/取材伪影分开;这个数据集提供了**同一患者、同一区域、不同保存/处理方式**的真实配对:18-162、18-312、3411(皮质 cryoF vs cryoR)、3414(髓质 cryoF / cryoW / cryoR)、3435(髓质 cryoW / cryoR / dissocPC)、3395、3351。每个细胞核的处理方式可以从公开文件中确定(矩阵列名含文库号 NK#,GEO 每个文库带 tissue processing、ppid、region),因此可以做"伪影标签"的 ground truth:例如在 cryoR 上训练、看 detector 给 dissoc 核(FOS/FOSB/DNAJB1 应激、PC-2 簇)和 cryoW 核打多高的异常分。热缺血(TAL-1、PT-5)给出一个取材相关、但无逐核标签的伪影轴。注意:不同处理通常在不同日期/批次上跑,处理效应与批次部分混杂;样本无疾病标签(只有组织学报告在 Supp. Data 1),所以它只能做伪影侧,疾病侧要靠 KPMP AKI/CKD(如 Lake 2023)。平台是 snDrop-seq,与 10x 数据存在平台差异,也要当作一个伪影轴。
+处在 **detect** 一环的**负对照/干扰源**位置。课题 1 的 benchmark 要检验 anomaly detector 能否把疾病与测量/取材伪影分开;这个数据集提供了**同一患者、同一区域、不同保存/处理方式**的真实配对:18-162、18-312、3411(皮质 cryoF vs cryoR)、3414(髓质 cryoF / cryoW / cryoR)、3435(髓质 cryoW / cryoR / dissocPC)、3395、3351。每个细胞核的处理方式可以从公开文件中确定(矩阵列名含文库号 NK#,GEO 每个文库带 tissue processing、ppid、region),因此可以做"伪影标签"的 ground truth:例如在 cryoR 上训练、看 detector 给 dissoc 核(FOS/FOSB/DNAJB1 应激、PC-2 簇)和 cryoW 核打多高的异常分。热缺血(TAL-1、PT-5)给出一个取材相关、但无逐核标签的伪影轴。注意:不同处理通常在不同日期/批次上跑,处理效应与批次部分混杂;样本无疾病标签(只有组织学报告在 Supp. Data 1),所以它只能做伪影侧,疾病侧要靠 KPMP AKI/CKD(如 Lake 2023)。平台是 snDrop-seq,与 10x 数据存在平台差异,也要当作一个伪影轴。
 
 ## 可复用资产
 - **代码:** snDrop-seq 比对/计数流程 https://github.com/chensong611/Dropseq_pipeline;分步实验流程见 https://kpmp.org/resources/

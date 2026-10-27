@@ -451,9 +451,9 @@ def write_web(built: dict, matrix: dict) -> None:
         flows = [(vid, d) for vid, d in built.items() if d["flow"]]
         if flows:
             out.append("\n## Pipelines\n" if lang == "en" else "\n## 流程图\n")
-            out.append("Each plan as a pipeline, left to right. Every step lists its must-read papers; "
+            out.append("Each topic as a pipeline, left to right. Every step lists its must-read papers; "
                        "Open in map shows that step in the graph.\n" if lang == "en" else
-                       "每个 plan 从左到右画成一条流程。每一步列出它的必读论文；点“在图谱中打开”可在图谱里查看这一步。\n")
+                       "每个课题从左到右画成一条流程。每一步列出它的必读论文；点“在图谱中打开”可在图谱里查看这一步。\n")
             out.append(FLOW_CSS + "\n")
         for vid, d in flows:
             out.append(f"### {d['title'][lang]}\n")

@@ -8,9 +8,9 @@ track: []
 year: 2026
 relevance: medium
 category: histopath
-recommended_by: sikander
+recommended_by: core-reading
 views:
-- sikander
+- reading-list
 - overview
 tags:
 - paper

@@ -34,7 +34,7 @@ The abstract mentions only "diverse benchmark data sets", plus a haematopoietic 
 - "Novel / rare / aberrant" populations are candidates only; the abstract mentions no wet-lab validation.
 
 ## Relation to our direction
-This is the only **scATAC** anomaly/novel-type method in this batch and has a direct slot in **Plan A**: the in-house 95 biopsies include snATAC, while KPMP / Lake-atlas snRNA references are far more mature than ATAC ones — CARA's "RNA reference → ATAC target" transfer matches that asymmetry. More importantly, **cross-modal agreement**: if the snRNA side (mapQC / Milo / MrVI) and the snATAC side (CARA's "out-of-reference" call) both flag the same cells, that is more likely a real disease state than either signal alone; anomaly in only one modality is more likely artifact (e.g. ambient RNA in snRNA, low TSS enrichment in ATAC). CARA's "multidimensional uncertainty" can also be contrasted with the statistical guarantees of conformal annotation (`conformal-scrna-bioinformatics-2025`). For **Plan B**: the abstract calls aberrant populations "candidates for perturbation" — an inferential leap (from "out-of-reference" to "causally meaningful, perturbable target") that a verifier should check. Not to be used as a baseline until the full text is read.
+This is the only **scATAC** anomaly/novel-type method in this batch and has a direct slot in **Topic 1**: multi-modal kidney designs often include snATAC, while KPMP / Lake-atlas snRNA references are far more mature than ATAC ones — CARA's "RNA reference → ATAC target" transfer matches that asymmetry. More importantly, **cross-modal agreement**: if the snRNA side (mapQC / Milo / MrVI) and the snATAC side (CARA's "out-of-reference" call) both flag the same cells, that is more likely a real disease state than either signal alone; anomaly in only one modality is more likely artifact (e.g. ambient RNA in snRNA, low TSS enrichment in ATAC). CARA's "multidimensional uncertainty" can also be contrasted with the statistical guarantees of conformal annotation (`conformal-scrna-bioinformatics-2025`). For **Topic 2**: the abstract calls aberrant populations "candidates for perturbation" — an inferential leap (from "out-of-reference" to "causally meaningful, perturbable target") that a verifier should check. Not to be used as a baseline until the full text is read.
 
 ## Reusable assets
 - **Code**: no link in the abstract; to be confirmed from the full text (no public repo found; not guessed).
@@ -44,7 +44,7 @@ This is the only **scATAC** anomaly/novel-type method in this batch and has a di
 ## Follow-ups
 - **Get the full-text PDF** (institutional access) to fill in methods, datasets and numbers.
 - Contemporary RNA→ATAC label-transfer methods for comparison: scSHEFT in Genome Research (10.1101/gr.280410.125) and SemiLT (10.1002/advs.202507846).
-- Test novel-type detection from KPMP snRNA → in-house snATAC.
+- Test novel-type detection from KPMP snRNA → snATAC of the kidney samples to be tested.
 
 ## Cite
 ```bibtex

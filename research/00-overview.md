@@ -53,6 +53,6 @@ The group's research topics live here, one page each with the same template: wha
 ## 课题之间的联系 / How the topics connect
 
 <!-- ZH -->
-课题 1 要弄清楚"数据里哪些异常是真的"，课题 2 要弄清楚"agent 说的哪些话是真的"。两者共用同一批数据和同一套已知答案：比如 Lake 2023 的细胞状态标签，在课题 1 里是"病"的答案，在课题 2 里可以用来检查 agent 有没有把伪影说成疾病。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文。
+课题 1 要弄清楚"数据里哪些异常是真的"，课题 2 要弄清楚"agent 说的哪些话是真的"。两者打算用同一类数据和同一套已知答案：比如 Lake 2023 的细胞状态标签，在课题 1 里是"病"的答案，在课题 2 里可以用来检查 agent 有没有把伪影说成疾病。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文。
 <!-- EN -->
-Topic 1 asks which anomalies in the data are real; Topic 2 asks which statements an agent makes are true. They share the same data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+Topic 1 asks which anomalies in the data are real; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.

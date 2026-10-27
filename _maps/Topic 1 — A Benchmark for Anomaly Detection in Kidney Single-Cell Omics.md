@@ -14,7 +14,7 @@ Learn normal kidney from healthy data, then flag what it cannot explain; one mod
 
 ```mermaid
 flowchart TD
-  s1["`**1. In-house kidney data + open atlases** (8 papers)
+  s1["`**1. Public kidney atlases** (8 papers)
 Damage scores · DKD spatial atlas · CellSpectra`"]
   s2["`**2. QC & artifact removal** (9 papers)
 ovrlpy · ResolVI · Xenium contamination (SPLIT)`"]
@@ -98,8 +98,8 @@ Flow canvas: [[_maps/Topic 1 — A Benchmark for Anomaly Detection in Kidney Sin
 - [[_maps/papers/nephrobase-biorxiv-2025|Nephrobase Cell+]] ★ — Nephrobase Cell+: Multimodal Single-Cell Foundation Model for Decoding Kidney Biology
 - [[_maps/papers/scfm-zeroshot-genomebiol-2025|scFM zero-shot limits]] ★ — Zero-shot evaluation reveals limitations of single-cell foundation models
 - [[_maps/papers/nicheformer-natmethods-2025|Nicheformer]] — Nicheformer: a foundation model for single-cell and spatial omics
-- [[_maps/papers/virchow-2024|Virchow]] — A foundation model for clinical-grade computational pathology and rare cancers detection
 - [[_maps/papers/uni2-h-model|UNI2-h]] — MahmoodLab/UNI2-h
+- [[_maps/papers/virchow-2024|Virchow]] — A foundation model for clinical-grade computational pathology and rare cancers detection
 
 ## Evaluation & benchmarks / 评测与基准
 - [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]] ★ — Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons

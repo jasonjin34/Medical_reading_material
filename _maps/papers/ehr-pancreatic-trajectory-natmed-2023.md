@@ -9,9 +9,9 @@ track: []
 year: 2023
 relevance: high
 category: ehr
-recommended_by: sikander
+recommended_by: core-reading
 views:
-- sikander
+- reading-list
 - ehr
 - overview
 tags:

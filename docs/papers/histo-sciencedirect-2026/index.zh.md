@@ -5,7 +5,7 @@
 
 ---
 
-> **注:** 虽然 ScienceDirect 页面付费,但本文以 **CC BY 4.0 开放获取**发表(Cancer Cell 44, 1–18, 2026-08-10, DOI 10.1016/j.ccell.2026.05.014),全文经开放 PDF(White Rose eprint 242066)获取,以下内容基于全文。
+> **注:** 本文以 **CC BY 4.0 开放获取**发表(Cancer Cell 44(8):1605–1622.e7,in-press 版日期 2026-08-10, DOI 10.1016/j.ccell.2026.05.014),全文经开放 PDF(White Rose eprint 242066)获取,以下内容基于全文。
 
 ## 一句话
 PathPrism 先把结直肠癌 H&E 全切片(WSI)分割成 8 类组织的语义图,再把语义图拆成 628 个有数学定义的空间特征(组织占比、空间熵、组织图特征),用线性模型预测预后、突变和化疗获益;VirtualWSI 在这张语义图上做"放大/缩小某类组织"的虚拟扰动,观察风险分和特征如何变化。
@@ -21,7 +21,7 @@ PathPrism 先把结直肠癌 H&E 全切片(WSI)分割成 8 类组织的语义图
 空间生物标志物(肿瘤微环境中多尺度的组织排布模式)对精准肿瘤学很重要,但 WSI 太大、组织异质性强,人工发现慢,临床验证过的空间标志物很少(Introduction)。深度学习和病理基础模型虽然准,但是黑箱;基于像素或隐向量的事后解释(热图)弥散、含糊,很难被定义、量化、验证成病理学上可解释的标志物。这也妨碍了用 LLM 生成假设,以及"从预测走向主动扰动"(Introduction)。作者想要一个**不牺牲性能**的可解释框架。
 
 ## 方法
-1. **PrismNet(组织语义分割)**:WSI 在 20×(0.5 μm/像素)下切成 224×224 tile;冻结的 UNI 编码器提 1024 维特征 → PCA 压到 32 维 → 逻辑回归分类为 8 类 CRC 组织:ADI 脂肪、DEB 碎屑、LYM 淋巴细胞、MUC 黏液、MUS 平滑肌、NORM 正常黏膜、STR 癌相关间质、TUM 腺癌上皮,另加 BACK 背景。训练集 NCT-CRC-HE-100K-NONORM,测试集 CRC-VAL-HE-7K;作者比较了 CTransPath / PLIP / CONCH / MUSK / UNI 与 PCA / VAE,UNI+PCA 最好(Methods "PrismNet"; Fig. 2A)。把每个 tile 的类别概率按坐标拼回去,得到 9 通道的组织概率图和分割图(Methods "WSI semantic segmentation",用 STAMP 实现)。
+1. **PrismNet(组织语义分割)**:WSI 在 20×(0.5 μm/像素)下切成 224×224 tile;冻结的 UNI 编码器提 1024 维特征 → PCA 压到 32 维 → 逻辑回归分类为 8 类 CRC 组织:ADI 脂肪、DEB 碎屑、LYM 淋巴细胞、MUC 黏液、MUS 平滑肌、NORM 正常黏膜、STR 癌相关间质、TUM 腺癌上皮,另加 BACK 背景。训练集 NCT-CRC-HE-100K-NONORM,测试集 CRC-VAL-HE-7K;作者比较了 CTransPath / PLIP / CONCH / MUSK / UNI 与 PCA / VAE,UNI+PCA 总体最好,但 CONCH、MUSK、UNI 表现非常接近,作者认为编码器选择影响有限(Methods "PrismNet"; Figs. S1B–C);PrismNet 与 KNN、SVM、MLP、LR、ViT-B/16、ResNet、VGG19 等分类器的比较见 Fig. 2A。把每个 tile 的类别概率按坐标拼回去,得到 9 通道的组织概率图和分割图(Methods "WSI semantic segmentation",用 STAMP 实现)。
 2. **MacroNet(从语义图学预后)**:输入 9 通道概率图,ResNeXt50 骨干(输入通道改为 9)→ 2048 维 → 全连接到 32 维 → 风险分;损失为负 Cox 部分对数似然,训练 100 epoch(Methods "MacroNet")。对照:attMIL-UNI、GigaPath、CHIEF、COBRA、PRISM(后四者的 slide embedding 接 elastic-net Cox)。
 3. **多角度解释 MacroNet**:按风险高/低分组比较组织比例与 Captum saliency 归因;"结构保持的反事实":把某组织通道整体乘以 α(α<1 抑制、α>1 增强)、其他通道不变,重新打风险分(Methods "Structure-preserving counterfactual explanation"; Fig. 3D–G)。
 4. **628 个空间特征**:空间占比(每类像素比例)、空间熵(滑窗局部 Shannon 熵)、单组织图(每类 mask 腐蚀 → 连通域;大于 2,000 像素的区域切成 30×30 块;节点距离 < 20 像素连边;算节点数、度统计、聚类系数、中心性、模块度等)和多组织图(每对组织之间只连异类边;算孤立节点比例、平均异类邻居数等)(Methods "Spatial biomarker construction"; Tables S2–S3)。
@@ -45,23 +45,24 @@ flowchart LR
 ```
 
 ## 数据
-11 个 CRC 队列、约 7,000 例 H&E WSI(Abstract;质控后人数见 Fig. 1G / Methods "Patient cohorts")。预后:DACHS(n = 2,281,主队列,5 折 CV)、MCO(1,395)、CR07(579,仅直肠癌、常有术前放疗、MSI 比例低)、TCGA(232)。突变:DACHS、MCO、TCGA 加 GECCO 联盟 5 个队列(EPIC 124、CORSA 50、IWHS 267、CRA 208、WHI 225)。辅助化疗(ACT):MCO、IDEA(669,III 期,法国 GERCOR 子队列)、HeCOG(970)。分割训练用公开 patch 数据 NCT-CRC-HE-100K-NONORM(10 万 patch,86 张切片)和 CRC-VAL-HE-7K(7,180 patch,50 例),与下游队列无重叠。乳腺癌迁移:TCGA-BRCA(642)和 HeCOG-BRCA(38,接受抗体偶联药物 ADC 治疗);BRCA 分割数据 TCGA-BRCA-6K(训练 4,700 patch / 100 WSI,测试 1,149 patch / 20 WSI)。WSI 组织面积 < 1.25 cm²(< 10,000 个组织 patch)的被排除。
+11 个 CRC 队列、约 7,000 例患者(Abstract;质控后人数见 Fig. 1G / Methods "Patient cohorts")。预后:DACHS(n = 2,281,主队列,5 折 CV)、MCO(1,395)、CR07(579,仅直肠癌、常有术前放疗、MSI 比例低)、TCGA(232)。突变:DACHS、MCO、TCGA 加 GECCO 联盟 5 个队列(EPIC 124、CORSA 50、IWHS 267、CRA 208、WHI 225)。辅助化疗(ACT):MCO、IDEA(669,III 期,法国 GERCOR 子队列)、HeCOG(970)。分割训练用公开 patch 数据 NCT-CRC-HE-100K-NONORM(10 万 patch,86 张切片)和 CRC-VAL-HE-7K(7,180 patch,50 例),与下游队列无重叠。乳腺癌迁移:TCGA-BRCA(642)和 HeCOG-BRCA(38,接受抗体偶联药物 ADC 治疗);BRCA 分割数据 TCGA-BRCA-6K(训练 4,700 patch / 100 WSI,测试 1,149 patch / 20 WSI)。WSI 组织面积 < 1.25 cm²(< 10,000 个组织 patch)的被排除。
 
 ## 主要结果
 - **分割**:PrismNet 在 CRC-VAL-HE-7K 上 macro-F1 0.948(95% CI 0.942–0.954)、MCC 0.958、macro-AUROC 0.988(Fig. 2A)。
-- **MacroNet 预后**:DACHS 5 折 C-index 0.716 ± 0.020,与 attMIL-UNI、GigaPath、CHIEF、COBRA、PRISM 相当(Fig. 2B);外部 MCO 和 CR07 排名前二(Fig. 2C);用 DACHS 阈值做 KM 分层,HR 3.68(MCO)、2.48(CR07)、3.27(TCGA)(Fig. 2D)。
+- **MacroNet 预后**(终点为疾病特异生存 DSS):DACHS 5 折 C-index 0.716 ± 0.020,与 attMIL-UNI、GigaPath、CHIEF、COBRA、PRISM 相当(Fig. 2B);外部 MCO 和 CR07 排名前二(Fig. 2C);用 DACHS 阈值做 KM 分层,HR 3.68(MCO)、2.48(CR07)、3.27(TCGA)(Fig. 2D)。
 - **解释**:高风险组 TUM、DEB、STR 更多,低风险组 ADI、LYM、MUS、NORM 更多;反事实中放大 LYM 一致降低风险分(Fig. 3B, 3F–G);高风险样本空间熵显著更高(Fig. 3I)。
 - **单个标志物**:TUM 图熵 C-index 0.62、HR 1.97;MUS 空间占比 C-index 0.60、HR 0.57(Fig. 4D);多组织图特征 ADI-TUM-E 在 CR07 达 0.69,STR-TUM-EN1 与 MUS-TUM-EN2 在 TCGA 各 0.73(Fig. 4E)。
 - **透明预后模型**:SPM 和 FSPM 在 DACHS 5 折 C-index 均 > 0.7(Fig. 4G),并推广到 MCO/CR07/TCGA(Fig. 4H);两者都优于只用组织占比的模型(Figs. S4B–C);FSPM 10 个特征与基础模型 slide embedding 合并后性能提升,空间特征约占总系数贡献的 25%(Fig. 4K)。
 - **突变**:MSI 中位 AUC 0.85(DACHS 5 折)和 0.78(7 个外部队列),关键特征 MUC-TUM-IR2、DEB-ENT(Fig. 5B–D);GECCO 训练、TCGA 测试:BMPR2 0.78、BRAF 0.75、TP53 0.66(Fig. 5E)。
 - **化疗**:II 期 ACT 患者中 LYM-TUM-AD2 在 MCO 分层 HR 5.19(p = 0.0005),HeCOG HR 2.00(p = 0.007)(Fig. S6B);MCO II 期 LYM-NORM-ED ≤ 0.038 者 ACT 无不良关联(HR 0.79),> 0.038 者 HR 4.49(Fig. 5I);III 期 LYM–MUC–CC > 5:HR 9.08(p = 0.008),≤ 5:HR 0.29(p < 0.0001),交互 HR 32.45(p = 0.001)(Fig. 5J)。
-- **VirtualWSI**:扰动 MUC/LYM 通道使 LYM–MUC–CC 连续变化,患者响应分为正向/平坦/负向三类;对原本无 LYM–MUC 结构的患者,扰动诱导的状态转变又分出一个 ACT 显著获益亚组(HR 0.27,p = 0.010)(Fig. 7G–L)。
+- **VirtualWSI**:扰动 MUC/LYM 通道使 LYM–MUC–CC 连续变化,患者响应分为正向/平坦/负向三类;对原本无 LYM–MUC 结构的患者,扰动诱导的状态转变又分出一个 ACT 显著获益亚组(HR 0.27,p = 0.010)(Fig. 7G–M;该 KM 结果在图例中属 panel M,正文引用为 Fig. 7L)。
 - **乳腺癌迁移**:MacroNet/SPM/FSPM 与基础模型相当(Figs. S11D–F);HeCOG-BRCA(n = 38)中 T-DXd 治疗者 STR-ACL HR 6.11(p = 0.018),SG 治疗者 ADI-NEC-BT2 HR 0.06(p = 0.002);与 ERBB2/TOP1/TACSTD2 表达的相关"显著但较弱"(Figs. S11J–O)。
 
 ## 创新点
 - 把"语义分割 → 可量化空间特征谱 → 透明线性模型"做成完整流水线,预测可直接追溯到具体空间标志物,性能与基础模型相当。
 - 闭环发现:先训 MacroNet、解释它,再把解释变成可量化的候选标志物,在多队列验证(Fig. 4A)。
 - VirtualWSI:在概率图上做结构保持的语义扰动 + 空间标志物 UMAP 图谱,无需再训练。
+- 作者结论:由可解释空间标志物刻画的宏观组织结构携带了"传统上认为需要细胞级分析"的遗传信息(MSI/BRAF/TP53/BMPR2;Results p.7);DEB 熵、MUC-TUM 交互等在多个突变任务中都是主要贡献特征,MSI 的特征按平均 |SHAP| 排序(Fig. 5D、5F–H)。
 - 在 ~7,000 例、11 个队列上覆盖预后、MSI/BRAF/TP53/BMPR2 突变和 II/III 期辅助化疗分层,并迁移到乳腺癌。
 
 ## 局限
@@ -72,11 +73,11 @@ flowchart LR
 - 我们的理解:tile 是 224 像素(约 112 μm),再加上 20 像素的连边阈值,所以特征描述的是"组织块"尺度的排布,不涉及单细胞层面。
 
 ## 与本研究方向的关系
-这篇可以看作 detect → model → revert 在 H&E 上的一个"可解释版"原型,PI 推荐,建议逐环对照:
+我们的理解:这篇可以看作 detect → model → revert 在 H&E 上的一个"可解释版"原型,建议逐环对照:
 - **检测环**:PathPrism 的输出不是热图,而是一组可命名、可量化的空间特征(如 TUM 图熵、STR–TUM 交互)。我们的理解:把这 628 维谱当作组织的"可解释特征空间",就可以在上面做无监督异常检测(例如相对健康参照分布的距离),比在黑箱 embedding 上打分更容易让病理医生核对。
-- **模型环**:VirtualWSI 在语义概率图上做受控编辑,再看样本在空间标志物图谱中怎样移动——这正是"可操纵的虚拟组织"的最简形式。作者明确说它不代表因果,也不保证组织状态物理可实现。
-- **回复环**:文中的"回复"停在组织层面(如放大 LYM 一致降低风险分),没有落到基因或药物靶点;BRCA 部分只给出空间特征与 ERBB2/TOP1/TACSTD2 表达的弱相关。我们的理解:要连到基因层面,需要配对的空间转录组,这正是肾脏项目(H&E + Xenium + snRNA)能补上的环节。
-- **对肾脏 Topic 1(Plan A)**:我们的理解:PrismNet 的"冻结基础模型 + PCA + 逻辑回归"组织分割很便宜,适合先在肾脏 H&E 上建组织本体(肾小球、肾小管、间质、血管等),再用同样的单/多组织图特征描述结构异常;但肾脏需要自己的类别与标注,不能直接用 CRC 的 8 类。
+- **模型环**:VirtualWSI 在语义概率图上做受控编辑,再看样本在空间标志物图谱中怎样移动——我们的理解:这可看作"可操纵的虚拟组织"的最简形式。作者明确说它不代表因果,也不保证组织状态物理可实现。
+- **回复环**:文中的"回复"停在组织层面(如放大 LYM 一致降低风险分),没有落到基因或药物靶点;BRCA 部分只给出空间特征与 ERBB2/TOP1/TACSTD2 表达的弱相关。我们的理解:要连到基因层面,需要与 H&E 配对的空间转录组或单细胞数据。
+- **对肾脏课题 1(课题 1)**:我们的理解:PrismNet 的"冻结基础模型 + PCA + 逻辑回归"组织分割很便宜,适合先在肾脏 H&E 上建组织本体(肾小球、肾小管、间质、血管等),再用同样的单/多组织图特征描述结构异常;但肾脏需要自己的类别与标注,不能直接用 CRC 的 8 类。
 
 ## 可复用资产
 - **代码**:PathPrism 代码与说明(论文 Data and code availability)。注意 README 里的总览图 `assets/figure1_new2.png` 只是 1 字节的 git-lfs 占位文件。
@@ -110,8 +111,8 @@ _Source: https://doi.org/10.1016/j.ccell.2026.05.014 · https://github.com/Kathe
 | 组织分割 | PrismNet | CRC-VAL-HE-7K | MCC | 0.958 |
 | 组织分割 | PrismNet | CRC-VAL-HE-7K | macro-AUROC | 0.988 |
 | 预后 | MacroNet | DACHS (5-fold) | C-index | 0.716 ± 0.020 |
-| MSI 预测 | PathPrism | DACHS (5-fold) | AUC | 0.85 |
-| MSI 预测 | PathPrism | 7 external cohorts | AUC | 0.78 |
+| MSI 预测 | PathPrism | DACHS (5-fold) | 中位 AUC | 0.85 |
+| MSI 预测 | PathPrism | 7 external cohorts | 中位 AUC | 0.78 |
 
 **表2.** MacroNet 风险分层的 Kaplan–Meier 危险比(HR)。
 
@@ -123,7 +124,7 @@ _Source: https://doi.org/10.1016/j.ccell.2026.05.014 · https://github.com/Kathe
 
 ## 引用
 ```bibtex
-@article{Liang_2026, title={Spatial biomarker discovery via interpretable semantic learning in histopathology}, ISSN={1535-6108}, url={http://dx.doi.org/10.1016/j.ccell.2026.05.014}, DOI={10.1016/j.ccell.2026.05.014}, journal={Cancer Cell}, publisher={Elsevier BV}, author={Liang, Junhao and Jiang, Xiaofeng and Reitsam, Nic Gabriel and Lenz, Tim and Zhang, Li and Gustav, Marco and Carrero, Zunamys Itzell and Muti, Hannah Sophie and Neidlinger, Peter and Clusmann, Jan and Žigutytė, Laura and Sainath, Vidhya and Wolf, Fabian and Boardman, Lisa A. and French, Amy J. and Goode, Ellen L. and Gsur, Andrea and Brezina, Stefanie and Gunter, Marc J. and Steinfelder, Robert and Harrison, Tabitha and Peters, Ulrike and Phipps, Amanda I. and Quirke, Philip and West, Nicholas P. and Hoffmeister, Michael and Brenner, Hermann and Wankhede, Durgesh and Jonnagaddala, Jitendra and Hawkins, Nicholas and Ward, Robyn L. and Fountzilas, Elena and Papadopoulou, Kyriaki and Fountzilas, George and André, Thierry and Taieb, Julien and Emile, Jean-François and Svrcek, Magali and Kong, Lingjie and Kather, Jakob Nikolas}, year={2026}, month=jun }
+@article{Liang_2026, title={Spatial biomarker discovery via interpretable semantic learning in histopathology}, ISSN={1535-6108}, url={http://dx.doi.org/10.1016/j.ccell.2026.05.014}, DOI={10.1016/j.ccell.2026.05.014}, journal={Cancer Cell}, volume={44}, number={8}, pages={1605--1622.e7}, publisher={Elsevier BV}, author={Liang, Junhao and Jiang, Xiaofeng and Reitsam, Nic Gabriel and Lenz, Tim and Zhang, Li and Gustav, Marco and Carrero, Zunamys Itzell and Muti, Hannah Sophie and Neidlinger, Peter and Clusmann, Jan and Žigutytė, Laura and Sainath, Vidhya and Wolf, Fabian and Boardman, Lisa A. and French, Amy J. and Goode, Ellen L. and Gsur, Andrea and Brezina, Stefanie and Gunter, Marc J. and Steinfelder, Robert and Harrison, Tabitha and Peters, Ulrike and Phipps, Amanda I. and Quirke, Philip and West, Nicholas P. and Hoffmeister, Michael and Brenner, Hermann and Wankhede, Durgesh and Jonnagaddala, Jitendra and Hawkins, Nicholas and Ward, Robyn L. and Fountzilas, Elena and Papadopoulou, Kyriaki and Fountzilas, George and André, Thierry and Taieb, Julien and Emile, Jean-François and Svrcek, Magali and Kong, Lingjie and Kather, Jakob Nikolas}, year={2026}, month=jun }
 ```
 
 

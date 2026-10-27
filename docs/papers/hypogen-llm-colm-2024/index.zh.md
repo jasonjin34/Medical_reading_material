@@ -13,7 +13,7 @@
 - **novelty 与 verifiability 此消彼长**:zero-shot 更新颖,few-shot(尤其相似度检索的 5-shot*)更可验证;例如 gpt-3.5-turbo 的 Novelty 从 0-shot 1.42 降到 5-shot* 1.02,Verifiability 从 1.97 升到 2.36(Fig. 4;附录 Table 2)。
 - **"Verifiability" 只是评审打分的"能否被检验"**,不是真的去做实验或核对后续文献;"后来被证实"只有 Fig. 1 一个个例(§3.1;Fig. 1)。
 - **LLM 评审与人类评审相关性高**:10 个模型/设置上 Pearson 0.73–0.97、Spearman 0.73–0.94;而 BLEU/ROUGE-L 与人评相关性很低甚至为负(Table 1;附录 Table 5)。
-- **工具调用反而降分**:单个 ChatGPT 平均 1.92,加 PubMed 工具后 ReAct 1.56、OpenAI function calling 1.49;多智能体 2.09,多智能体 + 工具 2.07(附录 Table 6)。正文说"工具能进一步提升多智能体",但表中只有 Novelty(1.35 → 1.52)上升,平均分没有升。
+- **工具调用反而降分**:单个 ChatGPT 平均 1.92,加 PubMed 工具后 ReAct 1.56、OpenAI function calling 1.49;多智能体 2.09,多智能体 + 工具 2.07(附录 Table 6)。正文说"工具能进一步提升多智能体",但表中只有 Novelty(1.35 → 1.52)和 Significance(2.05 → 2.06)上升,Relevance 与 Verifiability 下降,平均分 2.09 → 2.07 反而略降。
 
 ## 研究问题
 用 LLM 生成科学假设的工作依赖 ChatGPT、GPT-4 等模型,但它们的训练数据无法追溯,因此无法保证测试数据没被模型见过,也就无法在 zero-shot 条件下评估"知识发现"(Introduction)。此外,假设没有唯一正确答案,只用词重叠指标无法全面评价(§3.1)。作者要问:LLM 能否真正 zero-shot 地提出假设?few-shot 示例、领域适配、指令微调、工具调用和多智能体协作分别有什么影响(§3–4)?
@@ -23,7 +23,7 @@
 **第 2 步 数据构建**(仿 Self-Instruct 流程):按主题和内容组成论文集 → 用 ChatGPT 和 GPT-4 总结文献 → 生成「背景–假设」对 → 过滤低质量数据 → 按发表时间切分(§2.2)。附录实际给出两套数据,分别由 GPT-3.5 和 GPT-4 构建(附录 Tables 2–3;Fig. 8b)。
 **第 3 步 选模型**:只选训练语料早于 2023 年 3 月的模型 —— API 模型 gpt-3.5-turbo;Alpaca Eval 榜单(2023 年 9 月前)上的通用指令模型 Vicuna-33B-v1.3、Llama-2-70B-chat、WizardLM-13B-V1.2、WizardLM-70B-V1.0、Openchat-v3.2-super;医学模型 PMC-LLaMA-13B、MedAlpaca-13B(§3.1;附录 Table 4)。
 **第 4 步 提示与微调**:zero-shot;5-shot 随机采样(5-shot);5-shot 相似度检索(5-shot*),示例都取自 2023 年 1 月前的训练集。另在训练对上微调 WizardLM-13B-V1.2:3 个 epoch、batch size 8、最大长度 2048、学习率 3e-5,按 seen 测试集早停(§3.1;附录 F.4)。
-**第 5 步 评价**:有参考答案时用 BLEU / ROUGE;无参考答案时让 LLM 评审对 Novelty(是否有新信息)、Relevance(是否切题)、Significance(对理解问题的影响)、Verifiability(能否用现有方法或数据检验)各打 0–3 分并给出逐步理由。正文说用 GPT-4 评审,附录的评审 prompt 与 Table 1 表头写的是 "ChatGPT"(§3.1;附录 F.3)。人类评估:3 位生物医学专家对 unseen 测试集 100 个样本打分(§3.4)。
+**第 5 步 评价**:有参考答案时用 BLEU / ROUGE;无参考答案时让 LLM 评审对 Novelty(是否有新信息)、Relevance(是否切题)、Significance(对理解问题的影响)、Verifiability(能否用现有方法或数据检验)各打 0–3 分并给出逐步理由。正文说用 GPT-4 评审,附录的评审 prompt、Table 1 和 Table 5 写的是 "ChatGPT",而附录 Table 6(工具与多智能体)表头又写 "GPT-4 Evaluation"(§3.1;附录 F.3)。人类评估:3 位生物医学专家对 unseen 测试集 100 个样本打分(§3.4)。
 **第 6 步 不确定性**:用 SelfBLEU(一组生成之间的相互 BLEU,越低越多样)作为生成"不确定性"的廉价代理,分析它与 Novelty、Verifiability 的关系(§3.3;Fig. 5)。
 **第 7 步 多智能体与工具**:Analyst(从背景中抽关键词/主题)→ Engineer(用 PubMed 检索并整理,排除 2023 年 1 月后的文献)→ Scientist(结合检索结果与背景提出假设)→ Critic(评估并反馈,可回到前面的角色),可选人类参与;工具调用对比 ReAct 与 OpenAI function calling,在 unseen 测试集上评估(§4.1;Fig. 6)。
 
@@ -46,7 +46,7 @@ flowchart LR
 - **unseen 上 BLEU 反而更高**:作者原以为 seen 集会因记忆而更好,但 Fig. 3 显示模型在 unseen 集上往往更好;例如 gpt-3.5-turbo 0-shot BLEU seen 13.93、unseen 15.52(附录 Table 2)。作者推测是假设生成的复杂性妨碍模型利用参数化的 "dark knowledge"(§3.2.1)。
 - **外部知识不总有益**:领域适配(MedAlpaca、PMC-LLaMA)提高词重叠指标,并提高利用 few-shot 的能力,但削弱 zero-shot 能力;指令微调提高 BLEU/ROUGE 和可验证性,但降低新颖性和重要性(§3.2.2)。微调后的 WizardLM-13B-V1.2 人评 Novelty 只有 0.85、Significance 1.23(Table 1)。
 - **不确定性**:zero-shot 生成的 SelfBLEU 更低(更不确定/更多样)且 Novelty 更高;few-shot 不确定性更低而 Verifiability 更高(§3.3;Fig. 5)。
-- **人类评估**:LLM 评审与人类平均分的相关系数 Pearson 0.73–0.97、Spearman 0.73–0.94(均 > 0.7);人评平均最高为 Llama-2-70b-chat 5-shot 2.33,gpt-3.5-turbo 0-shot 2.02(Table 1)。BLEU 与人评相关性在 −0.58 到 0.32 之间(附录 Table 5)。
+- **人类评估**:LLM 评审与人类平均分的相关系数 Pearson 0.73–0.97、Spearman 0.73–0.94(均 > 0.7);人评平均最高为 Llama-2-70b-chat 5-shot 2.33,gpt-3.5-turbo 0-shot 2.02(Table 1)。BLEU 与人评的 Pearson 相关在 −0.58 到 0.32 之间、Spearman 在 −0.65 到 0.39 之间(附录 Table 5)。
 - **工具与多智能体(unseen 测试集,LLM 评审平均分)**:ChatGPT 1.92;+ ReAct 工具 1.56;+ OpenAI function calling 1.49;多智能体 2.09;多智能体 + 工具 2.07(附录 Table 6)。正文结论是"工具帮助很小、LLM 难以从检索结果中识别有用信息;多智能体通过引入不确定性显著提升"(§4.2)。
 - **正文与附录表不一致的地方**:§4.2 说 ReAct 略差于 OpenAI function calling,但 Table 6 中 ReAct(2a)平均 1.56 高于 function calling(2b)1.49;§4.2 说工具能进一步提升多智能体,但 Table 6 平均分 2.09 → 2.07 略降。
 

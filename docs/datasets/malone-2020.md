@@ -20,7 +20,7 @@ Single-cell RNA (10x 5′); whole-exome sequencing of donors and recipients.
 
 ## People and samples
 
-5 kidney transplant biopsies; the disease is transplant rejection, not AKI / CKD.
+5 kidney transplant biopsies: 3 with antibody-mediated rejection and 2 with a non-rejection cause of AKI; not native-kidney AKI / CKD.
 
 ## Labels
 
@@ -28,7 +28,7 @@ Donor / recipient labels per cell. The public labels contradict the paper (macro
 
 ## Known issues
 
-- Doublets were removed by hand; no doublet labels, no empty droplets; ambient RNA is not discussed.
+- Doublets were removed by hand and by Demuxlet genotype calls (3–10.5% of cells); no doublet labels in the public file, no empty droplets; ambient RNA is not discussed.
 
 ## Download
 
@@ -36,9 +36,9 @@ Donor / recipient labels per cell. The public labels contradict the paper (macro
 |---|---|---|---|
 | `CSV` | GEO GSE145927: count tables of 7 biopsies (after QC) | 247 MB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145927) |
 | `CSV` | per-cell metadata (donor / recipient, cell type, rejection) | 2.1 MB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145927) |
-| `FASTQ` | SRA SRP250734 (36 runs, incl. exomes) | ≈ 861 GB | — |
+| `FASTQ` | SRA SRP250734 (36 runs, incl. exomes) | ≈ 693 GB (SRA) | — |
 
-JASN is not CC-licensed, so no original figure is shown. Using it would mean re-running from about 30–65 GB of raw data per sample.
+JASN is not CC-licensed, so no original figure is shown. Using it would mean re-running from about 75–120 GB of raw data per single-cell sample (SRA).
 
 ## How to prepare
 

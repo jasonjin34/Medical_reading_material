@@ -28,7 +28,7 @@
   "stats": {
    "papers": 50,
    "concepts": 18,
-   "edges": 186
+   "edges": 187
   }
  },
  {
@@ -48,14 +48,14 @@
   }
  },
  {
-  "id": "sikander",
+  "id": "reading-list",
   "title": {
-   "en": "Sikander's picks",
-   "zh": "Sikander 推荐"
+   "en": "Core reading list",
+   "zh": "核心阅读清单"
   },
   "lead": {
-   "en": "Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line.",
-   "zh": "Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。"
+   "en": "The core background reading, on the detect → model → revert line.",
+   "zh": "核心背景阅读，按 detect → model → revert 排列。"
   },
   "stats": {
    "papers": 32,

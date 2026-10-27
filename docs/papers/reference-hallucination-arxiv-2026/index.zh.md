@@ -32,7 +32,7 @@
 - 三家厂商、两个以英文为主的基准;自我纠错只用 20% 子集(受 API 限额影响)。
 
 ## 与本研究方向的关系
-对 **Plan B** 来说这是 claim-to-evidence 核验链条的**第 0 层:证据是否存在**。在组学 agent 场景中,对应物不是 URL,而是 agent 报告里引用的**文件路径、图、表、单元格输出、数据集 accession(GEO/KPMP)、基因 ID**—— 这些都可能被「编造」(报告引用了从未生成的 `de_results.csv`)或「失效」(中间文件被覆盖、notebook 状态丢失)。本文的分类法可直接移植为 omics-specific failure taxonomy 的一支:**artefact-fabricated / artefact-stale / artefact-live-but-unsupported**,urlhealth 的 LIVE/DEAD/HALLUCINATED/UNKNOWN 四分类也可以换成对 agent 工作目录与 provenance log 的存在性检查。两点实验发现尤其可借:(1) deep research 这类长程多步系统**幻觉率更高** —— 多步分析 agent 也应预期类似的误差累积;(2) 「给工具 ≠ 会用工具」,小模型会无视核验结果 —— 设计 verifier-in-the-loop 时要测量 agent 是否真正按 verifier 反馈改正,而不只是调用了它。与 Plan A 无直接关系。
+对 **课题 2** 来说这是 claim-to-evidence 核验链条的**第 0 层:证据是否存在**。在组学 agent 场景中,对应物不是 URL,而是 agent 报告里引用的**文件路径、图、表、单元格输出、数据集 accession(GEO/KPMP)、基因 ID**—— 这些都可能被「编造」(报告引用了从未生成的 `de_results.csv`)或「失效」(中间文件被覆盖、notebook 状态丢失)。本文的分类法可直接移植为 omics-specific failure taxonomy 的一支:**artefact-fabricated / artefact-stale / artefact-live-but-unsupported**,urlhealth 的 LIVE/DEAD/HALLUCINATED/UNKNOWN 四分类也可以换成对 agent 工作目录与 provenance log 的存在性检查。两点实验发现尤其可借:(1) deep research 这类长程多步系统**幻觉率更高** —— 多步分析 agent 也应预期类似的误差累积;(2) 「给工具 ≠ 会用工具」,小模型会无视核验结果 —— 设计 verifier-in-the-loop 时要测量 agent 是否真正按 verifier 反馈改正,而不只是调用了它。与课题 1 无直接关系。
 
 ## 可复用资产
 - **工具:** `urlhealth`(83 行 Python,pip 包 + agentskills.io skill,MIT 许可;论文称工具与全部数据公开,但正文未给出仓库链接)。

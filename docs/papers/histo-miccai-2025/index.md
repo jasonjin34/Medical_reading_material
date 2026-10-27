@@ -6,11 +6,11 @@
 ---
 
 ## One-liner
-AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 "normal tissue" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).
+AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 "normal tissue" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score (the paper does not name the distance; the released code computes latent-space MSE and pixel LPIPS) — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).
 
 ## Takeaways
 - Reconstruction-based anomaly detection: normal patches reconstruct well, metastases poorly; the novelty is steering the reconstruction with **text that describes normal tissue** (§2.1–2.2).
-- On the in-house gastric lymph-node data (LH) patch AUC is 0.9587, a little above the best baseline MemAE (0.9290); on breast lymph nodes (C16) the gap widens to ~0.22 AUC (0.8884 vs ~0.66) (Table 2).
+- On the in-house gastric lymph-node data (LH) patch AUC is 0.9587, a little above the best LH baseline MemAE (0.9290); on breast lymph nodes (C16) it is 0.8884, and the authors note the gap to the AE-type methods widens to ~0.22 AUC (AE 0.6584, MemAE 0.6611); the best C16 baseline, complexity (0.7752), is ~0.11 below (Table 2, §4).
 - Slide-level classification still drops sharply across organs: best AUC 0.9943 on LH but only 0.6745 on C16 (Table 3).
 - The authors stress evaluating **segmentation (localisation)**, not only classification: AE / MemAE classify reasonably but give near-uniform scores over a slide (Table 3, Fig. 3).
 - Our reading: there is no ablation removing the text prompt or varying the keyword count, so the gain cannot be split between text guidance, the LDM itself, and SD pretraining.
@@ -23,7 +23,7 @@ Lymph-node metastasis is a key prognostic factor. Supervised detection needs ext
 2. **Keyword pool**: 74 pathology keywords from the literature describing cells and microenvironments of normal lymph nodes, reviewed by an experienced pathologist (§2.2).
 3. **Weighted prompt**: CONCH (a vision-language model pretrained on 1.17M pathology image–caption pairs) embeds the patch and every keyword; cosine similarity selects the top 5; each similarity divided by the median becomes its weight; a weighted text embedding c is built following the Compel library (§2.2, Fig. 2).
 4. **Training**: a Stable Diffusion v1.5 latent diffusion model fine-tuned with LoRA (rank 4) on normal training patches only; Adam, lr 1e-5, batch 64; conditional denoising loss L = E‖ε − ε_θ(z_t, t, c)‖²; the 400k-step checkpoint with lowest FID is used (§2.1 Eq. 4, §3.2).
-5. **Reconstruct and score**: following AnoDDPM, the input is noised to timestep t = 674 (chosen from 8 candidates by slide-classification performance on the LH test set) and denoised under the text condition to ẑ₀; input–reconstruction discrepancy = anomaly score; PLMS sampler, 100 steps (§2.1, §3.2).
+5. **Reconstruct and score**: following AnoDDPM, the input is noised to timestep t = 674 (chosen from 8 candidates by slide-classification performance on the LH test set) and denoised under the text condition to ẑ₀; input–reconstruction discrepancy = anomaly score (distance not named in the paper; the code outputs `mse_latent` and `lpips_pixel`); PLMS sampler, 100 steps (§2.1, §3.2).
 6. **Evaluation**: anomaly scores are z-scored over all patches of a test set; patch level: AUC / AUPR; slide level: z-score heatmap with 2×2 morphological erosion, classification by max z (Zmax) or the paper's "average of 99th percentile z-scores" (Z99), segmentation by DICE / IoU on metastasis slides and true-negative rate (TNR) on normal slides, threshold 0 (§3.2).
 7. **Baselines**: density-based VAE negative likelihood (NLL) and variants Regret, LLR, complexity; reconstruction-based f-AnoGAN, AE, MemAE, AnoDDPM (§3.2).
 
@@ -41,7 +41,7 @@ flowchart LR
 ```
 
 ## Data
-**LH (gastric lymph nodes from two local hospital sites, private)**: 808 WSIs, 751 normal and 57 metastatic (partially annotated). Normal slides split 643 train / 50 val / 58 in-distribution test; the 57 metastatic slides are the OOD test set. Patches: train 1,373,475; val 102,240; in-dist test 174,703; OOD test 115,330 (fully metastasis-annotated). All LH tumour regions are >2 mm (§3.1, Table 1). **C16 (Camelyon16 breast lymph nodes, public)**: independent testing only — 32 normal val, 80 normal test, 49 metastatic, of which 22 contain tumour clusters >2 mm ("C16 Macro"); 55,659 OOD patches. Patch-level base prevalence: LH 0.3976, C16 0.1882 (§3.1).
+**LH (gastric lymph nodes from two local hospital sites; no public download link in the paper, and the MICCAI page lists the dataset as N/A)**: 808 WSIs, 751 normal and 57 metastatic (partially annotated). Normal slides split 643 train / 50 val / 58 in-distribution test; the 57 metastatic slides are the OOD test set. Patches: train 1,373,475; val 102,240; in-dist test 174,703 (138,054 from the 58 normal test slides + 36,649 normal-annotated patches from the metastatic slides); OOD test 115,330 (fully metastasis-annotated). All LH tumour regions are >2 mm (§3.1, Table 1). **C16 (Camelyon16 breast lymph nodes, public)**: independent testing only — 32 normal val, 80 normal test, 49 metastatic, of which 22 contain tumour clusters >2 mm ("C16 Macro"); 55,659 OOD patches. Base prevalence: patch level LH 0.3976, C16 0.1882; slide level LH 0.4956, C16 0.3798, C16 Macro 0.2157 (§3.1).
 
 ## Key results
 - **Patch level (Table 2)**: AnoPILaD AUC 0.9587 / AUPR 0.9499 on LH and 0.8884 / 0.6987 on C16, best in both. On LH: AE 0.9254, MemAE 0.9290, AnoDDPM 0.8555; on C16: AE 0.6584, MemAE 0.6611, AnoDDPM 0.6857.
@@ -59,21 +59,21 @@ flowchart LR
 - (Authors) cross-organ performance still needs work, left for future study (Conclusion); slide-level AUC on C16 is only 0.64–0.67 (Table 3).
 - Our reading: the diffusion timestep t = 674 was chosen on the LH **test set** (§3.2), so LH results are somewhat optimistic.
 - Our reading: no ablations (no prompt, random keywords, different keyword counts) and no standard deviations or repeated runs.
-- Our reading: the keyword pool is lymph-node-specific and must be rebuilt for other organs; LH data are private; 100-step diffusion sampling makes inference far costlier than an AE.
+- Our reading: the keyword pool is lymph-node-specific and must be rebuilt for other organs; the paper gives no download for the LH data; 100-step diffusion sampling makes inference far costlier than an AE.
 
 ## Relation to our direction
 Sits at stage 1 (detect) with a hint of "revert". Our reading: (1) "reconstruct the abnormal sample as normal; the difference is the anomaly" is an image-space counterfactual normal tissue, formally similar to our stage 3 "revert the anomaly", but without any gene-level explanation; (2) conditioning a generative normal model on prior knowledge (here text keywords) transfers to omics — e.g. condition on cell type or region labels so the model only has to judge "normal for this type"; (3) for the Topic 1 kidney benchmark, the evaluation design is worth copying: beyond slide/sample classification, include region-level segmentation metrics (DICE, TNR on normal slides) and cross-cohort / cross-organ tests. It also warns that AE-type baselines can look fine on classification yet localise poorly.
 
 ## Reusable assets
 - **Code (MIT)**: <https://github.com/QuIIL/AnoPILaD> — `image_caption.py` (CONCH keyword selection → metadata.csv), `train_text_to_image_lora.py` (LoRA fine-tuning, adapted from the diffusers example), `rec_generate.py` (reconstruction), `ldm_solvers.py` (adapted from CFG++); python 3.11, CONCH installed separately (README). The README offers no pretrained weights.
-- **Data**: Camelyon16 is public for the cross-organ test; LH is private.
+- **Data**: Camelyon16 is public for the cross-organ test; no download link for LH (MICCAI page: dataset N/A).
 - **Evaluation protocol**: within-test-set z-scores → patch AUC / AUPR; slide-level Zmax / Z99 with 2×2 erosion; segmentation DICE / IoU on metastatic slides + TNR on normal slides, threshold 0 (§3.2).
 
 ## Follow-ups
 - Linmans et al. 2024, "Diffusion models for out-of-distribution detection in digital pathology", *Medical Image Analysis* 93:103088 — source of the AnoDDPM baseline here (ref [17]).
 - Wyatt et al. 2022, AnoDDPM with simplex noise (ref [15]) — origin of the name.
 - CONCH (Lu et al., arXiv:2307.12914, ref [20]).
-- MemAE (Gong et al., ICCV 2019, ref [10]) — the strongest non-diffusion baseline.
+- MemAE (Gong et al., ICCV 2019, ref [10]) — the strongest non-diffusion baseline on LH (on C16 the best baseline is complexity).
 
 ## Figures & tables
 
@@ -122,7 +122,12 @@ _Tables 2-3 source: https://papers.miccai.org/miccai-2025/paper/2270_paper.pdf (
   title = {Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis},
   author = {Wang, Jiamu and Byeon, Keunho and Song, Jinsol and Nguyen, Anh and Ahn, Sangjeong and Lee, Sung Hak and Kwak, Jin Tae},
   booktitle = {Medical Image Computing and Computer Assisted Intervention (MICCAI)},
-  year = {2025}
+  series = {Lecture Notes in Computer Science},
+  pages = {453--462},
+  year = {2025},
+  doi = {10.1007/978-3-032-04937-7_43},
+  note = {Code: https://github.com/QuIIL/AnoPILaD},
+  url = {https://papers.miccai.org/miccai-2025/0675-Paper2270.html}
 }
 ```
 

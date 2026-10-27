@@ -36,7 +36,7 @@ MrVI(multi-resolution variational inference,Yosef 组,scvi-tools 内置)是一�
 - 正文定量指标较少,大部分比较在图中;发现(如 EndMT 周细胞样状态)尚未实验验证。
 
 ## 与本研究方向的关系
-MrVI 在本方向上横跨 detect 与 model 两阶段。**detect**:它的局部 DA(对数密度比)和每细胞样本距离矩阵,本质上是「哪些细胞、在哪些样本里偏离了正常」——是 Milo(`healthy-ref-natgenet-2023`)的生成式替代,可在 KidneyAnomalyBench 中作为单细胞层面的样本级异常基线。**model**:「u 不受样本影响、z 受样本影响」的反事实结构正是 virtual tissue 想要的可操控表征——把一个患者的细胞「换到」健康样本条件下看表达如何变化,就是 revert 阶段「把异常拉回正常」的计算原型;sci-Plex 部分又展示了把药物当 target 协变量来分组扰动效应。对 **Plan A**:院内 95 例活检多中心、多批次,MrVI 的 nuisance/target 分离可以把处理批次当 nuisance、患者当 target,检验「只在某些肾单位细胞(如近端小管损伤态)中体现的患者分层」;但 MrVI 只做 RNA,与 snATAC/Xenium 的跨模态一致性需要另行比较。对 **Plan B**:MrVI 的 DE 结果来自生成模型而非原始计数,agent 若直接引用模型 LFC 作为证据,verifier 应检查是否有原始数据层面的佐证(本文自己做了这一步,可作为标准)。
+MrVI 在本方向上横跨 detect 与 model 两阶段。**detect**:它的局部 DA(对数密度比)和每细胞样本距离矩阵,本质上是「哪些细胞、在哪些样本里偏离了正常」——是 Milo(`healthy-ref-natgenet-2023`)的生成式替代,可在 KidneyAnomalyBench 中作为单细胞层面的样本级异常基线。**model**:「u 不受样本影响、z 受样本影响」的反事实结构正是 virtual tissue 想要的可操控表征——把一个患者的细胞「换到」健康样本条件下看表达如何变化,就是 revert 阶段「把异常拉回正常」的计算原型;sci-Plex 部分又展示了把药物当 target 协变量来分组扰动效应。对 **课题 1**:肾活检数据常是多中心、多批次的,MrVI 的 nuisance/target 分离可以把处理批次当 nuisance、患者当 target,检验「只在某些肾单位细胞(如近端小管损伤态)中体现的患者分层」;但 MrVI 只做 RNA,与 snATAC/Xenium 的跨模态一致性需要另行比较。对 **课题 2**:MrVI 的 DE 结果来自生成模型而非原始计数,agent 若直接引用模型 LFC 作为证据,verifier 应检查是否有原始数据层面的佐证(本文自己做了这一步,可作为标准)。
 
 ## 可复用资产
 - **软件**:MrVI 已集成在 scvi-tools。

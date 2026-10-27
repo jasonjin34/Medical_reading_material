@@ -37,7 +37,7 @@
 - 仍需匹配 control;完全没有 control 时的替代方案只在补充材料中讨论。
 
 ## 与本研究方向的关系
-这是 detect 阶段的**方法学基石**:我们把「疾病改变的细胞状态」当作异常,而本文告诉我们异常检测的「正常」该如何定义——**atlas 定义坐标系,匹配 control 定义统计零假设**。对 **Plan A**(肾脏组学异常检测)直接可用:用 KPMP / Lake 肾脏 atlas / HuBMAP 做 embedding 参照,把院内 95 例活检的 snRNA 映射进去,再用院内或 KPMP 的匹配健康样本(如肿瘤肾切除旁正常组织)做 DA 对照;本文的 OOR 模拟(从健康数据里删掉一类细胞)也可以直接改造成 **KidneyAnomalyBench** 的合成 ground-truth 部分,与专家标注互补。本文也解释了一种重要失败模式——「AR 设计下批次/协议差异被误判为疾病」——这正是 Plan A 需要用**跨模态一致性**(snRNA vs snATAC vs Xenium)去区分 artifact 与疾病的原因:单模态的 DA 显著性不足以定罪。对 **Plan B**(可信生物医学 agent),本文给出了一个可执行的「声明→证据」核查规则:当 agent 声称「发现某疾病特异细胞状态」时,verifier 应检查其参照设计(是否有匹配 control?HVG 是否在疾病数据上选择?邻域样本数是否异常少?),这些都可以写进 omics-specific failure taxonomy。
+这是 detect 阶段的**方法学基石**:我们把「疾病改变的细胞状态」当作异常,而本文告诉我们异常检测的「正常」该如何定义——**atlas 定义坐标系,匹配 control 定义统计零假设**。对 **课题 1**(肾脏组学异常检测)直接可用:用 KPMP / Lake 肾脏 atlas / HuBMAP 做 embedding 参照,把待测肾样本的 snRNA 映射进去,再用 KPMP 等来源的匹配健康样本(如肿瘤肾切除旁正常组织)做 DA 对照;本文的 OOR 模拟(从健康数据里删掉一类细胞)也可以直接改造成 **KidneyAnomalyBench** 的合成 ground-truth 部分,与专家标注互补。本文也解释了一种重要失败模式——「AR 设计下批次/协议差异被误判为疾病」——这正是课题 1 需要用**跨模态一致性**(snRNA vs snATAC vs Xenium)去区分 artifact 与疾病的原因:单模态的 DA 显著性不足以定罪。对 **课题 2**(可信生物医学 agent),本文给出了一个可执行的「声明→证据」核查规则:当 agent 声称「发现某疾病特异细胞状态」时,verifier 应检查其参照设计(是否有匹配 control?HVG 是否在疾病数据上选择?邻域样本数是否异常少?),这些都可以写进 omics-specific failure taxonomy。
 
 ## 可复用资产
 - **复现代码**(OOR 设计基准):

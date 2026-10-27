@@ -37,7 +37,7 @@ SCMMIB:以 Registered Report 形式,对 40 个单细胞多模态整合算法(拆
 - 数据以免疫/血液为主,肾只有一个 10x 肾癌 CITE-seq;本精读基于预印本。
 
 ## 与本研究方向的关系
-对 Plan A,这是选择整合骨干的「方法地图」:我们的 95 例活检是 snRNA + snATAC(multiome,配对)+ Xenium(空间)+ H&E,且会与 KPMP/Lake 等外部非配对数据合并 —— 正好对应本文的配对 RNA+ATAC(推荐 Seurat v4 WNN、MultiVI)、非配对对角(GLUE)与 mosaic(MultiVI、Seurat v5 Bridge、MIDAS)三类任务。与 `kidney-multimodal-genomebiol-2026` 对照很有意思:后者在肾上发现 WNN 过度偏向 RNA、multi-spectral 更好 —— 说明在血液数据上得到的 SOTA 不一定迁移到肾,KidneyAnomalyBench 需要自己做一次肾上的整合选型。对「跨模态一致性区分伪影与疾病」,本文的「伪非配对 + 已知对应」设计可以直接借用:用 multiome 的真实配对作为金标准,量化整合本身引入的错配率(FOSCTTM),这就是跨模态不一致打分的**噪声底线** —— 低于这个底线的不一致不应被判为异常。另一个关键事实是「不给批次信息时 totalVI 等方法性能大幅下降」,意味着异常打分前必须显式建模批次。对 Plan B,「深度方法未固定随机种子时 SD > 0.05」直接对应 rerun stability:agent 用这些工具得出的结论需要多次重跑验证,这可以写入组学特异失败分类(「随机种子未固定导致结论不稳定」)。
+对课题 1,这是选择整合骨干的「方法地图」:snRNA + snATAC(multiome,配对)+ Xenium(空间)+ H&E 这类多模态设计,往往还要与 KPMP/Lake 等外部非配对数据合并 —— 正好对应本文的配对 RNA+ATAC(推荐 Seurat v4 WNN、MultiVI)、非配对对角(GLUE)与 mosaic(MultiVI、Seurat v5 Bridge、MIDAS)三类任务。与 `kidney-multimodal-genomebiol-2026` 对照很有意思:后者在肾上发现 WNN 过度偏向 RNA、multi-spectral 更好 —— 说明在血液数据上得到的 SOTA 不一定迁移到肾,KidneyAnomalyBench 需要自己做一次肾上的整合选型。对「跨模态一致性区分伪影与疾病」,本文的「伪非配对 + 已知对应」设计可以直接借用:用 multiome 的真实配对作为金标准,量化整合本身引入的错配率(FOSCTTM),这就是跨模态不一致打分的**噪声底线** —— 低于这个底线的不一致不应被判为异常。另一个关键事实是「不给批次信息时 totalVI 等方法性能大幅下降」,意味着异常打分前必须显式建模批次。对课题 2,「深度方法未固定随机种子时 SD > 0.05」直接对应 rerun stability:agent 用这些工具得出的结论需要多次重跑验证,这可以写入组学特异失败分类(「随机种子未固定导致结论不稳定」)。
 
 ## 可复用资产
 - **评测指标 Python 包与作图脚本:**

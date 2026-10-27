@@ -9,76 +9,79 @@
 MintFlow 是一个基于 flow matching 的生成模型:在单细胞分辨率空间转录组(Xenium)上,把每个细胞的表达拆成"细胞本身(intrinsic)"和"由周围微环境诱导(microenvironment-induced)"两部分,并能在电脑里删除或替换某类细胞,预测邻近细胞表达如何变化。
 
 ## 要点
-- 核心输出是两个计数矩阵:X_int(本征)和 X_mic(微环境诱导),两者相加重建原始表达;"微环境评分"= 细胞总计数中被归为微环境诱导的比例。
-- 不需要配体-受体先验或预定义空间域;用 iVAE 式条件先验 + 最优传输条件让分解可识别、唯一(Methods、Supplementary Note 2)。
-- in silico 扰动 = 改细胞类型标签或删除一群细胞 → 重建邻接图 → 重新预测邻居的 X_mic。
-- 应用于特应性皮炎、黑色素瘤和透明细胞肾癌(ccRCC);ccRCC 中模拟删除三级淋巴结构(TLS)相关巨噬细胞,使 T 细胞的共抑制 / 耗竭标记下调。
-- 把 in silico 重编程结果连到 TCGA 606 例 ccRCC 生存:TLS Border T 细胞程序高表达与更差生存相关(p = 0.0073),重编程后的状态高表达与生存获益相关(p = 0.0034)。
-- 这是我们读到的最接近"model → revert"的空间组学方法,而且有肾脏(ccRCC)应用。
+- 核心输出是两个计数矩阵:X_int(本征)和 X_mic(微环境诱导),两者相加重建原始表达;"微环境评分"= 细胞总计数中被归为微环境诱导的比例(Methods)。
+- 不需要配体-受体先验或预定义空间域。分解按"可识别"来设计:iVAE 式条件先验让 [z, s_in] 在理论上可识别(至多差一个维度置换),最优传输目标(Proposition 1)在其最优解处使分解唯一;但作者说明训练不保证达到该最优解,且在细胞类型单一的区域分离会变弱(Methods "Notes on identifiability"、Supplementary Note 2)。
+- in silico 扰动 = 改细胞类型标签或删除一群细胞 → 按空间位置重建邻接图 → 重新生成表达,比较扰动前后。
+- 应用于特应性皮炎、黑色素瘤和透明细胞肾癌(ccRCC);ccRCC 中模拟删除三级淋巴结构(TLS)相关巨噬细胞,使 TLS T 细胞的共抑制 / 耗竭标记下调。
+- 把 in silico 重编程结果连到 TCGA 606 例 ccRCC 生存:TLS Border T 细胞程序高表达与更差生存相关(p = 0.0073),重编程后的状态高表达与生存获益相关(p = 0.0034)(Fig. 7g)。
+- 我们的理解:这是我们读到的最接近"model → revert"的空间组学方法,而且有肾脏(ccRCC)应用。
 
 ## 研究问题
-组织微环境会在疾病中重编程局部细胞状态,但现有空间计算方法大多是描述性的,不能模拟组织扰动(Abstract)。已有对微环境效应建模的方法要么不能把本征与微环境诱导的变化分开,要么依赖线性假设或配体-受体等先验,扩展性差,也难以做假设检验。作者想要一个能学习"微环境如何改变细胞状态"、可扩展到多张切片、并能做 in silico 扰动的生成模型。
+组织微环境会在疾病中重编程局部细胞状态,但现有空间计算方法仍是描述性的,不能模拟组织扰动(Abstract)。作者指出,已有对微环境效应建模的方法要么不能把本征与微环境诱导的变化分开,要么缺乏机制可解释性、需要事后解释嵌入,要么受线性假设限制、扩展性差,或需要基因-基因相互作用(如配体-受体)先验;它们也难以提出新的生物学假设并用 in silico 扰动检验(Introduction)。作者想要一个能学习"微环境如何改变细胞状态"、可扩展到多张切片、并能做 in silico 扰动的生成模型。
 
 ## 方法
-术语:Xenium = 10x 的单细胞分辨率原位转录组平台(5k = 约 5000 基因 panel);微环境 = 一个细胞的空间近邻;MCC = 微环境中各细胞类型的比例。
+术语:Xenium = 10x 的单细胞分辨率原位转录组平台(本文用 5k-plex,约 5000 基因 panel);微环境 = 一个细胞在近邻图中的邻居;MCC = 微环境中各细胞类型的比例。
 
-1. **输入**:单细胞分辨率空间转录组的计数、坐标和细胞类型标签。按坐标建 k=5 的近邻图,算每个细胞的 MCC(Methods)。
-2. **三个隐变量**:z_n(本征变化,先验以细胞类型为条件)、s_out(细胞向外发出的信号,先验以细胞类型为条件)、s_in(由邻居的 s_out 聚合得到的传入信号,间接依赖 MCC)(Fig. 1b、Methods)。
-3. **生成过程**:在隐空间做 flow matching,用神经 ODE 作解码器,得到本征嵌入与微环境诱导嵌入,再解码成 X_int 和 X_mic,两者相加重建观测表达。
-4. **可识别性**:非线性解码器的模型一般不可识别;作者模仿 iVAE,用细胞类型 / MCC 条件先验,再加上与最优传输相关的条件使分解唯一(Methods、Supplementary Note 2)。另用 Wasserstein 分布匹配项保证"本征状态不含邻居细胞类型信息"。
-5. **扩展性**:自定义采样器按块取子图训练,可以在多张、合计数百万细胞的切片上训练。
-6. **下游**:聚类微环境诱导嵌入得到微环境诱导细胞状态(MCS)和空间域;从 X_mic 得到微环境诱导基因程序(MGP);微环境评分定位信号热点。
-7. **in silico 扰动**:修改细胞类型标签或删除某一亚群,按空间位置重建邻接图,再预测扰动后邻居的表达。
-8. **基准**:带已知微环境效应的模拟数据(MAE、EMD、MSE);真实数据上看已知信号基因的计数是否更多被归入 X_mic;对比方法包括 SIMVI 和 MEFISTO 等。
+1. **输入**:单细胞分辨率空间转录组的计数、坐标和细胞类型标签。按坐标建 k=5 的近邻图,一个细胞的邻居即其微环境,算每个细胞的 MCC(Methods "Model overview")。
+2. **三个隐变量**:z_n(本征变化,先验以细胞类型为条件)、s_out(细胞向外发出的信号,先验以细胞类型为条件)、s_in(邻居 s_out 的平均,因此间接依赖 MCC)(Fig. 1b、Methods)。
+3. **生成过程**:在隐空间做 flow matching,用神经 ODE 解码器得到本征与微环境诱导的低维表示,再由解码器生成 X_int 和 X_mic,两者相加等于观测计数。
+4. **可识别性**:非线性解码器的模型一般不可识别。作者模仿 iVAE,把 z 和 s_in 分别以细胞类型(CT)和 MCC 为条件,并加目标"CT 可由 z 预测、MCC 可由 s_in 预测"等;理论上 [z, s_in] 可识别至多差一个维度置换,但在细胞类型单一的区域 CT 与 MCC 相同,分离会变弱。为使 X = X_int + X_mic 的分解唯一,加入与最优传输相关的目标(Proposition 1,证明见 Supplementary Note 2);作者说明方法不保证找到该目标的最优解。另用 Wasserstein 分布匹配**鼓励** z 和 x_int 不含邻居细胞类型信息(Objectives 7–8)(Methods "Notes on identifiability")。
+5. **扩展性**:用 PyTorch Geometric 邻居采样做子图训练;自定义采样器以组织上的随机方块作为中心节点,可以在多张、合计数百万细胞的切片上训练(Methods "Scalability")。
+6. **下游**:聚类微环境诱导嵌入得到微环境诱导细胞状态(MCS)和微环境域;对微环境诱导表达做差异表达得到微环境诱导基因程序(MGP);微环境评分高且聚集的细胞是候选信号热点。
+7. **in silico 扰动**:训练后模型只需细胞类型标签和近邻图即可生成表达。实验中从真实数据取一块组织,改细胞类型标签或删除某类细胞,按空间位置重建近邻图,再比较扰动前后生成的表达(Methods "In silico tissue perturbation")。
+8. **基准**:用 NicheCompass 模拟框架生成带已知微环境效应的模拟数据(10,000 个细胞、2,000 个基因、8 个空间区域),指标 MAE、EMD、MSE;真实数据上看已知信号基因(来自配体-受体数据库合集)的计数是否更多被归入 X_mic;对比 SIMVI、MEFISTO 和随机基线;与基线比较时 MintFlow 嵌入维度从默认 100 降到 10(Methods "Benchmarking"、"Metrics")。
 
 ## 方法图
 ```mermaid
 flowchart LR
   A["Xenium cells<br/>counts, positions, cell types"] --> B["kNN graph k=5<br/>MCC per cell"]
-  B --> C["Latents z, s_in, s_out<br/>conditional priors"]
+  B --> C["Latents: z, s_out with cell-type priors<br/>s_in = mean of neighbour s_out"]
   C --> D["Flow matching<br/>neural ODE decoder"]
   D --> E["X_int + X_mic<br/>= observed counts"]
   E --> F["MCS, MGP,<br/>microenvironment score"]
   G["In silico perturbation<br/>delete or relabel cells"] --> B
-  E --> H["Predicted neighbour<br/>expression change"]
+  E --> H["Expression before vs after<br/>perturbation"]
 ```
 
 ## 数据
-(1) **特应性皮炎**:8 名患者的 10 张皮肤切片(其中 8 张为新生成),Xenium 5k,QC 后 197,487 个细胞,识别 10 个微环境域;外部验证包括 4 名患者的 scRNA-seq、一个覆盖 6 种组织 23 种疾病的图谱、10 名 dupilumab 治疗 12 周的患者。(2) **皮肤黑色素瘤**:公开的 5000-plex Xenium 数据,98,749 个细胞,8 个微环境簇。(3) **ccRCC**:1 名患者,肿瘤核心 3 个肉眼可区分的区域 + 肿瘤-正常交界,337,116 个细胞,24 种细胞类型;外部数据包括 10 名患者 147,917 个肿瘤浸润细胞的 ccRCC scRNA-seq(含 ICB 治疗样本,Bi et al.)、TCGA 606 例 ccRCC bulk RNA-seq,以及一个 Kaede 转基因小鼠抗 PD-L1 肿瘤模型。另有带真值的模拟数据用于基准。
+(1) **特应性皮炎**:8 名患者的 10 张皮肤切片(5 张皮损、5 张非皮损;其中 8 张为新生成),Xenium 5k,QC 后 197,487 个细胞,识别 10 个微环境域;外部验证包括 4 名患者的特应性皮炎 scRNA-seq、一个覆盖 6 种组织 23 种疾病的整合数据集、同一队列 10 名患者 dupilumab 治疗第 12 周的样本。(2) **皮肤黑色素瘤**:10x 公开的 5000-plex Xenium 数据,QC 后 98,749 个细胞,8 个微环境簇。(3) **ccRCC**:训练和主要分析用 1 名患者(PD43284)的肾切除标本,肿瘤核心 3 个肉眼可区分的区域 + 肿瘤-正常交界,337,116 个细胞,24 种细胞类型;另 2 名患者(PD45814、PD45816)的 Xenium 数据只用于验证(Supplementary Fig. 10)。外部数据:Li et al. 2022 的 ccRCC scRNA-seq(10 名患者、147,917 个肿瘤浸润细胞,含提供 Xenium 样本的那名患者;ref. 50);Bi et al. 2021 的 ICB 治疗前后 ccRCC scRNA-seq(提供 ICB 后 T 细胞和巨噬细胞签名;ref. 58);TCGA 606 例 ccRCC bulk RNA-seq;一个 Kaede 转基因小鼠模型(皮下注射结直肠肿瘤上皮细胞,抗 PD-L1 或同型对照治疗;ref. 57)。(4) **模拟数据**:NicheCompass 框架生成,带真值,用于基准。数据可用性:模拟数据和公开黑色素瘤数据可下载,其余数据"will be made available soon"。
 
 ## 主要结果
-- **基准(图中标注的均值)**:模拟数据上,EMD(log 尺度、取负,越高越好)MintFlow 7.08,SIMVI −0.37,MEFISTO −4.36,random −3.79,random binary 2.45;MAE、MSE 趋势相同(Fig. 1g)。真实数据上,已知信号基因的计数被归入 X_mic 的比例:皮炎单切片 MintFlow 0.247 vs SIMVI 0.053、MEFISTO 0.001;黑色素瘤 0.62 vs 0.037、0.001;皮炎 10 张切片上只有 MintFlow 能运行,已知信号基因 0.66 vs 非信号基因 0.317(Fig. 1h)。
-- **特应性皮炎**:发现微环境诱导的表皮 2 型组织驻留记忆 T 细胞(CD8A+ ITGAE+ GZMB+,表达 IL13)和一个 T 细胞活化枢纽(T_DC 域)(Figs. 2–3);模拟删除 Treg 提示炎症状态增强,而增补 Treg 与促炎通路无关;在 10 名 dupilumab 治疗患者中,Treg 通常从基线到第 12 周增加。
-- **黑色素瘤**:找到表达 CXCL12、胶原交联酶(LOX、LOXL1、LOXL2)高的基质,与 T 细胞排除相关;该基质 MGP 在瘢痕疙瘩中高表达(Fig. 4)。
-- **ccRCC**:TLS 内有三种微环境诱导 T 细胞状态(TLS Core 1、Core 2、Border);TLS 相关巨噬细胞高表达 TREM2 和 CCR1。模拟删除这些巨噬细胞后,T 细胞共抑制 / 耗竭分子(PD-L2、TIM3、VSIR、CD276、LILRB1)下调,TCR 信号和白介素受体相关标记上调(Figs. 5–7)。
-- **有效性检查**:用公开 ccRCC scRNA-seq(含 ICB 治疗)给出的巨噬细胞基因签名作"真值",模拟把 T 细胞替换为 ICB 后状态,12 个在 Xenium 5K panel 内的真值基因中 11 个被上调。
-- **临床关联**:TCGA 606 例 ccRCC 中,TLS Border T 细胞程序高表达与更差总生存相关(p = 0.0073);重编程状态高表达与生存优势相关(p = 0.0034)。
+- **基准(图中每个箱线图上方印出的数值;Fig. 1g 纵轴标注 "averaged")**:模拟数据上,EMD(log 尺度、取负,越高越好)MintFlow 7.08,SIMVI −0.37,MEFISTO −4.36,random −3.79,random binary 2.45;MAE、MSE 趋势相同(Fig. 1g)。真实数据上,已知信号基因的计数被归入 X_mic 的比例:皮炎单切片 MintFlow 0.247 vs SIMVI 0.053、MEFISTO 0.001;黑色素瘤 0.62 vs 0.037、0.001;皮炎 10 张切片上只有 MintFlow 能运行,已知信号基因 0.66 vs 非信号基因 0.317(Fig. 1h,计数 < 20 被过滤)。
+- **特应性皮炎**:T_DC 域(以 T 细胞为主,另有 MigDC、cDC2)在炎症皮肤中扩大,其 MGP 提示 CCL19/CCR7 和 CCL22/CCL17–CCR4 信号轴,作者称之为 T 细胞活化枢纽;drug2cell 找回了已知有效药(upadacitinib、prednisolone)(Fig. 2)。另发现微环境诱导的 CD8A+ ITGAE+ GZMB+ T 细胞簇(IL13、IL22、GZMB 表达升高),位于浅表皮肤,作者认为是表皮 2 型组织驻留记忆 T 细胞(Fig. 2h–i)。
+- **皮炎 in silico 扰动**:模拟删除 Treg 后,MigDC 和 Tconv 上调炎症反应、T 细胞活化等通路,提示炎症增强;把所有 Tconv 替换成 Treg 后,MigDC 中炎症通路不富集,DC 活化 / 迁移相关基因(CCL17、CCL22、CCR7、LAMP3 等)下调(Fig. 3b–g)。dupilumab 治疗队列中,应答者(改善 >50%)的 Treg 通常从基线到第 12 周增加;2 名无应答者(改善 <10%)无显著变化,且基线 Treg 通常更高(Fig. 3j)。
+- **黑色素瘤**:Stroma 域(以 CAF 和 T 细胞为主)的 MGP 含 CXCL12、胶原(COL4A2、COL5A1、COL5A2、COL11A1)和胶原交联酶(LOX、LOXL1、LOXL2),作者认为指向对 T 细胞的趋化和物理排除;在 23 种皮肤病的成纤维细胞数据中,该 MGP 在皮肤黑色素瘤中最高,在瘢痕疙瘩中也高(Fig. 4)。
+- **ccRCC**:核心 2 中的信号热点是一个致密淋巴细胞聚集,作者用 TLS 基因评分确认其为 TLS;T 细胞有六种微环境诱导状态,其中三种位于 TLS(TLS Core 1、Core 2、Border),这些状态用本征嵌入或原始数据细聚类都找不到(Fig. 5)。在 Li et al. scRNA-seq 上做配体-受体分析,TLS T 细胞与髓系细胞(尤其是巨噬细胞)的预测相互作用最多,作者据此认为巨噬细胞是对 TLS T 细胞施加抑制的主要细胞;Xenium 中 TLS 相关巨噬细胞高表达 TREM2 和 CCR1(Fig. 6)。模拟删除这些巨噬细胞后,TLS T 细胞的共抑制 / 耗竭分子(PD-L2、TIM3、VSIR、CD276、LILRB1、LAIR1)下调,TCR 信号(PLCG1、STIM1、TRAF6)和白介素受体(IL4R、IL6ST、IL15RA)上调(Fig. 7f)。
+- **小鼠验证**:Kaede 小鼠模型中,TLS Border 程序在记忆和耗竭 CD8+ T 细胞亚群中富集;抗 PD-L1 治疗后,Border 程序高的耗竭 CD8+ T 细胞上调 Il2rb、Stat1、Ltb(Supplementary Fig. 11)。
+- **有效性检查**:从 Bi et al. 2021 的 ICB 前后 scRNA-seq 取 ICB 后 T 细胞签名,在 Xenium 中找到对应 T 细胞(签名富集前 5%),虚拟替换 TLS 内的 T 细胞;以该研究中 ICB 后巨噬细胞上调的基因为"真值",在 Xenium 5K panel 内且在 >10% 巨噬细胞中表达的 12 个基因里 11 个被预测上调(含 CXCL9、CXCL10)(Fig. 7a–c)。
+- **临床关联**:TCGA 606 例 ccRCC,按程序评分中位数分高低组;TLS Core 1、Core 2 和 TLS 巨噬细胞程序与生存无显著关联(Supplementary Fig. 15);TLS Border T 细胞程序高表达与更差总生存相关(p = 0.0073);巨噬细胞删除后的重编程程序高表达与生存优势相关(p = 0.0034)(Fig. 7g)。
 
 ## 创新点
-- 把空间转录组表达可识别地分解为本征与微环境诱导两个可解释的计数矩阵,不依赖配体-受体先验或预定义空间域。
+- 把空间转录组表达分解为本征与微环境诱导两个可直接分析的计数矩阵,以可识别为设计目标(条件先验 + 最优传输目标),不依赖配体-受体先验或预定义空间域。
 - 组织层面的 in silico 扰动:删除 / 替换任意细胞类型并预测邻居反应。
 - 子图采样训练,可扩展到多张切片、数百万细胞。
-- 在三种疾病上给出生物学发现,并用外部 scRNA-seq、治疗队列和 TCGA 生存做验证。
+- 在三种疾病上给出生物学发现,并用外部 scRNA-seq、治疗队列、小鼠模型和 TCGA 生存做验证。
 
 ## 局限
-- (作者)对低读数敏感;需要各切片基因 panel 一致。
-- (作者)受当前细胞分割误差影响;训练困难、需针对数据集调超参;flow matching 训练计算量大。
-- (作者)目前限于多张切片,未来可扩展到更大框架(例如图谱级)。
-- 我们的理解:ccRCC 空间数据只来自 1 名患者;in silico 扰动是模型预测,验证主要是与外部签名的一致性和 TCGA 生存关联,不是直接的扰动实验。
-- 我们的理解:扰动只能改变"细胞组成 / 邻居",不能直接模拟"敲低某个基因";依赖输入的细胞类型标签质量。
+- (作者)对低读数敏感(Supplementary Figs. 2–3);需要各切片基因 panel 一致。
+- (作者)受当前细胞分割误差影响;训练困难、需针对数据集调超参;flow matching 训练计算量大(用邻居采样缓解)。
+- (作者)目前限于多张切片,未来可扩展到多组织图谱级训练。
+- (作者,Methods)方法不保证找到最优传输目标的最优解;细胞类型单一的区域中本征 / 微环境部分难以分开。
+- 我们的理解:ccRCC 的训练和主要扰动分析只用 1 名患者(另 2 名只做验证);in silico 扰动是模型预测,验证主要是与外部签名的一致性、小鼠数据和 TCGA 生存关联,不是在同一组织上的直接扰动实验。
+- 我们的理解:扰动只能改变"细胞组成 / 邻居",不能直接模拟"敲低某个基因";依赖输入的细胞类型标签质量。除模拟数据和黑色素瘤外,数据尚未公开。
 
 ## 与本研究方向的关系
-主要对应 **model → revert** 环节,并且有肾脏(ccRCC)应用。我们的理解:(1) X_mic / 微环境评分本身不是异常检测,但"哪些细胞的表达被微环境显著改变"可作为 detect 环节的一种补充证据,例如与正常参考对比后的异常区域再用 MintFlow 解释是哪类邻居造成的;(2) in silico 删除 / 替换细胞类型是"revert"的一种形式——它预测的是"改变组织组成能否让邻近细胞回到另一种状态",比 CMonge 的单细胞药物扰动更接近组织层面;(3) 对 Topic 1 的肾脏 Xenium 数据,MintFlow 可直接作为模型层候选,但要注意它需要细胞类型标签和一致的基因 panel;(4) 它的验证方式(外部签名一致性 + 生存关联)可借鉴,但不能代替湿实验。
+主要对应 **model → revert** 环节,并且有肾脏(ccRCC)应用。我们的理解:(1) X_mic / 微环境评分本身不是异常检测,但"哪些细胞的表达被微环境显著改变"可作为 detect 环节的一种补充证据,例如与正常参考对比后的异常区域再用 MintFlow 解释是哪类邻居造成的;(2) in silico 删除 / 替换细胞类型是"revert"的一种形式——它预测的是"改变组织组成能否让邻近细胞回到另一种状态",比 CMonge 的单细胞药物扰动更接近组织层面;(3) 对待测试的肾脏单细胞分辨率空间数据(如 Xenium),MintFlow 可作为模型层候选,但要注意它需要细胞类型标签和一致的基因 panel;(4) 它的验证方式(外部签名一致性 + 生存关联)可借鉴,但不能代替湿实验。
 
 ## 可复用资产
-- **代码:** <https://github.com/Lotfollahi-lab/mintflow>(Python 包;论文 Code availability)。
-- **复现与模拟数据:** <https://github.com/Lotfollahi-lab/mintflow-reproducibility>(论文 Data availability:模拟数据下载说明)。
-- **评测设计:** 带真值的模拟基准(MAE / EMD / MSE)、信号基因计数归属检验、用外部 ICB 签名检验虚拟替换、扰动程序 → TCGA 生存。
+- **代码:** <https://github.com/Lotfollahi-lab/mintflow>(Python 包;论文 Code availability);文档与教程:<https://mintflow.readthedocs.io>。
+- **复现与模拟数据:** <https://github.com/Lotfollahi-lab/mintflow-reproducibility>(论文 Code / Data availability:复现代码、MintFlow CLI 配置文件、模拟数据下载说明)。
+- **评测设计:** 带真值的模拟基准(MAE / EMD / MSE)、信号基因计数归属检验、用外部 ICB 签名检验虚拟替换、扰动强度递增的敏感性分析(Supplementary Fig. 16)、扰动程序 → TCGA 生存。
 
 ## 待读
-- Supplementary Note 2(可识别性证明)和 Methods 中的目标函数细节。
+- Supplementary Note 2(Proposition 1 证明)、Notes 3–5(编码器 / 解码器与 ELBO 细节)、Supplementary Fig. 10(另 2 名 ccRCC 患者验证)。
 - 对照方法 SIMVI、MEFISTO 原文。
-- Bi et al. ccRCC ICB scRNA-seq(虚拟替换的真值来源)。
+- Li et al. 2022(ccRCC scRNA-seq 图谱)和 Bi et al. 2021(ccRCC ICB 前后 scRNA-seq,虚拟替换的真值来源)。
 - 我们的理解:在肾脏 Xenium 上试跑,检查需要多少细胞、panel 是否一致、细胞类型标签如何来。
 
 ## 图表
@@ -88,7 +91,7 @@ flowchart LR
 _Source: https://www.biorxiv.org/content/10.1101/2025.06.24.661094v3.full  ·  License: bioRxiv preprint (CC BY-NC-ND 4.0)_
 
 ![Atopic dermatitis T_RM state and T-cell activation hub](figures/fig2.jpg)
-**图2.** MintFlow 在特应性皮炎(AD)中识别出微环境诱导的 T_RM 细胞态与 T 细胞活化枢纽:(a) 微环境评分与对应 H&E 组织病理注释;(b) 微环境域与微环境诱导嵌入的 UMAP;(c) 炎症与非炎症皮肤中各微环境域的组织组成;(d) T_DC 域的微环境诱导基因程序(MGP)及其在跨组织图谱中的模块评分。
+**图2.** MintFlow 在特应性皮炎(AD)中识别出微环境诱导的 T_RM 细胞态与 T 细胞活化枢纽:(a) 微环境评分与同一 Xenium 5k 切片对应的 H&E 组织病理注释;(b) 微环境域与微环境诱导嵌入的 UMAP;(c) 炎症与非炎症皮肤中各微环境域的组织组成;(d) T_DC 域的微环境诱导基因程序(MGP)及其在跨组织图谱中的模块评分。
 _Source: https://www.biorxiv.org/content/10.1101/2025.06.24.661094v3.full  ·  License: bioRxiv preprint (CC BY-NC-ND 4.0)_
 
 ![Tumor microenvironment immune-cell segregation in melanoma](figures/fig4.jpg)
@@ -97,17 +100,17 @@ _Source: https://www.biorxiv.org/content/10.1101/2025.06.24.661094v3.full  ·  L
 
 ### 结果表
 
-**表1.** MintFlow 基准评测总结(源自图 1g/1h)。论文以箱线图报告结果、未给出数值表;下表数值为图中印出的均值。
+**表1.** MintFlow 基准评测总结(源自图 1g/1h)。论文以箱线图报告结果、未给出数值表;下表数值为图中每个箱线图上方印出的数(Fig. 1g 纵轴标注 "averaged";论文未说明 1h 中数值的含义)。
 
 | Benchmark | Data | Metric(s) | Result vs alternatives |
 |---|---|---|---|
-| Read-count disentanglement | Simulated data with known microenvironment-induced effects (ground truth) | MAE, EMD, MSE (negated → higher is better) | MintFlow EMD 7.08 vs SIMVI −0.37, MEFISTO −4.36, random −3.79, random binary 2.45 (means printed in Fig 1g; log scale, negated) |
-| Signaling-gene attribution | Real Xenium (AD single-sample, melanoma single-sample) | Proportion of known signaling-gene counts assigned to the microenvironment-induced component (counts < 20 filtered) | Known signaling genes: MintFlow 0.247 vs SIMVI 0.053, MEFISTO 0.001 (AD); 0.62 vs 0.037, 0.001 (melanoma) (Fig 1h) |
-| Scalability | Multi-sample Xenium (10 atopic-dermatitis sections) | Applicable to all 10 sections | Only MintFlow was scalable enough to run on all 10 tissue sections |
+| 读数解耦 | 带真值的模拟数据 | 取负,越高越好 | MintFlow EMD 7.08 vs SIMVI −0.37, MEFISTO −4.36, random −3.79, random binary 2.45 (printed in Fig 1g; log scale, negated) |
+| 信号基因归属 | 真实 Xenium 单切片 | 已知信号基因计数归入 X_mic 的比例 | Known signaling genes: MintFlow 0.247 vs SIMVI 0.053, MEFISTO 0.001 (AD); 0.62 vs 0.037, 0.001 (melanoma) (Fig 1h) |
+| 可扩展性 | 10 张皮炎切片 | 能否运行 | Only MintFlow was scalable enough to run on all 10 tissue sections (0.66 signalling vs 0.317 other genes) |
 
 ## 引用
 ```bibtex
-@article{Akbarnejad_2025, title={Mapping and reprogramming human tissue microenvironments with MintFlow}, url={http://dx.doi.org/10.1101/2025.06.24.661094}, DOI={10.1101/2025.06.24.661094}, publisher={openRxiv}, author={Akbarnejad, Amir and Steele, Lloyd and Jafree, Daniyal J. and Birk, Sebastian and Sallese, Marta Rosa and Rademaker, Koen and Boxall, Adam and Rumney, Benjamin and Tudor, Catherine and Patel, Minal and Prete, Martin and Makarchuk, Stanislaw and Lee, Colin Y.C. and Maaskola, Jonas and Li, Tong and Stanley, Heather and Foster, April Rose and Roberts, Kenny and Trinh, Andrew L. and Villa, Carlo Emanuele and Testa, Giuseppe and Mahil, Satveer and Mehrjou, Arash and Smith, Catherine and Vakili, Sattar and Clatworthy, Menna R. and Bayraktar, Omer Ali and Mitchell, Thomas and Haniffa, Muzlifah and Lotfollahi, Mohammad}, year={2025}, month=June }
+@article{Akbarnejad_2025, title={Mapping and reprogramming human tissue microenvironments with MintFlow}, url={http://dx.doi.org/10.1101/2025.06.24.661094}, DOI={10.1101/2025.06.24.661094}, publisher={openRxiv}, author={Akbarnejad, Amir and Steele, Lloyd and Jafree, Daniyal J. and Birk, Sebastian and Sallese, Marta Rosa and Rademaker, Koen and Boxall, Adam and Rumney, Benjamin and Tudor, Catherine and Patel, Minal and Prete, Martin and Makarchuk, Stanislaw and Lee, Colin Y.C. and Maaskola, Jonas and Li, Tong and Stanley, Heather and Foster, April Rose and Roberts, Kenny and Trinh, Andrew L. and Villa, Carlo Emanuele and Testa, Giuseppe and Mahil, Satveer and Mehrjou, Arash and Smith, Catherine and Vakili, Sattar and Clatworthy, Menna R. and Bayraktar, Omer Ali and Mitchell, Thomas and Haniffa, Muzlifah and Lotfollahi, Mohammad}, year={2025}, month=jun }
 ```
 
 

@@ -32,7 +32,7 @@ MAST-Data:1,642 条标注轨迹,7 个 MAS 框架(ChatDev、MetaGPT、HyperAgent�
 - 干预研究规模小,只证明「设计改动有用」,未给出系统化的修复方法。
 
 ## 与本研究方向的关系
-对 **Plan B 的「组学专属失败分类」** 而言,MAST 最有价值的不是那 14 个模式,而是**造分类的方法学**:理论抽样 → 开放编码到饱和 → 3 名标注员多轮 IAA 直到 κ 足够高 → 用人工标注校准 LLM 标注器 → 在没见过的系统/任务上再测一次 κ。Plan B 可以原样照做:从 Biomni、CellVoyager、SpatialAgent 等组学 agent 在 KPMP / Lake 数据上的轨迹做理论抽样,由懂肾脏组学的标注员做开放编码,产出组学失败分类,再用 MAST 式 κ 报告其可靠性 —— 这样「失败分类」本身就是一个可发表、可复用的贡献。内容层面也直接相关:(1) **FC3 任务验证(23.5%)正是 claim-to-evidence verifier 要补的位置** —— MAST 发现现有 verifier 只做表层检查,加一个高层目标验证步骤就 +15.6%,这为「独立 verifier 有用」提供了直接证据;(2) 「推理–行动不一致」(13.2%)对应组学 agent 说做了 batch correction 实际没做、说用了 Wilcoxon 实际用了 t-test 这类问题,只能靠对照轨迹与代码检查;(3) 「不请求澄清、带着错误假设继续」对应组学中样本元数据(疾病分期、eGFR、活检类型)含糊时的默认假设。对 Plan A 关系较远;但 Grounded Theory + IAA 的流程同样适合给 KidneyAnomalyBench 的「异常类型」(技术 artifact vs 疾病 vs 正常变异)建立专家一致的类别定义。
+对 **课题 2 的「组学专属失败分类」** 而言,MAST 最有价值的不是那 14 个模式,而是**造分类的方法学**:理论抽样 → 开放编码到饱和 → 3 名标注员多轮 IAA 直到 κ 足够高 → 用人工标注校准 LLM 标注器 → 在没见过的系统/任务上再测一次 κ。课题 2 可以原样照做:从 Biomni、CellVoyager、SpatialAgent 等组学 agent 在 KPMP / Lake 数据上的轨迹做理论抽样,由懂肾脏组学的标注员做开放编码,产出组学失败分类,再用 MAST 式 κ 报告其可靠性 —— 这样「失败分类」本身就是一个可发表、可复用的贡献。内容层面也直接相关:(1) **FC3 任务验证(23.5%)正是 claim-to-evidence verifier 要补的位置** —— MAST 发现现有 verifier 只做表层检查,加一个高层目标验证步骤就 +15.6%,这为「独立 verifier 有用」提供了直接证据;(2) 「推理–行动不一致」(13.2%)对应组学 agent 说做了 batch correction 实际没做、说用了 Wilcoxon 实际用了 t-test 这类问题,只能靠对照轨迹与代码检查;(3) 「不请求澄清、带着错误假设继续」对应组学中样本元数据(疾病分期、eGFR、活检类型)含糊时的默认假设。对课题 1 关系较远;但 Grounded Theory + IAA 的流程同样适合给 KidneyAnomalyBench 的「异常类型」(技术 artifact vs 疾病 vs 正常变异)建立专家一致的类别定义。
 
 ## 可复用资产
 - **代码:** MAST 分类与 LLM 标注器(`pip install agentdash`)。

@@ -21,6 +21,8 @@ relevance: "high"
 access: "open"
 url: "https://arxiv.org/abs/2501.06039"
 doi: ""
+# Record kept on arXiv v2 (the version the deep-read describes). Published version:
+# Nature 657:744-754 (2026), doi 10.1038/s41586-026-10884-y, new title and authors 3/4 swapped.
 arxiv: "2501.06039"
 s2_id: null
 bibkey: "Wenckstern2025_250106039"
@@ -30,4 +32,4 @@ status: "complete"
 added: "2026-08-03"
 plans: []
 track: ""
-recommended_by: "sikander"
+recommended_by: "core-reading"

@@ -22,7 +22,7 @@ relevance: "high"
 access: "paywall"
 url: "https://doi.org/10.1056/aioa2400468"
 doi: "10.1056/AIoa2400468"
-arxiv: ""
+arxiv: "2406.14866"
 s2_id: null
 bibkey: "Dippel_2024"
 tags: []
@@ -32,4 +32,4 @@ added: "2026-08-03"
 plans:
   - "A"
 track: "A6"
-recommended_by: "sikander"
+recommended_by: "core-reading"

@@ -11,9 +11,9 @@ Virchow 是 Paige 与 Microsoft Research 用 DINOv2 自监督在 MSKCC 约 150 �
 ## 要点
 - 训练数据:1,488,550 张 H&E WSI、119,629 名患者、17 个组织大类,全部来自 MSKCC、Leica 扫描仪、20×(0.5 µm/px);从约 130 亿个 tile 中有放回地采样 20 亿个用于训练(Fig. 1a;Methods §"Million-scale training dataset")。
 - 泛癌检测:Virchow 0.950 > UNI 0.940 > Phikon 0.932 > CTransPath 0.907(两两 P < 0.0001);95% 灵敏度下特异度 72.5% vs 68.9% / 62.9% / 52.3%(Fig. 2b)。
-- 和商用专科模型比:泛癌模型训练样本更少,AUC 只落后 0.001–0.007(前列腺 0.980 vs Paige Prostate 0.995;乳腺 0.985 vs 0.992),淋巴结大转移反超(0.999 vs 0.994),部分罕见变体更好(Fig. 3;Discussion)。
-- 失败分析对异常检测很有参考价值:假阳性中 53.2% 是癌前病变,17.0% 是组织伪影(挤压、折叠、失焦);假阴性中 45.2% 是肿瘤灶很小(Results §"Toward clinical-grade performance";Fig. 3d)。
-- 性能随模型参数量约呈对数增长,随训练 tile 数增长但回报递减(Fig. 2g)。
+- 和商用专科模型比:泛癌模型训练样本更少,AUC 略低。Fig. 3b(Overall)中:前列腺 0.980 vs Paige Prostate 0.985、乳腺 0.985 vs 0.992、淋巴结 0.971 vs 0.972,差 0.001–0.007,与 Discussion 一致;但 Results 正文写前列腺为"0.980 versus 0.995",与 Fig. 3b 不符。淋巴结大转移反超(0.999 vs 0.994),部分罕见变体更好(Fig. 3)。
+- 失败分析(我们的理解:对异常检测很有参考价值):假阳性中 53.2% 是癌前病变,17.0% 是组织伪影(挤压、折叠、失焦);假阴性中 45.2% 是肿瘤灶很小(Results §"Toward clinical-grade performance";Fig. 3d)。
+- 性能随模型参数量约呈对数线性增长;随训练 tile 数也增长,但低于对数线性(回报递减)(Fig. 2g;Discussion)。
 - 我们的理解:Virchow 是"疾病 vs 正常"的强特征器,但它是在监督标签(癌/非癌)上评估的;用于肾脏非肿瘤异常检测,需要我们自己在其嵌入上建正常参考分布并验证。
 
 ## 研究问题
@@ -21,11 +21,11 @@ Virchow 是 Paige 与 Microsoft Research 用 DINOv2 自监督在 MSKCC 约 150 �
 
 ## 方法
 1) **切 tile**:WSI 16× 下采样后用 HSV 阈值找组织前景,收集所有不重叠、组织面积 ≥ 25% 的 224 px tile(Methods)。
-2) **自监督预训练**:ViT-H/14(632M 参数)用 DINOv2 训练——学生/教师网络结构相同,教师是学生的 EMA;每个 tile 生成 2 个全局视图和 8 个局部视图,学生在被遮挡的输入上匹配教师的 class token(全局)和被遮挡 patch token(局部,即 iBOT 式 masked image modeling)(Methods;Extended Data Fig. 2)。超参改动:教师温度 0.04–0.07、warmup 495,000 次迭代、131,072 个 prototype;AdamW,fp16;每个 GPU 每批 1 张 WSI 的 256 个 tile。
+2) **自监督预训练**:ViT-H/14(632M 参数)用 DINOv2 训练——学生/教师网络结构相同,教师是学生的 EMA;每个 tile 生成 2 个全局视图和 8 个局部视图。全局视图随机遮挡后输入学生、不遮挡输入教师:学生要匹配教师的 class token,并预测被遮挡 patch token 的表示(iBOT 式 masked image modeling);局部视图只输入学生,学生的 class token 要匹配教师在全局视图上的表示(Methods;Extended Data Fig. 2)。超参改动:教师温度 0.04–0.07、warmup 495,000 次迭代、131,072 个 prototype;AdamW,fp16;每个 GPU 每批 1 张 WSI 的 256 个 tile。
 3) **嵌入**:每个 224×224 tile 输出 class token 与其余 256 个 token 的均值拼接,得 2,560 维(1,280 × 2)向量(Methods §"Embedding generation")。模型卡给出:32 层、embedding 1,280、16 头、SwiGLU、LayerScale,输出 257 × 1,280 token。
 4) **标本级聚合**:Agata 聚合器(弱监督 multiple-instance learning,MIL:一袋 tile 只有一个标本级标签)。它用一个可学习的 query 对所有 tile 做 cross-attention,内存随 tile 数线性增长;训练时每个标本只对预测癌概率最高的那张切片反传(Methods;Extended Data Fig. 1)。交叉熵、AdamW、lr 3e-4、25 epoch,所有 baseline 嵌入用同一流程。
-5) **标签**:用规则型 NLP 从病理报告抽取标本级"有无癌"标签;生物标志物标签来自 MSK-IMPACT 测序(Methods)。
-6) **评测**:泛癌检测(AUC、95% 灵敏度下特异度,DeLong 检验 + Holm 校正);与 Paige Prostate / Breast / BLN 商用模型对比;9 个生物标志物;8 个 tile 级 linear probe 基准(SGD、12,500 次迭代,加权 F1)。
+5) **标签**:用规则型 NLP 从病理报告抽取标本级"有无癌"标签;生物标志物标签大多来自 MSK-IMPACT 测序;Colon-MSI 同时用 IHC 和 MSK-IMPACT(两者都有时以 IHC 为准),Gastric-HER2 用 IHC(3+,或 2+ 经 FISH 确认)(Methods §"Biomarker detection")。
+6) **评测**:泛癌检测(AUC、95% 灵敏度下特异度,DeLong 检验 + Holm 校正);与 Paige Prostate / Breast / BLN 商用模型对比;9 个生物标志物;8 个 tile 级 linear probe 基准(SGD、12,500 次迭代,加权 F1)。摘要称还评估了"生物标志物预测和细胞识别(cell identification)"(Abstract)。
 
 ## 方法图
 ```mermaid
@@ -39,23 +39,23 @@ flowchart LR
 ```
 
 ## 数据
-**预训练**:MSKCC 去标识数据,119,629 名患者、208,815 个病例、392,268 个标本、1,207,837 个蜡块、1,488,550 张 H&E 切片;活检 63%、切除 37%;17 个组织大类(Fig. 1a–d)。**泛癌检测测试集**:22,932 张切片、6,142 个标本、16 种癌;常见癌 3,547 个标本(乳腺、前列腺、肺、结肠、皮肤、膀胱、子宫、胰腺、头颈),罕见癌 2,595 个标本(肝、胃、脑、卵巢、宫颈、睾丸、骨;罕见癌定义为美国年发病 < 15/10 万);内部 MSKCC 3,033 个标本、外部机构 3,109 个标本(Methods §"Testing dataset")。聚合器训练 + 验证:89,417 张切片、40,402 个标本。**生物标志物**:9 个 MSK-IMPACT 任务(如 Colon-MSI 2,698 例、Breast-CDH1 1,077 例、Bladder-FGFR 1,038 例)(Fig. 4b;Methods)。**tile 基准**:PanMSK、CRC(NCT-CRC-HE-100K)、Camelyon17-WILDS、PCam、MHIST、TCGA TIL、MIDOG、TCGA CRC-MSI(Methods)。
+**预训练**:MSKCC 去标识数据,119,629 名患者、208,815 个病例、392,268 个标本、1,207,837 个蜡块、1,488,550 张 H&E 切片;活检 63%、切除 37%;17 个组织大类(Fig. 1a–d)。**泛癌检测测试集**:22,932 张切片、6,142 个标本、16 种癌;常见癌 3,547 个标本(乳腺、前列腺、肺、结肠、皮肤、膀胱、子宫、胰腺、头颈),罕见癌 2,595 个标本(肝、胃、脑、卵巢、宫颈、睾丸、骨;罕见癌定义为美国年发病 < 15/10 万);内部 MSKCC 3,033 个标本、外部机构 3,109 个标本(Methods §"Testing dataset")。聚合器训练 + 验证:89,417 张切片、40,402 个标本。**生物标志物**:9 个 MSK-IMPACT 任务(如 Colon-MSI 2,698 例、Breast-CDH1 1,077 例、Bladder-FGFR 1,038 例)(Fig. 4b;Methods)。**tile 基准**(Fig. 5 的 8 项):PanMSK、CRC(NCT-CRC-HE-100K)、CRC (no norm)(同一数据不做染色归一化)、Camelyon17-WILDS、PCam、MHIST、TCGA TIL、MIDOG(Fig. 5a–b;Methods)。TCGA CRC-MSI 只出现在 Methods 和 Data availability 中,不在 Fig. 5 的 8 项里。
 
 ## 主要结果
 - **泛癌检测**:标本级 AUC Virchow 0.950、UNI 0.940、Phikon 0.932、CTransPath 0.907(两两 P < 0.0001);95% 灵敏度下特异度 72.5% / 68.9% / 62.9% / 52.3%(Fig. 2b)。
 - **罕见癌**:AUC 0.937(UNI 0.925);宫颈 0.875(UNI 0.830)、骨 0.841(UNI 0.813)仍是最难的两类(Fig. 2a,c)。Virchow 在 16 种癌上都是最佳或并列最佳(Fig. 2a)。
 - **外部机构**:内部 AUC 0.938、外部 0.934(UNI 0.927 / 0.925)(Fig. 2e);约 19.5% 测试标本含训练中没见过的组织(如宫颈、睾丸、头颈),Virchow 仍领先(Fig. 2f)。
-- **对比商用模型**:泛癌模型共用 35,387 个训练组(前列腺 2,829、乳腺 1,626、淋巴结 1,441),而 Paige Prostate 用 66,713 个蜡块、Paige Breast 44,588 个标本、BLN 8,150 个标本;AUC 前列腺 0.980 vs 0.995(P < 0.05)、乳腺 0.985 vs 0.992(P < 0.01)、淋巴结大转移 0.999 vs 0.994(P < 0.05)(Results §"Toward clinical-grade performance";Fig. 3)。
-- **失败模式**(病理医生复核):假阴性 45.2% 为肿瘤灶很小、11.9% 为交界性肿瘤、9.5% 恶性特征很细微、26.2%(11 例)无法解释;假阳性 53.2% 为癌前病变、17.0% 为组织伪影、14.9% 间质/淋巴反应性改变、11.7% 上皮反应性改变、3.2% 良性肿瘤(Results;Fig. 3d)。
+- **对比商用模型**:泛癌模型共用 35,387 个训练组(前列腺 2,829、乳腺 1,626、淋巴结 1,441),而 Paige Prostate 用 66,713 个蜡块、Paige Breast 44,588 个标本、BLN 8,150 个标本;AUC(Fig. 3b Overall)前列腺 0.980 vs 0.985、乳腺 0.985 vs 0.992、淋巴结 0.971 vs 0.972,淋巴结大转移 0.999 vs 0.994(P < 0.05)。Results 正文给出前列腺 0.980 vs 0.995(P < 0.05)、乳腺 0.985 vs 0.992(P < 0.01),其中前列腺的 0.995 与 Fig. 3b 不一致(Results §"Toward clinical-grade performance";Fig. 3)。
+- **失败模式**(病理医生复核):假阴性 45.2% 为肿瘤灶很小、11.9% 为交界性肿瘤、9.5% 恶性特征很细微、26.2%(11 例)无法解释;假阳性 53.2% 为癌前病变、17.0% 为组织伪影、14.9% 间质/淋巴反应性改变、11.7% 上皮反应性改变、3.2% 良性肿瘤(Results)。注意:Fig. 3d 的计数是"上皮反应性改变 14、间质/淋巴反应性改变 11"(共 94 个假阳性),与正文的两项百分比恰好相反。
 - **生物标志物**:9 个任务中 7 个 Virchow AUC 最高(Fig. 4c);未拿第一的 Prostate-AR 0.849、Ovarian-FGA 0.847。作者说明样本量不足以做显著性检验,学习率按测试集最佳报告(Methods)。
 - **tile 级 linear probe**:8 个任务中 7 个最佳或并列最佳(Fig. 5b);CRC 不做染色归一化时加权 F1 只降 0.005(Results §"Tile-level benchmarks")。
-- **缩放**:检测性能随参数量约对数线性增长,随训练 tile 数增长但回报递减(Fig. 2g;Discussion)。
+- **缩放**:检测性能随参数量约对数线性增长;随训练 tile 数也增长,但低于对数线性(回报递减)(Fig. 2g;Discussion)。
 
 ## 创新点
 - 当时最大的病理基础模型:150 万 WSI(作者称比以往训练集多 4–10 倍)、632M 参数(Introduction)。
 - 证明一个基于基础模型嵌入的"泛癌"检测器,在训练标本更少时接近商用专科模型,并在罕见癌和未见组织上泛化(Fig. 2–3)。
 - 系统的失败模式分析(癌前病变、伪影、反应性改变),给出临床 AI 常见误报来源(Fig. 3d)。
-- 线性可扩展的 Agata 聚合器,可处理一个标本内成千上万个 tile(Extended Data Fig. 1)。
+- 注:标本级聚合用的 Agata 聚合器(内存随 tile 数线性增长)是已有工作(ref. 10,Raciti et al. 2022),不是本文的贡献(Methods;Extended Data Fig. 1)。
 
 ## 局限
 - 作者:训练数据来自单一中心、扫描仪类型有限(Discussion)。
@@ -66,7 +66,7 @@ flowchart LR
 - 我们的理解:评测只涉及癌症;肾脏在测试集"未见组织"中只占 0.1%(Fig. 2f),没有非肿瘤肾病任务。
 
 ## 与本研究方向的关系
-我们的理解:Virchow 属于 **detect** 环节的上游特征器(H&E 模态)。(1) 可以作为冻结 encoder,把肾脏 H&E 切成 224 px tile 提 2,560 维嵌入,再在健康参考组织的嵌入上做 kNN / 密度 / 单类模型来给 tile 打异常分数(矩阵中的 feature 行);论文本身没有做无监督异常检测,只做了监督的癌/非癌分类。(2) 失败分析很有用:假阳性大多来自癌前病变、伪影、反应性改变——在异常检测里,这些正是"不正常但不是目标疾病"的干扰项,我们的 benchmark 需要专门标注和区分它们(比如把伪影作为单独的类别或用 QC 过滤)。(3) 单中心 Leica 数据训练,我们用于 Aachen 肾活检 H&E 时要检查扫描仪/染色域偏移。(4) PathBench(本库 `pathbench-natcommun-2026`)显示后续的 Virchow2 在多数任务上更强,Virchow 本身按累计 balanced accuracy 在非 TCGA 任务中排第 10(PathBench Fig. 5b)。
+我们的理解:Virchow 属于 **detect** 环节的上游特征器(H&E 模态)。(1) 可以作为冻结 encoder,把肾脏 H&E 切成 224 px tile 提 2,560 维嵌入,再在健康参考组织的嵌入上做 kNN / 密度 / 单类模型来给 tile 打异常分数(矩阵中的 feature 行);论文本身没有做无监督异常检测,只做了监督的癌/非癌分类。(2) 失败分析很有用:假阳性大多来自癌前病变、伪影、反应性改变——在异常检测里,这些正是"不正常但不是目标疾病"的干扰项,我们的 benchmark 需要专门标注和区分它们(比如把伪影作为单独的类别或用 QC 过滤)。(3) 单中心 Leica 数据训练,用于其他中心、其他扫描仪的肾活检 H&E 时要检查扫描仪/染色域偏移。(4) PathBench(本库 `pathbench-natcommun-2026`)中,后续的 Virchow2 平均 AUROC 最高(0.830,Fig. 1b),但只在 19 个 TCGA 任务中的 5 个、22 个非 TCGA 任务中的 6 个排第一,且在 TCGA 任务上与 UNI、UNI2、Prov-GigaPath、H-optimus-0 无统计学差异;PathBench 没有逐任务对比 Virchow 与 Virchow2。Virchow 本身按累计 balanced accuracy 在 TCGA 任务中排第 7(0.677 ± 0.117)、非 TCGA 任务中排第 10(0.678 ± 0.197)(PathBench Fig. 5a–b)。
 
 ## 可复用资产
 - 权重:Hugging Face `paige-ai/Virchow`(需登录并同意条款,机构邮箱审核)。论文 Code availability 写"可用于非商业研究";HF 模型卡 license 标为 Apache 2.0,另附"不得用于临床诊断"等附加条款——两者表述不同,使用前以 HF 页面为准。
@@ -78,8 +78,8 @@ flowchart LR
 - 可复用的协议:linear probe(SGD、batch 4,096、cosine lr 0.01→0、12,500 次迭代、Z-score 归一化);失败模式分类表。
 
 ## 待读
-- Virchow2(Zimmermann et al. 2024,arXiv:2408.00738,多倍率、310 万 WSI)——PathBench 中最强的单模型。
-- UNI(Chen et al., Nat Med 2024)——本文最强 baseline,也是 `uni2-h-model` 的论文。
+- Virchow2(Zimmermann et al. 2024,arXiv:2408.00738,多倍率、310 万 WSI)——PathBench 中平均 AUROC 最高(0.830)。
+- UNI(Chen et al., Nat Med 2024)——本文最强 baseline;UNI2-h(`uni2-h-model`)是它后来的继任模型,不在该论文中。
 - Extended Data Fig. 3–4 与 Supplementary Tables:逐癌种特异度与测试集组成。
 - 试验:在冻结 Virchow / Virchow2 嵌入上对肾活检 tile 做 kNN 异常评分,并检查伪影与反应性改变带来的假阳性。
 
@@ -103,7 +103,7 @@ _注:论文为 CC BY 4.0 开放获取;此处未嵌入图像,只给出出版社�
 | Rare-cancer AUC (7 cancers) | 0.937 (UNI 0.925) | Fig. 2c |
 | Specificity at 95% sensitivity | 72.5% (UNI 68.9%) | Fig. 2b |
 | Internal / external AUC | 0.938 / 0.934 | Fig. 2e |
-| Prostate / breast / BLN AUC (pan-cancer vs Paige product) | 0.980 vs 0.995; 0.985 vs 0.992; macrometastases 0.999 vs 0.994 | Results; Fig. 3 |
+| Prostate / breast / BLN AUC (pan-cancer vs Paige product) | 0.980 vs 0.985; 0.985 vs 0.992; 0.971 vs 0.972 (Fig. 3b); macrometastases 0.999 vs 0.994. Results text gives prostate as 0.980 vs 0.995 | Fig. 3b; Results |
 | Biomarker tasks where Virchow is top-1 | 7 / 9 | Fig. 4c |
 | Tile benchmarks where Virchow is top-1 (incl. ties) | 7 / 8 | Fig. 5b |
 | Pretraining WSIs / patients | 1,488,550 / 119,629 | Methods; Fig. 1a |
@@ -114,7 +114,7 @@ _Source: Vorontsov et al., Nat Med 30, 2924–2935 (2024), CC BY 4.0 — <https:
 
 ## 引用
 ```bibtex
-@article{Vorontsov_2024, title={A foundation model for clinical-grade computational pathology and rare cancers detection}, volume={30}, ISSN={1546-170X}, url={http://dx.doi.org/10.1038/s41591-024-03141-0}, DOI={10.1038/s41591-024-03141-0}, number={10}, journal={Nature Medicine}, publisher={Springer Science and Business Media LLC}, author={Vorontsov, Eugene and Bozkurt, Alican and Casson, Adam and Shaikovski, George and Zelechowski, Michal and Severson, Kristen and Zimmermann, Eric and Hall, James and Tenenholtz, Neil and Fusi, Nicolo and Yang, Ellen and Mathieu, Philippe and van Eck, Alexander and Lee, Donghun and Viret, Julian and Robert, Eric and Wang, Yi Kan and Kunz, Jeremy D. and Lee, Matthew C. H. and Bernhard, Jan H. and Godrich, Ran A. and Oakley, Gerard and Millar, Ewan and Hanna, Matthew and Wen, Hannah and Retamero, Juan A. and Moye, William A. and Yousfi, Razik and Kanan, Christopher and Klimstra, David S. and Rothrock, Brandon and Liu, Siqi and Fuchs, Thomas J.}, year={2024}, month=July, pages={2924–2935} }
+@article{Vorontsov_2024, title={A foundation model for clinical-grade computational pathology and rare cancers detection}, volume={30}, ISSN={1546-170X}, url={http://dx.doi.org/10.1038/s41591-024-03141-0}, DOI={10.1038/s41591-024-03141-0}, number={10}, journal={Nature Medicine}, publisher={Springer Science and Business Media LLC}, author={Vorontsov, Eugene and Bozkurt, Alican and Casson, Adam and Shaikovski, George and Zelechowski, Michal and Severson, Kristen and Zimmermann, Eric and Hall, James and Tenenholtz, Neil and Fusi, Nicolo and Yang, Ellen and Mathieu, Philippe and van Eck, Alexander and Lee, Donghun and Viret, Julian and Robert, Eric and Wang, Yi Kan and Kunz, Jeremy D. and Lee, Matthew C. H. and Bernhard, Jan H. and Godrich, Ran A. and Oakley, Gerard and Millar, Ewan and Hanna, Matthew and Wen, Hannah and Retamero, Juan A. and Moye, William A. and Yousfi, Razik and Kanan, Christopher and Klimstra, David S. and Rothrock, Brandon and Liu, Siqi and Fuchs, Thomas J.}, year={2024}, month=jul, pages={2924–2935} }
 ```
 
 

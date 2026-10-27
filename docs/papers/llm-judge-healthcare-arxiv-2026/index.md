@@ -33,17 +33,17 @@ Healthcare LLM outputs are largely unstructured clinical text; expert annotation
 - **No configuration recommendations** — the authors note no controlled comparison varies judge architecture, prompting or grounding on a fixed clinical task. (Also: the Discussion states "median Cohen's κ between 0.59 and 0.93", inconsistent with the Results' 0.59–0.88 range; the Results figure is used here.)
 
 ## Relation to our direction
-For **Plan B** this is the **evidence map for whether the verifier itself can be trusted**. Plan B's calibrated verifier is essentially an LLM-as-a-Judge (does the evidence support the agent's omics conclusion?), and three lessons must be internalized: (1) **alignment depends heavily on the reference standard** — "0.83 vs any expert / 0.51 vs majority" means KidneyAnomalyBench and Plan B annotations need a clearly defined multi-expert consensus protocol, reporting both raw agreement and κ; (2) **collapse under perturbation** (κ 0.78 → 0.24) is exactly the robustness test Plan B wants: apply controlled perturbations to agent conclusions (flip direction, cell type, gene) and test whether the verifier catches them — stronger calibration evidence than static agreement; (3) **same-family bias** means the verifier should not share a base model with the evaluated agent, or should report cross-family ensembles. Its treatment of judge disagreement as an uncertainty signal, risk-stratified evaluation, audit logs and drift monitoring can go straight into an AIRIS WP3 / MLCommons-style evaluation protocol. Notably, only 5 of 134 studies address clinical safety/quality and essentially none involve omics or spatial data — "LLM judges for omics-analysis conclusions" is itself an open gap.
+For **Topic 2** this is the **evidence map for whether the verifier itself can be trusted**. Topic 2's calibrated verifier is essentially an LLM-as-a-Judge (does the evidence support the agent's omics conclusion?), and three lessons must be internalized: (1) **alignment depends heavily on the reference standard** — "0.83 vs any expert / 0.51 vs majority" means KidneyAnomalyBench and Topic 2 annotations need a clearly defined multi-expert consensus protocol, reporting both raw agreement and κ; (2) **collapse under perturbation** (κ 0.78 → 0.24) is exactly the robustness test Topic 2 wants: apply controlled perturbations to agent conclusions (flip direction, cell type, gene) and test whether the verifier catches them — stronger calibration evidence than static agreement; (3) **same-family bias** means the verifier should not share a base model with the evaluated agent, or should report cross-family ensembles. Its treatment of judge disagreement as an uncertainty signal, risk-stratified evaluation, audit logs and drift monitoring can go straight into an AIRIS WP3 / MLCommons-style evaluation protocol. Notably, only 5 of 134 studies address clinical safety/quality and essentially none involve omics or spatial data — "LLM judges for omics-analysis conclusions" is itself an open gap.
 
 ## Reusable assets
 - **Search string and inclusion/exclusion criteria** (Table 1), reusable for updates or an omics/agent-focused review.
-- **18-field codebook** (Appendix Table 4) — a template for Plan B literature coding and verifier reporting standards.
+- **18-field codebook** (Appendix Table 4) — a template for Topic 2 literature coding and verifier reporting standards.
 - **Technique–implementation table** (Table 2) and the rubric/metric taxonomy (Table 3).
 - No code repository (review paper; not applicable).
 
 ## Follow-ups
 - MedVAL (Aali et al., 2025): a distilled clinical-text judge (κ = 0.67; fine-tuned Qwen3-4B r = 0.833).
-- Chung et al. (2025): atomic-claim factuality against EHR evidence (13,290 propositions, 0.89 agreement) — closest in form to Plan B.
+- Chung et al. (2025): atomic-claim factuality against EHR evidence (13,290 propositions, 0.89 agreement) — closest in form to Topic 2.
 - Shawon et al. (2026): judge collapse on perturbed medical concepts.
 - Li et al. (2026a): review of risk validation and governance frameworks for healthcare LLM judges.
 

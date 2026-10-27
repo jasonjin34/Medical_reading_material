@@ -36,7 +36,7 @@ Sardine 把空间转录组的「条件间异常区域检测」形式化为**空�
 - 需要有「对照条件」的切片——是 case-vs-control 比较,而非对单一患者切片的无参照检测。
 
 ## 与本研究方向的关系
-Sardine 是 detect 阶段**空间版的统计基线**:它与 Dann et al.(`healthy-ref-natgenet-2023`)的 Milo-DA 思路一脉相承,只是把邻域从表达空间搬到物理空间,并与 STANDS(`spatial-natcommun-2024`)、MEATRD(`meatrd-aaai-2025`)这类深度重建/判别式方法形成对照——后者需要组织学图像,Sardine 不需要。对 **Plan A**:院内 Xenium(加上 KPMP 的空间数据)可以用 Sardine 作为 KidneyAnomalyBench 的「无图像、有概率含义」基线;它的 0.5 中性点很适合与 snRNA / snATAC 的异常分数做**跨模态一致性**比较(同一区域在多个模态都显著偏离 0.5 才算疾病,只在一个模态偏离更可能是 artifact)。但要注意肾活检的现实:不同患者活检的空间配准远比小鼠脑切片难(取材部位、皮髓质比例不同),配准误差会直接被当成异常——这是 Plan A 需要专门测试的 failure mode。对 **Plan B**:本文的评估方式本身就是个警示案例——「Moran's I 高 + GSEA 命中多 = 更合理」只是间接证据,agent 若以此类代理指标声称「发现异常区域」,calibrated verifier 应当降低置信度并要求有 ground truth 的验证。
+Sardine 是 detect 阶段**空间版的统计基线**:它与 Dann et al.(`healthy-ref-natgenet-2023`)的 Milo-DA 思路一脉相承,只是把邻域从表达空间搬到物理空间,并与 STANDS(`spatial-natcommun-2024`)、MEATRD(`meatrd-aaai-2025`)这类深度重建/判别式方法形成对照——后者需要组织学图像,Sardine 不需要。对 **课题 1**:肾脏 Xenium 数据(加上 KPMP 的空间数据)可以用 Sardine 作为 KidneyAnomalyBench 的「无图像、有概率含义」基线;它的 0.5 中性点很适合与 snRNA / snATAC 的异常分数做**跨模态一致性**比较(同一区域在多个模态都显著偏离 0.5 才算疾病,只在一个模态偏离更可能是 artifact)。但要注意肾活检的现实:不同患者活检的空间配准远比小鼠脑切片难(取材部位、皮髓质比例不同),配准误差会直接被当成异常——这是课题 1 需要专门测试的 failure mode。对 **课题 2**:本文的评估方式本身就是个警示案例——「Moran's I 高 + GSEA 命中多 = 更合理」只是间接证据,agent 若以此类代理指标声称「发现异常区域」,calibrated verifier 应当降低置信度并要求有 ground truth 的验证。
 
 ## 可复用资产
 - **代码**(Python 3):

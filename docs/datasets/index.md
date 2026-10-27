@@ -11,7 +11,7 @@ Numbers were checked on 2026-10-26 against GEO, Zenodo, cellxgene, SRA and the p
 | Dataset | Species | Assays | Scale | People / samples | Access | Topics |
 |---|---|---|---|---|---|---|
 | [Lake 2023 · Kidney atlas (KPMP / HuBMAP)](lake-2023.md) | human | scRNA, snRNA, multiome, spatial | 203,702 nuclei (sn) + 109,741 cells (sc) + 104,809 nuclei (SNARE2) | 71 people in the three single-cell parts (35 healthy, 19 CKD, 17 AKI) | open | 1, 2 |
-| [Abedini 2024 · Second cohort](abedini-2024.md) | human | scRNA, snRNA, ATAC, spatial | 338,565 cells / nuclei | 36 control + 45 CKD samples (20 DKD, 25 HKD) | open | 1 |
+| [Abedini 2024 · Second cohort](abedini-2024.md) | human | scRNA, snRNA, ATAC, spatial | 338,565 cells / nuclei | 58 people in the paper (81 samples: 36 control, 45 CKD of which 20 DKD, 25 HKD); the GEO single-cell data hold 44 of them (21 controls) | open | 1 |
 
 ## Measurement controls (human): known answers for measurement-caused anomalies
 

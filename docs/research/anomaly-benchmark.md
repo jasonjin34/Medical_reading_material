@@ -6,20 +6,20 @@
 
 **Is an abnormal-looking cell caused by disease, or by measurement?**
 
-In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Current methods flag both as "anomalous", but no dataset with known answers exists to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
+In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Our reading (as of 2026-10): current methods flag both as "anomalous", and we found no dataset with known answers to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
 
 ## Why it matters
 
-- **Measurement effects have produced false biology.** In human brain single-nucleus data, a population annotated as "immature oligodendrocytes" turned out to be glia contaminated with neuronal ambient RNA, and doublets create "intermediate states" that do not exist in the sample.
-- **Kidney data are especially exposed.** In mixed-strain mouse kidney, background contamination was clearly higher in single-nucleus than in matched single-cell samples ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md): 35% vs 11%, 17% vs 3%), and single-nucleus is the usual assay for kidney biopsies.
-- **Disease and measurement signals overlap.** Lake 2023 picked candidate injury states partly by few genes detected and many mitochondrial transcripts, which are also the usual signs of a low-quality cell (our reading); altered states also occur in healthy reference tissue, which the authors attribute possibly to ischaemia during acquisition or normal ageing ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)). From the GEO label table we counted that 26% of nuclei from healthy donors are altered.
+- **Measurement effects have produced false biology.** In human brain single-nucleus data, nuclei previously annotated as "immature oligodendrocytes" turned out to be glia contaminated with neuronal ambient RNA ([Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)).
+- **Background contamination in kidney single-nucleus data can be high.** In mixed-strain mouse kidney, single-nucleus samples made from frozen tissue had clearly more background contamination than single-cell samples from the same material ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md): 35% vs 11%, 17% vs 3%). Frozen kidney biopsies can only be profiled by single-nucleus ([Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md): "snRNA, but not scRNA, can be performed from frozen tissue").
+- **Disease and measurement signals overlap.** Lake 2023 picked candidate injury states partly by few genes detected and many mitochondrial transcripts, which are also the usual signs of a low-quality cell (our reading); altered states also occur in healthy reference tissue, which the authors attribute possibly to ischaemia during acquisition or normal ageing ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)). From the GEO label table we counted that 26% of nuclei from healthy donors are altered (22,774 of 88,460).
 
 ## Why it is unsolved
 
-- **Artifact benchmarks have no disease axis.** Doublets and ambient RNA have their own benchmarks (for example the [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md)), but each covers one artifact and no disease states.
-- **Disease-state detection does not separate artifacts.** Methods that find altered cell states against a healthy reference (for example [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)) aim at disease states and do not judge whether a flagged cell is an artifact.
-- **There is no error control.** Common annotation pipelines give no statistical guarantee; conformal methods can bound the false-alarm rate ([Bates 2023](../papers/conformal-outliers-annstat-2023/index.md), [conformal for single-cell](../papers/conformal-scrna-bioinformatics-2025/index.md)) but have not been tested systematically on kidney data.
-- **There is no test bed.** General anomaly-detection benchmarks contain no single-cell or omics expression data, and we found no anomaly-detection benchmark for kidney omics (search, October 2026).
+- **Artifact benchmarks have no disease axis.** Our reading (as of 2026-10): doublets and ambient RNA have their own benchmarks, and each one we found covers one artifact and no disease states. For example, the [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) uses simulated data, species-mixing and genotype-mixing experiments.
+- **Disease-state detection does not separate artifacts.** Methods that find altered cell states against a healthy reference (for example [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)) aim at disease states. Our reading: the method itself does not judge whether a flagged cell is an artifact. Doublets and low-quality cells are only removed in preprocessing (one suspected doublet cluster dropped, only cells with at least 1,000 molecules kept), with no ambient-RNA step; the technical source of false positives the authors warn about is residual batch effects (Extended Data Fig. 7b,c).
+- **There is no error control.** Annotation pipelines that offer a reject option usually rely on arbitrary assumptions and give no statistical guarantee ([conformal for single-cell](../papers/conformal-scrna-bioinformatics-2025/index.md): they "do not provide statistical guarantees"). Conformal methods can bound the false-alarm rate ([Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)), but only when reference and query are exchangeable: in the single-cell conformal paper, the false-alarm guarantee failed when the query came from lung-tumour patients. Our reading (as of 2026-10): this has not been tested systematically on kidney data.
+- **There is no test bed.** Our reading (as of 2026-10): the general anomaly-detection benchmarks we looked at contain no single-cell expression data, and we found no anomaly-detection benchmark for kidney omics.
 
 ## What we will produce
 
@@ -37,11 +37,11 @@ Public kidney data only: human first, mouse only for calibration. What each data
 | Dataset | Answers | Role |
 |---|---|---|
 | [Lake 2023](../datasets/lake-2023.md) | disease | healthy reference + disease-state labels |
-| [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement | same donors measured by three assays: any "anomaly" between them is a false alarm |
+| [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement | 11 of 18 donors measured by two or three assays (3 have all three; cellxgene file): an "anomaly" flagged only between assays of the same donor is treated as a false alarm (our design choice; tissue pieces and preservation also differ) |
 | [Abedini 2024](../datasets/abedini-2024.md) | disease | second lab and cohort: do false alarms stay under control? |
 | [Janssen 2023](../datasets/janssen-2023.md) | measurement | mouse; real ambient measured by genotype, used to calibrate injection |
 | [Hoeft 2024](../datasets/hoeft-2024.md) | measurement | under discussion: real human-kidney doublets and ambient from pooled donors |
-| [Lake 2019](../datasets/lake-2019.md) | measurement | under discussion: same patients, different storage and processing |
+| [Lake 2019](../datasets/lake-2019.md) | measurement | under discussion: tissue from the same person kept and processed in different ways |
 
 **Splits:** by donor, not by cell, so no person appears in both training and testing; the split files ship with the dataset.
 
@@ -55,10 +55,10 @@ Ground truth comes in three tiers: **tier 1** is artifacts we inject ourselves, 
 | T2 | find measurement errors | tier 1 | AUROC, AUPRC |
 | T2b | is an assay change flagged as anomalous? | tier 2 | false-alarm rate ≤ α |
 | T3 | separate disease from measurement | tiers 1–3 | macro-F1, confusion matrix |
-| T4 | do false alarms stay controlled in a new lab? | every call on healthy donors is false | observed rate vs α |
+| T4 | do false alarms stay controlled in a new lab? | every call on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, see above) | observed rate vs α |
 
 !!! warning "A known trap"
-    Using Lake's altered labels directly as disease ground truth is circular: in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive).
+    Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive).
 
 ## Open questions
 

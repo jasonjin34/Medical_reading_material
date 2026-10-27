@@ -37,7 +37,7 @@ Lit2Test 要求每个研究提案按「六字段契约」写出 —— literatur
 - 只用 ML 相关文献,生物医学领域未测;细微损坏审计存在 3.9% 泄漏等构造瑕疵。
 
 ## 与本研究方向的关系
-与 **Plan B** 和 revert 阶段都有关,但属于方法论借鉴(relevance: medium)。**(1) revert 阶段的提名格式**:detect → model → revert 末端,agent 提出「扰动基因 X 可把异常肾小管/间质状态拉回正常」时,可以强制用类似六字段契约输出 —— 证据缺口、假设、最小湿实验(如某细胞系/类器官的 knockdown)、决定性读数(如损伤评分或某标志物)、支持结果与**证伪结果**。这样湿实验结果天然可以回填为「通过/被证伪」,给 Plan B 的 claim-level 验证一个干净的标签。**(2) 评委可靠性审计的工程模板**:Plan B 若用 LLM verifier,Lit2Test 的「双向顺序折叠 + order-sensitive 单列 + 隐藏朴素对照 + 单字段损坏 + 风格匹配 sham」是一套可直接复用的 verifier 自检清单,也对应 Plan B 的 rerun-stability 关注。**(3)** 它和 `ideation-execution-gap-arxiv-2025` 一起提醒:可证伪 ≠ 会成功,真正的标签仍需执行(对我们是湿实验)。Plan A 关系较弱。
+与 **课题 2** 和 revert 阶段都有关,但属于方法论借鉴(relevance: medium)。**(1) revert 阶段的提名格式**:detect → model → revert 末端,agent 提出「扰动基因 X 可把异常肾小管/间质状态拉回正常」时,可以强制用类似六字段契约输出 —— 证据缺口、假设、最小湿实验(如某细胞系/类器官的 knockdown)、决定性读数(如损伤评分或某标志物)、支持结果与**证伪结果**。这样湿实验结果天然可以回填为「通过/被证伪」,给课题 2 的 claim-level 验证一个干净的标签。**(2) 评委可靠性审计的工程模板**:课题 2 若用 LLM verifier,Lit2Test 的「双向顺序折叠 + order-sensitive 单列 + 隐藏朴素对照 + 单字段损坏 + 风格匹配 sham」是一套可直接复用的 verifier 自检清单,也对应课题 2 的 rerun-stability 关注。**(3)** 它和 `ideation-execution-gap-arxiv-2025` 一起提醒:可证伪 ≠ 会成功,真正的标签仍需执行(对我们是湿实验)。课题 1 关系较弱。
 
 ## 可复用资产
 - **基准、构造流水线与审计产物:**

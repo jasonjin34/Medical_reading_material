@@ -40,7 +40,7 @@ RQ-Bench:1,434 个 RQ,来自 746 篇源论文、13 个 arXiv CS 子领域;2,464 
 - 文中未给出代码/数据下载链接。
 
 ## 与本研究方向的关系
-这是一篇「评委本身不可信」的警示论文,直接落在 **Plan B(可信生物医学 agent)** 的验证器设计上。Plan B 计划用一个校准过的 verifier 检查分析肾脏组学的 agent 所提出的论断;如果 verifier 是 LLM,本文给出三个必须吸收的教训:**(1) 评判格式会改变结论** —— standalone 与 comparative 的胜率可以差 20+ 个百分点,所以 KidneyAnomalyBench / Plan B 的评测协议必须固定格式并报告格式敏感性;**(2) 需要多评委 + 一致性报告**,并且至少一小部分由专家盲评做锚定(本文 50 样本的设计可直接借鉴为最小人类校准集);**(3) 存在 LLM 系统性漏掉、但专家看重的维度** —— 在这里是「窄度/源绑定」。对 detect → model → revert 主链,类似的隐患在 revert 阶段:agent 提名的「回正基因/扰动」如果只是对某篇源论文或某个已知通路的小修小补(source-bound),LLM 评委可能仍打高分。把「是否只是复述输入证据」作为显式检查项,是 Plan B 失败分类(omics-specific failure taxonomy)里可以新增的一类。Plan A 方面关系较弱,但 KidneyAnomalyBench 若用 LLM 辅助判定「异常是否新颖/有生物学意义」,同样要以专家标注为准、把 LLM 判定当作待校准的信号。
+这是一篇「评委本身不可信」的警示论文,直接落在 **课题 2(可信生物医学 agent)** 的验证器设计上。课题 2 计划用一个校准过的 verifier 检查分析肾脏组学的 agent 所提出的论断;如果 verifier 是 LLM,本文给出三个必须吸收的教训:**(1) 评判格式会改变结论** —— standalone 与 comparative 的胜率可以差 20+ 个百分点,所以 KidneyAnomalyBench / 课题 2 的评测协议必须固定格式并报告格式敏感性;**(2) 需要多评委 + 一致性报告**,并且至少一小部分由专家盲评做锚定(本文 50 样本的设计可直接借鉴为最小人类校准集);**(3) 存在 LLM 系统性漏掉、但专家看重的维度** —— 在这里是「窄度/源绑定」。对 detect → model → revert 主链,类似的隐患在 revert 阶段:agent 提名的「回正基因/扰动」如果只是对某篇源论文或某个已知通路的小修小补(source-bound),LLM 评委可能仍打高分。把「是否只是复述输入证据」作为显式检查项,是课题 2 失败分类(omics-specific failure taxonomy)里可以新增的一类。课题 1 方面关系较弱,但 KidneyAnomalyBench 若用 LLM 辅助判定「异常是否新颖/有生物学意义」,同样要以专家标注为准、把 LLM 判定当作待校准的信号。
 
 ## 可复用资产
 - **评测协议:** metric-level Pass@5、per-judge 与 combined-judge 的 win/tie/lose 定义;standalone vs comparative 双格式。

@@ -39,7 +39,7 @@ flowchart LR
 ```
 
 ## 数据
-**预训练**:约 1 亿张 512×512、20× 的 H&E patch(TCGA、GTEx、PAIP、PLCO);160 万文本–图像对(PathGen-1.6M);1,080 万条 TCGA bulk RNA-seq 与配对 WSI 组成的 RNA–图像对;覆盖 34 个器官(Methods §"Pretraining Datasets";Fig. 1b)。**评测**:图像→图像用 HISTAI 的 10 万参考图;文本→图像用 PathGen-1.6M 的 10 万条留出 caption;few-shot 分类用 SkinCancer、PanNuke、UniToPatho、LC25000、SICAPv2;检索在 Book / Twitter / WebPathology 上报告(Methods 写为 PathMMU);空间转录组用 MOSAIC 的 5 种癌(膀胱癌、GBM、DLBCL、间皮瘤、卵巢癌),共 54,033 个 Visium spot;FF→FFPE 用 TCGA 肺和脑;IHC 用 IHC4BC 与 HER2Match;mIF 用 ORION-CRC(41 张 WSI、16 个蛋白标志物)。
+**预训练**:约 1 亿张 512×512、20× 的 H&E patch(TCGA、GTEx、PAIP、PLCO);160 万文本–图像对(PathGen-1.6M);1,080 万个 RNA–图像对(摘要、引言与正文都写作 "10.8 million RNA–histology/RNA–image pairs",只有 Methods 写成 "10.8 million bulk RNA-seq profiles from TCGA linked to their matched WSIs";我们的理解:TCGA 的 bulk RNA-seq 样本只有万级,所以这个数是 patch–表达谱的配对数,Methods 那句措辞不准);覆盖 34 个器官(Methods §"Pretraining Datasets";Fig. 1b)。**评测**:图像→图像用 HISTAI 的 10 万参考图;文本→图像用 PathGen-1.6M 的 10 万条留出 caption;few-shot 分类用 SkinCancer、PanNuke、UniToPatho、LC25000、SICAPv2;检索在 Book / Twitter / WebPathology 上报告(Methods 写为 PathMMU);空间转录组用 MOSAIC 的 5 种癌(膀胱癌、GBM、DLBCL、间皮瘤、卵巢癌),共 54,033 个 Visium spot;FF→FFPE 用 TCGA 肺和脑;IHC 用 IHC4BC 与 HER2Match;mIF 用 ORION-CRC(Methods:41 张 WSI、16 个蛋白标志物;Results 的比较按 15 个标志物报告,论文未说明差一个的原因)。
 
 ## 主要结果
 - **图像→图像**:FID 305.12,PixCell 602.45(-49.4%)、FLUX.2 750.30、SD v3.5 1350.80;图像相似度 0.63 vs PixCell 0.46(Results §"Image-to-image";Fig. 2a)。
@@ -93,11 +93,11 @@ _Source: https://arxiv.org/html/2604.03635v1/figs/fig1-overview.png  ·  License
 _Source: https://arxiv.org/html/2604.03635v1/figs/fig2-text2image-image2image.png  ·  License: arXiv (author-posted preprint)_
 
 ![H&E generation from spatial transcriptomics](figures/fig3.png)
-**图3(论文 Fig. 4).** 由空间转录组生成 H&E:(a) 五种癌症的 FID;(b) 合成与真实图像的细胞类型组成对比(膀胱癌,14 类细胞,Wasserstein 距离);(c) MuPAD 与 GeneFlow 的 Wasserstein 距离对比;(d) 匹配空间转录组条件下真实/合成 H&E 图像对示例。
+**图3(论文 Fig. 4;arXiv HTML 中的文件名是 fig5-st2image,与印刷图号差一)。** 由空间转录组生成 H&E:(a) 五种癌症的 FID;(b) 合成与真实图像的细胞类型组成对比(膀胱癌,14 类细胞,Wasserstein 距离);(c) MuPAD 与 GeneFlow 的 Wasserstein 距离对比;(d) 匹配空间转录组条件下真实/合成 H&E 图像对示例。
 _Source: https://arxiv.org/html/2604.03635v1/figs/fig5-st2image.png  ·  License: arXiv (author-posted preprint)_
 
 ![Virtual H&E-to-IHC staining](figures/fig4.png)
-**图4(论文 Fig. 5).** 虚拟 H&E→IHC 染色与临床验证:(a) 多标志物虚拟 IHC 生成示例;(b) FID/KID 体现分布保真度与感知质量;(c) IHC4BC 上用虚拟 IHC 预测真实临床生物标志物的 AUC。
+**图4(论文 Fig. 5;arXiv HTML 中的文件名是 fig6-he2ihc)。** 虚拟 H&E→IHC 染色与临床验证:(a) 多标志物虚拟 IHC 生成示例;(b) FID/KID 体现分布保真度与感知质量;(c) IHC4BC 上用虚拟 IHC 预测真实临床生物标志物的 AUC。
 _Source: https://arxiv.org/html/2604.03635v1/figs/fig6-he2ihc.png  ·  License: arXiv (author-posted preprint)_
 
 ### 结果表

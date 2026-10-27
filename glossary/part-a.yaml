@@ -369,8 +369,8 @@
   zh: 域偏移
   de: Domänenverschiebung
   domain: general
-  def_en: "A drop in model performance when test data differs from training data, for example due to a different scanner or staining protocol."
-  def_zh: "当测试数据与训练数据不同(例如换了扫描仪或染色方案)时导致的模型性能下降。"
-  def_de: "Ein Leistungsabfall des Modells, wenn Testdaten von den Trainingsdaten abweichen, etwa durch einen anderen Scanner oder ein anderes Färbeprotokoll."
+  def_en: "A difference between the training and test data distributions, for example due to a different scanner, staining protocol or assay; it typically lowers model performance."
+  def_zh: "训练数据和测试数据分布之间的差异(例如换了扫描仪、染色方案或测法);通常会让模型性能下降。"
+  def_de: "Ein Unterschied zwischen den Verteilungen von Trainings- und Testdaten, etwa durch einen anderen Scanner, ein anderes Färbeprotokoll oder Assay; senkt typischerweise die Modellleistung."
   tags: [generalization, robustness]
   seen_in: [histo-miccai-2025, virchow-2024, uni2-h-model]

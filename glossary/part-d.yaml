@@ -30,7 +30,7 @@
   de: obs / var (Zell- und Gen-Metadaten)
   domain: single-cell
   def_en: "The two tables aligned with the count matrix: obs has one row per cell (patient, library, quality numbers, cell-type and state labels), var has one row per gene (gene name and other gene information)."
-  def_zh: "和计数矩阵对齐的两张表：obs 每个细胞一行（病人、批次、质量指标、细胞类型和状态标签），var 每个基因一行（基因名等信息）。"
+  def_zh: "和计数矩阵对齐的两张表：obs 每个细胞一行（病人、文库、质量指标、细胞类型和状态标签），var 每个基因一行（基因名等信息）。"
   def_de: "Die zwei an der Zählmatrix ausgerichteten Tabellen: obs hat eine Zeile pro Zelle (Patient, Library, Qualitätswerte, Zelltyp- und Zustandslabels), var eine Zeile pro Gen (Genname und weitere Geninformationen)."
   tags: [data, format]
 
@@ -50,7 +50,7 @@
   de: Aufteilung nach Patient (Datenleck)
   domain: ml-methods
   def_en: "Putting all cells of one patient (and, where needed, one library) on the same side of the train / test split; splitting cells at random leaks the patient and batch into the test set and inflates the score."
-  def_zh: "把同一个病人（必要时同一次上机）的所有细胞放在训练集或测试集的同一边；按细胞随机切分会把病人和批次信息泄漏到测试集，分数虚高。"
+  def_zh: "把同一个病人（必要时同一个文库）的所有细胞放在训练集或测试集的同一边；按细胞随机切分会把病人和批次信息泄漏到测试集，分数虚高。"
   def_de: "Alle Zellen eines Patienten (und bei Bedarf einer Library) landen auf derselben Seite der Train-/Test-Aufteilung; eine zufällige Aufteilung nach Zellen lässt Patient und Batch ins Testset durchsickern und schönt das Ergebnis."
   tags: [evaluation, leakage]
 
@@ -60,9 +60,9 @@
   zh: 细胞核
   de: Zellkern
   domain: single-cell
-  def_en: "The compartment inside a cell that holds the DNA; RNA is made here before it moves out to the cytoplasm."
-  def_zh: "细胞里装 DNA 的部分；RNA 在这里被转录出来，之后再运到胞质。"
-  def_de: "Das Kompartiment der Zelle, das die DNA enthält; RNA wird hier gebildet und dann ins Zytoplasma transportiert."
+  def_en: "The compartment inside a cell that holds the DNA; RNA of nuclear genes is made here before it moves out to the cytoplasm (mitochondrial genes are transcribed inside the mitochondria)."
+  def_zh: "细胞里装 DNA 的部分；核基因的 RNA 在这里被转录出来，之后再运到胞质（线粒体基因在线粒体里转录）。"
+  def_de: "Das Kompartiment der Zelle, das die DNA enthält; die RNA der Kerngene wird hier gebildet und dann ins Zytoplasma transportiert (mitochondriale Gene werden in den Mitochondrien transkribiert)."
   tags: [biology]
 
 - id: transcription
@@ -92,9 +92,9 @@
   zh: 肾单位
   de: Nephron
   domain: nephrology-clinical
-  def_en: "The functional unit of the kidney, about a million per kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine."
-  def_zh: "肾脏的功能单位，一个肾约 100 万个：先是一个过滤器（肾小球），后面接一条小管，把有用的东西收回，剩下的成为尿。"
-  def_de: "Die funktionelle Einheit der Niere, etwa eine Million pro Niere: ein Filter (Glomerulus) und ein anschließender Tubulus, der Nützliches zurückgewinnt und Harn übrig lässt."
+  def_en: "The functional unit of the kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine. The number per kidney differs up to 10-fold between people (one study of Japanese living donors: about 650,000 on average)."
+  def_zh: "肾脏的功能单位：先是一个过滤器（肾小球），后面接一条小管，把有用的东西收回，剩下的成为尿。每个肾的数量因人而异，可差 10 倍（一项日本活体供肾者研究：平均约 65 万个）。"
+  def_de: "Die funktionelle Einheit der Niere: ein Filter (Glomerulus) und ein anschließender Tubulus, der Nützliches zurückgewinnt und Harn übrig lässt. Die Anzahl pro Niere unterscheidet sich zwischen Menschen bis zu zehnfach (eine Studie an japanischen Lebendspendern: im Mittel etwa 650.000)."
   tags: [anatomy]
 
 - id: renal-cortex-medulla
@@ -102,9 +102,9 @@
   zh: 皮质 / 髓质 / 乳头
   de: Nierenrinde / Nierenmark / Papille
   domain: nephrology-clinical
-  def_en: "The kidney's outer layer (cortex, with glomeruli and proximal and distal tubules), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves."
-  def_zh: "肾的外层（皮质，有肾小球、近端和远端小管）、内层（髓质，有髓袢和集合管），以及髓质的尖端（乳头，尿从这里流出）。"
-  def_de: "Äußere Schicht der Niere (Rinde, mit Glomeruli, proximalen und distalen Tubuli), innere Schicht (Mark, mit Henle-Schleifen und Sammelrohren) und die Markspitzen (Papillen), wo der Harn austritt."
+  def_en: "The kidney's outer layer (cortex, with glomeruli, proximal and distal tubules and the first part of the collecting ducts), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves."
+  def_zh: "肾的外层（皮质，有肾小球、近端和远端小管，以及集合管的起始段）、内层（髓质，有髓袢和集合管），以及髓质的尖端（乳头，尿从这里流出）。"
+  def_de: "Äußere Schicht der Niere (Rinde, mit Glomeruli, proximalen und distalen Tubuli und dem Anfang der Sammelrohre), innere Schicht (Mark, mit Henle-Schleifen und Sammelrohren) und die Markspitzen (Papillen), wo der Harn austritt."
   tags: [anatomy, region]
   seen_in: [lake-kidney-atlas-nature-2023, kidney-multimodal-genomebiol-2026]
 
@@ -134,9 +134,9 @@
   zh: 近端小管
   de: Proximaler Tubulus
   domain: nephrology-clinical
-  def_en: "The first tubule segment after the glomerulus; reclaims most water, glucose and salt, uses the most energy, and is the first to be injured by ischaemia. The most abundant cell type in kidney atlases."
-  def_zh: "肾小球后面的第一段小管；回收大部分水、葡萄糖和盐，最耗能，缺血时最先受伤。是肾脏图谱里数量最多的细胞类型。"
-  def_de: "Das erste Tubulussegment nach dem Glomerulus; resorbiert den Großteil von Wasser, Glukose und Salz, verbraucht am meisten Energie und wird bei Ischämie zuerst geschädigt."
+  def_en: "The first tubule segment after the glomerulus; reclaims about 60–70% of the water and salt and nearly all of the glucose; highly metabolically active and, in most animal models, the cell type most sensitive to ischaemia. The most abundant cell type in kidney atlases."
+  def_zh: "肾小球后面的第一段小管；回收约 60–70% 的水和盐、几乎全部的葡萄糖；代谢非常活跃，在多数动物模型里是对缺血最敏感的细胞。是肾脏图谱里数量最多的细胞类型。"
+  def_de: "Das erste Tubulussegment nach dem Glomerulus; resorbiert etwa 60–70 % von Wasser und Salz und fast die gesamte Glukose; stoffwechselaktiv und in den meisten Tiermodellen der gegenüber Ischämie empfindlichste Zelltyp. Der häufigste Zelltyp in Nierenatlanten."
   tags: [cell-type]
   seen_in: [lake-kidney-atlas-nature-2023]
 
@@ -381,9 +381,9 @@
   zh: 线粒体比例
   de: Mitochondrialer Anteil
   domain: single-cell
-  def_en: "The share of a cell's RNA from mitochondrial genes; a standard QC metric (high = stressed or dying cell). Naturally higher in whole cells than in nuclei."
-  def_zh: "一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标（高 = 细胞应激或快死了）。完整细胞本来就比细胞核高。"
-  def_de: "Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik (hoch = gestresste oder sterbende Zelle). In ganzen Zellen natürlich höher als in Kernen."
+  def_en: "The share of a cell's RNA from mitochondrial genes; a standard QC metric. In whole cells a high value suggests a broken or dying cell; nuclei contain no mitochondrial transcripts of their own, so values are naturally much lower, and a high value reflects mitochondria stuck to the nucleus or tissue handling."
+  def_zh: "一个细胞的 RNA 里来自线粒体基因的比例；标准 QC 指标。完整细胞里偏高，提示细胞破损或快死了；细胞核本身不表达线粒体转录本，所以数值本来就低得多，偏高反映的是粘在核上的线粒体或组织处理的影响。"
+  def_de: "Der Anteil der RNA einer Zelle aus mitochondrialen Genen; Standard-QC-Metrik. In ganzen Zellen deutet ein hoher Wert auf eine beschädigte oder sterbende Zelle hin; Kerne exprimieren selbst keine mitochondrialen Transkripte, daher sind die Werte dort viel niedriger, und ein hoher Wert spiegelt am Kern haftende Mitochondrien oder die Gewebeverarbeitung wider."
   tags: [qc]
 
 - id: dissociation-stress
@@ -424,9 +424,9 @@
   zh: CELLxGENE 数据平台
   de: CZ CELLxGENE
   domain: single-cell
-  def_en: "The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; the easiest way to download Lake 2023 and mBDRC."
-  def_zh: "Chan Zuckerberg 的单细胞数据平台，把整理好的数据集统一成 h5ad 文件和标准标签提供下载；下载 Lake 2023 和 mBDRC 最方便的途径。"
-  def_de: "Das Einzelzellportal der Chan-Zuckerberg-Initiative, das kuratierte Datensätze als h5ad mit harmonisierten Metadaten bereitstellt."
+  def_en: "The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; a convenient way to download Lake 2023 and mBDRC. Column names differ from the authors' GEO tables (e.g. donor_id), X is normalised with raw counts in raw.X, and the Lake single-nucleus and single-cell files do not include the author state labels."
+  def_zh: "Chan Zuckerberg 的单细胞数据平台，把整理好的数据集统一成 h5ad 文件和标准标签提供下载；下载 Lake 2023 和 mBDRC 的方便途径。列名和作者在 GEO 上的标签表不同（如 donor_id），X 是归一化后的值、原始计数在 raw.X，Lake 的单核和单细胞文件里没有作者的 state 标签。"
+  def_de: "Das Einzelzellportal der Chan-Zuckerberg-Initiative, das kuratierte Datensätze als h5ad mit harmonisierten Metadaten bereitstellt. Spaltennamen weichen von den GEO-Tabellen der Autoren ab (z. B. donor_id), X ist normalisiert, die Rohzählungen liegen in raw.X."
   tags: [repository]
 
 - id: geo-sra

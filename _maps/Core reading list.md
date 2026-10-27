@@ -1,21 +1,21 @@
 ---
-title: Sikander's picks
+title: Core reading list
 tags:
 - moc
 ---
 
-# Sikander's picks
+# Core reading list
 
-Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line.
+The core background reading, on the detect → model → revert line.
 
-Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。
+核心背景阅读，按 detect → model → revert 排列。
 
 ## Pipeline / 流程
 
 ```mermaid
 flowchart TD
   s1["`**1. Foundations & data** (5 papers)
-Generative histopathology FM · Pathology FM benchmark · HEST-1k`"]
+Generative histopathology FM · Pathology FM benchmark · UNI2-h`"]
   s2["`**2. Detect** (12 papers)
 ECG sudden-death biomarker · Spatial biomarker discovery · AI ejection fraction`"]
   s3["`**3. Model** (2 papers)
@@ -30,14 +30,14 @@ DeepEvidence · Biomni · LLM hypothesis generators`"]
   s4 --> s5
 ```
 
-Flow canvas: [[_maps/Sikander's picks — flow.canvas|Sikander's picks — flow]]
+Flow canvas: [[_maps/Core reading list — flow.canvas|Core reading list — flow]]
 
 ## Foundations & data / 基础模型与数据
 - [[_maps/papers/pathbench-natcommun-2026|Pathology FM benchmark]] ★ — A benchmark study of vision and pathology foundation models for computational pathology
 - [[_maps/papers/fm-arxiv-2604|Generative histopathology FM]] — A Generative Foundation Model for Multimodal Histopathology
+- [[_maps/papers/uni2-h-model|UNI2-h]] — MahmoodLab/UNI2-h
 - [[_maps/papers/hest1k-2024|HEST-1k]] — HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
 - [[_maps/papers/virchow-2024|Virchow]] — A foundation model for clinical-grade computational pathology and rare cancers detection
-- [[_maps/papers/uni2-h-model|UNI2-h]] — MahmoodLab/UNI2-h
 
 ## Detect / 检测
 - [[_maps/papers/imaging-nature-2026|ECG sudden-death biomarker]] ★ — An ECG biomarker for sudden cardiac death discovered with deep learning

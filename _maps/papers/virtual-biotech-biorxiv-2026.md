@@ -10,10 +10,10 @@ track:
 year: 2026
 relevance: medium
 category: agents
-recommended_by: sikander
+recommended_by: core-reading
 views:
 - plan-b
-- sikander
+- reading-list
 - overview
 tags:
 - paper

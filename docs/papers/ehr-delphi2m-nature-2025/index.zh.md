@@ -36,12 +36,11 @@ Delphi-2M 把 GPT-2 改成**连续时间、竞争风险的疾病生成模型**:�
 flowchart LR
   A["Health trajectory<br/>ICD-10 first diagnoses, sex, lifestyle"] --> B["No-event padding<br/>about 1 per 5 years"]
   B --> C["GPT-2 with age encoding<br/>and same-time attention mask"]
-  C --> D["Logits as log-rates"]
+  C --> D["Logits = log-rates<br/>rate = exp(logit) per day<br/>1,256 diseases, death, no-event"]
   D --> E["Softmax: next token"]
-  D --> F["Exponential: time to next event"]
-  E --> G["Rates for 1,256 diseases and death"]
-  F --> G
-  G -.-> H["Sample next event and append<br/>synthetic trajectories"]
+  D --> F["Exponential with summed rate:<br/>time to next event"]
+  E -.-> H["Sample next event and append<br/>synthetic trajectories"]
+  F -.-> H
   H -.-> C
 ```
 
@@ -56,7 +55,7 @@ flowchart LR
 - **生成轨迹**:以 60 岁前数据为条件,每人采样一条轨迹(正文 63,662 人;Fig. 3a 图注写 63,622),70–75 岁的人群发病率被很好重现;采样第 1 年平均约 17% 的疾病 token 预测正确,20 年后降到 <14%,只用年龄和性别为 12–13%(Fig. 3b,c)。吸烟、饮酒、BMI 高低组的疾病负担差异也被重现(Fig. 3d)。
 - **纯合成数据训练**:用 40 万条从出生采样的合成轨迹训练同样的模型,在真实验证集上平均 AUC **0.74**,比原模型低 3 个百分点;生成轨迹与训练数据的相似度不高于验证集(Fig. 3f;Supplementary Fig. 6;Methods)。
 - **外部验证**:不重训、不调整用于丹麦,平均 AUC **0.67**(s.d. 0.09),UKB 纵向测试为 0.69(s.d. 0.09);各病种在两数据集上的 AUC 相关 Pearson r = **0.76**(95% CI 0.72–0.80)(Fig. 5a)。
-- **可解释性**:embedding 的 UMAP 按 ICD 章节聚类(模型不知道章节);两型糖尿病与视网膜病、神经病变聚在一起;心梗、败血症与死亡聚在一起(Fig. 4a)。SHAP 示例:一串消化系统诊断使某人胰腺癌风险升高 19 倍,随后的胰腺癌诊断使死亡率升高近万倍(Fig. 4b)。癌症对死亡率的影响以数年半衰期衰减,败血症则迅速回落(Fig. 4d)。
+- **可解释性**:embedding 的 UMAP 按 ICD 章节聚类(模型不知道章节);两型糖尿病与视网膜病、神经病变聚在一起;心梗、败血症与死亡聚在一起(Fig. 4a)。SHAP 示例:一串消化系统诊断使某人胰腺癌风险升高 19 倍,随后的胰腺癌诊断使死亡率升高近万倍(正文 Results §"Explaining Delphi-2M predictions";但 Fig. 4b 图中标注的死亡相对速率为 9.3 × 10<sup>4</sup>,约 9.3 万倍,其中胰腺癌 token 单项贡献 ×168)。癌症对死亡率的影响以数年半衰期衰减,败血症则迅速回落(Fig. 4d)。
 - **偏倚**:只在住院记录中出现的疾病,在有其他住院记录的人中预测速率平均高 **10 倍**;败血症 93% 在医院确诊,在有任何其他住院数据者中被预测高 **8 倍**(Fig. 5e,f)。UKB 入组前无死亡(immortality bias)影响死亡率估计;80 岁以上数据太少,不能可靠建模(Fig. 5b;Results)。
 
 ## 创新点
@@ -67,34 +66,35 @@ flowchart LR
 - 系统的偏倚分析:展示模型如何利用 UKB 特有的数据来源缺失模式。
 
 ## 局限
+- 作者所述:UKB 中英国白人比例高于总人口,参与者平均更富裕、受教育程度更高;白人参与者报告的疾病率较低,诊断率随贫困程度上升,这些趋势 Delphi-2M 都重现了(Results §"External validation and bias assessment";图注内容见 Extended Data Fig. 10「Effects of ethnicity and deprivation」,正文此处引作 Extended Data Fig. 9)。
 - 作者所述:UKB 的健康志愿者偏倚与入组前选择偏倚;数据来源缺失模式被模型利用;不同祖源和贫困指数亚组的预测速率不同(Discussion;Supplementary Figs. 10–11)。
 - 作者所述:时间方向上的依赖**不应被解读为可用来改变未来健康的因果关系**;个体预测很大程度受随机性影响,与多种结局都相容(Discussion)。
 - 作者所述:输入只有首诊 + 少量生活方式;处方、血检、影像、基因组、可穿戴等是未来扩展方向;糖尿病等疾病仍离不开生物标志物(Results;Discussion)。临床决策支持还需要尚不成熟的监管框架(Discussion)。
 - 我们的理解:只用「首次」诊断,丢掉了复发、分期进展、就诊强度等信息 —— 对 CKD 分期这类反复测量、逐级加重的病,这一表示可能不够。
-- 我们的理解:外部验证只覆盖 50–80 岁、只评估一年(2017)的发病,且丹麦缺生活方式输入;论文内有小的数字不一致(63,662 vs 63,622;MILTON 标志物 67 vs Extended Data Fig. 5 的 57)。
+- 我们的理解:外部验证只覆盖 50–80 岁、只评估一年(2017)的发病,且丹麦缺生活方式输入;论文内有小的数字不一致(63,662 vs 63,622;MILTON 标志物 67 vs Extended Data Fig. 5 的 57;胰腺癌诊断后死亡率「近万倍」(正文)vs Fig. 4b 标注的 9.3 × 10<sup>4</sup>)。
 - 作者申请了专利(PCT/EP2025/065771,用生成式 Transformer 建模疾病竞争风险与时间)(Competing interests)。
 
 ## 与本研究方向的关系
-**首先是 Mount Sinai EHR 项目(数百万病人)**。我们的理解:Delphi-2M 是一个小、可复现(代码公开)的「病人轨迹基础模型」模板,和胰腺癌轨迹论文(`ehr-pancreatic-trajectory-natmed-2023`,单病种判别模型)形成对照:后者回答「某个病多早能发现」,Delphi 回答「所有病的发生率随时间如何变化」。可借鉴的设计:(1) 竞争指数头输出绝对速率,适合把 CKD 进展、透析、心衰、心梗、死亡等**相互竞争**的终点放在一个模型里;(2) no-event 填充让风险可在任意时刻查询;(3) 外部验证规范:零调参迁移 + 各病种 AUC 相关性 + 校准曲线。论文复现了 scaling law(UKB 规模最优约 200 万参数),所以「数百万病人的 Sinai 规模下最优模型多大」本身是一个可检验的问题。Delphi 在糖尿病上输给 HbA1c,说明对代谢-肾病终点,化验值(如 HbA1c、eGFR)和用药很可能需要作为输入 —— 前提是 Sinai 数据中确实有这些字段(待确认)。偏倚部分对 Sinai 尤其重要:单中心 EHR 里病人可能在别处就医,「数据来源/就诊强度」造成的缺失模式会被模型学进去,需要分层检验。作者在讨论中也提出,未来面向医疗的 LLM 可以调用 Delphi 类模型来提高数值准确性。
+**首先是 Mount Sinai EHR 项目**。我们的理解:Delphi-2M 是一个小、可复现(代码公开)的「病人轨迹基础模型」模板,和胰腺癌轨迹论文(`ehr-pancreatic-trajectory-natmed-2023`,单病种判别模型)形成对照:后者回答「某个病多早能发现」,Delphi 回答「所有病的发生率随时间如何变化」。可借鉴的设计:(1) 竞争指数头输出绝对速率,适合把 CKD 进展、透析、心衰、心梗、死亡等**相互竞争**的终点放在一个模型里;(2) no-event 填充让风险可在任意时刻查询;(3) 外部验证规范:零调参迁移 + 各病种 AUC 相关性 + 校准曲线。论文复现了 scaling law(UKB 规模最优约 200 万参数),所以「在更大的单一医疗系统 EHR 上最优模型多大」本身是一个可检验的问题。Delphi 在糖尿病上输给 HbA1c,说明对代谢-肾病终点,化验值(如 HbA1c、eGFR)和用药很可能需要作为输入 —— 前提是 Sinai 数据中确实有这些字段(待确认)。偏倚部分对 Sinai 尤其重要:单中心 EHR 里病人可能在别处就医,「数据来源/就诊强度」造成的缺失模式会被模型学进去,需要分层检验。作者在讨论中也提出,未来面向医疗的 LLM 可以调用 Delphi 类模型来提高数值准确性。
 
 我们的理解(与 detect → model → revert 的关系,简述):Delphi 是病人尺度的「model」—— 可采样的虚拟病人;但作者明确说时间依赖不可作为因果干预依据,所以要走到「revert」还需要因果/反事实层或与组织层 virtual tissue 的连接。它「学到数据来源缺失而非疾病」的问题,与组学中把批次/伪迹当作疾病信号是同一类问题,和我们在肾脏组学异常检测中用多模态一致性区分伪迹的思路对应。
 
 ## 可复用资产
-- **代码:** Delphi 代码、脚本与 Jupyter notebook(基于 nanoGPT)(Code availability)。
+- **代码:** Delphi 代码、脚本与 Jupyter notebook(Code availability);模型基于 nanoGPT 实现(Methods §"GPT model")。
 <https://github.com/gerstung-lab/delphi>
 - **模型权重:** 按 UK Biobank 受控访问流程获取(upload ID 7318)(Code availability)。
 - **数据:** UK Biobank(申请制);丹麦登记数据需向丹麦患者安全局与丹麦卫生数据局申请,在专用安全环境中使用(Data availability)。
 - **基线集合:** QRisk3、SCORE2、PREVENT、Framingham、UKBDRS、Charlson、Elixhauser、AutoPrognosis v2、Transformer 编码器、Llama3.1-8B 提示基线(提示词全文在 Methods)、MILTON。
 
 ## 待读
-- Extended Data Fig. 5:把 Delphi logits 与多基因风险评分、血液标志物、自评健康一起放进线性模型预测 5 年发病 —— 看 Delphi 与化验数据是否互补。
+- Extended Data Fig. 5:线性模型预测 5 年发病,在 Delphi logits(及年龄、性别)之外分别加入多基因风险评分(a)、MILTON 的 57 个血液标志物(b)或自评总体健康(c)—— 看 Delphi 与化验数据是否互补。
 - MILTON 原文(Garg 等,Nat. Genet. 2024,ref. 31),化验驱动的全病谱对照。
 - 补充讨论中的亚组公平性分析(Supplementary Figs. 10–11,Supplementary Table 4)。
 - 相关生成式 EHR 模型:Foresight(ref. 28)、MOTOR(ref. 29);与 `ehr-apollo-arxiv-2026`、`ehr-comet-natmachintell-2025` 对比。
 
 ## 引用
 ```bibtex
-@article{Shmatko_2025, title={Learning the natural history of human disease with generative transformers}, volume={647}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-025-09529-3}, DOI={10.1038/s41586-025-09529-3}, number={8088}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Shmatko, Artem and Jung, Alexander Wolfgang and Gaurav, Kumar and Brunak, Søren and Mortensen, Laust Hvas and Birney, Ewan and Fitzgerald, Tom and Gerstung, Moritz}, year={2025}, month=Sept, pages={248–256} }
+@article{Shmatko_2025, title={Learning the natural history of human disease with generative transformers}, volume={647}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-025-09529-3}, DOI={10.1038/s41586-025-09529-3}, number={8088}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Shmatko, Artem and Jung, Alexander Wolfgang and Gaurav, Kumar and Brunak, Søren and Mortensen, Laust Hvas and Birney, Ewan and Fitzgerald, Tom and Gerstung, Moritz}, year={2025}, month=sep, pages={248–256} }
 ```
 
 

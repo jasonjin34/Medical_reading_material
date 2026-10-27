@@ -42,14 +42,14 @@ datasets:
   assays: [sc, sn, multiome, spatial]
   scale: {en: "203,702 nuclei (sn) + 109,741 cells (sc) + 104,809 nuclei (SNARE2)", zh: "单核 203,702 + 单细胞 109,741 + SNARE2 104,809"}
   people: {en: "71 people in the three single-cell parts (35 healthy, 19 CKD, 17 AKI)", zh: "三份单细胞数据合计 71 人（35 健康、19 CKD、17 AKI）"}
-  labels: {en: "cell type + reference / altered state for every cell", zh: "每个细胞都有细胞类型和正常 / 改变标签"}
+  labels: {en: "cell type + reference / altered state for every cell except 3,364 single-nucleus nuclei", zh: "除 3,364 个单核外，每个细胞都有细胞类型和正常 / 改变标签"}
   tissue: {en: "patients: mostly KPMP biopsies (3 CKD nephrectomies in snCv3); healthy: nephrectomy, deceased donor, living-donor biopsy; cortex, medulla, papilla", zh: "病人：大多是 KPMP 活检（单核数据里有 3 名 CKD 来自肾切除）；健康人：肾切除、死亡供体、活体供体活检；皮质、髓质、乳头"}
   processed: {en: "filtered counts; raw FASTQ controlled, so no empty droplets", zh: "过滤后的计数；原始 FASTQ 受控，拿不到空液滴"}
   access: open
   licence: "CC BY 4.0 (cellxgene); GEO: not stated"
   oneliner:
-    en: "The standard human kidney atlas, and the only public kidney dataset with healthy donors, patients, and a reference / altered label on every cell."
-    zh: "肾脏的标准参考图谱，也是唯一同时有健康人、病人，并且给每个细胞标了“正常 / 改变”的公开肾脏数据。"
+    en: "The standard human kidney atlas, with healthy donors, patients, and a reference / altered label on almost every cell. Our reading (as of 2026-10): we know of no other public kidney dataset with all three."
+    zh: "肾脏的标准参考图谱，同时有健康人、病人，并且几乎每个细胞都标了“正常 / 改变”。我们的理解（截至 2026 年 10 月）：还没见过别的公开肾脏数据三样都有。"
   figure:
     file: lake2023_fig1.jpg
     en: "Lake 2023 Fig. 1. a: kidney tissue (biopsy, nephrectomy or deceased donor) is dissociated into cells, nuclei are extracted, or it is sectioned; 10x Cv3 (single-cell / single-nucleus RNA) and SNARE2 (RNA + ATAC in one nucleus); b: people per assay; c: the integrated atlas. Nature 2023, CC BY 4.0."
@@ -61,8 +61,8 @@ datasets:
     en: "The paper reports 45 healthy reference donors and 48 AKI / CKD patients, including people with spatial data only. Healthy tissue comes from partial or total nephrectomies, deceased-donor kidneys not used for transplant, and living-donor biopsies; the paper does not say whether the nephrectomies were for tumours. Patient tissue is mostly KPMP research biopsies, but in the single-nucleus data 3 of the 13 CKD patients are nephrectomies (counted by us). 14 patients have both single-nucleus and single-cell data (counted by us)."
     zh: "论文写 45 名健康参考供体、48 名 AKI / CKD 病人，其中包括只做了空间测序的人。健康组织来自部分或全部肾切除、没有用于移植的死亡供体肾、活体供体活检；论文没有说肾切除是不是因为肿瘤。病人组织大多是 KPMP 研究用穿刺活检，但单核数据里 13 名 CKD 病人中有 3 名来自肾切除（我们数的）。14 个病人同时有单核和单细胞数据（我们数的）。"
   label_detail:
-    en: "`subclass.l1/l2/l3` (17 classes, 75 subclasses) and `state.l1/l2` (reference, degenerative, adaptive, cycling, transitioning); 28 subclasses are altered. Labels were assigned by experts after clustering, not measured."
-    zh: "`subclass.l1/l2/l3`（17 个大类、75 个亚类）和 `state.l1/l2`（reference、degenerative、adaptive、cycling、transitioning）；28 个亚类是 altered。标签是聚类后专家判读的，不是测出来的。"
+    en: "`subclass.l1/l2/l3` (in the single-nucleus GEO table: 16 classes, 74 `subclass.l2` and 77 `subclass.l3` subclasses, plus NA for 3,364 unlabelled nuclei; the paper's \"77 subclasses\" are level 3) and `state.l1/l2` (reference, degenerative, adaptive, cycling, transitioning); 28 subclasses are altered. Labels were assigned by experts after clustering, not measured."
+    zh: "`subclass.l1/l2/l3`（GEO 单核标签表里是 16 个大类、74 个 `subclass.l2` 亚类、77 个 `subclass.l3` 亚类，另有 3,364 个没有标签的核记为 NA；论文说的“77 个亚类”就是第 3 级）和 `state.l1/l2`（reference、degenerative、adaptive、cycling、transitioning）；28 个亚类是 altered。标签是聚类后专家判读的，不是测出来的。"
   issues:
     - en: "In single-nucleus data, degenerative nuclei have fewer genes (median 791 vs 1,736) and more mitochondrial RNA (3.0% vs 0.6%) than reference nuclei, like low-quality cells; in single-cell data the pattern is reversed (counted by us)."
       zh: "单核数据里，退化态的核基因更少（中位 791 vs 正常 1,736）、线粒体比例更高（3.0% vs 0.6%），像低质量细胞；单细胞数据里正好相反（我们数的）。"
@@ -94,13 +94,13 @@ datasets:
   group: disease
   species: human
   paper: abedini-kidney-atlas-natgenet-2024
-  cite: "Abedini A et al. Nat Genet 2024. doi:10.1038/s41588-024-01802-x"
+  cite: "Abedini A et al. Nat Genet 2024;56:1712–1724. doi:10.1038/s41588-024-01802-x"
   assays: [sc, sn, atac, spatial]
   scale: {en: "338,565 cells / nuclei", zh: "338,565 细胞 / 核"}
-  people: {en: "36 control + 45 CKD samples (20 DKD, 25 HKD)", zh: "36 份对照 + 45 份 CKD（20 糖尿病肾病、25 高血压肾病）"}
+  people: {en: "58 people in the paper (81 samples: 36 control, 45 CKD of which 20 DKD, 25 HKD); the GEO single-cell data hold 44 of them (21 controls)", zh: "论文共 58 人（81 份样本：36 份对照，45 份 CKD，其中 20 糖尿病肾病、25 高血压肾病）；GEO 单细胞数据里有其中 44 人（21 名对照）"}
   labels: {en: "cell types; disease group per sample", zh: "细胞类型；每个样本的疾病组"}
-  tissue: {en: "unaffected tissue from tumour nephrectomies", zh: "肿瘤肾切除的未受累组织"}
-  processed: {en: "ambient (SoupX) and doublets (DoubletFinder) already removed; non-integer counts; no raw data", zh: "已去 ambient（SoupX）和 doublet（DoubletFinder）；计数非整数；没有原始数据"}
+  tissue: {en: "left-over (de-identified) kidney tissue; cortex and outer medulla", zh: "剩余的（去标识）肾组织；皮质和外髓"}
+  processed: {en: "low-quality cells removed; ambient RNA corrected with SoupX and doublets removed with DoubletFinder (Supplementary Information); no raw data", zh: "已去低质量细胞；用 SoupX 校正了 ambient RNA、用 DoubletFinder 去了 doublet（补充材料）；没有原始数据"}
   access: open
   licence: "not stated"
   oneliner:
@@ -110,16 +110,14 @@ datasets:
     en: "Single-cell RNA, single-nucleus RNA, snATAC (measured separately, not multiome), Visium and CosMx."
     zh: "单细胞 RNA、单核 RNA、snATAC（分开测，不是同核），还有 Visium 和 CosMx。"
   samples:
-    en: "Unaffected tissue from tumour nephrectomies. Controls: eGFR > 60 and fibrosis < 10%. By person: 14 single-cell and 7 single-nucleus controls; only 8 people have both single-cell and single-nucleus data."
-    zh: "肿瘤肾切除的未受累组织。对照：eGFR > 60 且纤维化 < 10%。按人数：单细胞对照 14 人、单核对照 7 人；单细胞和单核只有 8 人重叠。"
+    en: "Left-over kidney tissue (the paper says only \"Left-over kidney samples\"); cortex and outer medulla. Controls: eGFR > 60 and fibrosis < 10%. By person (counted by us from the GEO metadata): 14 single-cell and 7 single-nucleus controls; 8 people (5 of them controls) have both single-cell and single-nucleus data."
+    zh: "剩余的肾组织（论文只写了 “Left-over kidney samples”）；皮质和外髓。对照：eGFR > 60 且纤维化 < 10%。按人数（我们从 GEO 标签表数的）：单细胞对照 14 人、单核对照 7 人；同时有单细胞和单核数据的只有 8 人（其中对照 5 人）。"
   label_detail:
     en: "Cell types and the disease group of each sample; no per-cell altered state."
     zh: "细胞类型和每个样本的疾病组；没有逐个细胞的改变态标签。"
   issues:
-    - en: "Ambient RNA (SoupX) and doublets (DoubletFinder) were already removed, so part of the artifacts is gone; counts are SoupX-corrected (non-integer)."
-      zh: "已经用 SoupX 去过 ambient、用 DoubletFinder 去过 doublet，伪影被提前洗掉了一部分；计数是 SoupX 校正后的（非整数）。"
-    - en: "Controls have lower data quality than patients (median genes per cell in single-cell data about 358 vs 598); some controls have hypertension."
-      zh: "对照组的数据质量反而更差（单细胞每细胞基因数中位约 358，疾病组约 598）；部分对照有高血压。"
+    - en: "Counts are not integers (282,610 of 338,565 `nCount_RNA` values, counted by us), so they were corrected before release: the Supplementary Information says \"Ambient RNA was corrected using SoupX (v1.5.0) and doublets were removed by DoubletFinder (v2.0) with default parameters\". Part of the artifacts is therefore already gone."
+      zh: "计数不是整数（338,565 个里有 282,610 个 `nCount_RNA` 非整数，我们数的），说明发布前做过校正：补充材料写明 “Ambient RNA was corrected using SoupX (v1.5.0) and doublets were removed by DoubletFinder (v2.0) with default parameters”。所以一部分伪影已经被提前洗掉了。"
     - en: "Single-cell data used 37 °C enzymatic digestion, so it carries dissociation stress. No raw data (\"due to privacy concerns\")."
       zh: "单细胞是 37 °C 酶解，会有解离应激。没有原始数据（原文：“due to privacy concerns”）。"
   downloads:
@@ -129,11 +127,11 @@ datasets:
     - {fmt: TXT, what: {en: "per-cell metadata + UMAP", zh: "每个细胞的标签表 + UMAP"}, size: "15 MB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE211785"}
   download_note:
     en: "The paper is not open access and not CC-licensed, so no original figure is shown here. The licence of the data must be confirmed before releasing derived labels."
-    zh: "论文不是 CC 授权，这里不放原图。发布派生标签前要先确认数据许可。"
+    zh: "论文不是开放获取，也不是 CC 授权，这里不放原图。发布派生标签前要先确认数据许可。"
   use_in:
     anomaly-benchmark:
-      en: "Task T4: every anomaly called on a healthy donor counts as a false alarm; does the observed rate stay below the target?"
-      zh: "任务 T4：健康人身上报出的“异常”都算误报，看实际误报率是否低于设定值。"
+      en: "Task T4: every anomaly called on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, 26% of healthy-donor nuclei in Lake 2023); does the observed rate stay below the target?"
+      zh: "任务 T4：健康人身上报出的“异常”都按误报算（这是我们的设定；健康组织里也有 altered 细胞，Lake 2023 单核数据里健康人有 26% 的核是 altered），看实际误报率是否低于设定值。"
 
 - id: mbdrc-2026
   name: "mBDRC 2026 · One donor, three assays"
@@ -141,7 +139,7 @@ datasets:
   group: measurement
   species: human
   paper: kidney-multimodal-genomebiol-2026
-  cite: "Acera-Mateos M et al. Genome Biol 2026."
+  cite: "Acera-Mateos M et al. Genome Biol 2026;27:64. doi:10.1186/s13059-026-04002-4"
   assays: [sc, multiome]
   scale: {en: "119,744 cells / nuclei", zh: "119,744 细胞 / 核"}
   people: {en: "19 healthy donors, 33 samples of normal cortex", zh: "19 名健康供体，33 份正常皮质"}
@@ -151,8 +149,8 @@ datasets:
   access: open
   licence: "CC BY 4.0 (data); paper CC BY-NC-ND 4.0"
   oneliner:
-    en: "The same healthy kidney cortex split and measured with three assays: differences caused by the assay are a real, design-given answer, no injection needed."
-    zh: "同一块健康肾皮质分装后用三种方法测。换测法造成的差异是实验设计给定的真实答案，不靠注入。"
+    en: "Healthy kidney cortex from 19 donors, measured with up to three assays (in the cellxgene file 3 of 18 donors have all three, 8 have two): differences caused by the assay are a design-given answer, no injection needed."
+    zh: "19 名供体的健康肾皮质，用最多三种方法测（cellxgene 文件里 18 人中 3 人三种都有、8 人有两种）。换测法造成的差异是实验设计给定的答案，不靠注入。"
   figure:
     file: mbdrc_fig1.jpg
     en: "Acera-Mateos 2026 Fig. 1, unmodified. Bottom left, \"DATA SCHEME\": 10x Multiome (11 samples, RNA + ATAC), 10x 3′ v3 (18), 10x 5′ v1 (4), all healthy cortex; the rest is the paper's integration framework, which we do not use. Genome Biol 2026, CC BY-NC-ND 4.0."
@@ -161,14 +159,16 @@ datasets:
     en: "3′ single-cell RNA, 5′ single-cell RNA, and 10x multiome (snRNA + snATAC in the same nucleus)."
     zh: "3′ 单细胞 RNA、5′ 单细胞 RNA，以及 10x multiome（同一个核里测 snRNA + snATAC）。"
   samples:
-    en: "19 healthy donors; normal cortex taken at nephrectomy. Cortex only, no medulla."
-    zh: "19 名健康供体；肾切除时取的正常皮质。只有皮质，没有髓质。"
+    en: "19 healthy donors (the paper's term); normal tissue from the unaffected part of total nephrectomies, cut into about 25 biopsy-sized cores and kept in different media (CryoStor, RNAlater, OCT, liquid nitrogen). Cortex only, no medulla. Paper: 33 samples, 25 from donors with several samples and 8 from donors with one."
+    zh: "19 名健康供体（论文的说法）；全肾切除时未受累部分的正常组织，切成约 25 个活检大小的组织块，分别用不同介质保存（CryoStor、RNAlater、OCT、液氮）。只有皮质，没有髓质。论文：33 份样本，25 份来自有多份样本的供体，8 份来自只有一份的供体。"
   label_detail:
-    en: "Cell types, plus the assay and donor of every cell. Key number from the paper: the assay explains about 24% of expression variance, the donor about 3%."
-    zh: "细胞类型，以及每个细胞的测法和供体。论文的关键数字：表达差异里测法解释约 24%，供体只解释约 3%。"
+    en: "Cell types, plus the assay and donor of every cell. Key number from the paper (3′ scRNA vs snRNA, 5 donors, 14 cell types): the assay explains a median 24% of expression variance, the donor about 3%."
+    zh: "细胞类型，以及每个细胞的测法和供体。论文的关键数字（3′ 单细胞 vs 单核，5 名供体、14 种细胞）：表达差异里测法解释中位 24%，供体只解释约 3%。"
   issues:
     - en: "Healthy donors only, and cortex only."
       zh: "只有健康人，只有皮质。"
+    - en: "Only 3 donors have all three assays; assay is also confounded with the tissue core and its preservation medium."
+      zh: "只有 3 人三种测法都有；测法还和组织块、保存介质混在一起。"
   downloads:
     - {fmt: H5AD, what: {en: "cellxgene: integrated RNA, 97,125 cells (3′ / 5′ / multiome)", zh: "cellxgene：整合 RNA，97,125 细胞（3′ / 5′ / multiome）"}, size: "1.41 GB"}
     - {fmt: H5AD, what: {en: "cellxgene: multiome, 37,717 nuclei", zh: "cellxgene：multiome 37,717 核"}, size: "0.3 GB"}
@@ -179,8 +179,8 @@ datasets:
     zh: "先下 cellxgene 的三个文件（约 6 GB）就够用。原始测序在 dbGaP phs004459，要申请。"
   use_in:
     anomaly-benchmark:
-      en: "Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is a false alarm (tier 2). Also extends the healthy reference."
-      zh: "任务 T2b：同一个人换了测法就被报成“异常”的，一定是误报（二级答案）。也补充健康参考。"
+      en: "Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is treated as a false alarm (tier 2; our design choice). Also extends the healthy reference."
+      zh: "任务 T2b：同一个人换了测法就被报成“异常”的，按误报处理（二级答案；这是我们的设定）。也补充健康参考。"
 
 - id: hoeft-2024
   name: "Hoeft 2024 · Four patients in one channel"
@@ -198,12 +198,12 @@ datasets:
   access: open
   licence: "CC BY 4.0 (paper)"
   oneliner:
-    en: "Four patients' kidney biopsies pooled in one 10x single-nucleus channel and separated by SNPs: the only human kidney data where real ambient RNA and doublets can be computed."
-    zh: "4 名病人的冷冻肾活检混在一个 10x 单核通道里测，按 SNP 分出每个核来自谁。这是人肾上唯一能算出真实 ambient 和 doublet 的数据。"
+    en: "Four patients' kidney biopsies pooled in one 10x single-nucleus channel and separated by SNPs, so real ambient RNA and doublets can be computed. Our reading: the smallest and most direct such human kidney dataset we know of (Malone 2020 also has genotypes, but its raw data, including exomes, are about 700 GB in SRA)."
+    zh: "4 名病人的冷冻肾活检混在一个 10x 单核通道里测，按 SNP 分出每个核来自谁，所以能算出真实的 ambient 和 doublet。我们的理解：这是我们知道的同类人肾数据里最小、最直接的（Malone 2020 也有基因型，但原始数据连同外显子在 SRA 里约 700 GB）。"
   figure:
     file: hoeft2024_fig2ij.jpg
-    en: "Hoeft 2024 Fig. 2 i–j (kidney part, cropped). i: expression clusters of the pooled kidney sample compared with three SNP-based donor assignments; j: share of each donor, doublets and unassigned nuclei per cluster. Most nuclei in the \"Low Quality\" and \"Mixed/Doublets\" clusters belong to a single donor. Nat Commun 2024, CC BY 4.0."
-    zh: "Hoeft 2024 Fig. 2 i–j（肾部分，已截取）。i：混合肾样本的表达聚类，和三种按 SNP 分人的结果对照；j：每个簇里各病人、doublet 和未分配核的比例。注意“Low Quality”和“Mixed/Doublets”簇里大部分核其实只属于一个病人。Nat Commun 2024，CC BY 4.0。"
+    en: "Hoeft 2024 Fig. 2 i–j (kidney part, cropped). i: conceptual cartoon (the paper's term) of UMAPs of the pooled kidney nuclei (4 donors), coloured by cluster or by each method's donor assignment; j: share of each donor, doublets and unassigned nuclei per cluster. Most nuclei in the \"Low Quality\" and \"Mixed/Doublets\" clusters belong to a single donor. Nat Commun 2024, CC BY 4.0."
+    zh: "Hoeft 2024 Fig. 2 i–j（肾部分，已截取）。i：示意图（论文原话为 conceptual cartoon），合并的肾脏核（4 名供体）的 UMAP，分别按聚类和按各方法的供体归属着色；j：每个簇里各病人、doublet 和未分配核的比例。注意“Low Quality”和“Mixed/Doublets”簇里大部分核其实只属于一个病人。Nat Commun 2024，CC BY 4.0。"
   measured:
     en: "Single-nucleus RNA (10x 3′ v3.1); bulk RNA-seq per patient, turned into genotype files (VCF)."
     zh: "单核 RNA（10x 3′ v3.1）；每个病人另有 bulk RNA-seq，做成了基因型文件（VCF）。"
@@ -222,8 +222,8 @@ datasets:
       zh: "有用的发现：按表达聚出的“Mixed/Doublets”簇有 4,488 个核（39%），其中按基因型确认是 doublet 的只有 123 个（我们从 Source Data 算的）。只看表达，判断异常原因很不可靠。"
   downloads:
     - {fmt: MTX, what: {en: "GEO GSE247708: kidney 10x matrix (filtered, 11,490 nuclei)", zh: "GEO GSE247708：肾样本 10x 矩阵（已过滤，11,490 核）"}, size: "65 MB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE247708"}
-    - {fmt: VCF, what: {en: "genotypes of the 4 kidney patients (from bulk RNA-seq)", zh: "4 个肾病人的基因型（来自 bulk RNA-seq）"}, size: "≈ 0.4 MB each", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE247708"}
-    - {fmt: FASTQ, what: {en: "SRA PRJNA1040187, kidney run SRR29832267", zh: "SRA PRJNA1040187，肾样本 SRR29832267"}, size: "≈ 50 GB", url: "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1040187"}
+    - {fmt: VCF, what: {en: "genotypes of the 4 kidney patients (from bulk RNA-seq)", zh: "4 个肾病人的基因型（来自 bulk RNA-seq）"}, size: "0.1–0.4 MB each", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE247708"}
+    - {fmt: FASTQ, what: {en: "SRA PRJNA1040187, kidney run SRR29832267", zh: "SRA PRJNA1040187，肾样本 SRR29832267"}, size: "≈ 29 GB (SRA)", url: "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1040187"}
   download_note:
     en: "To get ambient and doublet ground truth, rerun CellRanger and souporcell on the FASTQ with the VCFs."
     zh: "要得到 ambient / doublet 真值，得用 FASTQ + VCF 重跑 CellRanger 和 souporcell。"
@@ -256,8 +256,8 @@ datasets:
     en: "Single-nucleus RNA with snDrop-seq (not 10x)."
     zh: "单核 RNA，用 snDrop-seq（不是 10x）。"
   samples:
-    en: "15 people, tissue from nephrectomies and deceased donors; no biopsies. Example: patient 3414 medulla — frozen 1,401, Wisconsin 1,533, RNAlater 3,102 nuclei."
-    zh: "15 人，组织来自肾切除和死亡供体，没有活检。例：病人 3414 的髓质，冷冻 1,401 / Wisconsin 1,533 / RNAlater 3,102 核。"
+    en: "15 people, tissue from nephrectomies and deceased donors; no biopsies. Example: deceased donor 3414, medulla — frozen 1,401, Wisconsin 1,533, RNAlater 3,102 nuclei."
+    zh: "15 人，组织来自肾切除和死亡供体，没有活检。例：死亡供体 3414 的髓质，冷冻 1,401 / Wisconsin 1,533 / RNAlater 3,102 核。"
   label_detail:
     en: "Cluster annotations; the processing method of every nucleus can be recovered from the GEO sample metadata (checked). The authors found stress genes (FOS, FOSB, DNAJB1) after enzymatic dissociation, one cluster that \"likely represented a dissociation artifact\", and two clusters with high mitochondrial RNA \"consistent with … warm ischemia\"."
     zh: "簇注释；每个核的处理方式可以从 GEO 样本页的 metadata 恢复（已验证）。原文：酶解离出现应激基因（FOS、FOSB、DNAJB1），一个簇“likely represented a dissociation artifact”，两个簇线粒体偏高，“consistent with … warm ischemia”。"
@@ -267,7 +267,7 @@ datasets:
   downloads:
     - {fmt: TSV, what: {en: "GEO GSE121862: UMI matrix with cluster labels (17,659 nuclei)", zh: "GEO GSE121862：带簇注释的 UMI 矩阵（17,659 核）"}, size: "19 MB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121862"}
     - {fmt: CSV, what: {en: "annotation of the 30 clusters", zh: "30 个簇的注释表"}, size: "1 KB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121862"}
-    - {fmt: FASTQ, what: {en: "SRA SRP166966 (92 runs)", zh: "SRA SRP166966（92 个 run）"}, size: "≈ 87 GB"}
+    - {fmt: FASTQ, what: {en: "SRA SRP166966 (92 runs)", zh: "SRA SRP166966（92 个 run）"}, size: "≈ 63 GB (SRA)"}
   download_note:
     en: "Small enough to download right away. Mitochondrial fractions need a re-alignment from FASTQ."
     zh: "很小，可以马上下。要算线粒体比例得从 FASTQ 重新比对。"
@@ -296,21 +296,21 @@ datasets:
     en: "Single-cell RNA (10x 5′); whole-exome sequencing of donors and recipients."
     zh: "单细胞 RNA（10x 5′）；供体和受者都做了全外显子测序。"
   samples:
-    en: "5 kidney transplant biopsies; the disease is transplant rejection, not AKI / CKD."
-    zh: "5 份移植肾活检；病种是移植排斥，不是 AKI / CKD。"
+    en: "5 kidney transplant biopsies: 3 with antibody-mediated rejection and 2 with a non-rejection cause of AKI; not native-kidney AKI / CKD."
+    zh: "5 份移植肾活检：3 份抗体介导的排斥，2 份非排斥原因的 AKI；不是自体肾的 AKI / CKD。"
   label_detail:
     en: "Donor / recipient labels per cell. The public labels contradict the paper (macrophages: 4,715 / 312 in the file vs 1,229 / 3,798 in the paper), reason unknown."
     zh: "每个细胞的供体 / 受者标签。公开文件里的标签和论文对不上（巨噬细胞：文件 4,715 / 312，论文 1,229 / 3,798），原因未知。"
   issues:
-    - en: "Doublets were removed by hand; no doublet labels, no empty droplets; ambient RNA is not discussed."
-      zh: "doublet 已被手工删掉；没有 doublet 标签，没有空液滴；全文没提 ambient。"
+    - en: "Doublets were removed by hand and by Demuxlet genotype calls (3–10.5% of cells); no doublet labels in the public file, no empty droplets; ambient RNA is not discussed."
+      zh: "doublet 已被手工删掉，也按 Demuxlet 的基因型判定删过（占 3–10.5%）；公开文件里没有 doublet 标签，没有空液滴；全文没提 ambient。"
   downloads:
     - {fmt: CSV, what: {en: "GEO GSE145927: count tables of 7 biopsies (after QC)", zh: "GEO GSE145927：7 个活检的计数表（QC 后）"}, size: "247 MB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145927"}
     - {fmt: CSV, what: {en: "per-cell metadata (donor / recipient, cell type, rejection)", zh: "每个细胞的标签表（供体 / 受者、细胞类型、排斥）"}, size: "2.1 MB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145927"}
-    - {fmt: FASTQ, what: {en: "SRA SRP250734 (36 runs, incl. exomes)", zh: "SRA SRP250734（36 个 run，含全外显子）"}, size: "≈ 861 GB"}
+    - {fmt: FASTQ, what: {en: "SRA SRP250734 (36 runs, incl. exomes)", zh: "SRA SRP250734（36 个 run，含全外显子）"}, size: "≈ 693 GB (SRA)"}
   download_note:
-    en: "JASN is not CC-licensed, so no original figure is shown. Using it would mean re-running from about 30–65 GB of raw data per sample."
-    zh: "JASN 不是 CC 授权，不放原图。要用就得从每个样本约 30–65 GB 的原始数据重跑。"
+    en: "JASN is not CC-licensed, so no original figure is shown. Using it would mean re-running from about 75–120 GB of raw data per single-cell sample (SRA)."
+    zh: "JASN 不是 CC 授权，不放原图。要用就得从每个单细胞样本约 75–120 GB 的原始数据（SRA）重跑。"
   use_in:
     anomaly-benchmark:
       en: "Not used for now; human-kidney ground truth for artifacts relies on Hoeft 2024."
@@ -345,8 +345,8 @@ datasets:
     en: "Healthy mice only."
     zh: "只有健康小鼠。"
   label_detail:
-    en: "Median contamination: 35% and 17% in single-nucleus vs 11% and 3% in single-cell runs. The absolute number of contaminating UMIs per cell is roughly constant, so injection should add a fixed amount, not a fixed fraction."
-    zh: "污染中位数：单核 35% / 17%，单细胞 11% / 3%。每个细胞的污染 UMI 绝对数量差不多，所以注入应按固定数量加，不按比例。"
+    en: "Median contamination: 35% and 17% in single-nucleus vs 11% and 3% in single-cell runs. The number of contaminating UMIs per cell depends only weakly on sequencing depth. Our reading: injection should therefore add an amount that does not scale with depth, rather than a fixed fraction."
+    zh: "污染中位数：单核 35% / 17%，单细胞 11% / 3%。每个细胞的污染 UMI 数和测序深度只有弱相关。我们的理解：所以注入的量不该随深度按比例放大。"
   issues:
     - en: "Mouse, healthy only; all tools performed worst on nuc3, which the authors set aside."
       zh: "小鼠、只有健康；nuc3 上所有工具都最差，作者没再用。"
@@ -356,8 +356,8 @@ datasets:
     - {fmt: RDS, what: {en: "in each zip: per-cell contamination fraction", zh: "每个 zip 里：每个细胞的污染比例"}, size: "70–310 KB"}
     - {fmt: H5, what: {en: "GEO GSE218853: the same raw / filtered h5 files", zh: "GEO GSE218853：同样的 raw / filtered h5"}, size: "1.1 GB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE218853"}
   download_note:
-    en: "The smallest file, rep3.zip (0.31 GB), is a good first look at the format."
-    zh: "最小的 rep3.zip 只有 0.31 GB，可以先下来看格式。"
+    en: "One of the smallest files, rep3.zip (0.31 GB), is a good first look at the format."
+    zh: "rep3.zip 只有 0.31 GB（和 nuc3.zip 差不多，是最小的之一），可以先下来看格式。"
   use_in:
     anomaly-benchmark:
       en: "Calibrates how strong and what shape injected ambient RNA should have. Not a test set."
@@ -369,7 +369,7 @@ datasets:
   group: calibration
   species: mouse
   paper: denisenko-dissociation-bias-genomebiol-2020
-  cite: "Denisenko E et al. Genome Biol 2020."
+  cite: "Denisenko E et al. Genome Biol 2020;21:130. doi:10.1186/s13059-020-02048-6"
   assays: [sc, sn]
   scale: {en: "77,656 cells + 98,303 nuclei", zh: "77,656 细胞 + 98,303 核"}
   people: {en: "3 mice per arm", zh: "每组 3 只小鼠"}
@@ -397,7 +397,7 @@ datasets:
       zh: "小鼠基因要换成人的同源基因；批次和品系、性别、试剂版本混在一起；处理方式只标到样本。"
   downloads:
     - {fmt: TXT, what: {en: "GEO GSE141115: 54 per-library gene × cell count tables (after QC)", zh: "GEO GSE141115：54 个文库各一个“基因 × 细胞”计数表（QC 后）"}, size: "250 MB", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE141115"}
-    - {fmt: FASTQ, what: {en: "SRA SRP233496 (336 runs)", zh: "SRA SRP233496（336 个 run）"}, size: "≈ 580 GB"}
+    - {fmt: FASTQ, what: {en: "SRA SRP233496 (336 runs)", zh: "SRA SRP233496（336 个 run）"}, size: "≈ 400 GB (SRA)"}
   download_note:
     en: "Cell-type labels are in the paper's Additional file 3."
     zh: "细胞类型标签在论文附件 Additional file 3。"
@@ -484,7 +484,8 @@ prepare:
       adata = sc.read_h5ad("lake2023_sn.h5ad")           # cellxgene single-nucleus file
       adata.X = adata.raw.X                               # integer counts
       meta = pd.read_csv("GSE183277_Kidney_Healthy-Injury_Cell_Atlas_snCv3_Metadata_03282022.txt.gz",
-                         sep="\t", index_col=0, low_memory=False)
+                         sep="\t", index_col=0, low_memory=False,
+                         dtype={"patient": str})          # patient IDs mix numbers and text
       adata.obs = adata.obs.join(meta[["state.l1", "state.l2", "condition.l2", "patient"]])
 
       # GEO count matrix without R (gunzip the .RDS.gz first)
@@ -507,12 +508,12 @@ prepare:
       adata.obs.groupby(["donor_id", "assay"], observed=True).size()
   abedini-2024:
     steps:
-      - en: "Per-cell labels exist **only inside the h5ad** (5.0 GB gzipped, **18 GB** unzipped); the small `EXPORT_..._umap.txt.gz` has only cell ID and UMAP. Open the h5ad in backed mode."
-        zh: "每个细胞的标签**只在 h5ad 里**（压缩 5.0 GB，**解压后 18 GB**）；那个小的 `EXPORT_..._umap.txt.gz` 只有细胞 ID 和 UMAP。用 backed 模式打开 h5ad。"
+      - en: "Per-cell labels (`Cluster_Idents` cell type, `tech`, `group`, sex, age, QC) are in `GSE211785_scRNA-seq_snRNA-seq_snATAC-seq_metadata.txt.gz` (9 MB, 338,565 rows); the `EXPORT_..._umap.txt.gz` has only cell ID and UMAP. Counts are in the h5ad (5.0 GB gzipped, **18 GB** unzipped); open it in backed mode."
+        zh: "每个细胞的标签（细胞类型 `Cluster_Idents`、`tech`、`group`、性别、年龄、QC）在 `GSE211785_scRNA-seq_snRNA-seq_snATAC-seq_metadata.txt.gz`（9 MB，338,565 行）里；`EXPORT_..._umap.txt.gz` 只有细胞 ID 和 UMAP。计数在 h5ad 里（压缩 5.0 GB，**解压后 18 GB**），用 backed 模式打开。"
       - en: "338,565 cells × 34,733 genes. `X` is normalised; integer counts are in `layers[\"counts\"]`. `tech` = SC_RNA / SN_RNA / SN_ATAC; `group` = Control / DKD / HKD; `sample` = 44 people."
         zh: "338,565 细胞 × 34,733 基因。`X` 是归一化后的值，整数计数在 `layers[\"counts\"]`。`tech` = SC_RNA / SN_RNA / SN_ATAC；`group` = Control / DKD / HKD；`sample` = 44 人。"
-      - en: "Numeric obs columns are stored as text; convert them before use. `nCount_RNA` is not an integer (SoupX-corrected); whether `layers[\"counts\"]` is before or after SoupX is not confirmed."
-        zh: "obs 里的数值列存成了文本，用之前要先转类型。`nCount_RNA` 不是整数（做过 SoupX 校正）；`layers[\"counts\"]` 是校正前还是后，还没确认。"
+      - en: "Numeric obs columns are stored as text; convert them before use. `nCount_RNA` is not an integer, most likely because ambient RNA was corrected with SoupX before release (Supplementary Information; our inference); whether `layers[\"counts\"]` is before or after that correction is not confirmed."
+        zh: "obs 里的数值列存成了文本，用之前要先转类型。`nCount_RNA` 不是整数，很可能是因为发布前用 SoupX 校正过 ambient RNA（补充材料；这是我们的推断）；`layers[\"counts\"]` 是校正前还是后，还没确认。"
       - en: "Controls by person: 14 single-cell, 7 single-nucleus, 7 ATAC."
         zh: "对照组人数：单细胞 14、单核 7、ATAC 7。"
     code: |
@@ -526,8 +527,8 @@ prepare:
         zh: "只下载肾样本 GSM8397034（矩阵 + 条形码 + 基因表，68 MB），不用下 611 MB 的整包：36,601 基因 × 11,490 核，每个核中位 1,055 个 UMI。"
       - en: "The kidney genotypes are the four small VCFs (TS116, TS120, TS121, TS126; from bulk RNA-seq, so only about a thousand sites each, e.g. 1,260 in TS116). Confirm on the GEO sample pages that these are the kidney donors."
         zh: "肾样本的基因型是四个小 VCF（TS116、TS120、TS121、TS126；来自 bulk RNA-seq，每个只有一千多个位点，例如 TS116 有 1,260 个）。用之前在 GEO 样本页确认它们就是这 4 个肾病人。"
-      - en: "The matrix is filtered and the donor of each nucleus is not public, so the doublet and ambient ground truth needs a rerun from FASTQ (SRR29832267, about 50 GB): CellRanger, then souporcell or vireo with the VCFs."
-        zh: "矩阵已经过滤，每个核属于谁也没公开。所以要得到 doublet 和 ambient 真值，得从 FASTQ（SRR29832267，约 50 GB）重跑：先 CellRanger，再用 VCF 跑 souporcell 或 vireo。"
+      - en: "The matrix is filtered and the donor of each nucleus is not public, so the doublet and ambient ground truth needs a rerun from FASTQ (SRR29832267, about 29 GB in SRA, 95 Gb of bases): CellRanger, then souporcell or vireo with the VCFs."
+        zh: "矩阵已经过滤，每个核属于谁也没公开。所以要得到 doublet 和 ambient 真值，得从 FASTQ（SRR29832267，SRA 文件约 29 GB，95 Gb 碱基）重跑：先 CellRanger，再用 VCF 跑 souporcell 或 vireo。"
     code: |
       import scanpy as sc, pandas as pd
       k = sc.read_mtx("GSM8397034_Kidney_Pooled_matrix.mtx.gz").T      # -> nuclei x genes
@@ -563,8 +564,8 @@ prepare:
       c.columns = c.columns.str.replace(r"\.(\d+)$", r"-\1", regex=True) + "_3"
   janssen-2023:
     steps:
-      - en: "Each Zenodo zip (rep3.zip is the smallest, 0.31 GB) holds `raw_feature_bc_matrix.h5`, `filtered_feature_bc_matrix.h5`, `perCell_noMito_CAST_binom.RDS` and two Seurat objects."
-        zh: "Zenodo 每个 zip（最小的 rep3.zip 0.31 GB）里有 `raw_feature_bc_matrix.h5`、`filtered_feature_bc_matrix.h5`、`perCell_noMito_CAST_binom.RDS`，以及两个 Seurat 对象。"
+      - en: "Each Zenodo zip (rep3.zip, 0.31 GB, is one of the smallest) holds `raw_feature_bc_matrix.h5`, `filtered_feature_bc_matrix.h5`, `perCell_noMito_CAST_binom.RDS` and two Seurat objects."
+        zh: "Zenodo 每个 zip（rep3.zip 0.31 GB，是最小的之一）里有 `raw_feature_bc_matrix.h5`、`filtered_feature_bc_matrix.h5`、`perCell_noMito_CAST_binom.RDS`，以及两个 Seurat 对象。"
       - en: "rep3: filtered 28,692 genes × 6,546 cells (mm10); raw 6,794,880 barcodes, empty droplets included (use these for the ambient profile)."
         zh: "rep3：filtered 28,692 基因 × 6,546 细胞（mm10）；raw 有 6,794,880 个条形码，含空液滴（估计 ambient 时用它）。"
       - en: "The contamination table covers **CAST cells only** (2,096 in rep3): `contPerCell_binom` with `CI_low` / `CI_high` and the number of informative SNPs."

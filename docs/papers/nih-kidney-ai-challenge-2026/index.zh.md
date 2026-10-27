@@ -33,7 +33,7 @@ flowchart LR
 ```
 
 ## 数据
-**只允许使用 KPMP 数据,且仅限 Kidney Tissue Atlas 中的公开(open)数据** —— 不得使用需签数据使用协议的 controlled 数据。NIH 会向所有参赛者提供**一套统一的合格 KPMP 图像**,而不是让参赛者自带图像;所有公开数据已去标识化,不含 PII。评审标准明确针对**肾活检 WSI**;KPMP 数据还包括空间、多组学与临床信息,可用于分层分析。
+**只允许使用 KPMP 数据,且仅限 Kidney Tissue Atlas 中的公开(open)数据** —— 不得使用需签数据使用协议的 controlled 数据。NIH 会向所有参赛者提供**一套统一的合格 KPMP 图像**,而不是让参赛者自带图像;所有公开数据已去标识化,不含 PII。Overview 把范围写得更宽("kidney tissue images, multi-omics data, spatial data, and associated clinical information"),但评审第 1、2 项明确只对**肾活检 WSI** 中的发现打分;第 3 项评的是可解释性与专家可用性,并明确允许把图像衍生的异常与临床参数或其他 KPMP 数据结合来做患者分层 —— 空间、多组学与临床信息主要在这一项里发挥作用。
 <https://www.kpmp.org/available-data>
 
 ## 主要结果
@@ -48,11 +48,11 @@ flowchart LR
 ## 局限
 - **资格限制(关键)**:个人须为美国公民或永久居民才有资格获得现金奖;团队的 Team Captain 须为美国公民/永久居民;实体须在美国注册并以美国为主要营业地。**非美国公民/非永久居民可以作为符合条件团队的成员参赛,但不能获得任何(全部或部分)现金奖金**,其贡献可在公布结果时被认可。
 - 其他规则:须年满 18 岁;联邦实体/在职履职的联邦雇员、HHS 雇员(以个人身份)、评委及挑战相关方及其直系亲属不可获奖;**不得使用联邦资助(grant / cooperative agreement / contract)开发提交物**,使用联邦 grant 资金者须以 Entity 身份代表受资助机构参赛;参赛即授予 NIH 非独占、免版税的全球许可(发布与实施方案),但保留其他知识产权;获奖者须在通知后 10–20 个工作日内提交核验与付款文件。
-- 只允许 open KPMP 数据 —— 不能使用自有数据(例如我们的 95 例活检)作为提交依据;controlled 数据(含大部分个体层面组学/临床细节)不可用。
+- 只允许 open KPMP 数据 —— 不能使用非公开数据作为提交依据;controlled 数据(含大部分个体层面组学/临床细节)不可用。
 - 提交要求尚未最终公布;对机制解释不做要求(留给未来挑战);评审为专家打分,无公开排行榜或固定 ground truth。
 
 ## 与本研究方向的关系
-我们的理解:这是**课题 1 的"外部考场"**,几乎是为本方向的 **detect** 一环量身定做:主办方用的语言 —— 异常检测、embedding 相似性检索、人机协同审阅、"区分真发现与染色/制片/扫描伪影"、"为标记的发现给置信度与失败模式" —— 与课题 1 的核心假设"跨模态一致性区分伪影与疾病"和"专家验证的 KidneyAnomalyBench"一一对应。具体映射:(1) **评审第 1、2 项要求压低伪影假阳性** → 我们在 95 例自有活检(H&E + snRNA/snATAC/Xenium)上学到的"跨模态一致才算疾病异常"的规则,可以作为在 open KPMP WSI 上的过滤器/先验(提交本身只能用 open KPMP 数据,但方法可在自有数据上开发与校准 —— 需注意规则对"开发数据"的界定,应在提交要求公布后核实);(2) **"seeded 或专家验证发现的排名位置""top-k precision""专家审阅负担降低"** 这几个建议指标,可以直接成为 KidneyAnomalyBench 的评测协议;(3) **评审第 3 项的患者分层**,对应把图像异常与 Lake 2023 / KPMP 的分子细胞状态(如 altered/injured states)关联 —— 这一步也是从 detect 走向 **model** 的桥。对**课题 2(分析 agent 的结论核查)**,评审要求"可运行、可被 HeroX 独立复现"与"置信度/可靠性估计",恰是 claim-to-evidence 校验与 rerun stability 的落地场景:一个 agent 辅助的发现流程若要提交,必须能证明每条发现都能被重跑复现、证据可追溯。**实际约束**:奖金只发给美国公民/永久居民(或美国注册实体),非美国成员只能作为符合条件团队的成员参与而不得奖金 —— 若要参赛需与美国合作者(由其担任 Team Captain)组队,并确认不使用联邦资金;对学位论文而言,"参赛并产出可复现的异常目录与评测协议"本身即可作为课题 1 的外部验证,不以获奖为前提。
+我们的理解:这是**课题 1 的"外部考场"**,几乎是为本方向的 **detect** 一环量身定做:主办方用的语言 —— 异常检测、embedding 相似性检索、人机协同审阅、"区分真发现与染色/制片/扫描伪影"、"为标记的发现给置信度与失败模式" —— 与课题 1 的核心假设"跨模态一致性区分伪影与疾病"和"专家验证的 KidneyAnomalyBench"一一对应。具体映射:(1) **评审第 1、2 项要求压低伪影假阳性** → 在 H&E 与单细胞 / 空间组学配对的多模态数据上学到的"跨模态一致才算疾病异常"的规则,可以作为在 open KPMP WSI 上的过滤器/先验(提交本身只能用 open KPMP 数据,但方法可在其他数据上开发与校准 —— 需注意规则对"开发数据"的界定,应在提交要求公布后核实);(2) **"seeded 或专家验证发现的排名位置""top-k precision""专家审阅负担降低"** 这几个建议指标,可以直接成为 KidneyAnomalyBench 的评测协议;(3) **评审第 3 项的患者分层**,对应把图像异常与 Lake 2023 / KPMP 的分子细胞状态(如 altered/injured states)关联 —— 这一步也是从 detect 走向 **model** 的桥。对**课题 2(分析 agent 的结论核查)**,评审要求"可运行、可被 HeroX 独立复现"与"置信度/可靠性估计",恰是 claim-to-evidence 校验与 rerun stability 的落地场景:一个 agent 辅助的发现流程若要提交,必须能证明每条发现都能被重跑复现、证据可追溯。**实际约束**:奖金只发给美国公民/永久居民(或美国注册实体),非美国成员只能作为符合条件团队的成员参与而不得奖金 —— 若要参赛需与美国合作者(由其担任 Team Captain)组队,并确认不使用联邦资金;对学位论文而言,"参赛并产出可复现的异常目录与评测协议"本身即可作为课题 1 的外部验证,不以获奖为前提。
 
 ## 可复用资产
 - **挑战页(规则、时间线、FAQ、论坛、组队):**
@@ -75,7 +75,7 @@ flowchart LR
   author = {{National Institute of Diabetes and Digestive and Kidney Diseases}},
   howpublished = {NIH prize challenge hosted on HeroX, \url{https://www.herox.com/KidneyAI}},
   year = {2026},
-  note = {Launched 15 September 2026; submissions 5 November 2026 -- 29 April 2027; accessed 2026-10-19}
+  note = {Launched 15 September 2026; submissions 5 November 2026 -- 29 April 2027; accessed 2026-10-27}
 }
 ```
 

@@ -9,9 +9,9 @@
 只用"常见诊断"(正常组织 + 常见病)的胃、结肠活检切片训练深度异常检测模型(最佳为 Outlier Exposure),不需要见过任何罕见病,就能检出长尾中的 56 种少见病变:slide-AUROC 胃 95.0%、结肠 91.0%,并可泛化到另一家医院和另一种扫描仪。
 
 ## 要点
-- "正常"在这里指**常见诊断**(含慢性胃炎、低级别腺瘤等常见病),"异常"指长尾里的少见诊断;前 10 种诊断约占 90%(胃)/ 91%(结肠)病例(Fig. 1)。
+- "正常"在这里指**常见诊断**(含慢性胃炎、低级别腺瘤等常见病),"异常"指长尾里的少见诊断;常见诊断共 10 种(胃 6 种、结肠 4 种),分别占胃 90%、结肠 91% 的病例(Fig. 1, App. Table 2)。
 - 最好的方法是 Outlier Exposure:把其他器官的切片当"辅助异常",训练二分类器;异常分 = 模型给出的"异常类"概率(Methods §2.3)。
-- OE 数据的选择比网络结构或损失函数更重要:用 ImageNet 当 OE 几乎无效(结肠 slide-AUROC 52.17%),用同医院多器官切片最好(91.49%)(App. Table 11)。
+- OE 数据的选择比网络结构或损失函数更重要:用 ImageNet 当 OE 几乎无效(结肠 slide-AUROC 52.17%),TCGA 82.73%,同院多器官集(Charité OE mixed)88.48%,再加上小肠和另一胃肠器官的完整 OE 集 91.49%;作者称完整 OE 集整体最强(单一划分,非 5 折;App. Table 11, D.2)。
 - 在 100% 灵敏度阈值下,36.2% 的胃切片可被判为"非异常"而免于重点复核;结肠只有 4.21%(§3.1)。
 - 失败案例是非常细微的改变(假黑变病、肠螺旋体病,slide-AUROC 约 20–24%),作者认为需要多尺度上下文或半监督方法(App. Table 6, Discussion)。
 
@@ -22,7 +22,7 @@
 1. **预处理**:每张 H&E 全切片(WSI,whole-slide image)找出组织区域,在 20× 放大(约 0.5 μm/像素)下切成 340×340 像素的 patch,丢弃背景超过 80% 的 patch,并用 Reinhard 方法做染色归一化(App. B.4)。
 2. **训练数据**:胃、结肠各自单独建模;"正常" = 该器官的常见诊断 patch。为了让高级别病变能被检出,低级别腺瘤从训练集中去掉(§2.2, App. C.7)。异常样本**从不**参与训练。
 3. **范式 A:自监督特征 + kNN**。用病理基础模型 CTransPath(在 TCGA 和 PAIP 的 32,220 张 H&E 切片上预训练的 Swin Transformer)提 patch 特征,用改进的 kNN 距离打分;变体是用 PANDA 式的 one-class(OCC)损失在正常 patch 上微调 CTransPath(§2.3, App. B.2)。
-4. **范式 B:Outlier Exposure (OE,最佳)**。辅助异常 = 2,901 张其他器官切片(前列腺 599、肾 459、肝 402、肺 401、小肠 283、乳腺 204、其他 553)+ 另一个胃肠器官的正常 patch。用二元交叉熵训练分类器区分"正常 vs 辅助异常",每个 batch 两类各半;OE patch 中 50% 取"近组织"(胃、结肠、小肠)、50% 取"远组织";与正常 patch 余弦相似度 >0.9 的 OE patch 被删掉,以去除两边都有的结缔组织、肌肉等(§2.3, App. B.2, Table 2c)。主结果用的是在 OE 任务上微调的 CTransPath;从头训练的 ResNet-18 表现相近(App. D.4, Table 15)。
+4. **范式 B:Outlier Exposure (OE,最佳)**。辅助异常 = 2,901 张其他器官切片(前列腺 599、肾 459、肝 402、肺 401、小肠 283、乳腺 204、其他 553)+ 另一个胃肠器官的正常 patch。用二元交叉熵训练分类器区分"正常 vs 辅助异常",每个 batch 两类各半;OE patch 中 50% 取"近组织"(胃、结肠、小肠)、50% 取"远组织";与正常 patch 余弦相似度 >0.9 的 OE patch 被删掉,以去除两边都有的结缔组织、肌肉等(§2.3, App. B.2, Table 2c)。我们的理解:Table 1 中 OE 的数字与 App. Table 15 的 CTransPath 一行完全相同,所以主结果看来用的是在 OE 任务上微调的 CTransPath(正文没有明说,Fig. 2 只画了一个通用 CNN);从头训练的 ResNet-18 表现相近(§2.3, App. D.4, Table 15)。
 5. **打分与聚合**:patch 异常分 = 模型给出的异常类概率,用 10 个测试时增强视图取平均;切片分 = 分数最高的 10% patch 的均值(§2.2, App. B.3)。
 6. **热图**:以 75 像素重叠切 patch,把重叠 patch 的分数平均,得到平滑的异常热图(App. B.3)。
 7. **评估**:5 折交叉验证;slide-AUROC(按诊断标签)和 patch-AUROC(按病理医生的逐区域标注);外部 LMU 队列只评 slide-AUROC,不重新训练(§2.2, App. B.5)。
@@ -32,7 +32,7 @@
 flowchart LR
   A["H&E WSI<br/>stomach or colon"] --> B["340x340 patches<br/>stain normalised"]
   B --> C["Frequent-finding patches<br/>label normal"]
-  D["2,901 other-organ slides<br/>auxiliary anomalies"] --> E["Binary classifier<br/>CTransPath or ResNet-18, BCE"]
+  D["2,901 other-organ slides<br/>+ normal patches of other GI organ<br/>auxiliary anomalies"] --> E["Binary classifier<br/>CTransPath or ResNet-18, BCE"]
   C --> E
   E --> F["Patch score =<br/>P anomaly, 10x TTA"]
   F --> G["Slide score =<br/>mean of top 10%"]
@@ -40,7 +40,7 @@ flowchart LR
 ```
 
 ## 数据
-共 5,423 张切片、约 1,700 万个图像 patch,来自两家医院(§3;摘要写作 5,423 cases)。**Charité(柏林)主队列**:2020/2021 年常规诊断切片,常见诊断 1,973 张(胃 961、结肠 1,012),异常诊断 200 张(126 张来自 2020/2021,74 张来自 2000–2021 年档案),共 65 种诊断,扫描仪 3DHistech P1000;所有异常切片都有逐区域标注(诊断相关区、非诊断相关的异常区如肿瘤旁炎症、伪影)(§2.1)。另有 2,901 张其他器官切片作 OE 辅助数据(App. Table 2c)。**LMU(慕尼黑)外部队列**:胃 192 张、结肠 157 张(常见:结肠 63 / 胃 164;异常:结肠 94 / 胃 28),2020–2023 年,扫描仪 Leica Aperio GT 450,超过 50 万个 patch,无像素级标注(§3.3, App. B.5)。数据未公开。
+共 5,423 张切片、约 1,700 万个图像 patch,来自两家医院(§3;摘要写作 5,423 cases)。**Charité(柏林)主队列**:2020/2021 年常规诊断切片,常见诊断 1,973 张(胃 961、结肠 1,012),异常诊断 200 张(126 张来自 2020/2021,74 张来自 2000–2021 年档案),共 65 种诊断,扫描仪 3DHistech P1000;所有异常切片都有逐区域标注(诊断相关区、非诊断相关的异常区如肿瘤旁炎症、伪影)(§2.1)。另有 2,901 张其他器官切片作 OE 辅助数据(App. Table 2c)。**LMU(慕尼黑)外部队列**:胃 192 张、结肠 157 张(常见:结肠 63 / 胃 164;异常:结肠 94 / 胃 28),2020–2023 年,扫描仪 Leica Aperio GT 450,超过 50 万个 patch,无像素级标注(§3.3, App. B.5)。预印本中没有提到数据发布。
 
 ## 主要结果
 - **Charité 主结果(OE)**:slide-AUROC 胃 95.04 ± 0.54%、结肠 91.01 ± 0.69%;patch-AUROC 胃 91.37 ± 0.34%、结肠 90.47 ± 0.33%。最佳自监督方法 slide-AUROC 胃 94.95%(kNN)、结肠 89.76%(kNN)(Table 1)。
@@ -55,12 +55,12 @@ flowchart LR
 - 把长尾罕见病诊断重新表述为"只用常见诊断训练"的异常检测问题,并在 65 种诊断的真实常规数据上评估(而不是只检测单一病种,如淋巴结转移)(Discussion, App. A.3)。
 - 作者称这是 Outlier Exposure 首次用于组织病理,并给出 OE 数据选择的系统消融(相似度与多样性的权衡)(App. A.1, D.2)。
 - 跨医院、跨扫描仪外部验证,并显示颜色增强和测试时增强主要在外部队列上起作用(App. D.3, Tables 13–14)。
-- 给出临床用法:切片异常分 + 热图,用于排序和放行(Fig. 2)。
+- 给出临床用法设想:切片异常分 + 热图,用于检出异常病例并标出异常区域,作者称将来可能支持自动化流程(Fig. 2)。
 
 ## 局限
 - (作者)非常细微的结肠改变检不出(假黑变病、胶原性/淋巴细胞性结肠炎、螺旋体病),其中一些连病理医生也需要特殊染色(Discussion)。
 - (作者)单个 340 像素 patch 看不到结构性改变(如结肠黏膜的架构改变),需要多尺度方法(Discussion, App. C.7)。
-- (作者)低级别腺瘤被人为排除在训练外,说明"正常"的边界需要人工设定(§2.2, App. C.7)。
+- 低级别腺瘤被作者有意排除在训练外,以便把非肿瘤结肠组织与高级别病变区分开(§2.2, App. C.7)。我们的理解:这说明"正常"的边界需要人工设定。
 - 我们的理解:结肠外部验证(85.88%)和结肠可免复核比例(4.21%)明显弱于胃;LMU 队列还排除了有明显实验室特有撕裂伪影的切片(App. B.5),真实部署可能更难。
 - 我们的理解:只输出"是否异常 / 在哪里",不给诊断类别,也不解释异常的生物学原因;数据与代码在预印本中都没有公开链接。
 
@@ -92,7 +92,7 @@ _Source: https://arxiv.org/html/2406.14866 (Fig 2)  ·  License: arXiv preprint 
 _Source: https://arxiv.org/html/2406.14866 (Fig 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Slide anomaly-score distributions](figures/fig3.png)
-**图3.** OE 模型在 Charité 验证集(5 折中的一折)上按诊断分组的切片异常分分布:常见诊断与大多数异常诊断明显分开。
+**图3.** OE 模型在 Charité 验证集(5 折中的一折)上按诊断分组的切片异常分分布(本图只含胃的部分;论文原图上方为胃、下方为结肠):常见诊断与大多数异常诊断明显分开。
 _Source: https://arxiv.org/html/2406.14866 (Fig 3)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Long-tail distribution of GI diagnoses](figures/fig4.png)
@@ -131,7 +131,7 @@ _Source: https://arxiv.org/html/2406.14866 (Tables 1 & 4)  ·  License: arXiv pr
 
 ## 引用
 ```bibtex
-@article{Dippel_2024, title={AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics}, volume={1}, ISSN={2836-9386}, url={http://dx.doi.org/10.1056/AIoa2400468}, DOI={10.1056/aioa2400468}, number={11}, journal={NEJM AI}, publisher={Massachusetts Medical Society}, author={Dippel, Jonas and Prenißl, Niklas and Hense, Julius and Liznerski, Philipp and Winterhoff, Tobias and Schallenberg, Simon and Kloft, Marius and Buchstab, Oliver and Horst, David and Alber, Maximilian and Ruff, Lukas and Müller, Klaus-Robert and Klauschen, Frederick}, year={2024}, month=Oct }
+@article{Dippel_2024, title={AI-Based Anomaly Detection for Clinical-Grade Histopathological Diagnostics}, volume={1}, ISSN={2836-9386}, url={http://dx.doi.org/10.1056/AIoa2400468}, DOI={10.1056/aioa2400468}, number={11}, journal={NEJM AI}, publisher={Massachusetts Medical Society}, author={Dippel, Jonas and Prenißl, Niklas and Hense, Julius and Liznerski, Philipp and Winterhoff, Tobias and Schallenberg, Simon and Kloft, Marius and Buchstab, Oliver and Horst, David and Alber, Maximilian and Ruff, Lukas and Müller, Klaus-Robert and Klauschen, Frederick}, year={2024}, month=Oct, note={Preprint: arXiv:2406.14866} }
 ```
 
 

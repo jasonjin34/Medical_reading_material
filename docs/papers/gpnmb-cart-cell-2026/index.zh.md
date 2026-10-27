@@ -14,7 +14,7 @@
 - 去掉专家先验权重后结果几乎不变(top-100 重叠 94/100,top-15 提名重叠 12/15),说明流水线对"有没有领域专家"不敏感。
 - 换成 bulk RNA-seq 输入则结果大变(top-100 只重叠 21/100,top-15 只重叠 2/15):TIGIT/CTLA4/CD83 在 bulk 里"富集",单细胞一看其实来自 T 细胞和髓系细胞——**分辨率就是正确性**。
 - 计算结论做了正交湿实验验证:TCGA bulk、免疫荧光、非透膜流式(确认蛋白真的在细胞**表面**)、多器官 IHC,然后才做 CAR。
-- 这是 Sikander Hayat 组参与的工作(RWTH Aachen,通讯作者之一;Leon Frommer 为并列第二作者),代码在 `hayatlab/cart_llms`,是理解该组"LLM + 组学 → 靶点"方法论的最佳样本。
+- 这是 Sikander Hayat 参与的工作(他是四位通讯作者之一,单位为 RWTH Aachen 与 Icahn School of Medicine at Mount Sinai;第二作者 Leon Frommer 与他同属 RWTH Aachen Department of Medicine 2),代码在 `hayatlab/cart_llms`,是理解该组"LLM + 组学 → 靶点"方法论的最佳样本。
 
 ## 研究问题
 CAR T 已经在血液肿瘤里有治愈级疗效,并开始进入实体瘤和自身免疫病,但**靶点太少**是主要瓶颈(Introduction)。一个理想靶点要同时满足:在肿瘤细胞上高表达、在健康(尤其心/肺/脑等要害)组织上几乎不表达、位于细胞**表面**(CAR 只能识别表面蛋白)、并且最好已有临床级抗体可借用。传统做法是人工翻数据库逐条筛,慢、碎片化、带偏见(Discussion)。作者的问题是:能否把这个多目标权衡自动化、可复现、并且在没有资深专家时也能用?
@@ -30,7 +30,7 @@ CAR T 已经在血液肿瘤里有治愈级疗效,并开始进入实体瘤和自�
 
 **4. 用 LLM 选权重(第一次用 LLM)。** 专家先从第一性原理给出 base weights:Clinical trials 1.0、HPA 2.0、Heatmap(单细胞 Z 差) 5.0、Vital 2.0、Non-vital 1.0、Protein vital 2.0、Protein non-vital 1.0。把 7 个特征定义 + 7 套候选权重方案(base、clinical-trials emphasis、HPA emphasis、heatmap emphasis、expression emphasis、balanced、equal)和各自产出的 top-100 基因列表一起放进一个固定 prompt,**强制以机器可读表头开头**("RECOMMENDED WEIGHTS: Clinical trials (X.X), …")。对 GPT-4o / Claude-3.7-Sonnet / Gemini-2.5-Pro 各跑 1000 次独立查询,temperature 在 0.70–0.85 之间循环;用分层 regex parser 解析权重(严格表头 → 加粗表头 → 逐标签宽松匹配,对 "Vital" 用负向回顾避免误抓 "Protein vital";恢复不足 4/7 个字段的运行不进统计)。为避免引导,**没有告诉模型哪一套是专家方案**,只叫它 base weight。聚合后做 per-feature ANOVA 比较模型间差异,并用 OLS + Benjamini–Hochberg FDR 检查 temperature 效应。
 
-**5. 用 LLM 提名(第二次用 LLM)。** 用共识权重排序,取 top-100 候选;再让每个模型跑 1000 次,从这 100 个基因里排序选出 10 个,输出必须是 `Rank, Gene, Description, Reason1..Reason5` 的 CSV,理由只能逐字取自 5 个预设短语(高肿瘤特异性表达 / 多癌种潜力 / 已有临床开发基础 / 要害组织低表达 / 覆盖显著患者亚群)。解析器优先吃代码块 CSV,其次宽松 CSV regex,最后在基因名前后约 300/700 字符窗口内匹配受限理由词;每个 run 内同一基因–理由只计一次,只取前 10 个唯一基因。最后**过滤**:只保留三个模型都至少提名过一次的基因,再按三模型总提名次数排序(STAR Methods: Target filtering and ranking)。
+**5. 用 LLM 提名(第二次用 LLM)。** 用共识权重排序,取 top-100 候选;再让每个模型跑 1000 次,从这 100 个基因里排序选出 10 个,输出必须是 `Rank, Gene, Description, Reason1..Reason5` 的 CSV,理由只能按 prompt 要求逐字取自 5 个预设短语("High tumor-specific expression (>X% of melanoma cells)" / "Potential utility across multiple cancer types" / "Strong existing clinical development profile" / "Minimal expression in healthy vital tissues" / "Expression in significant patient subpopulations")。解析器优先吃代码块 CSV,其次宽松 CSV regex,最后在基因名前后约 300/700 字符窗口内匹配受限理由词;找不到原词时,允许用关键词映射到最接近的标准理由(如 "overexpression" → 高肿瘤特异性表达),所以最终理由标签有一部分来自关键词映射而非逐字输出;每个 run 内同一基因–理由只计一次,只取前 10 个唯一基因。最后**过滤**:只保留三个模型都至少提名过一次的基因,再按三模型总提名次数排序(STAR Methods: Target filtering and ranking)。
 
 **6. 鲁棒性与消融。** ① 再跑两轮,每模型累计 3,000 次独立模拟(Supp Fig 3N);② 去掉专家 base weights 重跑 1,000 次;③ 把单细胞 cancer-composition 特征换成 bulk:TCGA-SKCM 原发瘤 STAR counts 与 GTEx 日晒皮肤(小腿)counts 取交集(去 Ensembl 版本号,保留"≥10 reads 出现在 ≥10% 样本"的基因),DESeq2 1.46.0 做 Tumor vs Normal,把 log2FC 跨基因标准化成 Z-score 顶替原特征。
 
@@ -49,7 +49,6 @@ flowchart LR
   F --> G["Consensus filter<br/>GPNMB top nominee"]
   G --> H["Wet lab<br/>IF, surface flow, IHC"]
   H --> I["GPNMB CAR T<br/>3 xenograft models"]
-  I -.-> C
 ```
 
 ## 数据
@@ -93,9 +92,9 @@ flowchart LR
 ## 与本研究方向的关系
 这篇是 detect → model → **revert** 三段里最靠 revert 的一端:它要回答的正是"选哪个分子去干预"。它跳过了 virtual tissue 的建模环节,用的是"富集打分 + 可干预性约束 + LLM 加权投票"这种更轻量的替代。
 
-我们的理解:三点最可借用。① **cancer composition Z 差**与我们做的异常检测在形式上同构:Z_malignant − Z_non-malignant 本质是"在一个细胞群里异常高表达、在参考群里不高"的对比统计量——换成 Z_disease − Z_reference 就直接变成肾脏 snRNA/Xenium 的候选 driver 排序器,可作为 Topic 1 里 reference-based 异常评分的朴素基线。② **可干预性约束层**(表面定位、要害组织低表达、已有临床抗体)正是我们的 revert 端缺的那一层:异常检测给出"哪里/哪些基因变了",这篇给出"其中哪些能真被做成药";把它换成肾脏版(肾小管/足细胞特异、肾外低表达、已有药物)就是一个可直接落地的筛选器。③ **把 LLM 当分布来审计**的做法(1000 次采样、受限输出词表、分层 parser、ANOVA/FDR、跨模型共识过滤)是 Topic 2 "验证生物医学 agent 声明"的现成评测骨架,尤其"理由分布分歧大而结论一致"这一观察,正好是 agent 可信度研究要刻画的现象。
+我们的理解:三点最可借用。① **cancer composition Z 差**与我们做的异常检测在形式上同构:Z_malignant − Z_non-malignant 本质是"在一个细胞群里异常高表达、在参考群里不高"的对比统计量——换成 Z_disease − Z_reference 就直接变成肾脏 snRNA/Xenium 的候选 driver 排序器,可作为课题 1 里 reference-based 异常评分的朴素基线。② **可干预性约束层**(表面定位、要害组织低表达、已有临床抗体)正是我们的 revert 端缺的那一层:异常检测给出"哪里/哪些基因变了",这篇给出"其中哪些能真被做成药";把它换成肾脏版(肾小管/足细胞特异、肾外低表达、已有药物)就是一个可直接落地的筛选器。③ **把 LLM 当分布来审计**的做法(1000 次采样、受限输出词表、分层 parser、ANOVA/FDR、跨模型共识过滤)是课题 2 "验证生物医学 agent 声明"的现成评测骨架,尤其"理由分布分歧大而结论一致"这一观察,正好是 agent 可信度研究要刻画的现象。
 
-我们的理解:对实验室关系也有现实意义——这是 Sikander 自己团队参与的工作(他为通讯作者之一,组内 Leon Frommer 为并列第二作者,计算部分代码在 `hayatlab/cart_llms`),所以它既是"他期待的工作方式"的样本,也是 Topic 2 能直接接上去的内部项目。
+我们的理解:这篇的作者包括 Sikander Hayat(四位通讯作者之一)与同属 RWTH Aachen Department of Medicine 2 的第二作者 Leon Frommer,计算部分代码在 `hayatlab/cart_llms`,所以它是理解该组"LLM + 组学 → 靶点"方法论最直接的公开样本,也是课题 2 可以直接接续的方法学起点。
 
 ## 可复用资产
 - **代码:** <https://github.com/hayatlab/cart_llms> (STAR Methods "Data and code availability" 与 Key Resource Table 均列出)
@@ -107,7 +106,7 @@ flowchart LR
 - 参考文献 43:Zemp 等,"Development and first-in-human CAR T therapy against the pathognomonic MiT-fusion driven protein GPNMB", medRxiv 2025, doi 10.1101/2025.02.26.24319604 —— 腺泡状软组织肉瘤患者的首次人体 GPNMB CAR T 病例报告,作者称见到活性且无严重毒性。
 - Discussion 提到的 MiT/TFE 转录因子家族与 CLEAR 网络(溶酶体生物合成与自噬)可能解释 GPNMB 的广谱表达 —— 值得顺着查,因为这也牵连肾脏损伤反应。
 - 自查:GPNMB 在**病变**肾脏(纤维化、AKI、CKD)单细胞数据中的表达,以及它在巨噬细胞中的分布,以判断"要害组织低表达"结论能否迁移到肾脏场景。
-- 与 `biomni-biorxiv-2025`、`virtual-biotech-biorxiv-2026` 对照:三者都在"LLM 选靶点",但自由度从本文(最受约束)到 Virtual Biotech(多 agent 自主)递增,正好是 Topic 2 的一条谱。
+- 与 `biomni-biorxiv-2025`、`virtual-biotech-biorxiv-2026` 对照:三者都在"LLM 选靶点",但自由度从本文(最受约束)到 Virtual Biotech(多 agent 自主)递增,正好是课题 2 的一条谱。
 
 ## 引用
 ```bibtex

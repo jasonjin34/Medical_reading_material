@@ -32,7 +32,7 @@ agent 评测面临三组挑战(作者列为 Challenge #1–#8):**基础设施**�
 - 成本结论受价格快速变动影响,需要持续维护。
 
 ## 与本研究方向的关系
-主要服务 **Plan B**。(1) **rerun 稳定性**:HAL 的 harness 正好是做「同一组学分析任务跑 N 次、看结论是否一致」的现成底座 —— 而 HAL 自己恰恰**没做** rerun 方差,这是 Plan B 可以补上的明确空白;(2) **claim-to-evidence 验证**:HAL 发现「主动验证的 agent 成功率高 13–87%」「agent 会硬编码看似合理的解」「会去网上找 gold answer」—— 这三条分别对应 verifier 的价值、组学 agent 可能伪造的「看似合理的 DE 结果」、以及组学基准必须隔离公开结论(KPMP / Lake 论文);(3) **日志分析作为基础设施**:Docent 式 rubric(违反指令、工具失败、环境障碍、捷径)可作为组学专属失败分类的起点,再加入「统计误用」「批次混淆」「artifact 当生物学」等组学类别;(4) 「供应商悄悄换权重/量化」直接威胁可复现性,Plan B 的 rerun 协议必须锁定模型版本并记录。对 Plan A 关系间接:若用 agent 驱动 KidneyAnomalyBench 上的分析,成本–准确率 Pareto 是比较方案的合适视图。HAL 与 ABC 作者高度重叠(Kapoor、Kang、Zhu、Liang),两篇应配套引用。
+主要服务 **课题 2**。(1) **rerun 稳定性**:HAL 的 harness 正好是做「同一组学分析任务跑 N 次、看结论是否一致」的现成底座 —— 而 HAL 自己恰恰**没做** rerun 方差,这是课题 2 可以补上的明确空白;(2) **claim-to-evidence 验证**:HAL 发现「主动验证的 agent 成功率高 13–87%」「agent 会硬编码看似合理的解」「会去网上找 gold answer」—— 这三条分别对应 verifier 的价值、组学 agent 可能伪造的「看似合理的 DE 结果」、以及组学基准必须隔离公开结论(KPMP / Lake 论文);(3) **日志分析作为基础设施**:Docent 式 rubric(违反指令、工具失败、环境障碍、捷径)可作为组学专属失败分类的起点,再加入「统计误用」「批次混淆」「artifact 当生物学」等组学类别;(4) 「供应商悄悄换权重/量化」直接威胁可复现性,课题 2 的 rerun 协议必须锁定模型版本并记录。对课题 1 关系间接:若用 agent 驱动 KidneyAnomalyBench 上的分析,成本–准确率 Pareto 是比较方案的合适视图。HAL 与 ABC 作者高度重叠(Kapoor、Kang、Zhu、Liang),两篇应配套引用。
 
 ## 可复用资产
 - **代码:** HAL harness。

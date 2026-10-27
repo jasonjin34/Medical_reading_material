@@ -39,7 +39,7 @@ flowchart TB
 1. [BixBench](../papers/bixbench-arxiv-2025/index.md)：生物信息学 agent 的基准
 2. [CellVoyager](../papers/cellvoyager-natmethods-2026/index.md)：自动分析单细胞数据的 agent
 3. [PaperQA2](../papers/paperqa2-arxiv-2024/index.md)：基于文献回答问题并给出引用
-4. [引用忠实度](../papers/citation-faithfulness-arxiv-2026/index.md)：引用是否真的支撑结论
+4. [引用忠实度](../papers/citation-faithfulness-arxiv-2026/index.md)：自动检查"引用是否支撑结论"的工具本身有多可靠
 5. [临床 agent 重跑](../papers/clinical-agent-reruns-arxiv-2026/index.md)：同一任务重跑时结果稳不稳
 
 再往后，看 [知识图谱](../knowledge-map.md) 里"课题 2"视图的必读论文，以及"桥"视图里和其他课题共用的论文。

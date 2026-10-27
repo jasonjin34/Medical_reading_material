@@ -36,12 +36,11 @@ Step by step for a CS reader (from Results §"A transformer model for health rec
 flowchart LR
   A["Health trajectory<br/>ICD-10 first diagnoses, sex, lifestyle"] --> B["No-event padding<br/>about 1 per 5 years"]
   B --> C["GPT-2 with age encoding<br/>and same-time attention mask"]
-  C --> D["Logits as log-rates"]
+  C --> D["Logits = log-rates<br/>rate = exp(logit) per day<br/>1,256 diseases, death, no-event"]
   D --> E["Softmax: next token"]
-  D --> F["Exponential: time to next event"]
-  E --> G["Rates for 1,256 diseases and death"]
-  F --> G
-  G -.-> H["Sample next event and append<br/>synthetic trajectories"]
+  D --> F["Exponential with summed rate:<br/>time to next event"]
+  E -.-> H["Sample next event and append<br/>synthetic trajectories"]
+  F -.-> H
   H -.-> C
 ```
 
@@ -56,7 +55,7 @@ flowchart LR
 - **Generated trajectories**: conditioning on data up to age 60, one trajectory per person (text: 63,662; Fig. 3a caption: 63,622) reproduces population incidence at ages 70–75; ~17% of disease tokens are correct in the first year, falling to <14% after 20 years, vs 12–13% using age and sex alone (Fig. 3b,c). Differences in disease burden between high/low smoking, alcohol and BMI groups are also reproduced (Fig. 3d).
 - **Training on synthetic data only**: the same model trained on 400,000 synthetic trajectories sampled from birth reaches average AUC **0.74** on real validation data, 3 points below the original; generated trajectories are no more similar to the training data than the validation cohort is (Fig. 3f; Supplementary Fig. 6; Methods).
 - **External validation**: applied to Denmark with no retraining or adjustment, average AUC **0.67** (s.d. 0.09) vs 0.69 (s.d. 0.09) for UKB longitudinal testing; per-disease AUCs correlate across datasets with Pearson r = **0.76** (95% CI 0.72–0.80) (Fig. 5a).
-- **Interpretability**: the embedding UMAP clusters by ICD chapter without the model being told chapters; both diabetes types cluster with retinal disorders and neuropathies; MI and septicaemia cluster with death (Fig. 4a). SHAP example: a series of digestive diagnoses raised one person's pancreatic cancer risk 19-fold, and the subsequent pancreatic cancer diagnosis raised mortality almost ten-thousandfold (Fig. 4b). Cancer's effect on mortality decays with a half-life of several years; septicaemia's drops sharply (Fig. 4d).
+- **Interpretability**: the embedding UMAP clusters by ICD chapter without the model being told chapters; both diabetes types cluster with retinal disorders and neuropathies; MI and septicaemia cluster with death (Fig. 4a). SHAP example: a series of digestive diagnoses raised one person's pancreatic cancer risk 19-fold, and the subsequent pancreatic cancer diagnosis raised mortality almost ten-thousandfold (main text, Results §"Explaining Delphi-2M predictions"; the Fig. 4b panel, however, labels the mortality relative rate 9.3 × 10<sup>4</sup>, about 93,000-fold, with the pancreatic cancer token alone contributing ×168). Cancer's effect on mortality decays with a half-life of several years; septicaemia's drops sharply (Fig. 4d).
 - **Biases**: diseases exclusive to hospital records are predicted at on average **10×** higher rates in people with other hospital records; septicaemia, 93% diagnosed in hospital, is predicted **8×** higher in people with any other hospital data (Fig. 5e,f). No deaths before UKB recruitment (immortality bias) distorts mortality estimates; ages above 80 are too sparse to model reliably (Fig. 5b; Results).
 
 ## Contributions
@@ -67,34 +66,35 @@ flowchart LR
 - A systematic bias analysis showing how the model exploits UKB-specific data-source missingness.
 
 ## Limitations
+- Stated by the authors: UKB has more white British participants than the general population, and participants tend to be more affluent and educated; lower disease rates are reported among white participants and diagnosis rates rise with deprivation — trends Delphi-2M reproduces (Results §"External validation and bias assessment"; shown in Extended Data Fig. 10 "Effects of ethnicity and deprivation", although the text cites it as Extended Data Fig. 9).
 - Stated by the authors: UKB healthy-volunteer and pre-recruitment selection biases; data-source missingness exploited by the model; different predicted rates across ancestry and deprivation subgroups (Discussion; Supplementary Figs. 10–11).
 - Stated by the authors: temporally directed dependencies **should not be interpreted as causal relationships that could be exploited to modify future health**; individual predictions are strongly influenced by chance and compatible with a range of outcomes (Discussion).
 - Stated by the authors: inputs are first diagnoses plus a few lifestyle factors; prescriptions, blood tests, imaging, genomics and wearables are future extensions; biomarkers remain indispensable for diseases such as diabetes (Results; Discussion). Clinical decision support still needs an immature regulatory framework (Discussion).
 - Our reading: using only *first* diagnoses discards recurrences, stage progression and care intensity — possibly insufficient for repeatedly measured, stepwise conditions such as CKD stages.
-- Our reading: external validation covers ages 50–80 and one year of incidence (2017), without lifestyle inputs in Denmark; there are small internal inconsistencies (63,662 vs 63,622; 67 MILTON biomarkers vs 57 in Extended Data Fig. 5).
+- Our reading: external validation covers ages 50–80 and one year of incidence (2017), without lifestyle inputs in Denmark; there are small internal inconsistencies (63,662 vs 63,622; 67 MILTON biomarkers vs 57 in Extended Data Fig. 5; mortality "almost ten thousandfold" after the pancreatic cancer diagnosis in the text vs 9.3 × 10<sup>4</sup> on the Fig. 4b panel).
 - A patent has been filed on using generative transformers to model competing risks and timing of diseases (PCT/EP2025/065771) (Competing interests).
 
 ## Relation to our direction
-**First, the Mount Sinai EHR project (millions of patients).** Our reading: Delphi-2M is a small, reproducible (public code) template for a patient-trajectory foundation model, complementing the pancreatic-trajectory paper (`ehr-pancreatic-trajectory-natmed-2023`, a single-disease discriminative model): that paper asks "how early can one disease be flagged", Delphi asks "how do the rates of all diseases evolve over time". Borrowable design: (1) the competing-exponential head gives absolute rates, suited to putting **competing** endpoints such as CKD progression, dialysis, heart failure, MI and death in one model; (2) no-event padding allows risk queries at any time; (3) the external-validation discipline: zero-tuning transfer + per-disease AUC correlation + calibration curves. The paper reproduces scaling laws (~2M parameters optimal at UKB scale), so "how large is the optimal model at Sinai's millions-of-patients scale" is itself a testable question. Delphi losing to HbA1c on diabetes suggests that for metabolic/kidney endpoints, lab values (e.g. HbA1c, eGFR) and medications likely need to be inputs — provided the Sinai data actually contain these fields (to be confirmed). The bias analysis matters especially for Sinai: in a single-centre EHR, patients may receive care elsewhere, and missingness driven by data source / care intensity will be learned by the model, so stratified checks are needed. The authors also suggest in the Discussion that future healthcare LLMs could invoke Delphi-type models to improve numerical accuracy.
+**First, the Mount Sinai EHR project.** Our reading: Delphi-2M is a small, reproducible (public code) template for a patient-trajectory foundation model, complementing the pancreatic-trajectory paper (`ehr-pancreatic-trajectory-natmed-2023`, a single-disease discriminative model): that paper asks "how early can one disease be flagged", Delphi asks "how do the rates of all diseases evolve over time". Borrowable design: (1) the competing-exponential head gives absolute rates, suited to putting **competing** endpoints such as CKD progression, dialysis, heart failure, MI and death in one model; (2) no-event padding allows risk queries at any time; (3) the external-validation discipline: zero-tuning transfer + per-disease AUC correlation + calibration curves. The paper reproduces scaling laws (~2M parameters optimal at UKB scale), so "how large is the optimal model on a larger single-system EHR" is itself a testable question. Delphi losing to HbA1c on diabetes suggests that for metabolic/kidney endpoints, lab values (e.g. HbA1c, eGFR) and medications likely need to be inputs — provided the Sinai data actually contain these fields (to be confirmed). The bias analysis matters especially for Sinai: in a single-centre EHR, patients may receive care elsewhere, and missingness driven by data source / care intensity will be learned by the model, so stratified checks are needed. The authors also suggest in the Discussion that future healthcare LLMs could invoke Delphi-type models to improve numerical accuracy.
 
 Our reading (relation to detect → model → revert, briefly): Delphi is patient-scale "model" — a sampleable virtual patient; but the authors explicitly rule out using its temporal dependencies for causal intervention, so reaching "revert" needs a causal/counterfactual layer or a link to tissue-scale virtual tissue. Its "learns data-source missingness rather than disease" problem is the same class of failure as treating batch/artefacts as disease signal in omics, mirroring our use of cross-modal agreement to separate artefacts in kidney-omics anomaly detection.
 
 ## Reusable assets
-- **Code:** Delphi code, scripts and Jupyter notebooks (built on nanoGPT) (Code availability).
+- **Code:** Delphi code, scripts and Jupyter notebooks (Code availability); the model is built on the nanoGPT implementation (Methods §"GPT model").
 <https://github.com/gerstung-lab/delphi>
 - **Checkpoint:** via UK Biobank controlled-access procedures (upload ID 7318) (Code availability).
 - **Data:** UK Biobank (application); Danish registry data via the Danish Patient Safety Authority and the Danish Health Data Authority, in dedicated secure environments (Data availability).
 - **Baseline suite:** QRisk3, SCORE2, PREVENT, Framingham, UKBDRS, Charlson, Elixhauser, AutoPrognosis v2, a Transformer encoder, a Llama3.1-8B prompting baseline (full prompt in Methods), MILTON.
 
 ## Follow-ups
-- Extended Data Fig. 5: linear models combining Delphi logits with polygenic risk scores, blood biomarkers and self-rated health to predict 5-year disease — whether Delphi and lab data are complementary.
+- Extended Data Fig. 5: linear models predicting 5-year disease that add, separately, polygenic risk scores (a), the 57 MILTON blood biomarkers (b) or self-rated overall health (c) to Delphi logits (plus age and sex) — whether Delphi and lab data are complementary.
 - The MILTON paper (Garg et al., Nat. Genet. 2024, ref. 31), the biomarker-driven full-spectrum comparator.
 - Subgroup fairness analyses in the Supplementary Discussion (Supplementary Figs. 10–11, Supplementary Table 4).
 - Related generative EHR models: Foresight (ref. 28), MOTOR (ref. 29); compare with `ehr-apollo-arxiv-2026` and `ehr-comet-natmachintell-2025`.
 
 ## Cite
 ```bibtex
-@article{Shmatko_2025, title={Learning the natural history of human disease with generative transformers}, volume={647}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-025-09529-3}, DOI={10.1038/s41586-025-09529-3}, number={8088}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Shmatko, Artem and Jung, Alexander Wolfgang and Gaurav, Kumar and Brunak, Søren and Mortensen, Laust Hvas and Birney, Ewan and Fitzgerald, Tom and Gerstung, Moritz}, year={2025}, month=Sept, pages={248–256} }
+@article{Shmatko_2025, title={Learning the natural history of human disease with generative transformers}, volume={647}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-025-09529-3}, DOI={10.1038/s41586-025-09529-3}, number={8088}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Shmatko, Artem and Jung, Alexander Wolfgang and Gaurav, Kumar and Brunak, Søren and Mortensen, Laust Hvas and Birney, Ewan and Fitzgerald, Tom and Gerstung, Moritz}, year={2025}, month=sep, pages={248–256} }
 ```
 
 

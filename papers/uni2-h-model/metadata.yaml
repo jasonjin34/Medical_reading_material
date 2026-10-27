@@ -1,7 +1,8 @@
 id: "uni2-h-model"
 title: "MahmoodLab/UNI2-h"
-authors: null
-year: null
+authors:
+  - "Mahmood Lab"
+year: 2025
 venue: "Hugging Face"
 type: "model"
 category: "foundation"
@@ -19,4 +20,4 @@ added: "2026-08-03"
 plans:
   - "A"
 track: "A5"
-recommended_by: "sikander"
+recommended_by: "core-reading"

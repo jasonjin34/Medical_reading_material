@@ -1,6 +1,6 @@
 # HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
 
-> **文献键** `Jaume2024_240616192` · **来源** arXiv preprint(2024) · **类别** foundation · **相关度** medium · **获取** open
+> **文献键** `Jaume2024_240616192` · **来源** NeurIPS 2024 (Datasets and Benchmarks Track, Spotlight)(2024) · **类别** foundation · **相关度** medium · **获取** open
 > **链接** <https://arxiv.org/abs/2406.16192> · `status: complete`
 
 ---
@@ -42,7 +42,7 @@ flowchart LR
 ```
 
 ## 数据
-HEST-1k(v2):1,229 个样本、153 个队列、26 个器官、两个物种(人、小鼠);367 个癌症样本覆盖 25 种癌型;约 210 万个 spot 级 (patch, 表达) 对与 7,640 万个细胞核(Abstract, §3.3)。核分类:肿瘤 1,760 万、间质 2,150 万、正常上皮 490 万、炎症 1,540 万、坏死 7.6 万;平均每张切片 6.21 万个核(§3.3)。技术包括 STv1、Visium、Visium HD、Xenium(Fig. 1a)。样本类型(Fig. 1a):健康 345、癌 367、其他病理 453、药物处理 53 等。完整下载超过 1 TB(§4)。按来源:NCBI 696 个样本、Spatial-Research 139、Mendeley 118、10x Genomics 112、内部 28 等(Table A1)。**肾脏**:Fig. 1a 列出 70 个肾脏样本;附录表中包括 Lake 等人人类肾脏健康/损伤图谱 23 个 Visium 样本、肾乳头结石病图谱 7 个、肾损伤上皮-免疫互作 4 个,以及若干小鼠肾脏样本(Table A2, A5)。基准任务规模很小:IDC 4 病人、PRAD 2 病人(23 样本)、PAAD 3、SKCM 2、COAD 2、READ 2、ccRCC 24、LUAD 2、淋巴结转移 IDC 4(Table A11)。GitHub README 现在写的是 1,276 个样本,说明数据集在论文之后仍在扩充(README, 2026-10 访问)。
+HEST-1k(v2):1,229 个样本、153 个队列、26 个器官、两个物种(人、小鼠);367 个癌症样本覆盖 25 种癌型;约 210 万个 spot 级 (patch, 表达) 对与 7,640 万个细胞核(Abstract, §3.3)。核分类:肿瘤 1,760 万、间质 2,150 万、正常上皮 490 万、炎症 1,540 万、坏死 7.6 万;平均每张切片 6.21 万个核(§3.3)。注意:这些分类数加起来只有约 5,950 万,不是 7,640 万;它们与 v1 §3.3 的数字完全相同(v1 那里的总数是 5,960 万,与分类之和吻合),看来 v2 只更新了总数、没更新分类(原文自身不一致)。技术包括 STv1、Visium、Visium HD、Xenium(Fig. 1a)。样本类型(Fig. 1a):健康 345、癌 367、其他病理 453、药物处理 53 等。完整下载超过 1 TB(§4)。按来源:NCBI 696 个样本、Spatial-Research 139、Mendeley 118、10x Genomics 112、内部 28 等(Table A1)。**肾脏**:Fig. 1a 列出 70 个肾脏样本;附录表中包括 Lake 等人人类肾脏健康/损伤图谱 23 个 Visium 样本、肾乳头结石病图谱 7 个、肾损伤上皮-免疫互作 4 个,以及若干小鼠肾脏样本(Tables A2–A5;Lake 图谱在 A5,结石病与肾损伤两项在 A4)。基准任务规模很小:IDC 4 病人、PRAD 2 病人(23 样本)、PAAD 3、SKCM 2、COAD 2、READ 2、ccRCC 24、LUAD 2、淋巴结转移 IDC 4 个样本(Table A11 写 4 个病人,App. C.3 写来自 2 个病人)(Table A11)。GitHub README 现在写的是 1,276 个样本,说明数据集在论文之后仍在扩充(README, 2026-10 访问)。
 
 ## 主要结果
 
@@ -55,7 +55,7 @@ HEST-1k(v2):1,229 个样本、153 个队列、26 个器官、两个物种(人、
 - **多模态微调**:在 5 个 Xenium 乳腺癌样本的 47,051 对 patch–表达(238 个共同基因)上微调得到 CONCH-FT;在 BCNB(1,058 张 WSI)上用均值池化 + logistic 回归预测 ER/PR/HER2:ER AUC 0.881→0.884、PR AUC 0.810→0.818、HER2 AUC 0.715→0.724,但 HER2 balanced accuracy 0.624→0.615 下降;embedding rank 144.66→146.47(Table 2)。
 
 ## 创新点
-- 当时规模最大的公开配对 ST + H&E 全切片集合(1,229 样本、26 器官、2 物种),全部重新对齐并统一格式(Abstract, §3)。
+- 公开的配对 ST + H&E 全切片集合(1,229 样本、26 器官、2 物种),全部重新对齐并统一格式(Abstract, §3)。
 - HEST-Library:处理旧数据的工具链(格式转换、fiducial 自动对齐、像素尺寸反推、组织分割、patch 切分、按元数据下载、批次效应可视化与 ComBat/Harmony/MNN 封装)(§4)。
 - HEST-Benchmark:病人分层、按任务固定 50 个基因的表达预测基准,并给出 11 个模型在 3 种读出头下的结果与缩放规律(§5, Fig. 2)。
 
@@ -66,10 +66,10 @@ HEST-1k(v2):1,229 个样本、153 个队列、26 个器官、两个物种(人、
 - 作者自述:CONCH-FT 只用了 5 张配对切片(§7);数据仅限研究用途,禁止用于诊断(App. A)。
 - 我们的理解:多数基准任务只有 2–4 个病人,各折标准差最高可达约 0.1(Table 1),模型间 0.5% 量级的差异很难说显著。
 - 我们的理解:基准只包含癌症任务;唯一的肾脏任务是 ccRCC(肾癌),不涉及 CKD/AKI 这类非肿瘤肾病。
-- 我们的理解:文中有小的不一致——COAD 在正文写 Visium、在 Table A11 写 Xenium;Remedis 在 §5.2 写 SimCLR、在 Table A12 写 iBOT。使用前应以代码/元数据为准。
+- 我们的理解:文中有小的不一致——COAD 在正文写 Visium、在 Table A11 写 Xenium;Remedis 在 §5.2 写 SimCLR、在 Table A12 写 iBOT;LYMPH-IDC 在 Table A11 写 4 个病人、在 App. C.3 写 2 个病人;核分类数与总数对不上(见"数据")。GitHub README 2024-08-30 的更新写"New COAD task based on 4 Xenium samples",支持 Table A11 的 Xenium。使用前应以代码/元数据为准。
 
 ## 与本研究方向的关系
-我们的理解:HEST-1k 不是异常检测论文,它在 detect → model → revert 里主要是 **model 一环的数据底座**和 **detect 一环的跨模态工具**。(1) 对课题 1(肾脏单细胞/空间组学异常检测):HEST 的格式(金字塔 TIFF + AnnData + spot 对齐 patch)和对齐流程可以直接用来整理我们 95 例活检里的 H&E + Xenium;其中 Lake 图谱等 70 个肾脏样本可当作外部"参考/正常"数据或额外测试集。(2) "从 H&E 预测表达"的结果说明形态与表达只有中等相关(Pearson 约 0.2–0.6),这对我们"用模态一致性区分伪影与疾病"的假设很重要:如果一个区域的 H&E 预测表达与实测表达差得很远,它可能是真实分子异常,也可能只是预测器本身的误差;因此跨模态不一致必须相对于"该组织类型正常情况下的预测误差"来校准,不能直接当异常分。(3) 读出头会改变排名(Table A13),提醒我们在异常检测基准中固定并公开特征提取与读出协议。(4) 不涉及扰动或 revert。
+我们的理解:HEST-1k 不是异常检测论文,它在 detect → model → revert 里主要是 **model 一环的数据底座**和 **detect 一环的跨模态工具**。(1) 对课题 1(肾脏单细胞/空间组学异常检测):HEST 的格式(金字塔 TIFF + AnnData + spot 对齐 patch)和对齐流程可以直接用来整理待测肾样本的 H&E 与空间组学数据;其中 Lake 图谱等 70 个肾脏样本可当作外部"参考/正常"数据或额外测试集。(2) "从 H&E 预测表达"的结果说明形态与表达只有中等相关(Pearson 约 0.2–0.6),这对我们"用模态一致性区分伪影与疾病"的假设很重要:如果一个区域的 H&E 预测表达与实测表达差得很远,它可能是真实分子异常,也可能只是预测器本身的误差;因此跨模态不一致必须相对于"该组织类型正常情况下的预测误差"来校准,不能直接当异常分。(3) 读出头会改变排名(Table A13),提醒我们在异常检测基准中固定并公开特征提取与读出协议。(4) 不涉及扰动或 revert。
 
 ## 可复用资产
 - **代码与基准**:HEST-Library 与 HEST-Benchmark(`pip install -e ".[benchmark]"`,教程 `tutorials/4-Running-HEST-Benchmark.ipynb`)(README)。
@@ -88,7 +88,7 @@ HEST-1k(v2):1,229 个样本、153 个队列、26 个器官、两个物种(人、
 ## 图表
 
 ![HEST overview](figures/fig1.png)
-**图1.** HEST 总览(此图取自 arXiv v1,图中写 1,108 个样本;v2 正文为 1,229):HEST-1k 数据集、HEST-Library 功能,以及三个应用——基础模型基准、生物标志物探索、多模态表征学习。
+**图1.** HEST 总览(此图取自 arXiv v1,图中数字都是 v1 的:如肾脏 n=45、10 个任务、9 个 patch 编码器、物种 573+535=1,108 个样本;本笔记用的 v2 数字是肾脏 70、9 个任务、11 个编码器、1,229 个样本):HEST-1k 数据集、HEST-Library 功能,以及三个应用——基础模型基准、生物标志物探索、多模态表征学习。
 _Source: https://arxiv.org/html/2406.16192v1/x1.png  ·  License: arXiv (open) / paper CC BY-NC-SA 4.0_
 
 ![Biomarker discovery](figures/fig2.png)
@@ -117,10 +117,13 @@ _Source: arXiv:2406.16192v2, Table 1(加粗为我们按数值重新标注)。_
 
 ## 引用
 ```bibtex
-@misc{Jaume2024_240616192,
+@inproceedings{Jaume2024_240616192,
   title = {HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis},
   author = {Guillaume Jaume and Paul Doucet and Andrew H. Song and Ming Y. Lu and Cristina Almagro-Pérez and Sophia J. Wagner and Anurag J. Vaidya and Richard J. Chen and Drew F. K. Williamson and Ahrong Kim and Faisal Mahmood},
+  booktitle = {Advances in Neural Information Processing Systems 37 (NeurIPS 2024), Datasets and Benchmarks Track},
+  pages = {53798--53833},
   year = {2024},
+  doi = {10.52202/079017-1704},
   eprint = {2406.16192},
   archivePrefix = {arXiv},
   url = {https://arxiv.org/abs/2406.16192}

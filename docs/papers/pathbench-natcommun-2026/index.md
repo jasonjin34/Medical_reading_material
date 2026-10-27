@@ -12,9 +12,9 @@ This Stanford (Gevaert lab) benchmark evaluates 32 foundation models in four cat
 - Top five Path-VMs: mean TCGA AUROC Virchow2 0.830, Prov-GigaPath 0.829, H-optimus-0 0.824, UNI 0.824, UNI2 0.824; non-TCGA Virchow2 0.836, UNI 0.835 (Fig. 1b–c). The five show no significant differences on TCGA in AUROC/AUPRC/sensitivity/specificity (Wald tests; Supplementary Fig. 4).
 - Differences appear at patch level: on 8 external patch tasks Virchow2 has mean AUROC 0.962, significantly above UNI, UNI2, Prov-GigaPath and H-optimus-0 (FDR p < 0.001) (Fig. 2b,d).
 - Path-VMs significantly beat Path-VLMs (TCGA, CPTAC, external; not fully OOD slide tasks), but are **not significantly different** from general VMs — the authors read the Path-VM edge as consistency and frequent top-10 placement, not uniform superiority (Fig. 3a; Results).
-- Scale: bigger models (ViT-S→ViT-L) and more pretraining data help mainly on TCGA (especially multi-class tasks); effects on external and OOD data are small and non-significant (Fig. 4; Results §"Scaling").
+- Scale: bigger models (ViT-S→ViT-L) and more pretraining data help mainly on TCGA (especially multi-class tasks); CPTAC binary tasks show modest significant gains; effects on external and OOD data are small and non-significant (Fig. 4; Results §"Scaling").
 - Ensembling: majority-vote fusion of the top 5 ranks 1st on TCGA cumulative balanced accuracy (0.702 vs Virchow2 0.696) and 2nd on non-TCGA (Virchow2 first at 0.712); per-task tests show no significant difference from single models (Fig. 5a–c).
-- Our reading: the key lesson for us is "top pathology encoders differ little and rankings shift out of domain" — the backbone choice matters less than validating on our own out-of-domain data (e.g. Aachen kidney biopsies).
+- Our reading: the key lesson for us is "top pathology encoders differ little and rankings shift out of domain" — the backbone choice matters less than validating on target out-of-domain data (e.g. an independent kidney-biopsy cohort).
 
 ## Problem
 Pathology foundation models are often pretrained on TCGA or a single institution's proprietary data and may overfit to those datasets instead of generalising across institutions, stains and scanners (Introduction). Earlier benchmarks (refs. 50, 51) mainly compared pathology-specific encoders over a limited set of cancers or task types (mostly weakly supervised classification). Questions: under one protocol, which of the four categories is strongest; how much does pathology-specific pretraining buy; do conclusions hold outside TCGA (which may be in the pretraining data); and what do scale and ensembling contribute?
@@ -31,10 +31,13 @@ Pathology foundation models are often pretrained on TCGA or a single institution
 ## Method diagram
 ```mermaid
 flowchart LR
-  A["41 tasks, 53 datasets<br/>TCGA, CPTAC, OOD, external"] --> B["256 px tiles at 20x<br/>up to 4,000 per WSI"]
+  A["33 slide-level tasks<br/>TCGA, CPTAC, OOD"] --> B["256 px tiles at 20x<br/>up to 4,000 per WSI"]
+  H["8 external patch benchmarks<br/>ready-made png images"] --> C
   B --> C["32 frozen encoders<br/>VM, VLM, Path-VM, Path-VLM"]
   C --> D["Mean pooling<br/>+ linear probe"]
+  C --> P["Per-patch linear probe<br/>no pooling"]
   D --> E["1,000 bootstraps<br/>Wald tests + FDR"]
+  P --> E
   E --> F["Rankings, scaling,<br/>tissue z-scores"]
   D --> G["Majority-vote fusion<br/>of top 5 Path-VMs"]
 ```
@@ -46,10 +49,10 @@ flowchart LR
 - **Path-VM ranking**: top five mean TCGA AUROC Virchow2 0.830 (95% CI 0.784–0.875), Prov-GigaPath 0.829, H-optimus-0 0.824, UNI 0.824, UNI2 0.824; non-TCGA Virchow2 0.836, UNI 0.835, H-optimus-0 0.832, Prov-GigaPath 0.827, UNI2 0.824 (Fig. 1b–c). Per-task wins: Virchow2 5 and UNI2 3 of 19 TCGA tasks; Virchow2 6 and H-optimus-0 5 of 22 non-TCGA tasks (Fig. 1d–e).
 - **Statistically hard to separate**: the five top models do not differ significantly on TCGA in any metric; on non-TCGA the only significant difference is Virchow2 vs UNI2 sensitivity; none after grouping by tumour type (Results; Supplementary Figs. 3–4).
 - **Slide vs patch**: on 14 non-TCGA slide tasks UNI is first at 0.761 ± 0.083 with no significant differences among top models; on 8 patch tasks Virchow2 0.962 ± 0.033, UNI2 0.953, Prov-GigaPath 0.949, with some significant pairwise differences (Fig. 2a–d). The authors attribute this to patch tasks probing fine-grained representations without MIL aggregation (Discussion).
-- **Categories**: Path-VM significantly beats Path-VLM (except OOD slide tasks); Path-VM vs VM is not significant; Path-VM share of top-10 slots is 0.55 (168/304) on TCGA, 0.53 (106/224) on CPTAC+OOD, 0.52 (66/128) on external (Fig. 3; Results).
-- **Scale**: for TCGA multi-class tasks, small→medium and small→large data gave significant gains (effect sizes ≈0.25–0.30) but medium→large did not; external and OOD tasks showed small, non-significant effects throughout (Fig. 4b; Results).
+- **Categories**: Path-VM significantly beats Path-VLM (except OOD slide tasks); Path-VM vs VM is not significant; Path-VM share of top-10 slots is 0.55 (168/304) on TCGA, 0.47 (106/224) on CPTAC+OOD (Fig. 3b legend and Methods give 0.47; the Results text prints 0.53, but 106/224 = 0.47), 0.52 (66/128) on external (Fig. 3; Results).
+- **Scale**: for TCGA multi-class tasks, small→medium and small→large data gave significant gains (effect sizes ≈0.25–0.30) but medium→large did not; CPTAC binary tasks showed modest significant small→medium gains in AUROC and sensitivity (effect sizes ≈0.25–0.40), CPTAC multi-class tasks none; external and OOD tasks showed small, non-significant effects throughout (Fig. 4b; Results).
 - **Ensemble**: fusion is first on TCGA cumulative balanced accuracy at 0.702 ± 0.111 (Virchow2 0.696); on non-TCGA Virchow2 is first at 0.712 and fusion second at 0.699; per-task differences vs single models are not significant. Rank shifts: UNI 5th→3rd, UNI2 6th→9th, Virchow 7th→10th from TCGA to non-TCGA (Fig. 5a–b; Results).
-- **Tissue preferences** (z-scores): CONCH strongest on lung tasks, Virchow2 on colon and prostate, H-optimus-0 on pan-cancer, UNI on brain and bladder, Prov-GigaPath robust on breast, bladder and lung (Fig. 5f); significant differences appear only in colon (Supplementary Fig. 24).
+- **Tissue preferences** (z-scores): CONCH strongest on lung tasks, Virchow2 on colon and prostate, H-optimus-0 on pan-cancer, UNI on brain and bladder, Prov-GigaPath robust on breast, bladder and lung (Fig. 5f); significant differences appear only in colon (Supplementary Fig. 24). The Discussion gives a slightly different list: Virchow2 colon, lung and prostate; Prov-GigaPath breast and bladder; H-optimus-0 pan-cancer; UNI brain, bladder and breast.
 
 ## Contributions
 - Breadth: 32 models × 4 categories × 41 tasks × 53 datasets under one frozen-feature + linear-probe protocol (Abstract).
@@ -63,11 +66,11 @@ flowchart LR
 - Authors: overlap of public data (TCGA, CPTAC) with pretraining corpora cannot be excluded and may inflate in-domain results; NLST and DHMC are not reported as pretraining data, but this cannot be verified (Discussion; Methods).
 - Authors: scaling uses coarse proxies (parameters, slide counts) ignoring data composition and quality; analyses are correlational (Discussion).
 - Authors: slide-level mean pooling may dilute localised signals (Discussion).
-- Our reading: tasks are almost all tumour-related (subtype, grade, mutation, pathway); kidney appears only as TCGA RCC subtyping and the CCRCC class in CPTAC tumour type; no non-tumour disease and no anomaly-detection task. Many slide-level test sets have tens to a few hundred cases, so CIs are wide.
+- Our reading: tasks are almost all tumour-related (subtype, grade, mutation, pathway); kidney appears in the TCGA 4-class RCC task, and the 6 CPTAC pan-cancer tasks that span 7 cancer types including CCRCC (SWI/SNF, p53, chromatin modification, mTOR, MYC, tumour type); the CPTAC grading task does not list its cancer types; there is no kidney-specific non-tumour task; no non-tumour disease and no anomaly-detection task. Many slide-level test sets have tens to a few hundred cases, so CIs are wide.
 - Our reading: naming clash — ref. 60 (Ma et al., arXiv 2505.20202) is a different benchmark also called "PathBench"; this paper's site is pathbench.stanford.edu.
 
 ## Relation to our direction
-Our reading: this paper is not one of the detect → model → revert stages but the **evaluation layer**, with three direct uses for Topic 1. **First, backbone choice**: Virchow2, UNI2, UNI, Prov-GigaPath and H-optimus-0 form one tier with mostly non-significant gaps, and rankings change outside TCGA — for kidney H&E it is better to extract 2–3 feature sets and compare them on Aachen data, or ensemble, than to pick a "best" encoder in advance. **Second, a protocol template**: frozen features + a simple head as an honest baseline, explicit in-domain vs out-of-domain splits, bootstrap + pairwise tests + FDR rather than bare means — directly transferable to a kidney anomaly-detection benchmark (replace the linear probe with kNN / density anomaly scorers). **Third, the gap**: none of the 41 tasks is non-tumour disease or anomaly detection, and kidney appears only as RCC — exactly what Topic 1 fills. Caveat: PathBench compares supervised classification only and does not show which encoder is best for unsupervised anomaly detection.
+Our reading: this paper is not one of the detect → model → revert stages but the **evaluation layer**, with three direct uses for Topic 1. **First, backbone choice**: Virchow2, UNI2, UNI, Prov-GigaPath and H-optimus-0 form one tier with mostly non-significant gaps, and rankings change outside TCGA — for kidney H&E it is better to extract 2–3 feature sets and compare them on the target kidney data, or ensemble, than to pick a "best" encoder in advance. **Second, a protocol template**: frozen features + a simple head as an honest baseline, explicit in-domain vs out-of-domain splits, bootstrap + pairwise tests + FDR rather than bare means — directly transferable to a kidney anomaly-detection benchmark (replace the linear probe with kNN / density anomaly scorers). **Third, the gap**: none of the 41 tasks is non-tumour disease or anomaly detection, and kidney appears only as RCC — exactly what Topic 1 fills. Caveat: PathBench compares supervised classification only and does not show which encoder is best for unsupervised anomaly detection.
 
 ## Reusable assets
 - **Code** (MIT; parts adapted from facebookresearch/dino, Apache-2.0; includes processed results and figure source data; archived on Zenodo, doi 10.5281/zenodo.20618270):
@@ -75,7 +78,7 @@ Our reading: this paper is not one of the detect → model → revert stages but
 - **Live benchmark:** the PathBench leaderboard.
 <https://pathbench.stanford.edu/>
 - **Data:** TCGA (GDC portal), CPTAC (CPTAC Data Portal), NLST (TCIA), DHMC and 8 public patch benchmarks; Stanford in-house cohorts are not public (Data availability).
-- **Model inventory:** Tables 2–5 list SSL method, architecture, parameters, WSI and patch counts and data source for all 32 models — a handy lookup table.
+- **Model inventory:** Tables 2–5 list SSL method, architecture, parameters and data source for all 32 models; WSI and patch counts are given only for the 16 Path-VMs (Table 2) — a handy lookup table.
 - **Eval protocol:** 256 px tiles at 20×, mean pooling + linear probe (lr 0.001, 30 epochs), patient-level 70/30 split, 1,000 bootstraps, Wald + FDR win/loss matrices, majority-vote fusion.
 
 ## Follow-ups
@@ -86,7 +89,7 @@ Our reading: this paper is not one of the detect → model → revert stages but
 
 ## Cite
 ```bibtex
-@article{Bareja_2026, title={A benchmark study of vision and pathology foundation models for computational pathology}, volume={17}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-026-76004-6}, DOI={10.1038/s41467-026-76004-6}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Bareja, Rohan and Carrillo-Perez, Francisco and Zheng, Yuanning and Pizurica, Marija and Nandi, Tarak Nath and Tian, Lu and Shen, Jeanne and Madduri, Ravi and Gevaert, Olivier}, year={2026}, month=July }
+@article{Bareja_2026, title={A benchmark study of vision and pathology foundation models for computational pathology}, volume={17}, ISSN={2041-1723}, url={http://dx.doi.org/10.1038/s41467-026-76004-6}, DOI={10.1038/s41467-026-76004-6}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Bareja, Rohan and Carrillo-Perez, Francisco and Zheng, Yuanning and Pizurica, Marija and Nandi, Tarak Nath and Tian, Lu and Shen, Jeanne and Madduri, Ravi and Gevaert, Olivier}, year={2026}, month=jul }
 ```
 
 

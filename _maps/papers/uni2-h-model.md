@@ -6,13 +6,13 @@ plans:
 - A
 track:
 - A5
-year: null
+year: 2025
 relevance: medium
 category: foundation
-recommended_by: sikander
+recommended_by: core-reading
 views:
 - plan-a
-- sikander
+- reading-list
 - overview
 tags:
 - paper

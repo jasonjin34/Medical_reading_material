@@ -34,7 +34,7 @@ Sudden cardiac death is preventable in principle with implanted defibrillators (
 flowchart LR
   A["Swedish ECGs<br/>linked to death certificates"] --> B["64-layer ResNet<br/>multitask SCD risk"]
   B --> C["Risk score<br/>top 2.2% = high risk"]
-  C --> D["Lockbox + US + Taiwan<br/>zero-shot validation"]
+  C --> D["Lockbox test, Sweden<br/>+ zero-shot US and Taiwan"]
   E["Single beats"] --> F["VAE<br/>512-d latent"]
   B -.-> G["Gradient steps in latent<br/>toward higher risk"]
   F --> G
@@ -43,7 +43,7 @@ flowchart LR
 ```
 
 ## Data
-**Sweden**: 441,614 ECGs from 187,677 patients, Region Halland, 2010–2016 (Reporting Summary). The lockbox holds 179,060 ECGs / 51,481 patients; main analyses (under 80 with one-year follow-up) use 119,541 ECGs / 35,885 patients, of which 113,072 / 35,417 without defibrillators (Results, Methods, Table 1). One-year SCD rate in the lockbox 0.6%; 43.9% of SCDs had LVEF measured premortem and 36.4% of those were ≤35%; 41.2% of SCDs had no obvious risk factor at the time of the ECG (Methods). **USA**: Sharp HealthCare via Dandelion Health, 251,858 ECGs from 139,613 patients under 80, 500 Hz (83.3%) or 250 Hz (16.7%, interpolated to 500 Hz), GE MUSE — a different manufacturer from Sweden's Philips (Methods). **Taiwan**: NTUH emergency-department arrest registry (Nightingale Open Science), 2011–2019, 257 arrests + 4,011 controls (Methods).
+**Sweden**: 441,614 ECGs from 187,677 patients, Region Halland, 2010–2016 (Reporting Summary). The lockbox holds 179,060 ECGs / 51,481 patients; main analyses (under 80 with one-year follow-up) use 119,541 ECGs / 35,885 patients, of which 113,072 / 35,417 without defibrillators (Results, Methods, Table 1). One-year SCD rate in the lockbox 0.6%; 43.9% of SCDs had LVEF measured premortem and 36.4% of those were ≤35%; 41.2% of SCDs had no obvious risk factor at the time of the ECG (Methods). **USA**: Sharp HealthCare via Dandelion Health, 251,858 ECGs from 139,613 patients under 80, 500 Hz (83.3%) or 250 Hz (16.7%, interpolated to 500 Hz), GE MUSE — a different manufacturer from Sweden's Philips (Methods). **Taiwan**: NTUH emergency-department arrest registry (Nightingale Open Science), 2011–2019, 257 arrests + 4,011 controls (Methods). **Internal inconsistency in the paper**: US patients are 139,613 in the main text and Methods but "251,858 ECGs from 151,015 unique patients" in the Reporting Summary. Separately, for Taiwan the Reporting Summary counts only the 96 arrhythmic arrests ("4,107 ECGs (including 96 future arrest cases plus 4,011 controls)"), while Methods' 257 is all arrests (96 of them arrhythmic) — different subsets, not a contradiction. This note uses the main-text values.
 
 ## Key results
 
@@ -68,7 +68,7 @@ flowchart LR
 - Authors: death certificates may mislabel non-arrhythmic deaths; the three datasets differ in design and outcome definitions, which affects interpretation; Taiwan is case–control, so PPV cannot be computed (Results).
 - Authors: the generative and morphing results use the initial 30%/30% data, not the lockbox, and serve hypothesis generation rather than performance claims; the fibrosis mechanism is speculative (Methods, Results).
 - Authors' interests: Z.O. and S.M. co-founded and hold equity in Dandelion Health, the US data source (data provided free; the company had no role in analysis) (Competing interests).
-- Our reading: morphing starts from only 56 beats, so generality of the "new feature" rests on the follow-up regressions, which are not significant in Taiwan.
+- Our reading: morphing starts from 56 beats (Methods). The authors report the changes are general across median low- vs high-risk morphs and actual beats (Supplementary Information V.E, not read by us); the coded feature is significant in Sweden and the USA, same direction but not significant in Taiwan.
 
 ## Relation to our direction
 Our reading: strictly this is **supervised risk prediction plus generative explanation**, not unsupervised anomaly detection, but it demonstrates the hardest step after detection — **turning "the model finds this abnormal" into a new feature humans can state and test independently**. Three lessons for Topic 1. (1) **Counterfactual morphing instead of saliency**: move along the score gradient in a VAE latent and decode to see what changes as the same sample becomes more abnormal. In kidney, replace the risk predictor with an anomaly score and do this in the latent space of a generative model of H&E patches or single-cell expression, yielding "what this tubule/cell looks like when more abnormal" for pathologists to judge as lesion or artifact. (2) **Quantify the finding and test it externally**: the aVL slurring is coded as first/second-difference features and regressed in independent data with known measures controlled — the analogue of "expert confirmation, then independent validation" in KidneyAnomalyBench. (3) **Lockbox and placebo outcomes**: a sealed test set and an outcome the model should not predict (non-arrhythmic arrest) test specificity; both carry over to our evaluation, e.g. checking whether anomaly scores are also raised by known technical artifacts. For model / revert: the fibrosis hypothesis is a step from discovery to mechanism, but there is no molecular or perturbation content.
@@ -82,7 +82,7 @@ Our reading: strictly this is **supervised risk prediction plus generative expla
 
 ## Follow-ups
 - Supplementary Information V.A–B: VAE and morphing details (loss, step size, whether moves stay on the data manifold).
-- The group's earlier work (Nightingale Open Science; Mullainathan & Obermeyer on machine learning for hypothesis generation).
+- The group's earlier work: Nightingale Open Science (Mullainathan & Obermeyer, Nat. Med. 2022; ref. 55 here).
 - Existing score-guided latent counterfactual methods for H&E or single-cell data (e.g. diffusion counterfactuals), compared with this approach.
 
 ## Figures & tables
@@ -118,7 +118,7 @@ _Source: https://www.nature.com/articles/s41586-026-10674-6  ·  Nature 655 (202
 
 ## Cite
 ```bibtex
-@article{Obermeyer_2026, title={An ECG biomarker for sudden cardiac death discovered with deep learning}, volume={655}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-026-10674-6}, DOI={10.1038/s41586-026-10674-6}, number={8121}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Obermeyer, Ziad and Schubert, Alexander and Ross, James and Mullainathan, Sendhil and Lingman, Markus}, year={2026}, month=June, pages={210–218} }
+@article{Obermeyer_2026, title={An ECG biomarker for sudden cardiac death discovered with deep learning}, volume={655}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-026-10674-6}, DOI={10.1038/s41586-026-10674-6}, number={8121}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Obermeyer, Ziad and Schubert, Alexander and Ross, James and Mullainathan, Sendhil and Lingman, Markus}, year={2026}, month=jun, pages={210–218} }
 ```
 
 

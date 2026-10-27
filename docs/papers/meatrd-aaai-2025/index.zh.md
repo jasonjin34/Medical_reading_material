@@ -37,7 +37,7 @@ MEATRD 是 STANDS 同组(Xu、Sun 等)的后续工作:**只用正常组织训练
 - 32×32 图块、spot 级(55 µm)分辨率;未涉及单细胞分辨率平台。
 
 ## 与本研究方向的关系
-MEATRD 是 detect 阶段**多模态(H&E + ST)正常-only 训练**的代表方法,与 STANDS(`spatial-natcommun-2024`)同源、与 Sardine(`sardine-bioinformatics-2025`)的统计路线互补。对 **Plan A** 最直接的启示是**跨模态一致性**:本文的 10x-hBC-I1 案例恰好说明「图像正常 + 表达异常」是真实存在的疾病信号(肿瘤边缘),而不是 artifact——所以 Plan A 不能简单地把「模态间不一致」都当 artifact;需要区分「图像看不出但多个分子模态一致异常」(疾病)与「只有一个分子模态异常、且与 QC 指标相关」(artifact)。院内 Xenium + H&E 正好是 MEATRD 的输入形态,可作为 KidneyAnomalyBench 的多模态深度基线(需把 spot 换成细胞或 bin,并用 KPMP / HuBMAP 正常肾作为参照)。另外,β 无法无监督选择、阈值依赖真实异常比例,这两个问题正是专家验证 benchmark 能帮忙校准的地方。对 **Plan B**:「首个」类表述与基线遗漏(STANDS)是 claim-to-evidence 核查的典型对象——verifier 应能检出「novelty 声明 vs 相关工作覆盖」的不一致。
+MEATRD 是 detect 阶段**多模态(H&E + ST)正常-only 训练**的代表方法,与 STANDS(`spatial-natcommun-2024`)同源、与 Sardine(`sardine-bioinformatics-2025`)的统计路线互补。对 **课题 1** 最直接的启示是**跨模态一致性**:本文的 10x-hBC-I1 案例恰好说明「图像正常 + 表达异常」是真实存在的疾病信号(肿瘤边缘),而不是 artifact——所以课题 1 不能简单地把「模态间不一致」都当 artifact;需要区分「图像看不出但多个分子模态一致异常」(疾病)与「只有一个分子模态异常、且与 QC 指标相关」(artifact)。配对的 Xenium + H&E 正好是 MEATRD 的输入形态,可作为 KidneyAnomalyBench 的多模态深度基线(需把 spot 换成细胞或 bin,并用 KPMP / HuBMAP 正常肾作为参照)。另外,β 无法无监督选择、阈值依赖真实异常比例,这两个问题正是专家验证 benchmark 能帮忙校准的地方。对 **课题 2**:「首个」类表述与基线遗漏(STANDS)是 claim-to-evidence 核查的典型对象——verifier 应能检出「novelty 声明 vs 相关工作覆盖」的不一致。
 
 ## 可复用资产
 - **代码**:

@@ -20,7 +20,7 @@
 
 ## 人和样本
 
-5 份移植肾活检；病种是移植排斥，不是 AKI / CKD。
+5 份移植肾活检：3 份抗体介导的排斥，2 份非排斥原因的 AKI；不是自体肾的 AKI / CKD。
 
 ## 标签
 
@@ -28,7 +28,7 @@
 
 ## 已知问题
 
-- doublet 已被手工删掉；没有 doublet 标签，没有空液滴；全文没提 ambient。
+- doublet 已被手工删掉，也按 Demuxlet 的基因型判定删过（占 3–10.5%）；公开文件里没有 doublet 标签，没有空液滴；全文没提 ambient。
 
 ## 下载
 
@@ -36,9 +36,9 @@
 |---|---|---|---|
 | `CSV` | GEO GSE145927：7 个活检的计数表（QC 后） | 247 MB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145927) |
 | `CSV` | 每个细胞的标签表（供体 / 受者、细胞类型、排斥） | 2.1 MB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145927) |
-| `FASTQ` | SRA SRP250734（36 个 run，含全外显子） | ≈ 861 GB | — |
+| `FASTQ` | SRA SRP250734（36 个 run，含全外显子） | ≈ 693 GB (SRA) | — |
 
-JASN 不是 CC 授权，不放原图。要用就得从每个样本约 30–65 GB 的原始数据重跑。
+JASN 不是 CC 授权，不放原图。要用就得从每个单细胞样本约 75–120 GB 的原始数据（SRA）重跑。
 
 ## 怎么准备
 

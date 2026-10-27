@@ -9,10 +9,10 @@ track:
 year: 2025
 relevance: high
 category: agents
-recommended_by: sikander
+recommended_by: core-reading
 views:
 - plan-b
-- sikander
+- reading-list
 - overview
 tags:
 - paper

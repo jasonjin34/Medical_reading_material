@@ -97,7 +97,7 @@ def main() -> None:
     ap.add_argument("--plans", nargs="*", default=[], choices=["A", "B", "EHR"],
                     help="knowledge-map views this paper belongs to")
     ap.add_argument("--track", default="", help="column in its view, e.g. A3 or B4 (see maps/views.yaml)")
-    ap.add_argument("--recommended-by", default="", help='e.g. "sikander"')
+    ap.add_argument("--recommended-by", default="", help='e.g. "core-reading"')
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()
 

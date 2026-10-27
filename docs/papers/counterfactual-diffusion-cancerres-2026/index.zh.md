@@ -13,7 +13,7 @@ MoPaDi(Morphing histoPathology Diffusion)把 **diffusion autoencoder** 与 tile 
 - 把扩散反事实接到弱监督 MIL 上(只有 slide 级标签),作者称这是首次(Discussion)。
 - 反事实忠实于分类器,不等于生物因果:MSI 分类器只有 AUC 0.73 ± 0.08,作者因此把 MSI 反事实当作"审计分类器"的案例(Results §MSI)。
 - 染色 vs 形态分解(Vahadane 染色迁移 + Shapley 式分解):朝 MSIH 的 logit 变化 +8.9 中,形态贡献 +7.4、染色 +1.1,108 例测试患者全部形态主导(Fig. 5B)。
-- 真实感:4 位评估者盲评 300 张,合成图有 41.7% 被判为真(Results, Fig. S12)。
+- 真实感:4 位评估者盲评,每人 300 张,合成图有 41.7% 被判为真(Results, Fig. S12)。
 
 ## 研究问题
 计算病理里的 DL 模型能从 WSI 预测生物标志物,但常用的 XAI(attention heatmap、CAM/Grad-CAM)只告诉你"看了哪里",不告诉你"看到了什么特征",还容易引发确认偏差、高估模型。counterfactual explanation("要怎么改这张图它才会被分到另一类?")在自然图像、放射、皮肤科已有探索,但在病理里多基于不稳定的 GAN;而且病理标签大多只在 slide/患者层面(弱监督),需要与 MIL 结合 —— 这在扩散 counterfactual 上此前没有做过。
@@ -35,14 +35,14 @@ flowchart LR
 ```
 
 ## 数据
-训练:NCT-CRC-HE-100K(10 万张 224×224 tile,86 例 FFPE,9 类组织;测试用 CRC-VAL-HE-7K 的 7,180 tile)、TCGA-CRC(625 WSI,过滤后 588 WSI / 582 例,512×512 tile @0.5 MPP,仅肿瘤区域,不做染色归一化)、TCGA-BRCA(1,115 WSI / 1,046 例)、TCGA pan-cancer tile 集(32 癌种)。外部验证:CPTAC-COAD(105 例 / 221 WSI,24 例 MSIH,冰冻切片)、CPTAC 乳腺(100 例 / 323 WSI)、CPTAC 肺 LUAD/LUSC(333 例 / 1,534 WSI)、Charité 肝癌队列(496 例,非公开)。MSI 阈值用两组分 GMM 拟合 TCGA 的 MSI events 分布得到。
+训练:NCT-CRC-HE-100K(10 万张 224×224 tile,86 例 FFPE,9 类组织;测试用 CRC-VAL-HE-7K 的 7,180 tile)、TCGA-CRC(625 WSI,过滤后 588 WSI / 582 例,512×512 tile @0.5 MPP,仅肿瘤区域)、TCGA-BRCA(1,115 WSI / 1,046 例)、TCGA pan-cancer tile 集(32 癌种)。外部验证:CPTAC-COAD(105 例 / 221 WSI,24 例 MSIH,冰冻切片)、CPTAC 乳腺(100 例 / 323 WSI)、CPTAC 肺 LUAD/LUSC(333 例 / 1,534 WSI)、Charité 肝癌队列(496 例,非公开)。MSI 阈值用两组分 GMM 拟合 TCGA 的 MSI events 分布得到。除 NCT-CRC-HE-100K(已用 Macenko 预先归一化)外,所有数据集(含外部验证队列)都不做染色归一化,以便研究染色对分类器的影响。
 
 ## 主要结果
 - **重建与生成**:四个数据集上 MS-SSIM 0.966–0.992;合成图 FID 最高 36.95(NCT-CRC-HE-100K 模型在 CRC-VAL-HE-7K 上,组织类别多、异质性大),最低 4.71(pan-cancer,作者认为参照集多样性低);UNI2/Virchow2 Fréchet 距离趋势一致(Table 1)。
-- **组织类型**:CRC-VAL-HE-7K 上正常黏膜 AUC 0.91 ± 0.01、肿瘤上皮 0.98 ± 0.01(Results §Tissue type);肿瘤→正常反事实中核异型、浸润生长、坏死碎屑消失,杯状细胞样结构出现(Fig. 2C);真实正常 tile 与"肿瘤→正常"反事实的细胞组成差异效应量可忽略到小(Cliff's δ < 0.33,中位偏移 ≤ 3.1 个百分点)(Fig. 2E, Table S4)。
-- **MSI(TCGA-CRC)**:MIL 五折 AUC 0.73 ± 0.08、AP 0.40 ± 0.09;CPTAC-COAD(冰冻切片)外部 AUC 0.67(Results §MSI)。病理医生识别出腺体结构丧失、实性生长、黏液增多等与文献一致的特征(Fig. 3A–C);UNI2 / CONCH / Virchow2 外部分类器的 MSI 概率都朝目标方向变化(Fig. 4A)。
+- **组织类型**:CRC-VAL-HE-7K 上正常黏膜 AUC 0.91 ± 0.01、肿瘤上皮 0.98 ± 0.01(Results §Tissue type);肿瘤→正常反事实中核异型、浸润生长、坏死碎屑消失,杯状细胞样结构出现(Fig. 2C);真实正常 tile(n = 741)与"肿瘤→正常"反事实(n = 1,233)的细胞组成差异效应量可忽略到小(Cliff's δ < 0.33,中位偏移 ≤ 3.1 个百分点);反方向(真实肿瘤上皮 vs"正常→肿瘤"反事实)则在结缔组织与上皮细胞比例上出现大与中等效应量(合成图上皮 +1.57 个百分点、结缔组织 −1.27 个百分点),作者解读为模型抓住了上皮细胞丰度这一区分特征(Fig. 2E, Table S4)。
+- **MSI(TCGA-CRC)**:MIL 五折 AUC 0.73 ± 0.08、AP 0.40 ± 0.09;CPTAC-COAD(冰冻切片)外部 AUC 0.67(Results §MSI)。3 位病理医生对 52 组转变(每类 13 名患者,每位取 2 个贡献度最高的 tile,共 26 名患者)做结构化评估(Fig. 3C),Discussion 总结其识别出印戒细胞、黏液与髓样形态、炎症浸润和低分化等与文献一致的特征;在 MSIL 患者的三分类示例中,朝 MSIH 的编辑出现腺体结构消失、更实性的生长和更多肿瘤内淋巴细胞,朝稳定方向则恢复腺体、减少黏液(Fig. 4B);UNI2 / CONCH / Virchow2 外部分类器的 MSI 概率都朝目标方向变化(Fig. 4A)。
 - **染色 vs 形态**:108 例测试患者,朝 MSIH 的 Δf 中位 +8.9(IQR 7.2–10.1),φ_morph +7.4、φ_style +1.1;朝 non-MSIH Δf −7.6,φ_morph −6.6、φ_style −0.7;所有患者形态主导(Fig. 5B–C)。
-- **真实感**:4 位评估者盲评 300 张图,合成图被误判为真的比例 41.7%(Results; Fig. S12)。
+- **真实感**:4 位评估者盲评,每人评 300 张图,合成图被误判为真的比例 41.7%(各数据集合计;Results; Fig. S12)。
 - **其他癌种**:肝 HCC vs CCA 线性 AUC 0.90(患者级 0.94),MIL 五折 0.96,Charité 外部(496 例)0.85,α = 0.08 时 100% 翻转(Fig. 6B);肺 LUAD vs LUSC MIL AUC 0.91,CPTAC 外部 0.77,α = 0.06 时 98.8% 翻转(Fig. 7C);乳腺 ILC vs IDC AUC 0.86,CPTAC 外部 0.70,约 97% 翻转,但 top tile 常缺乏典型 IDC 特征(Results §additional tumor types; Fig. S13D)。
 
 ## 创新点
@@ -61,8 +61,8 @@ flowchart LR
 ## 与本研究方向的关系
 作者自己把 MoPaDi 表述为"基于模型的虚拟扰动",可用于湿实验前预筛假设(Discussion)。它在 detect → model → revert 中最接近"revert"的**图像版原型**:把一块肿瘤 tile 沿决策方向推向"正常黏膜",并画出推回后的样子(Fig. 2A)。
 - 我们的理解:MoPaDi 的方向 d 来自**有监督分类器**;如果把 d 换成异常分数(例如到健康参照分布的距离)对 z 的梯度,就能得到"把异常拉回健康"的反事实,这正是虚拟组织在 H&E 上的一个可视化接口。论文本身没有做这一步。
-- 我们的理解(肾脏 Topic 1 / Plan A):(1) 染色–形态分解可以用来区分"染色/中心批次差异"和"真实形态改变",对 95 例活检的 H&E 有直接用处;(2) 作者承认未评估折叠、气泡、扫描噪声等伪影,而且分类器学到的伪影线索可能被反事实保留甚至强化——这正是异常检测基准应专门覆盖的失败模式;(3) 用多个独立基础模型分类器检查反事实方向是否一致,可以借来检验"异常是否与编码器无关"。
-- 我们的理解(Topic 2 / Plan B):论文反复区分"分类器认为 X"与"组织确实是 X",这正是 agent 在引用图像证据时需要被核查的一类 claim。
+- 我们的理解(课题 1):(1) 染色–形态分解可以用来区分"染色/中心批次差异"和"真实形态改变",对待测肾活检的 H&E 有直接用处;(2) 作者承认未评估折叠、气泡、扫描噪声等伪影,而且分类器学到的伪影线索可能被反事实保留甚至强化——这正是异常检测基准应专门覆盖的失败模式;(3) 用多个独立基础模型分类器检查反事实方向是否一致,可以借来检验"异常是否与编码器无关"。
+- 我们的理解(课题 2):论文反复区分"分类器认为 X"与"组织确实是 X",这正是 agent 在引用图像证据时需要被核查的一类 claim。
 - 相关性 medium:癌症 H&E、tile 级,不涉及肾脏和组学。
 
 ## 可复用资产
@@ -81,7 +81,7 @@ flowchart LR
 
 ## 引用
 ```bibtex
-@article{Zigutyte_2026, title={Counterfactual Diffusion Models Provide Interpretable Explanations of Artificial Intelligence Models in Pathology}, volume={86}, ISSN={1538-7445}, url={http://dx.doi.org/10.1158/0008-5472.CAN-25-5645}, DOI={10.1158/0008-5472.can-25-5645}, number={17}, journal={Cancer Research}, publisher={American Association for Cancer Research (AACR)}, author={Žigutytė, Laura and Lenz, Tim and Han, Tianyu and Reitsam, Nic G. and Foersch, Sebastian and Hewitt, Katherine J. and Jesinghaus, Moritz and Carrero, Zunamys I. and Unger, Michaela and Meneghetti, Asier Rabasco and Lurje, Georg and Lurje, Isabella and Herda, Sophia and Pein, Justus and Uluk, Deniz and Schneider, Carolin V. and Pearson, Alexander T. and Truhn, Daniel and Kather, Jakob Nikolas}, year={2026}, month=June, pages={4414–4433} }
+@article{Zigutyte_2026, title={Counterfactual Diffusion Models Provide Interpretable Explanations of Artificial Intelligence Models in Pathology}, volume={86}, ISSN={1538-7445}, url={http://dx.doi.org/10.1158/0008-5472.CAN-25-5645}, DOI={10.1158/0008-5472.CAN-25-5645}, number={17}, journal={Cancer Research}, publisher={American Association for Cancer Research (AACR)}, author={Žigutytė, Laura and Lenz, Tim and Han, Tianyu and Reitsam, Nic G. and Foersch, Sebastian and Hewitt, Katherine J. and Jesinghaus, Moritz and Carrero, Zunamys I. and Unger, Michaela and Meneghetti, Asier Rabasco and Lurje, Georg and Lurje, Isabella and Herda, Sophia and Pein, Justus and Uluk, Deniz and Schneider, Carolin V. and Pearson, Alexander T. and Truhn, Daniel and Kather, Jakob Nikolas}, year={2026}, month=jun, pages={4414–4433} }
 ```
 
 

@@ -28,7 +28,7 @@
 
 ## 标签
 
-污染中位数：单核 35% / 17%，单细胞 11% / 3%。每个细胞的污染 UMI 绝对数量差不多，所以注入应按固定数量加，不按比例。
+污染中位数：单核 35% / 17%，单细胞 11% / 3%。每个细胞的污染 UMI 数和测序深度只有弱相关。我们的理解：所以注入的量不该随深度按比例放大。
 
 ## 已知问题
 
@@ -43,13 +43,13 @@
 | `RDS` | 每个 zip 里：每个细胞的污染比例 | 70–310 KB | — |
 | `H5` | GEO GSE218853：同样的 raw / filtered h5 | 1.1 GB | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE218853) |
 
-最小的 rep3.zip 只有 0.31 GB，可以先下来看格式。
+rep3.zip 只有 0.31 GB（和 nuc3.zip 差不多，是最小的之一），可以先下来看格式。
 
 ## 怎么准备
 
 *2026-10-26 实测，只用 Python（anndata、scanpy、h5py、scipy、pandas、rdata），不需要 R。数据不要放进这个仓库。*
 
-1. Zenodo 每个 zip（最小的 rep3.zip 0.31 GB）里有 `raw_feature_bc_matrix.h5`、`filtered_feature_bc_matrix.h5`、`perCell_noMito_CAST_binom.RDS`，以及两个 Seurat 对象。
+1. Zenodo 每个 zip（rep3.zip 0.31 GB，是最小的之一）里有 `raw_feature_bc_matrix.h5`、`filtered_feature_bc_matrix.h5`、`perCell_noMito_CAST_binom.RDS`，以及两个 Seurat 对象。
 2. rep3：filtered 28,692 基因 × 6,546 细胞（mm10）；raw 有 6,794,880 个条形码，含空液滴（估计 ambient 时用它）。
 3. 污染比例表**只有 CAST 品系的细胞**（rep3 有 2,096 个）：`contPerCell_binom`，带 `CI_low` / `CI_high` 和用到的 SNP 数。
 

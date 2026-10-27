@@ -10,6 +10,7 @@ tags:
 
 ## Papers / 论文
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — Accelerating scientific discovery with Co-Scientist
+- [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — Empowering biomedical evidence exploration and synthesis with deep knowledge graph research
 - [[_maps/papers/hypogen-llm-colm-2024|LLM hypothesis generators]] — Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation
 - [[_maps/papers/llm-judge-healthcare-arxiv-2026|LLM-as-judge in healthcare]] — LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applications, Methods, and Human Alignment
 - [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development

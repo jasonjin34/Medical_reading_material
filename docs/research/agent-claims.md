@@ -39,7 +39,7 @@ Finish [Onboarding](../onboarding/index.md) first, then:
 1. [BixBench](../papers/bixbench-arxiv-2025/index.md): a benchmark for bioinformatics agents
 2. [CellVoyager](../papers/cellvoyager-natmethods-2026/index.md): an agent that analyses single-cell data on its own
 3. [PaperQA2](../papers/paperqa2-arxiv-2024/index.md): answering questions from the literature with citations
-4. [Citation faithfulness](../papers/citation-faithfulness-arxiv-2026/index.md): whether citations really support the claims
+4. [Citation faithfulness](../papers/citation-faithfulness-arxiv-2026/index.md): how reliable automatic checks of citation support are
 5. [Clinical agent reruns](../papers/clinical-agent-reruns-arxiv-2026/index.md): how stable results are when the same task is rerun
 
 After that, see the must-reads in the "Topic 2" view of the [knowledge map](../knowledge-map.md), and the "Bridge" view for papers shared with other topics.

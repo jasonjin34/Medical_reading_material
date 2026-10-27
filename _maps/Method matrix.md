@@ -53,7 +53,7 @@ Rows are anomaly-detection paradigms, columns go from general data to kidney omi
 - density × kidney: Density of healthy kidney cell states per cell type. 按细胞类型估计健康肾脏细胞状态的密度。
 - conformal × kidney: Calibrated per-cell anomaly p-values with FDR control. 给每个细胞校准过的异常 p 值，并控制 FDR。
 - crossmodal × kidney: Core idea of Topic 1: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease. 课题 1 的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。
-- artifact × kidney: Artifact audit of the 95-biopsy Xenium + snRNA data. 对 95 例活检的 Xenium + snRNA 数据做伪影审计。
+- artifact × kidney: Artifact audit of public kidney snRNA + spatial data. 对公开的肾脏 snRNA + 空间数据做伪影审计。
 - bench × kidney: KidneyAnomalyBench: expert-validated anomalies. KidneyAnomalyBench：经专家验证的异常。
 
 ## Method lineage / 方法迁移

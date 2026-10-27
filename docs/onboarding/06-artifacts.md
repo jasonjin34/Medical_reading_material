@@ -57,48 +57,48 @@ In practice you first see a **pattern** in a row, not its cause. Below, the patt
 
 ### Pattern A · Few genes, high mitochondrial fraction
 
-- **Non-disease reading**: a low-quality cell or an empty droplet. The cell broke and lost cytoplasmic RNA, so `nCount_RNA` and `nFeature_RNA` are low; what stays is mostly mitochondrial RNA, so `percent.mt` is high.
-- **Biology reading**: injured, degenerating cells look the same. In Lake 2023's single-nucleus data, degenerative nuclei have exactly fewer genes and more mitochondrial RNA (see the known issues on the [Lake 2023 dataset page](../datasets/lake-2023.md)).
+- **Non-disease reading**: a low-quality cell or an empty droplet. A whole cell whose membrane broke loses its cytoplasmic RNA, so `nCount_RNA` and `nFeature_RNA` are low; what stays is mostly the RNA inside mitochondria, so `percent.mt` is high [1]. Nuclei differ: mitochondrial transcripts are not expressed in the nucleus (module 2); Lake 2019 reads those found in single-nucleus data as "indicative of mitochondrial association with the nuclear membranes", with levels that also reflect tissue quality during processing [10]. Single-nucleus `percent.mt` is therefore much lower to begin with (median 0.81% in Lake 2023's single-nucleus data vs 23% in its single-cell data [3]). Lake 2019 also found more mitochondrial transcripts in TAL and S3 proximal tubule, regions with high metabolic demand and prone to ischaemia, "consistent with the nephrectomy procedure-related warm ischemia" [10].
+- **Biology reading**: injured, degenerating cells can look the same. In Lake 2023's single-nucleus data, degenerative nuclei do have fewer genes and more mitochondrial RNA (see the known issues on the [Lake 2023 dataset page](../datasets/lake-2023.md)). But this is not independent evidence: Lake 2023 first flagged as possible altered states the clusters with "low genes detected, a high number of mitochondrial transcripts, a high number of endoplasmic-reticulum-associated transcripts, upregulation of injury markers… or enrichment in AKI or CKD samples" [2]. Part of "few genes, high mito" was built into the labels.
 - **What tells them apart**: totals alone cannot. Check whether injury-related genes go up, rather than everything going down.
 
 ### Pattern B · Markers of two cell types in one row
 
 For example, one nucleus with both PT's `LRP2` and TAL's `UMOD`.
 
-- **Non-disease reading**: a doublet (a PT and a TAL nucleus in one droplet), or ambient RNA (a TAL nucleus picked up PT RNA from the soup, which is dominated by the most common cell type). Single-nucleus data is usually more contaminated than single-cell data; see [Janssen 2023](../datasets/janssen-2023.md).
+- **Non-disease reading**: a doublet (a PT and a TAL nucleus in one droplet), or ambient RNA (a TAL nucleus picked up PT RNA from the soup). The soup's make-up varies from experiment to experiment and can be estimated from empty droplets [4]. In one mouse-kidney study, single-nucleus data from frozen tissue was far more contaminated than single-cell data from fresh tissue; see [Janssen 2023](../datasets/janssen-2023.md). There, nucleus and frozen tissue go together, so it does not show that single-nucleus data is always dirtier.
 - **Biology reading**: real transitioning or repairing cells express genes of both states.
-- **What tells them apart**: expression alone hardly can. The most reliable signal is **genotype**: when several people's samples are pooled, only a droplet carrying two people's DNA differences (SNPs) is a true doublet.
+- **What tells them apart**: expression alone hardly can. **Genotype** gives part of the answer: when several people's samples are pooled, a droplet carrying two people's DNA differences (SNPs) is certainly a doublet [5]. Two cells from the same person in one droplet are invisible to genotype: with N people pooled, the detectable share of doublets is about 1 − 1/N [5], so with 4 people in equal shares about a quarter are missed. Genotype gives a lower bound on doublets, not the full list.
 
-Hoeft 2024 did exactly this: nuclei from 4 patients were pooled, then assigned to people by SNPs. The right half of the figure shows the result: in the cluster that expression called "Mixed/Doublets", most nuclei come from a single person, and true doublets (dark grey) are few. **Judging artifacts from expression alone is easy to get wrong.** The numbers are on the [Hoeft 2024 dataset page](../datasets/hoeft-2024.md).
+Hoeft 2024 did exactly this: nuclei from 4 patients were pooled, then assigned to people by SNPs [6]. The right half of the figure shows the result: in the cluster that expression called "Mixed/Doublets", most nuclei are assigned to a single person by SNPs, and genotype-called doublets (dark grey) are few. Same-person doublets are invisible to genotype, so this does not prove the cluster is free of doublets; but it shows that many nuclei called "mixed" by expression are not a mix of two people. Our reading: judging artifacts from expression alone is easy to get wrong. The numbers are on the [Hoeft 2024 dataset page](../datasets/hoeft-2024.md).
 
 ![Hoeft 2024 Fig. 2 i–j: expression clusters vs genotype-based donor assignment / 表达聚类和按基因型分人的对照](img/hoeft2024_fig2ij.jpg)
 
-Figure: Hoeft 2024 Fig. 2 i–j (kidney part, cropped). Left: expression clusters of the pooled kidney sample; right: share of each patient, doublets (dark grey) and unassigned nuclei (light grey) per cluster; the left-hand SoupLadle group is enough. Hoeft K et al., Nat Commun 2024, CC BY 4.0.
+Figure: Hoeft 2024 Fig. 2 i–j (kidney part, cropped) [6]. Left: a schematic of the pooled kidney UMAP coloured by expression cluster and by three SNP-based donor assignments; right: share of each patient, doublets (dark grey) and unassigned nuclei (light grey) per cluster; the left-hand SoupLadle group is enough. Hoeft K et al., Nat Commun 2024, CC BY 4.0.
 
 ### Pattern C · Very many RNA molecules
 
 - **Non-disease reading**: a doublet, two cells' RNA added together.
-- **Biology reading**: polyploid or multinucleated cells. After injury, some tubular cells carry extra DNA copies and some podocytes become binucleated, so they have more RNA.
-- **What tells them apart**: genotype again; also the cell type, since such cells occur mainly in tubules and podocytes after injury.
+- **Biology reading**: polyploid or multinucleated cells. After acute injury, some tubular cells copy their DNA without dividing and become polyploid (mouse experiments, also seen in biopsies of patients with CKD after AKI) [7]; podocytes in diseased glomeruli can become binucleated [8]. More DNA can mean more RNA. Our reading: binucleation matters mainly for single-cell data; in single-nucleus data the two nuclei would normally be measured separately.
+- **What tells them apart**: genotype again (it only sees two-person doublets); also the cell type, since such cells occur mainly in tubules and podocytes after injury.
 
 ### Pattern D · Stress genes up
 
-- **Non-disease reading**: dissociation stress. Digestion at 37 °C switches on `FOS`, `JUN` and heat-shock genes; fragile cells (podocytes, for example) are also largely lost during digestion.
-- **Biology reading**: tissue injury, or ischaemia during collection (module 4), switches on the same family of genes. Lake 2023's degenerative state includes `FOS` / `JUN`; healthy donors carry many altered cells too, which the authors suggest may partly come from procurement ischaemia or normal ageing.
-- **What tells them apart**: a control experiment that changes only the handling. The same mouse kidney digested cold on ice has far lower stress genes; see [Denisenko 2020](../datasets/denisenko-2020.md). Similar stress clusters have been seen in human kidney; see [Lake 2019](../datasets/lake-2019.md).
+- **Non-disease reading**: dissociation stress. Digestion at 37 °C switches on `Fos`, `Jun` and heat-shock genes; fragile cells (podocytes, for example) are also largely lost during digestion (mouse kidney) [9].
+- **Biology reading**: tissue injury, or ischaemia during collection (module 4), can switch on the same family of genes. Lake 2023's degenerative states share a FOS/JUN signalling signature; healthy donors carry many altered cells too, which the authors suggest might arise from ischaemic stress during sample acquisition or normal ageing [2].
+- **What tells them apart**: a control experiment that changes only the handling. Kidneys from littermate mice digested cold on ice show far lower stress genes [9]; see [Denisenko 2020](../datasets/denisenko-2020.md). A similar stress signal has been seen in human kidney [10]; see [Lake 2019](../datasets/lake-2019.md).
 
 ### Pattern E · One cell type splits by batch
 
 - **Non-disease reading**: a batch effect; each `library` or assay is shifted on its own.
 - **Biology reading**: if patients and healthy donors happened to be run in separate batches, "batch" and "disease" are mixed up and cannot be told apart.
-- **What tells them apart**: the experimental design, measuring the same tissue with several assays or in several batches. [mBDRC 2026](../datasets/mbdrc-2026.md) did this with healthy tissue and three assays: the assay made a bigger difference than the person did.
+- **What tells them apart**: the experimental design, measuring the same person's tissue with several assays or in several batches. [mBDRC 2026](../datasets/mbdrc-2026.md) measured tissue from the same healthy donors with different assays (not every donor with every assay): comparing single-cell with single-nucleus RNA, the assay explained much more of the expression variance than the donor did [11].
 
 ## Step 3 · Summary
 
 | Pattern | Non-disease reading | Biology reading | What tells them apart |
 |---|---|---|---|
 | A · few genes, high `percent.mt` | low-quality cell, empty droplet | injured, degenerating cell | injury genes up, not just counts down |
-| B · markers of two cell types | doublet, ambient RNA / doublet、ambient | transitioning, repairing cell | genotype when donors are pooled |
+| B · markers of two cell types | doublet, ambient RNA / doublet、ambient | transitioning, repairing cell | genotype when donors are pooled (two-person doublets only) |
 | C · very many RNA molecules | doublet | polyploid, binucleated cell | genotype; cell type |
 | D · stress genes up | dissociation stress | injury, ischaemia | same tissue, cold vs warm digestion |
 | E · one cell type splits by batch | batch effect | disease, if confounded with batch | same tissue, several assays or batches |
@@ -111,9 +111,9 @@ Most analysis pipelines start with **quality control** (QC), using the three col
 
 - `nFeature_RNA` too low or `percent.mt` too high → removed (pattern A), **and injured cells go with them**;
 - `nCount_RNA` too high, or a high doublet-tool score → removed (patterns B and C), **and polyploid or transitioning cells may go too**;
-- a tool estimates and subtracts the ambient counts (pattern B).
+- a tool estimates and subtracts the ambient counts (pattern B) [4].
 
-There are no universal thresholds; they differ by dataset and assay.
+There are no universal thresholds; they differ by dataset and assay, and a common recommendation is to keep them as permissive as possible so as not to remove real cell populations [1]. Lake 2023 itself used different thresholds for its single-nucleus and single-cell data [2].
 
 !!! warning "For our problem, QC is part of the question"
     Standard pipelines treat QC as cleaning: remove and move on. But every filtering rule above may also remove the diseased cells we most want to find. So we cannot assume that data after QC is clean: telling non-disease changes from real disease is exactly the problem we work on (module 8).
@@ -121,13 +121,27 @@ There are no universal thresholds; they differ by dataset and assay.
 ## Self-check
 
 ??? question "1. A nucleus has both PT's `LRP2` and TAL's `UMOD`. What could it be, and how would you tell?"
-    Artifacts: a doublet or ambient RNA. Biology: a real transitioning cell. Expression alone can hardly tell; if donors were pooled, genotypes show whether it is a doublet.
+    Artifacts: a doublet or ambient RNA. Biology: a real transitioning cell. Expression alone can hardly tell; if donors were pooled, genotypes reveal two-person doublets, but not doublets of two cells from the same person.
 
 ??? question "2. Why can't we simply apply standard QC thresholds and then run anomaly detection?"
-    Injured, degenerating cells look like low-quality cells (fewer genes, more mitochondrial RNA), and polyploid cells after injury look like doublets. A hard threshold removes the diseased cells we want to find.
+    Injured, degenerating cells look like low-quality cells (fewer genes, more mitochondrial RNA; in Lake 2023 this was even one of the criteria for calling a state altered), and polyploid cells after injury look like doublets. A hard threshold removes the diseased cells we want to find.
 
 ??? question "3. Both dissociation stress and tissue injury raise `FOS`. What data helps you tell them apart?"
-    A controlled experiment that changes only the handling, for example the same kidney digested at 37 °C and on ice (Denisenko 2020).
+    A controlled experiment that changes only the handling, for example kidneys from littermate mice digested at 37 °C and on ice (Denisenko 2020).
+
+## References
+
+1. Luecken MD, Theis FJ. Current best practices in single-cell RNA-seq analysis: a tutorial. *Mol Syst Biol* 2019;15:e8746. [doi:10.15252/msb.20188746](https://doi.org/10.15252/msb.20188746) — section "Quality control" ("cytoplasmic mRNA has leaked out through a broken membrane, and thus, only mRNA located in the mitochondria is still conserved"; thresholds "as permissive as possible"). See also Ilicic T, et al. Classification of low quality cells from single-cell RNA-seq data. *Genome Biol* 2016;17:29, [doi:10.1186/s13059-016-0888-1](https://doi.org/10.1186/s13059-016-0888-1).
+2. Lake BB, Menon R, Winfree S, et al. An atlas of healthy and injured cell states and niches in the human kidney. *Nature* 2023;619:585–594. [doi:10.1038/s41586-023-05769-3](https://doi.org/10.1038/s41586-023-05769-3) — Methods "Clustering snCv3" (altered-state criteria, quoted above); Methods "Quality control of sequencing data" (per-assay thresholds); Results ("common expression and regulatory signature across cell types associated with FOS/JUN signalling"; "in reference tissues in which they might arise from ischaemic stress during sample acquisition or normal ageing"). Deep-read: [Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md).
+3. GEO GSE183277 (single-nucleus) and GSE183276 (single-cell) metadata tables of Lake 2023 ([GEO](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE183nnn/)) — median `percent.mt`, counted by us.
+4. Young MD, Behjati S. SoupX removes ambient RNA contamination from droplet-based single-cell RNA sequencing data. *GigaScience* 2020;9:giaa151. [doi:10.1093/gigascience/giaa151](https://doi.org/10.1093/gigascience/giaa151) — abstract ("ubiquitous, with experiment-specific variations in composition and magnitude"); Results ("Estimate the ambient mRNA expression profile from empty droplets").
+5. Kang HM, Subramaniam M, Targ S, et al. Multiplexed droplet single-cell RNA-sequencing using natural genetic variation. *Nat Biotechnol* 2018;36:89–94. [doi:10.1038/nbt.4042](https://doi.org/10.1038/nbt.4042) — Results ("the probability that a doublet contains cells from different individuals is very high (1 – 1/N…)").
+6. Hoeft K, Bleckwehl T, Schumacher D, et al. Label-free single-cell RNA multiplexing leveraging genetic variability. *Nat Commun* 2024;15:10612. [doi:10.1038/s41467-024-54270-6](https://doi.org/10.1038/s41467-024-54270-6) (CC BY 4.0) — Fig. 2 i–j and legend ("i Conceptual cartoon showing UMAP representations of kidney nuclei…"). Deep-read: [Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md); data facts: [Hoeft 2024 dataset page](../datasets/hoeft-2024.md).
+7. Lazzeri E, Angelotti ML, Peired A, et al. Endocycle-related tubular cell hypertrophy and progenitor proliferation recover renal function after acute kidney injury. *Nat Commun* 2018;9:1344. [doi:10.1038/s41467-018-03753-4](https://doi.org/10.1038/s41467-018-03753-4) — Results (polyploid ≥4C tubular cells after IRI in mice; "Endocycle is detected in kidneys of patients with CKD after AKI").
+8. Liapis H, Romagnani P, Anders HJ. New insights into the pathology of podocyte loss: mitotic catastrophe. *Am J Pathol* 2013;183:1364–1374. [doi:10.1016/j.ajpath.2013.06.033](https://doi.org/10.1016/j.ajpath.2013.06.033) — Table 1 (mitotic catastrophe: "Binucleation, micronuclei" in human glomerular disease).
+9. Denisenko E, Guo BB, Jones M, et al. Systematic assessment of tissue dissociation and storage biases in single-cell and single-nucleus RNA-seq workflows. *Genome Biol* 2020;21:130. [doi:10.1186/s13059-020-02048-6](https://doi.org/10.1186/s13059-020-02048-6) — mouse kidney, littermates; Results ("immediate-early genes Fosb, Fos, Jun, Junb, Atf3, and Egr1 and heat shock proteins Hspa1a and Hspa1b"; "only three podocytes were detected in warm-dissociated samples… compared to 330… in the cold-dissociated samples"). Deep-read: [Denisenko 2020](../papers/denisenko-dissociation-bias-genomebiol-2020/index.md).
+10. Lake BB, Chen S, Hoshi M, et al. A single-nucleus RNA-sequencing pipeline to decipher the molecular anatomy and pathophysiology of human kidneys. *Nat Commun* 2019;10:2832. [doi:10.1038/s41467-019-10861-2](https://doi.org/10.1038/s41467-019-10861-2) — Results (mitochondrial transcripts "not expressed in nuclei"; "fewest MTs and stress-induced artifacts in cryoR samples compared to… fresh dissociated samples"; MT enrichment in TAL and S3 PT "consistent with the nephrectomy procedure-related warm ischemia"). Deep-read: [Lake 2019](../papers/lake-snrna-pipeline-natcommun-2019/index.md).
+11. Acera-Mateos M, et al. *Genome Biol* 2026;27:64. [doi:10.1186/s13059-026-04002-4](https://doi.org/10.1186/s13059-026-04002-4) — Results (variance explained by cell type, donor and assay; 3′ scRNA-seq vs snRNA-seq, 5 donors). Deep-read: [mBDRC 2026](../papers/kidney-multimodal-genomebiol-2026/index.md); design and numbers: [mBDRC 2026 dataset page](../datasets/mbdrc-2026.md).
 
 ## Terms in this module
 
@@ -142,6 +156,6 @@ There are no universal thresholds; they differ by dataset and assay.
 | [Batch effect](glossary.md#batch-effect) | 批次效应 | Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected. |
 | [Confounder (confounding)](glossary.md#confounder) | 混杂因素 | A factor that varies together with the label, so a model cannot tell which one it learned; for example, patients and healthy donors measured in separate batches confound batch with disease. |
 | [Technical dropout (false zero)](glossary.md#technical-dropout) | 技术性丢失(假零) | A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once. |
-| [Mitochondrial fraction (percent.mt)](glossary.md#mitochondrial-fraction) | 线粒体比例 | The share of a cell's RNA from mitochondrial genes; a standard QC metric (high = stressed or dying cell). Naturally higher in whole cells than in nuclei. |
+| [Mitochondrial fraction (percent.mt)](glossary.md#mitochondrial-fraction) | 线粒体比例 | The share of a cell's RNA from mitochondrial genes; a standard QC metric. In whole cells a high value suggests a broken or dying cell; nuclei contain no mitochondrial transcripts of their own, so values are naturally much lower, and a high value reflects mitochondria stuck to the nucleus or tissue handling. |
 | [Quality control (QC)](glossary.md#quality-control) | 质控（QC） | The first step of most single-cell analyses: rows with too few genes, too high a mitochondrial fraction or too many RNA molecules are removed and ambient counts subtracted; thresholds differ by dataset and can also remove injured cells. |
 | [Polyploidy / multinucleation](glossary.md#polyploidy) | 多倍体 / 多核 | Cells with extra DNA copies or more than one nucleus; after injury some tubular cells become polyploid and some podocytes binucleated. In single-cell data such cells can look like doublets. |

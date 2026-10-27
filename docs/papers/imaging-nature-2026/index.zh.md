@@ -34,7 +34,7 @@
 flowchart LR
   A["Swedish ECGs<br/>linked to death certificates"] --> B["64-layer ResNet<br/>multitask SCD risk"]
   B --> C["Risk score<br/>top 2.2% = high risk"]
-  C --> D["Lockbox + US + Taiwan<br/>zero-shot validation"]
+  C --> D["Lockbox test, Sweden<br/>+ zero-shot US and Taiwan"]
   E["Single beats"] --> F["VAE<br/>512-d latent"]
   B -.-> G["Gradient steps in latent<br/>toward higher risk"]
   F --> G
@@ -43,7 +43,7 @@ flowchart LR
 ```
 
 ## 数据
-**瑞典**:Halland 地区 2010–2016 年 441,614 份 ECG、187,677 名患者(Reporting Summary)。lockbox 共 179,060 份 ECG / 51,481 名患者;主分析(80 岁以下、有一年随访)119,541 份 ECG / 35,885 名患者,其中无除颤器者 113,072 份 / 35,417 名(Results, Methods, Table 1)。lockbox 中一年猝死率 0.6%;猝死者中 43.9% 生前测过 LVEF,其中 36.4% 为 LVEF ≤35%;41.2% 的猝死者在 ECG 时没有明显危险因素(Methods)。**美国**:Sharp HealthCare(Dandelion Health),251,858 份 ECG、139,613 名 80 岁以下患者,500 Hz(83.3%)或 250 Hz(16.7%,插值到 500 Hz),GE MUSE 系统——与瑞典 Philips 系统不同厂家(Methods)。**台湾**:台大医院急诊心脏骤停登记(Nightingale Open Science),2011–2019 年,257 例骤停 + 4,011 名对照(Methods)。
+**瑞典**:Halland 地区 2010–2016 年 441,614 份 ECG、187,677 名患者(Reporting Summary)。lockbox 共 179,060 份 ECG / 51,481 名患者;主分析(80 岁以下、有一年随访)119,541 份 ECG / 35,885 名患者,其中无除颤器者 113,072 份 / 35,417 名(Results, Methods, Table 1)。lockbox 中一年猝死率 0.6%;猝死者中 43.9% 生前测过 LVEF,其中 36.4% 为 LVEF ≤35%;41.2% 的猝死者在 ECG 时没有明显危险因素(Methods)。**美国**:Sharp HealthCare(Dandelion Health),251,858 份 ECG、139,613 名 80 岁以下患者,500 Hz(83.3%)或 250 Hz(16.7%,插值到 500 Hz),GE MUSE 系统——与瑞典 Philips 系统不同厂家(Methods)。**台湾**:台大医院急诊心脏骤停登记(Nightingale Open Science),2011–2019 年,257 例骤停 + 4,011 名对照(Methods)。**论文内部不一致**:美国患者数在正文和 Methods 中为 139,613,在 Reporting Summary 中为「251,858 ECGs from 151,015 unique patients」。另外,台湾在 Reporting Summary 中只计入 96 例心律失常性骤停(「4,107 ECGs (including 96 future arrest cases plus 4,011 controls)」),Methods 的 257 例是全部骤停(其中 96 例为心律失常性),两者口径不同、并不矛盾。本笔记采用正文数值。
 
 ## 主要结果
 
@@ -68,7 +68,7 @@ flowchart LR
 - 作者:死亡证明可能把非心律失常死亡误标为心律失常;三个数据集的设计和结局定义不同,影响指标解读;台湾为病例对照设计,无法计算 PPV(Results)。
 - 作者:生成模型与形变结果来自最初 30%/30% 数据而非 lockbox,用于产生假设而非评估性能;纤维化机制是推测性的(Methods, Results)。
 - 作者利益:Z.O. 与 S.M. 是美国验证数据来源 Dandelion Health 的联合创始人并持股(数据免费提供,公司未参与分析)(Competing interests)。
-- 我们的理解:形变只从 56 个心跳出发,"新特征"是否普遍成立依赖后续回归检验;在台湾样本中不显著。
+- 我们的理解:形变只从 56 个心跳出发(Methods)。作者称这些变化在低/高风险形变的中位心跳以及低/高风险真实心跳中都普遍存在(Supplementary Information V.E,我们未读);量化后的新特征在瑞典、美国显著,在台湾方向相同但不显著。
 
 ## 与本研究方向的关系
 我们的理解:严格说这是**有监督风险预测 + 生成式解释**,不是无监督异常检测;但它示范了 detect 之后最难的一步——**把"模型觉得异常"变成"人能说清楚、能独立检验的新特征"**。对课题 1 有三点可借鉴。(1) **反事实形变代替显著图**:在 VAE 潜空间沿分数梯度移动、解码,看同一样本"变得更异常"时改变了什么。在肾脏上可以把异常分换成预测器,在 H&E patch 或单细胞表达的生成模型潜空间里做同样的事,得到"同一个小管/细胞更异常时长什么样",交给病理专家判断是真病变还是伪影。(2) **把发现量化回去并在外部数据检验**:作者把形变中看到的 aVL 拖尾写成一阶/二阶差分特征,控制已知指标后在独立数据中回归——对应 KidneyAnomalyBench 中"专家确认后再做独立验证"的环节。(3) **lockbox 与"安慰剂"对照**:事先封存测试集、用不该被预测的结局(非心律失常骤停)检验特异性,这两种做法可以直接用于我们的异常检测评估,例如检验异常分是否也会被已知技术伪影推高。与 model / revert 的关系:纤维化假设是"从发现到机制"的一步,但没有分子或扰动层面的内容。
@@ -82,7 +82,7 @@ flowchart LR
 
 ## 待读
 - Supplementary Information V.A–B:VAE 与形变的细节(损失、步长、是否约束在数据流形上)。
-- 同组更早的工作(Nightingale Open Science;Mullainathan & Obermeyer 关于"用机器学习产生假设"的论述)。
+- 同组更早的工作:Nightingale Open Science(Mullainathan & Obermeyer, Nat. Med. 2022,本文 ref 55)。
 - 在 H&E 或单细胞数据上做"分数引导的潜空间反事实"的已有方法(如扩散模型反事实),对照本文思路。
 
 ## 图表
@@ -118,7 +118,7 @@ _Source: https://www.nature.com/articles/s41586-026-10674-6  ·  Nature 655 (202
 
 ## 引用
 ```bibtex
-@article{Obermeyer_2026, title={An ECG biomarker for sudden cardiac death discovered with deep learning}, volume={655}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-026-10674-6}, DOI={10.1038/s41586-026-10674-6}, number={8121}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Obermeyer, Ziad and Schubert, Alexander and Ross, James and Mullainathan, Sendhil and Lingman, Markus}, year={2026}, month=June, pages={210–218} }
+@article{Obermeyer_2026, title={An ECG biomarker for sudden cardiac death discovered with deep learning}, volume={655}, ISSN={1476-4687}, url={http://dx.doi.org/10.1038/s41586-026-10674-6}, DOI={10.1038/s41586-026-10674-6}, number={8121}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Obermeyer, Ziad and Schubert, Alexander and Ross, James and Mullainathan, Sendhil and Lingman, Markus}, year={2026}, month=jun, pages={210–218} }
 ```
 
 

@@ -39,7 +39,7 @@ flowchart LR
 ```
 
 ## Data
-**Pretraining**: ~100M H&E patches (512×512, 20×; TCGA, GTEx, PAIP, PLCO); 1.6M text–image pairs (PathGen-1.6M); 10.8M RNA–image pairs from TCGA bulk RNA-seq linked to matched WSIs; 34 organs (Methods §"Pretraining Datasets"; Fig. 1b). **Evaluation**: 100K HISTAI references for image→image; 100K held-out PathGen-1.6M captions for text→image; SkinCancer, PanNuke, UniToPatho, LC25000, SICAPv2 for few-shot classification; retrieval reported on Book / Twitter / WebPathology (Methods says PathMMU); MOSAIC spatial transcriptomics, 5 cancers (bladder, GBM, DLBCL, mesothelioma, ovarian), 54,033 Visium spots; TCGA lung and brain for FF→FFPE; IHC4BC and HER2Match for IHC; ORION-CRC (41 WSIs, 16 protein markers) for mIF.
+**Pretraining**: ~100M H&E patches (512×512, 20×; TCGA, GTEx, PAIP, PLCO); 1.6M text–image pairs (PathGen-1.6M); 10.8M RNA–image pairs (the abstract, introduction and Results all say "10.8 million RNA–histology / RNA–image pairs"; only the Methods say "10.8 million bulk RNA-seq profiles from TCGA linked to their matched WSIs". Our reading: TCGA has bulk RNA-seq profiles only in the tens of thousands, so the figure counts patch–profile pairs and the Methods sentence is the loose one); 34 organs (Methods §"Pretraining Datasets"; Fig. 1b). **Evaluation**: 100K HISTAI references for image→image; 100K held-out PathGen-1.6M captions for text→image; SkinCancer, PanNuke, UniToPatho, LC25000, SICAPv2 for few-shot classification; retrieval reported on Book / Twitter / WebPathology (Methods says PathMMU); MOSAIC spatial transcriptomics, 5 cancers (bladder, GBM, DLBCL, mesothelioma, ovarian), 54,033 Visium spots; TCGA lung and brain for FF→FFPE; IHC4BC and HER2Match for IHC; ORION-CRC for mIF (Methods: 41 WSIs, 16 protein markers; the Results compare 15 markers, and the paper does not explain the difference).
 
 ## Key results
 - **Image→image**: FID 305.12 vs PixCell 602.45 (−49.4%), FLUX.2 750.30, SD v3.5 1350.80; image similarity 0.63 vs PixCell 0.46 (Results §"Image-to-image"; Fig. 2a).
@@ -93,11 +93,11 @@ _Source: https://arxiv.org/html/2604.03635v1/figs/fig1-overview.png  ·  License
 _Source: https://arxiv.org/html/2604.03635v1/figs/fig2-text2image-image2image.png  ·  License: arXiv (author-posted preprint)_
 
 ![H&E generation from spatial transcriptomics](figures/fig3.png)
-**Fig 3 (paper Fig. 4).** H&E generation from spatial transcriptomics: (a) FID across five cancer types; (b) cell-type composition in synthetic vs. real images (bladder, 14 cell types, Wasserstein distance); (c) Wasserstein-distance comparison between MuPAD and GeneFlow; (d) representative real/synthetic H&E pairs conditioned on matched spatial transcriptomics.
+**Fig 3 (paper Fig. 4; the arXiv HTML file is named fig5-st2image, one off from the printed figure number).** H&E generation from spatial transcriptomics: (a) FID across five cancer types; (b) cell-type composition in synthetic vs. real images (bladder, 14 cell types, Wasserstein distance); (c) Wasserstein-distance comparison between MuPAD and GeneFlow; (d) representative real/synthetic H&E pairs conditioned on matched spatial transcriptomics.
 _Source: https://arxiv.org/html/2604.03635v1/figs/fig5-st2image.png  ·  License: arXiv (author-posted preprint)_
 
 ![Virtual H&E-to-IHC staining](figures/fig4.png)
-**Fig 4 (paper Fig. 5).** Virtual H&E-to-IHC translation and clinical validation: (a) multi-stain virtual IHC examples; (b) FID and KID for distributional fidelity and perceptual quality; (c) clinical utility on IHC4BC predicting ground-truth biomarkers by AUC.
+**Fig 4 (paper Fig. 5; the arXiv HTML file is named fig6-he2ihc).** Virtual H&E-to-IHC translation and clinical validation: (a) multi-stain virtual IHC examples; (b) FID and KID for distributional fidelity and perceptual quality; (c) clinical utility on IHC4BC predicting ground-truth biomarkers by AUC.
 _Source: https://arxiv.org/html/2604.03635v1/figs/fig6-he2ihc.png  ·  License: arXiv (author-posted preprint)_
 
 ### Results
