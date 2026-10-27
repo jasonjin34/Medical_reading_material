@@ -2,70 +2,96 @@
 
 > **Bibkey** `histo-miccai-2025` · **Venue** MICCAI 2025 (2025) · **Category** histopath · **Relevance** medium · **Access** open
 > **Link** <https://papers.miccai.org/miccai-2025/0675-Paper2270.html>
-> `status: complete` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
+> `status: complete` — 基于 MICCAI 2025 论文 PDF 全文 + 代码仓库 README。/ Based on the full MICCAI 2025 PDF plus the code README.
 
 ---
 
 ## 一句话 / One-liner
-<!-- ZH --> AnoPILaD:用病理关键词提示(CONCH 视觉-语言模型选词)引导潜空间扩散模型(Stable Diffusion v1.5 + LoRA)重建"正常样"淋巴结组织,再以重建差异作为异常分数,实现无监督的转移灶检测。
-<!-- EN --> AnoPILaD is a pathology-informed latent diffusion model: a VLM (CONCH) selects normal-tissue keywords that condition an LDM's reconstruction toward normal morphology, and the input-vs-reconstruction discrepancy serves as an unsupervised anomaly score for lymph-node metastasis.
+<!-- ZH --> AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个"正常组织关键词"里挑出最贴切的 5 个作为提示,把输入"重建成正常样子",输入与重建的差异就是异常分;在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。
+<!-- EN --> AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 "normal tissue" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).
+
+## 要点 / Takeaways
+- <!-- ZH --> 属于"重建式"异常检测:正常样本重建得好、转移灶重建得差;创新在于用**描述正常组织的文字**引导重建方向(§2.1–2.2)。 <!-- EN --> Reconstruction-based anomaly detection: normal patches reconstruct well, metastases poorly; the novelty is steering the reconstruction with **text that describes normal tissue** (§2.1–2.2).
+- <!-- ZH --> 在本地胃淋巴结数据(LH)上 patch-AUC 0.9587,比最强基线 MemAE(0.9290)略高;跨到乳腺淋巴结(C16)时差距拉大到约 0.22 AUC(0.8884 vs 0.66)(Table 2)。 <!-- EN --> On the in-house gastric lymph-node data (LH) patch AUC is 0.9587, a little above the best baseline MemAE (0.9290); on breast lymph nodes (C16) the gap widens to ~0.22 AUC (0.8884 vs ~0.66) (Table 2).
+- <!-- ZH --> 切片级分类在跨器官时仍大幅下降:LH 最高 AUC 0.9943,C16 只有 0.6745(Table 3)。 <!-- EN --> Slide-level classification still drops sharply across organs: best AUC 0.9943 on LH but only 0.6745 on C16 (Table 3).
+- <!-- ZH --> 作者强调要评估**分割(定位)**而不仅是分类:AE / MemAE 分类不差,但热图几乎对全片打同样的分(Table 3, Fig. 3)。 <!-- EN --> The authors stress evaluating **segmentation (localisation)**, not only classification: AE / MemAE classify reasonably but give near-uniform scores over a slide (Table 3, Fig. 3).
+- <!-- ZH --> 我们的理解:论文没有"去掉文本提示"或"关键词数量"的消融,所以无法区分收益来自文本引导、LDM 本身还是 SD 预训练。 <!-- EN --> Our reading: there is no ablation removing the text prompt or varying the keyword count, so the gain cannot be split between text guidance, the LDM itself, and SD pretraining.
 
 ## 研究问题 / Problem
-<!-- 这篇论文要解决什么问题?为什么重要? / What problem, and why it matters. -->
-<!-- ZH --> 数字病理中监督式转移灶检测依赖大量标注,而标注稀缺且昂贵。无监督异常检测只用正常(in-distribution)样本训练即可发现偏离正常分布的转移灶,但现有基于 DDPM 的方法(如 AnoDDPM)重建能力不足,对正常/异常分布区分度低,产生大量假阳性。本文要提升无监督重建式异常检测在淋巴结病理上的判别力与跨器官鲁棒性。
-<!-- EN --> Supervised metastasis detection needs exhaustive annotation, which is scarce in digital pathology. Unsupervised reconstruction-based methods (e.g. AnoDDPM) train only on normal tissue but reconstruct poorly, yielding many false positives and weak normal/abnormal separation. The paper aims to sharpen this separation and improve cross-organ robustness.
+<!-- ZH --> 淋巴结转移是重要的预后因素。有监督的转移检测需要大量专家标注,代价高(Introduction)。无监督异常检测只用正常(in-distribution)样本训练,把偏离正常的样本视作 OOD。基于 DDPM 的重建方法已被用于乳腺淋巴结转移检测(文中称 AnoDDPM,ref [17] Linmans et al. 2024),但会产生大量假阳性,说明正常与 OOD 分得不够开(§2.1, Fig. 1)。本文想通过加入病理先验来拉大正常与转移之间的重建差异,并检验跨器官的鲁棒性。
+<!-- EN --> Lymph-node metastasis is a key prognostic factor. Supervised detection needs extensive expert annotation (Introduction). Unsupervised anomaly detection trains only on normal (in-distribution) samples and treats deviations as OOD. A DDPM reconstruction method has been used for breast lymph-node metastasis (called AnoDDPM in the paper, ref [17] Linmans et al. 2024) but produces many false positives, i.e. normal and OOD are not separated well (§2.1, Fig. 1). The paper adds pathology priors to widen the reconstruction gap between normal tissue and metastasis, and tests robustness across organs.
 
 ## 方法 / Method
-<!-- 核心方法、模型、数据流。关键公式/架构。 / Core method, model, data pipeline, key architecture. -->
-<!-- ZH --> 核心是"病理知识提示 + 潜空间扩散重建"。(1) 骨干为 Stable Diffusion v1.5 的 LDM,用 LoRA(秩=4,lr=1e-5,batch=64)仅在正常 patch 上微调,学习正常组织的潜空间表示;训练目标为条件去噪损失 `L = E‖ε − ε_θ(z_t, t, c)‖²`,c 为文本条件。(2) 权重提示生成:从文献收集 74 个描述正常淋巴结细胞/微环境的病理关键词(经病理医师审核);推理时用 CONCH(在 117 万病理图文对上预训练的 VLM)的图像/文本编码器算余弦相似度,取 top-5 关键词,相似度除以中位数归一化得权重,经 Compel 库转成加权文本嵌入送入 LDM。(3) 异常评分沿用 AnoDDPM:对输入部分加噪到时间步 t(选定 t=674),在文本条件引导下反向去噪重建 ẑ₀ ∼ p_θ(z₀|z_{1:t}, c),输入与重建的差异即异常分数——正常样本差异小、转移样本差异大。推理用 PLMS 采样、100 步。
-<!-- EN --> AnoPILaD fine-tunes a Stable Diffusion v1.5 LDM with LoRA (rank 4, lr 1e-5, batch 64) on normal patches only, with a text-conditioned denoising loss. A "weighted prompt" module takes 74 pathologist-validated normal-lymph-node keywords, uses CONCH (VLM pretrained on 1.17M pathology image-caption pairs) to pick the top-5 by cosine similarity, normalizes scores by their median for weighting, and encodes them via Compel into the LDM condition. Following AnoDDPM, an input is partially noised to timestep t (674 here) and reverse-denoised under the prompt to a "normal-like" reconstruction; input-vs-reconstruction discrepancy is the anomaly score. Inference uses a PLMS sampler with 100 steps.
+<!-- ZH --> 1. **输入**:WSI 在 20× 下切成 256×256 像素图块(§3.1)。
+<!-- ZH --> 2. **关键词池**:从文献中收集 74 个描述正常淋巴结细胞和微环境的病理关键词,由一位资深病理医生审核(§2.2)。
+<!-- ZH --> 3. **加权提示**:用 CONCH(在 117 万对病理图像-说明文字上预训练的视觉-语言模型)分别编码图块和每个关键词,算余弦相似度,取前 5 个关键词;各自的相似度除以中位数作为权重,按 Compel 库的做法生成加权文本嵌入 c(§2.2, Fig. 2)。
+<!-- ZH --> 4. **训练**:Stable Diffusion v1.5 潜空间扩散模型,只在正常训练图块上用 LoRA(秩 4)微调,Adam,学习率 1e-5,batch 64;目标是条件去噪损失 L = E‖ε − ε_θ(z_t, t, c)‖²;以 FID 最低的 400k 步 checkpoint 用于测试(§2.1 式 4, §3.2)。
+<!-- ZH --> 5. **重建与打分**:沿用 AnoDDPM 流程:把输入加噪到时间步 t = 674(8 个候选中按 LH 测试集上的 WSI 分类效果选出),再在文本条件下反向去噪得到重建 ẑ₀;输入与重建的差异 = 异常分。推理用 PLMS 采样器、100 步(§2.1, §3.2)。
+<!-- ZH --> 6. **评估**:对每个测试集内所有图块的异常分做 z-score;patch 级算 AUC / AUPR;WSI 级先生成 z-score 热图并做 2×2 形态学腐蚀,分类用最大 z(Zmax)或论文所说的 "average of 99th percentile z-scores"(Z99),分割在转移切片上算 DICE / IoU、在正常切片上算真阴性率 TNR,阈值为 0(§3.2)。
+<!-- ZH --> 7. **基线**:基于密度的 VAE 负似然(NLL)及其变体 Regret、LLR、complexity;基于重建的 f-AnoGAN、AE、MemAE、AnoDDPM(§3.2)。
+<!-- EN --> 1. **Input**: WSIs tiled into 256×256-pixel patches at 20× (§3.1).
+<!-- EN --> 2. **Keyword pool**: 74 pathology keywords from the literature describing cells and microenvironments of normal lymph nodes, reviewed by an experienced pathologist (§2.2).
+<!-- EN --> 3. **Weighted prompt**: CONCH (a vision-language model pretrained on 1.17M pathology image–caption pairs) embeds the patch and every keyword; cosine similarity selects the top 5; each similarity divided by the median becomes its weight; a weighted text embedding c is built following the Compel library (§2.2, Fig. 2).
+<!-- EN --> 4. **Training**: a Stable Diffusion v1.5 latent diffusion model fine-tuned with LoRA (rank 4) on normal training patches only; Adam, lr 1e-5, batch 64; conditional denoising loss L = E‖ε − ε_θ(z_t, t, c)‖²; the 400k-step checkpoint with lowest FID is used (§2.1 Eq. 4, §3.2).
+<!-- EN --> 5. **Reconstruct and score**: following AnoDDPM, the input is noised to timestep t = 674 (chosen from 8 candidates by slide-classification performance on the LH test set) and denoised under the text condition to ẑ₀; input–reconstruction discrepancy = anomaly score; PLMS sampler, 100 steps (§2.1, §3.2).
+<!-- EN --> 6. **Evaluation**: anomaly scores are z-scored over all patches of a test set; patch level: AUC / AUPR; slide level: z-score heatmap with 2×2 morphological erosion, classification by max z (Zmax) or the paper's "average of 99th percentile z-scores" (Z99), segmentation by DICE / IoU on metastasis slides and true-negative rate (TNR) on normal slides, threshold 0 (§3.2).
+<!-- EN --> 7. **Baselines**: density-based VAE negative likelihood (NLL) and variants Regret, LLR, complexity; reconstruction-based f-AnoGAN, AE, MemAE, AnoDDPM (§3.2).
+
+## 方法图 / Method diagram
+```mermaid
+flowchart LR
+  A["Lymph-node patch<br/>256x256, 20x"] --> B["CONCH similarity<br/>to 74 normal keywords"]
+  B --> C["Top-5 weighted prompt<br/>via Compel"]
+  A --> D["Partial noising<br/>t = 674"]
+  C --> E["SD v1.5 LDM + LoRA<br/>trained on normal only"]
+  D --> E
+  E --> F["Normal-like<br/>reconstruction"]
+  F --> G["Input vs reconstruction<br/>anomaly score"]
+  G --> H["z-score heatmap<br/>Zmax, Z99, DICE"]
+```
 
 ## 数据 / Data
-<!-- 数据集、模态、规模、来源。 / Datasets, modalities, scale, source. -->
-<!-- ZH --> 两套淋巴结全切片(WSI,20× 放大,256×256 patch)。(1) 本地医院 (LH) 胃淋巴结:808 张 WSI(751 正常 / 57 转移,部分标注),训练 643 正常 WSI(1,373,475 patch),验证 50,in-distribution 测试 58,OOD 测试 57(转移);patch 级 base prevalence ≈0.40(patch)/0.50(WSI)。(2) 公开 Camelyon16 (C16) 乳腺淋巴结用于跨域独立测试:32 正常验证 / 80 正常 in-dist 测试 / 49 转移 OOD(其中 22 张肿瘤簇 >2mm,记为 C16 Macro);patch 级 OOD 55,659,prevalence ≈0.19。LH 所有肿瘤区 >2mm。
-<!-- EN --> Two lymph-node WSI datasets at 20× (256×256 patches). LH (local hospital gastric): 808 WSIs (751 normal / 57 metastasis); train 643 normal WSIs = 1.37M patches, val 50, in-dist test 58, OOD test 57. C16 (Camelyon16 breast, public) for domain-shift testing: 32 val / 80 in-dist / 49 metastasis WSIs (22 with tumor clusters >2mm = "C16 Macro"); 55,659 OOD patches.
+<!-- ZH --> **LH(两家本地医院的胃淋巴结,非公开)**:808 张 WSI,751 张正常、57 张转移(部分标注)。正常切片分为训练 643 / 验证 50 / 正常测试 58;57 张转移切片作 OOD 测试。图块数:训练 1,373,475,验证 102,240,正常测试 174,703,OOD 测试 115,330(全部为转移标注区)。LH 中所有肿瘤区直径都 >2 mm(§3.1, Table 1)。**C16(Camelyon16 乳腺淋巴结,公开)**:只用于独立测试——32 张正常验证、80 张正常测试、49 张转移;其中 22 张含直径 >2 mm 的肿瘤簇,记为 C16 Macro;OOD 图块 55,659 个。图块级异常比例:LH 0.3976、C16 0.1882(§3.1)。
+<!-- EN --> **LH (gastric lymph nodes from two local hospital sites, private)**: 808 WSIs, 751 normal and 57 metastatic (partially annotated). Normal slides split 643 train / 50 val / 58 in-distribution test; the 57 metastatic slides are the OOD test set. Patches: train 1,373,475; val 102,240; in-dist test 174,703; OOD test 115,330 (fully metastasis-annotated). All LH tumour regions are >2 mm (§3.1, Table 1). **C16 (Camelyon16 breast lymph nodes, public)**: independent testing only — 32 normal val, 80 normal test, 49 metastatic, of which 22 contain tumour clusters >2 mm ("C16 Macro"); 55,659 OOD patches. Patch-level base prevalence: LH 0.3976, C16 0.1882 (§3.1).
 
 ## 主要结果 / Key results
-<!-- 关键指标与结论,尽量带数字。 / Headline metrics and conclusions, with numbers where possible. -->
-<!-- ZH --> Patch 级异常检测(Table 2):AnoPILaD 全面领先。LH 上 AUC 0.9587 / AUPR 0.9499(次优 MemAE 0.9290/0.8886,AnoDDPM 仅 0.8555/0.7841);跨域 C16 上 AUC 0.8884 / AUPR 0.6987,比 AE/MemAE(约 0.66 AUC)高出约 0.22 AUC,显示强跨器官鲁棒性。WSI 级(Table 3):分类 AnoPILaD 在 LH 达 AUC 0.9943 / AUPR 0.9948(Z99),C16 0.6745(Zmax),C16 Macro AUC 0.8062——其余模型 Macro 上仅约 0.5–0.6。分割上 AnoPILaD 在所有场景 DICE/IoU/TNR 最高(C16 Macro DICE 0.5420 vs AnoDDPM 0.3131),而 AE/MemAE 分类尚可但分割极差(热图对全片打分近似均匀,定位能力弱)。定性上文本引导让 OOD 重建出更均匀的淋巴细胞排列、抑制多形核与纤维化,拉大正常/异常边界。
-<!-- EN --> Patch-level (Table 2): AnoPILaD LH AUC 0.9587 / AUPR 0.9499; C16 AUC 0.8884 / AUPR 0.6987, ~0.22 AUC above AE/MemAE under domain shift. WSI-level (Table 3): LH classification AUC up to 0.9943 (Z99); C16 Macro AUC ~0.806 vs ~0.5-0.6 for others. Segmentation: AnoPILaD best DICE/IoU/TNR everywhere (C16 Macro DICE 0.5420 vs AnoDDPM 0.3131); AE/MemAE classify okay but localize poorly (near-uniform heatmaps).
+- <!-- ZH --> **Patch 级(Table 2)**:AnoPILaD 在 LH 上 AUC 0.9587 / AUPR 0.9499,在 C16 上 0.8884 / 0.6987,均为最佳。LH 上 AE 0.9254、MemAE 0.9290、AnoDDPM 0.8555;C16 上 AE 0.6584、MemAE 0.6611、AnoDDPM 0.6857。 <!-- EN --> **Patch level (Table 2)**: AnoPILaD AUC 0.9587 / AUPR 0.9499 on LH and 0.8884 / 0.6987 on C16, best in both. On LH: AE 0.9254, MemAE 0.9290, AnoDDPM 0.8555; on C16: AE 0.6584, MemAE 0.6611, AnoDDPM 0.6857.
+- <!-- ZH --> **密度类方法较弱**:VAE 的 NLL 在 LH 上 AUC 0.4982(接近随机),最好的变体 complexity 为 0.7931;f-AnoGAN 最差(LH 0.2289)(Table 2, §4)。 <!-- EN --> **Density methods are weak**: VAE NLL gives AUC 0.4982 on LH (near chance), the best variant (complexity) 0.7931; f-AnoGAN is worst (LH 0.2289) (Table 2, §4).
+- <!-- ZH --> **WSI 分类(Table 3)**:AnoPILaD 在 LH 上 Zmax AUC 0.9837、Z99 AUC 0.9943;C16 上 0.6745 / 0.6367;C16 Macro 上 0.8062 / 0.8023,其他方法在 C16 Macro 上为 0.49–0.64。 <!-- EN --> **Slide classification (Table 3)**: AnoPILaD AUC 0.9837 (Zmax) and 0.9943 (Z99) on LH; 0.6745 / 0.6367 on C16; 0.8062 / 0.8023 on C16 Macro, where other methods reach 0.49–0.64.
+- <!-- ZH --> **分割(Table 3)**:AnoPILaD 在所有设置中 TNR / DICE / IoU 最高;C16 Macro DICE 0.5420(AnoDDPM 0.3131、AE 0.3249);LH 上 DICE 0.4322,与 AnoDDPM 0.4319 几乎相同。 <!-- EN --> **Segmentation (Table 3)**: AnoPILaD has the highest TNR / DICE / IoU in every setting; C16 Macro DICE 0.5420 (AnoDDPM 0.3131, AE 0.3249); on LH DICE 0.4322, almost equal to AnoDDPM's 0.4319.
+- <!-- ZH --> **定性**:对含转移的图块,AnoDDPM 会部分重建出转移结构,未能抑制多形性细胞核和纤维化;AnoPILaD 重建出更均匀的淋巴细胞排列(Fig. 1, §4)。 <!-- EN --> **Qualitative**: for metastatic patches AnoDDPM partly reconstructs the tumour and fails to suppress pleomorphic nuclei and fibrosis; AnoPILaD reconstructs more uniform lymphocyte arrangements (Fig. 1, §4).
 
 ## 创新点 / Contributions
-- <!-- ZH --> 首次将病理专用 VLM(CONCH)与潜空间扩散重建结合用于病理异常检测,用**正常组织关键词**作为文本条件引导重建方向。 <!-- EN --> Couples a pathology VLM (CONCH) with an LDM, using normal-tissue keyword prompts as an inductive bias for reconstruction-based anomaly detection.
-- <!-- ZH --> 提出"加权提示生成":74 个病理医师审核的正常关键词 + CONCH 相似度 top-5 + 中位数归一化权重 + Compel 加权嵌入。 <!-- EN --> A weighted-prompt module: 74 validated keywords, CONCH top-5 selection, median-normalized weights, Compel encoding.
-- <!-- ZH --> 系统评测跨器官域偏移(胃→乳腺),证明文本引导显著提升鲁棒性;并强调分割(定位)而非仅分类才是异常检测的关键评价。 <!-- EN --> Demonstrates cross-organ (gastric→breast) robustness and argues segmentation/localization, not just classification, is the meaningful anomaly-detection metric.
+- <!-- ZH --> 把病理视觉-语言模型(CONCH)与潜空间扩散重建结合,用描述正常组织的关键词作为重建条件(§1, §2)。 <!-- EN --> Combines a pathology vision-language model (CONCH) with latent-diffusion reconstruction, using normal-tissue keywords as the reconstruction condition (§1, §2).
+- <!-- ZH --> 加权提示生成:74 个病理医生审核的关键词 → CONCH 相似度前 5 → 中位数归一化权重 → Compel 加权嵌入(§2.2)。 <!-- EN --> Weighted prompt generation: 74 pathologist-reviewed keywords → top-5 by CONCH similarity → median-normalised weights → Compel weighted embedding (§2.2).
+- <!-- ZH --> 在胃 → 乳腺的跨器官设置下同时评估分类与分割,指出只看分类会高估 AE 类方法(§4)。 <!-- EN --> Evaluates both classification and segmentation under a gastric → breast cross-organ shift, showing that classification alone overrates AE-type methods (§4).
 
 ## 局限 / Limitations
-- <!-- ZH --> 跨域性能仍大幅下降(C16 WSI AUC 从 LH 的 ~0.99 掉到 ~0.67),绝对分割 DICE 偏低(C16 Macro 0.54),离临床可用尚有距离。 <!-- EN --> Large cross-domain drop remains (C16 WSI AUC ~0.67 vs LH ~0.99); absolute segmentation DICE still modest (0.54 on C16 Macro).
-- <!-- ZH --> 关键词池靠人工从文献收集且面向淋巴结,迁移到其他器官需重建词表;未做提示词数量/来源的消融。 <!-- EN --> Keyword pool is hand-curated and lymph-node-specific; no ablation on prompt count/source; new organs need a new vocabulary.
-- <!-- ZH --> 仅两器官、单一(部分为本地私有)数据集验证;重建时间步 t=674 依赖 LH 验证集调参,可能过拟合该分布。 <!-- EN --> Only two organs / partly-private data; reconstruction timestep t=674 tuned on LH may not transfer.
+- <!-- ZH --> (作者)跨器官性能仍需提高,作为后续工作(Conclusion);C16 上 WSI 分类 AUC 只有 0.64–0.67(Table 3)。 <!-- EN --> (Authors) cross-organ performance still needs work, left for future study (Conclusion); slide-level AUC on C16 is only 0.64–0.67 (Table 3).
+- <!-- ZH --> 我们的理解:扩散时间步 t = 674 是在 LH **测试集**上选的(§3.2),LH 上的结果因此略偏乐观。 <!-- EN --> Our reading: the diffusion timestep t = 674 was chosen on the LH **test set** (§3.2), so LH results are somewhat optimistic.
+- <!-- ZH --> 我们的理解:没有消融(去掉提示、随机关键词、不同关键词数),也没有报告标准差或多次运行。 <!-- EN --> Our reading: no ablations (no prompt, random keywords, different keyword counts) and no standard deviations or repeated runs.
+- <!-- ZH --> 我们的理解:关键词池专门针对淋巴结,换器官需要重新整理词表;LH 数据不公开;100 步扩散采样使推理成本远高于 AE。 <!-- EN --> Our reading: the keyword pool is lymph-node-specific and must be rebuilt for other organs; LH data are private; 100-step diffusion sampling makes inference far costlier than an AE.
 
 ## 与本研究方向的关系 / Relation to our direction
-<!-- anomaly detection → virtual tissue → revert via gene prediction 这条线上,这篇处在哪一环?能复用什么? -->
-<!-- ZH --> 直接落在我们 pipeline 的**第一环:anomaly detection**,而且几乎是理想模板——用生成式模型只在"正常"组织上建模,把疾病(转移)区域当作偏离正常分布的 OOD 来检测并**定位**(z-score 热图 + 分割),这正是"检测因疾病/扰动而改变的区域"。其"重建成正常样 + 差异即异常"的思路,可视为**virtual tissue(虚拟正常组织)**在像素/潜空间层面的雏形:模型把异常样本"revert"回正常形态,差异图直接给出扰动位置——与我们"把异常 revert 回正常"的目标同构,只是发生在图像域而非基因域。可迁移的机制:(1) 用病理/组学 foundation model 的文本或先验条件去引导生成,把"正常态"知识注入重建;(2) CONCH 关键词加权提示的做法可类比到 spatial-omics 上——用 marker/pathway 词表条件化虚拟组织生成。它不涉及基因层的 revert 预测(第三环),但为"如何客观定义并定位异常"提供了可复用的评测范式(patch/WSI 级 AUC/AUPR + DICE/IoU/TNR)。
-<!-- EN --> Squarely at stage 1 (anomaly detection) of our pipeline, and a near-ideal template: model only normal tissue generatively, treat disease/metastasis as OOD, and both detect and localize it via z-score heatmaps + segmentation. Its "reconstruct-to-normal, discrepancy = anomaly" scheme is an image-domain prototype of a virtual (normal) tissue that reverts an abnormal sample to normal morphology, structurally analogous to our "revert the anomaly" goal but in pixels rather than genes. Reusable ideas: (1) conditioning a generative normal-tissue model on foundation-model priors/text; (2) the CONCH weighted-keyword prompting could map onto spatial-omics by conditioning on marker/pathway vocabularies. It does not do gene-level revert prediction (stage 3) but offers a concrete localization/eval protocol.
+<!-- ZH --> 位于 pipeline 第一环(detect),并带有"revert"的影子。我们的理解:(1) "把异常样本重建成正常样子,差异即异常"在图像域里做的正是"反事实的正常组织",和我们第三环"把异常 revert 回正常"在形式上相似,只是这里没有基因层面的解释;(2) 用先验知识(这里是文字关键词)给生成式正常模型加条件的做法,可以类比到组学——例如用细胞类型或区域标签作为条件,让模型只需要解释"在给定类型下是否正常";(3) 对课题 1 的肾脏基准,本文的评估设计值得照搬:除了切片 / 样本级分类,还要有区域级分割指标(DICE、正常切片上的 TNR),并做跨队列 / 跨器官测试。它也提醒我们:AE 类基线在分类上可能看起来不错,但定位很差。
+<!-- EN --> Sits at stage 1 (detect) with a hint of "revert". Our reading: (1) "reconstruct the abnormal sample as normal; the difference is the anomaly" is an image-space counterfactual normal tissue, formally similar to our stage 3 "revert the anomaly", but without any gene-level explanation; (2) conditioning a generative normal model on prior knowledge (here text keywords) transfers to omics — e.g. condition on cell type or region labels so the model only has to judge "normal for this type"; (3) for the Topic 1 kidney benchmark, the evaluation design is worth copying: beyond slide/sample classification, include region-level segmentation metrics (DICE, TNR on normal slides) and cross-cohort / cross-organ tests. It also warns that AE-type baselines can look fine on classification yet localise poorly.
 
 ## 可复用资产 / Reusable assets
-<!-- 代码、预训练模型、数据集、评测协议。 / Code, checkpoints, datasets, eval protocols. -->
-<!-- ZH -->
-- **代码**:<https://github.com/QuIIL/AnoPILaD>(MIT 许可)。含 `image_caption.py`(CONCH 生成/选词)、`train_text_to_image_lora.py`(LoRA 微调 SD v1.5)、`rec_generate.py`(重建+异常评分)。依赖 HuggingFace `diffusers`、CONCH、`compel`、CFG++ solver;`conda python=3.11`。
-- **无发布 checkpoint**:README 未提供预训练权重下载,需自行在正常数据上微调。
-- **数据**:Camelyon16 (C16) 公开可复现跨域实验;LH 胃淋巴结为本地私有,不公开。
-- **评测协议(可直接借用)**:patch 级 z-score → AUC/AUPR;WSI 级用 Zmax 与 Z99(99 分位)两种打分 + 形态学腐蚀(2×2);分割用 DICE/IoU(OOD)与 TNR(in-dist),阈值 0;FID 选扩散模型 checkpoint。
-- **关键词资产**:74 个正常淋巴结病理关键词表 + top-5/median 归一化加权提示流程。
-<!-- EN -->
-- Code: <https://github.com/QuIIL/AnoPILaD> (MIT). Scripts for CONCH captioning, LoRA fine-tuning of SD v1.5, and reconstruction/anomaly scoring; deps: diffusers, CONCH, compel, CFG++ solver, python 3.11. No released checkpoints. C16 (Camelyon16) is public for reproducing the cross-domain test; LH data is private. Reusable eval protocol: patch AUC/AUPR from z-scores; WSI Zmax & Z99 scoring with 2×2 erosion; DICE/IoU + TNR for localization at threshold 0; FID for checkpoint selection. Plus the 74-keyword normal-lymph-node vocabulary and weighted-prompt recipe.
+- <!-- ZH --> **代码(MIT)**:<https://github.com/QuIIL/AnoPILaD> —— `image_caption.py`(CONCH 选词生成 metadata.csv)、`train_text_to_image_lora.py`(LoRA 微调,改自 diffusers 示例)、`rec_generate.py`(重建)、`ldm_solvers.py`(改自 CFG++);环境 python 3.11,需单独安装 CONCH(README)。README 中没有预训练权重下载。 <!-- EN --> **Code (MIT)**: <https://github.com/QuIIL/AnoPILaD> — `image_caption.py` (CONCH keyword selection → metadata.csv), `train_text_to_image_lora.py` (LoRA fine-tuning, adapted from the diffusers example), `rec_generate.py` (reconstruction), `ldm_solvers.py` (adapted from CFG++); python 3.11, CONCH installed separately (README). The README offers no pretrained weights.
+- <!-- ZH --> **数据**:Camelyon16 公开,可复现跨器官测试;LH 不公开。 <!-- EN --> **Data**: Camelyon16 is public for the cross-organ test; LH is private.
+- <!-- ZH --> **评估协议**:测试集内 z-score → patch AUC / AUPR;WSI 级 Zmax / Z99 + 2×2 腐蚀;分割 DICE / IoU(转移切片)+ TNR(正常切片),阈值 0(§3.2)。 <!-- EN --> **Evaluation protocol**: within-test-set z-scores → patch AUC / AUPR; slide-level Zmax / Z99 with 2×2 erosion; segmentation DICE / IoU on metastatic slides + TNR on normal slides, threshold 0 (§3.2).
 
 ## 待读 / Follow-ups
-- <!-- ZH --> AnoDDPM(Wyatt 2022)与 Linmans 2024《Diffusion models for OOD detection in digital pathology》(Med Image Anal 93:103088)——本文直接基线与病理 DDPM 前身。 <!-- EN --> AnoDDPM (Wyatt 2022) and Linmans 2024 (Med Image Anal 93:103088), the direct baselines.
-- <!-- ZH --> CONCH(Lu 2023, arXiv:2307.12914)——病理 VLM 基础,评估其嵌入能否用于 spatial-omics 条件化。 <!-- EN --> CONCH (Lu 2023, arXiv:2307.12914) as a pathology VLM to probe for omics conditioning.
-- <!-- ZH --> Compel 加权提示嵌入实现细节;能否把关键词权重换成基因/marker 表达权重。 <!-- EN --> Compel weighted-embedding internals; whether keyword weights can be swapped for gene/marker expression weights.
+- <!-- ZH --> Linmans et al. 2024, "Diffusion models for out-of-distribution detection in digital pathology", *Medical Image Analysis* 93:103088 —— 本文 AnoDDPM 基线的来源(ref [17])。 <!-- EN --> Linmans et al. 2024, "Diffusion models for out-of-distribution detection in digital pathology", *Medical Image Analysis* 93:103088 — source of the AnoDDPM baseline here (ref [17]).
+- <!-- ZH --> Wyatt et al. 2022, AnoDDPM(simplex noise,CVPR 2022 论文集,ref [15])—— 名称来源。 <!-- EN --> Wyatt et al. 2022, AnoDDPM with simplex noise (ref [15]) — origin of the name.
+- <!-- ZH --> CONCH(Lu et al., arXiv:2307.12914,ref [20])。 <!-- EN --> CONCH (Lu et al., arXiv:2307.12914, ref [20]).
+- <!-- ZH --> MemAE(Gong et al., ICCV 2019,ref [10])—— 最强的非扩散基线。 <!-- EN --> MemAE (Gong et al., ICCV 2019, ref [10]) — the strongest non-diffusion baseline.
 
 ## 图表 / Figures & tables
 
 ![Weighted prompt generation](figures/fig2.png)
-<!-- ZH --> **图2.**(上)加权文本提示生成流程:CONCH 的文本/图像编码器对 74 个正常关键词与输入图像算余弦相似度,取 top-5,除以中位数归一化为权重,经 Compel 组成加权提示(如 "small dormant lymphocytes: 1.06 … littoral cells: 0.83")送入 LDM;(下)训练/测试集中 top-10 高频病理关键词分布(In-distribution vs OOD)。
-<!-- EN --> **Fig 2.** (Top) Weighted-prompt generation: CONCH text/image encoders score 74 normal keywords against the input by cosine similarity, take the top-5, median-normalize into weights, and Compel builds a weighted prompt (e.g. "small dormant lymphocytes: 1.06 … littoral cells: 0.83") fed to the LDM. (Bottom) Distribution of the top-10 frequent keywords in train vs test (in-distribution vs OOD).
+<!-- ZH --> **图2.**(上)加权文本提示生成流程:CONCH 的文本/图像编码器对 74 个正常关键词与输入图像算余弦相似度,取 top-5,除以中位数归一化为权重,经 Compel 组成加权提示(如 "small dormant lymphocytes: 1.06 … littoral cells: 0.83")送入 LDM;(下)LH 训练 / 测试集中 top-10 高频病理关键词分布。
+<!-- EN --> **Fig 2.** (Top) Weighted-prompt generation: CONCH text/image encoders score 74 normal keywords against the input by cosine similarity, take the top-5, median-normalise into weights, and Compel builds a weighted prompt (e.g. "small dormant lymphocytes: 1.06 … littoral cells: 0.83") fed to the LDM. (Bottom) Distribution of the top-10 frequent keywords in the LH training and test sets.
 <!-- ZH/EN --> _Source: https://papers.miccai.org/miccai-2025/paper/2270_paper.pdf (Fig. 2)  ·  License: MICCAI 2025 Open Access_
 
 ![Reconstruction comparison](figures/fig1.png)
@@ -74,8 +100,8 @@
 <!-- ZH/EN --> _Source: https://github.com/QuIIL/AnoPILaD (main.png; MIT) = paper Fig. 1_
 
 ![Z-score heatmaps](figures/fig3.png)
-<!-- ZH --> **图3.** 四张转移切片(LH 与 C16 各两例)的 z-score 异常热图。黑色轮廓为转移标注,绿色轮廓为正常标注;括号内为每片 (Z99, DICE)。AnoPILaD 的热图对转移区定位更准、对正常区误报更少。
-<!-- EN --> **Fig 3.** Z-score anomaly heatmaps for four metastasis slides (two each from LH and C16). Black contours = metastasis annotation, green = normal annotation; parentheses give per-slide (Z99, DICE). AnoPILaD localizes tumor more precisely with fewer false positives on normal tissue.
+<!-- ZH --> **图3.** 四张转移切片(LH 与 C16 各两例)的 z-score 异常热图。黑色轮廓为转移标注,绿色轮廓为正常标注;括号内为每片 (Z99, DICE)。
+<!-- EN --> **Fig 3.** Z-score anomaly heatmaps for four metastasis slides (two each from LH and C16). Black contours = metastasis annotation, green = normal annotation; parentheses give per-slide (Z99, DICE).
 <!-- ZH/EN --> _Source: https://papers.miccai.org/miccai-2025/paper/2270_paper.pdf (Fig. 3)  ·  License: MICCAI 2025 Open Access_
 
 ### 结果表 / Results
@@ -95,8 +121,8 @@
 | AnoDDPM | 0.8555 | 0.7841 | 0.6857 | 0.5741 |
 | **AnoPILaD** | **0.9587** | **0.9499** | **0.8884** | **0.6987** |
 
-<!-- ZH --> **表3.** WSI 级分类,每格 AUC / AUPR;两种打分:Zmax(最大 z-score)与 Z99(99 分位)。C16 Macro = 肿瘤簇 >2mm 子集。加粗为最优。
-<!-- EN --> **Table 3.** WSI-level classification, each cell AUC / AUPR; two scores: Zmax (max z-score) and Z99 (99th-percentile). C16 Macro = subset with tumor clusters >2mm. Bold = best.
+<!-- ZH --> **表3.** WSI 级分类,每格 AUC / AUPR;两种打分:Zmax(最大 z-score)与 Z99(论文原文:average of 99th percentile z-scores)。C16 Macro = 肿瘤簇 >2mm 子集。加粗为最优。
+<!-- EN --> **Table 3.** WSI-level classification, each cell AUC / AUPR; two scores: Zmax (max z-score) and Z99 (paper: "average of 99th percentile z-scores"). C16 Macro = subset with tumour clusters >2mm. Bold = best.
 
 | Method | LH Zmax | LH Z99 | C16 Zmax | C16 Z99 | C16-Macro Zmax | C16-Macro Z99 |
 |---|---|---|---|---|---|---|
@@ -109,5 +135,10 @@
 
 ## 引用 / Cite
 ```bibtex
-% no BibTeX fetched
+@inproceedings{Wang2025_AnoPILaD,
+  title = {Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis},
+  author = {Wang, Jiamu and Byeon, Keunho and Song, Jinsol and Nguyen, Anh and Ahn, Sangjeong and Lee, Sung Hak and Kwak, Jin Tae},
+  booktitle = {Medical Image Computing and Computer Assisted Intervention (MICCAI)},
+  year = {2025}
+}
 ```

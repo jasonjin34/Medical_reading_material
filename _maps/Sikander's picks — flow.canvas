@@ -43,7 +43,7 @@
    "y": -60,
    "width": 440,
    "height": 590,
-   "label": "2. Detect / \u68c0\u6d4b (11)"
+   "label": "2. Detect / \u68c0\u6d4b (12)"
   },
   {
    "id": "step-detect-imaging-nature-2026",
@@ -141,8 +141,8 @@
    "x": 1740,
    "y": -60,
    "width": 440,
-   "height": 420,
-   "label": "5. Agents & evidence / agent \u4e0e\u8bc1\u636e (2)"
+   "height": 590,
+   "label": "5. Agents & evidence / agent \u4e0e\u8bc1\u636e (5)"
   },
   {
    "id": "step-agents-deepevidence-natmachintell-2026",
@@ -154,11 +154,20 @@
    "height": 140
   },
   {
+   "id": "step-agents-biomni-biorxiv-2025",
+   "type": "file",
+   "file": "_maps/papers/biomni-biorxiv-2025.md",
+   "x": 1760,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
    "id": "step-agents-hypogen-llm-colm-2024",
    "type": "file",
    "file": "_maps/papers/hypogen-llm-colm-2024.md",
    "x": 1760,
-   "y": 170,
+   "y": 340,
    "width": 400,
    "height": 140
   }

@@ -9,9 +9,10 @@ track:
 year: 2025
 relevance: high
 category: agents
-recommended_by: ''
+recommended_by: sikander
 views:
 - plan-b
+- sikander
 - overview
 tags:
 - paper
@@ -20,9 +21,9 @@ tags:
 
 # Biomni: A General-Purpose Biomedical AI Agent
 
-> Biomni is the Leskovec-lab general-purpose biomedical agent: an "action discovery agent" mines tasks/tools/databases from 2,500 bioRxiv papers across 25 subfields, which after human verification become the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve a tool subset → plan → write and execute code → iterate) then solves cross-domain tasks zero-shot, with one CRISPR-cloning case validated at the bench. It has become the default baseline for later biomedical-agent papers.
+> Biomni is the Leskovec-lab general-purpose biomedical agent: an action discovery agent reads the 100 most recent papers in each of bioRxiv's 25 subject categories (2,500 papers) and extracts tasks, software and databases, which are implemented and tested by humans into the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve relevant tools → write a plan → write and run code → revise the plan from results) then solves cross-domain tasks zero-shot, plus one CRISPR-cloning wet-lab run that followed its protocol verbatim (Results §"Overview of Biomni"; Fig. 1; Fig. 4).
 
-> Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先用一个 "action discovery agent" 从 2,500 篇 bioRxiv 论文(25 个子领域)里挖出任务/工具/数据库,经人工验证后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库),再用基于 CodeAct 的 Biomni-A1(检索工具子集 → 计划 → 写代码执行 → 迭代)零样本完成跨领域任务,并在一个 CRISPR 克隆案例中做了湿实验验证。它已成为后续生物医学 agent 论文的默认基线。
+> Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先让一个 action discovery agent 读 bioRxiv 25 个学科各 100 篇最新论文(共 2,500 篇),抽取任务、软件和数据库,经人工实现与测试后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库);再用基于 CodeAct 的 agent Biomni-A1(检索相关工具 → 写计划 → 写代码执行 → 根据结果修改计划)零样本完成跨领域任务,并有一个按其 protocol 原样执行的 CRISPR 克隆湿实验(Results §"Overview of Biomni";Fig. 1;Fig. 4)。
 
 ## Related papers / 相关论文
 - [[_maps/papers/bioml-bench-biorxiv-2025|BioML-bench]] — cites
@@ -32,10 +33,13 @@ tags:
 - [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — cites
 - [[_maps/papers/spatialagent-biorxiv-2025|SpatialAgent]] — same lab lineage
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — cites
 - [[_maps/papers/virtual-lab-nature-2025|Virtual Lab]] — multi-agent biomedical systems
 
 ## Concepts / 概念
 - [[_maps/concepts/omics-agent|Single-cell analysis agents]]
+- [[_maps/concepts/rerun-stability|Rerun stability & replay]]
+- [[_maps/concepts/virtual-tissue|Virtual tissue / cell]]
 
 ## Deep-read / 精读
 

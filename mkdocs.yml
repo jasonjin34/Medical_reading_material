@@ -195,6 +195,7 @@ nav:
       - "Cassie07/PathOmics": papers/pathomics-repo/index.md
     - Imaging:
       - "An ECG biomarker for sudden cardiac death discovered with deep learning": papers/imaging-nature-2026/index.md
+      - "Abnormality-Driven Representation Learning for Radiology Imaging": papers/abnormality-radiology-arxiv-2024/index.md
       - "An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study": papers/imaging-ehjdh-2026/index.md
       - "MedIAnomaly: A comparative study of anomaly detection in medical images": papers/medianomaly-media-2025/index.md
     - Competitions:
@@ -231,6 +232,7 @@ nav:
       - "BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML": papers/bioml-bench-biorxiv-2025/index.md
       - "DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence": papers/deeptrace-arxiv-2025/index.md
       - "What Proves You Wrong: Benchmarking Language Models on Falsifiable Research Ideation": papers/falsifiable-ideation-arxiv-2026/index.md
+      - "AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy": papers/gpnmb-cart-cell-2026/index.md
       - "HeurekaBench: A Benchmarking Framework for AI Co-scientist": papers/heurekabench-arxiv-2026/index.md
       - "Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation": papers/holistic-agent-leaderboard-iclr-2026/index.md
       - "The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas": papers/ideation-execution-gap-arxiv-2025/index.md
@@ -242,6 +244,7 @@ nav:
       - "Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents": papers/reference-hallucination-arxiv-2026/index.md
       - "SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents": papers/scitrace-arxiv-2026/index.md
       - "TRAIL: Trace Reasoning and Agentic Issue Localization": papers/trail-arxiv-2025/index.md
+      - "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development": papers/virtual-biotech-biorxiv-2026/index.md
       - "The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies": papers/virtual-lab-nature-2025/index.md
     - EHR & patient trajectories:
       - "Learning the natural history of human disease with generative transformers": papers/ehr-delphi2m-nature-2025/index.md

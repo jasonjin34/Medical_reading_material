@@ -213,8 +213,8 @@ views:
   sikander:
     title: {en: "Sikander's picks", zh: "Sikander 推荐"}
     lead:
-      en: "Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line."
-      zh: "Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → revert 排列。"
+      en: "Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line."
+      zh: "Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。"
     select: {recommended_by: sikander}
     flow:
       - {id: foundations, columns: [foundations], label: {en: "Foundations & data", zh: "基础模型与数据"}}
@@ -271,6 +271,10 @@ views:
       counterfactual-diffusion-cancerres-2026: revert
       deepevidence-natmachintell-2026: agents
       hypogen-llm-colm-2024: agents
+      biomni-biorxiv-2025: agents
+      virtual-biotech-biorxiv-2026: agents
+      gpnmb-cart-cell-2026: agents
+      abnormality-radiology-arxiv-2024: detect
       ehr-comet-natmachintell-2025: ehr
       ehr-apollo-arxiv-2026: ehr
       ehr-pancreatic-trajectory-natmed-2023: ehr

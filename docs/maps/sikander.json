@@ -37,7 +37,7 @@
    "columns": [
     "detect"
    ],
-   "count": 11,
+   "count": 12,
    "papers": [
     "imaging-nature-2026",
     "histo-sciencedirect-2026",
@@ -48,6 +48,7 @@
     "nih-kidney-ai-challenge-2026",
     "histo-nejmai-2024",
     "histo-miccai-2025",
+    "abnormality-radiology-arxiv-2024",
     "spatial-natcommun-2024",
     "histo-anomaly-bi-repo"
    ],
@@ -120,17 +121,22 @@
    "columns": [
     "agents"
    ],
-   "count": 2,
+   "count": 5,
    "papers": [
     "deepevidence-natmachintell-2026",
-    "hypogen-llm-colm-2024"
+    "biomni-biorxiv-2025",
+    "hypogen-llm-colm-2024",
+    "gpnmb-cart-cell-2026",
+    "virtual-biotech-biorxiv-2026"
    ],
    "top": [
     "DeepEvidence",
+    "Biomni",
     "LLM hypothesis generators"
    ],
    "top_ids": [
     "deepevidence-natmachintell-2026",
+    "biomni-biorxiv-2025",
     "hypogen-llm-colm-2024"
    ]
   }
@@ -141,8 +147,8 @@
   "zh": "Sikander 推荐"
  },
  "lead": {
-  "en": "Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line.",
-  "zh": "Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → revert 排列。"
+  "en": "Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line.",
+  "zh": "Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。"
  },
  "collapsed": false,
  "wrap": 0,
@@ -178,8 +184,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "PathBench evaluates 32 foundation models — general vision (VM), general vision-language (VLM), pathology-specific vision (Path-VM) and pathology-specific vision-language (Path-VLM) — under one standardized frozen-feature + linear-probing protocol across 41 tasks, 53 datasets and >17,500 whole-slide images. Path-VMs lead, Path-VLMs lag, neither model size nor pretraining scale consistently predicts downstream performance, and late decision-level ensembling further improves robustness across datasets.",
-    "zh": "PathBench 把 32 个基础模型(通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM)放进同一套「冻结特征 + linear probing」协议,在 41 个任务、53 个数据集、17,500+ 张全切片上统一评测,结论是:Path-VM 最强、Path-VLM 反而落后、模型规模与预训练数据量都不能稳定预测下游表现,而后期决策级集成能进一步提升跨数据集稳健性。"
+    "en": "This Stanford (Gevaert lab) benchmark evaluates 32 foundation models in four categories — general vision (VM), general vision-language (VLM), pathology vision (Path-VM) and pathology vision-language (Path-VLM) — all frozen with only a linear probe trained, on 41 tasks, 53 datasets and >17,500 WSIs. Path-VMs lead but differences among the top models are mostly non-significant, Path-VMs beat Path-VLMs, neither model size nor pretraining data size consistently predicts downstream performance, and majority-vote ensembling improves aggregate performance (Abstract).",
+    "zh": "这篇 Stanford(Gevaert 组)的 benchmark 把 32 个基础模型分成四类——通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM——全部冻结、只训 linear probe,在 41 个任务、53 个数据集、17,500+ 张 WSI 上统一评测:Path-VM 稳居前列但头部模型之间差异多不显著,Path-VM 优于 Path-VLM,模型规模和预训练数据量都不能稳定预测下游表现,多数投票集成在总体上进一步提升(Abstract)。"
    },
    "url": {
     "en": "../papers/pathbench-natcommun-2026/",
@@ -205,8 +211,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "MuPD (Multimodal Pathology Diffusion) is a generative pathology foundation model that embeds H&E histology, RNA molecular profiles, and clinical text into a shared latent space, using one diffusion transformer to serve text-/image-/RNA-conditioned cross-modal synthesis and virtual staining.",
-    "zh": "MuPD 是一个把 H&E 组织学、RNA 分子谱、临床文本统一到共享隐空间的生成式病理基础模型,用一个扩散 Transformer 支持文本/图像/RNA 条件的跨模态合成与虚拟染色。"
+    "en": "MuPAD (Multimodal Pathology Diffusion; spelled MUPAD in the PDF and MuPD on the arXiv abstract page) is a generative pathology foundation model: one diffusion transformer with Decoupled Cross-Attention (DCA) conditions H&E generation on images, RNA pathway scores and clinical text, and a single model covers text/image/RNA→H&E generation, frozen→FFPE translation and H&E→IHC/mIF virtual staining (Abstract).",
+    "zh": "MuPAD(Multimodal Pathology Diffusion;PDF 中写作 MUPAD,arXiv 摘要页写作 MuPD)是一个生成式病理基础模型:用一个带\"解耦跨模态注意力\"(Decoupled Cross-Attention, DCA)的扩散 Transformer,把 H&E 图像、RNA 通路分数和临床文本放进同一个条件生成框架,一个模型同时做文本/图像/RNA→H&E 生成、冰冻→石蜡切片转换和 H&E→IHC/mIF 虚拟染色(Abstract)。"
    },
    "url": {
     "en": "../papers/fm-arxiv-2604/",
@@ -234,8 +240,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "HEST-1k is a large, multi-organ, cross-species dataset that aligns 1,229 spatial-transcriptomics (ST) profiles with paired H&E whole-slide images (WSIs) and rich metadata, shipped with the HEST-Library toolkit and HEST-Benchmark for training/evaluating pathology foundation models on morphology-to-expression prediction.",
-    "zh": "HEST-1k 是一个大规模、多器官、跨物种的数据集,把 1,229 个空间转录组(ST)profile 与配对的 H&E 全切片图像(WSI)及丰富元数据对齐,并配套 HEST-Library 工具包与 HEST-Benchmark,用于训练/评测\"从形态学预测基因表达\"的病理基础模型。"
+    "en": "HEST-1k unifies 1,229 spatial-transcriptomics (ST) samples from 153 public and internal cohorts into one format — H&E whole-slide image + aligned spot-level expression + metadata — and ships the HEST-Library Python package and HEST-Benchmark, which scores 11 pathology foundation models on predicting gene expression from H&E patches across 9 tasks (Abstract, §1).",
+    "zh": "HEST-1k 把 153 个公开与内部队列中的 1,229 个空间转录组(ST)样本统一成\"H&E 全切片 + 对齐的 spot 表达矩阵 + 元数据\"的标准格式,配套 Python 工具包 HEST-Library 和\"从 H&E patch 预测基因表达\"的 HEST-Benchmark(9 个任务、11 个病理基础模型)(Abstract, §1)。"
    },
    "url": {
     "en": "../papers/hest1k-2024/",
@@ -263,8 +269,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Virchow is a 632M-parameter ViT-H/14 pathology foundation model self-supervised (DINOv2) on 1.5M whole-slide images, serving as a frozen tile-level backbone for pan-cancer detection, biomarker prediction, and cell identification.",
-    "zh": "Virchow 是一个在 150 万张全切片图像(WSI)上用 DINOv2 自监督预训练的 632M 参数 ViT-H/14 病理基础模型,可作为冻结的 tile 级特征骨干,支撑泛癌检测、生物标志物预测与细胞识别等下游任务。"
+    "en": "Virchow is a 632M-parameter ViT-H/14 pathology foundation model trained by Paige and Microsoft Research with DINOv2 self-supervision on ~1.5M H&E whole-slide images (WSIs) from MSKCC; an aggregator trained on its frozen tile embeddings performs pan-cancer detection across 16 cancer types with specimen-level AUC 0.950, and 0.937 on the 7 rare cancers (Abstract; Fig. 2b–c).",
+    "zh": "Virchow 是 Paige 与 Microsoft Research 用 DINOv2 自监督在 MSKCC 约 150 万张 H&E 全切片(WSI)上训练的 632M 参数 ViT-H/14 病理基础模型;在它的冻结 tile 嵌入上训练一个聚合器,就能做跨 16 种癌的\"泛癌检测\",标本级 AUC 0.950,其中 7 种罕见癌 AUC 0.937(Abstract;Fig. 2b–c)。"
    },
    "url": {
     "en": "../papers/virchow-2024/",
@@ -292,8 +298,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "UNI2-h is Mahmood Lab's histopathology foundation model: a ViT-H/14 backbone self-supervised with DINOv2 on 200M+ H&E/IHC tiles, turning a 224×224 tissue patch into a 1536-dim embedding usable as a frozen feature extractor for downstream classification, retrieval and MIL.",
-    "zh": "UNI2-h 是 Mahmood Lab 发布的病理学视觉基础模型:一个用 DINOv2 自监督、在 3 亿+ H&E/IHC 图块上预训练的 ViT-H/14 backbone,把 224×224 组织学 patch 编码成 1536 维特征,可直接作为下游分类/检索/MIL 的冻结特征提取器。"
+    "en": "UNI2-h is a pathology vision foundation model from the Mahmood Lab (Harvard / BWH): a 681M-parameter custom ViT-H/14 trained with the DINOv2 recipe on 200M+ H&E and IHC tiles from Mass General Brigham, mapping a 224×224 tissue tile to a 1,536-dim feature for frozen downstream use (model card §\"Model Description\", §\"Training Details\").",
+    "zh": "UNI2-h 是 Mahmood Lab(Harvard / BWH)发布的病理视觉基础模型:一个 681M 参数的定制 ViT-H/14,用 DINOv2 配方在 Mass General Brigham 的 2 亿+ 个 H&E 与 IHC 图块上自监督训练,把 224×224 组织图块编码为 1,536 维特征,供下游冻结使用(model card §\"Model Description\"、§\"Training Details\")。"
    },
    "url": {
     "en": "../papers/uni2-h-model/",
@@ -310,7 +316,7 @@
     "zh": "检测"
    },
    "code": "detect",
-   "count": 11,
+   "count": 12,
    "x": 270,
    "y": 0
   },
@@ -331,8 +337,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Deep learning discovers a previously undescribed, visually identifiable ECG biomarker that robustly predicts sudden cardiac death (SCD), and a paired generative model renders the learned waveform morphology visible.",
-    "zh": "用深度学习从心电图(ECG)波形中“发现”了一个此前未被描述、肉眼可见且能稳健预测心脏性猝死(SCD)的新生物标志物,并结合生成模型把模型学到的异常波形形态可视化。"
+    "en": "A deep network trained on all ECGs of a Swedish region linked to death certificates predicts one-year sudden cardiac death (SCD); a generative model guided by the predictor then morphs low-risk beats into high-risk ones to reveal what the model learned — a slurred terminal R wave in lead aVL that the authors say has not been described before (Abstract, Figs. 4–5).",
+    "zh": "在瑞典一个地区全部 ECG 与死亡证明链接的数据上训练深度网络预测一年内心脏性猝死(SCD),再用一个\"预测模型引导的生成模型\"把低风险心跳逐步变成高风险心跳,从而看出模型学到的波形特征——aVL 导联 QRS 末端的 R 波\"拖尾\",作者称此前未被描述(Abstract, Fig. 4–5)。"
    },
    "url": {
     "en": "../papers/imaging-nature-2026/",
@@ -387,8 +393,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "PathPrism is an interpretable computational-pathology framework that \"refracts\" colorectal-cancer WSIs into a spectrum of semantically defined spatial biomarkers, drives transparent linear models for prognosis/mutation/therapy prediction, and adds VirtualWSI for perturbation-driven (in-silico) exploration.",
-    "zh": "PathPrism 把结直肠癌全切片图像(WSI)\"棱镜式\"分解为可解释的语义空间生物标志物谱,用透明线性模型完成预后/突变/疗效预测,并用 VirtualWSI 做语义扰动式虚拟实验。"
+    "en": "PathPrism segments colorectal-cancer H&E whole-slide images (WSIs) into 8-class tissue maps, turns each map into 628 mathematically defined spatial features (tissue fractions, spatial entropy, tissue-graph features), and fits linear models for prognosis, mutations and chemotherapy benefit; VirtualWSI then perturbs the tissue map (\"grow / shrink one tissue class\") and tracks how risk and features move.",
+    "zh": "PathPrism 先把结直肠癌 H&E 全切片(WSI)分割成 8 类组织的语义图,再把语义图拆成 628 个有数学定义的空间特征(组织占比、空间熵、组织图特征),用线性模型预测预后、突变和化疗获益;VirtualWSI 在这张语义图上做\"放大/缩小某类组织\"的虚拟扰动,观察风险分和特征如何变化。"
    },
    "url": {
     "en": "../papers/histo-sciencedirect-2026/",
@@ -406,7 +412,7 @@
    "year": 2024,
    "venue": "NEJM AI",
    "relevance": "high",
-   "status": "abstract-only",
+   "status": "complete",
    "type": "paper",
    "plans": [
     "A"
@@ -416,8 +422,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "A deep anomaly-detection model trained only on common findings (and normal tissue) detects the full long tail of rare gastrointestinal pathologies it never saw during training, reaching clinical-grade AUROCs on stomach and colon biopsies.",
-    "zh": "只用常见病(及正常组织)训练的深度异常检测模型,无需见过罕见病样本即可在胃、结肠活检中检出长尾罕见病变,达到临床级 AUROC。"
+    "en": "A deep anomaly-detection model trained only on \"frequent findings\" (normal tissue plus common diseases) of stomach and colon biopsies — best variant: Outlier Exposure — detects the long tail of 56 rarer entities it never saw, with slide-AUROC 95.0% (stomach) and 91.0% (colon), and transfers to a second hospital and scanner without retraining.",
+    "zh": "只用\"常见诊断\"(正常组织 + 常见病)的胃、结肠活检切片训练深度异常检测模型(最佳为 Outlier Exposure),不需要见过任何罕见病,就能检出长尾中的 56 种少见病变:slide-AUROC 胃 95.0%、结肠 91.0%,并可泛化到另一家医院和另一种扫描仪。"
    },
    "url": {
     "en": "../papers/histo-nejmai-2024/",
@@ -443,8 +449,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "A pretrained 3D vision transformer (CT-ViT) predicts abnormal left-ventricular ejection fraction (EF < 50%) directly from routine non-gated, non-contrast chest CT, turning scans acquired for unrelated indications into an opportunistic heart-failure screen.",
-    "zh": "用预训练的 3D vision transformer(CT-ViT)从常规、非门控、非增强胸部 CT 直接预测左室射血分数是否异常(EF < 50%),把一种\"为别的适应症拍的影像\"变成心衰的机会性筛查工具。"
+    "en": "A CT-ViT encoder (3D vision transformer from GenerateCT) classifies left-ventricular ejection fraction (LVEF) <50% vs ≥50% from routine non-gated, non-contrast chest CTs acquired for other reasons; AUROC 0.786 at the development site (Columbia) and 0.762 at an external site (Weill Cornell), as opportunistic heart-failure screening (Abstract).",
+    "zh": "用 GenerateCT 的 CT-ViT 编码器(3D vision transformer)从为其他原因拍的常规、非门控、非增强胸部 CT 判断左室射血分数(LVEF)是否 <50%;在开发医院(Columbia)AUROC 0.786、外部医院(Weill Cornell)0.762,作为心衰的机会性筛查(Abstract)。"
    },
    "url": {
     "en": "../papers/imaging-ehjdh-2026/",
@@ -470,8 +476,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "A multi-scale graph neural network with gated-attention multiple-instance learning (MS-GMIL) reads gastric-cancer H&E whole-slide images directly to build an interpretable pathomics signature (PSGC) that predicts overall survival and stratifies chemo/immunotherapy benefit.",
-    "zh": "用多尺度图神经网络 + 门控注意力多示例学习(MS-GMIL)直接从胃癌 H&E 全切片中提取病理组学特征,构建可解释的预后签名 PSGC,用于预测总生存并指导化疗/免疫治疗决策。"
+    "en": "The authors extract features from gastric-cancer H&E whole-slide images with a multi-scale graph neural network plus gated-attention MIL (MS-GMIL), then use LASSO-Cox to pick 11 features into a weighted sum — the pathomics signature PSGC; it is an independent prognostic factor for overall survival in one training and four validation cohorts (3,138 patients), and is used to stratify adjuvant-chemotherapy benefit and infer immunotherapy response.",
+    "zh": "作者用多尺度图神经网络 + 门控注意力 MIL(MS-GMIL)从胃癌 H&E 全切片提取特征,再用 LASSO-Cox 选出 11 个特征加权求和,得到病理组学签名 PSGC;它在 1 个训练队列和 4 个验证队列(共 3,138 例)中都是总生存的独立预后因素,并被用来分层辅助化疗获益和推测免疫治疗反应。"
    },
    "url": {
     "en": "../papers/pathomics-npjpo-2026/",
@@ -499,8 +505,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "AnoPILaD is a pathology-informed latent diffusion model: a VLM (CONCH) selects normal-tissue keywords that condition an LDM's reconstruction toward normal morphology, and the input-vs-reconstruction discrepancy serves as an unsupervised anomaly score for lymph-node metastasis.",
-    "zh": "AnoPILaD:用病理关键词提示(CONCH 视觉-语言模型选词)引导潜空间扩散模型(Stable Diffusion v1.5 + LoRA)重建\"正常样\"淋巴结组织,再以重建差异作为异常分数,实现无监督的转移灶检测。"
+    "en": "AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 \"normal tissue\" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).",
+    "zh": "AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个\"正常组织关键词\"里挑出最贴切的 5 个作为提示,把输入\"重建成正常样子\",输入与重建的差异就是异常分;在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。"
    },
    "url": {
     "en": "../papers/histo-miccai-2025/",
@@ -508,6 +514,35 @@
    },
    "x": 270,
    "y": 394
+  },
+  {
+   "id": "abnormality-radiology-arxiv-2024",
+   "kind": "paper",
+   "parent": "group:detect",
+   "label": "Abnormality radiology (Ligero 2024)",
+   "title": "Abnormality-Driven Representation Learning for Radiology Imaging",
+   "year": 2024,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A0",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "CLEAR treats a CT scan as a stack of 2D axial slices: a frozen encoder trained by self-supervised contrastive learning embeds each slice, and attention-based multiple-instance learning (ABMIL) aggregates them into a patient-level prediction; the proposed LeCL feeds lesion-centred crops to one encoder branch so that representations focus on abnormalities. With 22–36M-parameter models it matches or slightly beats BiomedCLIP on three tasks.",
+    "zh": "CLEAR 框架把 CT 当作一叠 2D 轴位切片:用自监督对比学习训练的编码器(冻结)给每张切片提特征,再用注意力多示例学习(ABMIL)聚合成病人级预测;其中提出的 LeCL 在对比学习中让一路编码器看到以病灶为中心的裁剪,使表征更关注异常。用约 2–4 千万参数的模型,在三项任务上与 BiomedCLIP 相当或略好。"
+   },
+   "url": {
+    "en": "../papers/abnormality-radiology-arxiv-2024/",
+    "zh": "../zh/papers/abnormality-radiology-arxiv-2024/"
+   },
+   "x": 270,
+   "y": 448
   },
   {
    "id": "spatial-natcommun-2024",
@@ -528,15 +563,15 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics framework that detects, aligns, and subtypes anomalous tissue domains (ATDs) de novo — training a reconstruction model on normal tissue only and flagging high-reconstruction-error spots — without predefined anomaly markers.",
-    "zh": "STANDS 是一个基于 GAN 的多样本空间转录组框架,以\"只见过正常组织\"的重构模型做异常检测,再对齐、再聚类,de novo 地识别并解剖疾病导致的异常组织域(ATD),无需预设 marker。"
+    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics (ST) framework: it learns to reconstruct normal spots from a \"normal\" reference section, flags poorly reconstructed spots in target sections as anomalous tissue domains (ATDs), aligns several samples into the reference space, and clusters the anomalies into subtypes that are shared across samples or sample-specific — without any predefined anomaly marker genes.",
+    "zh": "STANDS 是一套基于 GAN 的多样本空间转录组(ST)框架:先在\"正常\"参考切片上学会重建正常 spot,把重建得差的 spot 标为异常组织域(ATD);再把多个样本对齐到参考空间;最后把异常聚成\"跨样本共享 / 样本特有\"的亚型——全程不需要预先给出异常 marker 基因。"
    },
    "url": {
     "en": "../papers/spatial-natcommun-2024/",
     "zh": "../zh/papers/spatial-natcommun-2024/"
    },
    "x": 270,
-   "y": 448
+   "y": 502
   },
   {
    "id": "pathomics-blood-2023",
@@ -547,7 +582,7 @@
    "year": 2023,
    "venue": "Blood (65th ASH Annual Meeting, Abstract 2294)",
    "relevance": "medium",
-   "status": "complete",
+   "status": "abstract-only",
    "type": "paper",
    "plans": [],
    "track0": "",
@@ -555,15 +590,15 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "A deep-learning pathomics pipeline that segments nucleated cells, fat cells, and evaluable hematopoietic regions on bone-marrow whole-slide images and extracts nuclear shape/texture/color features, enabling objective, scalable, region-resolved characterization of the MPN bone-marrow microenvironment.",
-    "zh": "一个把骨髓活检全切片(WSI)中有核细胞、脂肪细胞及可评估造血组织自动分割,并从核形态提取 shape/texture/color 特征的深度学习 pathomics 流程,用于客观、可扩展、分区域地刻画 MPN 骨髓微环境。"
+    "en": "On H&E whole-slide images of bone-marrow biopsies from 54 polycythemia vera (PV) patients, the authors segment nucleated cells with deep learning and fat / evaluable regions with classical image analysis to estimate marrow cellularity automatically, comparing with pathology reports; a cell-based estimator agrees far better with the reports than a tissue-area-based one.",
+    "zh": "在 54 例真性红细胞增多症(PV)患者的骨髓活检 H&E 全切片上,作者用深度学习分割有核细胞、配合经典图像分析分割脂肪和可评估区域,自动估计骨髓\"细胞密度\"(cellularity),并与病理报告对比;基于细胞计数的方法与报告的一致性明显好于基于组织面积的方法。"
    },
    "url": {
     "en": "../papers/pathomics-blood-2023/",
     "zh": "../zh/papers/pathomics-blood-2023/"
    },
    "x": 270,
-   "y": 502
+   "y": 556
   },
   {
    "id": "pathomics-repo",
@@ -582,15 +617,15 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "PathOmics is the official code for a MICCAI 2023 Oral paper: a pathology-and-genomics multimodal Transformer that learns fused embeddings via unsupervised multimodal pretraining, then supervised-finetunes to predict cancer survival outcomes.",
-    "zh": "PathOmics 是 MICCAI 2023 Oral 论文的官方开源实现:一个\"病理图像 + 基因组学\"多模态 Transformer,用无监督多模态预训练学习融合表征,再有监督微调来预测癌症生存结局(survival outcome)。"
+    "en": "PathOmics is the official code of the MICCAI 2023 paper (Oral; \"top 9%\" per the README) \"Pathology-and-genomics Multimodal Transformer for Survival Outcome Prediction\": unsupervised pretraining fuses pathology-slide and genomics (miRNA in the example) embeddings, then supervised finetuning predicts cancer survival with either both modalities or a single one.",
+    "zh": "PathOmics 是 MICCAI 2023(Oral,README 称 top 9%)论文 \"Pathology-and-genomics Multimodal Transformer for Survival Outcome Prediction\" 的官方代码:先用无监督预训练把病理切片和基因组学(示例用 miRNA)的嵌入融合对齐,再有监督微调做癌症生存预测,微调时可以用双模态,也可以只用单一模态。"
    },
    "url": {
     "en": "../papers/pathomics-repo/",
     "zh": "../zh/papers/pathomics-repo/"
    },
    "x": 270,
-   "y": 556
+   "y": 610
   },
   {
    "id": "histo-anomaly-bi-repo",
@@ -611,15 +646,15 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "An open-source PyTorch repo from Boehringer Ingelheim that learns representations from healthy tissue only, then applies one-class classifiers to flag drug-induced histological anomalies in whole-slide images. Companion code to Zingman et al., *Medical Image Analysis* 2024.",
-    "zh": "Boehringer Ingelheim 开源的 PyTorch 代码库,只用「健康组织」训练表征,再用 one-class 分类器在组织病理全切片上检测药物毒性引起的异常改变。"
+    "en": "A PyTorch repository from Boehringer Ingelheim: a CNN is trained on healthy tissue from several species, organs and two stains (auxiliary classification + center-loss), then a one-class SVM is fit on healthy features of the target tissue to find drug-induced histological alterations in whole-slide images; companion paper: Zingman et al., *Medical Image Analysis* 2024.",
+    "zh": "Boehringer Ingelheim 的 PyTorch 代码库:先在多物种、多器官、两种染色的健康组织上训练 CNN(辅助分类任务 + center-loss),再在目标组织的健康特征上训练 one-class SVM,用来在全切片中找出药物引起的组织病理改变;配套论文为 Zingman et al., *Medical Image Analysis* 2024。"
    },
    "url": {
     "en": "../papers/histo-anomaly-bi-repo/",
     "zh": "../zh/papers/histo-anomaly-bi-repo/"
    },
    "x": 270,
-   "y": 610
+   "y": 664
   },
   {
    "id": "group:model",
@@ -650,8 +685,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "",
-    "zh": ""
+    "en": "VirTues (Virtual Tissues) is a foundation model for spatial proteomics: each marker channel of a multiplexed image is tokenised and tagged with a protein-language-model (ESM-2) embedding of that protein, and a ViT with factorised spatial / marker attention is pretrained as a masked autoencoder; one backbone then supports marker reconstruction, cell typing, tissue-level clinical prediction, case retrieval and cross-cohort biomarker discovery.",
+    "zh": "VirTues(Virtual Tissues)是空间蛋白质组学的基础模型:把多重成像的每个 marker 通道切成 token,并用蛋白质语言模型(ESM-2)的嵌入告诉模型\"这是哪个蛋白\",用\"空间注意力 / marker 注意力\"分解的 ViT 做掩码自编码预训练;一个预训练骨干即可做 marker 重建、细胞分型、组织级临床预测、病例检索和跨队列生物标志物发现。"
    },
    "url": {
     "en": "../papers/virtual-tissue-2501/",
@@ -669,7 +704,7 @@
    "year": 2025,
    "venue": "Arc Institute (competition; companion paper in Cell)",
    "relevance": "medium",
-   "status": "complete",
+   "status": "abstract-only",
    "type": "competition",
    "plans": [],
    "track0": "",
@@ -677,8 +712,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Arc Institute's annual public competition asking models to predict single-cell gene-expression shifts caused by single-gene CRISPR perturbations in a held-out cell type (H1 hESC), scored on a standardized 3-metric protocol — framed as \"a Turing test for the virtual cell.\"",
-    "zh": "Arc Institute 主办的年度公开竞赛,要求参赛模型预测单基因 CRISPR 扰动在一个\"留出细胞类型\"(H1 人胚胎干细胞)中引起的单细胞基因表达变化,并用统一的三指标标准化评测——本质是\"virtual cell 的图灵测试\"。"
+    "en": "An annual open competition by the Arc Institute: given single-cell expression after CRISPRi knockdown of some genes in a new cell type (H1 human embryonic stem cells in 2025), predict how unseen knockdowns change single-cell expression; framed as \"a Turing test for the virtual cell\" (*Cell* title, Arc launch page).",
+    "zh": "Arc Institute 每年举办的公开竞赛:给定一个新细胞类型(2025 届是 H1 人胚胎干细胞)里部分基因被 CRISPRi 敲低后的单细胞表达,预测其余未见过的敲低会让单细胞表达怎样变化;官方把它定位为\"virtual cell 的图灵测试\"(*Cell* 标题, Arc 发布公告)。"
    },
    "url": {
     "en": "../papers/virtual-cell-challenge/",
@@ -706,7 +741,7 @@
    "label": "MintFlow",
    "title": "Mapping and reprogramming human tissue microenvironments with MintFlow",
    "year": 2025,
-   "venue": "",
+   "venue": "bioRxiv",
    "relevance": "high",
    "status": "complete",
    "type": "paper",
@@ -716,8 +751,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "MintFlow is a flow-matching generative model that disentangles each cell's spatial-transcriptomics expression into intrinsic vs microenvironment-induced components, and supports in silico tissue perturbation (deleting/replacing cell types) to predict the resulting gene-expression changes.",
-    "zh": "MintFlow 是一个基于 flow matching 的生成式 AI 模型,能在空间转录组中把每个细胞的表达解耦为「内在(intrinsic)」和「微环境诱导(microenvironment-induced)」两部分,并支持对组织微环境做 in silico 扰动(删除/替换某类细胞),预测由此引发的基因表达变化。"
+    "en": "MintFlow is a flow-matching generative model for single-cell-resolution spatial transcriptomics (Xenium): it splits each cell's expression into an intrinsic part and a microenvironment-induced part, and can delete or replace a cell type in silico to predict how neighbouring cells' expression would change.",
+    "zh": "MintFlow 是一个基于 flow matching 的生成模型:在单细胞分辨率空间转录组(Xenium)上,把每个细胞的表达拆成\"细胞本身(intrinsic)\"和\"由周围微环境诱导(microenvironment-induced)\"两部分,并能在电脑里删除或替换某类细胞,预测邻近细胞表达如何变化。"
    },
    "url": {
     "en": "../papers/spatial-biorxiv-2025/",
@@ -743,8 +778,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "CMonge is a conditional neural optimal-transport method that learns a single map from control to perturbed single-cell distributions conditioned on arbitrary covariates (drug, dose, cell type, combinations), and generalizes to unseen drugs from compound structure alone.",
-    "zh": "提出 Conditional Monge Gap (CMonge):一种可在任意协变量(药物、剂量、细胞类型、组合)上条件化的神经最优传输(neural OT)方法,把\"对照细胞分布→扰动后细胞分布\"的映射统一到单一模型,并能仅凭化合物结构泛化到未见过的药物。"
+    "en": "CMonge (Conditional Monge Gap) uses one neural optimal-transport (OT) model, conditioned on drug, dose or drug combination, to map the distribution of untreated cells onto the distribution of treated cells; it can predict single-cell responses to unseen drugs from their molecular structure alone.",
+    "zh": "CMonge(Conditional Monge Gap)用一个神经最优传输(OT)模型,在药物、剂量或药物组合等条件下,把\"未处理细胞的分布\"搬运成\"处理后细胞的分布\";它可以只凭药物分子结构去预测没见过的药物的单细胞响应。"
    },
    "url": {
     "en": "../papers/scrna-natmachintell-2026/",
@@ -788,7 +823,7 @@
     "zh": "agent 与证据"
    },
    "code": "agents",
-   "count": 2,
+   "count": 5,
    "x": 1080,
    "y": 0
   },
@@ -811,8 +846,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "DeepEvidence is a biomedical deep-research agent: an orchestrator plus specialized subagents coordinate breadth-first (BFRS) and depth-first (DFRS) research strategies to explore heterogeneous knowledge bases and literature over long horizons, while incrementally constructing an evidence graph of entities, relations and provenance that makes the research process trackable, attributable and verifiable. It outperforms generic agents across four public benchmarks and seven newly built tasks.",
-    "zh": "DeepEvidence 是一个面向生物医学的 deep research agent:用 orchestrator + 子 agent 的多智能体架构,把「广度优先(BFRS)」与「深度优先(DFRS)」两种检索策略编排起来,跨异构知识库与文献做长程探索,并增量构建一张 evidence graph 记录实体、关系与出处,使整个研究过程可追踪、可归因、可验证;在四个公开基准与七个新建任务上全面超过通用 agent。"
+    "en": "DeepEvidence is a biomedical deep-research agent: an orchestrator dispatches two kinds of subagent — breadth-first BFRS and depth-first DFRS — that write code to query 17 heterogeneous knowledge bases and the literature, while incrementally building an evidence graph with provenance. With the same base LLM (GPT-5) for every agent, it beats Biomni and ToolUniverse on four open benchmarks and on new drug-discovery, preclinical, clinical-trial and evidence-based-medicine tasks (Abstract; Figs. 1–5).",
+    "zh": "DeepEvidence 是一个面向生物医学的 deep research agent:一个 orchestrator 调度两类子 agent —— 广度优先的 BFRS 和深度优先的 DFRS —— 通过写代码去查 17 个异构知识库与文献,同时增量构建一张带出处(provenance)的 evidence graph;在同一底座 LLM(GPT-5)下,它在 4 个公开基准和一组新建的药物发现、临床前、临床试验、循证医学任务上都超过 Biomni 与 ToolUniverse(Abstract;Fig. 1–5)。"
    },
    "url": {
     "en": "../papers/deepevidence-natmachintell-2026/",
@@ -820,6 +855,35 @@
    },
    "x": 1080,
    "y": 70
+  },
+  {
+   "id": "biomni-biorxiv-2025",
+   "kind": "paper",
+   "parent": "group:agents",
+   "label": "Biomni",
+   "title": "Biomni: A General-Purpose Biomedical AI Agent",
+   "year": 2025,
+   "venue": "bioRxiv",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "track0": "B1",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "Biomni is the Leskovec-lab general-purpose biomedical agent: an action discovery agent reads the 100 most recent papers in each of bioRxiv's 25 subject categories (2,500 papers) and extracts tasks, software and databases, which are implemented and tested by humans into the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve relevant tools → write a plan → write and run code → revise the plan from results) then solves cross-domain tasks zero-shot, plus one CRISPR-cloning wet-lab run that followed its protocol verbatim (Results §\"Overview of Biomni\"; Fig. 1; Fig. 4).",
+    "zh": "Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先让一个 action discovery agent 读 bioRxiv 25 个学科各 100 篇最新论文(共 2,500 篇),抽取任务、软件和数据库,经人工实现与测试后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库);再用基于 CodeAct 的 agent Biomni-A1(检索相关工具 → 写计划 → 写代码执行 → 根据结果修改计划)零样本完成跨领域任务,并有一个按其 protocol 原样执行的 CRISPR 克隆湿实验(Results §\"Overview of Biomni\";Fig. 1;Fig. 4)。"
+   },
+   "url": {
+    "en": "../papers/biomni-biorxiv-2025/",
+    "zh": "../zh/papers/biomni-biorxiv-2025/"
+   },
+   "x": 1080,
+   "y": 124
   },
   {
    "id": "hypogen-llm-colm-2024",
@@ -840,15 +904,73 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Using a biomedical background → hypothesis dataset split by publication date (pre-Jan-2023 = train/seen, Aug-2023 = unseen), the paper systematically evaluates LLM hypothesis generation in zero-shot, few-shot, fine-tuned, tool-use and multi-agent settings, introduces four rubric metrics (Novelty, Relevance, Significance, Verifiability; scored by GPT-4 and checked against human experts), and finds LLMs can propose novel, later-validated hypotheses even on unseen literature — with \"uncertainty\" (measured by SelfBLEU) trading novelty against verifiability.",
-    "zh": "用按发表时间切分(2023 年 1 月前 = 训练/seen,2023 年 8 月 = unseen)的生物医学「背景知识 → 假设」配对数据集,系统评测 LLM 在 zero-shot / few-shot / 微调 / 工具调用 / 多智能体设置下的假设生成能力,提出 Novelty、Relevance、Significance、Verifiability 四维评分(GPT-4 打分并与人类专家对齐),发现 LLM 在未见文献上也能提出新颖且后来被验证的假设,而\"不确定性\"(SelfBLEU 衡量)在新颖性与可验证性之间形成权衡。"
+    "en": "The authors automatically extract \"background → hypothesis\" pairs from PubMed papers, split them by publication date (before Jan 2023 = train/seen, Aug 2023 = unseen) so test data cannot have been seen in training, and systematically evaluate 2023-era LLMs at proposing biomedical hypotheses zero-shot, few-shot, fine-tuned, with tools and as a multi-agent system, scoring Novelty / Relevance / Significance / Verifiability on 0–3 (LLM judge + human experts) (Abstract; §2–4).",
+    "zh": "作者从 PubMed 文献中自动抽取「背景知识 → 假设」配对,按发表时间切分(2023 年 1 月前 = 训练/seen,2023 年 8 月 = unseen)以避免测试数据被模型训练见过,系统评测 2023 年代 LLM 在 zero-shot、few-shot、微调、工具调用和多智能体设置下提出生物医学假设的能力,用 Novelty / Relevance / Significance / Verifiability 四个 0–3 分维度(LLM 评审 + 人类专家)打分(Abstract;§2–4)。"
    },
    "url": {
     "en": "../papers/hypogen-llm-colm-2024/",
     "zh": "../zh/papers/hypogen-llm-colm-2024/"
    },
    "x": 1080,
-   "y": 124
+   "y": 178
+  },
+  {
+   "id": "gpnmb-cart-cell-2026",
+   "kind": "paper",
+   "parent": "group:agents",
+   "label": "GPNMB CAR T (Cell 2026)",
+   "title": "AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy",
+   "year": 2026,
+   "venue": "Cell",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "track0": "B1",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "A reproducible target-discovery pipeline that combines a single-cell skin-cancer atlas, scored features from six public knowledge bases, and three LLMs (for feature weighting and for target nomination); its top-ranked target GPNMB was built into a CAR T cell (T cells engineered to kill whatever carries a chosen surface protein) that cleared tumours in mouse xenograft models of leukaemia, melanoma and colorectal cancer.",
+    "zh": "把单细胞转录组图谱 + 六个公共知识库的\"打分特征\" + 三个 LLM 的加权与提名组合成一条可复现的靶点发现流水线,流水线选出的头号靶点 GPNMB 被做成 CAR T 细胞(一种把 T 细胞改造成\"认准某个表面蛋白就杀\"的活细胞药),并在白血病、黑色素瘤、结直肠癌三种小鼠移植瘤模型里显示强效抗肿瘤活性。"
+   },
+   "url": {
+    "en": "../papers/gpnmb-cart-cell-2026/",
+    "zh": "../zh/papers/gpnmb-cart-cell-2026/"
+   },
+   "x": 1080,
+   "y": 232
+  },
+  {
+   "id": "virtual-biotech-biorxiv-2026",
+   "kind": "paper",
+   "parent": "group:agents",
+   "label": "Virtual Biotech",
+   "title": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development",
+   "year": 2026,
+   "venue": "bioRxiv",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "track0": "B1",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "A biotech company's org chart rebuilt as a team of LLM agents: a Chief Scientific Officer agent takes a scientific question, decomposes it and delegates to eight specialist scientist agents across four research divisions, which call 100-plus tools and public databases through MCP servers to run real computation, with the CSO integrating the results; the authors demonstrate it on three translational case studies — large-scale annotation of 55,984 clinical trials, a B7-H3 lung-cancer target assessment, and a post-mortem of a failed ulcerative-colitis trial.",
+    "zh": "把一家生物技术公司的组织架构照搬成 LLM agent 团队:一个\"首席科学官\"(CSO)agent 接收科学问题、拆解并分派给四个科研部门下的八个专科 scientist agent,后者通过 MCP server 调用 100 多个工具与公共数据库做真实计算,再由 CSO 汇总;作者用它做了三个转化医学案例(5.6 万条临床试验的大规模标注分析、B7-H3 肺癌靶点评估、一个失败的溃疡性结肠炎试验的复盘)。"
+   },
+   "url": {
+    "en": "../papers/virtual-biotech-biorxiv-2026/",
+    "zh": "../zh/papers/virtual-biotech-biorxiv-2026/"
+   },
+   "x": 1080,
+   "y": 286
   },
   {
    "id": "group:ehr",
@@ -881,8 +1003,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Delphi-2M turns GPT-2 into a continuous-time, competing-risk generative model of multi-morbidity: given a person's sequence of first ICD-10 diagnoses (1,256 diseases + death) plus sex/BMI/smoking/alcohol, it predicts both what the next event is and when it happens. Trained on 0.4M UK Biobank participants with only 2.2M parameters, it reaches an average age-stratified AUC of ~0.76 across >1,000 diseases, 0.67 on 1.93M Danish individuals with no parameter changes, and can sample synthetic health trajectories up to 20 years ahead.",
-    "zh": "Delphi-2M 把 GPT-2 改造成连续时间、多病种竞争风险的生成模型:输入一个人的 ICD-10 首诊序列(1,256 种疾病 + 死亡)及性别/BMI/吸烟/饮酒,同时输出下一事件是什么以及何时发生;在 40 万 UK Biobank 参与者上训练、仅 220 万参数,对 >1,000 种疾病的平均年龄分层 AUC 约 0.76,不改参数迁移到 193 万丹麦人上仍有 0.67,还能采样未来 20 年的合成健康轨迹。"
+    "en": "Delphi-2M turns GPT-2 into a continuous-time, competing-risk generative model of disease: given a person's ICD-10 diagnoses ordered by age at first diagnosis (1,256 diseases) plus sex, BMI, smoking and alcohol, it predicts which disease (or death) comes next and how long until it happens. Trained on 0.4M UK Biobank participants with only 2.2M parameters, it reaches an average age–sex-stratified AUC of ~0.76 across >1,000 diseases in internal validation, 0.67 on 1.93M Danish individuals with no parameter changes, and can sample synthetic future health trajectories up to 20 years ahead (Abstract; Fig. 2b; Fig. 5a).",
+    "zh": "Delphi-2M 把 GPT-2 改成连续时间、竞争风险的疾病生成模型:输入一个人按首诊年龄排列的 ICD-10 诊断(1,256 种疾病)以及性别、BMI、吸烟、饮酒,输出下一事件是哪种病(或死亡)以及多久之后发生;在 40 万 UK Biobank 参与者上训练、仅 220 万参数,内部验证中 >1,000 种疾病的平均年龄-性别分层 AUC 约 0.76,不改参数用于 193 万丹麦人平均 AUC 0.67,并能采样最长 20 年的合成未来健康轨迹(Abstract;Fig. 2b;Fig. 5a)。"
    },
    "url": {
     "en": "../papers/ehr-delphi2m-nature-2025/",
@@ -910,8 +1032,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "CancerRiskNet: using only timestamped ICD diagnosis-code sequences (disease trajectories), a Transformer trained on the Danish National Patient Registry (6.2M patients, 23,985 pancreatic cancer cases) predicts pancreatic cancer risk within 3/6/12/36/60 months. 36-month AUROC is 0.879, and still 0.83 when the last 3 months before diagnosis are excluded; transferred as-is to the US Veterans Affairs system it falls to 0.71, recovering to 0.78 after local retraining — showing both that temporal order carries signal and that models do not transfer across health systems for free.",
-    "zh": "CancerRiskNet:只用带时间戳的 ICD 诊断码序列(disease trajectory),在丹麦全国患者登记(620 万人,23,985 例胰腺癌)上训练 Transformer,预测 3/6/12/36/60 个月内发生胰腺癌的风险;36 个月 AUROC 0.879,排除确诊前 3 个月数据后仍有 0.83;直接迁移到美国退伍军人系统(US-VA)跌到 0.71,本地重训后回到 0.78 —— 明确证明「时间顺序」有信息量,也明确证明「跨医疗系统不能直接搬模型」。"
+    "en": "CancerRiskNet: using only timestamped ICD diagnosis-code sequences (disease trajectories), a Transformer trained on the Danish National Patient Registry (DNPR; 6.2M patients and 23,985 pancreatic cancer cases after filtering) predicts whether pancreatic cancer occurs within 3/6/12/36/60 months after the assessment time. The 36-month AUROC is 0.879, and the abstract reports 0.83 when the last 3 months before diagnosis are removed from training. Applied unchanged to the US Veterans Affairs system (US-VA) it drops to 0.710; retrained on VA data it reaches 0.775 (abstract: 0.78) (Abstract; Results).",
+    "zh": "CancerRiskNet:只用带时间戳的 ICD 诊断码序列(disease trajectory,疾病轨迹),在丹麦全国患者登记(DNPR;过滤后 620 万人、23,985 例胰腺癌)上训练 Transformer,同时预测评估时刻之后 3/6/12/36/60 个月内是否发生胰腺癌;36 个月窗口 AUROC 0.879,训练时去掉确诊前 3 个月的数据后摘要报告 0.83;不改参数直接用于美国退伍军人系统(US-VA)降到 0.710,在 VA 上重新训练后为 0.775(摘要:0.78)(Abstract;Results)。"
    },
    "url": {
     "en": "../papers/ehr-pancreatic-trajectory-natmed-2023/",
@@ -939,8 +1061,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "APOLLO (Mahmood lab): a multimodal temporal Transformer pretrained with masked modelling on 33 years of records from 17 Mass General Brigham hospitals — 7.2M patients, 25.3B medical events, 28 modalities (structured codes, labs, vitals, medications, note and report text, pathology/blood-smear images) — compressing a whole care journey into a \"virtual patient\" embedding. Frozen embeddings with a linear Cox head substantially beat an age–sex baseline across 261 prognostic and 61 retrieval tasks on a 1.4M-patient test set.",
-    "zh": "APOLLO(Mahmood 组):在 Mass General Brigham 17 家医院 33 年、720 万病人、253 亿条医疗事件、28 种模态(结构化码、化验、生命体征、用药、病程记录与报告文本、病理/血涂片图像)上做掩码预训练的多模态时间 Transformer,把整个就医历程压成一个「虚拟病人」向量;冻结向量 + 线性 Cox 头在 140 万人测试集的 261 个预后任务和 61 个检索任务上大幅超过年龄-性别基线。"
+    "en": "APOLLO (Mahmood lab, Mass General Brigham): a temporal Transformer pretrained by modality-specific masked reconstruction on 7,155,044 patients, ~25.3B medical events and 28 modalities (codes, medications, labs, vitals, flowsheets, clinical text, pathology/blood-smear images) from 17 hospitals, 1992–2025, compressing a whole care history into one \"virtual patient\" vector. Frozen vector → PCA → linear Cox beats an age–sex baseline on most of 261 prognostic tasks in a 1.43M-patient held-out test set, and supports patient retrieval on 61 cohorts (Abstract; Results).",
+    "zh": "APOLLO(Mahmood 组,Mass General Brigham):在 17 家医院 1992–2025 年 7,155,044 名病人、约 253 亿条医疗事件、28 种模态(诊断码、用药、化验、生命体征、flowsheet、临床文本、病理/血涂片图像)上用「模态特定 mask 的掩码重建」预训练一个时间 Transformer,把整个就医史压成一个「虚拟病人」向量;冻结向量 → PCA → 线性 Cox,在 143 万人留出测试集的 261 个预后任务上多数显著超过年龄-性别基线,并支持 61 个队列的病人检索(Abstract;Results)。"
    },
    "url": {
     "en": "../papers/ehr-apollo-arxiv-2026/",
@@ -968,8 +1090,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "COMET (Aghaeepour lab, Stanford): omics studies often have tens to hundreds of samples while the same hospital's EHR covers tens of thousands — pretrain a GRU on the large EHR-only cohort, transfer its weights into a multimodal EHR + omics network that blends early and late fusion, and both prediction and the biological plausibility of selected proteins improve, in a 61-person pregnancy proteomics cohort and a 559-person UK Biobank cancer proteomics cohort.",
-    "zh": "COMET(Aghaeepour 组,Stanford):组学研究往往只有几十到几百个样本,而同一医院的 EHR 有几万人 —— 先在「只有 EHR」的大队列上预训练一个 GRU,再把权重迁移进 EHR + 组学的多模态网络(早融合与晚融合混合),在 61 人妊娠蛋白组和 559 人 UK Biobank 癌症蛋白组上都提升了预测,并让模型挑出的蛋白更符合已知生物学。"
+    "en": "COMET (Aghaeepour lab, Stanford): omics studies usually have tens to hundreds of samples while the matching EHR covers tens of thousands — pretrain a GRU on the large EHR-only cohort, transfer its frozen weights into a multimodal EHR + omics network that adaptively blends early and late fusion; on a 61-person pregnancy proteomics cohort (days to labour) and a 559-person UK Biobank cancer proteomics cohort (3-year mortality) it beats a same-architecture baseline without pretraining, and the proteins it relies on agree better with known biology (Abstract; Results).",
+    "zh": "COMET(Aghaeepour 组,Stanford):组学研究通常只有几十到几百个样本,而同一来源的 EHR 有数万人 —— 先在「只有 EHR」的大队列上预训练一个 GRU,再把冻结的权重迁移进 EHR + 组学的多模态网络(早融合与晚融合的自适应混合);在 61 人妊娠蛋白组(预测距分娩天数)和 559 人 UK Biobank 癌症蛋白组(预测 3 年死亡)上,预测都优于同结构无预训练的基线,模型看重的蛋白也更符合已知生物学(Abstract;Results)。"
    },
    "url": {
     "en": "../papers/ehr-comet-natmachintell-2025/",
@@ -997,8 +1119,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "In a CancerRiskNet-style pancreatic cancer trajectory Transformer, replace randomly initialized code embeddings with LLM text embeddings of OMOP concept names (OpenAI text-embedding-3-small): on two US institutional EHRs — Columbia (CUMC) and Cedars-Sinai (CSMC) — 6–12-month AUROC rises from 0.59/0.82 to 0.67/0.86, and to 0.82/0.89 once data from the 0–3 months before diagnosis are excluded.",
-    "zh": "在 CancerRiskNet 式的胰腺癌轨迹 Transformer 里,把随机初始化的诊断码嵌入换成LLM 对 OMOP 概念名称的文本嵌入(OpenAI text-embedding-3-small),在 Columbia(CUMC)与 Cedars-Sinai(CSMC)两家美国院内 EHR 上,6–12 个月预测 AUROC 分别从 0.59/0.82 提升到 0.67/0.86;再排除确诊前 0–3 个月数据,升到 0.82/0.89。"
+    "en": "In a CancerRiskNet-style pancreatic cancer (PC) trajectory Transformer, randomly initialized code embeddings are replaced with LLM text embeddings of OMOP concept names (OpenAI text-embedding-3-small). On EHRs from two US hospitals, Columbia (CUMC) and Cedars-Sinai (CSMC), 6–12-month-ahead AUROC rises from 0.60/0.82 to 0.67/0.86, and reaches 0.82/0.89 after excluding data from the 0–3 months before diagnosis (Abstract; Table 2).",
+    "zh": "在 CancerRiskNet 式的胰腺癌(PC)轨迹 Transformer 中,把随机初始化的诊断码嵌入换成 LLM 对 OMOP 概念名称的文本嵌入(OpenAI text-embedding-3-small);在 Columbia(CUMC)与 Cedars-Sinai(CSMC)两家美国医院的 EHR 上,确诊前 6–12 个月预测 AUROC 由 0.60/0.82 升到 0.67/0.86,再排除确诊前 0–3 个月数据后为 0.82/0.89(Abstract;Table 2)。"
    },
    "url": {
     "en": "../papers/ehr-pancreatic-llm-npjdigitmed-2025/",
@@ -1022,24 +1144,7 @@
    "home": "group:foundations",
    "slot": 0,
    "x": 0,
-   "y": 774
-  },
-  {
-   "id": "concept:he-to-expression",
-   "kind": "concept",
-   "label": {
-    "en": "H&E → expression prediction",
-    "zh": "H&E → 表达预测"
-   },
-   "definition": {
-    "en": "",
-    "zh": ""
-   },
-   "count": 2,
-   "home": "group:foundations",
-   "slot": 1,
-   "x": 0,
-   "y": 820
+   "y": 828
   },
   {
    "id": "concept:cross-modal",
@@ -1052,11 +1157,11 @@
     "en": "",
     "zh": ""
    },
-   "count": 4,
-   "home": "group:detect",
-   "slot": 0,
-   "x": 270,
-   "y": 774
+   "count": 5,
+   "home": "group:foundations",
+   "slot": 1,
+   "x": 0,
+   "y": 874
   },
   {
    "id": "concept:ood-detection",
@@ -1070,10 +1175,10 @@
     "zh": "标记落在模型训练分布之外的输入,如未见过的药物、细胞语境或病变组织。"
    },
    "count": 4,
-   "home": "group:detect",
-   "slot": 1,
-   "x": 270,
-   "y": 820
+   "home": "group:foundations",
+   "slot": 2,
+   "x": 0,
+   "y": 920
   },
   {
    "id": "concept:virtual-tissue",
@@ -1090,7 +1195,7 @@
    "home": "group:model",
    "slot": 0,
    "x": 540,
-   "y": 774
+   "y": 828
   },
   {
    "id": "concept:perturbation",
@@ -1107,7 +1212,7 @@
    "home": "group:revert",
    "slot": 0,
    "x": 810,
-   "y": 774
+   "y": 828
   },
   {
    "id": "concept:spatial-omics",
@@ -1120,11 +1225,11 @@
     "en": "",
     "zh": ""
    },
-   "count": 3,
+   "count": 4,
    "home": "group:foundations",
-   "slot": 2,
+   "slot": 3,
    "x": 0,
-   "y": 866
+   "y": 966
   },
   {
    "id": "concept:risk-trajectory",
@@ -1137,14 +1242,19 @@
     "en": "",
     "zh": ""
    },
-   "count": 2,
+   "count": 3,
    "home": "group:ehr",
    "slot": 0,
    "x": 1350,
-   "y": 774
+   "y": 828
   }
  ],
  "edges": [
+  {
+   "source": "concept:foundation-model",
+   "target": "abnormality-radiology-arxiv-2024",
+   "kind": "mentions"
+  },
   {
    "source": "concept:foundation-model",
    "target": "ehr-apollo-arxiv-2026",
@@ -1162,27 +1272,12 @@
   },
   {
    "source": "concept:foundation-model",
-   "target": "histo-nejmai-2024",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:foundation-model",
    "target": "histo-sciencedirect-2026",
    "kind": "mentions"
   },
   {
    "source": "concept:foundation-model",
    "target": "virchow-2024",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:he-to-expression",
-   "target": "hest1k-2024",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:he-to-expression",
-   "target": "virtual-cell-challenge",
    "kind": "mentions"
   },
   {
@@ -1193,6 +1288,11 @@
   {
    "source": "concept:cross-modal",
    "target": "fm-arxiv-2604",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:cross-modal",
+   "target": "hest1k-2024",
    "kind": "mentions"
   },
   {
@@ -1212,7 +1312,7 @@
   },
   {
    "source": "concept:ood-detection",
-   "target": "imaging-ehjdh-2026",
+   "target": "pathbench-natcommun-2026",
    "kind": "mentions"
   },
   {
@@ -1227,17 +1327,17 @@
   },
   {
    "source": "concept:virtual-tissue",
-   "target": "counterfactual-diffusion-cancerres-2026",
+   "target": "abnormality-radiology-arxiv-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:virtual-tissue",
+   "target": "biomni-biorxiv-2025",
    "kind": "mentions"
   },
   {
    "source": "concept:virtual-tissue",
    "target": "ehr-apollo-arxiv-2026",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:virtual-tissue",
-   "target": "ehr-delphi2m-nature-2025",
    "kind": "mentions"
   },
   {
@@ -1262,11 +1362,6 @@
   },
   {
    "source": "concept:perturbation",
-   "target": "hest1k-2024",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:perturbation",
    "target": "histo-sciencedirect-2026",
    "kind": "mentions"
   },
@@ -1278,6 +1373,11 @@
   {
    "source": "concept:perturbation",
    "target": "spatial-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:perturbation",
+   "target": "virtual-biotech-biorxiv-2026",
    "kind": "mentions"
   },
   {
@@ -1297,7 +1397,12 @@
   },
   {
    "source": "concept:spatial-omics",
-   "target": "hest1k-2024",
+   "target": "spatial-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:spatial-omics",
+   "target": "virtual-tissue-2501",
    "kind": "mentions"
   },
   {
@@ -1309,6 +1414,17 @@
    "source": "concept:risk-trajectory",
    "target": "ehr-pancreatic-trajectory-natmed-2023",
    "kind": "mentions"
+  },
+  {
+   "source": "concept:risk-trajectory",
+   "target": "imaging-nature-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "deepevidence-natmachintell-2026",
+   "target": "biomni-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
   },
   {
    "source": "ehr-delphi2m-nature-2025",
@@ -1325,6 +1441,12 @@
   {
    "source": "hest1k-2024",
    "target": "virchow-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "virtual-biotech-biorxiv-2026",
+   "target": "biomni-biorxiv-2025",
    "kind": "cites",
    "label": "cites"
   },
@@ -1486,8 +1608,8 @@
   }
  ],
  "stats": {
-  "papers": 28,
-  "concepts": 8,
-  "edges": 62
+  "papers": 32,
+  "concepts": 7,
+  "edges": 65
  }
 }

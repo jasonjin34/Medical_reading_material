@@ -17,9 +17,9 @@ tags:
 
 # Spatial biomarker discovery via interpretable semantic learning in histopathology
 
-> PathPrism is an interpretable computational-pathology framework that "refracts" colorectal-cancer WSIs into a spectrum of semantically defined spatial biomarkers, drives transparent linear models for prognosis/mutation/therapy prediction, and adds VirtualWSI for perturbation-driven (in-silico) exploration.
+> PathPrism segments colorectal-cancer H&E whole-slide images (WSIs) into 8-class tissue maps, turns each map into 628 mathematically defined spatial features (tissue fractions, spatial entropy, tissue-graph features), and fits linear models for prognosis, mutations and chemotherapy benefit; VirtualWSI then perturbs the tissue map ("grow / shrink one tissue class") and tracks how risk and features move.
 
-> PathPrism 把结直肠癌全切片图像(WSI)"棱镜式"分解为可解释的语义空间生物标志物谱,用透明线性模型完成预后/突变/疗效预测,并用 VirtualWSI 做语义扰动式虚拟实验。
+> PathPrism 先把结直肠癌 H&E 全切片(WSI)分割成 8 类组织的语义图,再把语义图拆成 628 个有数学定义的空间特征(组织占比、空间熵、组织图特征),用线性模型预测预后、突变和化疗获益;VirtualWSI 在这张语义图上做"放大/缩小某类组织"的虚拟扰动,观察风险分和特征如何变化。
 
 ## Related papers / 相关论文
 - [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]] — reconstruct-to-normal

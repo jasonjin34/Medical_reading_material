@@ -37,7 +37,6 @@ tags:
 - [[_maps/concepts/claim-evidence|Claim → evidence chains]]
 - [[_maps/concepts/omics-agent|Single-cell analysis agents]]
 - [[_maps/concepts/outcome-eval|Final-answer grading]]
-- [[_maps/concepts/research-agent|AI scientist agents]]
 
 ## Deep-read / 精读
 

@@ -28,6 +28,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] — reviewed: GAN reconstruction
 - [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] — AnoGAN as deep baseline
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — cites
 - [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] — adds an encoder + WGAN to AnoGAN
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — GAN baseline
 - [[_maps/papers/spatial-natcommun-2024|STANDS]] — GAN on normal data; reconstruction-residual score

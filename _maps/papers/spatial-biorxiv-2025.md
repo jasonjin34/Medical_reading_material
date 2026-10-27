@@ -17,9 +17,9 @@ tags:
 
 # Mapping and reprogramming human tissue microenvironments with MintFlow
 
-> MintFlow is a flow-matching generative model that disentangles each cell's spatial-transcriptomics expression into intrinsic vs microenvironment-induced components, and supports in silico tissue perturbation (deleting/replacing cell types) to predict the resulting gene-expression changes.
+> MintFlow is a flow-matching generative model for single-cell-resolution spatial transcriptomics (Xenium): it splits each cell's expression into an intrinsic part and a microenvironment-induced part, and can delete or replace a cell type in silico to predict how neighbouring cells' expression would change.
 
-> MintFlow 是一个基于 flow matching 的生成式 AI 模型,能在空间转录组中把每个细胞的表达解耦为「内在(intrinsic)」和「微环境诱导(microenvironment-induced)」两部分,并支持对组织微环境做 in silico 扰动(删除/替换某类细胞),预测由此引发的基因表达变化。
+> MintFlow 是一个基于 flow matching 的生成模型:在单细胞分辨率空间转录组(Xenium)上,把每个细胞的表达拆成"细胞本身(intrinsic)"和"由周围微环境诱导(microenvironment-induced)"两部分,并能在电脑里删除或替换某类细胞,预测邻近细胞表达如何变化。
 
 ## Related papers / 相关论文
 - [[_maps/papers/scrna-natmachintell-2026|Conditional Monge Gap]] — perturbation/revert
@@ -27,6 +27,7 @@ tags:
 
 ## Concepts / 概念
 - [[_maps/concepts/perturbation|Perturbation & counterfactual]]
+- [[_maps/concepts/spatial-omics|Spatial omics]]
 - [[_maps/concepts/virtual-tissue|Virtual tissue / cell]]
 
 ## Deep-read / 精读

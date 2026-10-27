@@ -21,9 +21,9 @@ tags:
 
 # A multimodal and temporal foundation model for virtual patient representations at healthcare system scale
 
-> APOLLO (Mahmood lab): a multimodal temporal Transformer pretrained with masked modelling on 33 years of records from 17 Mass General Brigham hospitals — 7.2M patients, 25.3B medical events, 28 modalities (structured codes, labs, vitals, medications, note and report text, pathology/blood-smear images) — compressing a whole care journey into a "virtual patient" embedding. Frozen embeddings with a linear Cox head substantially beat an age–sex baseline across 261 prognostic and 61 retrieval tasks on a 1.4M-patient test set.
+> APOLLO (Mahmood lab, Mass General Brigham): a temporal Transformer pretrained by modality-specific masked reconstruction on 7,155,044 patients, ~25.3B medical events and 28 modalities (codes, medications, labs, vitals, flowsheets, clinical text, pathology/blood-smear images) from 17 hospitals, 1992–2025, compressing a whole care history into one "virtual patient" vector. Frozen vector → PCA → linear Cox beats an age–sex baseline on most of 261 prognostic tasks in a 1.43M-patient held-out test set, and supports patient retrieval on 61 cohorts (Abstract; Results).
 
-> APOLLO(Mahmood 组):在 Mass General Brigham 17 家医院 33 年、720 万病人、253 亿条医疗事件、28 种模态(结构化码、化验、生命体征、用药、病程记录与报告文本、病理/血涂片图像)上做掩码预训练的多模态时间 Transformer,把整个就医历程压成一个「虚拟病人」向量;冻结向量 + 线性 Cox 头在 140 万人测试集的 261 个预后任务和 61 个检索任务上大幅超过年龄-性别基线。
+> APOLLO(Mahmood 组,Mass General Brigham):在 17 家医院 1992–2025 年 7,155,044 名病人、约 253 亿条医疗事件、28 种模态(诊断码、用药、化验、生命体征、flowsheet、临床文本、病理/血涂片图像)上用「模态特定 mask 的掩码重建」预训练一个时间 Transformer,把整个就医史压成一个「虚拟病人」向量;冻结向量 → PCA → 线性 Cox,在 143 万人留出测试集的 261 个预后任务上多数显著超过年龄-性别基线,并支持 61 个队列的病人检索(Abstract;Results)。
 
 ## Related papers / 相关论文
 - [[_maps/papers/ehr-comet-natmachintell-2025|COMET (EHR + omics)]] — EHR pretraining → transfer

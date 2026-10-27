@@ -13,4 +13,3 @@ tags:
 - [[_maps/papers/hest1k-2024|HEST-1k]] — HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
 - [[_maps/papers/linear-baselines-natmethods-2025|Linear baselines win]] — Deep-learning-based gene perturbation effect prediction does not yet outperform simple linear baselines
 - [[_maps/papers/loki-omiclip-natmethods-2025|Loki / OmiCLIP]] — A visual–omics foundation model to bridge histopathology with spatial transcriptomics
-- [[_maps/papers/virtual-cell-challenge|Virtual Cell Challenge]] — Virtual Cell Challenge

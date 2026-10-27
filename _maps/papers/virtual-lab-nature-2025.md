@@ -30,6 +30,8 @@ tags:
 - [[_maps/papers/citation-faithfulness-arxiv-2026|Citation faithfulness guard]] — cites
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — multi-agent research
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — cites
+- [[_maps/papers/fev-bioinformatics-agents-arxiv-2026|FEV review]] — cites
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — cites
 
 ## Deep-read / 精读
 

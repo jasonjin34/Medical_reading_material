@@ -31,7 +31,6 @@ tags:
 - [[_maps/papers/lake-kidney-atlas-nature-2023|Kidney atlas (Lake 2023)]] — cites
 
 ## Concepts / 概念
-- [[_maps/concepts/cross-modal|Cross-modal agreement]]
 - [[_maps/concepts/damage-score|Damage score]]
 
 ## Deep-read / 精读

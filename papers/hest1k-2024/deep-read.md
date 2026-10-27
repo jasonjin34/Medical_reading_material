@@ -2,105 +2,143 @@
 
 > **Bibkey** `Jaume2024_240616192` · **Venue** arXiv preprint (2024) · **Category** foundation · **Relevance** medium · **Access** open
 > **Link** <https://arxiv.org/abs/2406.16192>
-> `status: complete` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
+> `status: complete` — 全文精读基于 arXiv v2(2024-11-02,`source.pdf`)。旧版笔记引用的是 v1 数字(1,108 样本、10 任务、10 个模型),本版已全部按 v2 改正。/ Close reading of arXiv v2 (2 Nov 2024, `source.pdf`). An earlier version of this note quoted v1 numbers (1,108 samples, 10 tasks, 10 models); all numbers below follow v2.
 
 ---
 
 ## 一句话 / One-liner
-<!-- ZH --> HEST-1k 是一个大规模、多器官、跨物种的数据集,把 1,229 个空间转录组(ST)profile 与配对的 H&E 全切片图像(WSI)及丰富元数据对齐,并配套 HEST-Library 工具包与 HEST-Benchmark,用于训练/评测"从形态学预测基因表达"的病理基础模型。
-<!-- EN --> HEST-1k is a large, multi-organ, cross-species dataset that aligns 1,229 spatial-transcriptomics (ST) profiles with paired H&E whole-slide images (WSIs) and rich metadata, shipped with the HEST-Library toolkit and HEST-Benchmark for training/evaluating pathology foundation models on morphology-to-expression prediction.
+<!-- ZH --> HEST-1k 把 153 个公开与内部队列中的 1,229 个空间转录组(ST)样本统一成"H&E 全切片 + 对齐的 spot 表达矩阵 + 元数据"的标准格式,配套 Python 工具包 HEST-Library 和"从 H&E patch 预测基因表达"的 HEST-Benchmark(9 个任务、11 个病理基础模型)(Abstract, §1)。
+<!-- EN --> HEST-1k unifies 1,229 spatial-transcriptomics (ST) samples from 153 public and internal cohorts into one format — H&E whole-slide image + aligned spot-level expression + metadata — and ships the HEST-Library Python package and HEST-Benchmark, which scores 11 pathology foundation models on predicting gene expression from H&E patches across 9 tasks (Abstract, §1).
+
+## 要点 / Takeaways
+- <!-- ZH --> 这是一篇**数据集 + 工具 + 基准**论文,不提出新模型;核心贡献是把格式五花八门的旧 ST 数据重新对齐、重新估计像素分辨率,变成可直接喂给深度学习的 (patch, 表达) 对,共约 210 万对(Abstract, §3.2)。 <!-- EN --> A **dataset + tooling + benchmark** paper, not a new model; the core contribution is re-aligning heterogeneous legacy ST data, re-estimating pixel size, and turning it into ~2.1M deep-learning-ready (patch, expression) pairs (Abstract, §3.2).
+- <!-- ZH --> 基准上最好的是 H-Optimus-0,9 个任务平均 Pearson 0.4146(PCA+Ridge),只用 ImageNet 预训练的 ResNet50 最低(0.326);也就是说"从形态猜表达"整体只有中等相关(Table 1)。 <!-- EN --> The best encoder is H-Optimus-0 with mean Pearson 0.4146 over 9 tasks (PCA+Ridge); ImageNet-only ResNet50 is lowest (0.326) — morphology predicts expression only moderately overall (Table 1).
+- <!-- ZH --> 任务间差距比模型间差距大:H-Optimus-0 在 SKCM 达 0.6432,在 READ 只有 0.2292;唯一的肾脏任务 ccRCC 在所有模型上都只有约 0.22–0.28(§5.3, Table 1)。 <!-- EN --> The gap between tasks is larger than between models: H-Optimus-0 reaches 0.6432 on SKCM but 0.2292 on READ; the only kidney task, ccRCC, sits at ~0.22–0.28 for every model (§5.3, Table 1).
+- <!-- ZH --> 模型规模与平均表现呈对数关系(R=0.81, P<0.01),预训练 patch 数只弱相关(R=0.48, P=0.13)(Fig. 2)。 <!-- EN --> Average performance scales logarithmically with encoder size (R=0.81, P<0.01) but only weakly with the number of pretraining patches (R=0.48, P=0.13) (Fig. 2).
+- <!-- ZH --> 读出头的选择会改变排名:直接 Ridge 时 CONCH 平均最高(0.3541),PCA+Ridge 时是 H-Optimus-0;作者因此主报 PCA+Ridge 与 XGBoost(§5.2, Table A13)。 <!-- EN --> The readout changes the ranking: with plain Ridge CONCH has the best average (0.3541), with PCA+Ridge H-Optimus-0 does; the authors therefore report PCA+Ridge and XGBoost as main results (§5.2, Table A13).
+- <!-- ZH --> 数据集含 70 个肾脏样本(Fig. 1a),其中包括 Lake 等人人类肾脏图谱的 23 个 Visium 样本(Table A5)——对我们的肾脏方向可以直接拿来用。 <!-- EN --> The collection holds 70 kidney samples (Fig. 1a), including 23 Visium samples from the Lake et al. human kidney atlas (Table A5) — directly usable for our kidney work.
 
 ## 研究问题 / Problem
-<!-- 这篇论文要解决什么问题?为什么重要? -->
-<!-- ZH --> 空间转录组学能以越来越高的分辨率读出组织的分子组成,但高成本、技术快速迭代、缺乏标准,使 ST 的计算方法长期局限于小队列、窄任务。同时,H&E WSI 中蕴含的组织形态信息(与基因表达高度相关)在 ST 研究中常被忽视。缺乏统一、标准化、配对形态-表达的大规模资源,阻碍了病理基础模型在诊断以外任务上的评测。
-<!-- EN --> Spatial transcriptomics reads molecular tissue composition at growing resolution, but cost, fast-evolving technology, and missing standards have confined ST computational methods to small cohorts and narrow tasks. Meanwhile the morphology encoded in H&E WSIs — strongly linked to expression — is routinely overlooked. There was no unified, standardized, large-scale paired morphology–expression resource to benchmark pathology foundation models beyond diagnosis.
+<!-- ZH --> 空间转录组能在组织切片上测出每个位置的基因表达,但成本高、技术更新快、缺乏统一标准,导致计算方法大多只在几个病人的小队列和窄任务上开发(§1)。同时,与 ST 配套的 H&E 切片里的形态信息常被忽略;而已有的病理 patch 级基准(如 Gleason 分级、CAMELYON)已经接近饱和,难以区分新的病理基础模型(§2)。作者要回答:能否把公开 ST 数据整理成一个统一的大规模配对资源,并用"从形态预测表达"作为评测基础模型的新任务?
+<!-- EN --> ST measures gene expression at each location of a tissue section, but cost, fast-moving technology and missing standards have kept methods confined to a few patients and narrow tasks (§1). The paired H&E morphology is often ignored, and existing patch-level pathology benchmarks (Gleason grading, CAMELYON) are close to saturated and no longer separate new foundation models (§2). The question: can public ST data be assembled into one unified, large paired resource, and can "predict expression from morphology" serve as a new, harder benchmark for foundation models?
 
 ## 方法 / Method
-<!-- 核心方法、模型、数据流。 -->
-<!-- ZH --> (1) 数据统一管线:HEST-Library(基于 Scanpy/AnnData)把异构图像格式(JPG/TIFF/OME.TIF/BigTIFF)统一为兼容 OpenSlide 的金字塔 TIFF;用 YOLOv8 检测 Visium fiducial 做自动配准,用 spot 间距推断像素分辨率,把 CSV/MEX/TXT/h5 等表达格式统一为 AnnData;用微调的 DeepLabV3(ResNet50 backbone)做组织分割;围绕每个 spot 抽取 20× 下 224×224 patch。(2) 评测协议:对每个 spot 的 112×112 μm H&E patch,用基础模型提取特征,再用 Random Forest(70 树)/Ridge 回归预测 top-50 高变基因表达,做 patient-stratified k-fold 交叉验证防泄漏,以 Pearson 相关为指标。(3) 多模态对齐:用 InfoNCE 对比损失微调 CONCH 的最后 3 层 ViT。
-<!-- EN --> (1) Unification pipeline: HEST-Library (on Scanpy/AnnData) converts heterogeneous image formats into OpenSlide-compatible pyramidal TIFF; YOLOv8 detects Visium fiducials for auto-alignment; pixel resolution is inferred from inter-spot spacing; expression matrices (CSV/MEX/TXT/h5) are unified to AnnData; a fine-tuned DeepLabV3 (ResNet50) segments tissue; 224×224 patches at 20× are cropped around each spot. (2) Benchmark protocol: from each 112×112 μm H&E patch, a frozen foundation model extracts features fed to Random Forest (70 trees) / Ridge regression predicting the top-50 highly variable genes, under patient-stratified k-fold CV, scored by Pearson correlation. (3) Multimodal alignment: CONCH's last 3 ViT layers are fine-tuned with an InfoNCE contrastive loss.
+<!-- ZH --> 1. **收集**:从 10x Genomics、Mendeley、Spatial-Research、Zenodo、NCBI、GitHub、Human Cell Atlas、BioStudies、HTAN 及内部队列抓取所有"ST + H&E 全切片"数据(§3, Table A1)。像素尺寸大于 1.15 µm/px 的图像被丢弃(§3.1)。
+<!-- ZH --> 2. **元数据统一**:癌症样本统一用 OncoTree 编码(MSKCC 的癌种分类);每个样本标注物种、器官、样本类型(健康、癌、非癌肿瘤、药物处理后、基因改造、其他病理)、ST 技术、spot 数、读数、放大倍数、冷冻/FFPE(§3.1)。
+<!-- ZH --> 3. **图像统一**:所有切片转为金字塔 TIFF(可用 OpenSlide/QuPath 读取);用微调的 DeepLabV3(ResNet50 骨干)做组织/背景分割,能处理笔迹、fiducial(芯片四角的定位标记)、伪影等(§3.2, §4)。
+<!-- ZH --> 4. **对齐**:Visium 用微调的 YOLOv8 自动检测四角 fiducial(119 个人工标注区域 + 数据增强),至少检到 3 个角即可推算 spot 坐标;再用已知 spot 间距反推像素尺寸;Xenium 用 VALIS 把 DAPI 图(与转录本天然对齐)配准到 H&E(§3.4, §4, Fig. 5)。
+<!-- ZH --> 5. **配对 patch**:在 20× 下围绕每个 spot 切 224×224 像素(= 112×112 µm)的 patch;Xenium 把转录本按 55×55 µm 方格汇总成"伪 Visium spot",共得到约 210 万个有表达的 patch(§3.2)。表达以原始 count 存为 AnnData(scanpy 的标准格式),不做归一化(§3.4)。
+<!-- ZH --> 6. **细胞核**:用 CellViT(在 PanNuke 上训练)对所有切片做核分割与 5 类分类(肿瘤上皮、非肿瘤上皮、炎症、间质、坏死),共 7,640 万个核(§3.3)。
+<!-- ZH --> 7. **HEST-Benchmark**:每个任务取跨样本归一化方差最大的 50 个基因(先排除在 <10% spot 中非零的基因),log1p 归一化;冻结的病理基础模型对每个 patch 提 embedding,再训练回归头预测这 50 个基因;按病人分层做 k 折交叉验证(k = 病人数,ccRCC 用 k/2),指标为预测与实测表达的 Pearson 相关。主报 PCA(256 维)+ Ridge 和 XGBoost(100 棵树、深度 3),另附直接 Ridge(§5.1–5.2, App. C.3)。
+<!-- ZH --> 8. **两个示范用例**:(a) 在 Xenium 乳腺癌切片上把 CellViT 核与 Xenium 细胞按质心最近匹配,计算 12 个可解释核特征与基因表达的相关(§6, App. E);(b) 用 InfoNCE 对比损失把 CONCH 图像编码器(只微调最后 3 层)与一个 3 层 MLP 表达编码器对齐,得到 CONCH-FT,再在独立乳腺癌队列上做分子分型(§7, App. D)。
+<!-- EN --> 1. **Collection**: every ST + H&E whole-slide dataset from 10x Genomics, Mendeley, Spatial-Research, Zenodo, NCBI, GitHub, the Human Cell Atlas, BioStudies, HTAN and internal cohorts (§3, Table A1). Images coarser than 1.15 µm/px are discarded (§3.1).
+<!-- EN --> 2. **Metadata**: cancer samples are coded with OncoTree (MSKCC's cancer taxonomy); each sample records species, organ, sample type (healthy, cancer, non-cancer tumour, treated, genetically modified, other pathological), ST technology, spot count, reads, magnification, frozen vs FFPE (§3.1).
+<!-- EN --> 3. **Images**: all slides become pyramidal TIFF (OpenSlide/QuPath-readable); a fine-tuned DeepLabV3 (ResNet50 backbone) segments tissue vs background, robust to pen marks, fiducials (corner markers on the capture slide) and artifacts (§3.2, §4).
+<!-- EN --> 4. **Alignment**: for Visium, a fine-tuned YOLOv8 detects the corner fiducials (119 hand-annotated regions plus augmentation); spot coordinates are derived when ≥3 of 4 corners are found, and pixel size is inferred from the known inter-spot distance. For Xenium, VALIS registers the DAPI image (aligned with transcripts by design) to the H&E (§3.4, §4, Fig. 5).
+<!-- EN --> 5. **Paired patches**: 224×224-pixel patches at 20× (= 112×112 µm) are cut around each spot; Xenium transcripts are pooled into 55×55 µm "pseudo-Visium" spots; ~2.1M patches with expression result (§3.2). Expression is stored as raw counts in AnnData (scanpy's format), un-normalised (§3.4).
+<!-- EN --> 6. **Nuclei**: CellViT (trained on PanNuke) segments and classifies every nucleus into 5 classes (neoplastic epithelial, non-neoplastic epithelial, inflammatory, stromal, necrotic): 76.4M nuclei in total (§3.3).
+<!-- EN --> 7. **HEST-Benchmark**: per task, the 50 genes with the highest normalised variance (after dropping genes non-zero in <10% of spots), log1p-normalised; a frozen foundation model embeds each patch and a regression head predicts the 50 genes; patient-stratified k-fold CV (k = number of patients; k/2 for ccRCC); metric = Pearson correlation between predicted and measured expression. Main readouts are PCA (256 factors) + Ridge and XGBoost (100 trees, depth 3); plain Ridge is in the appendix (§5.1–5.2, App. C.3).
+<!-- EN --> 8. **Two demos**: (a) on Xenium breast-cancer slides, CellViT nuclei are matched to Xenium cells by nearest centroid and 12 interpretable nuclear features are correlated with expression (§6, App. E); (b) the CONCH image encoder (last 3 layers fine-tuned) is aligned to a 3-layer MLP expression encoder with an InfoNCE contrastive loss, giving CONCH-FT, which is then tested on molecular subtyping in an independent breast cancer cohort (§7, App. D).
+
+## 方法图 / Method diagram
+```mermaid
+flowchart LR
+  A["Public + internal ST cohorts<br/>153 cohorts"] --> B["HEST-Library<br/>TIFF, AnnData, metadata"]
+  B --> C["Auto-alignment<br/>YOLOv8 fiducials / VALIS"]
+  C --> D["Spot-centred patches<br/>112 um, about 2.1M pairs"]
+  B --> E["CellViT nuclei<br/>76.4M"]
+  D --> F["HEST-Benchmark<br/>frozen encoder + PCA-Ridge / XGBoost"]
+  F --> G["Pearson r<br/>top-50 genes, patient-stratified CV"]
+  D --> H["Contrastive fine-tuning<br/>CONCH-FT"]
+```
 
 ## 数据 / Data
-<!-- 数据集、模态、规模、来源。 -->
-<!-- ZH --> HEST-1k(最新版本)含 1,229 个 ST profile,每个配一张 WSI 与元数据;来自 153 个公开+内部队列,覆盖 26 个器官、两个物种(人 Homo sapiens、小鼠 Mus musculus),含 367 个癌样本、25 种癌型;识别出约 210 万对 expression–morphology 对与超 7,600 万个细胞核。ST 技术涵盖 Visium/Visium HD、Xenium(亚细胞级)与原始 Spatial Transcriptomics;组织含冷冻与 FFPE,放大倍率 10×/20×/40×。数据源包括 10x Genomics、NCBI、Mendeley、Spatial-Research、Zenodo 及内部队列。(注:被读取的 v1 HTML 报告的是较早版本数字——1,108 样本 / 131 队列 / 25 器官 / 320 癌样本 / 150 万对 / 约 6,000 万核 / 825 GB;正文实验细节引自 v1。)
-<!-- EN --> HEST-1k (latest version) contains 1,229 ST profiles, each paired with one WSI and metadata; assembled from 153 public+internal cohorts spanning 26 organs, two species (human, mouse), 367 cancer samples across 25 cancer types; yielding ~2.1M expression–morphology pairs and >76M nuclei. ST technologies include Visium/Visium HD, Xenium (subcellular), and original Spatial Transcriptomics; both frozen and FFPE tissue at 10×/20×/40×. Sources include 10x Genomics, NCBI, Mendeley, Spatial-Research, Zenodo, and internal cohorts. (Note: the fetched v1 HTML reports earlier figures — 1,108 samples / 131 cohorts / 25 organs / 320 cancer samples / 1.5M pairs / ~60M nuclei / 825 GB; the experimental details below are quoted from v1.)
+<!-- ZH --> HEST-1k(v2):1,229 个样本、153 个队列、26 个器官、两个物种(人、小鼠);367 个癌症样本覆盖 25 种癌型;约 210 万个 spot 级 (patch, 表达) 对与 7,640 万个细胞核(Abstract, §3.3)。核分类:肿瘤 1,760 万、间质 2,150 万、正常上皮 490 万、炎症 1,540 万、坏死 7.6 万;平均每张切片 6.21 万个核(§3.3)。技术包括 STv1、Visium、Visium HD、Xenium(Fig. 1a)。样本类型(Fig. 1a):健康 345、癌 367、其他病理 453、药物处理 53 等。完整下载超过 1 TB(§4)。按来源:NCBI 696 个样本、Spatial-Research 139、Mendeley 118、10x Genomics 112、内部 28 等(Table A1)。**肾脏**:Fig. 1a 列出 70 个肾脏样本;附录表中包括 Lake 等人人类肾脏健康/损伤图谱 23 个 Visium 样本、肾乳头结石病图谱 7 个、肾损伤上皮-免疫互作 4 个,以及若干小鼠肾脏样本(Table A2, A5)。基准任务规模很小:IDC 4 病人、PRAD 2 病人(23 样本)、PAAD 3、SKCM 2、COAD 2、READ 2、ccRCC 24、LUAD 2、淋巴结转移 IDC 4(Table A11)。GitHub README 现在写的是 1,276 个样本,说明数据集在论文之后仍在扩充(README, 2026-10 访问)。
+<!-- EN --> HEST-1k (v2): 1,229 samples, 153 cohorts, 26 organs, two species (human, mouse); 367 cancer samples from 25 cancer types; ~2.1M spot-level (patch, expression) pairs and 76.4M nuclei (Abstract, §3.3). Nucleus classes: neoplastic 17.6M, stromal 21.5M, normal epithelial 4.9M, inflammatory 15.4M, necrotic 76k; 62.1k nuclei per slide on average (§3.3). Technologies: STv1, Visium, Visium HD, Xenium (Fig. 1a). Sample types (Fig. 1a): healthy 345, cancer 367, other pathological 453, treated 53, among others. The full download exceeds 1 TB (§4). By source: NCBI 696 samples, Spatial-Research 139, Mendeley 118, 10x Genomics 112, internal 28, etc. (Table A1). **Kidney**: Fig. 1a lists 70 kidney samples; the appendix tables include 23 Visium samples from the Lake et al. atlas of healthy and injured human kidney, 7 from a kidney-papilla stone-disease atlas, 4 from a kidney-injury epithelial–immune study, plus several mouse kidney samples (Tables A2, A5). Benchmark tasks are small: IDC 4 patients, PRAD 2 patients (23 samples), PAAD 3, SKCM 2, COAD 2, READ 2, ccRCC 24, LUAD 2, lymph-node IDC 4 (Table A11). The GitHub README now states 1,276 samples, so the collection has kept growing after the paper (README, accessed 2026-10).
 
 ## 主要结果 / Key results
-<!-- 关键指标与结论,尽量带数字。 -->
-<!-- ZH --> **HEST-Benchmark**(10 个基因表达预测任务,覆盖 9 种人类癌型/10 器官,评测 10 个基础模型):平均 Pearson 相关最高为 UNI 0.319,其次 GigaPath 0.316、CONCH 0.315、Remedis 0.315、CTransPath 0.295。单任务从 HCC 的 0.034 到 SKCM(UNI)的 0.613。结论:student-teacher 自监督预训练优于监督式;CONCH(ViT-Base, 86M)在 Ridge 回归下比次优再高约 5% 绝对值,且与 ViT-Giant 的 GigaPath(1.13B)相当,但参数量少约 13×。**生物标志物探索**:IDC Xenium 上,neoplastic 核面积与 GATA3 表达相关 R=0.47(FLNB R=0.49、TPD52 R=0.49、FOXA1 R=0.47);尺寸相关核特征关联最强,形态/拓扑特征弱(R<0.2)。**多模态表征学习**:在 5 例 Xenium IDC(47,051 对、238 基因)微调 CONCH 后,在 BCNB(n=1,058 WSI)上预测 ER/PR/HER2:ER AUC 0.881→0.884、PR AUC 0.810→0.818、HER2 AUC 0.715→0.724,多数指标提升。
-<!-- EN --> **HEST-Benchmark** (10 gene-expression prediction tasks over 9 human cancer types / 10 organs, 10 foundation models): top mean Pearson correlation is UNI 0.319, then GigaPath 0.316, CONCH 0.315, Remedis 0.315, CTransPath 0.295. Per-task range spans HCC 0.034 to SKCM (UNI) 0.613. Findings: student-teacher self-supervised pretraining beats supervised; CONCH (ViT-Base, 86M) gains ~5% absolute over second-best under Ridge and matches ViT-Giant GigaPath (1.13B) at ~13× fewer parameters. **Biomarker exploration**: on IDC Xenium, neoplastic nuclear area correlates with GATA3 at R=0.47 (FLNB R=0.49, TPD52 R=0.49, FOXA1 R=0.47); size features correlate most, shape/topology weakly (R<0.2). **Multimodal learning**: fine-tuning CONCH on 5 Xenium IDC cases (47,051 pairs, 238 genes), then predicting ER/PR/HER2 on BCNB (n=1,058 WSIs): ER AUC 0.881→0.884, PR AUC 0.810→0.818, HER2 AUC 0.715→0.724 — most metrics improve.
+<!-- ZH -->
+- **基准总体**:PCA+Ridge 下平均 Pearson 最高为 H-Optimus-0 0.4146,其次 UNIv1.5 0.4090、Virchow2 0.3984、Virchow 0.3977;最低为 ResNet50(ImageNet)0.326(Table 1)。XGBoost 下 H-Optimus-0 仍最高(0.3956)(Table A14);H-Optimus-0 比第二名 UNIv1.5 高 0.56%(PCA+Ridge)/ 0.69%(XGBoost)(§5.3)。
+- **病理专用模型之间的差距**:最好与最差的病理领域模型平均差 7.0%(PCA+Ridge)/ 4.8%(XGBoost)(§5.3)。
+- **任务难度差异大**:H-Optimus-0 在 SKCM 0.6432、在 READ 0.2292(§5.3);ccRCC 各模型在 0.2179(CONCH)到 0.2788(Virchow2)之间(Table 1)。作者认为原因可能是某些癌种形态与表达关联弱,或某些队列噪声大(批次效应、灵敏度低、dropout、相邻 spot 串扰)(§5.3)。
+- **缩放规律**:编码器参数量(对数)与平均表现 R=0.81(P<0.01);预训练 patch 数 R=0.48(P=0.13)(Fig. 2a, b)。
+- **读出头影响排名**:直接 Ridge 时 CONCH 平均最高 0.3541,而 H-Optimus-0 只有 0.2754(Table A13);作者认为直接 Ridge 会惩罚 embedding 维度高的模型,所以主报 PCA+Ridge(§5.2)。
+- **生物标志物示例**:一张 Xenium IDC 切片(168,033 个核)中,肿瘤细胞核面积与 GATA3 表达 R=0.47(P<10⁻⁴)(Fig. 3e);12 个核特征里与表达相关最强的是大小类特征,形状、拓扑和细胞分布类特征 R<0.2(§6)。另一张切片(342,018 个核)中 FLNB R=0.45、TPD52 R=0.47、FOXA1 R=0.47(§6, App. Fig. 6)。
+- **多模态微调**:在 5 个 Xenium 乳腺癌样本的 47,051 对 patch–表达(238 个共同基因)上微调得到 CONCH-FT;在 BCNB(1,058 张 WSI)上用均值池化 + logistic 回归预测 ER/PR/HER2:ER AUC 0.881→0.884、PR AUC 0.810→0.818、HER2 AUC 0.715→0.724,但 HER2 balanced accuracy 0.624→0.615 下降;embedding rank 144.66→146.47(Table 2)。
+<!-- EN -->
+- **Overall benchmark**: under PCA+Ridge the best mean Pearson is H-Optimus-0 0.4146, then UNIv1.5 0.4090, Virchow2 0.3984, Virchow 0.3977; lowest is ResNet50 (ImageNet) 0.326 (Table 1). Under XGBoost H-Optimus-0 is still best (0.3956) (Table A14); it beats second-best UNIv1.5 by 0.56% (PCA+Ridge) / 0.69% (XGBoost) (§5.3).
+- **Spread among pathology models**: best vs worst domain-specific model differ by 7.0% (PCA+Ridge) / 4.8% (XGBoost) on average (§5.3).
+- **Task difficulty varies a lot**: H-Optimus-0 scores 0.6432 on SKCM vs 0.2292 on READ (§5.3); ccRCC ranges from 0.2179 (CONCH) to 0.2788 (Virchow2) (Table 1). The authors suggest weak morphology–expression links in some cancers or noisier cohorts (batch effects, low sensitivity, dropout, spillover between adjacent spots) (§5.3).
+- **Scaling**: log encoder size vs mean performance R=0.81 (P<0.01); number of pretraining patches R=0.48 (P=0.13) (Fig. 2a, b).
+- **Readout changes the ranking**: with plain Ridge CONCH has the best mean, 0.3541, while H-Optimus-0 drops to 0.2754 (Table A13); the authors argue plain Ridge penalises high-dimensional embeddings, hence PCA+Ridge as the main readout (§5.2).
+- **Biomarker demo**: in one Xenium IDC slide (168,033 nuclei), neoplastic nuclear area vs GATA3 expression gives R=0.47 (P<10⁻⁴) (Fig. 3e); of 12 nuclear features, size features correlate most with expression, while shape, topology and cell-distribution features stay below R=0.2 (§6). In a second slide (342,018 nuclei): FLNB R=0.45, TPD52 R=0.47, FOXA1 R=0.47 (§6, App. Fig. 6).
+- **Multimodal fine-tuning**: CONCH-FT is trained on 47,051 patch–expression pairs (238 shared genes) from 5 Xenium breast cancer samples; on BCNB (1,058 WSIs) with mean pooling + logistic regression: ER AUC 0.881→0.884, PR AUC 0.810→0.818, HER2 AUC 0.715→0.724, but HER2 balanced accuracy drops 0.624→0.615; embedding rank 144.66→146.47 (Table 2).
 
 ## 创新点 / Contributions
-- <!-- ZH --> 迄今最大、最多样(26 器官/2 物种/25 癌型)的配对 ST+H&E WSI 数据集 HEST-1k,含 ~210 万形态-表达对与 >7,600 万核。 <!-- EN --> The largest, most diverse paired ST+H&E WSI dataset to date (26 organs / 2 species / 25 cancer types) with ~2.1M morphology–expression pairs and >76M nuclei.
-- <!-- ZH --> HEST-Library:端到端把异构 ST 原始数据统一为 AnnData + 金字塔 TIFF + spot 对齐 patch 的开源工具包。 <!-- EN --> HEST-Library: an open-source toolkit that unifies heterogeneous raw ST data into AnnData + pyramidal TIFF + spot-aligned patches end-to-end.
-- <!-- ZH --> HEST-Benchmark:首个系统评测病理基础模型"从形态预测基因表达"能力的多任务基准。 <!-- EN --> HEST-Benchmark: the first multi-task benchmark systematically evaluating pathology foundation models on morphology-to-expression prediction.
+- <!-- ZH --> 当时规模最大的公开配对 ST + H&E 全切片集合(1,229 样本、26 器官、2 物种),全部重新对齐并统一格式(Abstract, §3)。 <!-- EN --> The largest public paired ST + H&E WSI collection at the time (1,229 samples, 26 organs, 2 species), all re-aligned and reformatted (Abstract, §3).
+- <!-- ZH --> HEST-Library:处理旧数据的工具链(格式转换、fiducial 自动对齐、像素尺寸反推、组织分割、patch 切分、按元数据下载、批次效应可视化与 ComBat/Harmony/MNN 封装)(§4)。 <!-- EN --> HEST-Library: tooling for legacy data (format conversion, automatic fiducial alignment, pixel-size inference, tissue segmentation, patching, metadata-filtered download, batch-effect visualisation plus ComBat/Harmony/MNN wrappers) (§4).
+- <!-- ZH --> HEST-Benchmark:病人分层、按任务固定 50 个基因的表达预测基准,并给出 11 个模型在 3 种读出头下的结果与缩放规律(§5, Fig. 2)。 <!-- EN --> HEST-Benchmark: a patient-stratified expression-prediction benchmark with a fixed 50-gene panel per task, with results for 11 encoders under 3 readouts and scaling trends (§5, Fig. 2).
 
 ## 局限 / Limitations
-- <!-- ZH --> ST 数据本身含噪(染色/压缩伪影),影响标签质量。 <!-- EN --> ST data is inherently noisy (staining/compression artifacts), affecting label quality.
-- <!-- ZH --> 未量化跨样本/数据集/技术的 batch effects。 <!-- EN --> Batch effects across samples/datasets/technologies are not quantified.
-- <!-- ZH --> 部分任务样本量很小(HCC 2 例、PAAD 3 例),某些癌型形态-表达相关性极低(HCC 0.034)。 <!-- EN --> Some tasks have tiny cohorts (HCC 2 patients, PAAD 3), and some cancers show very low morphology–expression correlation (HCC 0.034).
-- <!-- ZH --> HEST-Library 无法覆盖所有 legacy 格式;数据仅限研究用途(禁止诊断)。 <!-- EN --> HEST-Library cannot cover all legacy formats; data is research-only (diagnostic use prohibited).
+- <!-- ZH --> 作者自述:ST 数据本身有噪声,染色、压缩伪影和采集流程差异会影响质量(§8)。 <!-- EN --> Authors: ST data are noisy; staining and compression artifacts and varying protocols affect quality (§8).
+- <!-- ZH --> 作者自述:样本、数据集、技术之间的批次效应可能很大,本文没有量化或校正,只提供了工具(§8)。 <!-- EN --> Authors: batch effects across samples, datasets and technologies can be large and are neither quantified nor corrected here; only helper functions are provided (§8).
+- <!-- ZH --> 作者自述:HEST-Library 不能覆盖所有格式,应视为处理 ST 的"蓝图"(§8)。 <!-- EN --> Authors: HEST-Library cannot cover all formats and should be seen as a blueprint (§8).
+- <!-- ZH --> 作者自述:CONCH-FT 只用了 5 张配对切片(§7);数据仅限研究用途,禁止用于诊断(App. A)。 <!-- EN --> Authors: CONCH-FT used only 5 paired slides (§7); data are research-only, not for diagnosis (App. A).
+- <!-- ZH --> 我们的理解:多数基准任务只有 2–4 个病人,各折标准差最高可达约 0.1(Table 1),模型间 0.5% 量级的差异很难说显著。 <!-- EN --> Our reading: most tasks have only 2–4 patients and fold SDs of up to ~0.1 (Table 1), so model differences of ~0.5% are unlikely to be significant.
+- <!-- ZH --> 我们的理解:基准只包含癌症任务;唯一的肾脏任务是 ccRCC(肾癌),不涉及 CKD/AKI 这类非肿瘤肾病。 <!-- EN --> Our reading: the benchmark covers cancers only; its single kidney task is ccRCC (kidney cancer), not non-tumour kidney disease such as CKD/AKI.
+- <!-- ZH --> 我们的理解:文中有小的不一致——COAD 在正文写 Visium、在 Table A11 写 Xenium;Remedis 在 §5.2 写 SimCLR、在 Table A12 写 iBOT。使用前应以代码/元数据为准。 <!-- EN --> Our reading: small inconsistencies — COAD is Visium in the text but Xenium in Table A11; Remedis is SimCLR in §5.2 but iBOT in Table A12. Check the code/metadata before relying on these.
 
 ## 与本研究方向的关系 / Relation to our direction
-<!-- anomaly detection → virtual tissue → revert via gene prediction 这条线上,这篇处在哪一环? -->
-<!-- ZH --> 这篇是我们 pipeline 的**基础数据底座与"virtual tissue"建模的直接原料**。对"virtual tissue"阶段:HEST-1k 提供了空间对齐的 (H&E patch ↔ 基因表达) 配对,正是把组织建模为可预测分子状态的空间图谱的训练数据;HEST-Benchmark 定义的"从形态预测表达"任务与我们"从图像推断分子状态"的建模目标同构,其评测协议可直接复用。对 **anomaly detection** 阶段:因数据带 spot 级表达真值,可在正常/肿瘤区域间对比形态-表达偏差,构造"表达异常"的空间标签。对 **gene-revert** 阶段:提供了大量组织类型下形态与基因的定量关联(如核面积↔GATA3/FOXA1),可作为"哪些基因驱动形态状态"的先验与验证集,但本文不涉及扰动/回复干预,需外接扰动数据(如 Perturb-seq)。总体处于数据/表征基础环,而非算法环。
-<!-- EN --> This is a **foundational data substrate and direct raw material for the "virtual tissue" stage** of our pipeline. For virtual-tissue modelling: HEST-1k supplies spatially aligned (H&E patch ↔ gene expression) pairs — exactly the training data to model tissue as a spatial map of predictable molecular state; HEST-Benchmark's morphology-to-expression task is isomorphic to our "infer molecular state from image" goal, and its eval protocol is directly reusable. For anomaly detection: because spot-level expression ground truth exists, one can contrast morphology–expression deviations between normal and tumor regions to construct spatial "expression-anomaly" labels. For gene-revert: it provides quantitative morphology–gene links across many tissue types (e.g. nuclear area ↔ GATA3/FOXA1) as a prior and validation set for "which genes drive a morphological state," though it contains no perturbation/reversion interventions and must be paired with perturbation data (e.g. Perturb-seq). Overall it sits at the data/representation layer, not the algorithm layer.
+<!-- ZH --> 我们的理解:HEST-1k 不是异常检测论文,它在 detect → model → revert 里主要是 **model 一环的数据底座**和 **detect 一环的跨模态工具**。(1) 对课题 1(肾脏单细胞/空间组学异常检测):HEST 的格式(金字塔 TIFF + AnnData + spot 对齐 patch)和对齐流程可以直接用来整理我们 95 例活检里的 H&E + Xenium;其中 Lake 图谱等 70 个肾脏样本可当作外部"参考/正常"数据或额外测试集。(2) "从 H&E 预测表达"的结果说明形态与表达只有中等相关(Pearson 约 0.2–0.6),这对我们"用模态一致性区分伪影与疾病"的假设很重要:如果一个区域的 H&E 预测表达与实测表达差得很远,它可能是真实分子异常,也可能只是预测器本身的误差;因此跨模态不一致必须相对于"该组织类型正常情况下的预测误差"来校准,不能直接当异常分。(3) 读出头会改变排名(Table A13),提醒我们在异常检测基准中固定并公开特征提取与读出协议。(4) 不涉及扰动或 revert。
+<!-- EN --> Our reading: HEST-1k is not an anomaly-detection paper; in detect → model → revert it is mainly a **data substrate for "model"** and a **cross-modal tool for "detect"**. (1) For Topic 1 (kidney single-cell / spatial anomaly detection): HEST's format (pyramidal TIFF + AnnData + spot-aligned patches) and alignment pipeline can be reused to organise the H&E + Xenium in our ~95-biopsy study; its 70 kidney samples, including the Lake atlas, can serve as external reference ("normal") data or an extra test set. (2) Expression-from-H&E is only moderately predictable (Pearson ~0.2–0.6), which matters for our hypothesis that cross-modal agreement separates artifacts from disease: a region where H&E-predicted and measured expression disagree could be a true molecular anomaly or just predictor error, so cross-modal disagreement must be calibrated against the normal-tissue prediction error for that tissue type before being used as an anomaly score. (3) The readout changes the ranking (Table A13), a reminder to fix and publish the feature/readout protocol in any anomaly benchmark. (4) No perturbation or reversion content.
 
 ## 可复用资产 / Reusable assets
-<!-- 代码、预训练模型、数据集、评测协议。 -->
-- <!-- ZH --> **数据集:** HEST-1k on HuggingFace Datasets (`MahmoodLab/hest`);1,229 个 ST+WSI profile,直接下载或按癌型/器官/技术过滤子集。
-- <!-- EN --> **Dataset:** HEST-1k on HuggingFace Datasets (`MahmoodLab/hest`); 1,229 ST+WSI profiles, download directly or filter subsets by cancer type/organ/technology.
-- <!-- ZH --> **代码:** HEST-Library — <https://github.com/mahmoodlab/hest>(基于 Scanpy/AnnData;格式统一、YOLOv8 fiducial 对齐、DeepLabV3 组织分割、spot 对齐 224×224 @20× patch、批量下载)。
-- <!-- EN --> **Code:** HEST-Library — <https://github.com/mahmoodlab/hest> (Scanpy/AnnData-based; format unification, YOLOv8 fiducial alignment, DeepLabV3 tissue segmentation, spot-aligned 224×224 @20× patching, batch download).
-- <!-- ZH --> **评测协议:** HEST-Benchmark — 10 个任务,从 112×112 μm patch 预测 top-50 HVG 表达,patient-stratified k-fold 交叉验证,Pearson 相关,RF(70 树)/Ridge readout。
-- <!-- EN --> **Eval protocol:** HEST-Benchmark — 10 tasks, top-50 HVG expression prediction from 112×112 μm patches, patient-stratified k-fold CV, Pearson correlation, RF (70 trees)/Ridge readouts.
-- <!-- ZH --> **可比较的基础模型:** UNI、CONCH、GigaPath、Phikon、PLIP、CTransPath、Remedis、Ciga、KimiaNet、ResNet50-IN — 现成 baseline 与相对强弱。
-- <!-- EN --> **Foundation models scored:** UNI, CONCH, GigaPath, Phikon, PLIP, CTransPath, Remedis, Ciga, KimiaNet, ResNet50-IN — ready-made baselines and their relative strengths.
-- <!-- ZH --> **许可:** CC BY-NC-SA 4.0(非商业,仅限研究)。
-- <!-- EN --> **License:** CC BY-NC-SA 4.0 (non-commercial, research-only).
+- <!-- ZH --> **代码与基准**:HEST-Library 与 HEST-Benchmark(`pip install -e ".[benchmark]"`,教程 `tutorials/4-Running-HEST-Benchmark.ipynb`)(README)。 <!-- EN --> **Code and benchmark**: HEST-Library and HEST-Benchmark (`pip install -e ".[benchmark]"`, tutorial `tutorials/4-Running-HEST-Benchmark.ipynb`) (README).
+<!-- ZH/EN --> <https://github.com/mahmoodlab/hest>
+- <!-- ZH --> **数据**:HuggingFace `MahmoodLab/hest`,可按元数据(器官、癌种、技术)下载子集;病人分层的划分以 CSV 提供(App. F.2)。 <!-- EN --> **Data**: HuggingFace `MahmoodLab/hest`, subset download by metadata (organ, cancer type, technology); patient-stratified splits shipped as CSV (App. F.2).
+<!-- ZH/EN --> <https://huggingface.co/datasets/MahmoodLab/hest>
+- <!-- ZH --> **许可**:CC BY-NC-SA 4.0(数据集、基准与库)(App. A, README)。 <!-- EN --> **Licence**: CC BY-NC-SA 4.0 (dataset, benchmark and library) (App. A, README).
+- <!-- ZH --> **可抄的协议**:病人分层 k 折、top-50 高变基因、PCA-256 + Ridge 读出、Pearson 指标(§5)。 <!-- EN --> **Protocol to copy**: patient-stratified k-fold, top-50 variable genes, PCA-256 + Ridge readout, Pearson metric (§5).
 
 ## 待读 / Follow-ups
-- <!-- ZH --> UNI 与 CONCH 原论文(pathology foundation models,基准中的最强项)。
-- <!-- EN --> UNI and CONCH source papers (strongest models in the benchmark).
-- <!-- ZH --> 后续 HEST-1k 版本 / arXiv v2+,以确认 1,229 vs 1,108 等最终数字与新增任务。
-- <!-- EN --> Later HEST-1k / arXiv versions to confirm final figures (1,229 vs 1,108) and any added tasks.
-- <!-- ZH --> 结合扰动数据(Perturb-seq / drug-perturbation ST)以支撑 gene-revert 阶段。
-- <!-- EN --> Pair with perturbation data (Perturb-seq / drug-perturbation ST) for the gene-revert stage.
-- <!-- ZH --> CellViT 核分割 + BCNB ER/PR/HER2 下游评测的复现细节。
-- <!-- EN --> Reproduction details of CellViT nuclear segmentation and BCNB ER/PR/HER2 downstream eval.
+- <!-- ZH --> Lake 等 2023 人类肾脏图谱(HEST 中 23 个 Visium 样本的来源),看哪些可作"健康参考"。 <!-- EN --> Lake et al. 2023 human kidney atlas (source of 23 HEST Visium samples), to see which can serve as a healthy reference.
+- <!-- ZH --> H-Optimus-0、UNI、CONCH、Virchow2 的原论文,选择我们肾脏 H&E 分支的编码器。 <!-- EN --> Original H-Optimus-0, UNI, CONCH and Virchow2 papers, to pick the encoder for our kidney H&E branch.
+- <!-- ZH --> VALIS(DAPI–H&E 配准)和 CellViT(核分割)——Xenium + H&E 预处理会用到。 <!-- EN --> VALIS (DAPI–H&E registration) and CellViT (nuclear segmentation), needed for Xenium + H&E preprocessing.
+- <!-- ZH --> 查 HuggingFace 元数据,确认当前 1,276 个样本中肾脏样本的数量与来源。 <!-- EN --> Check the HuggingFace metadata for how many of the current 1,276 samples are kidney and from where.
 
 ## 图表 / Figures & tables
 
 ![HEST overview](figures/fig1.png)
-<!-- ZH --> **图1.** HEST 总览:1,108 对空间转录组(ST)与配对 H&E 全切片图像组成 HEST-1k;HEST-Library 提供数据统一化功能;下游应用包括基础模型基准测试、生物标志物发现与多模态表征学习。
-<!-- EN --> **Fig 1.** Overview of HEST: the HEST-1k dataset of 1,108 paired spatial-transcriptomics + H&E whole-slide images; HEST-Library functionalities; and downstream applications — foundation-model benchmarking, biomarker discovery, and multimodal representation learning.
+<!-- ZH --> **图1.** HEST 总览(此图取自 arXiv v1,图中写 1,108 个样本;v2 正文为 1,229):HEST-1k 数据集、HEST-Library 功能,以及三个应用——基础模型基准、生物标志物探索、多模态表征学习。
+<!-- EN --> **Fig 1.** Overview of HEST (this image is from arXiv v1 and shows 1,108 samples; the v2 text reports 1,229): the HEST-1k dataset, HEST-Library functions, and three applications — foundation-model benchmarking, biomarker exploration, multimodal representation learning.
 <!-- ZH/EN --> _Source: https://arxiv.org/html/2406.16192v1/x1.png  ·  License: arXiv (open) / paper CC BY-NC-SA 4.0_
 
 ![Biomarker discovery](figures/fig2.png)
-<!-- ZH --> **图2.** 生物标志物发现:在浸润性导管癌(IDC)Xenium 样本上,展示 neoplastic 核叠加、GATA3 表达热图、核面积分布、CellViT 分割示例,以及形态学特征与基因表达的相关性(如核面积 ↔ GATA3)。
-<!-- EN --> **Fig 2.** Biomarker discovery on an invasive ductal carcinoma (IDC) Xenium sample: neoplastic-nuclei overlay, GATA3 expression heatmap, nuclear-area distribution, CellViT segmentation examples, and correlations between morphological features and gene expression (e.g. nuclear area ↔ GATA3).
+<!-- ZH --> **图2.** 生物标志物探索(此图取自 arXiv v1):浸润性导管癌(IDC)Xenium 切片上的肿瘤细胞核叠加、GATA3 表达热图、核面积热图、CellViT 分割示例,以及核特征与基因表达的相关(如核面积 ↔ GATA3,R=0.47)。
+<!-- EN --> **Fig 2.** Biomarker exploration (image from arXiv v1): neoplastic-nuclei overlay on an invasive ductal carcinoma (IDC) Xenium slide, GATA3 expression heatmap, nuclear-area heatmap, CellViT segmentation examples, and nuclear-feature vs expression correlations (e.g. nuclear area ↔ GATA3, R=0.47).
 <!-- ZH/EN --> _Source: https://arxiv.org/html/2406.16192v1/x2.png  ·  License: arXiv (open) / paper CC BY-NC-SA 4.0_
 
 ### 结果表 / Results
 
-<!-- ZH --> **表1.** HEST-Benchmark:10 个基因表达预测任务上 10 个病理基础模型的 Pearson 相关(均值±标准差,patient-stratified k-fold 交叉验证)。**加粗** = 该任务最优。平均列(Average)按 mean Pearson 排序,UNI 最高(0.319),CONCH 单任务(IDC/LYMPH_IDC)领先。
-<!-- EN --> **Table 1.** HEST-Benchmark: Pearson correlation (mean±sd, patient-stratified k-fold CV) of 10 pathology foundation models across 10 gene-expression prediction tasks. **Bold** = best per task. The Average column is the mean Pearson across tasks; UNI is highest (0.319), while CONCH leads on individual tasks (IDC / LYMPH_IDC).
+<!-- ZH --> **表1.** HEST-Benchmark(arXiv v2):11 个病理编码器在 9 个任务上的 Pearson 相关,读出头为 PCA(256 维)+ Ridge,按病人分层交叉验证取均值。**加粗** = 该任务最优。标准差略去,见原文 Table 1。
+<!-- EN --> **Table 1.** HEST-Benchmark (arXiv v2): Pearson correlation of 11 pathology encoders on 9 tasks with a PCA (256 factors) + Ridge readout, mean over patient-stratified folds. **Bold** = best per task. Standard deviations omitted; see Table 1 of the paper.
 
-| Model | IDC | PRAD | PAAD | SKCM | COAD | READ | CCRCC | HCC | LUNG | LYMPH_IDC | **Average** |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| ResNet50 | 0.440 | 0.318 | 0.389 | 0.446 | 0.107 | 0.051 | 0.136 | 0.034 | 0.497 | 0.205 | 0.262 |
-| KimiaNet | 0.420 | 0.328 | 0.410 | 0.452 | 0.080 | 0.038 | 0.136 | 0.028 | 0.507 | 0.206 | 0.261 |
-| Ciga | 0.406 | 0.332 | 0.397 | 0.484 | 0.102 | 0.046 | 0.127 | 0.045 | 0.515 | 0.218 | 0.267 |
-| CTransPath | 0.454 | 0.346 | 0.406 | 0.535 | 0.123 | 0.083 | 0.171 | 0.060 | 0.531 | 0.238 | 0.295 |
-| Phikon | 0.430 | 0.377 | 0.372 | 0.516 | 0.137 | 0.138 | 0.178 | 0.041 | 0.541 | 0.243 | 0.297 |
-| PLIP | 0.436 | 0.362 | 0.392 | 0.461 | 0.112 | 0.063 | 0.124 | 0.038 | 0.533 | 0.229 | 0.275 |
-| Remedis | 0.491 | 0.335 | 0.451 | 0.577 | 0.125 | 0.099 | 0.200 | 0.059 | 0.573 | 0.243 | 0.315 |
-| GigaPath | 0.492 | 0.372 | 0.425 | 0.541 | 0.139 | 0.156 | 0.182 | 0.055 | 0.547 | 0.248 | 0.316 |
-| CONCH | **0.504** | 0.373 | 0.431 | 0.582 | 0.124 | 0.132 | 0.149 | 0.040 | 0.569 | **0.249** | 0.315 |
-| UNI | 0.502 | 0.357 | 0.424 | **0.613** | 0.147 | 0.162 | 0.186 | 0.051 | 0.511 | 0.234 | **0.319** |
+| Model | IDC | PRAD | PAAD | SKCM | COAD | READ | ccRCC | LUAD | LYMPH IDC | **Average** |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ResNet50 (IN) | 0.4741 | 0.3075 | 0.3889 | 0.4822 | 0.2528 | 0.0812 | 0.2231 | 0.4917 | 0.2322 | 0.326 |
+| CTransPath | 0.511 | 0.3427 | 0.4378 | 0.5106 | 0.2285 | 0.11 | 0.2279 | 0.4985 | 0.2353 | 0.3447 |
+| Phikon | 0.5327 | 0.342 | 0.4432 | 0.5355 | 0.2585 | 0.1517 | 0.2423 | 0.5468 | 0.2373 | 0.3656 |
+| CONCH | 0.5363 | 0.3548 | 0.4475 | 0.5791 | 0.2533 | 0.1674 | 0.2179 | 0.5312 | 0.2507 | 0.3709 |
+| REMEDIS | 0.529 | 0.3471 | 0.4644 | 0.5818 | 0.2856 | 0.1145 | 0.2647 | 0.5336 | 0.2473 | 0.3742 |
+| GigaPath | 0.5508 | 0.3708 | 0.4768 | 0.5538 | 0.301 | 0.186 | 0.2391 | 0.5399 | 0.2493 | 0.3853 |
+| UNI | 0.5702 | 0.314 | 0.4764 | 0.6254 | 0.263 | 0.1762 | 0.2427 | 0.5511 | 0.2565 | 0.3862 |
+| Virchow | 0.5702 | 0.3309 | 0.4875 | 0.6088 | **0.311** | 0.2019 | 0.2637 | 0.5459 | 0.2594 | 0.3977 |
+| Virchow2 | 0.5922 | 0.3465 | 0.4661 | 0.6174 | 0.2578 | 0.2084 | **0.2788** | **0.5605** | 0.2582 | 0.3984 |
+| UNIv1.5 | **0.5989** | 0.3645 | 0.4902 | 0.6401 | 0.2925 | 0.2240 | 0.2522 | 0.5586 | **0.2597** | 0.4090 |
+| H-Optimus-0 | 0.5982 | **0.385** | **0.4932** | **0.6432** | 0.2991 | **0.2292** | 0.2654 | 0.5582 | 0.2595 | **0.4146** |
 
-<!-- ZH --> _Source: https://arxiv.org/html/2406.16192v1 (Table 1) · 标准差已省略以便阅读;完整 ±sd 见原文。_
-<!-- EN --> _Source: https://arxiv.org/html/2406.16192v1 (Table 1) · Standard deviations are omitted for readability; see the original paper for the full ±sd._
+<!-- ZH --> _Source: arXiv:2406.16192v2, Table 1(加粗为我们按数值重新标注)。_
+<!-- EN --> _Source: arXiv:2406.16192v2, Table 1 (bold re-marked by us from the values)._
 
 ## 引用 / Cite
 ```bibtex

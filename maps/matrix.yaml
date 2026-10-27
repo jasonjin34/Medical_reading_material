@@ -100,6 +100,7 @@ cells:
   ovrlpy-natbiotech-2026: [artifact, spatial]
   resolvi-natmethods-2026: [artifact, spatial]
   medianomaly-media-2025: [bench, medimg]
+  abnormality-radiology-arxiv-2024: [feature, medimg]   # abnormality-centred representation learning; frozen CT embeddings, no anomaly score
   pathology-ad-bench-mlhealth-2025: [bench, histo]
   nih-kidney-ai-challenge-2026: [bench, kidney]
   # classic general AD (round 2)

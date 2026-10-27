@@ -28,6 +28,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/cellspectra-natgenet-2025|CellSpectra]] — cites
 - [[_maps/papers/kidney-epigenome-nataging-2026|Kidney epigenome atlas]] — cites
+- [[_maps/papers/lake-kidney-atlas-nature-2023|Kidney atlas (Lake 2023)]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/conformal|Conformal guarantees]]

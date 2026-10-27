@@ -17,9 +17,9 @@ tags:
 
 # Cassie07/PathOmics
 
-> PathOmics is the official code for a MICCAI 2023 Oral paper: a pathology-and-genomics multimodal Transformer that learns fused embeddings via unsupervised multimodal pretraining, then supervised-finetunes to predict cancer survival outcomes.
+> PathOmics is the official code of the MICCAI 2023 paper (Oral; "top 9%" per the README) "Pathology-and-genomics Multimodal Transformer for Survival Outcome Prediction": unsupervised pretraining fuses pathology-slide and genomics (miRNA in the example) embeddings, then supervised finetuning predicts cancer survival with either both modalities or a single one.
 
-> PathOmics 是 MICCAI 2023 Oral 论文的官方开源实现:一个"病理图像 + 基因组学"多模态 Transformer,用无监督多模态预训练学习融合表征,再有监督微调来预测癌症生存结局(survival outcome)。
+> PathOmics 是 MICCAI 2023(Oral,README 称 top 9%)论文 "Pathology-and-genomics Multimodal Transformer for Survival Outcome Prediction" 的官方代码:先用无监督预训练把病理切片和基因组学(示例用 miRNA)的嵌入融合对齐,再有监督微调做癌症生存预测,微调时可以用双模态,也可以只用单一模态。
 
 ## Related papers / 相关论文
 - [[_maps/papers/pathomics-npjpo-2026|Pathomics signature]] — pathomics survival

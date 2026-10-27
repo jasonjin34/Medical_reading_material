@@ -1,63 +1,91 @@
 # Conditional Monge Gap enables generalizable single-cell perturbation modelling
 
-> **Bibkey** `Driessen_2026` · **Venue** Nature Machine Intelligence (2026) · **Category** single-cell · **Relevance** medium · **Access** paywall
+> **Bibkey** `Driessen_2026` · **Venue** Nature Machine Intelligence (2026) · **Category** single-cell · **Relevance** medium · **Access** open
 > **Link** <https://doi.org/10.1038/s42256-026-01242-8> · `status: complete`
 
 ---
 
 ## One-liner
-CMonge is a conditional neural optimal-transport method that learns a single map from control to perturbed single-cell distributions conditioned on arbitrary covariates (drug, dose, cell type, combinations), and generalizes to unseen drugs from compound structure alone.
+CMonge (Conditional Monge Gap) uses **one** neural optimal-transport (OT) model, conditioned on drug, dose or drug combination, to map the distribution of untreated cells onto the distribution of treated cells; it can predict single-cell responses to unseen drugs from their molecular structure alone.
+
+## Takeaways
+- Sequencing destroys cells, so the same cell is never seen before and after treatment; perturbation prediction is distribution-to-distribution, which suits OT.
+- Loss = Sinkhorn divergence (pushed-forward vs real treated distribution) + λ·Monge gap (keeps the map cost-optimal); the condition vector is concatenated to the input, the network outputs a shift, prediction = cell + shift (Methods Eq. 8).
+- With dose as the only condition, nine per-drug CMonge models match 36 per-condition models (Table 1); with drug + dose, a single MoA-embedded model is on par with the 36 (Fig. 2a).
+- Unseen drugs (nine held out, 712 training conditions): highest-dose R² 0.900 (MoA) / 0.781 (RDKit) vs chemCPA 0.760; MMD 0.013 / 0.020 vs 0.195 (Table 2).
+- Structure-based embeddings (RDKit) need more training drugs and a bigger model to approach effect-based ones (MoA); MoA needs a measured population of treated cells for that drug.
+- The model is small (23,000 parameters; 560,000–580,000 for the large version) vs ~1.37M for chemCPA (Methods).
 
 ## Problem
-Single-cell perturbation data are unpaired (cells are destroyed on measurement), forcing distribution-level modelling. Prior neural OT (e.g. CellOT) trains one model per condition, cannot condition on treatment context, and fails to generalize to unseen drugs/doses. The goal: one parameter-efficient model that both conditions on covariates and generalizes to unseen perturbations.
+We want to predict cellular responses to drugs, but the space of drugs, doses and combinations far exceeds what experiments can cover. Existing neural OT methods (CellOT, scPRAM) are unconditional: one model per condition, so (1) no inference for a new condition, (2) high training cost, (3) no inductive bias from covariates, (4) no cross-task sharing between similar conditions (Introduction). The authors want one global OT model, conditioned on arbitrary covariates, that predicts both seen and unseen conditions.
 
 ## Method
-Builds on the Monge Gap (an ICNN-free OT-map regularizer). An encoder–decoder maps control-cell representations to perturbed ones, injecting a condition vector (drug/dose/combination embedding). Objective = Sinkhorn-divergence fitting term + Monge-gap regularizer. Two drug-embedding families are compared: RDKit fingerprints (194-d, structure-based, from SMILES) and Mode-of-Action embeddings (10-d, effect-based, MDS over pairwise Wasserstein distances between treated populations). Aggregating hundreds of conditions enables cross-task learning and OOD prediction. An autoencoder is trained first for dimensionality reduction, then the conditional Monge model in latent space.
+
+Terms: perturbation = treating cells with a drug or gene edit; control = untreated cells; MoA = mode of action.
+
+1. **Input representation**: SciPlex scRNA-seq is reduced to 1,000 highly variable genes and encoded by a plain MLP autoencoder (two hidden layers of 512) into a 50-d latent (100-d for the large model); the autoencoder is pretrained and frozen. OT runs in latent space; metrics are computed in decoded gene space. 4i uses its 48 protein + morphology features directly.
+2. **Condition encoding**: log dose; drug embedding is either RDKit (194 structure descriptors from SMILES) or MoA (10-d SMACOF multidimensional scaling of pairwise Wasserstein distances between treated populations, effect-based). One dense drug encoder and one drug–dose encoder; outputs concatenated into c. Combinations use DeepSets average pooling (Methods Eq. 9).
+3. **Transport network**: an MLP (4 × 64, GELU; large model [256, 256, 512, 512]) takes cell + condition and outputs a shift v; prediction t = s + v (Methods "Architecture").
+4. **Objective**: Σ over K conditions of Δε(Tθ(c_i)♯μ, ν_i) + λ·Mε(Tθ(c_i)), where Δε is the debiased entropic Sinkhorn divergence and Mε the Monge gap = mean displacement cost − entropic OT cost (Eqs. 5–8); λ = 10⁻², Euclidean cost. Batches of 256 from one uniformly sampled condition; AdamW, lr 1e-4; built on OTT-JAX.
+5. **Evaluation**: IS (condition seen in training; 80/20 split per condition) and OOS (held-out dose, all doses of a held-out drug, or 21-fold CV holding out 9 of 187 drugs). Metrics: R² between predicted and true feature means (top-50 DEGs on SciPlex), Wasserstein distance, MMD; nine random control samples per condition, averaged.
+6. **Baselines**: identity (control as prediction, lower bound), within-condition (resampling the true target, upper bound), per-condition Monge (36 models), unconditional Monge, chemCPA.
+
+## Method diagram
+```mermaid
+flowchart LR
+  A["Control cells<br/>latent 50-d via frozen AE"] --> C["Shift MLP<br/>t = s + v"]
+  B["Condition c<br/>drug RDKit or MoA + log dose"] --> C
+  C --> D["Predicted treated cells"]
+  D --> E["Loss: Sinkhorn divergence<br/>+ lambda x Monge gap"]
+  F["Measured treated cells"] --> E
+  D --> G["Eval: R2, Wasserstein, MMD<br/>IS and OOS"]
+```
 
 ## Data
-(1) **SciPlex3** scRNA-seq: 762,039 cells, three cancer lines (A549/K562/MCF7), 187–188 compounds × 4 doses + control, 748 drug-dose conditions. (2) **4i** multiplexed protein imaging: 97,748 cells (10,995 controls), melanoma lines, 35 therapies (~2,500 cells each), 48 marker/morphology features, including combination therapies.
+(1) **SciPlex3** (scRNA-seq): three human cancer lines (A549, K562, MCF7), 188 compounds (187 drugs × 4 doses, 10/100/1,000/10,000 nM) + control; 762,039 cells, 17,565 controls, ~4,032 cells per drug–dose condition on average; 748 drug–dose conditions. Lotfollahi et al. preprocessing. Two scales: 9 drugs (36 conditions) and all 187 drugs (Methods "Datasets"). (2) **4i** (iterative indirect immunofluorescence protein imaging): two melanoma lines, 40 proteins, 97,748 cells (10,995 controls), 35 therapies at ~2,500 cells each; 48 features after preprocessing (marker expression + cell shape). Conditional experiments use 27 single drugs + 6 combinations = 33 treatments (two combinations dropped for lack of single-drug measurements).
 
 ## Key results
-In-distribution (SciPlex, 9 drugs): unconditional Monge upper bound R²≈0.950–0.978; CMonge-Dose-ID R²=0.882–0.974 with 4× fewer models; DrugDose-MoA-ID on par with 36 per-condition models. OOD unseen drugs: CMonge-MoA-OOD R²≈0.90 vs chemCPA ≈0.76 at highest dose; at 712 conditions 0.900±0.059 vs 0.760±0.211. On 4i, CMonge-MoA beats identity on MMD for combination therapies. Parameter-efficient vs single-cell foundation models; predicts unseen drugs from structure alone.
+- **Dose conditioning (SciPlex 9 drugs, R²)**: at 10,000 nM identity 0.227, unconditional Monge-Dose-IS 0.694, CMonge-Dose-IS 0.974, per-condition Monge 0.978 (Table 1); nine CMonge-Dose models match 36 per-condition models with 4× fewer models.
+- **Unseen dose**: CMonge-Dose-OOS beats identity and the unconditional model at every dose; the highest dose is hardest (0.527 vs Monge-Dose-OOS 0.322, Table 1).
+- **Drug + dose (IS)**: one CMonge-DrugDose-MoA model is on par with 36 per-condition models, while RDKit barely helps at low doses (Fig. 2a, Supp. Table 3); at 187 drugs (748 conditions) both embeddings reach mean R² >0.8 and >0.6 for every drug (Fig. 2b).
+- **Pathways**: for trametinib (a MEK inhibitor), enriched pathways in predictions overlap the ground truth (top-10 Jaccard 0.429, hypergeometric P = 1.0×10⁻⁴⁵ over 653 pathways) (Fig. 2d–e); P < 1e-13 for all nine drugs (Extended Data Fig. 3).
+- **Unseen drug (leave one of 9 out)**: CMonge-MoA beats chemCPA widely in all settings and nears the per-condition upper bound; only trametinib (the one non-epigenetic drug of the nine) is worse than drug-specific models (Fig. 4a, Extended Data Fig. 5a).
+- **Unseen drugs (187 drugs, 21-fold holding out 9, 712 training conditions, 10,000 nM)**: R² MoA 0.900±0.059, RDKit 0.781±0.187, chemCPA 0.760±0.211; Wasserstein 3.873 / 4.232 / 4.767; MMD 0.013 / 0.020 / 0.195 (Table 2).
+- **4i**: in IS, conditioning improves R² (Fig. 3a); in leave-one-out OOS, CMonge struggles on unseen single drugs but clearly beats unconditional Monge on combinations; identity already has mean R² >0.6 (small effects), and by Wasserstein CMonge beats identity for single drugs and combinations (Fig. 3b, Extended Data Fig. 4).
+- **Distribution shape**: on UMAPs CMonge predictions cover the spread of the target, while chemCPA predictions often collapse to the average effect (Fig. 4d, Extended Data Fig. 7).
 
 ## Contributions
-- Conditionalizes the Monge Gap into a **Conditional Monge Gap** that shares a single OT map across arbitrary covariates (drug/dose/cell type/combination) — the first neural OT perturbation model to unify conditioning with parameter efficiency.
-- Cross-task training over hundreds of conditions achieves **OOD generalization to unseen drugs/doses**, needing only compound structure (SMILES→RDKit) or MoA embeddings.
-- Systematically compares structure-based (RDKit) and effect-based (MoA) drug embeddings, validating on both scRNA-seq and protein-imaging modalities.
-- Merged upstream into `ott-jax` (OTT library PR #605), making the method reusable.
+- Extends the Monge-gap regulariser to the conditional case: one global OT map conditioned on arbitrary covariates (dose, drug, combinations) that can infer unseen conditions.
+- Systematic comparison of structure-based (RDKit) and effect-based (MoA) drug embeddings, showing the gap narrows as conditions grow.
+- Validated on scRNA-seq and protein imaging and scaled to 187 drugs, with far fewer parameters than chemCPA or single-cell foundation models.
 
 ## Limitations
-- RDKit fingerprints need substantially more training conditions to match MoA; with few conditions the structural representation introduces noise.
-- The highest-dose conditions are the hardest to learn (strongest perturbation).
-- MoA embeddings depend on measured single-drug populations; combination treatments lacking single-drug measurements cannot be evaluated.
-- A few drugs with markedly different mechanisms (e.g. trametinib) are predicted noticeably worse.
-- On 4i data the identity baseline already has R² >0.6 (small effect size), limiting the gain from conditioning; DrugDose-MoA-ID trails the 36 per-condition models on feature-mean R² (though it is better on Wasserstein).
+- (Authors) Generalisation to new cell types, out-of-distribution conditions, noise and batch effects remains open; sparsely sampled or unseen drug classes and high doses may lie outside the observed support (Discussion).
+- (Authors) DeepSets average pooling for combinations is simple and may miss synergy/antagonism; attention pooling gave only marginal gains with careful regularisation (Supp. Table 9).
+- (Authors) MoA embeddings need measured treated cells for the drug; RDKit is unstable with few training drugs (Fig. 2c).
+- Our reading: all data are in-vitro drug treatments of cancer lines, with no tissue, spatial structure or patient samples; the "control → treated" direction differs from the "disease → normal" direction we need.
+- Our reading: R² only measures means (top-50 DEGs), and distributional metrics depend on the frozen autoencoder's decoding quality.
 
 ## Relation to our direction
-Sits in the virtual-tissue / perturbation-response → gene-and-drug-revert stage, not anomaly detection. CMonge models control→perturbed as a conditional OT map; for our goal of predicting interventions that revert an anomalous state, its conditioning lets us search which drug/dose maps a population toward a target (normal) distribution — an in-silico intervention/repurposing screen. Its OOD generalization (unseen drugs from SMILES) fits the propose-candidate → wet-lab-validate loop. It explicitly models distribution shift, aligning with treating disease/drug-induced tissue change as an anomaly, and the Monge/Sinkhorn displacement can serve as a revert-distance metric. Caveats: population-distribution level, no spatial coordinates, and not itself an anomaly detector.
+This is a **model / revert** paper, not anomaly detection. Our reading: (1) with a diseased population as source and a normal population as target, a CMonge-style conditional OT could score which condition (drug / genetic perturbation) moves cells back towards normal; but the paper only trains control → treated, so the reverse use needs suitable data and is untested. (2) Its Sinkhorn / Wasserstein distances can serve as a distribution-level revert measure, consistent with treating anomalies as distribution shift in Topic 1. (3) It has no spatial information and no tissue sections; for kidney data a realistic use is first screening candidate perturbations at the snRNA level and then checking them on spatial data. (4) "More conditions make structure embeddings usable" implies that revert prediction for unmeasured compounds needs large perturbation datasets for training.
 
 ## Reusable assets
-- **Code:** `AI4SCR/conditional-monge-gap` (MIT license, `pip install cmonge`; Python 3.10/3.11, JAX/OTT backend). <https://github.com/AI4SCR/conditional-monge-gap>
-- **CAR-T extension:** `AI4SCR/car-conditional-monge` (extends CMonge to CAR-T scRNA-seq, with CAR-specific dataloader/embedding/trainer). <https://github.com/AI4SCR/car-conditional-monge>
-- **Upstream integration:** OTT (`ott-jax`) PR #605 — conditional Monge gap merged into OTT.
-- **Data:** preprocessed SciPlex3 and 4i data (ETH research collection). <https://www.research-collection.ethz.ch/handle/20.500.11850/609681>
-- **Pretrained models:** the repo `models/` directory contains checkpoints (older versions need the `cmonge_checkpoint_loading` git tag).
-- **Evaluation protocol:** R² (feature mean), MMD, (entropic) Wasserstein / Sinkhorn divergence; baselines such as identity, per-condition Monge, CellOT (ICNN), and chemCPA are directly reusable.
-- **Preprint:** arXiv:2504.08328 (full text, with all metrics/figures).
+- **Code:** <https://github.com/AI4SCR/conditional-monge-gap> (the paper's AI4SCR/Conditional-Monge redirects here; MIT), PyPI `cmonge` <https://pypi.org/project/cmonge/>, Zenodo <https://doi.org/10.5281/zenodo.17854338> (Code availability).
+- **Data:** preprocessed SciPlex3 and 4i, ETH Research Collection <https://doi.org/10.3929/ethz-b-000609681> (Data availability, ref. 66).
+- **Library:** all models are built on OTT-JAX (Methods).
+- **Preprint:** arXiv:2504.08328 (source of the figures below).
 
 ## Follow-ups
-- Close-read the arXiv:2504.08328 methods section: the exact form of the Monge-gap regularizer, autoencoder latent-space dimensionality, and where the condition is injected.
-- The chemCPA paper (comparison baseline, SOTA conditional perturbation model).
-- The CellOT / Monge Gap (Uscidda & Cuturi) original methods, to understand the convergence of ICNN-free OT.
-- Reproduce the SciPlex3 OOD setup, set "revert to the control distribution" as the target direction, and run one in-silico intervention screen.
-- Evaluate whether CMonge can transfer to spatial transcriptomics (adding spatial-coordinate / neighborhood conditions).
+- Uscidda & Cuturi's Monge Gap (ref. 32); CellOT (ref. 30); chemCPA (ref. 11).
+- The authors' parallel CAR-T work (ref. 39): protein-language-model embeddings as conditions.
+- Our reading: look for kidney-cell perturbation data (e.g. Perturb-seq) to test conditional OT in the disease → normal direction.
 
 ## Figures & tables
 
-> The version of record is paywalled (Nature Machine Intelligence). All figures/tables below are taken from the **open preprint** arXiv:2504.08328; nothing is from the Nature page.
+> The version of record is open access in Nature Machine Intelligence (CC BY-NC-ND 4.0, no derivatives). The images below come from the **preprint** arXiv:2504.08328 v1, which names models ID/OOD; the published version uses IS/OOS (in-sample / out-of-sample). The numbers in the two tables were checked against published Table 1 and Table 2.
 
 ![CMonge method overview](figures/fig1_overview.png)
-**Fig 1.** Method overview. A) Prior methods (Monge Gap) learn a separate local map T_θ^i per perturbation; B) CMonge uses a single model T_θ(c_i) conditioned on covariate c_i (drug/dose), trained with a Sinkhorn fitting term Δ_ε plus λ·Monge-gap regularizer M_ε, and infers on unseen conditions ν_{n+1}; C) SciPlex in-distribution (n=9 drugs): CMonge's MMD approaches per-condition Monge (yellow line = identity upper bound, purple = lower bound); D) out-of-distribution (n=748): CMonge's MMD is far below chemCPA.
+**Fig 1.** Method overview. A) Prior methods (Monge Gap) learn a separate local map T_θ^i per perturbation; B) CMonge uses a single model T_θ(c_i) conditioned on covariate c_i (drug/dose), trained with a Sinkhorn fitting term Δ_ε plus λ·Monge-gap regularizer M_ε, and infers on unseen conditions ν_{n+1}; C) SciPlex, nine drugs, highest dose, seen conditions (labelled I.D. in the preprint): MMD of nine drug-specific Monge models vs nine dose-conditioned CMonge models (lower is better; yellow line = identity, the performance lower bound; purple = 36 per-condition Monge models, the upper bound); D) unseen drugs (O.O.D. in the preprint, n=748): CMonge's MMD is far below chemCPA.
 _Source: https://arxiv.org/html/2504.08328v1/x1.png (Fig 1) · License: arXiv preprint (arXiv:2504.08328)_
 
 ![In-distribution R² across drug encodings and scales](figures/fig3_id.png)
@@ -70,26 +98,27 @@ _Source: https://arxiv.org/html/2504.08328v1/x5.png (Fig 5) · License: arXiv pr
 
 ### Results
 
-**Table 1.** SciPlex dose experiments, R² (feature mean, higher is better) by test dose; standard deviation in parentheses. Per-condition Monge (1 condition) is the upper bound; CMonge-Dose approaches it with 4×/3× fewer models.
+**Table 1.** SciPlex nine-drug dose experiments, R² between predicted and true feature means (higher is better) by dose; SD in parentheses (published Table 1). Within-condition and per-condition Monge (36 models) are upper bounds, identity the lower bound.
 
 | Model | Cond. seen | 10 nM | 100 nM | 1000 nM | 10000 nM |
 |---|---|---|---|---|---|
+| Within condition | — | 0.982 (±0.018) | 0.950 (±0.034) | 0.960 (±0.023) | 0.967 (±0.018) |
 | Identity | — | 0.748 (±0.127) | 0.655 (±0.261) | 0.504 (±0.332) | 0.227 (±0.212) |
 | Monge (per-condition) | 1 | **0.950 (±0.020)** | **0.935 (±0.042)** | **0.960 (±0.025)** | **0.978 (±0.029)** |
-| Monge-Dose-ID | 4 | 0.750 (±0.254) | 0.767 (±0.231) | 0.885 (±0.099) | 0.694 (±0.272) |
-| CMonge-Dose-ID | 4 | 0.882 (±0.185) | 0.905 (±0.124) | 0.905 (±0.093) | 0.974 (±0.026) |
-| Monge-Dose-OOD | 3 | 0.614 (±0.349) | 0.726 (±0.219) | 0.856 (±0.112) | 0.322 (±0.348) |
-| CMonge-Dose-OOD | 3 | 0.864 (±0.197) | 0.931 (±0.058) | 0.878 (±0.118) | 0.527 (±0.311) |
+| Monge-Dose-IS | 4 | 0.750 (±0.254) | 0.767 (±0.231) | 0.885 (±0.099) | 0.694 (±0.272) |
+| CMonge-Dose-IS | 4 | 0.882 (±0.185) | 0.905 (±0.124) | 0.905 (±0.093) | 0.974 (±0.026) |
+| Monge-Dose-OOS | 3 | 0.614 (±0.349) | 0.726 (±0.219) | 0.856 (±0.112) | 0.322 (±0.348) |
+| CMonge-Dose-OOS | 3 | 0.864 (±0.197) | 0.931 (±0.058) | 0.878 (±0.118) | 0.527 (±0.311) |
 
-**Table 2.** SciPlex full DrugDose OOD (highest dose 10000 nM, 712 training conditions). CMonge-MoA beats chemCPA on R², Wasserstein and MMD. ↑ higher is better, ↓ lower is better.
+**Table 2.** SciPlex full drug–dose OOS (highest dose 10,000 nM, 712 training conditions, 21-fold CV holding out 9 drugs; published Table 2). CMonge-MoA beats chemCPA on R², Wasserstein and MMD. ↑ higher is better, ↓ lower is better.
 
 | Model | Cond. seen | R² ↑ | Wasserstein ↓ | MMD ↓ |
 |---|---|---|---|---|
-| CMonge-DrugDose-MoA-OOD | 712 | **0.900 (±0.059)** | **3.873 (±0.643)** | **0.013 (±0.005)** |
-| CMonge-DrugDose-RDKit-OOD | 712 | 0.781 (±0.187) | 4.232 (±0.896) | 0.020 (±0.012) |
-| chemCPA-DrugDoseCellLine-OOD | 712 | 0.760 (±0.211) | 4.767 (±0.976) | 0.195 (±0.035) |
+| CMonge-DrugDose-MoA-OOS | 712 | **0.900 (±0.059)** | **3.873 (±0.643)** | **0.013 (±0.005)** |
+| CMonge-DrugDose-RDKit-OOS | 712 | 0.781 (±0.187) | 4.232 (±0.896) | 0.020 (±0.012) |
+| chemCPA-DrugDoseCellLine-OOS | 712 | 0.760 (±0.211) | 4.767 (±0.976) | 0.195 (±0.035) |
 
-_Source: tables from arXiv:2504.08328v1 (https://arxiv.org/html/2504.08328) · License: arXiv preprint_
+_Source: Table 1 and Table 2 of the published article, https://doi.org/10.1038/s42256-026-01242-8 (values identical to arXiv:2504.08328v1) · License: CC BY-NC-ND 4.0_
 
 ## Cite
 ```bibtex

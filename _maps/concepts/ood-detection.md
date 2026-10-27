@@ -14,6 +14,6 @@ tags:
 ## Papers / 论文
 - [[_maps/papers/conformal-scrna-bioinformatics-2025|Conformal annotation]] — Conformal inference for reliable single cell RNA-seq annotation
 - [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]] — Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis
-- [[_maps/papers/imaging-ehjdh-2026|AI ejection fraction]] — An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study
+- [[_maps/papers/pathbench-natcommun-2026|Pathology FM benchmark]] — A benchmark study of vision and pathology foundation models for computational pathology
 - [[_maps/papers/scrna-natmachintell-2026|Conditional Monge Gap]] — Conditional Monge Gap enables generalizable single-cell perturbation modelling
 - [[_maps/papers/virtual-cell-challenge|Virtual Cell Challenge]] — Virtual Cell Challenge

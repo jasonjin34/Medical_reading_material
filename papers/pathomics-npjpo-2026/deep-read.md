@@ -1,91 +1,131 @@
 # Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study
 
-> **Bibkey** `Wang_2026` · **Venue** npj Precision Oncology (2026) · **Category** pathology · **Relevance** medium · **Access** paywall
+> **Bibkey** `Wang_2026` · **Venue** npj Precision Oncology (2026) · **Category** pathology · **Relevance** medium · **Access** open
 > **Link** <https://doi.org/10.1038/s41698-026-01381-6>
-> `status: complete` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
+> `status: complete` — 基于本文件夹 `source.pdf` 全文(开放获取,CC BY-NC-ND 4.0)精读;补充材料(Supplementary Figs/Tables,含 C-index 表)未读。
 
 ---
 
 ## 一句话 / One-liner
-<!-- ZH --> 用多尺度图神经网络 + 门控注意力多示例学习(MS-GMIL)直接从胃癌 H&E 全切片中提取病理组学特征,构建可解释的预后签名 PSGC,用于预测总生存并指导化疗/免疫治疗决策。
-<!-- EN --> A multi-scale graph neural network with gated-attention multiple-instance learning (MS-GMIL) reads gastric-cancer H&E whole-slide images directly to build an interpretable pathomics signature (PSGC) that predicts overall survival and stratifies chemo/immunotherapy benefit.
+<!-- ZH --> 作者用多尺度图神经网络 + 门控注意力 MIL(MS-GMIL)从胃癌 H&E 全切片提取特征,再用 LASSO-Cox 选出 11 个特征加权求和,得到病理组学签名 PSGC;它在 1 个训练队列和 4 个验证队列(共 3,138 例)中都是总生存的独立预后因素,并被用来分层辅助化疗获益和推测免疫治疗反应。
+<!-- EN --> The authors extract features from gastric-cancer H&E whole-slide images with a multi-scale graph neural network plus gated-attention MIL (MS-GMIL), then use LASSO-Cox to pick 11 features into a weighted sum — the pathomics signature PSGC; it is an independent prognostic factor for overall survival in one training and four validation cohorts (3,138 patients), and is used to stratify adjuvant-chemotherapy benefit and infer immunotherapy response.
+
+## 要点 / Takeaways
+- <!-- ZH --> 规模:5 个队列共 3,138 例(训练 HMUCH 1,257;验证 HMUSH 752、QMUSH 540、YKPH 319、TCGA-STAD 270)(Methods "Study design")。 <!-- EN --> Scale: 3,138 patients in 5 cohorts (training HMUCH 1,257; validation HMUSH 752, QMUSH 540, YKPH 319, TCGA-STAD 270) (Methods "Study design").
+- <!-- ZH --> 最终签名是线性公式:PSGC = 11 个编号特征(feature3、feature17 等)的加权和,阈值 −1.37 把患者分为高/低风险;5 个队列的 KM 曲线 log-rank 都是 p < 0.0001(Results; Fig. 2A)。 <!-- EN --> The final signature is a linear formula: PSGC = weighted sum of 11 numbered features (feature3, feature17, …), cut at −1.37 into high/low risk; log-rank p < 0.0001 in all 5 cohorts (Results; Fig. 2A).
+- <!-- ZH --> 效应量大:训练队列 60 个月时高 PSGC 组的限制平均生存时间比低组少 21.0 个月,108 个月时少 49.0 个月(Table 2)。 <!-- EN --> Large effect: in the training cohort, high-PSGC patients have 21.0 months less restricted mean survival time at 60 months and 49.0 months less at 108 months (Table 2).
+- <!-- ZH --> 治疗相关结论较弱:化疗获益来自小亚组分析且未控制关键混杂(作者自述);免疫治疗反应来自 TIDE、ImmuCellAI、submap 等算法预测,而不是真实的免疫治疗队列(Results; Discussion)。 <!-- EN --> Treatment claims are weak: chemotherapy benefit comes from a small subgroup analysis without key confounders (authors' own words); immunotherapy response is predicted by algorithms (TIDE, ImmuCellAI, submap), not observed in a treated cohort (Results; Discussion).
+- <!-- ZH --> 解释层面:高风险区域对应核多形性、细胞密度高、肿瘤–间质纤维化;低风险对应上皮内瘤变和肠上皮化生(Figs. 4–5);转录组上高 PSGC 富集 EMT、血管生成、肌生成通路(Fig. 6A)。 <!-- EN --> Interpretation: high-risk regions show nuclear pleomorphism, high cellularity and tumour–stroma fibrosis; low-risk regions show intraepithelial neoplasia and intestinal metaplasia (Figs. 4–5); high PSGC is enriched for EMT, angiogenesis and myogenesis pathways (Fig. 6A).
 
 ## 研究问题 / Problem
-<!-- 这篇论文要解决什么问题?为什么重要? / What problem, and why it matters. -->
-<!-- ZH --> 现行 TNM 分期在胃癌(GC)中提供的预后信息不足,同分期患者结局差异大,难以据此制定个体化治疗。作者希望不依赖人工特征,直接从常规 H&E 切片中挖掘预后信号,并把它变成能指导化疗与免疫治疗决策的可解释指标。
-<!-- EN --> TNM staging gives insufficient prognostic resolution in gastric cancer — outcomes vary widely within a stage, complicating individualized treatment. The paper aims to extract prognostic signal directly from routine H&E slides (no hand-crafted features) and turn it into an interpretable index that guides chemotherapy and immunotherapy decisions.
+<!-- ZH --> 胃癌(GC)的预后评估和治疗决策主要依靠 TNM 分期(肿瘤大小/侵犯深度、淋巴结、远处转移),但同一分期、接受相同治疗的患者结局差异很大(Introduction)。MSI、肿瘤突变负荷、PD-L1、EBV 等分子标志物受样本、技术、时间和费用限制。作者想用常规 H&E 切片做一个快速、便宜、可解释的病理组学签名,预测总生存(OS),并判断谁能从辅助化疗或免疫治疗中获益。
+<!-- EN --> Gastric-cancer (GC) prognosis and treatment decisions rely mainly on TNM staging (tumour depth, nodes, metastasis), yet patients with the same stage and treatment have very different outcomes (Introduction). Molecular markers (MSI, tumour mutation burden, PD-L1, EBV) are limited by sample, technical, time and cost constraints. The authors want a fast, cheap, interpretable pathomics signature from routine H&E slides that predicts overall survival (OS) and indicates who benefits from adjuvant chemotherapy or immunotherapy.
 
 ## 方法 / Method
-<!-- 核心方法、模型、数据流。关键公式/架构。 / Core method, model, data pipeline, key architecture. -->
-<!-- ZH --> 提出 MS-GMIL:多尺度(multi-scale)图神经网络 + 门控注意力(gated attention)机制的多示例学习(MIL),以全切片图像为输入、切片级弱标签监督,直接预测总生存(OS)。将 MS-GMIL 深度特征与传统机器学习结合,最终构建由 **11 个特征**组成的病理组学签名 PSGC。用 SHAP 与 pathogenomics 分析对签名做可解释性归因,并结合转录组数据探究其病理生理机制。(架构公式/超参等细节仅摘要与公开页可得,正文付费。)
-<!-- EN --> They propose MS-GMIL: a multi-scale graph neural network coupled with a gated-attention multiple-instance-learning head, taking whole-slide images with slide-level (weak) supervision to predict OS directly. MS-GMIL deep features are combined with traditional ML to build the final **11-feature** pathomics signature (PSGC). SHAP and pathogenomics analyses provide interpretability, and matched transcriptomic data probe the underlying biology. (Full architectural formulas/hyperparameters are paywalled — abstract-level detail only.)
+<!-- ZH --> 1. **切片与预处理**:4 家医院的切片用 Aperio AT2 在 20×(0.5 μm/像素)扫描;TCGA 切片从数据门户下载。WSI 切成 512×512 不重叠 patch,用 Canny 边缘数去掉背景,Macenko 染色归一化,RGB z-score 标准化,并做翻转、模糊、颜色扰动等数据增强(Methods "Acquisition…" / "Image preprocessing")。
+<!-- ZH --> 2. **多尺度 bag**:每张 WSI 当作一个 bag,在 10× 和 20× 两个尺度各取一组 patch(实例);用预训练 Swin Transformer 提特征,维度 D = 1024(Methods "Pathomics feature extraction")。
+<!-- ZH --> 3. **图构建 + GCN**:每个尺度内,patch 是节点;两 patch 特征的余弦相似度 > δ 就连边(注意:按特征相似度,而不是空间邻接);图送入 GCN 更新节点表示(δ 的取值正文未给)。
+<!-- ZH --> 4. **门控注意力 MIL**:对 GCN 输出的节点特征用门控注意力 a_i ∝ exp(wᵀ(tanh(Vx_i) ⊙ σ(Ux_i))) 加权汇总成 bag 表示 z;用多头门控注意力并拼接各头输出。
+<!-- ZH --> 5. **多尺度融合**:z_all = Concat(z_10×, z_20×) ∈ R^{2D}(Fig. 1C 把模型标为 "for classification")。正文没有说明网络的训练目标/损失,也没有说明最终的"feature3 … feature46"是如何从网络输出得到的。
+<!-- ZH --> 6. **签名构建**:在训练队列用 10 折交叉验证的 LASSO-Cox 选出 11 个特征,得到 PSGC 线性公式;用最大选择秩统计确定阈值 −1.37,在验证队列直接套用公式和阈值(Results; Methods "LASSO Cox")。
+<!-- ZH --> 7. **评估**:KM 曲线、限制平均生存时间(RMST)、单/多因素 Cox、E-value 敏感性分析、时间依赖 ROC、校准曲线、决策曲线(DCA)、相对 TNM 的 C-index / NRI / IDI 增量(Methods "Performance evaluation")。
+<!-- ZH --> 8. **治疗与解释**:II/III 期患者按是否接受辅助化疗(XELOX 或 SOX)分组比较;oncoPredict(GDSC、CTRP)预测药物 IC50;TIDE、ImmuCellAI、submap(PRJEB25780 抗 PD-1 队列 45 例)推测免疫治疗反应;SHAP 看特征贡献;预测热图 + 每例取最高/最低风险各 10 个 patch 做 K-means 聚类(10 簇),两位病理医生盲评形态,Grad-CAM 显示注意区域;训练队列 193 例 mRNA-seq + TCGA 225 例(ComBat 去批次)做 GSEA、WGCNA、xCell(Methods)。
+<!-- EN --> 1. **Slides and preprocessing**: slides from 4 hospitals scanned on Aperio AT2 at 20× (0.5 µm/px); TCGA slides downloaded. WSIs are tiled into non-overlapping 512×512 patches, background removed by Canny edge count, Macenko stain normalization, RGB z-scoring, and flip/blur/colour augmentation (Methods).
+<!-- EN --> 2. **Multi-scale bags**: each WSI is a bag with patch instances at 10× and 20×; a pretrained Swin Transformer gives D = 1024 features (Methods "Pathomics feature extraction").
+<!-- EN --> 3. **Graph + GCN**: within each scale, patches are nodes and an edge is added when feature cosine similarity > δ (feature similarity, not spatial adjacency); a GCN updates node features (δ not reported in the main text).
+<!-- EN --> 4. **Gated-attention MIL**: node features are pooled with gated attention a_i ∝ exp(wᵀ(tanh(Vx_i) ⊙ σ(Ux_i))) into a bag vector z; multi-head gated attention with concatenated heads.
+<!-- EN --> 5. **Multi-scale fusion**: z_all = Concat(z_10×, z_20×) ∈ R^{2D} (Fig. 1C labels the model "for classification"). The main text states neither the training target/loss nor how the final "feature3 … feature46" are derived from the network output.
+<!-- EN --> 6. **Signature**: LASSO-Cox with 10-fold CV on the training cohort selects 11 features into the PSGC formula; cutoff −1.37 from maximally selected rank statistics, applied unchanged to validation cohorts.
+<!-- EN --> 7. **Evaluation**: KM, RMST, uni-/multivariable Cox, E-values, time-dependent ROC, calibration, decision curves, and C-index / NRI / IDI gains over TNM.
+<!-- EN --> 8. **Treatment and interpretation**: stage II/III patients compared by adjuvant chemotherapy (XELOX or SOX); oncoPredict (GDSC, CTRP) predicts IC50; TIDE, ImmuCellAI and submap (PRJEB25780 anti-PD-1 cohort, 45 patients) infer immunotherapy response; SHAP for feature contributions; prediction heatmaps, top/bottom-10 patches per patient clustered with K-means (10 clusters) and reviewed blind by two pathologists; Grad-CAM; 193 training-cohort mRNA-seq + 225 TCGA samples (ComBat) for GSEA, WGCNA and xCell.
+
+## 方法图 / Method diagram
+```mermaid
+flowchart LR
+  A["H&E WSI<br/>512px patches at 10x and 20x"] --> B["Swin Transformer<br/>features D 1024"]
+  B --> C["Similarity graph per scale<br/>cosine above delta + GCN"]
+  C --> D["Multi-head gated attention<br/>bag vector per scale"]
+  D --> E["Concat 10x and 20x"]
+  E --> F["LASSO-Cox<br/>11 features to PSGC"]
+  F --> G["Cutoff -1.37<br/>high vs low risk"]
+  G --> H["Survival, chemo subgroup,<br/>immune and drug predictions"]
+  G --> I["SHAP, heatmaps, clusters,<br/>GSEA and WGCNA"]
+```
 
 ## 数据 / Data
-<!-- 数据集、模态、规模、来源。 / Datasets, modalities, scale, source. -->
-<!-- ZH --> 多中心回顾性队列,共 **3,138 例**胃癌患者(中位年龄 60 岁,男性占 71.64%,2,248/3,138),分为训练与验证等多个队列。模态:H&E 数字病理全切片(WSI);另有配对转录组数据用于机制分析。具体各中心/队列名称与样本划分数目未在公开页完整呈现(仅摘要可得)。
-<!-- EN --> Multicenter retrospective cohorts totaling **3,138** GC patients (median age 60; 71.64% male, 2,248/3,138), split into training and validation (and additional) cohorts. Modalities: H&E digital whole-slide images, plus paired transcriptomic data for mechanism analysis. Per-center cohort names and exact split sizes are not fully public (abstract-only).
+<!-- ZH --> 回顾性多中心研究,3,138 张 H&E 切片 / 3,138 例:训练 HMUCH(哈尔滨医科大学附属肿瘤医院,1,257 例,2014–2016)、验证 1 HMUSH(752 例)、验证 2 QMUSH(540 例)、验证 3 YKPH(319 例)、验证 4 TCGA-STAD(270 例)(Methods "Study design")。纳入:≥ 18 岁、R0 切除、术后存活 ≥ 90 天、无其他肿瘤、资料完整;排除新辅助治疗者。中位年龄 60 岁,男性 71.64%,进展期 69.50%(Results; Table 1)。随访:HMUCH 中位 92.33 个月、5 年 OS 72.79%;TCGA-STAD 中位 19.9 个月、5 年 OS 45.66%。转录组:训练队列 193 例 mRNA-seq(GEO GSE184336、GSE179252)和 TCGA 225 例(Methods "Molecular insights")。
+<!-- EN --> Retrospective multicentre study, 3,138 H&E slides / patients: training HMUCH (Harbin Medical University Cancer Hospital, 1,257, 2014–2016), validation 1 HMUSH (752), validation 2 QMUSH (540), validation 3 YKPH (319), validation 4 TCGA-STAD (270) (Methods "Study design"). Inclusion: ≥ 18 years, R0 resection, ≥ 90-day survival, no other tumours, complete data; neoadjuvant therapy excluded. Median age 60, 71.64% male, 69.50% advanced disease (Results; Table 1). Follow-up: HMUCH median 92.33 months, 5-year OS 72.79%; TCGA-STAD median 19.9 months, 5-year OS 45.66%. Transcriptomes: 193 training-cohort mRNA-seq (GEO GSE184336, GSE179252) and 225 TCGA samples (Methods).
 
 ## 主要结果 / Key results
-<!-- 关键指标与结论,尽量带数字。 / Headline metrics and conclusions, with numbers where possible. -->
-<!-- ZH --> PSGC 在**所有队列**中均为独立预后因子。高 PSGC 的 II/III 期患者可从化疗获得显著获益,并对免疫治疗有效响应,提示其可作为疗效预测标志物。可解释性分析显示,驱动 PSGC 的主要组织学特征为肿瘤细胞间变(anaplasia)、上皮内瘤变、肿瘤间质纤维化与肠上皮化生;转录组层面与细胞周期调控、耐药通路及癌症进展机制相关。具体判别指标(C-index/HR/AUC/p 值)在公开页不可见(仅摘要可得,不臆造)。
-<!-- EN --> PSGC was an independent prognostic factor in **all cohorts**. Stage II/III patients with high PSGC gained considerable chemotherapy benefit and responded effectively to immunotherapy, positioning it as a treatment-response predictor. Interpretability links PSGC to tumor-cell anaplasia, intraepithelial neoplasia, tumor–stroma fibrosis, and intestinal metaplasia; transcriptomically it tracks cell-cycle regulation, drug-resistance pathways, and cancer progression. Exact discrimination metrics (C-index/HR/AUC/p) are not public — abstract-only, not fabricated here.
+- <!-- ZH --> **签名**:LASSO-Cox 选出 11 个特征;SHAP 显示 feature17 最重要,其次 feature8、feature3、feature34,feature10 最弱(Results; Fig. 4A, Supplementary Fig. 1A–B)。 <!-- EN --> **Signature**: 11 features selected; SHAP ranks feature17 first, then feature8, feature3, feature34; feature10 contributes least (Results; Fig. 4A).
+- <!-- ZH --> **预后**:阈值 −1.37;5 个队列高/低 PSGC 组 OS 差异 log-rank p < 0.0001(Fig. 2A);单/多因素 Cox 中 PSGC 在训练队列为独立预后因素,并在验证队列重复(Results;具体 HR 在 Supplementary Table 2,未读)。 <!-- EN --> **Prognosis**: cutoff −1.37; log-rank p < 0.0001 in all 5 cohorts (Fig. 2A); PSGC is independent in multivariable Cox in training and validation (Results; HRs are in Supplementary Table 2, not read).
+- <!-- ZH --> **RMST**:高 PSGC − 低 PSGC 的 RMST 差,60 个月时:HMUCH −21.0、HMUSH −20.0、QMUSH −17.4、YKPH −21.9、TCGA-STAD −18.4 个月,均 p < 0.0001(Table 2)。 <!-- EN --> **RMST**: high minus low PSGC RMST at 60 months: HMUCH −21.0, HMUSH −20.0, QMUSH −17.4, YKPH −21.9, TCGA-STAD −18.4 months, all p < 0.0001 (Table 2).
+- <!-- ZH --> **相对 TNM 的增量**:PSGC + TNM 的联合模型 C-index 高于单用 TNM(Supplementary Table 5,未读),时间依赖 AUROC 更高(Fig. 2B)、预测误差更低(Fig. 2C),NRI 与 IDI 在多个时间点为正(Table 3)。 <!-- EN --> **Gain over TNM**: PSGC + TNM has higher C-index than TNM alone (Supplementary Table 5, not read), higher time-dependent AUROC (Fig. 2B), lower prediction error (Fig. 2C) and positive NRI/IDI at several time points (Table 3).
+- <!-- ZH --> **辅助化疗**:II/III 期整体上辅助化疗未显著延长生存(Supplementary Fig. 4);高 PSGC 且接受化疗者预后更好,低 PSGC 者没有类似获益(Fig. 3A–B)。但药敏预测显示高 PSGC 组对化疗药物更"耐药"(Fig. 3D–E)。 <!-- EN --> **Adjuvant chemotherapy**: overall no significant survival gain in stage II/III (Supplementary Fig. 4); high-PSGC patients who received chemotherapy did better, low-PSGC patients did not (Fig. 3A–B). Yet drug-sensitivity prediction labels the high-PSGC group as more resistant (Fig. 3D–E).
+- <!-- ZH --> **免疫治疗(算法预测)**:TIDE 149/246 vs 48/172(OR 0.253,95% CI 0.162–0.391),ImmuCellAI 144/246 vs 31/172(OR 0.157);submap 提示高 PSGC 更可能对抗 PD-1 有反应(Results; Supplementary Fig. 6)。 <!-- EN --> **Immunotherapy (predicted)**: TIDE 149/246 vs 48/172 (OR 0.253, 95% CI 0.162–0.391), ImmuCellAI 144/246 vs 31/172 (OR 0.157); submap suggests high PSGC is more likely to respond to anti-PD-1 (Results; Supplementary Fig. 6).
+- <!-- ZH --> **形态与分子**:高风险簇(6、7)为低分化腺癌伴肿瘤–间质纤维化,低风险簇(0、2)为中分化腺癌伴上皮内瘤变和肠上皮化生(Figs. 4C–D, 5A);GSEA 中低 PSGC 富集 DNA 修复、增殖、代谢,高 PSGC 富集肌生成、血管生成、EMT(Fig. 6A);WGCNA 中 yellow 模块与 PSGC 强相关(Fig. 6D)。 <!-- EN --> **Morphology and molecules**: high-risk clusters (6, 7) are poorly differentiated adenocarcinoma with tumour–stroma fibrosis; low-risk clusters (0, 2) are moderately differentiated with intraepithelial neoplasia and intestinal metaplasia (Figs. 4C–D, 5A); low PSGC is enriched for DNA repair, proliferation and metabolism, high PSGC for myogenesis, angiogenesis and EMT (Fig. 6A); the yellow WGCNA module correlates strongly with PSGC (Fig. 6D).
 
 ## 创新点 / Contributions
-- <!-- ZH --> MS-GMIL:把多尺度图结构与门控注意力 MIL 结合,直接从 WSI 端到端学习预后,而非依赖预定义人工病理特征。 <!-- EN --> MS-GMIL fuses multi-scale graph structure with gated-attention MIL to learn prognosis end-to-end from WSIs rather than predefined hand-crafted features.
-- <!-- ZH --> 大规模多中心验证(3,138 例),PSGC 在所有队列均为独立预后因子。 <!-- EN --> Large multicenter validation (3,138 patients) with PSGC an independent prognostic factor across all cohorts.
-- <!-- ZH --> 不止预后,还能预测 II/III 期的化疗获益与免疫治疗响应,具临床决策价值。 <!-- EN --> Beyond prognosis, it predicts stage II/III chemotherapy benefit and immunotherapy response — clinically actionable.
-- <!-- ZH --> SHAP + pathogenomics 双重可解释,把黑箱签名映射到具体组织学特征与分子通路。 <!-- EN --> SHAP + pathogenomics interpretability maps the signature to concrete histology and molecular pathways.
+- <!-- ZH --> MS-GMIL:10×/20× 双尺度 + 特征相似度图 + GCN + 多头门控注意力的 MIL 架构,用于从 WSI 学预后表示。 <!-- EN --> MS-GMIL: a two-scale (10×/20×) feature-similarity-graph + GCN + multi-head gated-attention MIL architecture for prognostic WSI representations.
+- <!-- ZH --> 深度特征 + LASSO-Cox 得到 11 项线性签名,便于用 SHAP 解释。 <!-- EN --> Deep features + LASSO-Cox give an 11-term linear signature that SHAP can explain.
+- <!-- ZH --> 作者称这是同类研究中最大的(3,138 例,4 个外部验证集)。 <!-- EN --> The authors describe it as the largest study of its kind (3,138 patients, 4 external validation sets).
+- <!-- ZH --> 把签名与转录组(GSEA、WGCNA、xCell)和药敏/免疫预测联系起来。 <!-- EN --> Links the signature to transcriptomics (GSEA, WGCNA, xCell) and drug/immune predictions.
 
 ## 局限 / Limitations
-- <!-- ZH --> 回顾性设计,缺乏前瞻性/随机对照验证;治疗获益结论为分层观察而非 RCT。 <!-- EN --> Retrospective design; treatment-benefit claims are stratified observations, not RCT-level evidence.
-- <!-- ZH --> 单一癌种(胃癌)与单一模态(H&E),跨癌种/跨染色泛化性未知。 <!-- EN --> Single cancer type (GC) and single modality (H&E); cross-cancer / cross-stain generalization unknown.
-- <!-- ZH --> 关键定量指标、代码与数据可得性在公开页不可见,难以独立复现。 <!-- EN --> Key quantitative metrics, code, and data-availability are not public — hard to reproduce independently.
-- <!-- ZH --> 队列以中国单/多中心为主(人群偏倚可能),外部广谱人群适用性待验证。 <!-- EN --> Cohorts appear China-centric, raising population-bias and external-validity questions.
+- <!-- ZH --> (作者)回顾性设计,存在偏倚和隐藏混杂;TCGA 随访短;化疗获益来自小亚组分析,未控制 ECOG、淋巴结检出数、切缘、腹膜受累等关键混杂。 <!-- EN --> (Authors) Retrospective with hidden confounders; short TCGA follow-up; chemotherapy benefit from a small subgroup analysis not controlling ECOG, lymph-node yield, margins or peritoneal involvement.
+- <!-- ZH --> (作者)GDSC、TIDE 等算法预测"很大程度上是假设性的",缺乏真实治疗数据验证;未分析 PD-L1、MSI、MMR;未与肿瘤分级、Lauren 分型等病理分级系统直接比较。 <!-- EN --> (Authors) GDSC/TIDE predictions are "largely hypothetical" without real treatment data; PD-L1, MSI and MMR not analysed; no direct comparison with tumour grade or Lauren classification.
+- <!-- ZH --> 我们的理解:高 PSGC 组既"更能从化疗获益"又被预测"对化疗药更耐药",两者方向不一致,论文没有解释。 <!-- EN --> Our reading: the high-PSGC group is both "more likely to benefit from chemotherapy" and predicted "more resistant to chemotherapy drugs"; the paper does not reconcile these.
+- <!-- ZH --> 我们的理解:正文未说明 11 个"featureN"从网络哪一层、如何得到,也没给 δ、训练目标等细节,复现困难;数据仅"应要求提供",无代码链接。另外正文说 yellow 模块与 PSGC 相关,而 Fig. 6E 图注写的是 blue 和 midnightblue 模块的富集,存在不一致。 <!-- EN --> Our reading: the main text does not say how the 11 "featureN" are obtained from the network, nor give δ or training-loss details, so reproduction is hard; data are "available on request" with no code link. The text links the yellow module to PSGC while the Fig. 6E caption describes the blue and midnightblue modules — an inconsistency.
+- <!-- ZH --> 我们的理解:主要判别指标(C-index、HR)在补充材料中,正文只给出 log-rank p 值和 RMST,读者难以直接判断区分度大小。 <!-- EN --> Our reading: key discrimination metrics (C-index, HR) sit in the supplement; the main text gives only log-rank p values and RMST.
 
 ## 与本研究方向的关系 / Relation to our direction
-<!-- anomaly detection → virtual tissue → revert via gene prediction 这条线上,这篇处在哪一环?能复用什么? -->
-<!-- ZH --> 主要落在 **anomaly-detection / 组织表征**这一环:MS-GMIL 的门控注意力权重本质上是在 WSI 上定位"与预后相关的异常区域",可直接为我们的病理异常检测(哪些切片区域因疾病而改变)提供 attention-based 定位思路与弱监督范式。其 **pathogenomics 桥接**(把病理签名与转录组通路、耐药机制关联)对 **virtual tissue → gene-revert** 环节最有借鉴:它示范了如何将影像表型映射到可干预的分子通路(细胞周期、耐药),这正是"预测调控哪些基因可逆转异常"所需的影像-分子对应关系。可复用为:异常区域注意力定位模块 + 影像→通路关联的分析协议。它不直接做基因逆转预测,但提供了连接病理异常与分子靶点的中间层。
-<!-- EN --> This sits mainly at the **anomaly-detection / tissue-representation** stage: MS-GMIL's gated-attention weights effectively localize prognosis-relevant "abnormal" WSI regions, offering a weakly-supervised, attention-based blueprint for our histopathology anomaly detection (which regions changed due to disease). Its **pathogenomics bridge** — linking the image signature to transcriptomic pathways and drug-resistance mechanisms — is most relevant to the **virtual-tissue → gene-revert** step: it demonstrates mapping an imaging phenotype onto actionable molecular pathways (cell cycle, resistance), exactly the image-to-molecule correspondence needed to predict which genes, if modulated, would revert an anomaly. Reusable as: an attention-based abnormal-region localizer plus an image→pathway association protocol. It does not do gene-revert prediction itself, but supplies the connective layer between pathological anomaly and molecular target.
+<!-- ZH --> 这是一篇典型的"WSI → 预后签名"监督学习论文,和 detect → model → revert 的关系较间接。
+- 我们的理解(检测环):门控注意力权重和 Grad-CAM 可以指出与不良预后相关的区域(如肿瘤–间质纤维化),但这是有监督的"风险区域",不是无监督的"异常区域";在肾脏项目里,类似做法需要结局标签(如 eGFR 下降、进展),而我们的 Topic 1 侧重无需标签的异常检测。
+- 我们的理解(模型/回复环):论文把签名与转录组通路(EMT、血管生成、E2F/MYC/G2M)和药敏预测相连,但都是相关分析或算法推断,没有干预,不能直接用于"预测哪些基因能逆转异常"。
+- 我们的理解(方法借鉴):多尺度(10×/20×)+ 图 + 门控注意力 MIL 是常见的 WSI 编码骨架;"深度特征 → LASSO-Cox 线性签名 → SHAP"的两段式做法,可以作为肾脏 H&E 预后基线的参考;"按特征相似度连边"的图与 PathPrism 那种"按空间邻接连边"的组织图不同,做肾脏空间结构分析时要注意区分。
+- 相关性 medium:胃癌,不涉及肾脏和空间组学。
+<!-- EN --> A typical supervised "WSI → prognostic signature" paper; its link to detect → model → revert is indirect.
+- Our reading (detect): gated-attention weights and Grad-CAM highlight regions tied to poor prognosis (e.g. tumour–stroma fibrosis), but these are supervised "risk regions", not unsupervised anomalies; in the kidney project the same approach would need outcome labels (e.g. eGFR decline), whereas Topic 1 focuses on label-free anomaly detection.
+- Our reading (model / revert): the signature is linked to transcriptomic pathways (EMT, angiogenesis, E2F/MYC/G2M) and predicted drug sensitivity only by correlation or algorithmic inference, with no intervention, so it cannot directly say which genes would revert an anomaly.
+- Our reading (method reuse): multi-scale (10×/20×) + graph + gated-attention MIL is a common WSI encoder; the two-step "deep features → LASSO-Cox linear signature → SHAP" is a reasonable template for a kidney H&E prognostic baseline; note that its graph links patches by feature similarity, unlike PathPrism-style tissue graphs that link by spatial adjacency.
+- Relevance medium: gastric cancer; no kidney, no spatial omics.
 
 ## 可复用资产 / Reusable assets
-<!-- 代码、预训练模型、数据集、评测协议。 / Code, checkpoints, datasets, eval protocols. -->
-<!-- ZH --> 方法层面可复用:①MS-GMIL 的多尺度图 + 门控注意力 MIL 架构(用于 WSI 弱监督表征/异常定位);②SHAP + pathogenomics 的可解释评测协议(签名→组织学特征→分子通路)。具体的代码仓库、预训练 checkpoint、数据集与 data/code availability 声明在公开页均不可见(仅摘要可得),需获取全文核实。数据规模 3,138 例可作对标基准。
-<!-- EN --> Method-level reuse: (1) the MS-GMIL multi-scale-graph + gated-attention MIL architecture for weakly-supervised WSI representation / anomaly localization; (2) the SHAP + pathogenomics interpretability protocol (signature → histology → molecular pathway). Concrete code repo, pretrained checkpoints, datasets, and data/code-availability statements are not visible publicly (abstract-only) — verify via full text. The 3,138-patient scale is a useful benchmark reference.
+- <!-- ZH --> **代码 / 模型**:论文未给出代码或模型链接。 <!-- EN --> **Code / models**: no code or model link in the paper.
+- <!-- ZH --> **数据**:临床与图像数据"应要求向通讯作者索取";训练队列 193 例 mRNA-seq 已存 GEO(GSE184336、GSE179252);TCGA-STAD 公开;免疫治疗参考队列 PRJEB25780。 <!-- EN --> **Data**: clinical and image data "available on request"; 193 training-cohort mRNA-seq in GEO (GSE184336, GSE179252); TCGA-STAD public; immunotherapy reference cohort PRJEB25780.
+<!-- ZH/EN --> <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE184336> · <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE179252>
+- <!-- ZH --> **评测协议**:KM + RMST + E-value + 时间依赖 ROC + 校准 + DCA + NRI/IDI 的完整预后评估清单,可借作肾脏预后模型的报告模板(作者遵循 REMARK、TRIPOD)。 <!-- EN --> **Eval protocol**: KM + RMST + E-value + time-dependent ROC + calibration + DCA + NRI/IDI — a complete prognostic-reporting checklist (the authors follow REMARK and TRIPOD).
 
 ## 待读 / Follow-ups
-- <!-- ZH --> 获取全文,核实 MS-GMIL 架构细节(图构建、多尺度融合、注意力公式)与 C-index/HR/AUC 等指标。 <!-- EN --> Get full text to verify MS-GMIL architecture (graph construction, multi-scale fusion, attention) and metrics (C-index/HR/AUC).
-- <!-- ZH --> 查 data/code availability,是否开源模型或特征。 <!-- EN --> Check data/code availability — whether model or features are released.
-- <!-- ZH --> 对比前作 Nat Commun 2022 "Prognostic and predictive value of a pathomics signature in gastric cancer" 以定位增量。 <!-- EN --> Compare with the earlier Nat Commun 2022 GC pathomics-signature paper to gauge the delta.
+- <!-- ZH --> 读补充材料:Supplementary Table 2(Cox HR)、Table 5(C-index)、Fig. 4–6(化疗与免疫分析)。 <!-- EN --> Read the supplement: Supplementary Table 2 (Cox HRs), Table 5 (C-index), Figs. 4–6 (chemotherapy and immune analyses).
+- <!-- ZH --> 对比前作 Chen et al., "Prognostic and predictive value of a pathomics signature in gastric cancer", Nat. Commun. 13, 6903 (2022)(本文参考文献)。 <!-- EN --> Compare with Chen et al., "Prognostic and predictive value of a pathomics signature in gastric cancer", Nat. Commun. 13, 6903 (2022) (cited by this paper).
 
 ## 图表 / Figures & tables
 
-<!-- ZH --> **付费墙说明:** 本文为 npj Precision Oncology 付费文章,图表与全文正文均在付费墙后。按仓库版权规则,此处**不下载任何图片**,仅链接到出处;各图的确切编号与图注在公开页不可见,故不臆造复现。请到原文的图表库查看:
-<!-- EN --> **Paywall note:** This is a paywalled npj Precision Oncology article; its figures and body text sit behind the paywall. Per the repo's copyright rule, **no images are downloaded** — only links are given. Exact per-figure numbers and captions are not publicly visible, so none are reproduced/invented here. View them at the source:
+<!-- ZH --> **说明:** 本文为开放获取(CC BY-NC-ND 4.0),但该许可不允许发布改编材料,因此此处不嵌入原图,仅给出链接。
+<!-- EN --> **Note:** The article is open access (CC BY-NC-ND 4.0), which does not allow sharing adapted material, so figures are linked rather than embedded.
 
 <!-- ZH --> · 全文:<https://www.nature.com/articles/s41698-026-01381-6>
 <!-- EN --> · Full article: <https://www.nature.com/articles/s41698-026-01381-6>
 <!-- ZH --> · 图表库(全部图):<https://www.nature.com/articles/s41698-026-01381-6/figures>
 <!-- EN --> · Figures gallery (all figures): <https://www.nature.com/articles/s41698-026-01381-6/figures>
-<!-- ZH --> · 单图锚点(Nature 惯例):`…s41698-026-01381-6#Fig1`、`#Fig2`、…(付费访问)
-<!-- EN --> · Per-figure anchors (Nature convention): `…s41698-026-01381-6#Fig1`, `#Fig2`, … (paywalled)
+<!-- ZH --> · 单图锚点(Nature 惯例):`…s41698-026-01381-6#Fig1`、`#Fig2`、…
+<!-- EN --> · Per-figure anchors (Nature convention): `…s41698-026-01381-6#Fig1`, `#Fig2`, …
 
 ### 结果表 / Results
 
-<!-- ZH --> **表1(仅摘要,无判别指标).** 下表仅复现**公开摘要/落地页**可见的数字;C-index、HR、AUC、p 值等具体判别指标在付费墙后,**未复现、未臆造**。
-<!-- EN --> **Table 1 (abstract-only; no discrimination metrics).** The table below reproduces **only** numbers visible in the public abstract / landing page; specific discrimination metrics (C-index, HR, AUC, p-values) are paywalled and are **not reproduced or fabricated**.
+<!-- ZH --> **表1.** 高 PSGC 与低 PSGC 组的 60 个月限制平均生存时间(RMST,单位:月),取自原文 Table 2。
+<!-- EN --> **Table 1.** 60-month restricted mean survival time (RMST, months) for high vs low PSGC, from the paper's Table 2.
 
-| Item | Value (abstract-only) |
-|---|---|
-| Total patients (multicenter, retrospective) | 3,138 |
-| Male | 71.64% (2,248 / 3,138) |
-| Median age | 60 years |
-| Model | MS-GMIL — multi-scale graph neural network + gated-attention multiple-instance learning |
-| Signature (PSGC) | interpretable, built from 11 features on H&E WSIs |
-| Prognostic status | independent prognostic factor in all cohorts |
-| Treatment signal | stage II/III high-PSGC → chemotherapy benefit + immunotherapy response |
+| Cohort / 队列 | n | High PSGC | Low PSGC | Difference | P |
+|---|---|---|---|---|---|
+| HMUCH (training) | 1,257 | 35.503 | 56.526 | −21.023 | <0.0001 |
+| HMUSH | 752 | 36.547 | 56.559 | −20.012 | <0.0001 |
+| QMUSH | 540 | 39.243 | 56.688 | −17.445 | <0.0001 |
+| YKPH | 319 | 35.224 | 57.171 | −21.947 | <0.0001 |
+| TCGA-STAD | 270 | 35.11 | 53.503 | −18.392 | <0.0001 |
 
-<!-- ZH --> _Source (abstract only): https://www.nature.com/articles/s41698-026-01381-6 · npj Precision Oncology (2026), paywalled — 数字仅取自公开摘要,不含正文/图表数据。_
-<!-- EN --> _Source (abstract only): https://www.nature.com/articles/s41698-026-01381-6 · npj Precision Oncology (2026), paywalled — numbers are taken only from the public abstract, with no body-text or figure/table data._
+<!-- ZH/EN --> _Source: Wang et al., npj Precis. Oncol. 10:206 (2026), Table 2 · CC BY-NC-ND 4.0_
 
 ## 引用 / Cite
 ```bibtex

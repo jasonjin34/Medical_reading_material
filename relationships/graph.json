@@ -82,6 +82,14 @@
       "year": 2024
     },
     {
+      "id": "abnormality-radiology-arxiv-2024",
+      "label": "Abnormality-Driven Representation Learning for Radiology Ima",
+      "kind": "paper",
+      "category": "imaging",
+      "relevance": "medium",
+      "year": 2024
+    },
+    {
       "id": "ad-unifying-review-procieee-2021",
       "label": "A Unifying Review of Deep and Shallow Anomaly Detection",
       "kind": "paper",
@@ -408,6 +416,14 @@
       "category": "anomaly",
       "relevance": "high",
       "year": 2024
+    },
+    {
+      "id": "gpnmb-cart-cell-2026",
+      "label": "AI-driven discovery of GPNMB CAR T cells as a multi-cancer t",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
     },
     {
       "id": "he2expr-bench-natcommun-2025",
@@ -994,6 +1010,14 @@
       "year": 2024
     },
     {
+      "id": "virtual-biotech-biorxiv-2026",
+      "label": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeu",
+      "kind": "paper",
+      "category": "agents",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
       "id": "virtual-cell-challenge",
       "label": "Virtual Cell Challenge",
       "kind": "paper",
@@ -1027,6 +1051,11 @@
     }
   ],
   "edges": [
+    {
+      "source": "abedini-kidney-atlas-natgenet-2024",
+      "target": "lake-kidney-atlas-nature-2023",
+      "type": "cites"
+    },
     {
       "source": "bioml-bench-biorxiv-2025",
       "target": "virtual-lab-nature-2025",
@@ -1079,6 +1108,16 @@
     },
     {
       "source": "biomnibench-biorxiv-2026",
+      "target": "lab-bench-arxiv-2024",
+      "type": "cites"
+    },
+    {
+      "source": "bixbench-arxiv-2025",
+      "target": "paperqa2-arxiv-2024",
+      "type": "cites"
+    },
+    {
+      "source": "bixbench-arxiv-2025",
       "target": "lab-bench-arxiv-2024",
       "type": "cites"
     },
@@ -1138,6 +1177,31 @@
       "type": "cites"
     },
     {
+      "source": "draem-iccv-2021",
+      "target": "padim-icpr-2020",
+      "type": "cites"
+    },
+    {
+      "source": "draem-iccv-2021",
+      "target": "mvtec-ad-cvpr-2019",
+      "type": "cites"
+    },
+    {
+      "source": "draem-iccv-2021",
+      "target": "f-anogan-media-2019",
+      "type": "cites"
+    },
+    {
+      "source": "draem-iccv-2021",
+      "target": "deep-svdd-icml-2018",
+      "type": "cites"
+    },
+    {
+      "source": "draem-iccv-2021",
+      "target": "anogan-ipmi-2017",
+      "type": "cites"
+    },
+    {
       "source": "ehr-delphi2m-nature-2025",
       "target": "ehr-pancreatic-trajectory-natmed-2023",
       "type": "cites"
@@ -1145,6 +1209,36 @@
     {
       "source": "ehr-pancreatic-llm-npjdigitmed-2025",
       "target": "ehr-pancreatic-trajectory-natmed-2023",
+      "type": "cites"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "spatialagent-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "deepevidence-natmachintell-2026",
+      "type": "cites"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "virtual-lab-nature-2025",
+      "type": "cites"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "cellvoyager-natmethods-2026",
+      "type": "cites"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "bixbench-arxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "fev-bioinformatics-agents-arxiv-2026",
+      "target": "co-scientist-nature-2026",
       "type": "cites"
     },
     {
@@ -1233,6 +1327,11 @@
       "type": "cites"
     },
     {
+      "source": "llm-judge-healthcare-arxiv-2026",
+      "target": "medical-hallucination-arxiv-2025",
+      "type": "cites"
+    },
+    {
       "source": "meatrd-aaai-2025",
       "target": "spatial-natcommun-2024",
       "type": "cites"
@@ -1260,6 +1359,11 @@
     {
       "source": "nicheformer-natmethods-2025",
       "target": "scfm-zeroshot-genomebiol-2025",
+      "type": "cites"
+    },
+    {
+      "source": "paperqa2-arxiv-2024",
+      "target": "lab-bench-arxiv-2024",
       "type": "cites"
     },
     {
@@ -1313,6 +1417,11 @@
       "type": "cites"
     },
     {
+      "source": "sardine-bioinformatics-2025",
+      "target": "spatial-natcommun-2024",
+      "type": "cites"
+    },
+    {
       "source": "scbench-long-arxiv-2026",
       "target": "biomnibench-biorxiv-2026",
       "type": "cites"
@@ -1333,6 +1442,11 @@
       "type": "cites"
     },
     {
+      "source": "trail-arxiv-2025",
+      "target": "mast-neurips-2025",
+      "type": "cites"
+    },
+    {
       "source": "truthhypo-ijcai-2025",
       "target": "paperqa2-arxiv-2024",
       "type": "cites"
@@ -1340,6 +1454,26 @@
     {
       "source": "truthhypo-ijcai-2025",
       "target": "hypogen-llm-colm-2024",
+      "type": "cites"
+    },
+    {
+      "source": "virtual-biotech-biorxiv-2026",
+      "target": "spatialagent-biorxiv-2025",
+      "type": "cites"
+    },
+    {
+      "source": "virtual-biotech-biorxiv-2026",
+      "target": "virtual-lab-nature-2025",
+      "type": "cites"
+    },
+    {
+      "source": "virtual-biotech-biorxiv-2026",
+      "target": "cellvoyager-natmethods-2026",
+      "type": "cites"
+    },
+    {
+      "source": "virtual-biotech-biorxiv-2026",
+      "target": "biomni-biorxiv-2025",
       "type": "cites"
     },
     {
@@ -2346,6 +2480,11 @@
       "type": "in-category"
     },
     {
+      "source": "abnormality-radiology-arxiv-2024",
+      "target": "cat:imaging",
+      "type": "in-category"
+    },
+    {
       "source": "ad-unifying-review-procieee-2021",
       "target": "cat:anomaly",
       "type": "in-category"
@@ -2548,6 +2687,11 @@
     {
       "source": "generalized-ood-survey-ijcv-2024",
       "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
+      "source": "gpnmb-cart-cell-2026",
+      "target": "cat:agents",
       "type": "in-category"
     },
     {
@@ -2913,6 +3057,11 @@
     {
       "source": "virchow-2024",
       "target": "cat:foundation",
+      "type": "in-category"
+    },
+    {
+      "source": "virtual-biotech-biorxiv-2026",
+      "target": "cat:agents",
       "type": "in-category"
     },
     {

@@ -5,7 +5,7 @@ No images, no nav chrome. Full text for open sources; abstract + structured meta
 # MahmoodLab/UNI2-h
 
 - **Authors:** Mahmood Lab (Harvard Medical School / Brigham and Women's Hospital); contact faisalmahmood@bwh.harvard.edu
-- **Venue / Year:** Hugging Face · 2024
+- **Venue / Year:** Hugging Face · repo last modified 2025-01-16 (Hub API); associated paper 2024
 - **DOI:** 10.1038/s41591-024-02857-3 (associated UNI paper, Chen et al., Nature Medicine 2024)
 - **URL:** https://huggingface.co/MahmoodLab/UNI2-h
 - **Bibkey:** uni2-h-model
@@ -31,7 +31,7 @@ UNI2-h is a foundational (pretrained) vision model / backbone for computational 
 - Extras: no_embed_class (no class token in position embeddings), dynamic image sizing (dynamic_img_size).
 
 ### Training data
-- Over 200 million image tiles sampled from over 300,000 H&E and IHC whole-slide images.
+- Over 200 million image tiles sampled from over 300,000 H&E and IHC whole-slide images. (The card's "Model Description" says "over 350k diverse H&E and IHC slides"; its "Training Details" says "over 300k".)
 - Source: Mass General Brigham institutional data.
 - Stains: H&E and IHC. (Magnification/organ breakdown not enumerated on the card.)
 

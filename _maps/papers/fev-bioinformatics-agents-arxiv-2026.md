@@ -26,9 +26,13 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/biomni-biorxiv-2025|Biomni]] — bio agent review
-- [[_maps/papers/cellvoyager-natmethods-2026|CellVoyager]] — bio agent review
+- [[_maps/papers/bixbench-arxiv-2025|BixBench]] — cites
+- [[_maps/papers/cellvoyager-natmethods-2026|CellVoyager]] — cites
+- [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] — cites
+- [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — cites
 - [[_maps/papers/scirigor-arxiv-2026|SciRIGOR]] — workflow correctness
-- [[_maps/papers/spatialagent-biorxiv-2025|SpatialAgent]] — bio agent review
+- [[_maps/papers/spatialagent-biorxiv-2025|SpatialAgent]] — cites
+- [[_maps/papers/virtual-lab-nature-2025|Virtual Lab]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/outcome-eval|Final-answer grading]]

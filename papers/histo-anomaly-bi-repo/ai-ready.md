@@ -25,7 +25,7 @@ Trains CNNs to recognize normal tissue patterns, then uses the learned features 
 
 ### Methods and models implemented
 - CNN architecture: EfficientNet-B0 with 320-pixel input resolution.
-- Representation learning: auxiliary classification task discriminating healthy tissue by species / organ / staining reagent (labels auto-derived from metadata), regularized with a center-loss term to enforce compact per-class representations.
+- Representation learning: auxiliary classification task discriminating healthy tissue by species / organ / staining reagent, regularized with a center-loss term to enforce compact per-class representations.
 - Anomaly detection: one-class SVM classifiers applied to deep features from the trained CNN.
 - Staining support: both H&E and Masson's Trichrome protocols.
 

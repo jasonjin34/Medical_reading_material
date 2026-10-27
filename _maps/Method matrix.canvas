@@ -117,6 +117,15 @@
    "height": 220
   },
   {
+   "id": "cell-feature-medimg",
+   "type": "text",
+   "text": "- [[_maps/papers/abnormality-radiology-arxiv-2024|Abnormality radiology (Ligero 2024)]]",
+   "x": 640,
+   "y": 350,
+   "width": 300,
+   "height": 220
+  },
+  {
    "id": "cell-feature-histo",
    "type": "text",
    "text": "- [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]]",

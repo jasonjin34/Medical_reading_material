@@ -33,7 +33,7 @@ The Virtual Cell Challenge is an annual public competition, launched in 2025 by 
   - Training set: single-cell profiles for 150 gene perturbations (~150,000 cells).
   - Validation set: 50 gene perturbations, used to drive a live leaderboard during the competition.
   - Final test set: 100 held-out perturbations.
-- Additional data allowed: Arc Virtual Cell Atlas (>500 million cells), scBaseCount, Tahoe-100M, and X-Atlas/Orion (the largest publicly available Perturb-seq dataset).
+- Additional data allowed: the Arc Virtual Cell Atlas plus other public datasets (per the launch page; specific named datasets in an earlier version of this note could not be re-verified and were removed, 2026-10-27).
 
 ### Evaluation metrics (composite score of three)
 1. **Differential Expression Score (DES)** — how accurately the model predicts differentially expressed genes in response to a perturbation.
@@ -44,7 +44,7 @@ The Virtual Cell Challenge is an annual public competition, launched in 2025 by 
 - Arc released STATE, a transformer-based virtual cell model with two modules:
   - **State Transition (ST):** bidirectional transformer trained on 100M+ perturbed cells across ~70 contexts, predicting perturbation effects across cell collections.
   - **State Embedding (SE):** trained on ~167M human cells to learn expression variation and detect biological perturbation signal while resisting technical noise.
-- On unseen single-gene perturbations, STATE improved over a cell-mean baseline by 26%, vs 19% for a linear baseline and 22% for GEARS. STATE reportedly improved perturbation-effect discrimination by >50% and identified differentially expressed genes with >2-fold accuracy vs prior models.
+- (A claim about STATE's percentage gains over baselines was removed on 2026-10-27 because it could not be verified against the State page.)
 - Overall finding: perturbation-prediction models do not yet consistently outperform naive baselines across all metrics.
 
 ### Timeline (2025 edition)

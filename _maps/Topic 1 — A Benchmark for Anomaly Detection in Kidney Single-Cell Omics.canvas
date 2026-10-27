@@ -246,7 +246,7 @@
  ],
  "edges": [
   {
-   "id": "e85",
+   "id": "e90",
    "fromNode": "cellspectra-natgenet-2025",
    "toNode": "abedini-kidney-atlas-natgenet-2024",
    "fromSide": "right",
@@ -254,7 +254,7 @@
    "label": "cites"
   },
   {
-   "id": "e99",
+   "id": "e109",
    "fromNode": "linear-baselines-natmethods-2025",
    "toNode": "scfm-zeroshot-genomebiol-2025",
    "fromSide": "right",
@@ -262,7 +262,7 @@
    "label": "cites"
   },
   {
-   "id": "e113",
+   "id": "e123",
    "fromNode": "resolvi-natmethods-2026",
    "toNode": "ovrlpy-natbiotech-2026",
    "fromSide": "right",
@@ -270,7 +270,7 @@
    "label": "cites"
   },
   {
-   "id": "e114",
+   "id": "e125",
    "fromNode": "xenium-split-natmethods-2026",
    "toNode": "resolvi-natmethods-2026",
    "fromSide": "right",
@@ -278,7 +278,7 @@
    "label": "cites"
   },
   {
-   "id": "e125",
+   "id": "e136",
    "fromNode": "xenium-split-natmethods-2026",
    "toNode": "ovrlpy-natbiotech-2026",
    "fromSide": "right",
@@ -286,7 +286,7 @@
    "label": "Xenium contamination"
   },
   {
-   "id": "e135",
+   "id": "e145",
    "fromNode": "sardine-bioinformatics-2025",
    "toNode": "meatrd-aaai-2025",
    "fromSide": "right",
@@ -294,7 +294,7 @@
    "label": "anomalous region detection"
   },
   {
-   "id": "e138",
+   "id": "e148",
    "fromNode": "kidney-multimodal-genomebiol-2026",
    "toNode": "nephrobase-biorxiv-2025",
    "fromSide": "right",
@@ -302,7 +302,7 @@
    "label": "kidney snRNA/snATAC"
   },
   {
-   "id": "e139",
+   "id": "e149",
    "fromNode": "nephrobase-biorxiv-2025",
    "toNode": "scfm-zeroshot-genomebiol-2025",
    "fromSide": "right",
@@ -310,7 +310,7 @@
    "label": "single-cell FM evaluation"
   },
   {
-   "id": "e144",
+   "id": "e154",
    "fromNode": "spatialagent-biorxiv-2025",
    "toNode": "xenium-split-natmethods-2026",
    "fromSide": "right",
@@ -318,7 +318,7 @@
    "label": "Xenium data"
   },
   {
-   "id": "e145",
+   "id": "e155",
    "fromNode": "spatialagent-biorxiv-2025",
    "toNode": "dkd-spatial-atlas-nature-2026",
    "fromSide": "right",
@@ -326,7 +326,7 @@
    "label": "spatial niches"
   },
   {
-   "id": "e148",
+   "id": "e158",
    "fromNode": "damage-scores-cellgenomics-2026",
    "toNode": "cellspectra-natgenet-2025",
    "fromSide": "right",
@@ -334,7 +334,7 @@
    "label": "per-sample injury scoring"
   },
   {
-   "id": "e150",
+   "id": "e160",
    "fromNode": "nih-kidney-ai-challenge-2026",
    "toNode": "pathology-ad-bench-mlhealth-2025",
    "fromSide": "right",
@@ -342,7 +342,7 @@
    "label": "pathology AD benchmark"
   },
   {
-   "id": "e151",
+   "id": "e161",
    "fromNode": "dkd-spatial-atlas-nature-2026",
    "toNode": "xenium-split-natmethods-2026",
    "fromSide": "right",

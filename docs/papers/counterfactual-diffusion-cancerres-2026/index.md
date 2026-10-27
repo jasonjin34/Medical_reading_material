@@ -8,22 +8,42 @@
 ## One-liner
 MoPaDi (Morphing histoPathology Diffusion) couples a **diffusion autoencoder** with tile-level logistic-regression or slide-level **MIL** classifiers: it pushes a tile's latent feature vector along the classifier's decision direction and decodes it with the conditional diffusion model into a **counterfactual H&E image** ("what would this tile look like if it were class X?"), so pathologists can see the morphologic cues a model relies on. Validated on colorectal (tissue type, MSI), hepatobiliary, lung and breast tasks, with a Shapley-style decomposition showing MSI predictions are driven mostly by morphology rather than stain.
 
+## Takeaways
+- The core operation is simple: move the 512-d diffusion-autoencoder vector z along a classifier direction d (linear weights, or the gradient of the MIL logit w.r.t. z) by α, then decode with the original image's inverted noise x_T, giving "the same tissue with only the classifier-relevant features changed" (Methods Eq. B–D).
+- It attaches diffusion counterfactuals to weakly supervised MIL (slide-level labels only), which the authors call a first (Discussion).
+- Counterfactuals are faithful to the classifier, not to biology: the MSI classifier has AUC 0.73 ± 0.08, so the authors treat MSI counterfactuals as an audit of the classifier (Results §MSI).
+- Stain vs morphology (Vahadane transfer + Shapley-style split): of a +8.9 logit change toward MSIH, morphology contributes +7.4 and stain +1.1; morphology dominates in all 108 test patients (Fig. 5B).
+- Realism: 4 blinded raters, 300 tiles; 41.7% of synthetic tiles judged real (Results, Fig. S12).
+
 ## Problem
 DL models predict biomarkers from WSIs, but standard XAI (attention heatmaps, CAM/Grad-CAM) shows *where* the model looked, not *which features* it used, and invites confirmation bias. Counterfactual explanations ("how would the image need to change to be classified as X?") exist for natural images, radiology and dermatology, but in pathology mostly via less stable GANs; moreover, pathology labels are usually slide/patient-level (weak supervision), so counterfactuals must work with MIL — which, per the authors, had not been combined with diffusion counterfactuals before.
 
 ## Method
 **(1) Diffusion autoencoder** (on the official DiffAE implementation of Preechakul et al.): a learnable CNN encoder yields a 512-d semantic vector z; a DDPM conditioned on z reconstructs the image; encoder and denoiser are trained jointly with the simplified noise-prediction loss until FID < 20, with DDIM sampling at inference; a latent DDPM over z is also trained to sample synthetic features and test latent quality. **(2) Classifiers**: tile labels (NCT-CRC-HE-100K) → one-vs-rest logistic regression; patient labels (MSI, cancer subtype) → a transformer MIL (cross-attention + self-attention pooling), five-fold CV. **(3) Counterfactuals**: linear case, direction d = weight vector v; MIL case, d = gradient of target-class logit s_c(z) w.r.t. the tile feature; z is shifted with amplitude α (linear α ∈ {0.2…1}, MIL α ∈ {0.02…0.08}), denormalized and decoded together with the original image inverted to noise x_T; top-5 contributing tiles per WSI; generation is deterministic for fixed settings. **(4) Style–morphology decomposition**: Vahadane stain transfer builds two hybrids (original morphology + counterfactual stain; original stain + counterfactual morphology), and the logit change Δf is split Shapley-style into φ_style + φ_morph. **(5) Validation**: independent UNI2 / Virchow2 / CONCH + STAMP MIL classifiers check that counterfactuals move toward the target class for external models too; DeepCMorph nuclei segmentation for cell-type fractions and morphometrics; structured pathologist surveys (features appearing/disappearing) and a blinded real-vs-synthetic test.
 
+## Method diagram
+```mermaid
+flowchart LR
+  A["H&E tiles<br/>tumour regions"] --> B["Diffusion autoencoder<br/>encoder z 512-d + DDPM"]
+  B --> C["Classifier on z<br/>logistic or MIL transformer"]
+  C --> D["Direction d<br/>weights or logit gradient"]
+  D --> E["z plus alpha times d"]
+  B --> F["Inverted noise x_T"]
+  E --> G["Decode counterfactual tile"]
+  F --> G
+  G --> H["Checks: flip rate, FM classifiers,<br/>cell counts, pathologists, stain vs morphology"]
+```
+
 ## Data
 Training: NCT-CRC-HE-100K (100k 224×224 tiles from 86 FFPE samples, 9 tissue classes; test on 7,180 tiles of CRC-VAL-HE-7K), TCGA-CRC (625 WSIs → 588 WSIs / 582 patients after filtering; 512×512 tiles at 0.5 MPP, tumour regions only, no stain normalization), TCGA-BRCA (1,115 WSIs / 1,046 patients), and a TCGA pan-cancer tile set (32 cancer types). External: CPTAC-COAD (105 patients / 221 WSIs, 24 MSIH, frozen), CPTAC breast (100 / 323), CPTAC lung LUAD/LUSC (333 / 1,534), and a Charité liver cohort (496 patients, not public). The MSI cut-off is set with a two-component GMM on TCGA MSI-event counts.
 
 ## Key results
-- **Reconstruction/generation**: low MSE and high MS-SSIM across four datasets; synthetic FID ranges from 36.95 (NCT-CRC-HE-100K→CRC-VAL-HE-7K, heterogeneous) to 4.71 (pan-cancer, attributed to a low-diversity reference set); UNI2/Virchow2 Fréchet distances agree.
-- **Tissue type**: on CRC-VAL-HE-7K, AUC 0.91±0.01 (normal mucosa) and 0.98±0.01 (tumour epithelium); tumour→normal counterfactuals lose nuclear atypia, invasive growth and necrotic debris and gain goblet-like cells; cell-composition differences are negligible-to-small (Cliff's δ < 0.33; median shifts ≤ 3.1 pp).
-- **MSI (TCGA-CRC)**: MIL five-fold AUC 0.73±0.08, AP 0.40±0.09; external CPTAC-COAD AUC 0.67 — so the authors treat MSI as a case study in *auditing classifier behaviour*, not a biological readout. Pathologists identified mucinous differentiation, loss of glandular architecture, solid growth and lymphocytic infiltration, consistent with literature; UNI2/CONCH/Virchow2 external classifiers shift MSI probability in the intended direction.
-- **Style vs morphology**: across 108 test patients, edits toward MSIH give median Δf +8.9 (IQR 7.2–10.1), of which φ_morph +7.4 and φ_style +1.1; toward non-MSIH Δf −7.6 (φ_morph −6.6, φ_style −0.7); morphology dominates in every patient.
-- **Realism**: four raters, 300 tiles, blinded — synthetic tiles were judged real 41.7% of the time.
-- **Other cancers**: liver HCC vs CCA linear AUC 0.90 (0.94 patient-level), MIL 0.96, Charité external 0.85, 100% flipped at α = 0.08; lung LUAD vs LUSC MIL AUC 0.91, CPTAC external 0.77, 98.8% flipped at α = 0.06; breast ILC vs IDC AUC 0.86, CPTAC external 0.70, ~97% flipped, though top tiles often lacked typical IDC features.
+- **Reconstruction/generation**: MS-SSIM 0.966–0.992 across four datasets; synthetic FID from 36.95 (NCT-CRC-HE-100K model on CRC-VAL-HE-7K, heterogeneous) to 4.71 (pan-cancer, attributed to a low-diversity reference set); UNI2/Virchow2 Fréchet distances agree (Table 1).
+- **Tissue type**: on CRC-VAL-HE-7K, AUC 0.91 ± 0.01 (normal mucosa) and 0.98 ± 0.01 (tumour epithelium); tumour→normal counterfactuals lose nuclear atypia, invasive growth and necrotic debris and gain goblet-like cells (Fig. 2C); real normal tiles vs tumour→normal counterfactuals differ negligibly-to-small in cell composition (Cliff's δ < 0.33; median shifts ≤ 3.1 pp) (Fig. 2E, Table S4).
+- **MSI (TCGA-CRC)**: MIL five-fold AUC 0.73 ± 0.08, AP 0.40 ± 0.09; external CPTAC-COAD (frozen) AUC 0.67 (Results §MSI). Pathologists saw loss of glandular architecture, solid growth and more mucin, consistent with literature (Fig. 3A–C); UNI2 / CONCH / Virchow2 classifiers shift MSI probability in the intended direction (Fig. 4A).
+- **Stain vs morphology**: 108 test patients; toward MSIH median Δf +8.9 (IQR 7.2–10.1) with φ_morph +7.4 and φ_style +1.1; toward non-MSIH Δf −7.6 (φ_morph −6.6, φ_style −0.7); morphology dominates in every patient (Fig. 5B–C).
+- **Realism**: four blinded raters, 300 tiles — synthetic tiles judged real 41.7% of the time (Results; Fig. S12).
+- **Other cancers**: liver HCC vs CCA linear AUC 0.90 (0.94 patient-level), MIL five-fold 0.96, Charité external (496 patients) 0.85, 100% flipped at α = 0.08 (Fig. 6B); lung LUAD vs LUSC MIL AUC 0.91, CPTAC external 0.77, 98.8% flipped at α = 0.06 (Fig. 7C); breast ILC vs IDC AUC 0.86, CPTAC external 0.70, ~97% flipped, though top tiles often lacked typical IDC features (Results; Fig. S13D).
 
 ## Contributions
 - First generative model (per the authors) combining diffusion counterfactuals with MIL to explain biomarkers that exist only as slide-level labels.
@@ -39,7 +59,11 @@ Training: NCT-CRC-HE-100K (100k 224×224 tiles from 86 FFPE samples, 9 tissue cl
 - No formal user study versus attention heatmaps / Grad-CAM yet; some cell-type generation bias, requiring expert review.
 
 ## Relation to our direction
-This is the closest **imaging prototype of the "revert" stage** in detect → model → revert: MoPaDi pushes a diseased tile back toward "normal" along a decision direction (tumour → normal mucosa) and renders what the reverted tissue would look like; the authors themselves frame it as "model-based virtual perturbation" for prescreening hypotheses before wet-lab work. The difference is that its direction comes from a **supervised classifier**, whereas ours comes from **anomaly detection**: replace d by the gradient of an anomaly score (e.g. distance to a healthy reference manifold) to obtain "revert-to-healthy" counterfactuals — a visual interface for the virtual tissue on H&E. For **Plan A (kidney multi-omics anomaly detection)**: (1) the style–morphology decomposition is a ready tool to separate stain/site artifacts from true morphologic change, complementary to our "cross-modal agreement separates artifacts from disease" idea — applicable first to the 95-biopsy H&E; (2) it admits no evaluation under folds/bubbles, exactly the failure mode KidneyAnomalyBench should cover explicitly; (3) the external foundation-model (UNI2/Virchow2/CONCH) agreement check transfers as an "is the anomaly encoder-agnostic?" robustness test. For **Plan B (trustworthy agents)**: its insistence that counterfactuals are "classifier-faithful, not biologically causal" is precisely the kind of claim an agent reporting image evidence must have verified — a verifier should distinguish "the model thinks X" from "the tissue is X". Relevance medium: cancer H&E, not kidney, not omics.
+The authors frame MoPaDi as "model-based virtual perturbation" that could prescreen hypotheses before wet-lab work (Discussion). Within detect → model → revert it is the closest **imaging prototype of "revert"**: it pushes a tumour tile toward "normal mucosa" along a decision direction and renders the result (Fig. 2A).
+- Our reading: MoPaDi's direction d comes from a **supervised classifier**; replacing d by the gradient of an anomaly score (e.g. distance to a healthy reference distribution) w.r.t. z would yield "revert-to-healthy" counterfactuals — a visual interface for a virtual tissue on H&E. The paper does not do this.
+- Our reading (kidney Topic 1 / Plan A): (1) the stain–morphology decomposition can separate stain/site differences from true morphologic change, directly useful for the 95-biopsy H&E; (2) the authors admit no evaluation under folds, bubbles or scanner noise, and artifact cues learned by the classifier may be kept or reinforced — exactly a failure mode an anomaly benchmark should cover; (3) checking counterfactual direction with several independent foundation-model classifiers transfers as an "is the anomaly encoder-agnostic?" test.
+- Our reading (Topic 2 / Plan B): the paper keeps "the classifier thinks X" separate from "the tissue is X" — the kind of claim an agent citing image evidence should have checked.
+- Relevance medium: cancer H&E at tile level; no kidney, no omics.
 
 ## Reusable assets
 - **Code:** MoPaDi (pinned uv environment).

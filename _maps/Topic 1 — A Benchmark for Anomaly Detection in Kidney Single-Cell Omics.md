@@ -20,7 +20,7 @@ Damage scores · DKD spatial atlas · CellSpectra`"]
 ovrlpy · ResolVI · Xenium contamination (SPLIT)`"]
   s3["`**3. Model of healthy tissue** (7 papers)
 Pathology FM benchmark · Linear baselines win · Nephrobase Cell+`"]
-  s4["`**4. Anomaly / OOD score** (24 papers)
+  s4["`**4. Anomaly / OOD score** (25 papers)
 MEATRD · Reference-mapping QC · Sardine`"]
   s5["`**5. Cross-modal check** (5 papers)
 Kidney multiome (mBDRC) · Loki / OmiCLIP · H&E→expression benchmark`"]
@@ -43,6 +43,7 @@ Flow canvas: [[_maps/Topic 1 — A Benchmark for Anomaly Detection in Kidney Sin
 - [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] ★ — f-AnoGAN: Fast unsupervised anomaly detection with generative adversarial networks
 - [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] ★ — Deep One-Class Classification
 - [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]] ★ — A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks
+- [[_maps/papers/abnormality-radiology-arxiv-2024|Abnormality radiology (Ligero 2024)]] — Abnormality-Driven Representation Learning for Radiology Imaging
 - [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows
 - [[_maps/papers/diffusion-medical-ad-miccai-2022|Diffusion AD (medical)]] — Diffusion Models for Medical Anomaly Detection
 - [[_maps/papers/draem-iccv-2021|DRAEM]] — DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection

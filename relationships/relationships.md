@@ -46,6 +46,7 @@ flowchart LR
   cat_virtual_tissue["virtual-tissue"] --> DIRECTION
   abc_agentic_benchmarks_neurips_2025["★Establishing Best Practices for Building"] --> cat_agents
   abedini_kidney_atlas_natgenet_2024["★Single-cell multi-omic and spatial profi"] --> cat_single_cell
+  abnormality_radiology_arxiv_2024["Abnormality-Driven Representation Learni"] --> cat_imaging
   ad_unifying_review_procieee_2021["★A Unifying Review of Deep and Shallow An"] --> cat_anomaly
   ailuminate_arxiv_2025["★AILuminate: Introducing v1.0 of the AI R"] --> cat_agents
   ambient_rna_bench_biorxiv_2026["Benchmarking computational decontaminati"] --> cat_single_cell
@@ -87,6 +88,7 @@ flowchart LR
   fm_arxiv_2604["A Generative Foundation Model for Multim"] --> cat_foundation
   generalization_bias_rsos_2025["★Generalization bias in large language mo"] --> cat_agents
   generalized_ood_survey_ijcv_2024["★Generalized Out-of-Distribution Detectio"] --> cat_anomaly
+  gpnmb_cart_cell_2026["AI-driven discovery of GPNMB CAR T cells"] --> cat_agents
   he2expr_bench_natcommun_2025["Benchmarking the translational potential"] --> cat_histopath
   healthy_ref_natgenet_2023["★Precise identification of cell states al"] --> cat_single_cell
   hest1k_2024["HEST-1k: A Dataset for Spatial Transcrip"] --> cat_foundation
@@ -160,10 +162,12 @@ flowchart LR
   truthhypo_ijcai_2025["★Toward Reliable Scientific Hypothesis Ge"] --> cat_agents
   uni2_h_model["MahmoodLab/UNI2-h"] --> cat_foundation
   virchow_2024["A foundation model for clinical-grade co"] --> cat_foundation
+  virtual_biotech_biorxiv_2026["The Virtual Biotech: A Multi-Agent AI Fr"] --> cat_agents
   virtual_cell_challenge["Virtual Cell Challenge"] --> cat_competition
   virtual_lab_nature_2025["The Virtual Lab of AI agents designs new"] --> cat_agents
   virtual_tissue_2501["★AI-powered virtual tissues from spatial "] --> cat_virtual_tissue
   xenium_split_natmethods_2026["★Resolving sensitivity, specificity and s"] --> cat_spatial
+  abedini_kidney_atlas_natgenet_2024 -.->|cites| lake_kidney_atlas_nature_2023
   bioml_bench_biorxiv_2025 -.->|cites| virtual_lab_nature_2025
   bioml_bench_biorxiv_2025 -.->|cites| cellvoyager_natmethods_2026
   bioml_bench_biorxiv_2025 -.->|cites| biomni_biorxiv_2025
@@ -175,6 +179,8 @@ flowchart LR
   biomnibench_biorxiv_2026 -.->|cites| biomni_biorxiv_2025
   biomnibench_biorxiv_2026 -.->|cites| bixbench_arxiv_2025
   biomnibench_biorxiv_2026 -.->|cites| lab_bench_arxiv_2024
+  bixbench_arxiv_2025 -.->|cites| paperqa2_arxiv_2024
+  bixbench_arxiv_2025 -.->|cites| lab_bench_arxiv_2024
   cellspectra_natgenet_2025 -.->|cites| abedini_kidney_atlas_natgenet_2024
   cellspectra_natgenet_2025 -.->|cites| lake_kidney_atlas_nature_2023
   citation_faithfulness_arxiv_2026 -.->|cites| robin_nature_2026
@@ -186,8 +192,19 @@ flowchart LR
   deepevidence_natmachintell_2026 -.->|cites| virtual_lab_nature_2025
   deepevidence_natmachintell_2026 -.->|cites| biomni_biorxiv_2025
   deepevidence_natmachintell_2026 -.->|cites| co_scientist_nature_2026
+  draem_iccv_2021 -.->|cites| padim_icpr_2020
+  draem_iccv_2021 -.->|cites| mvtec_ad_cvpr_2019
+  draem_iccv_2021 -.->|cites| f_anogan_media_2019
+  draem_iccv_2021 -.->|cites| deep_svdd_icml_2018
+  draem_iccv_2021 -.->|cites| anogan_ipmi_2017
   ehr_delphi2m_nature_2025 -.->|cites| ehr_pancreatic_trajectory_natmed_2023
   ehr_pancreatic_llm_npjdigitmed_2025 -.->|cites| ehr_pancreatic_trajectory_natmed_2023
+  fev_bioinformatics_agents_arxiv_2026 -.->|cites| spatialagent_biorxiv_2025
+  fev_bioinformatics_agents_arxiv_2026 -.->|cites| deepevidence_natmachintell_2026
+  fev_bioinformatics_agents_arxiv_2026 -.->|cites| virtual_lab_nature_2025
+  fev_bioinformatics_agents_arxiv_2026 -.->|cites| cellvoyager_natmethods_2026
+  fev_bioinformatics_agents_arxiv_2026 -.->|cites| bixbench_arxiv_2025
+  fev_bioinformatics_agents_arxiv_2026 -.->|cites| co_scientist_nature_2026
   healthy_ref_natgenet_2023 -.->|cites| mrvi_natmethods_2025
   hest1k_2024 -.->|cites| virchow_2024
   hest1k_2024 -.->|cites| lake_kidney_atlas_nature_2023
@@ -205,12 +222,14 @@ flowchart LR
   kidney_multimodal_genomebiol_2026 -.->|cites| lake_kidney_atlas_nature_2023
   lake_kidney_atlas_nature_2023 -.->|cites| lake_snrna_pipeline_natcommun_2019
   linear_baselines_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
+  llm_judge_healthcare_arxiv_2026 -.->|cites| medical_hallucination_arxiv_2025
   meatrd_aaai_2025 -.->|cites| spatial_natcommun_2024
   meatrd_aaai_2025 -.->|cites| patchcore_cvpr_2022
   meatrd_aaai_2025 -.->|cites| mvtec_ad_cvpr_2019
   meatrd_aaai_2025 -.->|cites| f_anogan_media_2019
   meatrd_aaai_2025 -.->|cites| deep_svdd_icml_2018
   nicheformer_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
+  paperqa2_arxiv_2024 -.->|cites| lab_bench_arxiv_2024
   pathology_ad_bench_mlhealth_2025 -.->|cites| medianomaly_media_2025
   pathology_ad_bench_mlhealth_2025 -.->|cites| draem_iccv_2021
   pathology_ad_bench_mlhealth_2025 -.->|cites| cflow_ad_wacv_2022
@@ -221,12 +240,18 @@ flowchart LR
   resolvi_natmethods_2026 -.->|cites| ovrlpy_natbiotech_2026
   robin_nature_2026 -.->|cites| bixbench_arxiv_2025
   robin_nature_2026 -.->|cites| paperqa2_arxiv_2024
+  sardine_bioinformatics_2025 -.->|cites| spatial_natcommun_2024
   scbench_long_arxiv_2026 -.->|cites| biomnibench_biorxiv_2026
   scbench_long_arxiv_2026 -.->|cites| bixbench_arxiv_2025
   scbench_long_arxiv_2026 -.->|cites| lab_bench_arxiv_2024
   scrna_natmachintell_2026 -.->|cites| linear_baselines_natmethods_2025
+  trail_arxiv_2025 -.->|cites| mast_neurips_2025
   truthhypo_ijcai_2025 -.->|cites| paperqa2_arxiv_2024
   truthhypo_ijcai_2025 -.->|cites| hypogen_llm_colm_2024
+  virtual_biotech_biorxiv_2026 -.->|cites| spatialagent_biorxiv_2025
+  virtual_biotech_biorxiv_2026 -.->|cites| virtual_lab_nature_2025
+  virtual_biotech_biorxiv_2026 -.->|cites| cellvoyager_natmethods_2026
+  virtual_biotech_biorxiv_2026 -.->|cites| biomni_biorxiv_2025
   virtual_tissue_2501 -.->|cites| loki_omiclip_natmethods_2025
   xenium_split_natmethods_2026 -.->|cites| resolvi_natmethods_2026
   xenium_split_natmethods_2026 -.->|cites| nicheformer_natmethods_2025
@@ -547,6 +572,7 @@ flowchart LR
 
 | From | | To |
 |---|---|---|
+| `abedini-kidney-atlas-natgenet-2024` | cites | `lake-kidney-atlas-nature-2023` |
 | `bioml-bench-biorxiv-2025` | cites | `virtual-lab-nature-2025` |
 | `bioml-bench-biorxiv-2025` | cites | `cellvoyager-natmethods-2026` |
 | `bioml-bench-biorxiv-2025` | cites | `biomni-biorxiv-2025` |
@@ -558,6 +584,8 @@ flowchart LR
 | `biomnibench-biorxiv-2026` | cites | `biomni-biorxiv-2025` |
 | `biomnibench-biorxiv-2026` | cites | `bixbench-arxiv-2025` |
 | `biomnibench-biorxiv-2026` | cites | `lab-bench-arxiv-2024` |
+| `bixbench-arxiv-2025` | cites | `paperqa2-arxiv-2024` |
+| `bixbench-arxiv-2025` | cites | `lab-bench-arxiv-2024` |
 | `cellspectra-natgenet-2025` | cites | `abedini-kidney-atlas-natgenet-2024` |
 | `cellspectra-natgenet-2025` | cites | `lake-kidney-atlas-nature-2023` |
 | `citation-faithfulness-arxiv-2026` | cites | `robin-nature-2026` |
@@ -569,8 +597,19 @@ flowchart LR
 | `deepevidence-natmachintell-2026` | cites | `virtual-lab-nature-2025` |
 | `deepevidence-natmachintell-2026` | cites | `biomni-biorxiv-2025` |
 | `deepevidence-natmachintell-2026` | cites | `co-scientist-nature-2026` |
+| `draem-iccv-2021` | cites | `padim-icpr-2020` |
+| `draem-iccv-2021` | cites | `mvtec-ad-cvpr-2019` |
+| `draem-iccv-2021` | cites | `f-anogan-media-2019` |
+| `draem-iccv-2021` | cites | `deep-svdd-icml-2018` |
+| `draem-iccv-2021` | cites | `anogan-ipmi-2017` |
 | `ehr-delphi2m-nature-2025` | cites | `ehr-pancreatic-trajectory-natmed-2023` |
 | `ehr-pancreatic-llm-npjdigitmed-2025` | cites | `ehr-pancreatic-trajectory-natmed-2023` |
+| `fev-bioinformatics-agents-arxiv-2026` | cites | `spatialagent-biorxiv-2025` |
+| `fev-bioinformatics-agents-arxiv-2026` | cites | `deepevidence-natmachintell-2026` |
+| `fev-bioinformatics-agents-arxiv-2026` | cites | `virtual-lab-nature-2025` |
+| `fev-bioinformatics-agents-arxiv-2026` | cites | `cellvoyager-natmethods-2026` |
+| `fev-bioinformatics-agents-arxiv-2026` | cites | `bixbench-arxiv-2025` |
+| `fev-bioinformatics-agents-arxiv-2026` | cites | `co-scientist-nature-2026` |
 | `healthy-ref-natgenet-2023` | cites | `mrvi-natmethods-2025` |
 | `hest1k-2024` | cites | `virchow-2024` |
 | `hest1k-2024` | cites | `lake-kidney-atlas-nature-2023` |
@@ -588,12 +627,14 @@ flowchart LR
 | `kidney-multimodal-genomebiol-2026` | cites | `lake-kidney-atlas-nature-2023` |
 | `lake-kidney-atlas-nature-2023` | cites | `lake-snrna-pipeline-natcommun-2019` |
 | `linear-baselines-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
+| `llm-judge-healthcare-arxiv-2026` | cites | `medical-hallucination-arxiv-2025` |
 | `meatrd-aaai-2025` | cites | `spatial-natcommun-2024` |
 | `meatrd-aaai-2025` | cites | `patchcore-cvpr-2022` |
 | `meatrd-aaai-2025` | cites | `mvtec-ad-cvpr-2019` |
 | `meatrd-aaai-2025` | cites | `f-anogan-media-2019` |
 | `meatrd-aaai-2025` | cites | `deep-svdd-icml-2018` |
 | `nicheformer-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
+| `paperqa2-arxiv-2024` | cites | `lab-bench-arxiv-2024` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `medianomaly-media-2025` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `draem-iccv-2021` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `cflow-ad-wacv-2022` |
@@ -604,12 +645,18 @@ flowchart LR
 | `resolvi-natmethods-2026` | cites | `ovrlpy-natbiotech-2026` |
 | `robin-nature-2026` | cites | `bixbench-arxiv-2025` |
 | `robin-nature-2026` | cites | `paperqa2-arxiv-2024` |
+| `sardine-bioinformatics-2025` | cites | `spatial-natcommun-2024` |
 | `scbench-long-arxiv-2026` | cites | `biomnibench-biorxiv-2026` |
 | `scbench-long-arxiv-2026` | cites | `bixbench-arxiv-2025` |
 | `scbench-long-arxiv-2026` | cites | `lab-bench-arxiv-2024` |
 | `scrna-natmachintell-2026` | cites | `linear-baselines-natmethods-2025` |
+| `trail-arxiv-2025` | cites | `mast-neurips-2025` |
 | `truthhypo-ijcai-2025` | cites | `paperqa2-arxiv-2024` |
 | `truthhypo-ijcai-2025` | cites | `hypogen-llm-colm-2024` |
+| `virtual-biotech-biorxiv-2026` | cites | `spatialagent-biorxiv-2025` |
+| `virtual-biotech-biorxiv-2026` | cites | `virtual-lab-nature-2025` |
+| `virtual-biotech-biorxiv-2026` | cites | `cellvoyager-natmethods-2026` |
+| `virtual-biotech-biorxiv-2026` | cites | `biomni-biorxiv-2025` |
 | `virtual-tissue-2501` | cites | `loki-omiclip-natmethods-2025` |
 | `xenium-split-natmethods-2026` | cites | `resolvi-natmethods-2026` |
 | `xenium-split-natmethods-2026` | cites | `nicheformer-natmethods-2025` |
@@ -647,6 +694,7 @@ flowchart LR
 - [`bioml-bench-biorxiv-2025`](../papers/bioml-bench-biorxiv-2025/deep-read.md) — BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML
 - [`deeptrace-arxiv-2025`](../papers/deeptrace-arxiv-2025/deep-read.md) — DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence
 - [`falsifiable-ideation-arxiv-2026`](../papers/falsifiable-ideation-arxiv-2026/deep-read.md) — What Proves You Wrong: Benchmarking Language Models on Falsifiable Research Ideation
+- [`gpnmb-cart-cell-2026`](../papers/gpnmb-cart-cell-2026/deep-read.md) — AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy
 - [`heurekabench-arxiv-2026`](../papers/heurekabench-arxiv-2026/deep-read.md) — HeurekaBench: A Benchmarking Framework for AI Co-scientist
 - [`holistic-agent-leaderboard-iclr-2026`](../papers/holistic-agent-leaderboard-iclr-2026/deep-read.md) — Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation
 - [`ideation-execution-gap-arxiv-2025`](../papers/ideation-execution-gap-arxiv-2025/deep-read.md) — The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas
@@ -658,6 +706,7 @@ flowchart LR
 - [`reference-hallucination-arxiv-2026`](../papers/reference-hallucination-arxiv-2026/deep-read.md) — Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents
 - [`scitrace-arxiv-2026`](../papers/scitrace-arxiv-2026/deep-read.md) — SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents
 - [`trail-arxiv-2025`](../papers/trail-arxiv-2025/deep-read.md) — TRAIL: Trace Reasoning and Agentic Issue Localization
+- [`virtual-biotech-biorxiv-2026`](../papers/virtual-biotech-biorxiv-2026/deep-read.md) — The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development
 - [`virtual-lab-nature-2025`](../papers/virtual-lab-nature-2025/deep-read.md) — The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies
 
 ### anomaly
@@ -711,6 +760,7 @@ flowchart LR
 
 ### imaging
 - [`imaging-nature-2026`](../papers/imaging-nature-2026/deep-read.md) — An ECG biomarker for sudden cardiac death discovered with deep learning ★
+- [`abnormality-radiology-arxiv-2024`](../papers/abnormality-radiology-arxiv-2024/deep-read.md) — Abnormality-Driven Representation Learning for Radiology Imaging
 - [`imaging-ehjdh-2026`](../papers/imaging-ehjdh-2026/deep-read.md) — An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study
 - [`medianomaly-media-2025`](../papers/medianomaly-media-2025/deep-read.md) — MedIAnomaly: A comparative study of anomaly detection in medical images
 

@@ -10,9 +10,9 @@
    "zh": "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
   },
   "stats": {
-   "papers": 60,
+   "papers": 61,
    "concepts": 20,
-   "edges": 195
+   "edges": 204
   }
  },
  {
@@ -26,9 +26,9 @@
    "zh": "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
   },
   "stats": {
-   "papers": 48,
+   "papers": 50,
    "concepts": 18,
-   "edges": 174
+   "edges": 186
   }
  },
  {
@@ -54,13 +54,13 @@
    "zh": "Sikander 推荐"
   },
   "lead": {
-   "en": "Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line.",
-   "zh": "Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → revert 排列。"
+   "en": "Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line.",
+   "zh": "Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。"
   },
   "stats": {
-   "papers": 28,
-   "concepts": 8,
-   "edges": 62
+   "papers": 32,
+   "concepts": 7,
+   "edges": 65
   }
  },
  {
@@ -90,9 +90,9 @@
    "zh": "全部论文按分类聚在一起，只用来看轮廓；细读请用上面的视图。"
   },
   "stats": {
-   "papers": 120,
+   "papers": 123,
    "concepts": 0,
-   "edges": 222
+   "edges": 237
   }
  }
 ]

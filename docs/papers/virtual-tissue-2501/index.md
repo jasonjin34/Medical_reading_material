@@ -6,81 +6,94 @@
 ---
 
 ## One-liner
+VirTues (Virtual Tissues) is a foundation model for spatial proteomics: each marker channel of a multiplexed image is tokenised and tagged with a protein-language-model (ESM-2) embedding of that protein, and a ViT with factorised spatial / marker attention is pretrained as a masked autoencoder; one backbone then supports marker reconstruction, cell typing, tissue-level clinical prediction, case retrieval and cross-cohort biomarker discovery.
 
-VirTues (Virtual Tissues) is a marker-aware, multi-scale foundation model for spatial proteomics that injects protein-language-model (ESM-2) marker embeddings into image tokens and uses factorized spatial-vs-marker attention; one pretrained backbone drives marker reconstruction, cell typing, niche annotation, biomarker discovery, and patient stratification, with zero-shot transfer across heterogeneous antibody panels.
+## Takeaways
+- Handles "every study has a different antibody panel": marker identity comes from ESM-2 protein embeddings, so markers unseen in training can still be fed in (zero-shot).
+- Attention is factorised into channel-only (marker) and position-only (spatial) interactions, avoiding the spatial × channel quadratic cost; performance keeps rising with marker count, especially the first 20 (Fig. 1e).
+- Reconstruction averages Pearson r = 0.723±0.157 across three masking schemes; zero-shot on an external lung cohort gives r = 0.667 for known markers (0.797 in-domain) (Fig. 2d, 2h).
+- Linear-probe cell typing beats KRONOS by 6.31% and CA-MAE by 65.79% in macro-F1 on average; cross-cohort label transfer F1 0.615 vs KRONOS 0.383 (Fig. 3).
+- Triple-negative breast cancer: four "virtual biomarkers" clustered from pre-treatment cell embeddings predict anti-PD-L1 chemo-immunotherapy response with AUROC 0.817 and transfer to an independent cohort for disease-free-survival stratification with C-index 0.628 (Fig. 5).
+- Kidney is in the pretraining corpus (the IMMUcan panel 1 dataset, Methods), but all downstream evaluations are in lung cancer, breast cancer and melanoma.
 
 ## Problem
-
-Multiplexed imaging measures dozens–hundreds of protein channels per section, but every study uses a different panel/protocol/platform, so marker count, identity, dynamic range and noise all differ. Existing pipelines are single-cohort/single-panel and cannot transfer knowledge across cohorts, cancer types or platforms, blocking robust biomarker discovery. The goal: a foundation model that ingests arbitrary marker combinations, unifies representations across scales (protein → cell → niche → tissue), and delivers clinical utility.
+Multiplexed imaging (IMC, multiplexed immunofluorescence, etc.) measures dozens to hundreds of proteins per section, but every study uses its own antibody panel, protocol and platform, so marker number, identity, dynamic range and noise differ; most pipelines are built for one cohort / one panel, which blocks knowledge transfer, reuse of annotated references, and spatial biomarkers that generalise beyond the original study (Introduction). Existing encoders need fixed panels, scale poorly with channel count, or are tested on narrow tasks, and rarely use prior knowledge about the proteins.
 
 ## Method
 
-Three innovations: (1) **Marker-aware tokenization** — images are cropped into a 3-D grid of image tokens (each marker at each position) fused via linear projection + addition with ESM-2 protein-LM marker embeddings; learnable patch-summary tokens aggregate (via convolution with segmentation masks) into cell/niche/tissue summary tokens. (2) **Factorized attention** — disentangled *marker attention* (channel-only, learns inter-protein dependencies) and *spatial attention* (position-only, learns tissue architecture), escaping the quadratic spatial×channel cost of standard ViTs; accuracy keeps improving with marker depth (esp. first ~20 markers) where modality-agnostic designs plateau. (3) **Masked-autoencoder pretraining** with independent (60–100% per-channel), marker (whole-channel), and niche (whole-region) masking; the decoder reconstructs channel-wise. At inference, niche summary tokens + optimal-transport (Wasserstein) power a patient-retrieval "Virtual Tissues Database". Downstream: linear probing (cell) and ABMIL (tissue).
+Terms: IMC (imaging mass cytometry) images dozens of proteins on tissue with metal-tagged antibodies; a marker is one measured protein (or mRNA) channel; a niche is a small tissue neighbourhood.
+
+1. **Input and cropping**: 256×256 sub-images are sampled (dropping those with <30% tissue), then random 128×128 crops during training; each channel is cut into 8×8-pixel patches (about one cell), giving an M×16×16 token grid (M = number of markers).
+2. **Marker-aware tokenisation**: each marker's amino-acid sequence is embedded by ESM-2 (640-d; mRNA markers use the encoded protein); image tokens and marker tokens are linearly projected and summed. Each spatial position also gets a learnable patch summary token.
+3. **Factorised-attention encoder**: one kind of layer lets tokens at the same position attend across markers (marker attention), the other lets tokens of the same marker attend across positions (spatial attention); the two alternate over 16 transformer blocks; implemented with FlashAttention-2.
+4. **Masked-autoencoder pretraining**: channel-wise masking with a random 60–100% ratio per channel, plus random dropout of 0–25% of channels for panel robustness. The decoder reconstructs channel-wise; loss is MSE over all pixels; AdamW, 150 epochs, effective batch 512, lr 2e-4 (Methods "VirTues pretraining"). Evaluation uses three schemes: independent, whole-marker and whole-niche masking.
+5. **Multi-scale representations**: at inference, patch summary tokens are convolved with the cell segmentation mask into cell summary tokens, or aggregated into niche / tissue summary tokens.
+6. **Downstream use**: logistic-regression linear probes on cells (random forests for cross-cohort label transfer); ABMIL (attention-based multiple-instance learning) over all patch tokens for tissue-level labels; case retrieval by Wasserstein (optimal-transport) distance between niche tokens; biomarker discovery = pre-treatment cell embeddings → multi-resolution Leiden clustering → per-patient cluster frequencies → cross-validated patient-level models rank clusters by AUROC → four signatures combined in a logistic model.
+7. **Splits**: each dataset is split 80/20 by patient for pretraining and all downstream parametric models.
+
+## Method diagram
+```mermaid
+flowchart LR
+  A["Multiplexed IMC image<br/>M markers"] --> B["8x8 patch tokens<br/>per marker"]
+  P["ESM-2 protein embedding<br/>per marker"] --> C["Token fusion<br/>projection + sum"]
+  B --> C
+  C --> D["Encoder<br/>marker attention + spatial attention"]
+  D --> E["Masked reconstruction<br/>MSE pretraining"]
+  D --> F["Summary tokens<br/>cell, niche, tissue"]
+  F --> G["Linear probe, ABMIL,<br/>OT retrieval, Leiden biomarkers"]
+```
 
 ## Data
-
-Trained/evaluated on **15 IMC datasets across 8 organ sites**, 147 distinct markers (proteins, PTMs, mRNAs). Scale: **3,102 patients, 8,887 tissue samples, >259k 256×256 crops, >14.5M segmented cells** (9 datasets with masks). Key cohorts: Cords et al. (lung), Wang et al. **NeoTRIP TNBC** (138 patients on atezolizumab + carboplatin + nab-paclitaxel, 67 pCR, pre/on/post timepoints), Danenberg et al. **METABRIC** breast (ER+, n=541, 21-yr follow-up), Rigamonti et al. lung (novel unseen markers for zero-shot), plus Hoch/Jackson/Meyer breast & melanoma sets. The training corpus is released as **spora**, a curated collection of 31+ spatial-proteomics datasets.
+15 IMC datasets from 8 organ sites, 147 markers in total (proteins, protein modifications, mRNAs); 3,102 patients, 8,887 tissue images, >259,000 crops of 256×256, >14.5 million segmented cells in nine datasets (Fig. 1b–c, Suppl. Table 1). Fourteen were used for pretraining: lung cancer, breast cancer, colon, kidney, head and neck (IMMUcan panel 1), primary and metastatic melanoma, plus non-cancer tonsil, endometrium, and healthy and diabetic pancreas; the 15th (Meyer et al. 2025 breast cancer, 163 patients, Fig. 5h) was added after pretraining and the main analysis to test signature transfer. Key downstream cohorts: Cords et al. lung cancer (the authors re-labelled many mislabelled cells with a random forest), Danenberg et al. / METABRIC breast cancer (ER+ n=541), Wang et al. NeoTRIP triple-negative breast cancer (138 patients on chemotherapy + atezolizumab, 67 with pathological complete response, samples before / during / after treatment), Rigamonti et al. lung cancer (contains markers unseen in training, for zero-shot), Hoch et al. melanoma.
 
 ## Key results
-
-- **Reconstruction**: mean Pearson r=0.723±0.157; zero-shot known-marker r=0.667 (vs 0.797 in-domain); independent/niche masking barely degrade (Δr=0.016 / −0.002).
-- **Cell typing**: +6.31% macro-F1 over KRONOS, +65.79% over CA-MAE; full-corpus vs single-dataset boosts rare immune cells (NK +95.6%, myeloid +35.2%, T +30.4%, B +27.9%); zero-shot within ≤0.03 F1 of in-domain.
-- **Tissue/clinical (ABMIL)**: lung subtype 0.856, breast ER 0.806, TNBC on-treatment response 0.714 F1 (all sig. > KRONOS).
-- **Survival**: METABRIC ER+ (n=541) high/low-risk split, log-rank P<0.001.
-- **TNBC anti-PD-L1 (headline)**: Leiden clustering of pre-treatment cells yields 4 signatures (RS1/RS2/NRS1/NRS2); combined model **cross-val AUROC 0.817**, +4.53% over Wang et al. (P<0.001), +23–30% over immune-ratio baselines. Transferred to independent Meyer et al. TNBC cohort for disease-free survival: low-risk (n=33) 3 events vs high-risk (n=45) 21 events, log-rank P<0.005; **c-index 0.628 > Meyer (0.606)** and all tumor/immune-ratio baselines.
+- **Reconstruction**: mean Pearson r = 0.723±0.157 over three masking schemes, above "mean of visible pixels" and "most correlated marker" baselines (Fig. 2d). Zero-shot (Rigamonti lung): known markers r = 0.667 vs 0.797 in-domain; the drop occurs almost only under whole-marker masking (Δr = 0.016 and −0.002 for independent and niche masking); new markers drop more under whole-marker masking (Fig. 2h).
+- **Cell typing**: linear-probe macro-F1 is on average 6.31% above KRONOS and 65.79% above CA-MAE on four datasets (Fig. 3b); full-corpus vs Danenberg-only training: B cells +27.9%, myeloid +35.2%, NK +95.6%, T cells +30.4% (Fig. 3c); zero-shot within ≤ 0.03 macro-F1 of in-domain (Fig. 3d); Cords → Rigamonti label transfer F1 0.615 vs KRONOS 0.383 and mean intensities 0.490 (Fig. 3g).
+- **Survival (METABRIC ER+, n=541)**: cell embeddings → 120 k-means phenotype states → per-patient composition fingerprints → two groups; high-risk (n=265) had 99 deaths over 21 years vs 58 in low-risk, log-rank P < 0.001; known adverse structures are enriched in high-risk (suppressed expansion risk ratio 4.464, APC-enriched 5.636) and vascular stroma depleted (0.399) (Fig. 4a–d).
+- **Tissue-level prediction (ABMIL, macro-F1)**: lung subtype 0.856 (+8.9% over KRONOS), lung grade 0.530 (+21.8%); breast ER status 0.806 (+14.2%), ERBB2 0.648, grade 0.490, PAM50 0.385; NeoTRIP response: pre-treatment 0.676 (on par with CA-MAE 0.685), on-treatment 0.714 (+30.2% / +31.4% / +19.5% over KRONOS / CA-MAE / ResNet), post-treatment 0.678 (Fig. 4f).
+- **Case retrieval (Cords lung)**: Wasserstein retrieval on niche tokens matches clinical labels significantly above random, with the best top-3 precision for cancer subtype; lowest cell-type-composition distance; second on molecular similarity (behind KRONOS) (Fig. 4h–j).
+- **Response signatures (NeoTRIP, pre-treatment)**: responders' cell-state distributions shift more over treatment than non-responders', and the shift is weaker in raw mean intensities (Fig. 5b); the four signatures alone give AUROC 0.783, 0.707, 0.599, 0.577 and combined 0.817, +4.53% over the Wang et al. spatial predictor (P < 0.001) and +23–30% over tumour / immune-cell ratio baselines (Fig. 5e). RS1 is enriched in apoptotic cells, RS2 in CD4+ T cells (+409.96%) and PD-L1+ GZMB+ cells (+275.25%); both non-response signatures are tumour-dominated (Fig. 5f).
+- **Transfer to an independent cohort (Meyer et al.; no response labels, so disease-free survival)**: signatures transferred by random forest; of three risk strata, low risk had 3 events in 33 patients and high risk 21 in 45, log-rank P = 3.66×10⁻³; C-index 0.628 vs Meyer stratification 0.606 and tumour/CD8 0.602, tumour/CD4 0.608, tumour/B 0.569 (Fig. 5j–k).
 
 ## Contributions
-
-- **Marker-aware tokenization**: injects ESM-2 protein-language-model embeddings into image tokens, letting the model ingest arbitrary marker combinations and perform zero-shot on entirely new markers (no retraining).
-- **Factorized spatial/marker attention**: breaks the spatial×channel quadratic complexity of standard ViTs, scales to high-dimensional multiplex data, and the attention itself is interpretable.
-- **Multi-scale hierarchical representation**: patch→cell→niche→tissue summary tokens; a single backbone covers the full molecular-to-clinical range of tasks.
-- **Reusable computational layer**: the same pretrained model performs reconstruction, cell typing, niche annotation, OT patient retrieval, and cross-cohort-transferable biomarker discovery, establishing a "spatial-proteomics foundation model" paradigm.
+- Protein-language-model embeddings as marker tokens, so the model accepts arbitrary panels and generalises zero-shot to unseen markers.
+- Factorised spatial / marker attention, letting a ViT scale to high-channel multiplexed images, with attention readouts for explanation (Suppl. Fig. 20).
+- Patch / cell / niche / tissue summary tokens: one backbone for tasks from molecules to clinic.
+- A hypothesis-free "unsupervised clustering, then supervised scoring" biomarker pipeline, with transfer tested on an independent cohort.
 
 ## Limitations
-
-- For entirely new markers with weak biochemical relationship to the training set, reconstruction/prediction degrades; "virtual marker imputation" needs calibration and uncertainty.
-- Rare cell states and rare tissue structures remain hard, mainly limited by data scarcity.
-- Survival analyses are mostly uncorrected models; covariate adjustment, proportional-hazards testing, and prospective validation are needed before clinical adoption.
-- Attention maps are only a partial explanation, lacking causal/perturbation analysis.
-- Trained on only 15 IMC cohorts and 8 organ sites; generalizability across more diseases, tissue-processing protocols, and imaging platforms remains to be verified. Currently limited to protein/RNA markers; multimodal fusion with H&E, spatial transcriptomics, metabolomics, etc. is the next step.
+- (Authors) Zero-shot reconstruction and prediction degrade for markers weakly related to the training set; virtual panel augmentation needs calibration and uncertainty reporting.
+- (Authors) Rare cell states and uncommon architectures remain hard, mainly from data scarcity.
+- (Authors) Survival analyses are mostly unadjusted demonstrations; clinical use needs covariate adjustment, proportional-hazards checks, several cohorts and prospective validation.
+- (Authors) Attention maps are partial explanations and need causal or perturbational analysis; broader validation across diseases, processing protocols and platforms is needed; fusion with H&E and other modalities is next.
+- Our reading: all downstream tasks are tumours; signatures were selected by cross-validation on the same cohort, so the combined AUROC 0.817 may still be optimistic, and the external cohort tests prognosis, not response.
 
 ## Relation to our direction
-
-This is the **foundational core reference** for our "virtual tissues" concept and sits squarely at the middle *virtual-tissue-modelling* stage, with reusable pieces for the other two stages:
-
-- **Virtual tissue modelling (primary hit)**: VirTues literally models tissue as a multi-scale, marker-aware, cross-panel "virtual tissue" (patch/cell/niche/tissue summary tokens). It is a direct backbone/baseline candidate for our tissue-representation layer; the spora corpus + HF checkpoints give ready-made pretrained representations.
-- **Anomaly detection (upstream, adaptable)**: the MAE objective is a self-supervised "reconstruct-normal-tissue" framework — reconstruction error (or deviation under marker/niche masking) can be repurposed as an **anomaly score** for regions altered by disease/drug perturbation. The paper already shows responders exhibit larger cell-state distribution shifts than non-responders, i.e. perturbation-induced shifts are captured in VirTues space — exactly our "detect changed regions" goal.
-- **Gene/target revert (downstream, indirect)**: VirTues does not predict gene perturbations, but its biomarker pipeline (cell embeddings → multi-resolution Leiden → patient-level cross-val scoring → transferable RS/NRS signatures) is a reusable template for reading off molecular programs tied to response/reversion; the PD-L1+GZMB+ / CD4+ T populations enriched in RS1/RS2 are candidate modulation targets, and marker-attention names the key proteins per niche as hypothesis generators.
-- **Eval templates**: its zero-shot cross-panel protocol, OT patient retrieval, and cross-cohort signature transfer are all reusable evaluation designs for us.
+This is a **model (virtual-tissue representation)** paper; it does neither anomaly detection nor perturbation prediction. Our reading: (1) its masked-reconstruction objective has the same shape as STANDS-style "reconstruction error = anomaly score": pretrained or fitted on normal tissue only, niche-masked reconstruction error is a candidate anomaly score for spatial proteomics, but the paper does not test this; (2) its cell / niche tokens can feed feature-based anomaly detection (e.g. kNN / density on a normal reference), relevant for the Xenium / multiplexed-imaging modality in Topic 1; (3) Fig. 5b shows treatment-induced shifts are clearer in its embedding than in raw intensities — good representations can amplify perturbation signal, which helps detect drug- or disease-altered regions; (4) its OT case retrieval and cross-cohort signature transfer are reusable templates for "find similar patients / transferable programmes" before revert; (5) kidney appears only in pretraining (IMMUcan); use on kidney biopsies needs validation.
 
 ## Reusable assets
-
-- **Code**: official repo `github.com/bunnelab/virtues` (MIT license). Conda script builds a Python 3.12 environment; `configs/base_config` sets data/marker-embedding paths; 3 Jupyter notebooks demo reconstruction / cell phenotyping / segmentation; ships with the `spora-bench` benchmark library.
-- **Pretrained checkpoints (Hugging Face Hub)**: `virtues-sp32` (32 datasets, CC BY-NC 4.0), `virtues-sp31` (31 datasets, MIT), `virtues-imc14` (14 IMC datasets, CC BY-NC 4.0).
-- **Dataset**: `spora` — a curated collection of 31+ spatial-proteomics datasets, with a guide for converting custom data to the spora format plus example data.
-- **Marker embeddings**: ESM-2 protein-language-model embeddings (can generate marker tokens for new antibodies).
-- **Evaluation protocols**: linear-probing cell typing, ABMIL tissue-level prediction, OT/Wasserstein patient retrieval, Leiden→cross-val AUROC biomarker discovery and cross-cohort transfer (concordance-index / log-rank survival evaluation).
+- **Code:** <https://github.com/bunnelab/virtues> (MIT; paper's Code availability). The README also lists Hugging Face weights <https://huggingface.co/bunnelab/virtues>: `virtues-sp32` (32 datasets, CC BY-NC 4.0), `virtues-sp31` (31, MIT), `virtues-imc14` (14 IMC datasets, CC BY-NC 4.0).
+- **Data and benchmark (README):** the spora collection <https://spora.epfl.ch/> (over 31 harmonised spatial-proteomics datasets), the spora-io loader, and spora-bench <https://github.com/bunnelab/spora-bench> (cell probing, segmentation, cross-cohort annotation, ABMIL, virtual staining).
+- **Raw data:** Zenodo links per dataset in the paper's Data availability.
 
 ## Follow-ups
-
-- Check v1 vs v2 differences: v1 reports 4 datasets / 96 markers / 2062 patients, v2 expands to 15 datasets / 147 markers / 3102 patients and adds the NeoTRIP TNBC main line — confirm which version to cite.
-- Closely read the differences between KRONOS (main comparison baseline) and CA-MAE, assessing their suitability as our baseline.
-- Reproduce `virtues-sp31` (MIT, commercially friendly) zero-shot cell typing on our own IMC/mIF data.
-- Validate the feasibility of "reconstruction error as anomaly score": on drug-perturbation paired samples, test whether masking-deviation aligns with known changed regions.
-- Track the robustness of ESM-2 marker embeddings to antibody naming/clone differences (marker isolation degradation problem).
+- Now published in Nature as "The Virtual Tissues foundation model resolves spatial proteomics across scales", Nature 657:744–754 (2026), doi:10.1038/s41586-026-10884-y, CC BY 4.0 (Crossref record); the abstract adds cell segmentation and the README says sp32 is trained on "32 datasets listed in the paper", unlike the arXiv v2 read here (15 datasets) — read the published version to reconcile.
+- KRONOS and CA-MAE (main baselines).
+- Kidney samples in IMMUcan panel 1: size, panel, and whether they could serve as a normal reference for kidney multiplexed imaging.
+- Our reading: test whether niche-masked reconstruction error, fitted on normal tissue only, works as an anomaly score.
 
 ## Figures & tables
 
 ![VirTues platform overview and architecture](figures/fig1.png)
 **Fig 1.** Platform overview and architecture: (a) two paths — Virtual Tissues Representation and Database — feeding clinical diagnostics, biological discovery and information retrieval; (b) training corpus of 15 datasets, 8 organ sites, 147 distinct markers; (c) 3,102 patients / 8,887 samples / ~259k crops; (d) marker-aware tokenization plus molecular/cell/niche/tissue summary tokens and factorized spatial/marker attention; (e) scaling laws — accuracy keeps rising with marker depth (blue VirTues vs grey full-attention CA-MAE).
-_Source: https://arxiv.org/html/2501.06039v2 (x1.png)  ·  License: arXiv open (code MIT, github.com/bunnelab/virtues)_
+_Source: https://arxiv.org/html/2501.06039v2 (x1.png)  ·  License: arXiv preprint (code MIT, github.com/bunnelab/virtues)_
 
 ![Cell-level representation evaluation](figures/fig3.png)
 **Fig 3.** Cell-level representation evaluation: (b) linear-probing cell-typing F1 across datasets, VirTues (blue) beating KRONOS and CA-MAE; (c) full-corpus vs single-dataset training gains on rare immune populations; (d) zero-shot (light) close to in-domain (blue); (e–g) Random-Forest transfer of cell annotations to an unseen cohort (Rigamonti lung).
 _Source: https://arxiv.org/html/2501.06039v2 (x3.png)  ·  License: arXiv open_
 
 ![FM-based signatures for treatment response and survival](figures/fig5.png)
-**Fig 5.** FM-based signatures for treatment response and survival (headline): (a) pre/on/post timeline of the NeoTRIP TNBC cohort; (b) responders shift more in Virtual Tissues space than non-responders under treatment; (c–e) Leiden clustering yields 4 signatures (RS1/RS2/NRS1/NRS2), pre-treatment combined model AUROC 0.817, beating the Wang et al. spatial predictor and immune-ratio baselines; (h–k) transfer to an independent Meyer et al. cohort for disease-free-survival stratification (log-rank P=3.66e-03, concordance index 0.628).
+**Fig 5.** FM-based signatures for treatment response and survival (headline): (a) pre/on/post timeline of the NeoTRIP TNBC cohort; (b) responders shift more in Virtual Tissues space than non-responders under treatment; (c–e) Leiden clustering yields 4 signatures (RS1/RS2/NRS1/NRS2), pre-treatment combined model AUROC 0.817, beating the Wang et al. spatial predictor and immune-ratio baselines; (h–k) transfer to an independent Meyer et al. cohort (163 patients) for disease-free-survival stratification (log-rank P=3.66e-03, concordance index 0.628).
 _Source: https://arxiv.org/html/2501.06039v2 (x5.png)  ·  License: arXiv open_
 
 ### Results
@@ -91,7 +104,7 @@ _Source: https://arxiv.org/html/2501.06039v2 (x5.png)  ·  License: arXiv open_
 |---|---|---|---|
 | Lung cancer subtyping (macro-F1) | 0.856 | KRONOS | +8.9% |
 | Breast cancer ER status (macro-F1) | 0.806 | KRONOS | +14.2% |
-| TNBC treatment response (macro-F1) | 0.714 (on-treatment) / 0.676 (pre-treatment) | > KRONOS | — |
+| TNBC treatment response (macro-F1) | 0.714 (on-treatment) / 0.676 (pre-treatment) | KRONOS; CA-MAE 0.685 (pre-treatment) | on-treatment +30.2% vs KRONOS; pre-treatment on par with CA-MAE |
 | Cell typing (macro-F1, avg rel.) | best | KRONOS / CA-MAE | +6.31% / +65.79% |
 | TNBC response prediction (cross-val AUROC) | 0.817 | Wang et al. 2023 spatial predictor | +4.53% (P<0.001); +23–30% vs immune-ratio |
 | Disease-free survival (concordance index) | 0.628 | Meyer et al. 2025 | +0.022 (0.606) |

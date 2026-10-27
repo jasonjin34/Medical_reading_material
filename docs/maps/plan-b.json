@@ -10,7 +10,7 @@
     "B1",
     "B2"
    ],
-   "count": 14,
+   "count": 16,
    "papers": [
     "co-scientist-nature-2026",
     "deepevidence-natmachintell-2026",
@@ -21,6 +21,8 @@
     "scbench-arxiv-2026",
     "scbench-long-arxiv-2026",
     "spatialagent-biorxiv-2025",
+    "gpnmb-cart-cell-2026",
+    "virtual-biotech-biorxiv-2026",
     "virtual-lab-nature-2025",
     "paperqa2-arxiv-2024",
     "heurekabench-arxiv-2026",
@@ -208,7 +210,7 @@
     "zh": "科研 agent"
    },
    "code": "B1",
-   "count": 7,
+   "count": 9,
    "x": 0,
    "y": 0
   },
@@ -260,8 +262,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "DeepEvidence is a biomedical deep-research agent: an orchestrator plus specialized subagents coordinate breadth-first (BFRS) and depth-first (DFRS) research strategies to explore heterogeneous knowledge bases and literature over long horizons, while incrementally constructing an evidence graph of entities, relations and provenance that makes the research process trackable, attributable and verifiable. It outperforms generic agents across four public benchmarks and seven newly built tasks.",
-    "zh": "DeepEvidence 是一个面向生物医学的 deep research agent:用 orchestrator + 子 agent 的多智能体架构,把「广度优先(BFRS)」与「深度优先(DFRS)」两种检索策略编排起来,跨异构知识库与文献做长程探索,并增量构建一张 evidence graph 记录实体、关系与出处,使整个研究过程可追踪、可归因、可验证;在四个公开基准与七个新建任务上全面超过通用 agent。"
+    "en": "DeepEvidence is a biomedical deep-research agent: an orchestrator dispatches two kinds of subagent — breadth-first BFRS and depth-first DFRS — that write code to query 17 heterogeneous knowledge bases and the literature, while incrementally building an evidence graph with provenance. With the same base LLM (GPT-5) for every agent, it beats Biomni and ToolUniverse on four open benchmarks and on new drug-discovery, preclinical, clinical-trial and evidence-based-medicine tasks (Abstract; Figs. 1–5).",
+    "zh": "DeepEvidence 是一个面向生物医学的 deep research agent:一个 orchestrator 调度两类子 agent —— 广度优先的 BFRS 和深度优先的 DFRS —— 通过写代码去查 17 个异构知识库与文献,同时增量构建一张带出处(provenance)的 evidence graph;在同一底座 LLM(GPT-5)下,它在 4 个公开基准和一组新建的药物发现、临床前、临床试验、循证医学任务上都超过 Biomni 与 ToolUniverse(Abstract;Fig. 1–5)。"
    },
    "url": {
     "en": "../papers/deepevidence-natmachintell-2026/",
@@ -316,10 +318,10 @@
    "track0": "B1",
    "also_in": [],
    "bridge": false,
-   "recommended_by": "",
+   "recommended_by": "sikander",
    "oneliner": {
-    "en": "Biomni is the Leskovec-lab general-purpose biomedical agent: an \"action discovery agent\" mines tasks/tools/databases from 2,500 bioRxiv papers across 25 subfields, which after human verification become the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve a tool subset → plan → write and execute code → iterate) then solves cross-domain tasks zero-shot, with one CRISPR-cloning case validated at the bench. It has become the default baseline for later biomedical-agent papers.",
-    "zh": "Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先用一个 \"action discovery agent\" 从 2,500 篇 bioRxiv 论文(25 个子领域)里挖出任务/工具/数据库,经人工验证后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库),再用基于 CodeAct 的 Biomni-A1(检索工具子集 → 计划 → 写代码执行 → 迭代)零样本完成跨领域任务,并在一个 CRISPR 克隆案例中做了湿实验验证。它已成为后续生物医学 agent 论文的默认基线。"
+    "en": "Biomni is the Leskovec-lab general-purpose biomedical agent: an action discovery agent reads the 100 most recent papers in each of bioRxiv's 25 subject categories (2,500 papers) and extracts tasks, software and databases, which are implemented and tested by humans into the unified environment Biomni-E1 (150 specialised tools + 105 software packages + 59 databases); a CodeAct-based agent Biomni-A1 (retrieve relevant tools → write a plan → write and run code → revise the plan from results) then solves cross-domain tasks zero-shot, plus one CRISPR-cloning wet-lab run that followed its protocol verbatim (Results §\"Overview of Biomni\"; Fig. 1; Fig. 4).",
+    "zh": "Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先让一个 action discovery agent 读 bioRxiv 25 个学科各 100 篇最新论文(共 2,500 篇),抽取任务、软件和数据库,经人工实现与测试后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库);再用基于 CodeAct 的 agent Biomni-A1(检索相关工具 → 写计划 → 写代码执行 → 根据结果修改计划)零样本完成跨领域任务,并有一个按其 protocol 原样执行的 CRISPR 克隆湿实验(Results §\"Overview of Biomni\";Fig. 1;Fig. 4)。"
    },
    "url": {
     "en": "../papers/biomni-biorxiv-2025/",
@@ -358,6 +360,64 @@
    "y": 286
   },
   {
+   "id": "gpnmb-cart-cell-2026",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "GPNMB CAR T (Cell 2026)",
+   "title": "AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy",
+   "year": 2026,
+   "venue": "Cell",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "track0": "B1",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "A reproducible target-discovery pipeline that combines a single-cell skin-cancer atlas, scored features from six public knowledge bases, and three LLMs (for feature weighting and for target nomination); its top-ranked target GPNMB was built into a CAR T cell (T cells engineered to kill whatever carries a chosen surface protein) that cleared tumours in mouse xenograft models of leukaemia, melanoma and colorectal cancer.",
+    "zh": "把单细胞转录组图谱 + 六个公共知识库的\"打分特征\" + 三个 LLM 的加权与提名组合成一条可复现的靶点发现流水线,流水线选出的头号靶点 GPNMB 被做成 CAR T 细胞(一种把 T 细胞改造成\"认准某个表面蛋白就杀\"的活细胞药),并在白血病、黑色素瘤、结直肠癌三种小鼠移植瘤模型里显示强效抗肿瘤活性。"
+   },
+   "url": {
+    "en": "../papers/gpnmb-cart-cell-2026/",
+    "zh": "../zh/papers/gpnmb-cart-cell-2026/"
+   },
+   "x": 0,
+   "y": 340
+  },
+  {
+   "id": "virtual-biotech-biorxiv-2026",
+   "kind": "paper",
+   "parent": "group:B1",
+   "label": "Virtual Biotech",
+   "title": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development",
+   "year": 2026,
+   "venue": "bioRxiv",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "B"
+   ],
+   "track0": "B1",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "A biotech company's org chart rebuilt as a team of LLM agents: a Chief Scientific Officer agent takes a scientific question, decomposes it and delegates to eight specialist scientist agents across four research divisions, which call 100-plus tools and public databases through MCP servers to run real computation, with the CSO integrating the results; the authors demonstrate it on three translational case studies — large-scale annotation of 55,984 clinical trials, a B7-H3 lung-cancer target assessment, and a post-mortem of a failed ulcerative-colitis trial.",
+    "zh": "把一家生物技术公司的组织架构照搬成 LLM agent 团队:一个\"首席科学官\"(CSO)agent 接收科学问题、拆解并分派给四个科研部门下的八个专科 scientist agent,后者通过 MCP server 调用 100 多个工具与公共数据库做真实计算,再由 CSO 汇总;作者用它做了三个转化医学案例(5.6 万条临床试验的大规模标注分析、B7-H3 肺癌靶点评估、一个失败的溃疡性结肠炎试验的复盘)。"
+   },
+   "url": {
+    "en": "../papers/virtual-biotech-biorxiv-2026/",
+    "zh": "../zh/papers/virtual-biotech-biorxiv-2026/"
+   },
+   "x": 0,
+   "y": 394
+  },
+  {
    "id": "virtual-lab-nature-2025",
    "kind": "paper",
    "parent": "group:B1",
@@ -384,7 +444,7 @@
     "zh": "../zh/papers/virtual-lab-nature-2025/"
    },
    "x": 0,
-   "y": 340
+   "y": 448
   },
   {
    "id": "paperqa2-arxiv-2024",
@@ -413,7 +473,7 @@
     "zh": "../zh/papers/paperqa2-arxiv-2024/"
    },
    "x": 0,
-   "y": 394
+   "y": 502
   },
   {
    "id": "group:B2",
@@ -1263,8 +1323,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Using a biomedical background → hypothesis dataset split by publication date (pre-Jan-2023 = train/seen, Aug-2023 = unseen), the paper systematically evaluates LLM hypothesis generation in zero-shot, few-shot, fine-tuned, tool-use and multi-agent settings, introduces four rubric metrics (Novelty, Relevance, Significance, Verifiability; scored by GPT-4 and checked against human experts), and finds LLMs can propose novel, later-validated hypotheses even on unseen literature — with \"uncertainty\" (measured by SelfBLEU) trading novelty against verifiability.",
-    "zh": "用按发表时间切分(2023 年 1 月前 = 训练/seen,2023 年 8 月 = unseen)的生物医学「背景知识 → 假设」配对数据集,系统评测 LLM 在 zero-shot / few-shot / 微调 / 工具调用 / 多智能体设置下的假设生成能力,提出 Novelty、Relevance、Significance、Verifiability 四维评分(GPT-4 打分并与人类专家对齐),发现 LLM 在未见文献上也能提出新颖且后来被验证的假设,而\"不确定性\"(SelfBLEU 衡量)在新颖性与可验证性之间形成权衡。"
+    "en": "The authors automatically extract \"background → hypothesis\" pairs from PubMed papers, split them by publication date (before Jan 2023 = train/seen, Aug 2023 = unseen) so test data cannot have been seen in training, and systematically evaluate 2023-era LLMs at proposing biomedical hypotheses zero-shot, few-shot, fine-tuned, with tools and as a multi-agent system, scoring Novelty / Relevance / Significance / Verifiability on 0–3 (LLM judge + human experts) (Abstract; §2–4).",
+    "zh": "作者从 PubMed 文献中自动抽取「背景知识 → 假设」配对,按发表时间切分(2023 年 1 月前 = 训练/seen,2023 年 8 月 = unseen)以避免测试数据被模型训练见过,系统评测 2023 年代 LLM 在 zero-shot、few-shot、微调、工具调用和多智能体设置下提出生物医学假设的能力,用 Novelty / Relevance / Significance / Verifiability 四个 0–3 分维度(LLM 评审 + 人类专家)打分(Abstract;§2–4)。"
    },
    "url": {
     "en": "../papers/hypogen-llm-colm-2024/",
@@ -1722,7 +1782,7 @@
     "en": "",
     "zh": ""
    },
-   "count": 3,
+   "count": 4,
    "home": "group:B1",
    "slot": 1,
    "x": 0,
@@ -1876,10 +1936,10 @@
     "zh": ""
    },
    "count": 6,
-   "home": "group:B1",
-   "slot": 4,
-   "x": 0,
-   "y": 958
+   "home": "group:B6",
+   "slot": 0,
+   "x": 1350,
+   "y": 774
   },
   {
    "id": "concept:human-calibration",
@@ -1911,9 +1971,9 @@
    },
    "count": 5,
    "home": "group:B6",
-   "slot": 0,
+   "slot": 1,
    "x": 1350,
-   "y": 774
+   "y": 820
   },
   {
    "id": "concept:falsifiability",
@@ -1928,9 +1988,9 @@
    },
    "count": 1,
    "home": "group:B6",
-   "slot": 1,
+   "slot": 2,
    "x": 1350,
-   "y": 820
+   "y": 866
   },
   {
    "id": "concept:rerun-stability",
@@ -1944,9 +2004,9 @@
     "zh": ""
    },
    "count": 6,
-   "home": "group:B3",
+   "home": "group:B7",
    "slot": 1,
-   "x": 540,
+   "x": 1620,
    "y": 820
   },
   {
@@ -1962,9 +2022,9 @@
    },
    "count": 6,
    "home": "group:B7",
-   "slot": 1,
+   "slot": 2,
    "x": 1620,
-   "y": 820
+   "y": 866
   },
   {
    "id": "concept:benchmark-validity",
@@ -1979,9 +2039,9 @@
    },
    "count": 6,
    "home": "group:B7",
-   "slot": 2,
+   "slot": 3,
    "x": 1620,
-   "y": 866
+   "y": 912
   },
   {
    "id": "concept:safety",
@@ -1994,11 +2054,11 @@
     "en": "",
     "zh": ""
    },
-   "count": 4,
+   "count": 5,
    "home": "group:B7",
-   "slot": 3,
+   "slot": 4,
    "x": 1620,
-   "y": 912
+   "y": 958
   }
  ],
  "edges": [
@@ -2014,7 +2074,7 @@
   },
   {
    "source": "concept:research-agent",
-   "target": "heurekabench-arxiv-2026",
+   "target": "deepevidence-natmachintell-2026",
    "kind": "mentions"
   },
   {
@@ -2048,6 +2108,11 @@
    "kind": "mentions"
   },
   {
+   "source": "concept:multi-agent",
+   "target": "virtual-biotech-biorxiv-2026",
+   "kind": "mentions"
+  },
+  {
    "source": "concept:omics-agent",
    "target": "biomni-biorxiv-2025",
    "kind": "mentions"
@@ -2069,7 +2134,7 @@
   },
   {
    "source": "concept:omics-agent",
-   "target": "hypogen-llm-colm-2024",
+   "target": "lab-bench-arxiv-2024",
    "kind": "mentions"
   },
   {
@@ -2089,12 +2154,12 @@
   },
   {
    "source": "concept:trajectory-eval",
-   "target": "holistic-agent-leaderboard-iclr-2026",
+   "target": "deepevidence-natmachintell-2026",
    "kind": "mentions"
   },
   {
    "source": "concept:trajectory-eval",
-   "target": "hypogen-llm-colm-2024",
+   "target": "holistic-agent-leaderboard-iclr-2026",
    "kind": "mentions"
   },
   {
@@ -2254,12 +2319,12 @@
   },
   {
    "source": "concept:llm-judge",
-   "target": "llm-judge-healthcare-arxiv-2026",
+   "target": "hypogen-llm-colm-2024",
    "kind": "mentions"
   },
   {
    "source": "concept:llm-judge",
-   "target": "robin-nature-2026",
+   "target": "llm-judge-healthcare-arxiv-2026",
    "kind": "mentions"
   },
   {
@@ -2334,6 +2399,11 @@
   },
   {
    "source": "concept:rerun-stability",
+   "target": "biomni-biorxiv-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:rerun-stability",
    "target": "biomnibench-biorxiv-2026",
    "kind": "mentions"
   },
@@ -2350,11 +2420,6 @@
   {
    "source": "concept:rerun-stability",
    "target": "holistic-agent-leaderboard-iclr-2026",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:rerun-stability",
-   "target": "medagentbench-nejmai-2025",
    "kind": "mentions"
   },
   {
@@ -2414,7 +2479,7 @@
   },
   {
    "source": "concept:benchmark-validity",
-   "target": "hypogen-llm-colm-2024",
+   "target": "virtual-biotech-biorxiv-2026",
    "kind": "mentions"
   },
   {
@@ -2435,6 +2500,11 @@
   {
    "source": "concept:safety",
    "target": "scitrace-arxiv-2026",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:safety",
+   "target": "virtual-biotech-biorxiv-2026",
    "kind": "mentions"
   },
   {
@@ -2504,6 +2574,18 @@
    "label": "cites"
   },
   {
+   "source": "bixbench-arxiv-2025",
+   "target": "paperqa2-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "bixbench-arxiv-2025",
+   "target": "lab-bench-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "citation-faithfulness-arxiv-2026",
    "target": "robin-nature-2026",
    "kind": "cites",
@@ -2541,6 +2623,42 @@
   },
   {
    "source": "deepevidence-natmachintell-2026",
+   "target": "co-scientist-nature-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "deepevidence-natmachintell-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "virtual-lab-nature-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
+   "target": "bixbench-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "fev-bioinformatics-agents-arxiv-2026",
    "target": "co-scientist-nature-2026",
    "kind": "cites",
    "label": "cites"
@@ -2588,6 +2706,18 @@
    "label": "cites"
   },
   {
+   "source": "llm-judge-healthcare-arxiv-2026",
+   "target": "medical-hallucination-arxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "paperqa2-arxiv-2024",
+   "target": "lab-bench-arxiv-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "robin-nature-2026",
    "target": "bixbench-arxiv-2025",
    "kind": "cites",
@@ -2618,6 +2748,12 @@
    "label": "cites"
   },
   {
+   "source": "trail-arxiv-2025",
+   "target": "mast-neurips-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "truthhypo-ijcai-2025",
    "target": "paperqa2-arxiv-2024",
    "kind": "cites",
@@ -2626,6 +2762,30 @@
   {
    "source": "truthhypo-ijcai-2025",
    "target": "hypogen-llm-colm-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "virtual-biotech-biorxiv-2026",
+   "target": "spatialagent-biorxiv-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "virtual-biotech-biorxiv-2026",
+   "target": "virtual-lab-nature-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "virtual-biotech-biorxiv-2026",
+   "target": "cellvoyager-natmethods-2026",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "virtual-biotech-biorxiv-2026",
+   "target": "biomni-biorxiv-2025",
    "kind": "cites",
    "label": "cites"
   },
@@ -2652,12 +2812,6 @@
    "target": "ailuminate-arxiv-2025",
    "kind": "concept",
    "label": "MLCommons benchmark rigor"
-  },
-  {
-   "source": "mast-neurips-2025",
-   "target": "trail-arxiv-2025",
-   "kind": "concept",
-   "label": "agent failure taxonomy"
   },
   {
    "source": "scitrace-arxiv-2026",
@@ -2828,30 +2982,6 @@
    "label": "bio agent review"
   },
   {
-   "source": "fev-bioinformatics-agents-arxiv-2026",
-   "target": "cellvoyager-natmethods-2026",
-   "kind": "concept",
-   "label": "bio agent review"
-  },
-  {
-   "source": "fev-bioinformatics-agents-arxiv-2026",
-   "target": "spatialagent-biorxiv-2025",
-   "kind": "concept",
-   "label": "bio agent review"
-  },
-  {
-   "source": "lab-bench-arxiv-2024",
-   "target": "bixbench-arxiv-2025",
-   "kind": "concept",
-   "label": "FutureHouse agent benchmarks"
-  },
-  {
-   "source": "lab-bench-arxiv-2024",
-   "target": "paperqa2-arxiv-2024",
-   "kind": "concept",
-   "label": "LitQA2"
-  },
-  {
    "source": "lab-bench-arxiv-2024",
    "target": "deepevidence-natmachintell-2026",
    "kind": "concept",
@@ -2961,8 +3091,8 @@
   }
  ],
  "stats": {
-  "papers": 48,
+  "papers": 50,
   "concepts": 18,
-  "edges": 174
+  "edges": 186
  }
 }

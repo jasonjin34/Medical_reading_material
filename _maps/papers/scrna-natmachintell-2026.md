@@ -17,9 +17,9 @@ tags:
 
 # Conditional Monge Gap enables generalizable single-cell perturbation modelling
 
-> CMonge is a conditional neural optimal-transport method that learns a single map from control to perturbed single-cell distributions conditioned on arbitrary covariates (drug, dose, cell type, combinations), and generalizes to unseen drugs from compound structure alone.
+> CMonge (Conditional Monge Gap) uses one neural optimal-transport (OT) model, conditioned on drug, dose or drug combination, to map the distribution of untreated cells onto the distribution of treated cells; it can predict single-cell responses to unseen drugs from their molecular structure alone.
 
-> 提出 Conditional Monge Gap (CMonge):一种可在任意协变量(药物、剂量、细胞类型、组合)上条件化的神经最优传输(neural OT)方法,把"对照细胞分布→扰动后细胞分布"的映射统一到单一模型,并能仅凭化合物结构泛化到未见过的药物。
+> CMonge(Conditional Monge Gap)用一个神经最优传输(OT)模型,在药物、剂量或药物组合等条件下,把"未处理细胞的分布"搬运成"处理后细胞的分布";它可以只凭药物分子结构去预测没见过的药物的单细胞响应。
 
 ## Related papers / 相关论文
 - [[_maps/papers/linear-baselines-natmethods-2025|Linear baselines win]] — cites

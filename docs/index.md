@@ -38,7 +38,7 @@ model them as *virtual tissues*, and predict key genes that **revert** the anoma
 
     ---
 
-    120 bilingual deep-reads, the literature review, the knowledge map and the paper
+    123 bilingual deep-reads, the literature review, the knowledge map and the paper
     relationship graph.
 
     [:octicons-arrow-right-24: Browse papers](papers/index.md)

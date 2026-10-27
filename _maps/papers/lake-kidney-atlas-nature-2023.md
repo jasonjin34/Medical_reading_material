@@ -30,6 +30,7 @@ tags:
 > KPMP / HuBMAP / HCA 联合构建的人肾多模态单细胞 + 空间图谱:> 40 万个细胞/细胞核(snRNA、scRNA、SNARE-seq2 双组学),配合 Slide-seq2、Visium 与大规模 3D 成像,覆盖 45 名健康参照供体与 48 名 AKI/CKD 患者,定义 51 种主要细胞类型和 28 种损伤相关的"altered states"(cycling、adaptive/maladaptive repair、transitioning、degenerative),把它们定位到损伤 niche,并发现 TAL/PT 的 adaptive 修复签名可预测肾功能下降。
 
 ## Related papers / 相关论文
+- [[_maps/papers/abedini-kidney-atlas-natgenet-2024|Kidney atlas (Abedini 2024)]] — cites
 - [[_maps/papers/cellspectra-natgenet-2025|CellSpectra]] — cites
 - [[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]] — cites
 - [[_maps/papers/dkd-spatial-atlas-nature-2026|DKD spatial atlas]] — kidney injury states → spatial niches

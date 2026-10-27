@@ -1,49 +1,86 @@
 # Mapping and reprogramming human tissue microenvironments with MintFlow
 
-> **Bibkey** `Akbarnejad_2025` · **Venue** None (2025) · **Category** spatial · **Relevance** high · **Access** open
+> **Bibkey** `Akbarnejad_2025` · **Venue** bioRxiv (2025) · **Category** spatial · **Relevance** high · **Access** open
 > **Link** <https://doi.org/10.1101/2025.06.24.661094> · `status: complete`
 
 ---
 
 ## One-liner
-MintFlow is a flow-matching generative model that disentangles each cell's spatial-transcriptomics expression into intrinsic vs microenvironment-induced components, and supports in silico tissue perturbation (deleting/replacing cell types) to predict the resulting gene-expression changes.
+MintFlow is a flow-matching generative model for single-cell-resolution spatial transcriptomics (Xenium): it splits each cell's expression into an intrinsic part and a microenvironment-induced part, and can delete or replace a cell type in silico to predict how neighbouring cells' expression would change.
+
+## Takeaways
+- The core output is two count matrices, X_int (intrinsic) and X_mic (microenvironment-induced), which sum to the observed expression; the microenvironment score is the share of a cell's counts assigned to X_mic.
+- No ligand-receptor priors or predefined domains; iVAE-style conditional priors plus optimal-transport conditions make the decomposition identifiable and unique (Methods, Supplementary Note 2).
+- In silico perturbation = relabel or remove a cell population → rebuild the neighbour graph → re-predict neighbours' X_mic.
+- Applied to atopic dermatitis, melanoma and clear-cell renal cell carcinoma (ccRCC); in ccRCC, simulated deletion of tertiary-lymphoid-structure (TLS) macrophages lowers T-cell co-inhibition / exhaustion markers.
+- In-silico reprogramming is linked to survival in 606 TCGA ccRCC tumours: high TLS Border T-cell programme expression goes with worse survival (p = 0.0073), high expression of the reprogrammed state with a survival advantage (p = 0.0034).
+- The closest spatial-omics method to "model → revert" that we have read, with a kidney (ccRCC) application.
 
 ## Problem
-Current spatial methods are descriptive: they cannot separate cell-intrinsic identity from microenvironment-induced state changes, lack mechanistic interpretability, rely on linear assumptions or prior ligand-receptor knowledge, scale poorly, and cannot run in silico perturbations. MintFlow aims to learn how the microenvironment reprograms cell states — without priors, predefined domains, or ligand-receptor pairs — and to simulate interventions that could revert a disease state.
+Tissue microenvironments reprogram local cell states in disease, but current spatial methods are mostly descriptive and do not simulate tissue perturbation (Abstract). Methods modelling microenvironment effects either fail to separate intrinsic from microenvironment-induced variation, or rely on linear assumptions or ligand-receptor priors, scale poorly and do not support hypothesis testing. The authors want a generative model that learns how the microenvironment changes cell states, scales to many sections and supports in silico perturbation.
 
 ## Method
-A kNN graph (k=5) defines each cell's microenvironment and its microenvironment cell type composition (MCC). Per cell it infers intrinsic z_n (prior conditioned on cell type CT), outgoing s_out (conditioned on CT), and incoming s_in (neighborhood-averaged s_out, indirectly conditioned on MCC). Flow matching in latent space with a neural-ODE decoder yields intrinsic and microenvironment-induced embeddings decoded to X_int and X_mic with X = X_int + X_mic (an interpretable, built-in decomposition). Identifiability follows iVAE-style conditioning on CT/MCC (making [z, s_in] identifiable up to permutation); an optimal-transport constraint (Proposition 1) makes the X_int/X_mic split unique; Wasserstein discriminators enforce that intrinsic embeddings cannot predict neighbor cell types. Inductive graph learning (subgraph sampling via PyG neighbor loader) gives scalability to millions of cells. Downstream: cluster microenvironment-induced embeddings for microenvironment-induced cell states (MCS), a microenvironment score for signaling hotspots, MGP extraction, and in silico perturbation.
+
+Terms: Xenium = 10x's single-cell in-situ transcriptomics platform (5k ≈ 5,000-gene panel); microenvironment = a cell's spatial neighbours; MCC = cell-type proportions in that microenvironment.
+
+1. **Input**: counts, coordinates and cell-type labels from single-cell-resolution spatial transcriptomics. A k=5 nearest-neighbour graph from coordinates gives each cell's MCC (Methods).
+2. **Three latents**: z_n (intrinsic variation, prior conditioned on cell type), s_out (outgoing signal, prior conditioned on cell type), s_in (incoming signal aggregated from neighbours' s_out, indirectly dependent on MCC) (Fig. 1b, Methods).
+3. **Generation**: flow matching in latent space with a neural-ODE decoder yields intrinsic and microenvironment-induced embeddings, decoded to X_int and X_mic, which sum to the observed expression.
+4. **Identifiability**: models with non-linear decoders are generally unidentifiable; the authors mimic iVAE with cell-type / MCC-conditioned priors and add optimal-transport conditions to make the split unique (Methods, Supplementary Note 2). Wasserstein distribution-matching terms ensure the intrinsic state carries no information about neighbours' cell types.
+5. **Scale**: a custom sampler trains on crops/subgraphs, allowing several sections with millions of cells.
+6. **Downstream**: clustering microenvironment-induced embeddings gives microenvironment-induced cell states (MCS) and domains; X_mic gives microenvironment-induced gene programmes (MGPs); the microenvironment score locates signalling hotspots.
+7. **In silico perturbation**: change cell-type labels or remove a subpopulation, rebuild the neighbour graph from positions, and predict neighbours' post-perturbation expression.
+8. **Benchmark**: simulated data with known microenvironment effects (MAE, EMD, MSE); on real data, whether known signalling genes get more counts in X_mic; compared methods include SIMVI and MEFISTO.
+
+## Method diagram
+```mermaid
+flowchart LR
+  A["Xenium cells<br/>counts, positions, cell types"] --> B["kNN graph k=5<br/>MCC per cell"]
+  B --> C["Latents z, s_in, s_out<br/>conditional priors"]
+  C --> D["Flow matching<br/>neural ODE decoder"]
+  D --> E["X_int + X_mic<br/>= observed counts"]
+  E --> F["MCS, MGP,<br/>microenvironment score"]
+  G["In silico perturbation<br/>delete or relabel cells"] --> B
+  E --> H["Predicted neighbour<br/>expression change"]
+```
 
 ## Data
-Three human diseases plus validation cohorts. (1) Atopic dermatitis: 10 skin sections / 8 individuals, Xenium 5k (8 newly generated), lesional + non-lesional, 197,487 cells after QC; validated in scRNA-seq (4 patients), a 23-disease / 6-tissue atlas, and 10 dupilumab-treated patients. (2) Cutaneous melanoma: public 5000-plex Xenium, 98,749 cells; scored across fibroblasts from 23 skin diseases. (3) ccRCC: one patient, 3 tumor cores + tumor-normal interface, 5000-plex Xenium, 337,116 cells / 24 cell types; plus ccRCC scRNA-seq (147,917 cells / 10 patients), a Kaede-mouse anti-PD-L1 model, and TCGA 606 ccRCC bulk RNA-seq. Simulated data with ground-truth microenvironment effects were used for benchmarking.
+(1) **Atopic dermatitis**: 10 skin sections from 8 patients (8 newly generated), Xenium 5k, 197,487 cells after QC, 10 microenvironment domains; external validation includes scRNA-seq from 4 patients, an atlas of 23 diseases across 6 tissues, and 10 patients 12 weeks after dupilumab. (2) **Cutaneous melanoma**: public 5000-plex Xenium, 98,749 cells, 8 microenvironment clusters. (3) **ccRCC**: one patient, three macroscopically distinct tumour-core regions plus the tumour–normal interface, 337,116 cells, 24 cell types; external data include ccRCC scRNA-seq of 147,917 tumour-infiltrating cells from 10 patients (with ICB-treated samples, Bi et al.), 606 TCGA ccRCC bulk RNA-seq tumours, and a Kaede transgenic mouse tumour model treated with anti-PD-L1. Simulated data with ground truth are used for benchmarking.
 
 ## Key results
-Benchmark: significantly beats alternatives and random baselines on simulated data (MAE/EMD/MSE), assigns more known-signaling-gene counts to the microenvironment component on real data, and is the only method scalable to all 10 skin sections. Biology: (1) atopic dermatitis — a novel spatially-imprinted type 2 epidermal T_RM (CD8A+ ITGAE+ GZMB+, high IL13/IL22) and a T_DC activation hub (CCL19/CCR7, CCL22/CCL17-CCR4); in silico Treg depletion amplifies inflammation and augmentation suppresses it, matching 10 dupilumab-treated patients (responders' Tregs rise). (2) Melanoma — an inducible keloid-like stroma (CXCL12-CXCR4 + collagen cross-linking via LOX/LOXL1/LOXL2) excluding T cells. (3) ccRCC — three TLS-localized microenvironment-induced T cell states (TLS Core1/2/Border) invisible to conventional clustering; the Border exhausted state predicts worse survival (TCGA p=0.0073); TREM2+CCR1+ TLS macrophages drive suppression; in silico macrophage deletion de-exhausts T cells and the reprogrammed program flips to a survival benefit (p=0.0034); a virtual-replacement validity check upregulated 11/12 ground-truth macrophage ICB genes.
+- **Benchmark (means printed in the figure)**: on simulated data, EMD (log scale, negated, higher is better) is 7.08 for MintFlow vs −0.37 SIMVI, −4.36 MEFISTO, −3.79 random, 2.45 random binary; MAE and MSE follow the same pattern (Fig. 1g). On real data, the share of known-signalling-gene counts assigned to X_mic: eczema single section MintFlow 0.247 vs SIMVI 0.053, MEFISTO 0.001; melanoma 0.62 vs 0.037, 0.001; on all 10 eczema sections only MintFlow ran, 0.66 for known signalling genes vs 0.317 for other genes (Fig. 1h).
+- **Atopic dermatitis**: a microenvironment-induced epidermal type-2 tissue-resident memory T-cell state (CD8A+ ITGAE+ GZMB+, IL13-expressing) and a T-cell activation hub (T_DC domain) (Figs. 2–3); simulated Treg depletion suggests a more inflammatory state, while Treg augmentation is not associated with pro-inflammatory pathways; in 10 dupilumab-treated patients Tregs typically increased from baseline to week 12.
+- **Melanoma**: a CXCL12-expressing stroma with high collagen cross-linking enzymes (LOX, LOXL1, LOXL2), linked to T-cell exclusion; its MGP is high in keloid scars (Fig. 4).
+- **ccRCC**: three microenvironment-induced T-cell states in TLS (TLS Core 1, Core 2, Border); TLS-associated macrophages express high TREM2 and CCR1. Simulated deletion of these macrophages lowers T-cell co-inhibition / exhaustion molecules (PD-L2, TIM3, VSIR, CD276, LILRB1) and raises TCR-signalling and interleukin-receptor markers (Figs. 5–7).
+- **Validity check**: using macrophage signatures from public ccRCC scRNA-seq with ICB-treated samples as ground truth, virtual replacement of T cells with post-ICB-like states upregulated 11 of the 12 ground-truth genes in the Xenium 5K panel.
+- **Clinical link**: in 606 TCGA ccRCC tumours, high TLS Border T-cell programme expression is associated with worse overall survival (p = 0.0073); high expression of the reprogrammed state with a survival advantage (p = 0.0034).
 
 ## Contributions
-- First generative model to identifiably split spatial expression into interpretable intrinsic (X_int) and microenvironment-induced (X_mic) count matrices without priors, predefined domains, or ligand-receptor pairs.
-- Introduces in silico tissue perturbation: delete/replace any cell type and predict neighbors' gene-expression response, enabling large-scale hypothesis generation.
-- Theoretical guarantees: identifiability via iVAE-style conditioning plus an optimal-transport uniqueness proof (Proposition 1).
-- Scales spatial-graph training to millions of cells via inductive graph learning.
-- Links predicted reprogramming to clinical outcome (TCGA survival), closing the loop from mechanism to patient stratification.
+- An identifiable split of spatial expression into intrinsic and microenvironment-induced count matrices, without ligand-receptor priors or predefined domains.
+- Tissue-level in silico perturbation: delete / replace any cell type and predict the neighbours' response.
+- Subgraph-sampled training that scales to many sections and millions of cells.
+- Biological findings in three diseases, checked against external scRNA-seq, a treatment cohort and TCGA survival.
 
 ## Limitations
-- Sensitive to low read counts; requires consistent gene panels across sections.
-- Flow-matching training is compute-heavy; despite neighbor sampling, it needs dataset-specific hyperparameter tuning and is hard to train.
-- Susceptible to cell-segmentation errors.
-- Currently limited to multiple sections (no multi-tissue atlas / transfer learning yet); in silico perturbations are model predictions needing wet-lab validation.
+- (Authors) Sensitive to low read counts; needs consistent gene panels across sections.
+- (Authors) Susceptible to segmentation errors; hard to train with dataset-specific hyperparameter tuning; flow-matching training is compute-intensive.
+- (Authors) Currently limited to multiple tissue sections; future work could go beyond that (e.g. atlas scale).
+- Our reading: the ccRCC spatial data come from one patient; in silico perturbations are model predictions, validated by agreement with external signatures and TCGA survival associations rather than direct perturbation experiments.
+- Our reading: perturbations change cell composition / neighbours, not individual genes; results depend on the quality of input cell-type labels.
 
 ## Relation to our direction
-Strong fit, touching all three stages, especially virtual tissue and gene-revert. (1) Virtual tissue: MintFlow already builds a perturbable generative virtual tissue, and its X = X_int + X_mic split is exactly the intrinsic-vs-microenvironment-induced (i.e. disease/perturbation-driven) separation we want. (2) Gene-revert: its in silico perturbations (delete TLS macrophages -> de-exhaust T cells; augment Tregs -> suppress inflammation) directly demonstrate predicting which cells/genes to modulate to revert an abnormal state, with TCGA survival tying the reverted program to benefit — the same paradigm we need, and a reusable perturbation-plus-evaluation protocol. (3) Anomaly detection: more indirect, but the microenvironment score (signaling hotspots) and microenvironment-induced MCS offer an unsupervised way to localize microenvironmental anomalies/lesion hotspots that could feed our revert step. Reusable: the disentanglement framework, the in silico perturbation API, and the perturbation-effect -> survival validation loop.
+Mainly a **model → revert** paper, with a kidney (ccRCC) application. Our reading: (1) X_mic / the microenvironment score is not anomaly detection, but "which cells are strongly changed by their neighbours" can be supplementary evidence for detect, e.g. explaining which neighbours drive an anomalous region found against a normal reference; (2) in silico deletion / replacement of cell types is a form of revert — it predicts whether changing tissue composition moves neighbouring cells to another state, closer to the tissue level than CMonge's single-cell drug perturbations; (3) for kidney Xenium data in Topic 1, MintFlow is a direct candidate for the model layer, but it needs cell-type labels and consistent gene panels; (4) its validation style (agreement with external signatures + survival association) is useful but does not replace wet-lab experiments.
 
 ## Reusable assets
-Package <https://github.com/Lotfollahi-lab/mintflow> (in silico perturbation API); reproducibility + simulated ground-truth data <https://github.com/Lotfollahi-lab/mintflow-reproducibility>; docs/tutorials <https://mintflow.readthedocs.io/>. Eval protocols: ground-truth simulation benchmark (MAE/EMD/MSE), signaling-gene count-attribution test, perturbation sensitivity analysis, an in-silico-perturbation validity check (virtual replacement -> 11/12 macrophage ICB genes), and perturbation-program -> TCGA survival (Kaplan-Meier). Data: Xenium 5k/5000-plex AD/melanoma/ccRCC (partly public, rest "coming soon") and reusable MGP signatures (T_DC, Stroma, TLS T/Border).
+- **Code:** <https://github.com/Lotfollahi-lab/mintflow> (Python package; paper's Code availability).
+- **Reproducibility and simulated data:** <https://github.com/Lotfollahi-lab/mintflow-reproducibility> (paper's Data availability: simulated-data download).
+- **Evaluation designs:** ground-truth simulation benchmark (MAE / EMD / MSE), signalling-gene attribution test, virtual-replacement check against external ICB signatures, perturbation programme → TCGA survival.
 
 ## Follow-ups
-- Supplementary Notes 2-5: identifiability proof, encoder/decoder architecture, ELBO derivation — needed to reuse/modify the model.
-- Read iVAE / flow-matching / neural-ODE sources to understand identifiability under non-independent (spatially graph-coupled) cells.
-- Run the mintflow-reproducibility simulated benchmark as a baseline for our anomaly/revert methods.
-- Track release of the "coming soon" AD/ccRCC raw Xenium data.
+- Supplementary Note 2 (identifiability proof) and the objective details in Methods.
+- The SIMVI and MEFISTO papers (baselines).
+- Bi et al. ccRCC ICB scRNA-seq (ground truth for the virtual replacement).
+- Our reading: trial run on kidney Xenium to check cell numbers, panel consistency and the source of cell-type labels.
 
 ## Figures & tables
 
@@ -61,12 +98,12 @@ _Source: https://www.biorxiv.org/content/10.1101/2025.06.24.661094v3.full  ·  L
 
 ### Results
 
-**Table 1.** Summary of MintFlow benchmarks (from Fig 1g/1h). The paper reports results as box plots and gives no numeric table, so this faithfully restates the evaluation setup, metrics, and qualitative outcome — no numbers are invented.
+**Table 1.** Summary of MintFlow benchmarks (from Fig 1g/1h). The paper reports results as box plots with no numeric table; numbers below are the means printed in the figure.
 
 | Benchmark | Data | Metric(s) | Result vs alternatives |
 |---|---|---|---|
-| Read-count disentanglement | Simulated data with known microenvironment-induced effects (ground truth) | MAE, EMD, MSE (negated → higher is better) | MintFlow significantly outperforms alternative methods and random baselines |
-| Signaling-gene attribution | Real Xenium (AD single-sample, melanoma single-sample) | Proportion of known signaling-gene counts assigned to the microenvironment-induced component (counts < 20 filtered) | MintFlow assigns a greater proportion than alternatives (which over-assign to intrinsic or minimize microenvironment) |
+| Read-count disentanglement | Simulated data with known microenvironment-induced effects (ground truth) | MAE, EMD, MSE (negated → higher is better) | MintFlow EMD 7.08 vs SIMVI −0.37, MEFISTO −4.36, random −3.79, random binary 2.45 (means printed in Fig 1g; log scale, negated) |
+| Signaling-gene attribution | Real Xenium (AD single-sample, melanoma single-sample) | Proportion of known signaling-gene counts assigned to the microenvironment-induced component (counts < 20 filtered) | Known signaling genes: MintFlow 0.247 vs SIMVI 0.053, MEFISTO 0.001 (AD); 0.62 vs 0.037, 0.001 (melanoma) (Fig 1h) |
 | Scalability | Multi-sample Xenium (10 atopic-dermatitis sections) | Applicable to all 10 sections | Only MintFlow was scalable enough to run on all 10 tissue sections |
 
 ## Cite

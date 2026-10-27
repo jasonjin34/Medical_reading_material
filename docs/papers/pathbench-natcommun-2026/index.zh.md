@@ -6,49 +6,83 @@
 ---
 
 ## 一句话
-PathBench 把 32 个基础模型(通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM)放进同一套「冻结特征 + linear probing」协议,在 41 个任务、53 个数据集、17,500+ 张全切片上统一评测,结论是:Path-VM 最强、Path-VLM 反而落后、**模型规模与预训练数据量都不能稳定预测下游表现**,而后期决策级集成能进一步提升跨数据集稳健性。
+这篇 Stanford(Gevaert 组)的 benchmark 把 32 个基础模型分成四类——通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM——全部冻结、只训 linear probe,在 41 个任务、53 个数据集、17,500+ 张 WSI 上统一评测:Path-VM 稳居前列但头部模型之间差异多不显著,Path-VM 优于 Path-VLM,模型规模和预训练数据量都不能稳定预测下游表现,多数投票集成在总体上进一步提升(Abstract)。
+
+## 要点
+- 头部五个 Path-VM:TCGA 平均 AUROC Virchow2 0.830、Prov-GigaPath 0.829、H-optimus-0 0.824、UNI 0.824、UNI2 0.824;非 TCGA 上 Virchow2 0.836、UNI 0.835(Fig. 1b–c)。五者在 TCGA 上 AUROC/AUPRC/灵敏度/特异度均无显著差异(Wald 检验;Supplementary Fig. 4)。
+- 差异在 patch 级任务上才显现:8 个外部 patch 任务中 Virchow2 平均 AUROC 0.962,与 UNI、UNI2、Prov-GigaPath、H-optimus-0 的差异显著(FDR p < 0.001)(Fig. 2b,d)。
+- Path-VM 显著优于 Path-VLM(TCGA、CPTAC、外部基准;完全 OOD 的 slide 任务除外),但与通用 VM 相比**没有统计显著差异**——作者把 Path-VM 的优势解释为"稳定、常进前十",而非一致的统计优势(Fig. 3a;Results)。
+- 规模:模型变大(ViT-S→ViT-L)和预训练数据变多主要在 TCGA(尤其多分类任务)上有收益;在外部和 OOD 数据上效应小且不显著(Fig. 4;Results §"Scaling")。
+- 集成:5 个头部模型多数投票的 fusion 在 TCGA 累计 balanced accuracy 第 1(0.702 vs Virchow2 0.696)、非 TCGA 第 2(Virchow2 0.712 第 1);逐任务检验与单模型无显著差异(Fig. 5a–c)。
+- 我们的理解:对我们最重要的是"头部病理编码器差异小、域外排名会变"——选 backbone 不必纠结,但必须在自己的域外数据(如 Aachen 肾活检)上验证。
 
 ## 研究问题
-病理基础模型两年内爆发式增长(CTransPath、Phikon、UNI/UNI2、Virchow、Prov-GigaPath、H-optimus、CONCH、PLIP…),但各家用各自的数据、任务与协议自评,**彼此不可比**,也无法回答两个关键问题:(1) 病理专用预训练相对通用视觉模型到底赢在哪、赢多少?(2) 这些模型在训练分布之外(不同机构、染色、扫描仪)还成立吗?此前的 benchmark 要么只比病理编码器、要么只覆盖少数癌种与弱监督分类任务。
+病理基础模型常用 TCGA 或单一机构的专有数据预训练,可能对特定数据集过拟合,而不是真正跨机构、染色、扫描仪泛化(Introduction)。已有 benchmark(refs. 50, 51)主要只比病理专用编码器,覆盖的癌种或任务类型有限(多为弱监督分类)。作者要回答:在统一协议下,四类模型谁更强?病理专用预训练带来多少收益?这些结论离开 TCGA(可能已进入预训练数据)后是否成立?规模和集成各起什么作用?
 
 ## 方法
-统一协议是全文的骨架:所有模型一律**冻结**做特征抽取,下游只训一个 **linear probe**(线性探针),slide 级用简单 mean pooling 聚合 tile 特征 —— 目的是把比较对象锁定在「表示质量」本身,而不是各家的微调技巧。模型分四类(VM / VLM / Path-VM / Path-VLM),覆盖 ViT-small/base/large 三档架构与 small(<0.1M 切片)/medium(0.1–1M)/large(≥1M)三档预训练规模。统计上做得很硬:两两比较用 Welch t 检验 + FDR 校正报 ΔAUROC 与 95% CI;模型排名用 bootstrap 方差的 Wald 检验做 task-wise 两两胜负,再算 performance score =(wins−losses)/(wins+losses) 画热图。最后额外评一个 **fusion 模型**:对 top 模型做多数投票的后期决策级集成。
+1) **预处理**:H&E WSI 在 20×(0.5 µm/px)切成不重叠的 256×256 tile,Otsu 阈值去背景,每张 WSI 最多取 4,000 个 tile,存 HDF5;外部 patch 基准直接用其 png(Methods §"Whole slide image preprocessing")。
+2) **特征提取**:tile resize 到各模型原生输入(多数为 224×224),32 个模型全部冻结,每个任务只提一次特征(Methods §"Model evaluation")。
+3) **slide 级聚合 + linear probe**:一袋 tile 特征取平均(mean pooling),接一个线性层;lr 0.001、每 GPU batch 16、30 epoch、无数据增强;4 张 A100 40GB。TCGA / CPTAC / OOD 按患者 70/30 划分训练与留出测试;外部 patch 基准用其预定义划分,逐 patch 分类不聚合(Methods)。
+4) **指标与不确定性**:AUROC、AUPRC、灵敏度、特异度;测试集 bootstrap 1,000 次得 95% CI(Methods §"Statistical analysis")。
+5) **两两比较**:每次 bootstrap 算两模型 AUROC 差,用其经验方差做 Wald 检验,p 值做 FDR 校正(阈值 0.05);汇总成胜负矩阵,performance score =(wins − losses)/(wins + losses)(图注;Methods 中分母写作 wins + losses + 1)。类别间与规模分组间比较用 Welch t 检验 + FDR,规模效应用 Cohen's d 和 Spearman 相关(Methods)。
+6) **规模分组**:架构 ViT-S(21M)/ ViT-B(85M)/ ViT-L(>300M);预训练数据 small(<0.1M WSI)/ medium(0.1–1M)/ large(≥1M)(Fig. 4)。
+7) **集成**:取非 TCGA 排名前五(Virchow2、H-optimus-0、Prov-GigaPath、UNI、UNI2)的预测,不可训练的多数投票,用 balanced accuracy 与单模型比较(Results §"Model ensembling")。
+
+## 方法图
+```mermaid
+flowchart LR
+  A["41 tasks, 53 datasets<br/>TCGA, CPTAC, OOD, external"] --> B["256 px tiles at 20x<br/>up to 4,000 per WSI"]
+  B --> C["32 frozen encoders<br/>VM, VLM, Path-VM, Path-VLM"]
+  C --> D["Mean pooling<br/>+ linear probe"]
+  D --> E["1,000 bootstraps<br/>Wald tests + FDR"]
+  E --> F["Rankings, scaling,<br/>tissue z-scores"]
+  D --> G["Majority-vote fusion<br/>of top 5 Path-VMs"]
+```
 
 ## 数据
-41 个下游任务 / 53 个数据集 / >17,500 张 WSI,任务类型涵盖诊断分型、生物标志物状态、**转录组亚型**与**通路活性**预测,既有器官特异也有 pan-cancer 形式,组织覆盖脑、膀胱、前列腺、**肾**、乳腺、肺等。评测被刻意切成 in-domain 与 out-of-domain 两半:**TCGA**(in-domain,19 个任务)vs **CPTAC + 外部 patch 级 benchmark + 院内 out-of-domain 队列**(22 个任务)。肾脏只以肿瘤形式出现 —— TCGA 肾癌四分类(ccRCC / ChRCC / PRCC1 / PRCC2,训练 N=194、测试 N=80)。
+41 个任务 / 53 个数据集 / >17,500 张 WSI,任务类型包括诊断(分型、分级、分期)、生物标志物状态、转录组亚型、通路活性(Introduction;Methods)。**TCGA(19 个任务,视为 in-domain)**:如 LGG/GBM IDH 突变(训练 884 / 测试 368)、转录组亚型、BRCA ER/PR/PAM50、BLCA 分型、PRAD ERG 融合、泛癌分级、通路与免疫分组;**肾脏**:RCC 四分类 ccRCC / ChRCC / PRCC1 / PRCC2(训练 194 / 测试 80)。**CPTAC(7 个泛癌任务)**:分级、SWI/SNF、p53、染色质修饰、mTOR、MYC 通路、7 类肿瘤类型(含 CCRCC,训练 441 / 测试 175)。**OOD(slide 级)**:Stanford 院内肺与脑肿瘤队列(如肺鳞癌 vs 腺癌、GBM MGMT 甲基化)、NLST、DHMC。**外部 patch 基准(8 个)**:BRACS、BACH、UniToPatho、SICAPv2、BreakHis、LC25000、MHIST、NCT-CRC-HE。
 
 ## 主要结果
-① **TCGA 上 Path-VM 稳居第一梯队**:Virchow2、Prov-GigaPath、H-optimus-0、UNI、UNI2 长期占据前列,且各有组织偏好 —— Virchow2 强在结肠/肺/前列腺,Prov-GigaPath 强在乳腺/膀胱,H-optimus-0 强在 pan-cancer,UNI 强在脑/膀胱/乳腺。② **出了 TCGA,排名会漂**:CPTAC 与 out-of-domain 上名次出现「幅度不大但一致」的位移,说明 in-domain 强 ≠ 泛化强;作者明确指出 TCGA 极可能已进入多个模型的预训练数据,故 TCGA 成绩主要反映 in-domain 表现。③ **顶尖模型之间的差距往往很小且任务依赖**,两两统计检验后多数不显著。④ **Path-VM > Path-VLM**,且 Path-VM 与通用 VM 相比仍具竞争力 —— 图文对齐监督未能转化为分类优势。⑤ **规模不是答案**:参数量与预训练切片数都不能稳定预测下游 AUROC。⑥ **集成有效**:多数投票的 fusion 模型在 TCGA 任务累计 balanced accuracy 排名**第 1**、非 TCGA 任务排名**第 2**,说明不同基础模型的强项互补。
+- **Path-VM 排名**:TCGA 平均 AUROC 前五为 Virchow2 0.830(95% CI 0.784–0.875)、Prov-GigaPath 0.829、H-optimus-0 0.824、UNI 0.824、UNI2 0.824;非 TCGA 为 Virchow2 0.836、UNI 0.835、H-optimus-0 0.832、Prov-GigaPath 0.827、UNI2 0.824(Fig. 1b–c)。逐任务第一:TCGA 19 个任务中 Virchow2 5 个、UNI2 3 个;非 TCGA 22 个中 Virchow2 6 个、H-optimus-0 5 个(Fig. 1d–e)。
+- **统计上难分高下**:五个头部模型在 TCGA 上各项指标无显著差异;非 TCGA 上唯一显著差异是 Virchow2 vs UNI2 的灵敏度;按肿瘤类型分组后也无显著差异(Results;Supplementary Figs. 3–4)。
+- **slide 级 vs patch 级**:14 个非 TCGA slide 任务上 UNI 0.761 ± 0.083 第一,头部模型间无显著差异;8 个 patch 任务上 Virchow2 0.962 ± 0.033、UNI2 0.953、Prov-GigaPath 0.949,部分两两差异显著(Fig. 2a–d)。作者解释:patch 任务没有 MIL 聚合,更直接反映细粒度表征(Discussion)。
+- **类别比较**:Path-VM 显著优于 Path-VLM(OOD slide 任务除外);Path-VM 与 VM 无显著差异;Path-VM 占前十名位置的比例 TCGA 0.55(168/304)、CPTAC+OOD 0.53(106/224)、外部 0.52(66/128)(Fig. 3;Results)。
+- **规模**:TCGA 多分类任务上数据从小到中、从小到大有显著收益(效应量约 0.25–0.30),中到大不显著;外部与 OOD 任务所有比较效应小且不显著(Fig. 4b;Results)。
+- **集成**:fusion 在 TCGA 累计 balanced accuracy 0.702 ± 0.111 第一(Virchow2 0.696);非 TCGA Virchow2 0.712 第一、fusion 0.699 第二;逐任务与单模型均无显著差异。排名漂移:UNI 从 TCGA 第 5 升到非 TCGA 第 3,UNI2 第 6→第 9,Virchow 第 7→第 10(Fig. 5a–b;Results)。
+- **组织偏好**(z-score):CONCH 在肺相关任务最强,Virchow2 强在结肠和前列腺,H-optimus-0 强在泛癌,UNI 强在脑和膀胱,Prov-GigaPath 在乳腺、膀胱、肺稳健(Fig. 5f);仅结肠组织中存在显著差异(Supplementary Fig. 24)。
 
 ## 创新点
-- 迄今覆盖最广的病理基础模型横评:32 模型 × 4 类别 × 41 任务 × 53 数据集,统一协议下可比。
-- 显式切分 in-domain(TCGA)与 non-TCGA 评测,把「泄漏可能性」作为设计前提而非事后说明。
-- 任务类型突破弱监督分类,纳入通路活性与转录组亚型这类**分子层**预测。
-- 严谨的统计比较框架(Welch + FDR、bootstrap Wald、胜负热图、95% CI),而非只报一列均值。
-- 给出可操作结论:与其追更大的单模型,不如做后期决策级集成。
+- 覆盖面:32 个模型 × 4 个类别 × 41 个任务 × 53 个数据集,统一冻结特征 + linear probe 协议(Abstract)。
+- 显式区分 TCGA(in-domain)与非 TCGA 评测,并比较 slide 级与 patch 级设置(Introduction;Discussion)。
+- 任务超出弱监督分类,包括通路活性和转录组亚型预测(Introduction)。
+- 每个比较都有 bootstrap Wald 检验 + FDR,并公开全部推断统计(Supplementary Data 1–15)。
+- 在线排行榜 PathBench 与 MIT 许可代码。
 
 ## 局限
-- 只做 linear probing,反映表示质量而非任务特定微调后的上限。
-- 公开数据(TCGA/CPTAC)与预训练数据的重叠无法完全排除,可能抬高 in-domain 成绩。
-- 规模分析用参数量与切片数这类粗代理,没刻画数据组成与质量。
-- slide 级用 mean pooling 聚合,会稀释局部判别信号。
-- **全部任务都是肿瘤**;非肿瘤疾病(纤维化、慢性器官病变)与**异常检测**类任务完全不在评测范围内。
+- 作者:只做冻结特征 + linear probe,反映表征质量而非微调后的上限(Discussion)。
+- 作者:公开数据(TCGA、CPTAC)与预训练数据的重叠无法完全排除,可能抬高 in-domain 成绩;NLST、DHMC 未被报告用于预训练,但无法独立核实(Discussion;Methods)。
+- 作者:规模分析用参数量、切片数等粗代理,未考虑数据组成和质量;分析是相关性的(Discussion)。
+- 作者:slide 级用简单 mean pooling,可能稀释局部判别信号(Discussion)。
+- 我们的理解:任务几乎全是肿瘤相关(分型、分级、突变、通路);肾脏只有 TCGA RCC 分型和 CPTAC 肿瘤类型中的 CCRCC 一类;没有非肿瘤疾病,也没有异常检测类任务。很多 slide 级任务测试集只有几十到几百例,置信区间宽。
+- 我们的理解:名称易混——参考文献 60(Ma et al., arXiv 2505.20202)是另一个也叫 "PathBench" 的 benchmark;本文的在线站点是 pathbench.stanford.edu。
 
 ## 与本研究方向的关系
-这篇不在 detect → model → revert 这条主链的任何一环上,它坐在**横切的评测层**:回答「用哪个 backbone、怎么公平比」。价值有三点。**其一,它是骨干选型的现成依据**:我们做组织异常检测要挑 WSI 编码器,PathBench 给出了带统计检验的排名与组织特异性偏好(如果做肾,注意它的肾任务只有 RCC 分型),并且提示 UNI2/Virchow2/Prov-GigaPath/H-optimus-0 属同一梯队、差距常不显著 —— 因此**不必纠结选哪个,更应该做集成**。**其二,它是我们要做 benchmark 时的协议模板**:冻结特征 + linear probe 作为诚实基线、in-domain 与 out-of-domain 显式切分、两两统计检验而非只报均值 —— 这套东西可以直接搬到异常检测/跨模态预测任务上。**其三,也是最重要的,它的结论支持「瓶颈不在模型容量」**:规模不预测性能、专用图文模型反而落后、集成比单模型更稳 —— 这与本仓库方向的判断一致,也说明下一步该投在数据质量与评测协议上,而不是训更大的模型。**空白就是机会**:41 个任务全是肿瘤,非肿瘤疾病与异常检测任务在这个体系里是缺席的,这正是本方向可以填的位置。
+我们的理解:这篇不属于 detect → model → revert 的某一环,而是**评测层**,对课题 1 有三点直接用处。**其一,选 backbone**:Virchow2、UNI2、UNI、Prov-GigaPath、H-optimus-0 是同一梯队,差异多不显著,而且离开 TCGA 排名会变——对肾脏 H&E,与其事先挑"最好"的编码器,不如同时提 2–3 套特征,在 Aachen 数据上比较,或做集成。**其二,协议模板**:冻结特征 + 简单头作为诚实基线、in-domain 与域外显式切分、bootstrap + 两两检验 + FDR 而非只报均值——这些可以直接搬到肾脏异常检测 benchmark(把 linear probe 换成 kNN / 密度等异常打分器)。**其三,空白**:41 个任务里没有非肿瘤疾病和异常检测任务,肾脏只以 RCC 出现——这正是课题 1 要补的位置。注意:PathBench 只比较监督分类,不能直接说明哪个编码器做无监督异常检测最好。
 
 ## 可复用资产
-- **代码:** MIT 许可,含处理后的评测结果与图源数据;部分改编自 facebookresearch/dino(Apache-2.0)。
+- **代码**(MIT 许可;部分改编自 facebookresearch/dino,Apache-2.0;含处理后的结果和图源数据;Zenodo 存档 doi 10.5281/zenodo.20618270):
 <https://github.com/gevaertlab/benchmarking-path-models>
 - **在线 benchmark:** PathBench 排行榜。
 <https://pathbench.stanford.edu/>
-- **数据:** TCGA(GDC portal)、CPTAC(CPTAC Data Portal)、NLST(The Cancer Imaging Archive)等外部与 out-of-domain 队列。
-- **评测协议:** 冻结特征 + linear probe、mean-pooling slide 聚合、Welch t + FDR、bootstrap Wald 两两胜负与 performance score、多数投票 fusion。
+- **数据:** TCGA(GDC portal)、CPTAC(CPTAC Data Portal)、NLST(TCIA)、DHMC 以及 8 个公开 patch 基准;Stanford 院内队列不公开(Data availability)。
+- **模型清单:** Table 2–5 列出 32 个模型的 SSL 方法、架构、参数量、WSI 数、patch 数和数据来源,可作选型速查表。
+- **评测协议:** 256 px @20× tile、mean pooling + linear probe(lr 0.001、30 epoch)、患者级 70/30 划分、1,000 次 bootstrap、Wald + FDR 胜负矩阵、多数投票 fusion。
 
 ## 待读
-- 补读它对比的两篇既有 benchmark(参考文献 50/51)与那篇跨五癌种的近期 benchmark(60),看任务设计差异。
-- 查 Virchow2 / Prov-GigaPath / H-optimus-0 的原始论文,补齐本仓库缺的这几个 Path-VM 条目(已有 virchow-2024、uni2-h-model)。
-- 试跑其 repo,看 linear-probe 流水线能否直接接非肿瘤任务与异常检测评分。
+- 对比的既有 benchmark(refs. 50、51)和 Ma et al. 的另一个 "PathBench"(ref. 60,肺、乳腺、胃、结直肠、脑五种癌)。
+- Virchow2(本库已有 `virchow-2024` 的前代)、Prov-GigaPath、H-optimus-0 的原文。
+- Supplementary Tables 3–8:各模型预训练数据的组织组成——看哪些模型见过肾组织。
+- 试跑 repo,把 linear probe 换成异常打分器,接入非肿瘤肾脏任务。
 
 ## 引用
 ```bibtex

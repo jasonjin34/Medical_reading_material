@@ -26,8 +26,9 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/bioml-bench-biorxiv-2025|BioML-bench]] — cites
+- [[_maps/papers/bixbench-arxiv-2025|BixBench]] — cites
 - [[_maps/papers/citation-faithfulness-arxiv-2026|Citation faithfulness guard]] — audits PaperQA2 citations
-- [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — LitQA2
+- [[_maps/papers/lab-bench-arxiv-2024|LAB-Bench]] — cites
 - [[_maps/papers/robin-nature-2026|Robin]] — cites
 - [[_maps/papers/truthhypo-ijcai-2025|TruthHypo]] — cites
 

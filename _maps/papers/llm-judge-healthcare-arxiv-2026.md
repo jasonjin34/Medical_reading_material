@@ -27,6 +27,7 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/medagentbench-nejmai-2025|MedAgentBench]] — healthcare LLM evaluation
+- [[_maps/papers/medical-hallucination-arxiv-2025|Medical hallucinations]] — cites
 - [[_maps/papers/rq-bench-arxiv-2026|RQ-Bench]] — LLM-as-judge alignment
 - [[_maps/papers/sourcecheckup-natcommun-2025|SourceCheckup]] — judge vs physician panel
 - [[_maps/papers/trail-arxiv-2025|TRAIL]] — LLM-as-judge reliability

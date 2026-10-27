@@ -28,6 +28,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] — reviewed: GAN + explicit encoder
 - [[_maps/papers/anogan-ipmi-2017|AnoGAN]] — adds an encoder + WGAN to AnoGAN
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — cites
 - [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]] — baseline vs latent diffusion
 - [[_maps/papers/meatrd-aaai-2025|MEATRD]] — cites
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — benchmarked (reconstruction family)

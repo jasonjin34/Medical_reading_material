@@ -93,6 +93,7 @@ Every paper, clustered by category. For orientation only; use the views above to
 - [[_maps/papers/imaging-nature-2026|ECG sudden-death biomarker]] ★ — An ECG biomarker for sudden cardiac death discovered with deep learning
 - [[_maps/papers/imaging-ehjdh-2026|AI ejection fraction]] — An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — MedIAnomaly: A comparative study of anomaly detection in medical images
+- [[_maps/papers/abnormality-radiology-arxiv-2024|Abnormality radiology (Ligero 2024)]] — Abnormality-Driven Representation Learning for Radiology Imaging
 
 ## Competitions / Competitions
 - [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]] ★ — Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons
@@ -127,10 +128,12 @@ Every paper, clustered by category. For orientation only; use the views above to
 - [[_maps/papers/truthhypo-ijcai-2025|TruthHypo]] ★ — Toward Reliable Scientific Hypothesis Generation: Evaluating Truthfulness and Hallucination in Large Language Models
 - [[_maps/papers/hypogen-llm-colm-2024|LLM hypothesis generators]] ★ — Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation
 - [[_maps/papers/falsifiable-ideation-arxiv-2026|Falsifiable ideation]] — What Proves You Wrong: Benchmarking Language Models on Falsifiable Research Ideation
+- [[_maps/papers/gpnmb-cart-cell-2026|GPNMB CAR T (Cell 2026)]] — AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy
 - [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — HeurekaBench: A Benchmarking Framework for AI Co-scientist
 - [[_maps/papers/holistic-agent-leaderboard-iclr-2026|Holistic Agent Leaderboard]] — Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation
 - [[_maps/papers/reference-hallucination-arxiv-2026|Reference hallucinations]] — Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents
 - [[_maps/papers/scitrace-arxiv-2026|SciTrace]] — SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development
 - [[_maps/papers/bioml-bench-biorxiv-2025|BioML-bench]] — BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML
 - [[_maps/papers/deeptrace-arxiv-2025|DeepTRACE]] — DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence
 - [[_maps/papers/ideation-execution-gap-arxiv-2025|Ideation–execution gap]] — The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas

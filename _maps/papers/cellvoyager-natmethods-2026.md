@@ -27,10 +27,11 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/bioml-bench-biorxiv-2025|BioML-bench]] — cites
-- [[_maps/papers/fev-bioinformatics-agents-arxiv-2026|FEV review]] — bio agent review
+- [[_maps/papers/fev-bioinformatics-agents-arxiv-2026|FEV review]] — cites
 - [[_maps/papers/heurekabench-arxiv-2026|HeurekaBench]] — cites
 - [[_maps/papers/kosmos-arxiv-2025|Kosmos]] — autonomous omics analysis
 - [[_maps/papers/scbench-arxiv-2026|scBench]] — scRNA-seq agent analysis
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/omics-agent|Single-cell analysis agents]]

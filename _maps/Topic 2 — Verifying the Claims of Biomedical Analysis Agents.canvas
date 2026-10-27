@@ -246,7 +246,7 @@
  ],
  "edges": [
   {
-   "id": "e95",
+   "id": "e97",
    "fromNode": "biomnibench-biorxiv-2026",
    "toNode": "biomni-biorxiv-2025",
    "fromSide": "right",
@@ -254,7 +254,7 @@
    "label": "cites"
   },
   {
-   "id": "e98",
+   "id": "e102",
    "fromNode": "citation-faithfulness-arxiv-2026",
    "toNode": "robin-nature-2026",
    "fromSide": "right",
@@ -262,7 +262,7 @@
    "label": "cites"
   },
   {
-   "id": "e103",
+   "id": "e107",
    "fromNode": "deepevidence-natmachintell-2026",
    "toNode": "biomni-biorxiv-2025",
    "fromSide": "right",
@@ -270,7 +270,7 @@
    "label": "cites"
   },
   {
-   "id": "e104",
+   "id": "e108",
    "fromNode": "deepevidence-natmachintell-2026",
    "toNode": "co-scientist-nature-2026",
    "fromSide": "right",
@@ -278,7 +278,31 @@
    "label": "cites"
   },
   {
+   "id": "e110",
+   "fromNode": "fev-bioinformatics-agents-arxiv-2026",
+   "toNode": "deepevidence-natmachintell-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e112",
+   "fromNode": "fev-bioinformatics-agents-arxiv-2026",
+   "toNode": "cellvoyager-natmethods-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
    "id": "e114",
+   "fromNode": "fev-bioinformatics-agents-arxiv-2026",
+   "toNode": "co-scientist-nature-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "cites"
+  },
+  {
+   "id": "e126",
    "fromNode": "scbench-long-arxiv-2026",
    "toNode": "biomnibench-biorxiv-2026",
    "fromSide": "right",
@@ -286,7 +310,7 @@
    "label": "cites"
   },
   {
-   "id": "e135",
+   "id": "e151",
    "fromNode": "medragchecker-arxiv-2026",
    "toNode": "deepevidence-natmachintell-2026",
    "fromSide": "right",
@@ -294,7 +318,7 @@
    "label": "KG evidence grounding"
   },
   {
-   "id": "e142",
+   "id": "e158",
    "fromNode": "rq-bench-arxiv-2026",
    "toNode": "llm-judge-healthcare-arxiv-2026",
    "fromSide": "right",
@@ -302,7 +326,7 @@
    "label": "LLM-as-judge alignment"
   },
   {
-   "id": "e146",
+   "id": "e162",
    "fromNode": "scirigor-arxiv-2026",
    "toNode": "autoresearch-failures-arxiv-2026",
    "fromSide": "right",
@@ -310,7 +334,7 @@
    "label": "unsupported claims"
   },
   {
-   "id": "e147",
+   "id": "e163",
    "fromNode": "scirigor-arxiv-2026",
    "toNode": "fev-bioinformatics-agents-arxiv-2026",
    "fromSide": "right",
@@ -318,7 +342,7 @@
    "label": "workflow correctness"
   },
   {
-   "id": "e148",
+   "id": "e164",
    "fromNode": "scirigor-arxiv-2026",
    "toNode": "medragchecker-arxiv-2026",
    "fromSide": "right",
@@ -326,7 +350,7 @@
    "label": "claim-to-evidence verification"
   },
   {
-   "id": "e150",
+   "id": "e166",
    "fromNode": "autoresearch-failures-arxiv-2026",
    "toNode": "kosmos-arxiv-2025",
    "fromSide": "right",
@@ -334,7 +358,7 @@
    "label": "AI-scientist research"
   },
   {
-   "id": "e151",
+   "id": "e167",
    "fromNode": "fev-bioinformatics-agents-arxiv-2026",
    "toNode": "biomni-biorxiv-2025",
    "fromSide": "right",
@@ -342,15 +366,7 @@
    "label": "bio agent review"
   },
   {
-   "id": "e152",
-   "fromNode": "fev-bioinformatics-agents-arxiv-2026",
-   "toNode": "cellvoyager-natmethods-2026",
-   "fromSide": "right",
-   "toSide": "left",
-   "label": "bio agent review"
-  },
-  {
-   "id": "e157",
+   "id": "e169",
    "fromNode": "biomnibench-biorxiv-2026",
    "toNode": "scbench-arxiv-2026",
    "fromSide": "right",
@@ -358,7 +374,7 @@
    "label": "omics-analysis agent benchmarks"
   },
   {
-   "id": "e159",
+   "id": "e171",
    "fromNode": "citation-blame-emnlp-2026",
    "toNode": "citation-faithfulness-arxiv-2026",
    "fromSide": "right",
@@ -366,7 +382,7 @@
    "label": "citation faithfulness"
   },
   {
-   "id": "e164",
+   "id": "e176",
    "fromNode": "scbench-arxiv-2026",
    "toNode": "scbench-long-arxiv-2026",
    "fromSide": "right",
@@ -374,7 +390,7 @@
    "label": "single-step \u2192 long-horizon"
   },
   {
-   "id": "e166",
+   "id": "e178",
    "fromNode": "cellvoyager-natmethods-2026",
    "toNode": "scbench-arxiv-2026",
    "fromSide": "right",
@@ -382,7 +398,7 @@
    "label": "scRNA-seq agent analysis"
   },
   {
-   "id": "e169",
+   "id": "e181",
    "fromNode": "co-scientist-nature-2026",
    "toNode": "robin-nature-2026",
    "fromSide": "right",
@@ -390,7 +406,7 @@
    "label": "AI scientists"
   },
   {
-   "id": "e171",
+   "id": "e183",
    "fromNode": "robin-nature-2026",
    "toNode": "kosmos-arxiv-2025",
    "fromSide": "right",
@@ -398,7 +414,7 @@
    "label": "FutureHouse lineage"
   },
   {
-   "id": "e172",
+   "id": "e184",
    "fromNode": "kosmos-arxiv-2025",
    "toNode": "cellvoyager-natmethods-2026",
    "fromSide": "right",

@@ -13,3 +13,4 @@ tags:
 - [[_maps/papers/llm-judge-healthcare-arxiv-2026|LLM-as-judge in healthcare]] — LLM-as-a-Judge in Healthcare: A Scoping Analysis of Applications, Methods, and Human Alignment
 - [[_maps/papers/medragchecker-arxiv-2026|MedRAGChecker]] — MedRAGChecker: Claim-Level Verification for Biomedical Retrieval-Augmented Generation
 - [[_maps/papers/scitrace-arxiv-2026|SciTrace]] — SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development

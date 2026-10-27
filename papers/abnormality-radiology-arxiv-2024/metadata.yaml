@@ -1,0 +1,28 @@
+id: "abnormality-radiology-arxiv-2024"
+title: "Abnormality-Driven Representation Learning for Radiology Imaging"
+authors:
+  - "Marta Ligero"
+  - "Tim Lenz"
+  - "Georg Wölflein"
+  - "Omar S. M. El Nahhas"
+  - "Daniel Truhn"
+  - "Jakob Nikolas Kather"
+year: 2024
+venue: "arXiv preprint"
+type: "paper"
+category: "imaging"
+relevance: "medium"
+access: "open"
+url: "https://arxiv.org/abs/2411.16803"
+doi: ""
+arxiv: "2411.16803"
+s2_id: null
+bibkey: "Ligero2024_241116803"
+tags: []
+related: []
+status: "complete"
+added: "2026-10-27"
+plans:
+  - "A"
+track: "A0"
+recommended_by: "sikander"

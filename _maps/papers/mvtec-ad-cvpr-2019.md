@@ -28,7 +28,7 @@ tags:
 - [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] — benchmarks on MVTec AD
 - [[_maps/papers/anogan-ipmi-2017|AnoGAN]] — GAN baseline
 - [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — main benchmark
-- [[_maps/papers/draem-iccv-2021|DRAEM]] — main benchmark
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — cites
 - [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] — sensory-AD benchmark
 - [[_maps/papers/meatrd-aaai-2025|MEATRD]] — cites
 - [[_maps/papers/padim-icpr-2020|PaDiM]] — main benchmark

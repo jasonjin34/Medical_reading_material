@@ -29,7 +29,6 @@ tags:
 
 ## Concepts / 概念
 - [[_maps/concepts/perturbation|Perturbation & counterfactual]]
-- [[_maps/concepts/virtual-tissue|Virtual tissue / cell]]
 
 ## Deep-read / 精读
 

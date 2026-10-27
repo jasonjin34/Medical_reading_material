@@ -27,6 +27,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/biomednlp-natcommun-2025|BioNLP LLM benchmark]] — biomedical LLM benchmarking
 - [[_maps/papers/generalization-bias-rsos-2025|Overgeneralization bias]] — unfaithful medical text
+- [[_maps/papers/llm-judge-healthcare-arxiv-2026|LLM-as-judge in healthcare]] — cites
 - [[_maps/papers/medragchecker-arxiv-2026|MedRAGChecker]] — medical hallucination detection
 
 ## Concepts / 概念

@@ -27,7 +27,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/autoresearch-failures-arxiv-2026|AutoResearch failures]] — agent failure taxonomy
 - [[_maps/papers/deep-research-hallucination-arxiv-2026|PING (trajectory hallucination)]] — agent failure taxonomy
-- [[_maps/papers/trail-arxiv-2025|TRAIL]] — agent failure taxonomy
+- [[_maps/papers/trail-arxiv-2025|TRAIL]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/failure-taxonomy|Failure taxonomy]]

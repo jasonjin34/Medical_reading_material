@@ -8,7 +8,7 @@ No images, no nav chrome. Full text for open sources; abstract + structured meta
 - **Venue / Year:** Nature Machine Intelligence · 2026
 - **DOI:** 10.1038/s42256-026-01266-0
 - **URL:** https://doi.org/10.1038/s42256-026-01266-0
-- **Bibkey:** Wang_2026
+- **Bibkey:** Wang_2026b
 - **Status:** complete
 
 ## Abstract

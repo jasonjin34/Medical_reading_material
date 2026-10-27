@@ -17,9 +17,9 @@ tags:
 
 # Virtual Cell Challenge
 
-> Arc Institute's annual public competition asking models to predict single-cell gene-expression shifts caused by single-gene CRISPR perturbations in a held-out cell type (H1 hESC), scored on a standardized 3-metric protocol — framed as "a Turing test for the virtual cell."
+> An annual open competition by the Arc Institute: given single-cell expression after CRISPRi knockdown of some genes in a new cell type (H1 human embryonic stem cells in 2025), predict how unseen knockdowns change single-cell expression; framed as "a Turing test for the virtual cell" (*Cell* title, Arc launch page).
 
-> Arc Institute 主办的年度公开竞赛,要求参赛模型预测单基因 CRISPR 扰动在一个"留出细胞类型"(H1 人胚胎干细胞)中引起的单细胞基因表达变化,并用统一的三指标标准化评测——本质是"virtual cell 的图灵测试"。
+> Arc Institute 每年举办的公开竞赛:给定一个新细胞类型(2025 届是 H1 人胚胎干细胞)里部分基因被 CRISPRi 敲低后的单细胞表达,预测其余未见过的敲低会让单细胞表达怎样变化;官方把它定位为"virtual cell 的图灵测试"(*Cell* 标题, Arc 发布公告)。
 
 ## Related papers / 相关论文
 - [[_maps/papers/linear-baselines-natmethods-2025|Linear baselines win]] — perturbation benchmark
@@ -27,7 +27,6 @@ tags:
 - [[_maps/papers/scrna-natmachintell-2026|Conditional Monge Gap]] — perturbation benchmark
 
 ## Concepts / 概念
-- [[_maps/concepts/he-to-expression|H&E → expression prediction]]
 - [[_maps/concepts/ood-detection|OOD / novelty detection]]
 - [[_maps/concepts/perturbation|Perturbation & counterfactual]]
 - [[_maps/concepts/virtual-tissue|Virtual tissue / cell]]

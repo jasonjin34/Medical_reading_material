@@ -2,61 +2,95 @@
 
 > **Bibkey** `Dippel_2024` · **Venue** NEJM AI (2024) · **Category** histopath · **Relevance** high · **Access** paywall
 > **Link** <https://doi.org/10.1056/aioa2400468>
-> `status: abstract-only` — 若为 abstract-only,把 PDF 放到本文件夹的 `source.pdf` 后可补全全文精读。
-> 注:NEJM AI 正文付费,以下细节主要取自公开 arXiv 预印本 (arXiv:2406.14866) 与作者机构新闻稿,数值与正式版可能略有差异。
+> `status: complete` — 全文精读基于作者公开的 arXiv 预印本 (arXiv:2406.14866v1, 2024-06-21);NEJM AI 正式版付费。
+> 注:以下所有数字与细节均取自 arXiv 预印本,与 NEJM AI 正式版可能略有差异。/ Note: every number below comes from the arXiv preprint; the NEJM AI version of record may differ slightly.
 
 ---
 
 ## 一句话 / One-liner
-<!-- ZH --> 只用常见病(及正常组织)训练的深度异常检测模型,无需见过罕见病样本即可在胃、结肠活检中检出长尾罕见病变,达到临床级 AUROC。
-<!-- EN --> A deep anomaly-detection model trained only on common findings (and normal tissue) detects the full long tail of rare gastrointestinal pathologies it never saw during training, reaching clinical-grade AUROCs on stomach and colon biopsies.
+<!-- ZH --> 只用"常见诊断"(正常组织 + 常见病)的胃、结肠活检切片训练深度异常检测模型(最佳为 Outlier Exposure),不需要见过任何罕见病,就能检出长尾中的 56 种少见病变:slide-AUROC 胃 95.0%、结肠 91.0%,并可泛化到另一家医院和另一种扫描仪。
+<!-- EN --> A deep anomaly-detection model trained only on "frequent findings" (normal tissue plus common diseases) of stomach and colon biopsies — best variant: Outlier Exposure — detects the long tail of 56 rarer entities it never saw, with slide-AUROC 95.0% (stomach) and 91.0% (colon), and transfers to a second hospital and scanner without retraining.
+
+## 要点 / Takeaways
+- <!-- ZH --> "正常"在这里指**常见诊断**(含慢性胃炎、低级别腺瘤等常见病),"异常"指长尾里的少见诊断;前 10 种诊断约占 90%(胃)/ 91%(结肠)病例(Fig. 1)。 <!-- EN --> "Normal" here means **frequent findings** (including common diseases such as chronic gastritis), and "anomaly" means the rare long tail; the top-10 diagnoses cover ~90% (stomach) / 91% (colon) of cases (Fig. 1).
+- <!-- ZH --> 最好的方法是 Outlier Exposure:把其他器官的切片当"辅助异常",训练二分类器;异常分 = 模型给出的"异常类"概率(Methods §2.3)。 <!-- EN --> The best method is Outlier Exposure: slides from other organs serve as "auxiliary anomalies" for a binary classifier; the anomaly score is the predicted anomaly-class probability (Methods §2.3).
+- <!-- ZH --> OE 数据的选择比网络结构或损失函数更重要:用 ImageNet 当 OE 几乎无效(结肠 slide-AUROC 52.17%),用同医院多器官切片最好(91.49%)(App. Table 11)。 <!-- EN --> The choice of OE data matters more than architecture or loss: ImageNet as OE barely works (colon slide-AUROC 52.17%), while same-hospital multi-organ slides work best (91.49%) (App. Table 11).
+- <!-- ZH --> 在 100% 灵敏度阈值下,36.2% 的胃切片可被判为"非异常"而免于重点复核;结肠只有 4.21%(§3.1)。 <!-- EN --> At a 100%-sensitivity threshold, 36.2% of stomach cases could be called "not abnormal"; for colon only 4.21% (§3.1).
+- <!-- ZH --> 失败案例是非常细微的改变(假黑变病、肠螺旋体病,slide-AUROC 约 20–24%),作者认为需要多尺度上下文或半监督方法(App. Table 6, Discussion)。 <!-- EN --> Failures are very subtle changes (pseudomelanosis coli, intestinal spirochaetosis; slide-AUROC ~20–24%); the authors point to multi-scale context or semi-supervised methods (App. Table 6, Discussion).
 
 ## 研究问题 / Problem
-<!-- 这篇论文要解决什么问题?为什么重要? / What problem, and why it matters. -->
-<!-- ZH --> 主流病理 AI 都是有监督分类器,需要每个疾病类别有大量标注样本;但临床疾病呈长尾分布——少数常见病占绝大多数,数百种罕见病各自样本极少。有监督模型会把这些未见/少见类别漏诊或错分,这是 AI 落地临床的核心障碍。作者把问题重构为异常检测:只学习"正常/常见"的样貌,任何偏离即为需要人工复核的异常。
-<!-- EN --> Supervised pathology classifiers need many labeled examples per class, but real-world disease follows a long-tail distribution: a handful of common findings dominate while hundreds of rare entities each have few or zero examples. Supervised models silently miss or misclassify these, a key barrier to safe clinical deployment. The paper reframes the task as anomaly detection: learn only what "normal/common" looks like, and flag any deviation for human review.
+<!-- ZH --> 病理 AI 大多是有监督分类器,只能识别训练集里有足够样本的常见诊断。真实临床中诊断呈长尾分布:少数常见诊断占约 90% 的胃肠活检,剩下约 10% 分散在 56 种少见实体(含多种癌)中(Abstract, Fig. 1)。有监督模型会漏掉或错分这些少见病,所以目前每张切片仍需病理医生确认(Introduction)。作者问:能否只学常见诊断的样子,把任何偏离都当作"异常"标出来?
+<!-- EN --> Most pathology AI is supervised and only recognises common diagnoses with enough training examples. Real diagnoses follow a long tail: a few common findings make up ~90% of GI biopsies, and the remaining ~10% are spread over 56 rarer entities including many cancers (Abstract, Fig. 1). Supervised models miss or misclassify these, so every slide still needs pathologist confirmation (Introduction). The question: can we learn only what frequent findings look like and flag any deviation as an anomaly?
 
 ## 方法 / Method
-<!-- 核心方法、模型、数据流。关键公式/架构。 / Core method, model, data pipeline, key architecture. -->
-<!-- ZH --> 对比了两大范式:(1) 自监督特征 + 距离评分——用病理基础模型 CTransPath(在 TCGA/PAIP 32,220 张 H&E 全片上预训练的 SwinTransformer)提 patch 特征,再用改良 kNN 打异常分,或用 one-class 分类损失微调;(2) **Outlier Exposure (OE)**(最佳方案)——训练一个二分类器区分"正常 GI patch"与"辅助异质组织 patch",标准交叉熵,异常分即模型给出的异常类概率;骨干用 ResNet-18(随机初始化即可,与微调 CTransPath 相当)。切片级评分:取异常分最高的 10% patch 取均值;可视化:对重叠 patch 分数做空间平滑生成异常热图,标出可疑区域供病理医生确认。
-<!-- EN --> Two paradigms are compared: (1) self-supervised features + distance scoring — patch embeddings from the pathology foundation model CTransPath (a SwinTransformer pretrained on 32,220 TCGA/PAIP H&E slides) scored with a modified kNN, or fine-tuned with a one-class loss; (2) **Outlier Exposure (OE)**, the best method — a binary classifier trained to separate normal GI patches from auxiliary out-of-domain tissue patches with plain cross-entropy, using the predicted anomaly-class probability as the score, on a ResNet-18 backbone (random init performs on par with fine-tuned CTransPath). Slide score = mean of the top-10% highest-scoring patches; anomaly heatmaps are produced by spatially averaging overlapping patch scores.
+<!-- ZH --> 1. **预处理**:每张 H&E 全切片(WSI,whole-slide image)找出组织区域,在 20× 放大(约 0.5 μm/像素)下切成 340×340 像素的 patch,丢弃背景超过 80% 的 patch,并用 Reinhard 方法做染色归一化(App. B.4)。
+<!-- ZH --> 2. **训练数据**:胃、结肠各自单独建模;"正常" = 该器官的常见诊断 patch。为了让高级别病变能被检出,低级别腺瘤从训练集中去掉(§2.2, App. C.7)。异常样本**从不**参与训练。
+<!-- ZH --> 3. **范式 A:自监督特征 + kNN**。用病理基础模型 CTransPath(在 TCGA 和 PAIP 的 32,220 张 H&E 切片上预训练的 Swin Transformer)提 patch 特征,用改进的 kNN 距离打分;变体是用 PANDA 式的 one-class(OCC)损失在正常 patch 上微调 CTransPath(§2.3, App. B.2)。
+<!-- ZH --> 4. **范式 B:Outlier Exposure (OE,最佳)**。辅助异常 = 2,901 张其他器官切片(前列腺 599、肾 459、肝 402、肺 401、小肠 283、乳腺 204、其他 553)+ 另一个胃肠器官的正常 patch。用二元交叉熵训练分类器区分"正常 vs 辅助异常",每个 batch 两类各半;OE patch 中 50% 取"近组织"(胃、结肠、小肠)、50% 取"远组织";与正常 patch 余弦相似度 >0.9 的 OE patch 被删掉,以去除两边都有的结缔组织、肌肉等(§2.3, App. B.2, Table 2c)。主结果用的是在 OE 任务上微调的 CTransPath;从头训练的 ResNet-18 表现相近(App. D.4, Table 15)。
+<!-- ZH --> 5. **打分与聚合**:patch 异常分 = 模型给出的异常类概率,用 10 个测试时增强视图取平均;切片分 = 分数最高的 10% patch 的均值(§2.2, App. B.3)。
+<!-- ZH --> 6. **热图**:以 75 像素重叠切 patch,把重叠 patch 的分数平均,得到平滑的异常热图(App. B.3)。
+<!-- ZH --> 7. **评估**:5 折交叉验证;slide-AUROC(按诊断标签)和 patch-AUROC(按病理医生的逐区域标注);外部 LMU 队列只评 slide-AUROC,不重新训练(§2.2, App. B.5)。
+<!-- EN --> 1. **Pre-processing**: tissue is detected on each H&E whole-slide image (WSI) and tiled into 340×340-pixel patches at 20× (~0.5 µm/pixel); patches with >80% background are dropped; Reinhard stain normalisation is applied (App. B.4).
+<!-- EN --> 2. **Training data**: separate models for stomach and colon; "normal" = frequent-finding patches of that organ. Low-grade adenomas are removed from training so that high-grade lesions stay detectable (§2.2, App. C.7). Anomalies are **never** used in training.
+<!-- EN --> 3. **Paradigm A — self-supervised features + kNN**: CTransPath (a Swin Transformer pretrained on 32,220 H&E slides from TCGA and PAIP) embeds patches and a modified kNN distance scores them; a variant fine-tunes CTransPath with a PANDA-style one-class (OCC) loss (§2.3, App. B.2).
+<!-- EN --> 4. **Paradigm B — Outlier Exposure (best)**: auxiliary anomalies = 2,901 slides of other organs (prostate 599, kidney 459, liver 402, lung 401, small intestine 283, breast 204, other 553) plus normal patches of the other GI organ. A binary cross-entropy classifier separates normal from auxiliary patches with class-balanced batches; OE patches are 50% "near" tissue (stomach, colon, small intestine) and 50% "far" tissue; OE patches with cosine similarity >0.9 to normal patches are removed to drop shared tissue such as connective tissue and muscle (§2.3, App. B.2, Table 2c). The main results use CTransPath fine-tuned on the OE task; a ResNet-18 trained from scratch performs about the same (App. D.4, Table 15).
+<!-- EN --> 5. **Scoring and aggregation**: patch score = anomaly-class probability, averaged over 10 test-time-augmented views; slide score = mean of the top-10% patch scores (§2.2, App. B.3).
+<!-- EN --> 6. **Heatmaps**: patches are extracted with 75-pixel overlap and overlapping scores are averaged into a smooth heatmap (App. B.3).
+<!-- EN --> 7. **Evaluation**: 5-fold cross-validation; slide-AUROC (from diagnosis labels) and patch-AUROC (from pathologist region annotations); the external LMU cohort gets slide-AUROC only, without retraining (§2.2, App. B.5).
+
+## 方法图 / Method diagram
+```mermaid
+flowchart LR
+  A["H&E WSI<br/>stomach or colon"] --> B["340x340 patches<br/>stain normalised"]
+  B --> C["Frequent-finding patches<br/>label normal"]
+  D["2,901 other-organ slides<br/>auxiliary anomalies"] --> E["Binary classifier<br/>CTransPath or ResNet-18, BCE"]
+  C --> E
+  E --> F["Patch score =<br/>P anomaly, 10x TTA"]
+  F --> G["Slide score =<br/>mean of top 10%"]
+  F --> H["Overlap-averaged<br/>heatmap"]
+```
 
 ## 数据 / Data
-<!-- 数据集、模态、规模、来源。 / Datasets, modalities, scale, source. -->
-<!-- ZH --> 两个真实世界胃肠活检数据集,共约 1,700 万张 H&E 组织学图像、5,423 个病例。前 10 种常见诊断约占 90% 病例;其余 10% 含 56 种疾病实体,包括罕见原发癌与转移癌。主训练/评测队列来自 Charité,外部验证用 LMU 慕尼黑(不同扫描仪、不重新训练),覆盖多扫描仪、多医院。
-<!-- EN --> Two real-world GI biopsy datasets: ~17 million H&E histological images across 5,423 cases. The top-10 common diagnoses cover ~90% of cases; the remaining 10% span 56 disease entities including rare primary and metastatic cancers. Primary cohort from Charité; external validation on LMU Munich (different scanner, no retraining), spanning multiple scanners and hospitals.
+<!-- ZH --> 共 5,423 张切片、约 1,700 万个图像 patch,来自两家医院(§3;摘要写作 5,423 cases)。**Charité(柏林)主队列**:2020/2021 年常规诊断切片,常见诊断 1,973 张(胃 961、结肠 1,012),异常诊断 200 张(126 张来自 2020/2021,74 张来自 2000–2021 年档案),共 65 种诊断,扫描仪 3DHistech P1000;所有异常切片都有逐区域标注(诊断相关区、非诊断相关的异常区如肿瘤旁炎症、伪影)(§2.1)。另有 2,901 张其他器官切片作 OE 辅助数据(App. Table 2c)。**LMU(慕尼黑)外部队列**:胃 192 张、结肠 157 张(常见:结肠 63 / 胃 164;异常:结肠 94 / 胃 28),2020–2023 年,扫描仪 Leica Aperio GT 450,超过 50 万个 patch,无像素级标注(§3.3, App. B.5)。数据未公开。
+<!-- EN --> 5,423 slides and ~17 million image patches from two hospitals (§3; the abstract says 5,423 cases). **Charité (Berlin) primary cohort**: routine 2020/2021 slides, 1,973 frequent-finding slides (stomach 961, colon 1,012) and 200 anomalous slides (126 from 2020/2021, 74 from 2000–2021 archives), 65 diagnoses, 3DHistech P1000 scanner; all anomalous slides have region annotations (diagnosis-defining regions, other anomalous regions such as tumour-adjacent inflammation, artifacts) (§2.1). Plus 2,901 other-organ slides as OE auxiliary data (App. Table 2c). **LMU (Munich) external cohort**: 192 gastric and 157 colon slides (frequent: 63 colon / 164 stomach; anomalous: 94 colon / 28 stomach), 2020–2023, Leica Aperio GT 450 scanner, >500k patches, no pixel annotations (§3.3, App. B.5). The data are not public.
 
 ## 主要结果 / Key results
-<!-- 关键指标与结论,尽量带数字。 / Headline metrics and conclusions, with numbers where possible. -->
-<!-- ZH --> Charité 队列:胃切片 slide-AUROC 95.04%(patch-AUROC 91.37%);结肠 slide-AUROC 91.01%(patch-AUROC 90.47%)。在 100% 灵敏度(不漏异常)下,可自动放行 36.2%(胃)/ 4.21%(结肠)的正常病例免于复核。外部验证(LMU,换扫描仪、不重训):胃 94.5%、结肠 85.88% slide-AUROC。新闻稿称整体可自动处理约 25–33% 病例、其余病例辅助优先级排序、减少漏诊。
-<!-- EN --> Charité: stomach slide-AUROC 95.04% (patch-AUROC 91.37%); colon slide-AUROC 91.01% (patch-AUROC 90.47%). At 100% sensitivity (no missed anomaly), 36.2% (stomach) / 4.21% (colon) of normal cases can bypass review. External validation (LMU, new scanner, no retraining): 94.5% stomach, 85.88% colon slide-AUROC. The institutional press release frames this as automating ~25–33% of cases while triaging the rest and reducing missed diagnoses.
+- <!-- ZH --> **Charité 主结果(OE)**:slide-AUROC 胃 95.04 ± 0.54%、结肠 91.01 ± 0.69%;patch-AUROC 胃 91.37 ± 0.34%、结肠 90.47 ± 0.33%。最佳自监督方法 slide-AUROC 胃 94.95%(kNN)、结肠 89.76%(kNN)(Table 1)。 <!-- EN --> **Charité main result (OE)**: slide-AUROC 95.04 ± 0.54% (stomach) and 91.01 ± 0.69% (colon); patch-AUROC 91.37 ± 0.34% and 90.47 ± 0.33%. Best self-supervised slide-AUROC: 94.95% stomach, 89.76% colon (kNN) (Table 1).
+- <!-- ZH --> **恶性肿瘤检出最好**:OE 对恶性肿瘤组 slide-AUROC 胃 97.72%、结肠 96.97%;结肠炎症 94.42%(Table 1, §3.1)。 <!-- EN --> **Malignancies are detected best**: OE slide-AUROC for the malignant group 97.72% (stomach), 96.97% (colon); colon inflammation 94.42% (Table 1, §3.1).
+- <!-- ZH --> **"Other" 组在结肠上失败**:slide-AUROC 40.41%;逐诊断看,假黑变病 20.28%、肠螺旋体病 23.56%、淋巴细胞性结肠炎 79.39%;胃中泌酸型腺瘤 64.42%、淋巴细胞性胃炎 72.93%(Table 1, App. Tables 5–6)。 <!-- EN --> **The colon "Other" group fails**: slide-AUROC 40.41%; per diagnosis, pseudomelanosis coli 20.28%, intestinal spirochaetosis 23.56%, lymphocytic colitis 79.39%; in stomach, oxyntic-type adenoma 64.42%, lymphocytic gastritis 72.93% (Table 1, App. Tables 5–6).
+- <!-- ZH --> **可免复核比例**:把阈值设到 100%(99%、95%)异常灵敏度时,胃 36.2%(51.91%、72.93%)、结肠 4.21%(4.99%、38.2%)的病例可判为非异常;去掉假黑变病和螺旋体病后结肠升到 22.29%(49.46%、85.22%)(§3.1)。 <!-- EN --> **Cases that could skip review**: at 100% (99%, 95%) anomaly sensitivity, 36.2% (51.91%, 72.93%) of stomach and 4.21% (4.99%, 38.2%) of colon cases are called not abnormal; excluding pseudomelanosis and spirochaetosis, colon rises to 22.29% (49.46%, 85.22%) (§3.1).
+- <!-- ZH --> **外部验证(LMU,不重训)**:OE slide-AUROC 胃 94.5 ± 0.93%、结肠 85.88 ± 0.94%;恶性肿瘤组 94.77% / 95.02%(§3.3, App. Table 4)。 <!-- EN --> **External validation (LMU, no retraining)**: OE slide-AUROC 94.5 ± 0.93% (stomach), 85.88 ± 0.94% (colon); malignant group 94.77% / 95.02% (§3.3, App. Table 4).
+- <!-- ZH --> **伪影不是主要驱动**:伪影区 patch-AUROC 结肠 80.89%、胃 75.64%,低于真异常区的 90.47% / 91.37%(App. C.3)。 <!-- EN --> **Artifacts are not the main driver**: artifact regions get patch-AUROC 80.89% (colon) / 75.64% (stomach), below the 90.47% / 91.37% of true anomaly regions (App. C.3).
+- <!-- ZH --> **基线与消融**:简单自编码器 slide-AUROC 仅 65.58%(结肠)/ 63.73%(胃)(App. Table 10);OE 数据用 ImageNet 时结肠 slide-AUROC 52.17%,TCGA 82.73%,完整 OE 集 91.49%(App. Table 11);约 100 张常见诊断切片后性能趋于饱和(App. D.1, Fig. 12);BCE 与 HSC、DeepSAD 损失差别不大(App. Table 16)。 <!-- EN --> **Baselines and ablations**: a plain autoencoder reaches only 65.58% (colon) / 63.73% (stomach) slide-AUROC (App. Table 10); with ImageNet as OE data colon slide-AUROC is 52.17%, with TCGA 82.73%, with the full OE set 91.49% (App. Table 11); performance saturates around 100 frequent-finding slides (App. D.1, Fig. 12); BCE, HSC and DeepSAD losses perform similarly (App. Table 16).
 
 ## 创新点 / Contributions
-- <!-- ZH --> 把"罕见/长尾病诊断"从有监督分类问题重构为**只需常见病数据的异常检测**问题,系统对比自监督+kNN、one-class 微调与 Outlier Exposure 三条路线。 <!-- EN --> Reframes long-tail rare-disease diagnosis as anomaly detection requiring only common-class data; systematically benchmarks self-supervised+kNN, one-class fine-tuning, and Outlier Exposure.
-- <!-- ZH --> 千万级真实病例上验证,且发现随机初始化 ResNet-18 + OE 可媲美病理基础模型 CTransPath——强基线、低算力。 <!-- EN --> Validated on 17M images / 5,423 cases; finds a randomly-initialized ResNet-18 with OE rivals the CTransPath foundation model — a strong, cheap baseline.
-- <!-- ZH --> 提供切片级评分 + 空间异常热图 + 明确的临床工作流(自动放行 + 优先级排序)。 <!-- EN --> Delivers slide-level scores, spatial anomaly heatmaps, and a concrete clinical workflow (auto-clear + triage).
+- <!-- ZH --> 把长尾罕见病诊断重新表述为"只用常见诊断训练"的异常检测问题,并在 65 种诊断的真实常规数据上评估(而不是只检测单一病种,如淋巴结转移)(Discussion, App. A.3)。 <!-- EN --> Recasts long-tail diagnosis as anomaly detection trained on frequent findings only, evaluated on routine data with 65 diagnoses rather than a single anomaly type such as lymph-node metastasis (Discussion, App. A.3).
+- <!-- ZH --> 作者称这是 Outlier Exposure 首次用于组织病理,并给出 OE 数据选择的系统消融(相似度与多样性的权衡)(App. A.1, D.2)。 <!-- EN --> The authors state this is the first use of Outlier Exposure in histopathology, with a systematic ablation of OE data choice (similarity vs diversity trade-off) (App. A.1, D.2).
+- <!-- ZH --> 跨医院、跨扫描仪外部验证,并显示颜色增强和测试时增强主要在外部队列上起作用(App. D.3, Tables 13–14)。 <!-- EN --> External validation across hospital and scanner, showing colour and test-time augmentations matter mainly on the external cohort (App. D.3, Tables 13–14).
+- <!-- ZH --> 给出临床用法:切片异常分 + 热图,用于排序和放行(Fig. 2)。 <!-- EN --> A clinical use pattern: slide anomaly score plus heatmap for triage and auto-clearing (Fig. 2).
 
 ## 局限 / Limitations
-- <!-- ZH --> 结肠外部验证(85.88%)与自动放行率(4.21%)明显低于胃,跨机构/器官泛化不均。 <!-- EN --> Colon external AUROC (85.88%) and auto-clear rate (4.21%) lag stomach; cross-site/organ generalization is uneven.
-- <!-- ZH --> 只做"正常 vs 异常"检测,不给出具体诊断类别;仍需病理医生确认下游。 <!-- EN --> Detects normal-vs-anomaly only; it does not name the specific diagnosis and still requires pathologist confirmation.
-- <!-- ZH --> 仅 H&E、仅胃肠活检;"异常"是相对训练分布定义,分布漂移(染色/扫描仪)风险需持续监控。 <!-- EN --> H&E and GI biopsies only; "anomaly" is defined relative to the training distribution, so stain/scanner shift needs ongoing monitoring.
+- <!-- ZH --> (作者)非常细微的结肠改变检不出(假黑变病、胶原性/淋巴细胞性结肠炎、螺旋体病),其中一些连病理医生也需要特殊染色(Discussion)。 <!-- EN --> (Authors) very subtle colon changes are missed (pseudomelanosis coli, collagenous/lymphocytic colitis, spirochaetosis), some of which need special stains even for pathologists (Discussion).
+- <!-- ZH --> (作者)单个 340 像素 patch 看不到结构性改变(如结肠黏膜的架构改变),需要多尺度方法(Discussion, App. C.7)。 <!-- EN --> (Authors) single 340-pixel patches miss architectural changes such as colon mucosal architecture; multi-scale methods are needed (Discussion, App. C.7).
+- <!-- ZH --> (作者)低级别腺瘤被人为排除在训练外,说明"正常"的边界需要人工设定(§2.2, App. C.7)。 <!-- EN --> (Authors) low-grade adenomas were deliberately removed from training, showing that the "normal" boundary is set by hand (§2.2, App. C.7).
+- <!-- ZH --> 我们的理解:结肠外部验证(85.88%)和结肠可免复核比例(4.21%)明显弱于胃;LMU 队列还排除了有明显实验室特有撕裂伪影的切片(App. B.5),真实部署可能更难。 <!-- EN --> Our reading: colon external AUROC (85.88%) and colon auto-clear rate (4.21%) are much weaker than stomach; the LMU cohort also excluded slides with lab-specific tearing artifacts (App. B.5), so real deployment may be harder.
+- <!-- ZH --> 我们的理解:只输出"是否异常 / 在哪里",不给诊断类别,也不解释异常的生物学原因;数据与代码在预印本中都没有公开链接。 <!-- EN --> Our reading: it outputs only "anomalous or not, and where", not a diagnosis or a biological explanation; the preprint gives no public data or code link.
 
 ## 与本研究方向的关系 / Relation to our direction
-<!-- anomaly detection → virtual tissue → revert via gene prediction 这条线上,这篇处在哪一环?能复用什么? -->
-<!-- ZH --> 这篇是我们 pipeline **第一环(anomaly detection)在组织病理模态上的强范式参考**。它给出一个可直接迁移的核心思想:把"疾病/扰动导致的组织变化"定义为**相对正常分布的偏离**,只用正常/常见样本训练即可检出任意未见异常——正好对应我们"检测因疾病或药物扰动而改变的图像/空间组学区域"的需求。三点具体可复用:(1) **Outlier Exposure 训练配方**——用"正常 in-domain vs 异质 out-of-domain"二分类构造异常打分器,可平移到 spatial-omics patch 或细胞邻域;(2) **切片级聚合(top-10% patch 取均值)+ 空间平滑热图**,天然产出"异常区域定位",这正是后续构建 *virtual tissue* 需要圈定的兴趣区/ROI;(3) 用病理基础模型(CTransPath)做冻结特征 + 距离评分的对照,给我们"foundation-model embedding + one-class/kNN"这条更适合小样本 spatial-omics 的路线提供 baseline。它止步于"检出异常":不建模组织如何变化、也不预测 revert 基因——第二环(virtual tissue)与第三环(gene-revert)留给我们,由它的异常 ROI 喂入;即把它的异常热图 ROI 送入 virtual-tissue 建模,再做 gene-revert 预测与湿实验验证。
-<!-- EN --> This is a strong paradigm reference for **stage 1 (anomaly detection) in the histopathology modality** of our pipeline. Its transferable core idea: define disease/perturbation-induced tissue change as **deviation from the normal distribution**, trainable from normal/common samples alone to catch any unseen anomaly — exactly our need to flag image/spatial-omics regions altered by disease or drug perturbation. Three concrete reusables: (1) the **Outlier Exposure recipe** (normal in-domain vs out-of-domain binary scorer) portable to spatial-omics patches or cell neighborhoods; (2) **top-10% patch aggregation + spatially-smoothed heatmaps** that natively localize anomalous ROIs — precisely the regions of interest downstream *virtual-tissue* modeling must delineate; (3) the frozen foundation-model (CTransPath) + distance-scoring comparison, a baseline for our "embedding + one-class/kNN" route better suited to low-sample spatial-omics. It stops at detection: it does not model *how* tissue changed nor predict revert genes — stages 2 (virtual tissue) and 3 (gene-revert) remain ours, fed by its anomaly ROIs.
+<!-- ZH --> 这篇是 pipeline 第一环(detect)在 H&E 模态上最接近"临床级"的参考。我们的理解:对课题 1(肾脏单细胞 / 空间组学异常检测基准)有三点直接启发。(1) **"正常"的定义**:这里的正常是"常见诊断",不是"健康";肾脏基准也需要先明确参考集(健康供体?常见 CKD 状态?),并像本文排除低级别腺瘤一样写清楚边界。(2) **OE 的迁移**:本文 OE 集中就有 459 张肾脏切片;反过来,在肾脏 H&E 或组学上做 OE 时,可以用其他器官 / 其他数据集作为辅助异常,并按"近 / 远"各半采样、去掉与正常过于相似的样本。(3) **评估设计**:slide 级 + patch 级 AUROC、按诊断分组的 AUROC、"100% 灵敏度下可放行比例"、外部队列不重训,这些都可以照搬到活检级 / 区域级的肾脏基准中。它不涉及第二、三环(virtual tissue、revert),但它输出的异常热图可作为后续建模的 ROI。
+<!-- EN --> The closest to "clinical-grade" reference for stage 1 (detect) on H&E. Our reading: three direct lessons for Topic 1 (kidney single-cell / spatial anomaly benchmark). (1) **Defining normal**: here normal means "frequent findings", not "healthy"; a kidney benchmark must likewise fix its reference set (healthy donors? common CKD states?) and document the boundary, as this paper did by excluding low-grade adenomas. (2) **Transferring OE**: the paper's OE set already contains 459 kidney slides; conversely, kidney H&E or omics OE could use other organs / other datasets as auxiliary anomalies, sampled half near and half far, with too-similar samples removed. (3) **Evaluation design**: slide- and patch-level AUROC, per-diagnosis AUROC, "fraction cleared at 100% sensitivity" and an external cohort without retraining all carry over to biopsy- and region-level kidney evaluation. It does not address stages 2–3 (virtual tissue, revert), but its heatmaps can supply ROIs for them.
 
 ## 可复用资产 / Reusable assets
-<!-- 代码、预训练模型、数据集、评测协议。 / Code, checkpoints, datasets, eval protocols. -->
-- <!-- ZH --> **方法配方**:Outlier Exposure 异常打分器(ResNet-18 骨干,cross-entropy,in-domain vs out-of-domain);top-10% patch 均值聚合;重叠 patch 空间平滑热图。 <!-- EN --> **Method recipe**: the Outlier Exposure anomaly scorer (ResNet-18 backbone, cross-entropy, in-domain vs out-of-domain); top-10% patch mean aggregation; spatially-smoothed overlapping-patch heatmaps.
-- <!-- ZH --> **CTransPath**(第三方病理基础模型,公开权重,SwinTransformer,TCGA/PAIP 预训练)可作冻结特征提取器复用。 <!-- EN --> **CTransPath** (third-party pathology foundation model, public weights, SwinTransformer, pretrained on TCGA/PAIP) is reusable as a frozen feature extractor.
-- <!-- ZH --> **评测协议**:slide-AUROC + patch-AUROC 双层评估;100% 灵敏度下的"自动放行率"作为临床可用性指标;跨扫描仪/跨机构外部验证(Charité→LMU,不重训)。 <!-- EN --> **Evaluation protocol**: two-level slide-AUROC + patch-AUROC assessment; the "auto-clear rate" at 100% sensitivity as a clinical-usability metric; cross-scanner/cross-site external validation (Charité→LMU, no retraining).
-- <!-- ZH --> 论文/预印本:arXiv:2406.14866。**未见官方代码或数据集公开链接**(Charité/LMU 临床数据受限);建议关注作者组(TU Berlin / Aignostics,Ruff、Müller、Alber)是否放出代码。 <!-- EN --> Paper/preprint: arXiv:2406.14866. **No official code or dataset release link found** (Charité/LMU clinical data are restricted); watch the authors' group (TU Berlin / Aignostics; Ruff, Müller, Alber) for a possible code release.
+- <!-- ZH --> **方法配方**:OE 二分类(BCE、类平衡 batch、近 / 远组织各半、余弦相似度 >0.9 去重)、top-10% patch 均值聚合、10 视图测试时增强、75 像素重叠热图(App. B.2–B.3)。 <!-- EN --> **Method recipe**: OE binary classifier (BCE, class-balanced batches, half near / half far tissue, cosine >0.9 de-duplication), top-10% patch mean, 10-view TTA, 75-pixel-overlap heatmaps (App. B.2–B.3).
+- <!-- ZH --> **评估协议**:slide-AUROC + patch-AUROC、按诊断组 / 逐诊断 AUROC、固定灵敏度下的放行比例、外部队列不重训(Tables 1, 4–6)。 <!-- EN --> **Evaluation protocol**: slide- and patch-AUROC, per-group and per-diagnosis AUROC, clearance rate at fixed sensitivity, external cohort without retraining (Tables 1, 4–6).
+- <!-- ZH --> **CTransPath**(第三方病理基础模型;本文用作特征提取器和 OE 骨干)。 <!-- EN --> **CTransPath** (third-party pathology foundation model; used here as feature extractor and OE backbone).
+- <!-- ZH --> 预印本:<https://arxiv.org/abs/2406.14866>。预印本中**没有**代码或数据下载链接(Charité / LMU 临床数据)。 <!-- EN --> Preprint: <https://arxiv.org/abs/2406.14866>. The preprint gives **no** code or data link (Charité / LMU clinical data).
 
 ## 待读 / Follow-ups
-- <!-- ZH --> 核对 NEJM AI 正式版是否有额外消融/校准/前瞻数据,是否公开代码。 <!-- EN --> Check the NEJM AI version of record for extra ablations/calibration/prospective data and any code release.
-- <!-- ZH --> CTransPath 原文(Wang et al.),及更强病理基础模型(UNI、Virchow、GigaPath)作 OE/one-class 特征的对比。 <!-- EN --> Read CTransPath (Wang et al.) and compare stronger foundation models (UNI, Virchow, Prov-GigaPath) as OE/one-class features.
-- <!-- ZH --> Outlier Exposure 原始论文(Hendrycks et al.)与 Deep SVDD / one-class 深度异常检测综述(Ruff et al.),迁移到 spatial-omics。 <!-- EN --> Outlier Exposure (Hendrycks et al.) and deep one-class AD (Ruff et al. Deep SVDD) for transfer to spatial-omics.
+- <!-- ZH --> 对照 NEJM AI 正式版,确认数字是否有变化、是否新增代码 / 数据可用性声明。 <!-- EN --> Check the NEJM AI version of record for changed numbers and any code / data availability statement.
+- <!-- ZH --> Hendrycks et al. 2019 (Outlier Exposure) 与 Liznerski et al. 2022 (Exposing Outlier Exposure, TMLR)——本文 OE 的直接来源(refs 25–26)。 <!-- EN --> Hendrycks et al. 2019 (Outlier Exposure) and Liznerski et al. 2022 (Exposing Outlier Exposure, TMLR), the direct OE sources (refs 25–26).
+- <!-- ZH --> Zingman et al. 2024, Medical Image Analysis 92:103067(本库 `histo-anomaly-bi-repo`)——本文 App. A.3 专门对比过,同样用多器官数据但走 one-class 路线。 <!-- EN --> Zingman et al. 2024, Medical Image Analysis 92:103067 (this library's `histo-anomaly-bi-repo`), contrasted in App. A.3: also uses multi-organ data but with a one-class classifier.
+- <!-- ZH --> Ruff et al. 2021 "A unifying review of deep and shallow anomaly detection"(ref 21)。 <!-- EN --> Ruff et al. 2021, "A unifying review of deep and shallow anomaly detection" (ref 21).
 
 ## 图表 / Figures & tables
 
@@ -64,29 +98,29 @@
 > <!-- EN --> _All figures/tables below come from the OPEN preprint arXiv:2406.14866 — nothing is taken from the paywalled NEJM AI page._
 
 ![Pipeline overview](figures/fig1.png)
-<!-- ZH --> **图1.** 方法与临床流程总览:训练阶段用 Outlier Exposure 让模型区分"常见胃肠组织"与"异质辅助组织";推理阶段对每个 patch 打异常分,聚合为切片级分数并生成异常热图;临床用例中据此自动放行正常病例或为可疑病例排序供病理医生复核。
-<!-- EN --> **Fig 1.** Method + clinical-workflow overview: training uses Outlier Exposure to separate frequent GI tissue from diverse auxiliary tissue; at inference each patch gets an anomaly score, aggregated to a slide-level score and rendered as an anomaly heatmap; the clinical use case auto-clears normal cases or triages suspicious ones for pathologist review.
+<!-- ZH --> **图1.** 方法与临床流程总览:训练阶段用 Outlier Exposure 让模型区分"常见胃肠组织"与"其他器官的辅助组织";推理阶段对每个 patch 打异常分,聚合为切片级分数并生成异常热图;临床用例中据此提示可疑病例,将来可能支持自动化流程。
+<!-- EN --> **Fig 1.** Method + clinical-workflow overview: training uses Outlier Exposure to separate frequent GI tissue from auxiliary tissue of other organs; at inference each patch gets an anomaly score, aggregated to a slide-level score and rendered as an anomaly heatmap; clinically this flags suspicious cases and may enable automated workflows in future.
 <!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 2)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Anomaly heatmaps](figures/fig2.png)
-<!-- ZH --> **图2.** 胃、结肠组织的异常热图示例(腺癌、边缘区淋巴瘤、肉瘤、胃底腺腺瘤、溃疡、高级别不典型增生、神经内分泌肿瘤、炎症等):模型可准确定位病变区域,同时忽略组织褶皱等伪影。
-<!-- EN --> **Fig 2.** Anomaly-heatmap examples on stomach and colon tissue (adenocarcinoma, marginal-zone lymphoma, sarcoma, foveolar adenoma, ulcer, high-grade dysplasia, neuroendocrine tumor, inflammation): the model localizes pathological regions accurately while ignoring artifacts such as tissue folds.
+<!-- ZH --> **图2.** 胃、结肠组织的异常热图示例(腺癌、边缘区淋巴瘤、未分化肉瘤、胃小凹型腺瘤、溃疡、高级别不典型增生、神经内分泌肿瘤、炎症):模型标出病变区域,组织褶皱等伪影对热图影响不大。
+<!-- EN --> **Fig 2.** Anomaly-heatmap examples on stomach and colon tissue (adenocarcinoma, marginal-zone lymphoma, undifferentiated sarcoma, foveolar adenoma, ulcer, high-grade dysplasia, neuroendocrine tumour, inflammation): lesions are highlighted, and artifacts such as tissue folds barely affect the heatmap.
 <!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 4)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Slide anomaly-score distributions](figures/fig3.png)
-<!-- ZH --> **图3.** OE 模型在验证集上按诊断类别给出的切片异常分分布(胃):常见/正常诊断与异常诊断之间分离明显。
-<!-- EN --> **Fig 3.** Distribution of slide anomaly scores by diagnostic category (stomach), OE model on validation data: clear separation between frequent/normal findings and anomalous diagnoses.
+<!-- ZH --> **图3.** OE 模型在 Charité 验证集(5 折中的一折)上按诊断分组的切片异常分分布:常见诊断与大多数异常诊断明显分开。
+<!-- EN --> **Fig 3.** Slide anomaly scores by diagnosis for the OE model on one Charité validation split: frequent findings separate clearly from most anomalous diagnoses.
 <!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 3)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ![Long-tail distribution of GI diagnoses](figures/fig4.png)
-<!-- ZH --> **图4.** 胃肠活检诊断的长尾分布:约 90% 病例为前 10 种常见诊断(绿),其余 10% 由 56 种罕见疾病实体构成(红)——这正是本文要解决的问题设定。
-<!-- EN --> **Fig 4.** Long-tail distribution of GI-biopsy diagnoses: ~90% of cases are the top-10 common findings (green), the remaining 10% span 56 rare disease entities (red) — the problem setting the paper targets.
+<!-- ZH --> **图4.** 胃肠活检诊断的长尾分布:常见诊断(绿)占 90%(胃)/ 91%(结肠)病例,其余为长尾中的少见诊断(红)——这正是本文要解决的问题设定。
+<!-- EN --> **Fig 4.** Long-tail distribution of GI-biopsy diagnoses: frequent findings (green) are 90% (stomach) / 91% (colon) of cases; the rest is a long tail of rarer diagnoses (red) — the problem setting the paper targets.
 <!-- ZH/EN --> _Source: https://arxiv.org/html/2406.14866 (Fig 1)  ·  License: arXiv preprint (arXiv:2406.14866)_
 
 ### 结果表 / Results
 
-<!-- ZH --> **表1.** Charité 主队列上三种异常检测方案的 slide-AUROC / patch-AUROC(%,均值±标准差);Outlier Exposure 为最佳方案。
-<!-- EN --> **Table 1.** Slide-AUROC / patch-AUROC (%, mean±SD) of three anomaly-detection approaches on the primary Charité cohort; Outlier Exposure is the best method.
+<!-- ZH --> **表1.** Charité 主队列上三种异常检测方案的 slide-AUROC / patch-AUROC(%,5 折均值±标准差);Outlier Exposure 为最佳方案。
+<!-- EN --> **Table 1.** Slide-AUROC / patch-AUROC (%, 5-fold mean±SD) of three anomaly-detection approaches on the primary Charité cohort; Outlier Exposure is the best method.
 
 | Method | Tissue | Slide-AUROC | Patch-AUROC |
 |---|---|---|---|
@@ -99,8 +133,8 @@
 | Outlier Exposure (neoplastic malignant) | Stomach | 97.72 ± 0.44 | 95.02 ± 0.28 |
 | Outlier Exposure (neoplastic malignant) | Colon | 96.97 ± 0.61 | 96.23 ± 0.27 |
 
-<!-- ZH --> **表2.** LMU 慕尼黑外部验证队列(换扫描仪、不重新训练)的 slide-AUROC(%,均值±标准差)。
-<!-- EN --> **Table 2.** External validation on the LMU Munich cohort (different scanner, no retraining), slide-AUROC (%, mean±SD).
+<!-- ZH --> **表2.** LMU 慕尼黑外部验证队列(换扫描仪、不重新训练)的 slide-AUROC(%,5 个交叉验证模型的均值±标准差)。
+<!-- EN --> **Table 2.** External validation on the LMU Munich cohort (different scanner, no retraining), slide-AUROC (%, mean±SD over the five cross-validation models).
 
 | Method | Tissue | Slide-AUROC |
 |---|---|---|

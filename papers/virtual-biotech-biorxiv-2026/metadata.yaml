@@ -1,0 +1,27 @@
+id: "virtual-biotech-biorxiv-2026"
+title: "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development"
+authors:
+  - "Zhang, Harrison G."
+  - "Eckmann, Peter"
+  - "Miao, Jiacheng"
+  - "Mahon, Andrew B."
+  - "Zou, James"
+year: 2026
+venue: "bioRxiv"
+type: "paper"
+category: "agents"
+relevance: "medium"
+access: "open"
+url: "https://doi.org/10.64898/2026.02.23.707551"
+doi: "10.64898/2026.02.23.707551"
+arxiv: ""
+s2_id: "d24fd8c21f1de5d2d515949cc2c7619b417603e0"
+bibkey: "Zhang_2026"
+tags: []
+related: []
+status: "complete"
+added: "2026-10-27"
+plans:
+  - "B"
+track: "B1"
+recommended_by: "sikander"

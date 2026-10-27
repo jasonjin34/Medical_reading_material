@@ -17,9 +17,9 @@ tags:
 
 # A Generative Foundation Model for Multimodal Histopathology
 
-> MuPD (Multimodal Pathology Diffusion) is a generative pathology foundation model that embeds H&E histology, RNA molecular profiles, and clinical text into a shared latent space, using one diffusion transformer to serve text-/image-/RNA-conditioned cross-modal synthesis and virtual staining.
+> MuPAD (Multimodal Pathology Diffusion; spelled MUPAD in the PDF and MuPD on the arXiv abstract page) is a generative pathology foundation model: one diffusion transformer with Decoupled Cross-Attention (DCA) conditions H&E generation on images, RNA pathway scores and clinical text, and a single model covers text/image/RNA→H&E generation, frozen→FFPE translation and H&E→IHC/mIF virtual staining (Abstract).
 
-> MuPD 是一个把 H&E 组织学、RNA 分子谱、临床文本统一到共享隐空间的生成式病理基础模型,用一个扩散 Transformer 支持文本/图像/RNA 条件的跨模态合成与虚拟染色。
+> MuPAD(Multimodal Pathology Diffusion;PDF 中写作 MUPAD,arXiv 摘要页写作 MuPD)是一个生成式病理基础模型:用一个带"解耦跨模态注意力"(Decoupled Cross-Attention, DCA)的扩散 Transformer,把 H&E 图像、RNA 通路分数和临床文本放进同一个条件生成框架,一个模型同时做文本/图像/RNA→H&E 生成、冰冻→石蜡切片转换和 H&E→IHC/mIF 虚拟染色(Abstract)。
 
 ## Related papers / 相关论文
 - [[_maps/papers/pathbench-natcommun-2026|Pathology FM benchmark]] — pathology FM benchmark

@@ -28,7 +28,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — density-based anomaly scoring
 - [[_maps/papers/meatrd-aaai-2025|MEATRD]] — anomalous region detection
-- [[_maps/papers/spatial-natcommun-2024|STANDS]] — spatial anomaly detection
+- [[_maps/papers/spatial-natcommun-2024|STANDS]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/anomalous-region|Anomalous tissue regions]]

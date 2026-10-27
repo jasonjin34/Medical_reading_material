@@ -26,6 +26,7 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — flow likelihood generalises PaDiM's Gaussian
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — cites
 - [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]] — Mahalanobis scoring on pretrained features
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — main benchmark
 - [[_maps/papers/patchcore-cvpr-2022|PatchCore]] — memory bank generalises per-position Gaussians

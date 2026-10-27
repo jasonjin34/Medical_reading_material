@@ -29,9 +29,6 @@ tags:
 - [[_maps/papers/ehr-apollo-arxiv-2026|APOLLO virtual patient]] — EHR environment
 - [[_maps/papers/llm-judge-healthcare-arxiv-2026|LLM-as-judge in healthcare]] — healthcare LLM evaluation
 
-## Concepts / 概念
-- [[_maps/concepts/rerun-stability|Rerun stability & replay]]
-
 ## Deep-read / 精读
 
 ![[papers/medagentbench-nejmai-2025/deep-read]]

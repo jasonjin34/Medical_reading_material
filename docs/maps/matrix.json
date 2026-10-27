@@ -238,6 +238,9 @@
   "bench|medimg": [
    "medianomaly-media-2025"
   ],
+  "feature|medimg": [
+   "abnormality-radiology-arxiv-2024"
+  ],
   "bench|histo": [
    "pathology-ad-bench-mlhealth-2025"
   ],
@@ -287,8 +290,8 @@
     "A"
    ],
    "oneliner": {
-    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics framework that detects, aligns, and subtypes anomalous tissue domains (ATDs) de novo — training a reconstruction model on normal tissue only and flagging high-reconstruction-error spots — without predefined anomaly markers.",
-    "zh": "STANDS 是一个基于 GAN 的多样本空间转录组框架,以\"只见过正常组织\"的重构模型做异常检测,再对齐、再聚类,de novo 地识别并解剖疾病导致的异常组织域(ATD),无需预设 marker。"
+    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics (ST) framework: it learns to reconstruct normal spots from a \"normal\" reference section, flags poorly reconstructed spots in target sections as anomalous tissue domains (ATDs), aligns several samples into the reference space, and clusters the anomalies into subtypes that are shared across samples or sample-specific — without any predefined anomaly marker genes.",
+    "zh": "STANDS 是一套基于 GAN 的多样本空间转录组(ST)框架:先在\"正常\"参考切片上学会重建正常 spot,把重建得差的 spot 标为异常组织域(ATD);再把多个样本对齐到参考空间;最后把异常聚成\"跨样本共享 / 样本特有\"的亚型——全程不需要预先给出异常 marker 基因。"
    },
    "url": {
     "en": "../papers/spatial-natcommun-2024/",
@@ -327,8 +330,8 @@
     "A"
    ],
    "oneliner": {
-    "en": "AnoPILaD is a pathology-informed latent diffusion model: a VLM (CONCH) selects normal-tissue keywords that condition an LDM's reconstruction toward normal morphology, and the input-vs-reconstruction discrepancy serves as an unsupervised anomaly score for lymph-node metastasis.",
-    "zh": "AnoPILaD:用病理关键词提示(CONCH 视觉-语言模型选词)引导潜空间扩散模型(Stable Diffusion v1.5 + LoRA)重建\"正常样\"淋巴结组织,再以重建差异作为异常分数,实现无监督的转移灶检测。"
+    "en": "AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 \"normal tissue\" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).",
+    "zh": "AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个\"正常组织关键词\"里挑出最贴切的 5 个作为提示,把输入\"重建成正常样子\",输入与重建的差异就是异常分;在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。"
    },
    "url": {
     "en": "../papers/histo-miccai-2025/",
@@ -365,8 +368,8 @@
     "A"
    ],
    "oneliner": {
-    "en": "A deep anomaly-detection model trained only on common findings (and normal tissue) detects the full long tail of rare gastrointestinal pathologies it never saw during training, reaching clinical-grade AUROCs on stomach and colon biopsies.",
-    "zh": "只用常见病(及正常组织)训练的深度异常检测模型,无需见过罕见病样本即可在胃、结肠活检中检出长尾罕见病变,达到临床级 AUROC。"
+    "en": "A deep anomaly-detection model trained only on \"frequent findings\" (normal tissue plus common diseases) of stomach and colon biopsies — best variant: Outlier Exposure — detects the long tail of 56 rarer entities it never saw, with slide-AUROC 95.0% (stomach) and 91.0% (colon), and transfers to a second hospital and scanner without retraining.",
+    "zh": "只用\"常见诊断\"(正常组织 + 常见病)的胃、结肠活检切片训练深度异常检测模型(最佳为 Outlier Exposure),不需要见过任何罕见病,就能检出长尾中的 56 种少见病变:slide-AUROC 胃 95.0%、结肠 91.0%,并可泛化到另一家医院和另一种扫描仪。"
    },
    "url": {
     "en": "../papers/histo-nejmai-2024/",
@@ -385,8 +388,8 @@
     "A"
    ],
    "oneliner": {
-    "en": "An open-source PyTorch repo from Boehringer Ingelheim that learns representations from healthy tissue only, then applies one-class classifiers to flag drug-induced histological anomalies in whole-slide images. Companion code to Zingman et al., *Medical Image Analysis* 2024.",
-    "zh": "Boehringer Ingelheim 开源的 PyTorch 代码库,只用「健康组织」训练表征,再用 one-class 分类器在组织病理全切片上检测药物毒性引起的异常改变。"
+    "en": "A PyTorch repository from Boehringer Ingelheim: a CNN is trained on healthy tissue from several species, organs and two stains (auxiliary classification + center-loss), then a one-class SVM is fit on healthy features of the target tissue to find drug-induced histological alterations in whole-slide images; companion paper: Zingman et al., *Medical Image Analysis* 2024.",
+    "zh": "Boehringer Ingelheim 的 PyTorch 代码库:先在多物种、多器官、两种染色的健康组织上训练 CNN(辅助分类任务 + center-loss),再在目标组织的健康特征上训练 one-class SVM,用来在全切片中找出药物引起的组织病理改变;配套论文为 Zingman et al., *Medical Image Analysis* 2024。"
    },
    "url": {
     "en": "../papers/histo-anomaly-bi-repo/",
@@ -853,6 +856,26 @@
    "url": {
     "en": "../papers/medianomaly-media-2025/",
     "zh": "../zh/papers/medianomaly-media-2025/"
+   }
+  },
+  "abnormality-radiology-arxiv-2024": {
+   "label": "Abnormality radiology (Ligero 2024)",
+   "title": "Abnormality-Driven Representation Learning for Radiology Imaging",
+   "year": 2024,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "type": "paper",
+   "category": "imaging",
+   "plans": [
+    "A"
+   ],
+   "oneliner": {
+    "en": "CLEAR treats a CT scan as a stack of 2D axial slices: a frozen encoder trained by self-supervised contrastive learning embeds each slice, and attention-based multiple-instance learning (ABMIL) aggregates them into a patient-level prediction; the proposed LeCL feeds lesion-centred crops to one encoder branch so that representations focus on abnormalities. With 22–36M-parameter models it matches or slightly beats BiomedCLIP on three tasks.",
+    "zh": "CLEAR 框架把 CT 当作一叠 2D 轴位切片:用自监督对比学习训练的编码器(冻结)给每张切片提特征,再用注意力多示例学习(ABMIL)聚合成病人级预测;其中提出的 LeCL 在对比学习中让一路编码器看到以病灶为中心的裁剪,使表征更关注异常。用约 2–4 千万参数的模型,在三项任务上与 BiomedCLIP 相当或略好。"
+   },
+   "url": {
+    "en": "../papers/abnormality-radiology-arxiv-2024/",
+    "zh": "../zh/papers/abnormality-radiology-arxiv-2024/"
    }
   },
   "pathology-ad-bench-mlhealth-2025": {
@@ -1424,7 +1447,7 @@
   }
  ],
  "stats": {
-  "papers": 46,
+  "papers": 47,
   "transfers": 35
  }
 }

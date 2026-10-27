@@ -6,44 +6,73 @@
 ---
 
 ## 一句话
-PathOmics 是 MICCAI 2023 Oral 论文的官方开源实现:一个"病理图像 + 基因组学"多模态 Transformer,用无监督多模态预训练学习融合表征,再有监督微调来预测癌症生存结局(survival outcome)。
+PathOmics 是 MICCAI 2023(Oral,README 称 top 9%)论文 "Pathology-and-genomics Multimodal Transformer for Survival Outcome Prediction" 的官方代码:先用无监督预训练把病理切片和基因组学(示例用 miRNA)的嵌入融合对齐,再有监督微调做癌症生存预测,微调时可以用双模态,也可以只用单一模态。
+
+## 要点
+- 两阶段:(a) 无监督多模态预训练得到图像嵌入和组学嵌入;(b) 多模态微调或 (c) 单模态微调,接风险分类器做生存预测(README Figure 1)。
+- 数据只涉及 TCGA-COAD 和 TCGA-READ(结肠癌、直肠癌);组学来自 cBioPortal 的 `coadread_tcga_pan_can_atlas_2018`,示例命令用 `--omic_modal 'miRNA'`(README "Usage")。
+- 图像特征由用户自行提取:切前景 patch,用 ImageNet 预训练 ResNet50/101 等提特征,每张切片存一个 .npz(README "Data preprocessing")。
+- README 不含任何数值结果,也不提供预训练权重;数值需看论文(https://rdcu.be/dnwKf)。
+- 额外价值:README 末尾维护了一张病理–基因组多模态方法文献表(读取时 48 条,2019–2025.12),带论文和代码链接。
 
 ## 研究问题
-癌症预后需要同时利用组织形态(WSI)与分子信息(基因组学),但两种模态尺度/维度差异大,且临床上常缺失某一模态。核心问题:如何在预训练阶段有效融合病理与基因组学,并让下游微调既能用多模态、也能在只剩单模态(如推断时只有病理图)时仍可用,从而提升生存预测的 C-index。
+README 只简要说明:要把病理图像和基因组数据融合来做预后(生存)预测,并让微调阶段"灵活处理多种数据",即有多模态预训练 backbone 后,多模态或单模态数据都能用于微调(README "Workflow overview")。我们的理解:后者对应临床上常见的缺模态情况(只有切片、没有测序)。
 
 ## 方法
-两阶段流程。(a) 无监督多模态预训练:WSI 切 patch → 用 ImageNet 预训练 ResNet50/101 提 patch 特征存为 .npz;基因组学(miRNA)取对应特征;通过多模态 Transformer 融合两模态生成对齐的图像/基因组嵌入(预训练损失用 MSE,支持在预训练中做 GAP 全局平均池化 `--use_GAP_in_pretrain_flag`)。(b)(c) 有监督微调:用预训练得到的多模态 backbone,对多模态或单模态数据做生存预测微调。融合方式默认 `concat`。支持 data-efficient 微调(`--less_data` + `--finetune_test_ratio`)与跨数据集迁移(COAD 预训练 → READ 微调)。
+(根据 README 文字、命令行参数和 Figure 1;论文正文未读)
+1. **图像预处理**:从 TCGA 下载 WSI,切成 patch 并只保留前景,用 ImageNet 预训练 ResNet50 / ResNet101 等提 patch 特征,每张切片一个 .npz(README;细节见 Issue 1 与 `split_tiles_utils/helper.py`)。
+2. **组学数据**:从 cBioPortal 下载 `coadread_tcga_pan_can_atlas_2018` 文件夹;示例用 miRNA。
+3. **预训练(Figure 1a)**:patch 分成 N 组,每组经 Feature Extractor → Attention Refiner → Image-wise Transformer → Image-wise GAP 得到图像嵌入;组学表格数据分成 N 组,每组经 SNN → Omics-wise Transformer → Omics-wise GAP 得到组学嵌入;两个嵌入在预训练中对齐融合。图中 GAP 指 Global attention pooling。示例命令的预训练损失为 `--pretrain_loss 'MSE'`,融合方式 `concat`。
+4. **微调(Figure 1b–c)**:多模态时,图像嵌入 + 组学嵌入 → Multimodal Embedding Fusion → Risk Classifier → 生存预测;单模态时,只用一个嵌入 → Risk Classifier → 生存预测。
+5. **实验设置**:TCGA-COAD 上 4 折交叉验证预训练和微调,在 COAD 留出集评估;或在 COAD 上预训练(5 折),在 TCGA-READ 上微调、验证和评估;`--less_data` + `--finetune_test_ratio` 做少数据微调;示例中预训练和微调各 25 epoch。
+
+## 方法图
+```mermaid
+flowchart LR
+  A["TCGA WSI patches<br/>ResNet features"] --> B["Attention refiner +<br/>image-wise transformer + GAP"]
+  C["Omics table<br/>miRNA groups"] --> D["SNN +<br/>omics-wise transformer + GAP"]
+  B --> E["Unsupervised alignment<br/>pretrain loss MSE"]
+  D --> E
+  E --> F["Finetune multimodal<br/>or single-modal"]
+  F --> G["Risk classifier<br/>survival prediction"]
+```
 
 ## 数据
-TCGA-COAD(结肠腺癌)与 TCGA-READ(直肠腺癌)。影像模态为 WSI(需自行从 TCGA 下载、切 patch、提特征);基因组学为 miRNA,来自 cBioPortal 的 `coadread_tcga_pan_can_atlas_2018`。COAD 内部用 4 折交叉验证 + hold-out;COAD→READ 迁移用 5 折。仓库不含原始数据与切片特征,需按预处理步骤自行生成。
+TCGA-COAD(结肠腺癌)和 TCGA-READ(直肠腺癌)的 WSI(用户自行下载);组学来自 cBioPortal `coadread_tcga_pan_can_atlas_2018`,示例用 miRNA。仓库不含原始数据或提取好的特征。README 没有给出病例数。
 
 ## 主要结果
-README 未列出具体 C-index 数值(需查论文 https://rdcu.be/dnwKf)。可确认的定性结论:该方法在 MICCAI 2023 被评为 Oral(top 9%),核心卖点是多模态预训练 backbone 使得下游即使单模态输入也能获得可用的生存预测性能,并支持跨癌种迁移(COAD→READ)与 data-efficient 微调。(具体指标以论文为准 / numeric C-index not in README.)
+README 没有列出任何数值结果(无 C-index、无对比表)。README 中能确认的只有:论文被 MICCAI 2023 接收为 Oral,并标注 "top 9%"(仓库描述与 README 开头)。具体指标需读论文(https://rdcu.be/dnwKf,MICCAI 2023,pp. 622–631)。
 
 ## 创新点
-- 用无监督多模态预训练对齐病理与基因组学嵌入,得到可迁移的融合 backbone。
-- 微调阶段"模态灵活":多模态或单模态输入都可用,缓解临床缺模态问题。
-- 提供跨数据集迁移(COAD→READ)与 data-efficient 微调选项;附带 45+ 篇病理-基因组学多模态方法的持续更新文献表。
+- (按 README)用无监督预训练融合病理和基因组嵌入,得到可复用的多模态 backbone。
+- (按 README)微调阶段可用双模态或单模态,支持缺模态。
+- (按 README)提供跨数据集(COAD 预训练 → READ 微调)和少数据微调选项。
+- 持续更新的病理–基因组多模态方法文献表(48 条)。
 
 ## 局限
-- 仅在结直肠癌(COAD/READ)+ miRNA 上验证,泛化到其它癌种/组学未在仓库展示。
-- 特征提取依赖旧的 ImageNet-ResNet(非病理基础模型如 UNI/CONCH),表征上限受限。
-- 任务是生存预测,非异常检测/空间定位;README 无数值结果、无预训练 checkpoint,复现需自行下载 TCGA 并跑完整预处理。
+- 我们的理解:README 只覆盖 TCGA 结直肠癌 + miRNA,无其他癌种或组学的示例。
+- 我们的理解:推荐用 ImageNet 预训练的 ResNet 提特征,而不是病理基础模型(如 UNI、CONCH);换成更强的编码器可能有提升,但未经验证。
+- 我们的理解:README 无数值结果、无预训练权重(`--load_model_finetune` 需要你自己先训好保存),复现要从下载 TCGA、切片、提特征开始。
+- 我们的理解:任务是 slide/患者级生存预测,不做空间定位,也不做异常检测或扰动。
 
 ## 与本研究方向的关系
-处在"virtual tissue / 多模态表征建模"这一环,而非 anomaly detection 或 gene-revert 环。价值在于它提供了一个"病理图像 ⟷ 基因组学"配对与融合的完整工程范式:如何把 WSI patch 特征与分子特征在同一 Transformer 里对齐,得到可迁移嵌入。对我们的 virtual tissue 建模而言,这套多模态预训练+模态灵活微调的思路可直接借用——尤其"缺模态仍可推断"契合真实空间组学常缺配对基因表达的场景。但它不做扰动/异常建模,也不预测"哪个基因被调控能逆转异常";要对接 gene-revert 环,需把其融合表征改造成对扰动敏感的、可反事实生成的模型。可复用为 baseline / 表征对齐组件,而非现成的 revert 引擎。
+处在"组织表征 / 多模态建模"这一环,与检测和回复环关系不大。
+- 我们的理解:它提供了"病理图像嵌入 ⟷ 组学嵌入"预训练对齐、再允许单模态推理的工程范式。肾脏 Topic 1 有 H&E、snRNA、snATAC、Xenium 多种模态,但并非每个样本都有全部模态;这种"多模态预训练 + 单模态可用"的思路可以借来,让只有 H&E 的样本也能用上多模态学到的表示。
+- 我们的理解:如果要用于"模态之间不一致即异常"的检测思路,需要把它从 slide 级生存预测改成空间分辨(spot / 细胞级)的对齐,并设计不一致分数——仓库本身不提供这些。
+- 我们的理解:README 的文献表是快速了解病理–基因组融合方法(PORPOISE、MCAT、SurvPath、TANGLE、POMP 等)的入口。
+- 相关性 medium:结直肠癌 TCGA,不涉及肾脏和空间组学。
 
 ## 可复用资产
-- 代码 / Code: <https://github.com/Cassie07/PathOmics> — `bash_main.py`(COAD)、`bash_main_read.py`(COAD→READ 迁移)、`split_tiles_utils/helper.py`(切 patch + 提特征)。
-- 数据 / Data: TCGA-COAD/READ WSIs;基因组学 miRNA 来自 cBioPortal `coadread_tcga_pan_can_atlas_2018`。仓库不含预处理产物。
-- 评测协议 / Eval protocol: COAD 4 折 CV + hold-out;COAD→READ 5 折迁移;data-efficient 微调 (`--less_data`,`--finetune_test_ratio`)。生存预测用 scikit-survival(C-index 类指标)。
-- 文献表 / Lit table: 仓库末尾 45+ 篇病理-基因组学多模态方法(PORPOISE、MCAT、SurvPath、TANGLE、MOTCat、CMTA、POMP 等)带代码链接,可作调研入口。
-- Checkpoint: README 未提供公开预训练权重(`--load_model_finetune` 假定你自己已训练保存)。
+- **代码**:`bash_main.py`(TCGA-COAD)、`bash_main_read.py`(COAD → READ)、`split_tiles_utils/helper.py`(切 patch 与提特征);环境 Python 3.8.18、PyTorch 2.0.1、scikit-survival 0.21.0 等。
+<https://github.com/Cassie07/PathOmics>
+- **数据**:TCGA-COAD / READ WSI;cBioPortal `coadread_tcga_pan_can_atlas_2018`。
+<https://www.cbioportal.org/>
+- **权重**:README 未提供。
+- **文献表**:README 末尾 48 条病理–基因组多模态方法,带论文和代码链接。
 
 ## 待读
-- 读原论文 https://rdcu.be/dnwKf,拿到具体 C-index 与消融(单模态 vs 多模态、GAP、融合方式)。
-- 对比 SurvPath / TANGLE(CVPR 2024)——用 pathway / transcriptomics 引导的更强表征,评估替换 ResNet 特征为病理基础模型(UNI/CONCH)的收益。
-- 评估把其融合嵌入接入我们的 anomaly-detection / counterfactual gene-revert 流程的可行性。
+- 读 MICCAI 2023 论文正文,拿到 C-index 和消融(单模态 vs 多模态、融合方式、少数据)。
+- 从文献表挑 SurvPath、TANGLE(均 CVPR 2024,mahmoodlab)对照,看通路/转录组引导的表示是否更适合与空间组学对接。
 
 ## 图表
 

@@ -20,9 +20,9 @@ tags:
 
 # Enhancing EHR-based pancreatic cancer prediction with LLM-derived embeddings
 
-> In a CancerRiskNet-style pancreatic cancer trajectory Transformer, replace randomly initialized code embeddings with LLM text embeddings of OMOP concept names (OpenAI text-embedding-3-small): on two US institutional EHRs — Columbia (CUMC) and Cedars-Sinai (CSMC) — 6–12-month AUROC rises from 0.59/0.82 to 0.67/0.86, and to 0.82/0.89 once data from the 0–3 months before diagnosis are excluded.
+> In a CancerRiskNet-style pancreatic cancer (PC) trajectory Transformer, randomly initialized code embeddings are replaced with LLM text embeddings of OMOP concept names (OpenAI text-embedding-3-small). On EHRs from two US hospitals, Columbia (CUMC) and Cedars-Sinai (CSMC), 6–12-month-ahead AUROC rises from 0.60/0.82 to 0.67/0.86, and reaches 0.82/0.89 after excluding data from the 0–3 months before diagnosis (Abstract; Table 2).
 
-> 在 CancerRiskNet 式的胰腺癌轨迹 Transformer 里,把随机初始化的诊断码嵌入换成LLM 对 OMOP 概念名称的文本嵌入(OpenAI text-embedding-3-small),在 Columbia(CUMC)与 Cedars-Sinai(CSMC)两家美国院内 EHR 上,6–12 个月预测 AUROC 分别从 0.59/0.82 提升到 0.67/0.86;再排除确诊前 0–3 个月数据,升到 0.82/0.89。
+> 在 CancerRiskNet 式的胰腺癌(PC)轨迹 Transformer 中,把随机初始化的诊断码嵌入换成 LLM 对 OMOP 概念名称的文本嵌入(OpenAI text-embedding-3-small);在 Columbia(CUMC)与 Cedars-Sinai(CSMC)两家美国医院的 EHR 上,确诊前 6–12 个月预测 AUROC 由 0.60/0.82 升到 0.67/0.86,再排除确诊前 0–3 个月数据后为 0.82/0.89(Abstract;Table 2)。
 
 ## Related papers / 相关论文
 - [[_maps/papers/ehr-pancreatic-trajectory-natmed-2023|Pancreatic cancer trajectories]] — cites

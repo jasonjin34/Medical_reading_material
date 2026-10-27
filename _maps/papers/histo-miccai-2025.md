@@ -22,9 +22,9 @@ tags:
 
 # Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis
 
-> AnoPILaD is a pathology-informed latent diffusion model: a VLM (CONCH) selects normal-tissue keywords that condition an LDM's reconstruction toward normal morphology, and the input-vs-reconstruction discrepancy serves as an unsupervised anomaly score for lymph-node metastasis.
+> AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 "normal tissue" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).
 
-> AnoPILaD:用病理关键词提示(CONCH 视觉-语言模型选词)引导潜空间扩散模型(Stable Diffusion v1.5 + LoRA)重建"正常样"淋巴结组织,再以重建差异作为异常分数,实现无监督的转移灶检测。
+> AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个"正常组织关键词"里挑出最贴切的 5 个作为提示,把输入"重建成正常样子",输入与重建的差异就是异常分;在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。
 
 ## Related papers / 相关论文
 - [[_maps/papers/counterfactual-diffusion-cancerres-2026|Counterfactual diffusion]] — diffusion on histopathology
@@ -35,6 +35,7 @@ tags:
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — diffusion-based AD
 
 ## Concepts / 概念
+- [[_maps/concepts/expert-validation|Expert validation]]
 - [[_maps/concepts/ood-detection|OOD / novelty detection]]
 
 ## Deep-read / 精读

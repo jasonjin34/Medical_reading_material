@@ -34,7 +34,8 @@ tags:
 - [[_maps/papers/biomnibench-biorxiv-2026|BiomniBench]] — cites
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — cites
 - [[_maps/papers/dkd-spatial-atlas-nature-2026|DKD spatial atlas]] — spatial niches
-- [[_maps/papers/fev-bioinformatics-agents-arxiv-2026|FEV review]] — bio agent review
+- [[_maps/papers/fev-bioinformatics-agents-arxiv-2026|FEV review]] — cites
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — cites
 - [[_maps/papers/xenium-split-natmethods-2026|Xenium contamination (SPLIT)]] — Xenium data
 
 ## Concepts / 概念

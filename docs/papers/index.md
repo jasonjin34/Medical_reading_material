@@ -39,7 +39,7 @@ Background first? See **[Onboarding](../onboarding/index.md)**. Across papers: *
 | [Deep generative modeling of sample-level heterogeneity in single-cell genomics](mrvi-natmethods-2025/index.md) | Single-cell | medium | open |
 | [Benchmarking single-cell multi-modal data integrations](multimodal-integration-bench-natmethods-2025/index.md) | Single-cell | medium | paywall |
 | [Robust annotation and discovery of novel cell types in single-cell ATAC-seq data through cross-modal reference alignment](scatac-novel-genomeres-2026/index.md) | Single-cell | medium | paywall |
-| [Conditional Monge Gap enables generalizable single-cell perturbation modelling](scrna-natmachintell-2026/index.md) | Single-cell | medium | paywall |
+| [Conditional Monge Gap enables generalizable single-cell perturbation modelling](scrna-natmachintell-2026/index.md) | Single-cell | medium | open |
 | [Spatial atlas of diabetic kidney disease reveals a B cell-rich subgroup](dkd-spatial-atlas-nature-2026/index.md) ★ | Spatial transcriptomics | high | open |
 | [An atlas of healthy and injured cell states and niches in the human kidney](lake-kidney-atlas-nature-2023/index.md) ★ | Spatial transcriptomics | high | open |
 | [A visual–omics foundation model to bridge histopathology with spatial transcriptomics](loki-omiclip-natmethods-2025/index.md) ★ | Spatial transcriptomics | high | open |
@@ -67,12 +67,13 @@ Background first? See **[Onboarding](../onboarding/index.md)**. Across papers: *
 | [HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis](hest1k-2024/index.md) | Foundation models | medium | open |
 | [Nicheformer: a foundation model for single-cell and spatial omics](nicheformer-natmethods-2025/index.md) | Foundation models | medium | open |
 | [MahmoodLab/UNI2-h](uni2-h-model/index.md) | Foundation models | medium | open |
-| [A foundation model for clinical-grade computational pathology and rare cancers detection](virchow-2024/index.md) | Foundation models | medium | paywall |
+| [A foundation model for clinical-grade computational pathology and rare cancers detection](virchow-2024/index.md) | Foundation models | medium | open |
 | [A Deep Learning-Based Pathomics Methodology for Quantifying and Characterizing Nucleated Cells in the Bone Marrow Microenvironment](pathomics-blood-2023/index.md) | Pathology | medium | abstract-only |
-| [Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study](pathomics-npjpo-2026/index.md) | Pathology | medium | paywall |
+| [Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study](pathomics-npjpo-2026/index.md) | Pathology | medium | open |
 | [Cassie07/PathOmics](pathomics-repo/index.md) | Pathology | medium | open |
-| [An ECG biomarker for sudden cardiac death discovered with deep learning](imaging-nature-2026/index.md) ★ | Imaging | high | paywall |
-| [An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study](imaging-ehjdh-2026/index.md) | Imaging | medium | paywall |
+| [An ECG biomarker for sudden cardiac death discovered with deep learning](imaging-nature-2026/index.md) ★ | Imaging | high | open |
+| [Abnormality-Driven Representation Learning for Radiology Imaging](abnormality-radiology-arxiv-2024/index.md) | Imaging | medium | open |
+| [An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study](imaging-ehjdh-2026/index.md) | Imaging | medium | open |
 | [MedIAnomaly: A comparative study of anomaly detection in medical images](medianomaly-media-2025/index.md) | Imaging | medium | paywall |
 | [Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons](nih-kidney-ai-challenge-2026/index.md) ★ | Competitions | high | open |
 | [Virtual Cell Challenge](virtual-cell-challenge/index.md) | Competitions | medium | open |
@@ -106,6 +107,7 @@ Background first? See **[Onboarding](../onboarding/index.md)**. Across papers: *
 | [BioML-bench: Evaluation of AI Agents for End-to-End Biomedical ML](bioml-bench-biorxiv-2025/index.md) | Biomedical agents & evaluation | medium | open |
 | [DeepTRACE: Auditing Deep Research AI Systems for Tracking Reliability Across Citations and Evidence](deeptrace-arxiv-2025/index.md) | Biomedical agents & evaluation | medium | open |
 | [What Proves You Wrong: Benchmarking Language Models on Falsifiable Research Ideation](falsifiable-ideation-arxiv-2026/index.md) | Biomedical agents & evaluation | medium | open |
+| [AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy](gpnmb-cart-cell-2026/index.md) | Biomedical agents & evaluation | medium | paywall |
 | [HeurekaBench: A Benchmarking Framework for AI Co-scientist](heurekabench-arxiv-2026/index.md) | Biomedical agents & evaluation | medium | open |
 | [Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation](holistic-agent-leaderboard-iclr-2026/index.md) | Biomedical agents & evaluation | medium | open |
 | [The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas](ideation-execution-gap-arxiv-2025/index.md) | Biomedical agents & evaluation | medium | open |
@@ -117,6 +119,7 @@ Background first? See **[Onboarding](../onboarding/index.md)**. Across papers: *
 | [Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep Research Agents](reference-hallucination-arxiv-2026/index.md) | Biomedical agents & evaluation | medium | open |
 | [SciTrace: Trajectory-Aware Safety Reasoning for Scientific Discovery Agents](scitrace-arxiv-2026/index.md) | Biomedical agents & evaluation | medium | open |
 | [TRAIL: Trace Reasoning and Agentic Issue Localization](trail-arxiv-2025/index.md) | Biomedical agents & evaluation | medium | open |
+| [The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development](virtual-biotech-biorxiv-2026/index.md) | Biomedical agents & evaluation | medium | open |
 | [The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies](virtual-lab-nature-2025/index.md) | Biomedical agents & evaluation | medium | paywall |
 | [Learning the natural history of human disease with generative transformers](ehr-delphi2m-nature-2025/index.md) ★ | EHR & patient trajectories | high | open |
 | [A deep learning algorithm to predict risk of pancreatic cancer from disease trajectories](ehr-pancreatic-trajectory-natmed-2023/index.md) ★ | EHR & patient trajectories | high | open |

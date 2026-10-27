@@ -103,7 +103,7 @@
     "A3",
     "A0"
    ],
-   "count": 24,
+   "count": 25,
    "papers": [
     "meatrd-aaai-2025",
     "refmap-eval-biorxiv-2025",
@@ -120,6 +120,7 @@
     "conformal-scrna-bioinformatics-2025",
     "mrvi-natmethods-2025",
     "spatial-natcommun-2024",
+    "abnormality-radiology-arxiv-2024",
     "cflow-ad-wacv-2022",
     "diffusion-medical-ad-miccai-2022",
     "draem-iccv-2021",
@@ -220,7 +221,7 @@
     "zh": "通用异常检测方法"
    },
    "code": "A0",
-   "count": 15,
+   "count": 16,
    "x": 0,
    "y": 0
   },
@@ -428,6 +429,35 @@
    "y": 394
   },
   {
+   "id": "abnormality-radiology-arxiv-2024",
+   "kind": "paper",
+   "parent": "group:A0",
+   "label": "Abnormality radiology (Ligero 2024)",
+   "title": "Abnormality-Driven Representation Learning for Radiology Imaging",
+   "year": 2024,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "A"
+   ],
+   "track0": "A0",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "CLEAR treats a CT scan as a stack of 2D axial slices: a frozen encoder trained by self-supervised contrastive learning embeds each slice, and attention-based multiple-instance learning (ABMIL) aggregates them into a patient-level prediction; the proposed LeCL feeds lesion-centred crops to one encoder branch so that representations focus on abnormalities. With 22–36M-parameter models it matches or slightly beats BiomedCLIP on three tasks.",
+    "zh": "CLEAR 框架把 CT 当作一叠 2D 轴位切片:用自监督对比学习训练的编码器(冻结)给每张切片提特征,再用注意力多示例学习(ABMIL)聚合成病人级预测;其中提出的 LeCL 在对比学习中让一路编码器看到以病灶为中心的裁剪,使表征更关注异常。用约 2–4 千万参数的模型,在三项任务上与 BiomedCLIP 相当或略好。"
+   },
+   "url": {
+    "en": "../papers/abnormality-radiology-arxiv-2024/",
+    "zh": "../zh/papers/abnormality-radiology-arxiv-2024/"
+   },
+   "x": 0,
+   "y": 448
+  },
+  {
    "id": "cflow-ad-wacv-2022",
    "kind": "paper",
    "parent": "group:A0",
@@ -454,7 +484,7 @@
     "zh": "../zh/papers/cflow-ad-wacv-2022/"
    },
    "x": 0,
-   "y": 448
+   "y": 502
   },
   {
    "id": "diffusion-medical-ad-miccai-2022",
@@ -483,7 +513,7 @@
     "zh": "../zh/papers/diffusion-medical-ad-miccai-2022/"
    },
    "x": 0,
-   "y": 502
+   "y": 556
   },
   {
    "id": "draem-iccv-2021",
@@ -512,7 +542,7 @@
     "zh": "../zh/papers/draem-iccv-2021/"
    },
    "x": 0,
-   "y": 556
+   "y": 610
   },
   {
    "id": "padim-icpr-2020",
@@ -541,7 +571,7 @@
     "zh": "../zh/papers/padim-icpr-2020/"
    },
    "x": 0,
-   "y": 610
+   "y": 664
   },
   {
    "id": "energy-ood-neurips-2020",
@@ -570,7 +600,7 @@
     "zh": "../zh/papers/energy-ood-neurips-2020/"
    },
    "x": 0,
-   "y": 664
+   "y": 718
   },
   {
    "id": "mvtec-ad-cvpr-2019",
@@ -599,7 +629,7 @@
     "zh": "../zh/papers/mvtec-ad-cvpr-2019/"
    },
    "x": 0,
-   "y": 718
+   "y": 772
   },
   {
    "id": "anogan-ipmi-2017",
@@ -628,7 +658,7 @@
     "zh": "../zh/papers/anogan-ipmi-2017/"
    },
    "x": 0,
-   "y": 772
+   "y": 826
   },
   {
    "id": "msp-ood-iclr-2017",
@@ -657,7 +687,7 @@
     "zh": "../zh/papers/msp-ood-iclr-2017/"
    },
    "x": 0,
-   "y": 826
+   "y": 880
   },
   {
    "id": "group:A1",
@@ -1457,8 +1487,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics framework that detects, aligns, and subtypes anomalous tissue domains (ATDs) de novo — training a reconstruction model on normal tissue only and flagging high-reconstruction-error spots — without predefined anomaly markers.",
-    "zh": "STANDS 是一个基于 GAN 的多样本空间转录组框架,以\"只见过正常组织\"的重构模型做异常检测,再对齐、再聚类,de novo 地识别并解剖疾病导致的异常组织域(ATD),无需预设 marker。"
+    "en": "STANDS is a GAN-based multi-sample spatial-transcriptomics (ST) framework: it learns to reconstruct normal spots from a \"normal\" reference section, flags poorly reconstructed spots in target sections as anomalous tissue domains (ATDs), aligns several samples into the reference space, and clusters the anomalies into subtypes that are shared across samples or sample-specific — without any predefined anomaly marker genes.",
+    "zh": "STANDS 是一套基于 GAN 的多样本空间转录组(ST)框架:先在\"正常\"参考切片上学会重建正常 spot,把重建得差的 spot 标为异常组织域(ATD);再把多个样本对齐到参考空间;最后把异常聚成\"跨样本共享 / 样本特有\"的亚型——全程不需要预先给出异常 marker 基因。"
    },
    "url": {
     "en": "../papers/spatial-natcommun-2024/",
@@ -1614,8 +1644,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "HEST-1k is a large, multi-organ, cross-species dataset that aligns 1,229 spatial-transcriptomics (ST) profiles with paired H&E whole-slide images (WSIs) and rich metadata, shipped with the HEST-Library toolkit and HEST-Benchmark for training/evaluating pathology foundation models on morphology-to-expression prediction.",
-    "zh": "HEST-1k 是一个大规模、多器官、跨物种的数据集,把 1,229 个空间转录组(ST)profile 与配对的 H&E 全切片图像(WSI)及丰富元数据对齐,并配套 HEST-Library 工具包与 HEST-Benchmark,用于训练/评测\"从形态学预测基因表达\"的病理基础模型。"
+    "en": "HEST-1k unifies 1,229 spatial-transcriptomics (ST) samples from 153 public and internal cohorts into one format — H&E whole-slide image + aligned spot-level expression + metadata — and ships the HEST-Library Python package and HEST-Benchmark, which scores 11 pathology foundation models on predicting gene expression from H&E patches across 9 tasks (Abstract, §1).",
+    "zh": "HEST-1k 把 153 个公开与内部队列中的 1,229 个空间转录组(ST)样本统一成\"H&E 全切片 + 对齐的 spot 表达矩阵 + 元数据\"的标准格式,配套 Python 工具包 HEST-Library 和\"从 H&E patch 预测基因表达\"的 HEST-Benchmark(9 个任务、11 个病理基础模型)(Abstract, §1)。"
    },
    "url": {
     "en": "../papers/hest1k-2024/",
@@ -1655,8 +1685,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "PathBench evaluates 32 foundation models — general vision (VM), general vision-language (VLM), pathology-specific vision (Path-VM) and pathology-specific vision-language (Path-VLM) — under one standardized frozen-feature + linear-probing protocol across 41 tasks, 53 datasets and >17,500 whole-slide images. Path-VMs lead, Path-VLMs lag, neither model size nor pretraining scale consistently predicts downstream performance, and late decision-level ensembling further improves robustness across datasets.",
-    "zh": "PathBench 把 32 个基础模型(通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM)放进同一套「冻结特征 + linear probing」协议,在 41 个任务、53 个数据集、17,500+ 张全切片上统一评测,结论是:Path-VM 最强、Path-VLM 反而落后、模型规模与预训练数据量都不能稳定预测下游表现,而后期决策级集成能进一步提升跨数据集稳健性。"
+    "en": "This Stanford (Gevaert lab) benchmark evaluates 32 foundation models in four categories — general vision (VM), general vision-language (VLM), pathology vision (Path-VM) and pathology vision-language (Path-VLM) — all frozen with only a linear probe trained, on 41 tasks, 53 datasets and >17,500 WSIs. Path-VMs lead but differences among the top models are mostly non-significant, Path-VMs beat Path-VLMs, neither model size nor pretraining data size consistently predicts downstream performance, and majority-vote ensembling improves aggregate performance (Abstract).",
+    "zh": "这篇 Stanford(Gevaert 组)的 benchmark 把 32 个基础模型分成四类——通用视觉 VM、通用视觉-语言 VLM、病理专用视觉 Path-VM、病理专用视觉-语言 Path-VLM——全部冻结、只训 linear probe,在 41 个任务、53 个数据集、17,500+ 张 WSI 上统一评测:Path-VM 稳居前列但头部模型之间差异多不显著,Path-VM 优于 Path-VLM,模型规模和预训练数据量都不能稳定预测下游表现,多数投票集成在总体上进一步提升(Abstract)。"
    },
    "url": {
     "en": "../papers/pathbench-natcommun-2026/",
@@ -1800,8 +1830,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "Virchow is a 632M-parameter ViT-H/14 pathology foundation model self-supervised (DINOv2) on 1.5M whole-slide images, serving as a frozen tile-level backbone for pan-cancer detection, biomarker prediction, and cell identification.",
-    "zh": "Virchow 是一个在 150 万张全切片图像(WSI)上用 DINOv2 自监督预训练的 632M 参数 ViT-H/14 病理基础模型,可作为冻结的 tile 级特征骨干,支撑泛癌检测、生物标志物预测与细胞识别等下游任务。"
+    "en": "Virchow is a 632M-parameter ViT-H/14 pathology foundation model trained by Paige and Microsoft Research with DINOv2 self-supervision on ~1.5M H&E whole-slide images (WSIs) from MSKCC; an aggregator trained on its frozen tile embeddings performs pan-cancer detection across 16 cancer types with specimen-level AUC 0.950, and 0.937 on the 7 rare cancers (Abstract; Fig. 2b–c).",
+    "zh": "Virchow 是 Paige 与 Microsoft Research 用 DINOv2 自监督在 MSKCC 约 150 万张 H&E 全切片(WSI)上训练的 632M 参数 ViT-H/14 病理基础模型;在它的冻结 tile 嵌入上训练一个聚合器,就能做跨 16 种癌的\"泛癌检测\",标本级 AUC 0.950,其中 7 种罕见癌 AUC 0.937(Abstract;Fig. 2b–c)。"
    },
    "url": {
     "en": "../papers/virchow-2024/",
@@ -1829,8 +1859,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "UNI2-h is Mahmood Lab's histopathology foundation model: a ViT-H/14 backbone self-supervised with DINOv2 on 200M+ H&E/IHC tiles, turning a 224×224 tissue patch into a 1536-dim embedding usable as a frozen feature extractor for downstream classification, retrieval and MIL.",
-    "zh": "UNI2-h 是 Mahmood Lab 发布的病理学视觉基础模型:一个用 DINOv2 自监督、在 3 亿+ H&E/IHC 图块上预训练的 ViT-H/14 backbone,把 224×224 组织学 patch 编码成 1536 维特征,可直接作为下游分类/检索/MIL 的冻结特征提取器。"
+    "en": "UNI2-h is a pathology vision foundation model from the Mahmood Lab (Harvard / BWH): a 681M-parameter custom ViT-H/14 trained with the DINOv2 recipe on 200M+ H&E and IHC tiles from Mass General Brigham, mapping a 224×224 tissue tile to a 1,536-dim feature for frozen downstream use (model card §\"Model Description\", §\"Training Details\").",
+    "zh": "UNI2-h 是 Mahmood Lab(Harvard / BWH)发布的病理视觉基础模型:一个 681M 参数的定制 ViT-H/14,用 DINOv2 配方在 Mass General Brigham 的 2 亿+ 个 H&E 与 IHC 图块上自监督训练,把 224×224 组织图块编码为 1,536 维特征,供下游冻结使用(model card §\"Model Description\"、§\"Training Details\")。"
    },
    "url": {
     "en": "../papers/uni2-h-model/",
@@ -1918,7 +1948,7 @@
    "year": 2024,
    "venue": "NEJM AI",
    "relevance": "high",
-   "status": "abstract-only",
+   "status": "complete",
    "type": "paper",
    "plans": [
     "A"
@@ -1928,8 +1958,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "A deep anomaly-detection model trained only on common findings (and normal tissue) detects the full long tail of rare gastrointestinal pathologies it never saw during training, reaching clinical-grade AUROCs on stomach and colon biopsies.",
-    "zh": "只用常见病(及正常组织)训练的深度异常检测模型,无需见过罕见病样本即可在胃、结肠活检中检出长尾罕见病变,达到临床级 AUROC。"
+    "en": "A deep anomaly-detection model trained only on \"frequent findings\" (normal tissue plus common diseases) of stomach and colon biopsies — best variant: Outlier Exposure — detects the long tail of 56 rarer entities it never saw, with slide-AUROC 95.0% (stomach) and 91.0% (colon), and transfers to a second hospital and scanner without retraining.",
+    "zh": "只用\"常见诊断\"(正常组织 + 常见病)的胃、结肠活检切片训练深度异常检测模型(最佳为 Outlier Exposure),不需要见过任何罕见病,就能检出长尾中的 56 种少见病变:slide-AUROC 胃 95.0%、结肠 91.0%,并可泛化到另一家医院和另一种扫描仪。"
    },
    "url": {
     "en": "../papers/histo-nejmai-2024/",
@@ -1986,8 +2016,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "AnoPILaD is a pathology-informed latent diffusion model: a VLM (CONCH) selects normal-tissue keywords that condition an LDM's reconstruction toward normal morphology, and the input-vs-reconstruction discrepancy serves as an unsupervised anomaly score for lymph-node metastasis.",
-    "zh": "AnoPILaD:用病理关键词提示(CONCH 视觉-语言模型选词)引导潜空间扩散模型(Stable Diffusion v1.5 + LoRA)重建\"正常样\"淋巴结组织,再以重建差异作为异常分数,实现无监督的转移灶检测。"
+    "en": "AnoPILaD fine-tunes a text-conditioned latent diffusion model (Stable Diffusion v1.5 + LoRA) on normal lymph-node patches only; at inference the pathology vision-language model CONCH picks the 5 best-matching of 74 \"normal tissue\" keywords as a prompt, the input is reconstructed toward normal, and the input–reconstruction difference is the anomaly score — patch AUC 0.9587 on gastric lymph nodes and 0.8884 cross-organ on breast lymph nodes (Camelyon16).",
+    "zh": "AnoPILaD:只用正常淋巴结图块微调一个文本条件的潜空间扩散模型(Stable Diffusion v1.5 + LoRA),推理时用病理视觉-语言模型 CONCH 从 74 个\"正常组织关键词\"里挑出最贴切的 5 个作为提示,把输入\"重建成正常样子\",输入与重建的差异就是异常分;在胃淋巴结上 patch-AUC 0.9587,跨器官到乳腺淋巴结(Camelyon16)仍有 0.8884。"
    },
    "url": {
     "en": "../papers/histo-miccai-2025/",
@@ -2044,8 +2074,8 @@
    "bridge": false,
    "recommended_by": "sikander",
    "oneliner": {
-    "en": "An open-source PyTorch repo from Boehringer Ingelheim that learns representations from healthy tissue only, then applies one-class classifiers to flag drug-induced histological anomalies in whole-slide images. Companion code to Zingman et al., *Medical Image Analysis* 2024.",
-    "zh": "Boehringer Ingelheim 开源的 PyTorch 代码库,只用「健康组织」训练表征,再用 one-class 分类器在组织病理全切片上检测药物毒性引起的异常改变。"
+    "en": "A PyTorch repository from Boehringer Ingelheim: a CNN is trained on healthy tissue from several species, organs and two stains (auxiliary classification + center-loss), then a one-class SVM is fit on healthy features of the target tissue to find drug-induced histological alterations in whole-slide images; companion paper: Zingman et al., *Medical Image Analysis* 2024.",
+    "zh": "Boehringer Ingelheim 的 PyTorch 代码库:先在多物种、多器官、两种染色的健康组织上训练 CNN(辅助分类任务 + center-loss),再在目标组织的健康特征上训练 one-class SVM,用来在全切片中找出药物引起的组织病理改变;配套论文为 Zingman et al., *Medical Image Analysis* 2024。"
    },
    "url": {
     "en": "../papers/histo-anomaly-bi-repo/",
@@ -2069,7 +2099,7 @@
    "home": "group:A1",
    "slot": 0,
    "x": 270,
-   "y": 990
+   "y": 1044
   },
   {
    "id": "concept:disease-cell-state",
@@ -2086,7 +2116,7 @@
    "home": "group:A1",
    "slot": 1,
    "x": 270,
-   "y": 1036
+   "y": 1090
   },
   {
    "id": "concept:damage-score",
@@ -2103,7 +2133,7 @@
    "home": "group:A1",
    "slot": 2,
    "x": 270,
-   "y": 1082
+   "y": 1136
   },
   {
    "id": "concept:doublet",
@@ -2120,7 +2150,7 @@
    "home": "group:A2",
    "slot": 0,
    "x": 540,
-   "y": 990
+   "y": 1044
   },
   {
    "id": "concept:ambient-rna",
@@ -2137,7 +2167,7 @@
    "home": "group:A2",
    "slot": 1,
    "x": 540,
-   "y": 1036
+   "y": 1090
   },
   {
    "id": "concept:segmentation-error",
@@ -2154,7 +2184,7 @@
    "home": "group:A2",
    "slot": 2,
    "x": 540,
-   "y": 1082
+   "y": 1136
   },
   {
    "id": "concept:spillover",
@@ -2171,7 +2201,7 @@
    "home": "group:A2",
    "slot": 3,
    "x": 540,
-   "y": 1128
+   "y": 1182
   },
   {
    "id": "concept:batch-effect",
@@ -2188,7 +2218,7 @@
    "home": "group:A3",
    "slot": 0,
    "x": 810,
-   "y": 990
+   "y": 1044
   },
   {
    "id": "concept:ood-detection",
@@ -2201,11 +2231,11 @@
     "en": "Flagging inputs that fall outside the data distribution a model was trained on, such as an unseen drug, cell context, or diseased tissue.",
     "zh": "标记落在模型训练分布之外的输入,如未见过的药物、细胞语境或病变组织。"
    },
-   "count": 2,
+   "count": 3,
    "home": "group:A3",
    "slot": 1,
    "x": 810,
-   "y": 1036
+   "y": 1090
   },
   {
    "id": "concept:mapping-uncertainty",
@@ -2222,7 +2252,7 @@
    "home": "group:A1",
    "slot": 3,
    "x": 270,
-   "y": 1128
+   "y": 1182
   },
   {
    "id": "concept:conformal",
@@ -2239,7 +2269,7 @@
    "home": "group:A3",
    "slot": 2,
    "x": 810,
-   "y": 1082
+   "y": 1136
   },
   {
    "id": "concept:anomalous-region",
@@ -2252,11 +2282,11 @@
     "en": "A spatial region of a tissue whose molecular profile deviates from healthy reference tissue, typically because of disease and detected without predefined markers.",
     "zh": "组织中分子特征偏离健康参考组织的空间区域,通常由疾病导致,可在无预定义标记物的情况下被检出。"
    },
-   "count": 4,
+   "count": 5,
    "home": "group:A3",
    "slot": 3,
    "x": 810,
-   "y": 1128
+   "y": 1182
   },
   {
    "id": "concept:cross-modal",
@@ -2273,7 +2303,7 @@
    "home": "group:A3",
    "slot": 4,
    "x": 810,
-   "y": 1174
+   "y": 1228
   },
   {
    "id": "concept:he-to-expression",
@@ -2290,7 +2320,7 @@
    "home": "group:A4",
    "slot": 0,
    "x": 1080,
-   "y": 990
+   "y": 1044
   },
   {
    "id": "concept:foundation-model",
@@ -2307,7 +2337,7 @@
    "home": "group:A5",
    "slot": 0,
    "x": 1350,
-   "y": 990
+   "y": 1044
   },
   {
    "id": "concept:linear-baseline",
@@ -2324,7 +2354,7 @@
    "home": "group:A5",
    "slot": 1,
    "x": 1350,
-   "y": 1036
+   "y": 1090
   },
   {
    "id": "concept:zero-shot",
@@ -2341,7 +2371,7 @@
    "home": "group:A5",
    "slot": 2,
    "x": 1350,
-   "y": 1082
+   "y": 1136
   },
   {
    "id": "concept:expert-validation",
@@ -2354,11 +2384,11 @@
     "en": "",
     "zh": ""
    },
-   "count": 4,
+   "count": 6,
    "home": "group:A6",
    "slot": 0,
    "x": 1620,
-   "y": 990
+   "y": 1044
   },
   {
    "id": "concept:kpmp",
@@ -2375,7 +2405,7 @@
    "home": "group:A1",
    "slot": 4,
    "x": 270,
-   "y": 1174
+   "y": 1228
   },
   {
    "id": "concept:xenium",
@@ -2389,10 +2419,10 @@
     "zh": "一种基于成像的 10x Genomics 平台,在亚细胞分辨率下原位测量目标转录本组合,并进行单细胞分割。"
    },
    "count": 6,
-   "home": "group:A2",
-   "slot": 4,
-   "x": 540,
-   "y": 1174
+   "home": "group:A1",
+   "slot": 5,
+   "x": 270,
+   "y": 1274
   }
  ],
  "edges": [
@@ -2597,6 +2627,11 @@
    "kind": "mentions"
   },
   {
+   "source": "concept:ood-detection",
+   "target": "pathbench-natcommun-2026",
+   "kind": "mentions"
+  },
+  {
    "source": "concept:mapping-uncertainty",
    "target": "lake-kidney-atlas-nature-2023",
    "kind": "mentions"
@@ -2623,6 +2658,11 @@
   },
   {
    "source": "concept:anomalous-region",
+   "target": "histo-nejmai-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:anomalous-region",
    "target": "meatrd-aaai-2025",
    "kind": "mentions"
   },
@@ -2643,7 +2683,7 @@
   },
   {
    "source": "concept:cross-modal",
-   "target": "cellspectra-natgenet-2025",
+   "target": "hest1k-2024",
    "kind": "mentions"
   },
   {
@@ -2698,11 +2738,6 @@
   },
   {
    "source": "concept:foundation-model",
-   "target": "histo-nejmai-2024",
-   "kind": "mentions"
-  },
-  {
-   "source": "concept:foundation-model",
    "target": "linear-baselines-natmethods-2025",
    "kind": "mentions"
   },
@@ -2719,6 +2754,11 @@
   {
    "source": "concept:foundation-model",
    "target": "scfm-zeroshot-genomebiol-2025",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:foundation-model",
+   "target": "virchow-2024",
    "kind": "mentions"
   },
   {
@@ -2744,6 +2784,16 @@
   {
    "source": "concept:expert-validation",
    "target": "abedini-kidney-atlas-natgenet-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:expert-validation",
+   "target": "histo-anomaly-bi-repo",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:expert-validation",
+   "target": "histo-miccai-2025",
    "kind": "mentions"
   },
   {
@@ -2798,6 +2848,11 @@
   },
   {
    "source": "concept:xenium",
+   "target": "hest1k-2024",
+   "kind": "mentions"
+  },
+  {
+   "source": "concept:xenium",
    "target": "kidney-epigenome-nataging-2026",
    "kind": "mentions"
   },
@@ -2813,13 +2868,14 @@
   },
   {
    "source": "concept:xenium",
-   "target": "resolvi-natmethods-2026",
+   "target": "xenium-split-natmethods-2026",
    "kind": "mentions"
   },
   {
-   "source": "concept:xenium",
-   "target": "xenium-split-natmethods-2026",
-   "kind": "mentions"
+   "source": "abedini-kidney-atlas-natgenet-2024",
+   "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
   },
   {
    "source": "cellspectra-natgenet-2025",
@@ -2842,6 +2898,36 @@
   {
    "source": "damage-scores-cellgenomics-2026",
    "target": "lake-kidney-atlas-nature-2023",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "padim-icpr-2020",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "mvtec-ad-cvpr-2019",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "f-anogan-media-2019",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "deep-svdd-icml-2018",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "draem-iccv-2021",
+   "target": "anogan-ipmi-2017",
    "kind": "cites",
    "label": "cites"
   },
@@ -2996,6 +3082,12 @@
    "label": "cites"
   },
   {
+   "source": "sardine-bioinformatics-2025",
+   "target": "spatial-natcommun-2024",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "xenium-split-natmethods-2026",
    "target": "resolvi-natmethods-2026",
    "kind": "cites",
@@ -3114,12 +3206,6 @@
    "target": "scatac-novel-genomeres-2026",
    "kind": "concept",
    "label": "out-of-reference cell types"
-  },
-  {
-   "source": "sardine-bioinformatics-2025",
-   "target": "spatial-natcommun-2024",
-   "kind": "concept",
-   "label": "spatial anomaly detection"
   },
   {
    "source": "sardine-bioinformatics-2025",
@@ -3405,12 +3491,6 @@
   },
   {
    "source": "mvtec-ad-cvpr-2019",
-   "target": "draem-iccv-2021",
-   "kind": "lineage",
-   "label": "main benchmark"
-  },
-  {
-   "source": "mvtec-ad-cvpr-2019",
    "target": "cflow-ad-wacv-2022",
    "kind": "lineage",
    "label": "main benchmark"
@@ -3483,8 +3563,8 @@
   }
  ],
  "stats": {
-  "papers": 60,
+  "papers": 61,
   "concepts": 20,
-  "edges": 195
+  "edges": 204
  }
 }

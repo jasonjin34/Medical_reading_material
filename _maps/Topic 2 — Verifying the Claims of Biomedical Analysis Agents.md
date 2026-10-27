@@ -14,7 +14,7 @@ Trace every agent claim back through code and data; calibrate the verifier again
 
 ```mermaid
 flowchart TD
-  s1["`**1. Agent runs the analysis** (14 papers)
+  s1["`**1. Agent runs the analysis** (16 papers)
 Co-Scientist · DeepEvidence · Robin`"]
   s2["`**2. Extract claims, trace to code / data / citations** (7 papers)
 Citation faithfulness guard · MedRAGChecker · Who is to blame? (citations)`"]
@@ -41,6 +41,8 @@ Flow canvas: [[_maps/Topic 2 — Verifying the Claims of Biomedical Analysis Age
 - [[_maps/papers/robin-nature-2026|Robin]] ★ — A multi-agent system for automating scientific discovery
 - [[_maps/papers/biomni-biorxiv-2025|Biomni]] ★ — Biomni: A General-Purpose Biomedical AI Agent
 - [[_maps/papers/kosmos-arxiv-2025|Kosmos]] ★ — Kosmos: An AI Scientist for Autonomous Discovery
+- [[_maps/papers/gpnmb-cart-cell-2026|GPNMB CAR T (Cell 2026)]] — AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development
 - [[_maps/papers/virtual-lab-nature-2025|Virtual Lab]] — The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies
 - [[_maps/papers/paperqa2-arxiv-2024|PaperQA2]] — Language agents achieve superhuman synthesis of scientific knowledge
 

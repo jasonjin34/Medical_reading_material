@@ -13,6 +13,7 @@ tags:
 
 ## Papers / 论文
 - [[_maps/papers/dkd-spatial-atlas-nature-2026|DKD spatial atlas]] — Spatial atlas of diabetic kidney disease reveals a B cell-rich subgroup
+- [[_maps/papers/hest1k-2024|HEST-1k]] — HEST-1k: A Dataset for Spatial Transcriptomics and Histology Image Analysis
 - [[_maps/papers/inflammatory-pt-natcommun-2025|Inflammatory PT cells]] — Multiomic analysis of human kidney disease identifies a tractable inflammatory and pro-fibrotic tubular cell phenotype
 - [[_maps/papers/kidney-epigenome-nataging-2026|Kidney epigenome atlas]] — A cross-species single-cell kidney epigenome atlas reveals epithelial-dominant aging-like states in disease
 - [[_maps/papers/lake-kidney-atlas-nature-2023|Kidney atlas (Lake 2023)]] — An atlas of healthy and injured cell states and niches in the human kidney

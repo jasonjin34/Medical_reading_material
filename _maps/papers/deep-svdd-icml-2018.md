@@ -27,6 +27,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] — hypersphere model, shallow ↔ deep
 - [[_maps/papers/anogan-ipmi-2017|AnoGAN]] — AnoGAN as deep baseline
+- [[_maps/papers/draem-iccv-2021|DRAEM]] — cites
 - [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] — one-class AD reviewed
 - [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — one-class boundary on learned features
 - [[_maps/papers/meatrd-aaai-2025|MEATRD]] — cites

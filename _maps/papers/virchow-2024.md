@@ -22,9 +22,9 @@ tags:
 
 # A foundation model for clinical-grade computational pathology and rare cancers detection
 
-> Virchow is a 632M-parameter ViT-H/14 pathology foundation model self-supervised (DINOv2) on 1.5M whole-slide images, serving as a frozen tile-level backbone for pan-cancer detection, biomarker prediction, and cell identification.
+> Virchow is a 632M-parameter ViT-H/14 pathology foundation model trained by Paige and Microsoft Research with DINOv2 self-supervision on ~1.5M H&E whole-slide images (WSIs) from MSKCC; an aggregator trained on its frozen tile embeddings performs pan-cancer detection across 16 cancer types with specimen-level AUC 0.950, and 0.937 on the 7 rare cancers (Abstract; Fig. 2b–c).
 
-> Virchow 是一个在 150 万张全切片图像(WSI)上用 DINOv2 自监督预训练的 632M 参数 ViT-H/14 病理基础模型,可作为冻结的 tile 级特征骨干,支撑泛癌检测、生物标志物预测与细胞识别等下游任务。
+> Virchow 是 Paige 与 Microsoft Research 用 DINOv2 自监督在 MSKCC 约 150 万张 H&E 全切片(WSI)上训练的 632M 参数 ViT-H/14 病理基础模型;在它的冻结 tile 嵌入上训练一个聚合器,就能做跨 16 种癌的"泛癌检测",标本级 AUC 0.950,其中 7 种罕见癌 AUC 0.937(Abstract;Fig. 2b–c)。
 
 ## Related papers / 相关论文
 - [[_maps/papers/hest1k-2024|HEST-1k]] — cites

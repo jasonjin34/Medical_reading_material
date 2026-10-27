@@ -26,9 +26,13 @@ tags:
 > DRÆM 把表面异常检测从"只学正常、看重建误差"改成判别问题:在正常图像上用 Perlin 噪声 mask + 外部纹理贴出"刚好越界(just-out-of-distribution)"的合成异常,同时训练一个把异常修复回正常的重建子网络和一个读取"原图 ⊕ 重建图"并输出像素级异常图的判别子网络;MVTec AD 图像级 AUROC 98.0%、像素 AP 68.4%,比此前最好方法分别高 2.5 和 13.4 个百分点。
 
 ## Related papers / 相关论文
+- [[_maps/papers/anogan-ipmi-2017|AnoGAN]] — cites
+- [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] — cites
+- [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] — cites
 - [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] — AD method on far-OOD
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — synthetic-anomaly family
-- [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — main benchmark
+- [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — cites
+- [[_maps/papers/padim-icpr-2020|PaDiM]] — cites
 - [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]] — cites
 
 ## Deep-read / 精读

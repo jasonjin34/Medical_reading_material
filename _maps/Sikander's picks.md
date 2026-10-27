@@ -6,9 +6,9 @@ tags:
 
 # Sikander's picks
 
-Everything Sikander recommended, Jul–Sep 2026, on the detect → model → revert line.
+Everything Sikander recommended, Mar–Sep 2026, on the detect → model → revert line.
 
-Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → revert 排列。
+Sikander 2026 年 3–9 月推荐的全部内容，按 detect → model → revert 排列。
 
 ## Pipeline / 流程
 
@@ -16,14 +16,14 @@ Sikander 2026 年 7–9 月推荐的全部内容，按 detect → model → reve
 flowchart TD
   s1["`**1. Foundations & data** (5 papers)
 Generative histopathology FM · Pathology FM benchmark · HEST-1k`"]
-  s2["`**2. Detect** (11 papers)
+  s2["`**2. Detect** (12 papers)
 ECG sudden-death biomarker · Spatial biomarker discovery · AI ejection fraction`"]
   s3["`**3. Model** (2 papers)
 Virtual tissues (spatial proteomics) · Virtual Cell Challenge`"]
   s4["`**4. Revert** (3 papers)
 MintFlow · Conditional Monge Gap · Counterfactual diffusion`"]
-  s5["`**5. Agents & evidence** (2 papers)
-DeepEvidence · LLM hypothesis generators`"]
+  s5["`**5. Agents & evidence** (5 papers)
+DeepEvidence · Biomni · LLM hypothesis generators`"]
   s1 --> s2
   s2 --> s3
   s3 --> s4
@@ -47,6 +47,7 @@ Flow canvas: [[_maps/Sikander's picks — flow.canvas|Sikander's picks — flow]
 - [[_maps/papers/imaging-ehjdh-2026|AI ejection fraction]] — An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study
 - [[_maps/papers/pathomics-npjpo-2026|Pathomics signature]] — Deep learning-based pathomics signature predicts prognosis and treatment response in gastric cancer: a multicenter retrospective study
 - [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]] — Pathology-Informed Latent Diffusion Model for Anomaly Detection in Lymph Node Metastasis
+- [[_maps/papers/abnormality-radiology-arxiv-2024|Abnormality radiology (Ligero 2024)]] — Abnormality-Driven Representation Learning for Radiology Imaging
 - [[_maps/papers/spatial-natcommun-2024|STANDS]] — Detecting anomalous anatomic regions in spatial transcriptomics with STANDS
 - [[_maps/papers/pathomics-blood-2023|Pathomics (Blood 2023)]] — A Deep Learning-Based Pathomics Methodology for Quantifying and Characterizing Nucleated Cells in the Bone Marrow Microenvironment
 - [[_maps/papers/pathomics-repo|PathOmics code]] — Cassie07/PathOmics
@@ -63,7 +64,10 @@ Flow canvas: [[_maps/Sikander's picks — flow.canvas|Sikander's picks — flow]
 
 ## Agents & evidence / agent 与证据
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] ★ — Empowering biomedical evidence exploration and synthesis with deep knowledge graph research
+- [[_maps/papers/biomni-biorxiv-2025|Biomni]] ★ — Biomni: A General-Purpose Biomedical AI Agent
 - [[_maps/papers/hypogen-llm-colm-2024|LLM hypothesis generators]] ★ — Large Language Models as Biomedical Hypothesis Generators: A Comprehensive Evaluation
+- [[_maps/papers/gpnmb-cart-cell-2026|GPNMB CAR T (Cell 2026)]] — AI-driven discovery of GPNMB CAR T cells as a multi-cancer therapy
+- [[_maps/papers/virtual-biotech-biorxiv-2026|Virtual Biotech]] — The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development
 
 ## EHR / 电子病历
 - [[_maps/papers/ehr-delphi2m-nature-2025|Delphi-2M]] ★ — Learning the natural history of human disease with generative transformers

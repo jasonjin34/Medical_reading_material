@@ -27,7 +27,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/citation-blame-emnlp-2026|Who is to blame? (citations)]] — trace-level error localization
 - [[_maps/papers/llm-judge-healthcare-arxiv-2026|LLM-as-judge in healthcare]] — LLM-as-judge reliability
-- [[_maps/papers/mast-neurips-2025|MAST]] — agent failure taxonomy
+- [[_maps/papers/mast-neurips-2025|MAST]] — cites
 - [[_maps/papers/scitrace-arxiv-2026|SciTrace]] — trajectory-level verification
 
 ## Concepts / 概念

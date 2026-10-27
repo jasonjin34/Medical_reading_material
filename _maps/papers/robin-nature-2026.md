@@ -34,7 +34,6 @@ tags:
 
 ## Concepts / 概念
 - [[_maps/concepts/hallucination|Hallucination]]
-- [[_maps/concepts/llm-judge|LLM-as-judge]]
 - [[_maps/concepts/reference-hallucination|Fabricated references]]
 
 ## Deep-read / 精读

@@ -1,75 +1,114 @@
 # An artificial intelligence model to detect abnormal ejection fraction from non-contrast chest computed tomography: the CT–LVEF study
 
-> **文献键** `Raikhelkar_2026` · **来源** European Heart Journal - Digital Health(2026) · **类别** imaging · **相关度** medium · **获取** paywall
+> **文献键** `Raikhelkar_2026` · **来源** European Heart Journal - Digital Health(2026) · **类别** imaging · **相关度** medium · **获取** open
 > **链接** <https://doi.org/10.1093/ehjdh/ztag088> · `status: complete`
 
 ---
 
 ## 一句话
-用预训练的 3D vision transformer(CT-ViT)从常规、非门控、非增强胸部 CT 直接预测左室射血分数是否异常(EF < 50%),把一种"为别的适应症拍的影像"变成心衰的机会性筛查工具。
+用 GenerateCT 的 CT-ViT 编码器(3D vision transformer)从为其他原因拍的常规、非门控、非增强胸部 CT 判断左室射血分数(LVEF)是否 <50%;在开发医院(Columbia)AUROC 0.786、外部医院(Weill Cornell)0.762,作为心衰的机会性筛查(Abstract)。
+
+## 要点
+- 标签来自 CT 前后 6 个月内的超声心动图报告里的 EF 值,按 50% 二值化;不需要额外检查(Methods §Data curation, §LVEF-based classification)。
+- 只用人口学 + CT 报告里 260 个 ICD-9 诊断码的 XGBoost 基线 AUROC 只有 0.607 / 0.592,说明信号主要来自图像本身(Table 6)。
+- CT 与超声间隔越近,AUROC 越高:Columbia ≤1 天子集 0.800 vs 全体 0.786(Holm 校正 P=0.004)(Table 5, Results)。
+- 在 90 / 100 张抽样 CT 上,模型加权 F1 0.808 / 0.797,两位胸部放射科医生 0.646、0.802 / 0.623(Table 7)。
+- 在时间上更晚的"独立连续测试集"上 AUROC 降到 0.742(Columbia)/ 0.735(Weill Cornell),balanced accuracy 只有约 0.57(Results)。
 
 ## 研究问题
-早期收缩性心衰患者在指南导向药物治疗(GDMT)最能阻止病程进展的阶段往往仍无症状、未被诊断,存在巨大的"诊断缺口"。心脏 EF 的金标准是超声心动图,但需专门预约;而非增强胸部 CT 每年海量拍摄(肺结节、创伤、术前评估等),从未被用于评估心功能。问题:能否零额外扫描、零对比剂,从这些"顺带"的 CT 里机会性地筛出隐匿的收缩功能障碍?
+心衰全球超过 6,400 万患者;很多早期收缩功能障碍(HFrEF / HFmrEF)患者没有症状、未被诊断,错过了能减缓进展的指南导向药物治疗(GDMT)(Introduction)。EF 通常要靠超声心动图、心脏 MRI 等专门检查测量;而美国每年做超过 8,000 万次 CT,胸部 CT 很常见,但从未被用来评估心功能(Introduction)。问题:能否从这些"顺带"拍的非门控(不与心跳同步)、非增强胸部 CT 中直接筛出 EF 降低的患者?
 
 ## 方法
-任务被建为二分类:异常 EF(< 50%)vs. 正常。骨干采用预训练 CT-ViT encoder(一个 3D vision transformer),输入为归一化到 2×2×2 mm、裁剪/重采样到 164×164×164 voxel 的 3D CT 体积。每个 CT 与其时间上配对的超声报告(提供 EF 标签)对齐进行监督训练。可解释性用 Grad-CAM 生成 3D 显著性,定位与低 EF 相关的影像特征。评测除标准判别指标外,还与资深胸科放射科医生做人机对比(准确度 + 每例耗时)。
+1. **配对数据**:找出 2005-07 至 2023-08 在 Columbia(CU)或 Weill Cornell(WCM)做过非增强胸部 CT、且 CT 前后 6 个月内有超声心动图的成人;经筛选和链接得到 19,410 名患者的 34,058 对 CT–超声(Methods §Data curation)。
+2. **标签**:超声报告里的 LVEF(2D 超声,按瀑布逻辑取值),<50% 为阳性(EF 降低),≥50% 为正常(Methods §LVEF-based classification)。
+3. **划分**:CU 用于开发,按病人随机分训练/验证/保留测试集(测试集 n=5,174,20%);WCM 全部用作外部验证;另外各建一个时间上更晚的独立连续测试集(CU 2023-08 至 12,WCM 2023-08 至 2024-07)(Methods, Results)。
+4. **CT 预处理**:DICOM 换算成 Hounsfield 单位,窗宽 [−1000, 1000] HU 去掉空气和骨;OTSU 阈值聚焦人体区域;样条插值重采样到 2×2×2 mm³;裁剪/补零到 164×164×164(Methods §3D preprocessing)。
+5. **模型**:GenerateCT 的 CT-ViT 编码器作骨干(先 4 个在轴位平面上做空间注意力的 block,再 4 个沿 z 轴切片做注意力的 block),输出 512 维向量,接全连接分类头输出"低 EF"概率;训练时随机裁到 164×144×144 并水平翻转,测试时中心裁剪(Methods §AI model, §Grad-CAM)。
+6. **训练**:二元交叉熵,AdamW,学习率 1×10⁻⁵,权重衰减 1×10⁻⁴,batch 8,20 个 epoch,第 15 个 epoch 学习率减半;用 5 个随机种子重复训练,报告均值 ± 标准差;单张 A100(Methods §AI model)。
+7. **评估**:AUROC、F1、balanced accuracy;Brier 分数与校准曲线;按性别、年龄、种族和 CT–超声间隔分组;决策曲线分析;与两位胸部放射科医生在抽样 CT 上比较,并用 McNemar 检验;Grad-CAM 显著性图做可解释性(Methods §Evaluation, §Comparison with radiologist)。
+8. **机会性筛查演示**:对 633 个没有配对超声的常规胸部 CT 运行模型,再查阅被标记患者的病历(Results §Opportunistic screening)。
+
+## 方法图
+```mermaid
+flowchart LR
+  A["Non-contrast chest CT<br/>non-gated"] --> B["Preprocess<br/>HU window, 2 mm, 164 cube"]
+  C["Echo report within 6 months<br/>LVEF below 50 = positive"] --> D
+  B --> D["CT-ViT encoder<br/>spatial + slice attention"]
+  D --> E["512-d feature<br/>FC head, BCE"]
+  E --> F["P of low EF"]
+  F --> G["Evaluate<br/>CU test, WCM external, later cohorts"]
+  F --> H["Grad-CAM<br/>saliency maps"]
+```
 
 ## 数据
-多机构、配对的 CT–超声数据集共 34,058 例配对(非增强 CT 影像 + 超声报告),来自两家学术中心。训练集 25,948 例(含 hold-out 内部测试),外部验证 8,110 例来自独立机构。内部验证=Columbia University,外部验证=Weill Cornell。人机对比在 90 张 Columbia 扫描的采样子集上进行。
+共 34,058 对 CT–超声、19,410 名患者:CU 14,083 名患者 / 25,948 对(正常 21,787,EF 降低 4,161,即 16.04%),WCM 5,327 名患者 / 8,110 对(正常 6,695,EF 降低 1,415,17.29%)(Methods, Table 1)。CT–超声间隔中位数 12.7–24.2 天(回顾队列),≤1 天的占 11.8–20.7%(Table 4)。独立连续测试集:CU 1,251 名患者 / 1,411 对,WCM 755 名患者 / 817 对(Results)。机会性筛查:633 个 CT / 627 名患者(Results)。数据因机构政策与伦理审批不公开,可向通讯作者合理申请(Data availability)。
 
 ## 主要结果
-内部 hold-out 测试:AUROC 0.786,F1 0.822;外部验证:AUROC 0.762,F1 0.812(泛化保持得较好)。人机对比(90 例 Columbia):模型 F1 0.808,资深胸科放射科医生 F1 区间 0.646–0.802,即模型在准确度上不逊于甚至超过专家;速度上模型约 1 分钟/例,放射科医生 2+ 分钟/例。Grad-CAM 定位到临床可辨认的低 EF 相关特征:心脏增大、升主动脉(尤其钙化时)、上腔静脉扩张、起搏器存在、肺水肿浸润。
+
+- **CU 保留测试集**:AUROC 0.786 ± 0.005(95% CI 0.780–0.792),F1 0.822 ± 0.005(n=5,174)(Results §AI model evaluation, Fig. 4)。
+- **WCM 外部验证**:AUROC 0.762 ± 0.007(0.753–0.771),F1 0.812 ± 0.005(Results §External validation)。
+- **校准**:Brier 分数 CU 0.1120 ± 0.0025(5 个种子),WCM 0.1199 ± 0.0022(Results, Fig. 7)。
+- **基线**:人口学 + 260 个 ICD-9 码的随机森林 AUROC 0.538 / 0.550,XGBoost 0.607 / 0.592(CU / WCM)(Table 6)。
+- **CT–超声间隔**:CU ≤1 天 0.800 vs 全体 0.786(Holm P=0.004);WCM ≤1 月 0.788 vs 0.762(Holm P=0.002)(Table 5, Results)。
+- **亚组**:18–39 岁最差(CU 0.696),性别和年龄间差异显著(CU 置换 ANOVA P=0.0018、0.0008),种族间不显著(P=0.4463)(Table 5, Results)。
+- **与放射科医生**:CU 90 张 CT 加权 F1:模型 0.808,RAD1 0.646,RAD2 0.802;WCM 100 张:模型 0.797,RAD2 0.623(Table 7)。错误数 CU:模型 13、RAD1 37、RAD2 18;WCM:模型 15、RAD2 43(Results)。速度:模型约 1 分钟处理完全部 90(或 100)张,放射科医生约 2–2.2 分钟/张(Results)。作者注明这一比较用的是单个选定模型,可能略偏乐观(Results)。
+- **时间上更晚的测试集**:CU AUROC 0.742(0.729–0.755)、balanced accuracy 0.571;WCM AUROC 0.735(0.701–0.770)、balanced accuracy 0.563(Results)。
+- **Grad-CAM**:在 51 例 EF 降低患者上由医学物理师检查,高亮区域包括心脏增大、升主动脉(尤其钙化时)、上腔静脉扩张、起搏器及导线、肺水肿浸润,以及背部皮下组织密度增高、胸骨钢丝、颈部中心静脉置管瘢痕(Results §Model interpretability)。
+- **机会性筛查**:633 个 CT 中模型标记 23 名(3.7%),病历核查 18/23(78%)确为 EF 降低并有心衰诊断(Results §Opportunistic screening)。
 
 ## 创新点
-- 首次证明从**静态、非门控、非增强**胸部 CT 就能预测异常 LVEF,开启机会性心衰筛查的新用途(通常这种 CT 不用于心功能评估)。
-- 大规模、真实世界、跨机构配对数据(34,058 例)+ 独立外部验证,泛化性有据可循。
-- 人机对比中匹配/超越资深放射科医生,兼具速度优势;Grad-CAM 提供临床可解读的证据。
+- 作者称是首个从常规非门控、非增强胸部 CT 识别 EF 降低的研究(Discussion)。
+- 双中心、大规模配对数据,外加时间上更晚的独立测试集、校准与决策曲线分析(Results)。
+- 与放射科医生的盲法对照和误差重叠分析(Table 7, Fig. 6)。
 
 ## 局限
-- 仅二分类(异常 vs. 正常),未回归连续 EF,也未细分 HFrEF/HFmrEF 亚型阈值。
-- AUROC ~0.76–0.79 属中等判别力,离临床独立诊断尚有距离;标签来自超声报告文本,存在时间错配与报告噪声。
-- 两训练中心 + 一外部中心,人群/扫描仪多样性有限;人机对比样本仅 90 例。
-- 全文在付费墙后,超参、消融、校准与阈值选择等细节仅摘要可得。
+- 作者:回顾性研究,计划做前瞻性研究(Discussion)。
+- 作者:2D 超声测 EF 的观察者内/间差异分别为 8–21% 和 6–13%;报告中未统一记录测量方法(Simpson 双平面、单平面或目测);CT 与超声之间 EF 可能因治疗而变化,标签有噪声(Discussion)。
+- 作者:只用了非增强 CT;Grad-CAM 只能做个例的定性解释,缺少群体层面的可解释性(因为不同 CT 之间没有体素级配准);没有系统研究伪影/低质量扫描的影响(Discussion)。
+- 我们的理解:Grad-CAM 高亮的起搏器、胸骨钢丝、颈部置管瘢痕都是"既往治疗的痕迹",模型可能部分在识别"已经被诊断和治疗过的病人",这对筛查"未诊断"人群的价值打了折扣。
+- 我们的理解:balanced accuracy 约 0.57 说明在默认阈值下对阳性类的召回很低;F1 0.8 左右很可能主要由占多数(约 83%)的正常类撑起(与放射科医生比较时文中明确用的是加权 F1;主结果的 F1 类型未写明)。
 
 ## 与本研究方向的关系
-这篇正处在我们流水线的**第一环:异常检测(anomaly detection)**——从医学影像中判定"这个器官/组织偏离了正常"。它与我们方向的三点可迁移经验:(1) **机会性/顺带筛查范式**——用为别的目的采集的组学/影像数据去发现未被标注的疾病扰动信号,与我们"从常规切片/空间组学里检出疾病或药物扰动区域"的思路同构;(2) **弱标签监督**——用配对的临床读数(此处超声 EF)当作影像标签,对应我们可用批量表型/临床终点弱监督 virtual tissue 的异常打分;(3) **可解释定位(Grad-CAM 3D 显著性)**——把"异常"落到具体解剖/空间位置,正是我们下一步做 virtual tissue 局部建模与 gene-revert 靶点定位所需的空间先验。注意其为纯有监督分类,并非我们偏好的无/自监督分布外异常检测;CT-ViT 这类 3D 影像 foundation encoder 可作为影像分支的 backbone 参考,但 gene-revert 反演环节本文不涉及。
+我们的理解:这是有监督分类,不是无监督异常检测;它在 detect → model → revert 里只和 **detect** 有间接关系。对课题 1 的启发有三点。(1) **机会性利用已有数据**:用为其他目的采集的影像去发现未标注的疾病信号,和我们想从常规 H&E / 空间组学中检出疾病区域的思路相近。(2) **"捷径特征"的警示**:Grad-CAM 显示模型会用起搏器、手术钢丝、置管瘢痕等治疗痕迹做判断——在肾脏数据里,类似的捷径可能是活检针道、制片伪影或特定医院的染色风格,这正是课题 1 想用跨模态一致性排除的东西。(3) **评估设计可借鉴**:按时间先后的独立测试集、按采集条件(此处是 CT–超声间隔)分层、与朴素临床特征基线(ICD 码)比较、与专家做盲法对照,这些都适合写进 KidneyAnomalyBench 的评测协议。不涉及 virtual tissue 或 revert。
 
 ## 可复用资产
-**CT-ViT encoder**:文中作为骨干的预训练 3D vision transformer(源自 CT-CLIP / CT-ViT 系列的胸部 CT foundation model),是可复用的影像 backbone 起点。**输入规范**:2×2×2 mm 归一化 + 164×164×164 voxel 重采样,可直接抄用于 3D CT/体数据预处理。**评测协议**:配对 CT–临床读数、内部 hold-out + 独立外部机构验证、人机 reader study(准确度 + 每例耗时)——这套跨机构泛化 + 专家对照的评测范式可移植到我们的异常检测评估。数据集与训练代码本文未公开(私有临床数据,IRB 约束),需向作者/机构申请。
+- **代码与权重**:文中称上线发表后在 GitHub 公开预处理、训练、评估代码和训练好的权重(Code and model weight availability);仓库已存在,权重是否已上传未核实。
+<https://github.com/ZB-WCM/AI_CT_LVEF>
+- **骨干**:GenerateCT 的 CT-ViT 编码器(3D CT 的空间 + 切片注意力结构)(Methods)。
+- **预处理规范**:HU 窗 [−1000, 1000]、2 mm 各向同性、164³ 体积(Methods)。
+- **数据**:不公开,可向通讯作者申请(Data availability)。
 
 ## 待读
-- CT-ViT / CT-CLIP 原始 foundation-model 论文与权重(是否公开、许可、能否作为我们影像异常检测的 self-supervised backbone)。
-- 获取全文以看架构细节、校准、阈值与消融;确认 EF 标签抽取与时间窗定义。
-- 对比同组/相邻工作(ECG-based EF、CXR-based EF)以定位 CT 分支在多模态机会性筛查中的增益。
+- GenerateCT / CT-ViT 原论文:编码器的预训练数据与方式。
+- 补充材料 Table S5–S6:3/4 分类和 40%、35% 阈值下的表现。
+- 同类工作(ECG 或胸片预测 EF),比较机会性筛查的不同模态。
 
 ## 图表
 
-全文与全部图表在 OUP 付费墙之后,依版权不下载、不转存图片,仅链接到文章页面(付费墙)。下方按论文原始编号列出关键图/表并给出双语说明;文章页:<https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>。
+本文为开放获取(CC BY),全文与图表见 PMC 与 OUP 文章页;本卡未下载图片,只按原文编号列出。
+<https://pmc.ncbi.nlm.nih.gov/articles/PMC13322390/> · <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>
 
-**图1**(付费墙):数据整理与预处理流程图——Columbia 与 Weill Cornell 的超声报告与胸部 CT 的筛选、排除与预处理。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F1>
+**图1**:数据整理与预处理流程——Columbia 与 Weill Cornell 的超声报告与胸部 CT 的筛选、排除与预处理。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F1>
 
-**图2**(付费墙,方法总览):用于分析 3D 胸部 CT 并预测左室收缩功能障碍的 vision transformer 架构示意。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F2>
+**图2**(方法总览):分析 3D 胸部 CT 并预测左室收缩功能障碍的 vision transformer 结构示意。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F2>
 
-**图4**(付费墙,主结果):异常 EF 检测的性能评估——ROC 曲线与 AUROC、按人口学亚组的指标、混淆矩阵。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F4>
+**图4**(主结果):两个中心的 ROC 曲线与 AUROC、按人口学亚组的指标、混淆矩阵。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F4>
 
-**图5**(付费墙,可解释性):Grad-CAM 显著性图叠加在轴位 CT 上,突出对预测有贡献的区域。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F5>
+**图5**(可解释性):叠加在轴位 CT 上的 Grad-CAM 显著性图,4 例 EF 降低患者。见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677#F5>
 
-_其余图表(付费墙):图3 研究设计 · 图6 误差分析 Venn 图 · 图7 校准曲线;表1–4 人群/采集参数/诊断/时间差描述 · 表5 亚组 AUROC · 表6 基线 RF/XGBoost · 表7 与放射科医生的 F1 对比。均见 <https://academic.oup.com/ehjdh/article/7/6/ztag088/8705677>_
+_其余:图3 研究设计 · 图6 模型与放射科医生的误差 Venn 图 · 图7 校准曲线 · 图8 决策曲线;表1 人群 · 表2 采集参数 · 表3 诊断码 · 表4 CT–超声间隔 · 表5 亚组 AUROC · 表6 RF/XGBoost 基线 · 表7 与放射科医生的 F1 · 表8 超声操作者与数据来源。(注:正文把 Grad-CAM 示例引作"Figure 6A–D",与图注编号不一致。)_
 
 ### 结果表
 
-**表1.** 公开可见的关键数字(仅摘要/文章页面公开内容;全文在付费墙后,完整性能表见原文表5–7)。
+**表1.** 主要数字(PMC 全文;均值 ± 标准差为 5 个随机种子)。
 
-_abstract-only — 数字取自公开摘要与文章页面,未获取付费全文。_
-
-| Item | Value |
-|---|---|
-| Task | Abnormal LVEF (EF < 50%) vs. normal, from non-gated non-contrast chest CT |
-| Paired CT + echo studies (total) | 34,058 |
-| Training studies | 25,948 |
-| External-validation studies | 8,110 |
-| AUROC — internal hold-out (Columbia) | 0.786 |
-| AUROC — external validation (Weill Cornell) | 0.762 |
+| Cohort | n pairs | AUROC | F1 | Source |
+|---|---|---|---|---|
+| CU hold-out test | 5,174 | 0.786 ± 0.005 | 0.822 ± 0.005 | Results, Table 5 |
+| WCM external validation | 8,110 | 0.762 ± 0.007 | 0.812 ± 0.005 | Results, Table 5 |
+| CU independent consecutive | 1,411 | 0.742 | 0.809 | Results |
+| WCM independent consecutive | 817 | 0.735 | 0.825 | Results |
+| XGBoost baseline (CU / WCM) | — | 0.607 / 0.592 | 0.309 / 0.312 | Table 6 |
 
 ## 引用
 ```bibtex
