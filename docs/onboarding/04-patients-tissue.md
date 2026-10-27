@@ -42,7 +42,7 @@ KPMP, the source of Lake 2023's patient samples, focuses on the most common kind
 
 ## Step 2 · How severe: eGFR
 
-**GFR** (glomerular filtration rate) is how much plasma the kidneys filter per minute, the core measure of kidney function. Measuring it directly is laborious, so in practice it is **estimated** from serum creatinine and/or cystatin C together with age and sex, giving **eGFR** [4]. KDIGO groups CKD into six GFR categories [2]:
+**GFR** (glomerular filtration rate) is how much plasma the kidneys filter per minute, the core measure of kidney function. Measuring it directly is laborious, so in practice it is **estimated** from serum creatinine and/or cystatin C together with age and sex, giving **eGFR** (estimated GFR) [4]. KDIGO groups CKD into six GFR categories [2]:
 
 | Category | GFR (ml/min/1.73 m²) | Term |
 |---|---|---|
@@ -63,11 +63,15 @@ G1 and G2 alone do not count as CKD; there must also be evidence of kidney damag
 
 ![Lake 2023 Fig. 1a: kidney tissue from biopsy, nephrectomy (Nx) or deceased donor (DD), processed into cells, nuclei or sections / 肾组织来自活检、肾切除（Nx）或死亡供体（DD），处理成细胞、细胞核或切片](img/lake2023_fig1a_crop.jpg)
 
+<div markdown>
+
 Lake 2023's tissue has three sources [5]:
 
 - **Needle biopsy**: a thin core of tissue taken with a needle. Patient biopsies come from KPMP and are taken for research [3]; some healthy reference tissue is also **living-donor** biopsies [5].
 - **Nephrectomy** (Nx in the figure): tissue from people who had part or all of a kidney removed [5].
 - **Deceased donor** (DD in the figure): kidneys from deceased donors that were not used for transplant [5].
+
+</div>
 
 </div>
 

@@ -31,7 +31,7 @@ Numbers on this page come from two places: the literature (marked [n]) or our ow
     - 尿量连续 6 小时少于 0.5 ml/kg/h。
 - **CKD（慢性肾病，chronic kidney disease）**：肾脏结构或功能异常，**至少持续 3 个月**，并且影响健康 [2]。
 
-**血肌酐**（serum creatinine）是血液里的一种代谢产物，由肾脏滤出；肾脏滤得慢了，它就会在血里积累。KDIGO 建议初步评估肾功能时，就用血肌酐加一个估算公式（第 2 步的 eGFR）。肌酐的产生量和肌肉量有关，所以肌肉特别多或特别少的人，用它估算会有偏差 [2]。
+**血肌酐**（serum creatinine）是血液里的一种代谢产物，由肾脏滤出；肾脏滤得慢了，它就会在血里积累。KDIGO 建议初步评估肾功能时，就用血肌酐加一个估算公式（第 2 步的 eGFR，估算肾小球滤过率）。肌酐的产生量和肌肉量有关，所以肌肉特别多或特别少的人，用它估算会有偏差 [2]。
 
 两者不是互斥的：一个已经有 CKD 的人，也可以再发生一次 AKI [1]。
 <!-- EN -->
@@ -72,9 +72,9 @@ KPMP, the source of Lake 2023's patient samples, focuses on the most common kind
 ## 第 2 步 · 病有多重：eGFR / Step 2 · How severe: eGFR
 
 <!-- ZH -->
-**GFR**（肾小球滤过率）是肾脏每分钟滤出多少血浆，是衡量肾功能的核心指标。直接测很麻烦，临床上通常用血肌酐和 / 或胱抑素 C（cystatin C）加上年龄、性别，用公式**估算**，叫 **eGFR** [4]。KDIGO 按 GFR 把 CKD 分成 6 级 [2]：
+**GFR**（肾小球滤过率）是肾脏每分钟滤出多少血浆，是衡量肾功能的核心指标。直接测很麻烦，临床上通常用血肌酐和 / 或胱抑素 C（cystatin C）加上年龄、性别，用公式**估算**，叫 **eGFR**（estimated GFR，估算肾小球滤过率）[4]。KDIGO 按 GFR 把 CKD 分成 6 级 [2]：
 <!-- EN -->
-**GFR** (glomerular filtration rate) is how much plasma the kidneys filter per minute, the core measure of kidney function. Measuring it directly is laborious, so in practice it is **estimated** from serum creatinine and/or cystatin C together with age and sex, giving **eGFR** [4]. KDIGO groups CKD into six GFR categories [2]:
+**GFR** (glomerular filtration rate) is how much plasma the kidneys filter per minute, the core measure of kidney function. Measuring it directly is laborious, so in practice it is **estimated** from serum creatinine and/or cystatin C together with age and sex, giving **eGFR** (estimated GFR) [4]. KDIGO groups CKD into six GFR categories [2]:
 
 | Category / 分级 | GFR (ml/min/1.73 m²) | Term / 含义 |
 |---|---|---|
@@ -100,6 +100,8 @@ G1 and G2 alone do not count as CKD; there must also be evidence of kidney damag
 
 <!-- ZH/EN --> ![Lake 2023 Fig. 1a: kidney tissue from biopsy, nephrectomy (Nx) or deceased donor (DD), processed into cells, nuclei or sections / 肾组织来自活检、肾切除（Nx）或死亡供体（DD），处理成细胞、细胞核或切片](img/lake2023_fig1a_crop.jpg)
 
+<!-- ZH/EN --> <div markdown>
+
 <!-- ZH -->
 Lake 2023 的组织有三种来源 [5]：
 
@@ -112,6 +114,8 @@ Lake 2023's tissue has three sources [5]:
 - **Needle biopsy**: a thin core of tissue taken with a needle. Patient biopsies come from KPMP and are taken for research [3]; some healthy reference tissue is also **living-donor** biopsies [5].
 - **Nephrectomy** (Nx in the figure): tissue from people who had part or all of a kidney removed [5].
 - **Deceased donor** (DD in the figure): kidneys from deceased donors that were not used for transplant [5].
+
+<!-- ZH/EN --> </div>
 
 <!-- ZH/EN --> </div>
 

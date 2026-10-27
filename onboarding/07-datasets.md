@@ -4,7 +4,7 @@
 !!! abstract "读完能回答"
     - 拿到一份单细胞数据，要先问哪几个问题？
     - 为什么"人数"比"细胞数"更重要？
-    - raw 和 filtered、公开和受控，分别影响你能做什么？
+    - raw（未过滤的原始矩阵）和 filtered（过滤后只剩细胞的矩阵）、公开（open）和受控（controlled access），分别影响你能做什么？
 <!-- EN -->
 !!! abstract "After this module you can answer"
     - Which questions do you ask first about a single-cell dataset?
@@ -28,9 +28,9 @@ One dataset on its own hardly shows what is special about it. Below, five repres
 <!-- ZH -->
 几个对比值得注意：
 
-- **Lake 2023 和 Abedini 2024** 都是大规模病人队列。Lake 几乎给每个细胞都标了 reference / altered（少数核没有标）；Abedini 有样本层面的疾病组，加上少数按细胞标的损伤簇（比如 `iPT`），但没有系统的改变态标签。两份数据发布前都已经部分清洗过：Lake 在各测法里都去了 doublet，单细胞数据还用 SoupX 减过 ambient [1]；Abedini 也去了 ambient 和 doublet [2]。
-- **mBDRC 2026、Hoeft 2024、Janssen 2023** 人数少，却有实验设计给定的答案：测法、按 SNP 分出的供体、每个细胞的污染比例。我们的理解：找伪影时，它们比大图谱更有用。
-- 现成的含空液滴 raw 矩阵文件，只有 **Janssen 2023** 有，但它是小鼠。Hoeft 2024 和 Lake 2019 的原始测序（FASTQ）在 SRA 上公开，重新跑一遍比对流程也能拿回空液滴（见各自的数据页）。
+- **Lake 2023 和 Abedini 2024** 都是大规模病人队列（cohort）。Lake 几乎给每个细胞都标了 reference / altered（参考态 / 改变态；少数核没有标）；Abedini 有样本层面的疾病组，加上少数按细胞标的损伤簇（injury cluster，比如 `iPT`），但没有系统的改变态标签。两份数据发布前都已经部分清洗过：Lake 在各测法（assay）里都去了 doublet（双细胞假象），单细胞数据还用 SoupX 减过 ambient（游离 RNA 污染）[1]；Abedini 也去了 ambient 和 doublet [2]。
+- **mBDRC 2026、Hoeft 2024、Janssen 2023** 人数少，却有实验设计（experimental design）给定的答案：测法、按 SNP（单核苷酸多态性）分出的供体（donor）、每个细胞的污染比例（contamination fraction）。我们的理解：找伪影（artifact）时，它们比大图谱（atlas）更有用。
+- 现成的含空液滴（empty droplet）raw 矩阵文件，只有 **Janssen 2023** 有，但它是小鼠。Hoeft 2024 和 Lake 2019 的原始测序（FASTQ）在 SRA（NCBI 的公开原始测序库）上公开，重新跑一遍比对流程（alignment pipeline）也能拿回空液滴（见各自的数据页）。
 <!-- EN -->
 A few contrasts worth noticing:
 
@@ -41,37 +41,37 @@ A few contrasts worth noticing:
 ## 问题 1 · 测的是什么？ / Question 1 · What was measured?
 
 <!-- ZH -->
-单细胞还是单核？有没有 ATAC？是不是同一个核测了两样（multiome）？测法决定了数据的偏差（模块 5、6）。例：[Lake 2023](../datasets/lake-2023.md) 三种都有，但 RNA + ATAC 只有 7 个健康人；[Abedini 2024](../datasets/abedini-2024.md) 的 RNA 和 ATAC 是分开测的，两张表的行不是同一批细胞。
+单细胞还是单核？有没有 ATAC（测染色质开放性）？是不是同一个核测了两样（multiome）？测法决定了数据的偏差（bias；模块 5、6）。例：[Lake 2023](../datasets/lake-2023.md) 三种都有，但 RNA + ATAC 只有 7 个健康人；[Abedini 2024](../datasets/abedini-2024.md) 的 RNA 和 ATAC 是分开测的，两张表的行不是同一批细胞。
 <!-- EN -->
 Single-cell or single-nucleus? Is there ATAC? Were two things measured in the same nucleus (multiome)? The assay sets the biases (modules 5 and 6). Example: [Lake 2023](../datasets/lake-2023.md) has all three, but RNA + ATAC only for 7 healthy donors; [Abedini 2024](../datasets/abedini-2024.md) measured RNA and ATAC separately, so the two tables do not describe the same cells.
 
 ## 问题 2 · 多少人，不是多少细胞 / Question 2 · How many people, not how many cells
 
 <!-- ZH -->
-20 万个细胞听起来很多，但它们来自几十个人。模块 1 讲过：同一个人的细胞高度相关，训练和测试要按人分。所以**真正的样本量是人数**，尤其是健康人和病人各多少。例：[Hoeft 2024](../datasets/hoeft-2024.md) 有一万多个核，但只有 4 个人；我们的理解：只够做验证。
+20 万个细胞听起来很多，但它们来自几十个人。模块 1 讲过：同一个人的细胞高度相关，训练和测试要按人分（patient-level split）。所以**真正的样本量（sample size）是人数**，尤其是健康人和病人各多少。例：[Hoeft 2024](../datasets/hoeft-2024.md) 有一万多个核，但只有 4 个人；我们的理解：只够做验证（validation）。
 <!-- EN -->
 200,000 cells sounds like a lot, but they come from a few dozen people. As module 1 explained, cells from one person are strongly correlated and splits go by person, so **the real sample size is the number of people**, especially how many are healthy and how many are patients. Example: [Hoeft 2024](../datasets/hoeft-2024.md) has over ten thousand nuclei but only 4 people; our reading: enough for validation only.
 
 ## 问题 3 · 组织从哪来？ / Question 3 · Where did the tissue come from?
 
 <!-- ZH -->
-活检、肾切除还是死亡供体？皮质还是髓质？取法会带来缺血应激，部位决定细胞组成（模块 3、4）。例：[mBDRC](../datasets/mbdrc-2026.md) 只有皮质；[Lake 2019](../datasets/lake-2019.md) 没有活检。
+活检（biopsy）、肾切除（nephrectomy）还是死亡供体（deceased donor）？皮质（cortex）还是髓质（medulla）？取法会带来缺血应激（ischaemic stress），部位决定细胞组成（cell composition；模块 3、4）。例：[mBDRC](../datasets/mbdrc-2026.md) 只有皮质；[Lake 2019](../datasets/lake-2019.md) 没有活检。
 <!-- EN -->
 Biopsy, nephrectomy or deceased donor? Cortex or medulla? Procurement brings ischaemic stress, and region sets the cell mix (modules 3 and 4). Example: [mBDRC](../datasets/mbdrc-2026.md) is cortex only; [Lake 2019](../datasets/lake-2019.md) has no biopsies.
 
 ## 问题 4 · 标签是什么、有多可信？ / Question 4 · What are the labels, and how far can you trust them?
 
 <!-- ZH -->
-有没有细胞类型、细胞状态、供体、测法这些标签？它们是**实验设计给定的**（例如同一个人换测法、按 SNP 分出的供体），还是**专家聚类后判读的**？前者可以当真值，后者要小心（模块 2）。例：[Lake 2023](../datasets/lake-2023.md) 的 altered 状态是专家判读的；[Janssen 2023](../datasets/janssen-2023.md) 每个细胞的污染比例是按基因型算出来的。
+有没有细胞类型（cell type）、细胞状态（cell state）、供体、测法这些标签（label）？它们是**实验设计给定的**（例如同一个人换测法、按 SNP 分出的供体），还是**专家聚类（clustering）后判读的**？前者可以当真值（ground truth），后者要小心（模块 2）。例：[Lake 2023](../datasets/lake-2023.md) 的 altered 状态是专家判读的；[Janssen 2023](../datasets/janssen-2023.md) 每个细胞的污染比例是按基因型（genotype）算出来的。
 <!-- EN -->
 Are there cell-type, cell-state, donor or assay labels? Are they **fixed by the experimental design** (one donor measured by several assays, donors assigned by SNPs) or **read off clusters by experts**? The first kind can serve as ground truth; the second needs care (module 2). Example: [Lake 2023](../datasets/lake-2023.md)'s altered states are expert calls; [Janssen 2023](../datasets/janssen-2023.md)'s per-cell contamination is computed from genotypes.
 
 ## 问题 5 · 数据被处理到哪一步？ / Question 5 · How far has the data been processed?
 
 <!-- ZH -->
-- **raw 还是 filtered：**raw 矩阵含空液滴，才能估计 ambient；filtered 只剩细胞。例：[Janssen 2023](../datasets/janssen-2023.md) 有 raw；[Hoeft 2024](../datasets/hoeft-2024.md) GEO 上写"raw"的其实是 filtered。
-- **伪影是不是已经被去掉了：**例：[Abedini 2024](../datasets/abedini-2024.md) 已经做过 SoupX 和 DoubletFinder [2]，计数不再是整数；[Lake 2023](../datasets/lake-2023.md) 的单细胞数据也用 SoupX 校正过 [1]。
-- **有没有删掉什么：**例：[Lake 2019](../datasets/lake-2019.md) 的公开矩阵删掉了线粒体基因，没法直接算线粒体比例。
+- **raw 还是 filtered：**raw 矩阵含空液滴，才能估计 ambient；filtered 只剩细胞。例：[Janssen 2023](../datasets/janssen-2023.md) 有 raw；[Hoeft 2024](../datasets/hoeft-2024.md) GEO（NCBI 的公开基因表达数据库）上写"raw"的其实是 filtered。
+- **伪影是不是已经被去掉了：**例：[Abedini 2024](../datasets/abedini-2024.md) 已经做过 SoupX 和 DoubletFinder [2]，计数（counts）不再是整数；[Lake 2023](../datasets/lake-2023.md) 的单细胞数据也用 SoupX 校正过 [1]。
+- **有没有删掉什么：**例：[Lake 2019](../datasets/lake-2019.md) 的公开矩阵删掉了线粒体基因（mitochondrial genes），没法直接算线粒体比例（mitochondrial fraction）。
 <!-- EN -->
 - **Raw or filtered:** a raw matrix contains empty droplets, which you need to estimate ambient RNA; a filtered one has cells only. Example: [Janssen 2023](../datasets/janssen-2023.md) has raw; the "raw" file of [Hoeft 2024](../datasets/hoeft-2024.md) on GEO is in fact filtered.
 - **Have artifacts already been removed:** example: [Abedini 2024](../datasets/abedini-2024.md) already ran SoupX and DoubletFinder [2], so counts are no longer integers; [Lake 2023](../datasets/lake-2023.md)'s single-cell data was corrected with SoupX too [1].
@@ -80,8 +80,8 @@ Are there cell-type, cell-state, donor or assay labels? Are they **fixed by the 
 ## 问题 6 · 能不能拿到、能不能发布？ / Question 6 · Can you get it, and can you publish from it?
 
 <!-- ZH -->
-- **公开还是受控：**处理后的数据通常在 GEO / cellxgene / Zenodo，直接下载；人的原始测序通常在 dbGaP / EGA，要申请（本站的例外：Hoeft 2024 和 Lake 2019 的 FASTQ 在 SRA 上公开，见数据页）。
-- **许可：**CC BY 可以自由使用和发布派生结果；没写许可的（例如 [Abedini 2024](../datasets/abedini-2024.md)）要先确认才能发布派生标签。
+- **公开还是受控：**处理后的数据（processed data）通常在 GEO / cellxgene / Zenodo，直接下载；人的原始测序通常在 dbGaP / EGA，要申请（本站的例外：Hoeft 2024 和 Lake 2019 的 FASTQ 在 SRA 上公开，见数据页）。
+- **许可（licence）：**CC BY（知识共享署名许可）可以自由使用和发布派生结果（derived results）；没写许可的（例如 [Abedini 2024](../datasets/abedini-2024.md)）要先确认才能发布派生标签。
 - **大小和格式：**h5ad 用 Python 直接读（模块 1）；RDS / h5Seurat 是 R 的格式，要转换。
 <!-- EN -->
 - **Open or controlled:** processed data usually sit on GEO / cellxgene / Zenodo and download directly; human raw sequencing usually sits in dbGaP / EGA and needs an application (exceptions on this site: the FASTQ of Hoeft 2024 and Lake 2019 are open on SRA; see the dataset pages).
@@ -90,7 +90,7 @@ Are there cell-type, cell-state, donor or assay labels? Are they **fixed by the 
 
 <!-- ZH -->
 !!! tip "计算机类比"
-    这六个问题就像接手一个别人的数据集时的 code review：数据来源（谁采的、怎么采的）、样本量（独立样本有多少）、标签质量（ground truth 还是 weak label）、预处理历史（做过哪些清洗）、访问权限和许可。
+    这六个问题就像接手一个别人的数据集时的 code review：数据来源（provenance；谁采的、怎么采的）、样本量（独立样本有多少）、标签质量（ground truth 还是 weak label）、预处理（preprocessing）历史（做过哪些清洗）、访问权限和许可。
 <!-- EN -->
 !!! tip "Computer analogy"
     These six questions are a code review for someone else's dataset: provenance (who collected it and how), sample size (how many independent samples), label quality (ground truth or weak labels), preprocessing history (what cleaning was done), and access and licence.
@@ -98,8 +98,8 @@ Are there cell-type, cell-state, donor or assay labels? Are they **fixed by the 
 ## 自测 / Self-check
 
 <!-- ZH -->
-??? question "1. 一份数据有 50 万个细胞、6 个人，另一份有 10 万个细胞、40 个人。哪份更适合评估方法能不能泛化到新病人？"
-    40 个人那份。按人划分时，6 个人分不出可靠的训练集和测试集。
+??? question "1. 一份数据有 50 万个细胞、6 个人，另一份有 10 万个细胞、40 个人。哪份更适合评估方法能不能泛化（generalise）到新病人？"
+    40 个人那份。按人划分时，6 个人分不出可靠的训练集（training set）和测试集（test set）。
 
 ??? question "2. 想估计真实的 ambient 污染，最需要数据里有什么？"
     含空液滴的 raw 矩阵，最好还有基因型信息：对覆盖到 SNP 的那部分 RNA 分子，能看出它来自哪个个体，从而估出每个细胞的污染比例（例如 Janssen 2023 [3]）。

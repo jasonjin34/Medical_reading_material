@@ -12,46 +12,75 @@ The RNA assays of 5.1 answer "which genes is the cell using **right now**". This
 
 ## Step 1 · DNA is open or closed
 
-Module 2 said the nucleus stores DNA, the full source code. But DNA is not a bare thread: stretches of it are wound around small protein balls, and each ball with its DNA is called a **nucleosome**.
+Module 2 said the nucleus stores DNA. Think of DNA as a very long thread with "instructions" written all over it: the genes. The cell winds this thread, stretch by stretch, around small spools; one spool with its DNA is called a **nucleosome**. DNA together with its spools is called chromatin.
 
-- In some regions the nucleosomes are packed tightly, the DNA is wrapped up and other molecules cannot reach it: **closed** chromatin.
-- In other regions the nucleosomes are sparse and the DNA is exposed: **open** chromatin. The start of a gene that is in use (its promoter) is usually open, with no nucleosome on it [1].
+- Where the winding is tight, the thread is wrapped up and nothing can touch it. That part is not in use for now: it is **closed**.
+- Where the winding is loose and the thread is exposed, the cell can read it at any time: it is **open**. The start of a gene in use (its promoter) is usually exposed, with no spool on it [1].
 
-The top row of the figure below shows both: the tightly packed blue balls on the left are closed, the sparse region with a Gene on the right is open.
+**Open means the cell is using, or getting ready to use, that part of the instructions.** Open places are not only gene starts but also the regulatory regions near genes that control them. Whether a stretch of DNA is open is called chromatin accessibility, and that is what ATAC measures.
+
+The top row of the figure below shows both states: the tightly packed blue balls on the left are closed, the sparse region labelled Gene on the right is open.
 
 ![ATAC-seq: Tn5 cuts and tags open chromatin; sequenced fragments pile up into peaks over open regions / ATAC-seq：Tn5 在开放区剪开并贴上接头，测序片段在开放区堆成 peak](img/atac_seq.png)
 
 Figure: Wikimedia "Figure.1 ATAC-Seq illustration" by Deema108, CC BY-SA 4.0.
 
 !!! tip "Computer analogy"
-    Think of DNA as a huge code repository. Most files are compressed into archives (closed), so a program cannot read them; a few are unpacked into the working directory (open) and ready to run. RNA measures **which programs are running**; ATAC measures **which files are unpacked and ready**. This is an aid to intuition; the real relationship is more complicated.
+    Think of DNA as a huge code repository. Most files are compressed into archives (closed), so programs cannot read them; a few are unpacked in the working directory (open) and ready to run. This is only an aid to intuition; the real picture is more complicated.
 
-## Step 2 · Tn5 only cuts where DNA is open
+## Step 2 · Tn5 only cuts exposed DNA
 
-ATAC stands for Assay for Transposase-Accessible Chromatin. Its core tool is an engineered enzyme, **Tn5**, the green blocks in the second row of the figure:
+ATAC stands for Assay for Transposase-Accessible Chromatin: "use a transposase to see which chromatin can be reached". Its tool is an engineered enzyme called **Tn5**, the green blocks in the second row of the figure.
 
-1. Tn5 is preloaded with two sequencing **adapters** (the small red and blue tails);
-2. it **cuts the DNA and inserts the adapters in one move**, called tagmentation [1];
-3. in closed regions the nucleosomes get in the way and Tn5 rarely inserts; in open regions it inserts easily [1].
+Think of Tn5 as a pair of scissors that **can only cut exposed thread**:
 
-So nearly all fragments that can be sequenced come from open regions. **Where the fragments land is where the DNA is open.**
+- As it cuts the DNA, it sticks a label on the cut end: a sequencing **adapter**, the small red and blue tails in the figure. Cutting and labelling in one move is called tagmentation [1].
+- Thread wound inside a spool is shielded by the nucleosome, so Tn5 cannot reach it; only exposed thread gets cut [1].
+
+So nearly all the cut pieces (fragments) come from open regions. **Where there are many fragments, the DNA is open.**
+
+Single-cell ATAC also needs to know which nucleus each fragment came from: as in 5.1, each nucleus's fragments carry that nucleus's own barcode and are sorted back by barcode after sequencing.
 
 ## Step 3 · From fragments to peaks to a matrix
 
-When many fragments are aligned back to the genome, they **pile up** at open regions into small mountains called **peaks** (bottom row of the figure).
+**Where a fragment came from: aligning to the genome.** After sequencing, each fragment is a short string of letters (A, C, G, T). The human reference genome is like a book of about 3 billion letters. Aligning means searching the book for the place that string was copied from, like a full-text search. Once found, you know the fragment's position in the genome.
 
-Single nuclei are a special case: a regulatory region exists in only **two copies** in a diploid genome, so one nucleus can yield very few fragments at any one position and the result is nearly **0 or 1** [2]. Single-cell ATAC data is therefore **extremely sparse**, and a single position in a single nucleus tells you little; but a few hundred nuclei added together closely resemble a profile from tens of millions of cells [2].
+**How a position is written: an address.** `chr2:169,200,000-169,200,500` means chromosome 2 (think "volume 2"), the stretch from letter 169,200,000 to letter 169,200,500.
 
-The result is a matrix: **one row = one nucleus, one column = one peak (a stretch of the genome)**, and each number is how many fragments fell in that stretch. The key difference from the RNA matrix is that **columns are not genes** but coordinates, such as `chr2:169,200,000-169,200,500`.
+**From fragments to a matrix, with 3 nuclei as an example:**
+
+1. Pool the fragments of all 3 nuclei and align them to the genome. They are not spread evenly; they crowd into a few stretches (the open regions) and pile up into hills called **peaks** (bottom row of the figure). Say they crowd into stretches A, B and C.
+2. These three stretches are the 3 columns of the matrix. Each column's name is an address like the one above.
+3. Then count, for each nucleus, how many of its fragments fall in A, B and C. Each nucleus is one row.
+
+| nucleus | segment A | segment B | segment C |
+|---|---|---|---|
+| nucleus 1 | 1 | 0 | 1 |
+| nucleus 2 | 0 | 1 | 0 |
+| nucleus 3 | 1 | 0 | 0 |
+
+(Illustrative numbers.) So the **columns of an ATAC matrix are not genes but addresses of stretches of the genome**.
+
+**Why almost only 0 and 1?** RNA is a "photocopy": a gene can have dozens of copies in one cell. DNA is the "original": each stretch exists in only **two copies** per cell, one from each parent (the genome is diploid). Either copy may well not get cut, so one nucleus yields very few fragments at any one position [2].
+
+The consequence: a 0 in one nucleus cannot tell "closed" from "open but not cut". Single-cell ATAC is therefore **extremely sparse**; but a few hundred nuclei of the same type added together closely resemble a profile from tens of millions of cells [2].
 
 !!! warning "The most common beginner mistake"
-    A 0 for a peak in one nucleus does **not** mean that region is closed; most likely it was simply not captured. Judge openness from many nuclei of the same type added together.
+    A 0 for a peak in one nucleus does **not** mean that region is closed; most likely it simply was not cut. Judge openness from many nuclei of the same type added together.
+
+**In one sentence:** RNA shows "which pages of the instructions the cell is reading now"; ATAC shows "which pages lie open, ready to be read". Only with both can you infer what controls what; step 4 shows Lake 2023 using them this way.
 
 ## Step 4 · Two measurements from one nucleus: SNARE2
 
-Suppose RNA and ATAC come from **two different batches of nuclei**: you have two tables whose rows are two different sets of barcodes, with no direct way to match them. You can only rely on algorithms to guess that "this RNA nucleus and that ATAC nucleus are probably the same kind of cell".
+If RNA and ATAC come from **two different batches of nuclei**, it is like two guest lists from two different parties: they are not even the same people, so you cannot match the rows one to one, only guess by similarity who resembles whom.
 
-**SNARE-seq2** (SNARE2 in Lake 2023) first tagments the ATAC fragments and then captures the RNA **in the same nucleus**; several rounds of "split, add a piece of barcode, pool" (split-pool) then give the RNA and ATAC fragments of one nucleus **the same barcode combination** [3]. The two tables then share the same rows and line up one to one. In the Lake Fig. 1a crop shown in module 4, BC1, BC2 and BC3 under SNARE2 are the barcodes added in those three rounds.
+**SNARE-seq2** (SNARE2 in Lake 2023) measures both **in the same nucleus**: Tn5 first cuts the ATAC fragments, then the RNA is captured [3]. The hard part is making both kinds of molecules remember "which nucleus I came from". The trick is a few rounds of "split into groups, add one piece of label, pool again" (split-pool):
+
+1. split the nuclei into many groups and add a different piece of barcode to each group;
+2. pour all nuclei back together, mix, split again and add a second piece;
+3. one more round adds a third piece.
+
+After three rounds, the RNA and ATAC fragments of one nucleus carry **the same barcode combination** [3], and two different nuclei almost never end up with the same combination. The two tables therefore have the same rows and line up one to one. In the Lake Fig. 1a crop shown in module 4, BC1, BC2 and BC3 under SNARE2 are the three pieces added in those three rounds.
 
 The figure below draws the two tables side by side, in the same style as module 1's X / obs figure:
 
@@ -66,7 +95,7 @@ The figure below draws the two tables side by side, in the same style as module 
 <p class="xo-hint">Click the figure to enlarge; click again or press Esc to close</p>
 <figcaption>Illustrative data. Both tables come from the same nuclei, so their rows are the same barcodes. ATAC columns are not genes but stretches of the genome (shown as chromosome and approximate position; chr2:169.2M means about 169.2 million bases into chromosome 2; the three stretches lie in the LRP2, UMOD and NPHS2 genes, positions from Ensembl GRCh38), and the numbers are mostly 0, 1 or 2. The PT nucleus in row 4 has LRP2 RNA but no ATAC fragment in that stretch: ATAC data is very sparse, and missing in one nucleus does not mean closed.</figcaption></figure>
 
-**In the data**: Lake 2023's SNARE2 has 104,809 nuclei, but from only 7 healthy people (see the [Lake 2023 dataset page](../datasets/lake-2023.md)). If you want RNA and ATAC together, you only have healthy tissue. Lake 2023 used SNARE2's ATAC part to find regulatory regions and to infer gene regulatory networks for TAL [4]; cell-type labels for the single-cell and SNARE2 data were obtained by aligning them to the single-nucleus data [4].
+**In the data**: Lake 2023's SNARE2 has 104,809 nuclei, but from only 7 healthy people (see the [Lake 2023 dataset page](../datasets/lake-2023.md)). So if you want RNA and ATAC together, you only have healthy tissue. Lake 2023 used SNARE2's ATAC part to find regulatory regions and to infer gene regulatory networks for TAL [4]. Cell-type labels for the single-cell and SNARE2 data were obtained by aligning them to the single-nucleus data [4].
 
 ## Step 5 · Spatial: keeping the position
 

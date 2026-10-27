@@ -20,10 +20,14 @@ Each stage leaves marks in X. Items marked [n] come from the literature; "our co
 
 ![Lake 2023 Fig. 1a: tissue processed into cells or nuclei before droplet sequencing (Cv3) / 组织先处理成细胞或细胞核，再进液滴测序（Cv3）](img/lake2023_fig1a_crop.jpg)
 
+<div markdown>
+
 Lake 2023 did both: **scCv3** profiles whole cells and **snCv3** profiles nuclei [1]. The first step differs:
 
 - **Single-cell**: the tissue is **digested** with enzymes into single living cells, for example at 37 °C [2].
 - **Single-nucleus**: the tissue (which can be **frozen**) is broken up and the nuclei are pulled out directly; no living cells are needed [2, 3].
+
+</div>
 
 </div>
 
@@ -52,33 +56,51 @@ These differences show up directly in Lake 2023's two label tables (our count, m
 
 ## Step 2 · Droplets and barcodes: which RNA came from which cell
 
-The RNA of tens of thousands of cells is eventually sequenced together. To separate it again afterwards, each cell is labelled on its own first. Taking Drop-seq as the example, the steps are [5]:
+The RNA of tens of thousands of cells is eventually sequenced together. To separate it again afterwards, the idea is: **give every cell a unique ID first, let each of its RNA molecules carry that ID, sequence everything together, then sort by ID.**
+
+The IDs come from **beads**: tiny gel beads slightly larger than a cell, made in bulk by the manufacturer. Each bead is covered with many short DNA strands called **primers**.
+
+- **All primers on one bead carry the same barcode**;
+- **different beads carry different barcodes**.
+
+So "one bead = one ID". As long as each cell is paired with one bead, the cell has its own ID. Taking Drop-seq as the example, the steps are [5]:
 
 1. prepare a cell suspension;
-2. pack each cell with a barcoded bead into a nanolitre droplet;
-3. lyse the cell inside the droplet;
-4. let the bead's primers capture the cell's mRNA;
-5. break all droplets and reverse-transcribe, amplify and sequence thousands of cells in one reaction;
-6. use the barcodes to infer which cell each transcript came from.
+2. the instrument packs each cell together with one bead into a nanolitre droplet;
+3. the cell is lysed inside the droplet;
+4. the cell's mRNA is captured by that bead's primers and so picks up the bead's barcode;
+5. all droplets are broken, and the RNA of thousands of cells is reverse-transcribed, amplified and sequenced together;
+6. reads are sorted back into cells by barcode; one barcode is one row of X.
 
 10x Chromium, which Lake 2023 used (Cv3), works the same way; its droplets are called GEMs (Gel bead in EMulsion) [6].
 
-Each primer on a bead has several parts [5]:
+Each primer is made of several parts, end to end [5]:
 
-- **cell barcode**: **identical on all primers of one bead, different between beads**, so all RNA from one droplet carries the same barcode;
-- **UMI**: **different on every primer**, used to recognise PCR duplicates (step 3);
+- **cell barcode**: the same on the whole bead; tells **cells** apart;
+- **UMI**: different on every primer; tells **molecules** apart and recognises PCR duplicates (step 3);
 - **oligo-dT**: a run of T that pairs with the run of A at the tail of an mRNA and captures it.
 
-In the 10x 3′ v3 chemistry used by Lake 2023, the barcode is **16 bases** long, drawn from about **3.5 million** barcodes, and the UMI is **12 bases** [7]. Those are the 16 letters after `KB1_` in module 1's `KB1_AAACCCAAGCCGATAG`.
+In the 10x 3′ v3 chemistry used by Lake 2023, the barcode is **16 bases** long, drawn from about **3.5 million** barcodes, and the UMI is **12 bases** [7].
+
+Note: **there is one barcode per cell, not per batch.** In module 1's `KB1_AAACCCAAGCCGATAG`, the 16 letters are that cell's barcode and `KB1` is the batch (the sequencing run). Different batches can reuse the same barcode, so the batch prefix is added to keep IDs unique.
 
 !!! tip "Computer analogy"
     The barcode is a **foreign key**: every RNA record carries the ID of its cell, and a final `GROUP BY` on that key splits the pooled records back into cells. Different runs can reuse the same barcodes, which is why a run prefix (`KB1_`) is added, like namespacing primary keys before merging two tables.
 
 ## Step 3 · UMIs: count molecules, not reads
 
-Before sequencing, PCR amplifies the DNA many times over; otherwise there is too little to read. But amplification is uneven: different original molecules end up with different numbers of copies. Counting **reads** directly would measure how often things were copied, not how many molecules there were. With the tiny starting amounts in single-cell data this error is severe [8].
+**What a UMI is:** a short **random** stretch of bases on the primer (12 bases in 10x v3). Every primer has a different UMI, so each captured mRNA gets a random tag of its own [5, 9].
 
-A UMI gives each **original molecule** a random tag. All copies share that tag, so de-duplicating on (barcode, UMI, gene) leaves the real number of molecules [5, 8, 9].
+**Why it is needed: the RNA is copied before sequencing.** A cell holds too little RNA to read directly, so PCR first copies it thousands of times. But copying is **uneven**: some molecules are copied more, some less [8].
+
+An example: a cell really has **2** `LRP2` mRNA molecules. Molecule ① is copied 10 times and molecule ② 30 times, so sequencing yields 40 reads.
+
+| | Count | Result |
+|---|---|---|
+| without UMI | count reads | **40**, how often it was copied |
+| with UMI | count distinct UMIs | **2**, how many molecules there were |
+
+So a UMI is there to **de-duplicate**: reads with the same UMI are copies of one original molecule and count once. The figure shows this in three steps:
 
 <figure class="umi" markdown="0"><div class="um-row">
 <div class="um-panel"><p class="um-h">① Sequencing reads</p><table><tr><th>barcode</th><th>UMI</th><th>gene</th></tr>
