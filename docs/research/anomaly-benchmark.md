@@ -1,6 +1,6 @@
 # A Benchmark for Anomaly Detection in Kidney Single-Cell Omics
 
-> Topic 1 · Status: direction and core question decided; data and tasks under discussion; code not started. No results are reported until the code produces them.
+> Topic 1 · Status: direction and core question decided; data and tasks under discussion; benchmark code not started. [Onboarding module 9](../onboarding/09-hands-on.md) has a minimal teaching pipeline (kNN against a gene-count baseline) with its results; those are not benchmark results. Benchmark results are reported only once the code produces them.
 
 ## The question
 
@@ -36,11 +36,11 @@ Public kidney data only: human first, mouse only for calibration. What each data
 
 | Dataset | Answers | Role |
 |---|---|---|
-| [Lake 2023](../datasets/lake-2023.md) | disease | healthy reference + disease-state labels |
+| [Lake 2023](../datasets/lake-2023.md) | disease | healthy reference + disease-state labels; `state.l1/l2` and `percent.mt` come from the GEO label table, since the cellxgene file has neither (mitochondrial genes were removed) |
 | [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement | 11 of 18 donors measured by two or three assays (3 have all three; cellxgene file): an "anomaly" flagged only between assays of the same donor is treated as a false alarm (our design choice; tissue pieces and preservation also differ) |
-| [Abedini 2024](../datasets/abedini-2024.md) | disease | second lab and cohort: do false alarms stay under control? |
+| [Abedini 2024](../datasets/abedini-2024.md) | disease | second lab and cohort: do false alarms stay under control? GEO holds 44 people (21 controls). Ambient RNA and doublets were already removed before release (SoupX, DoubletFinder), so it cannot test the measurement side |
 | [Janssen 2023](../datasets/janssen-2023.md) | measurement | mouse; real ambient measured by genotype, used to calibrate injection |
-| [Hoeft 2024](../datasets/hoeft-2024.md) | measurement | under discussion: real human-kidney doublets and ambient from pooled donors |
+| [Hoeft 2024](../datasets/hoeft-2024.md) | measurement | under discussion: real human-kidney doublets and ambient from pooled donors. Genotypes reveal only cross-donor doublets; two nuclei from the same donor in one droplet are invisible, so the 250 genotype doublets are a lower bound (partly known tier-2 truth) |
 | [Lake 2019](../datasets/lake-2019.md) | measurement | under discussion: tissue from the same person kept and processed in different ways |
 
 **Splits:** by donor, not by cell, so no person appears in both training and testing; the split files ship with the dataset.
@@ -58,15 +58,16 @@ Ground truth comes in three tiers: **tier 1** is artifacts we inject ourselves, 
 | T4 | do false alarms stay controlled in a new lab? | every call on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, see above) | observed rate vs α |
 
 !!! warning "A known trap"
-    Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive).
+    Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive). The teaching pipeline in [onboarding module 9](../onboarding/09-hands-on.md) already shows a first sign of this: on degenerative nuclei kNN reaches AUROC 0.76–0.81 and the gene-count baseline 0.76–0.85, with kNN worse in 4 of 5 splits (a teaching result, not a benchmark result).
 
 ## Open questions
 
 - Should T2b be its own task or part of T4?
 - Should Hoeft 2024 and Lake 2019 join the main line?
 - How to split Lake's altered cells: those with independent evidence, those called only from QC-like features, and those in healthy donors.
-- The number of healthy donors in Abedini 2024 and its licence (sets the size of T4 and whether derived labels can be released).
+- The licence of Abedini 2024 (we found no stated licence; it decides whether derived labels can be released). The number of healthy donors is checked: 21 controls on GEO.
 - The list of methods to compare.
+- Whether to treat the [NIH Kidney AI challenge](../papers/nih-kidney-ai-challenge-2026/index.md) as a related opportunity: it asks for new anomalies in KPMP kidney-biopsy whole-slide images, with submissions open 2026-11-05 to 2027-04-29. It tests images, not this topic's single-cell omics, so it would be an extension towards images; cash prizes go only to US citizens, permanent residents or US entities.
 
 ## Reading path
 
@@ -78,4 +79,4 @@ Finish [Onboarding](../onboarding/index.md) first, then read in this order:
 4. [Bates 2023](../papers/conformal-outliers-annstat-2023/index.md): conformal p-values and false-alarm control
 5. [PatchCore](../papers/patchcore-cvpr-2022/index.md): the nearest-neighbour idea from image anomaly detection
 
-After that, see the must-reads in the "Topic 1" view of the [knowledge map](../knowledge-map.md) and the [method × data matrix](../knowledge-map.md), whose dashed cells are the gaps this topic fills.
+After that, see the must-reads in the "Topic 1" view of the [knowledge map](../knowledge-map.md) and the [method × data matrix](../knowledge-map.md), whose dashed cells mark what Topic 1 plans to add (some already hold papers; the note in each cell says what is still missing).

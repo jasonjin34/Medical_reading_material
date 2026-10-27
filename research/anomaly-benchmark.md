@@ -1,7 +1,7 @@
 # 肾脏单细胞组学异常检测基准 / A Benchmark for Anomaly Detection in Kidney Single-Cell Omics
 
-> <!-- ZH --> 课题 1 · 现状：方向和核心问题已定；数据和任务在讨论中；代码还没开始。所有结果等代码跑出来再写。
-> <!-- EN --> Topic 1 · Status: direction and core question decided; data and tasks under discussion; code not started. No results are reported until the code produces them.
+> <!-- ZH --> 课题 1 · 现状：方向和核心问题已定；数据和任务在讨论中；基准代码还没开始。[入门模块 9](../onboarding/09-hands-on.md) 里有一条教学用的最小流程（kNN 对比只数基因的基线），结果见那里；它不是基准本身的结果。基准的结果等代码跑出来再写。
+> <!-- EN --> Topic 1 · Status: direction and core question decided; data and tasks under discussion; benchmark code not started. [Onboarding module 9](../onboarding/09-hands-on.md) has a minimal teaching pipeline (kNN against a gene-count baseline) with its results; those are not benchmark results. Benchmark results are reported only once the code produces them.
 
 ## 研究问题 / The question
 
@@ -64,11 +64,11 @@ Public kidney data only: human first, mouse only for calibration. What each data
 
 | Dataset / 数据 | Answers / 提供哪一边 | Role / 在基准里干什么 |
 |---|---|---|
-| [Lake 2023](../datasets/lake-2023.md) | disease / 病 | healthy reference + disease-state labels / 健康参考 + 疾病状态标签 |
+| [Lake 2023](../datasets/lake-2023.md) | disease / 病 | healthy reference + disease-state labels; `state.l1/l2` and `percent.mt` come from the GEO label table, since the cellxgene file has neither (mitochondrial genes were removed) / 健康参考 + 疾病状态标签；`state.l1/l2` 和 `percent.mt` 要从 GEO 标签表里取，cellxgene 文件里两者都没有（线粒体基因已删） |
 | [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement / 测量 | 11 of 18 donors measured by two or three assays (3 have all three; cellxgene file): an "anomaly" flagged only between assays of the same donor is treated as a false alarm (our design choice; tissue pieces and preservation also differ) / 18 名供体里有 11 人用两到三种方法测过（3 人三种都有；cellxgene 文件）：同一人只因换测法报出的"异常"按误报处理（这是我们的设定；组织块和保存方式也不同） |
-| [Abedini 2024](../datasets/abedini-2024.md) | disease / 病 | second lab and cohort: do false alarms stay under control? / 换实验室、换一批人，误报能不能控住 |
+| [Abedini 2024](../datasets/abedini-2024.md) | disease / 病 | second lab and cohort: do false alarms stay under control? GEO holds 44 people (21 controls). Ambient RNA and doublets were already removed before release (SoupX, DoubletFinder), so it cannot test the measurement side / 换实验室、换一批人，误报能不能控住。GEO 上有 44 人（21 名对照）。发布前已经用 SoupX、DoubletFinder 去过 ambient 和 doublet，所以测不了测量这一侧 |
 | [Janssen 2023](../datasets/janssen-2023.md) | measurement / 测量 | mouse; real ambient measured by genotype, used to calibrate injection / 小鼠；按基因型测出的真实 ambient，用来校准注入 |
-| [Hoeft 2024](../datasets/hoeft-2024.md) | measurement / 测量 | under discussion: real human-kidney doublets and ambient from pooled donors / 讨论中：多人混样得到的真实人肾 doublet 和 ambient |
+| [Hoeft 2024](../datasets/hoeft-2024.md) | measurement / 测量 | under discussion: real human-kidney doublets and ambient from pooled donors. Genotypes reveal only cross-donor doublets; two nuclei from the same donor in one droplet are invisible, so the 250 genotype doublets are a lower bound (partly known tier-2 truth) / 讨论中：多人混样得到的真实人肾 doublet 和 ambient。基因型只能看出跨供体的 doublet，同一个人的两个核进了同一个液滴看不出来，所以 250 个基因型 doublet 只是下限（只部分已知的二级答案） |
 | [Lake 2019](../datasets/lake-2019.md) | measurement / 测量 | under discussion: tissue from the same person kept and processed in different ways / 讨论中：同一个人的组织，用不同方式保存和处理 |
 
 <!-- ZH -->
@@ -93,10 +93,10 @@ Ground truth comes in three tiers: **tier 1** is artifacts we inject ourselves, 
 
 <!-- ZH -->
 !!! warning "已知的坑"
-    我们的理解：直接拿 Lake 的 altered 标签当"病"的答案，有一部分是循环的（作者也用了损伤标记基因和 AKI / CKD 富集，不只看 QC 特征）：单核数据里，最大的 altered 组（degenerative）基因数不到正常细胞的一半、线粒体比例约是 5 倍，一个只看 QC 指标的打分器就可能拿到高分。所以基准里必须有"只用 QC 指标"的基线，并且按状态（degenerative / adaptive）分开报结果。
+    我们的理解：直接拿 Lake 的 altered 标签当"病"的答案，有一部分是循环的（作者也用了损伤标记基因和 AKI / CKD 富集，不只看 QC 特征）：单核数据里，最大的 altered 组（degenerative）基因数不到正常细胞的一半、线粒体比例约是 5 倍，一个只看 QC 指标的打分器就可能拿到高分。所以基准里必须有"只用 QC 指标"的基线，并且按状态（degenerative / adaptive）分开报结果。[入门模块 9](../onboarding/09-hands-on.md) 的教学流程初步看到了这一点：在 degenerative 核上，kNN 的 AUROC 是 0.76–0.81，只数基因的基线是 0.76–0.85，5 次划分里 kNN 有 4 次更差（只是教学结果，不是基准结果）。
 <!-- EN -->
 !!! warning "A known trap"
-    Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive).
+    Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive). The teaching pipeline in [onboarding module 9](../onboarding/09-hands-on.md) already shows a first sign of this: on degenerative nuclei kNN reaches AUROC 0.76–0.81 and the gene-count baseline 0.76–0.85, with kNN worse in 4 of 5 splits (a teaching result, not a benchmark result).
 
 ## 还没定的 / Open questions
 
@@ -104,14 +104,16 @@ Ground truth comes in three tiers: **tier 1** is artifacts we inject ourselves, 
 - T2b 单独成一个任务，还是并进 T4？
 - Hoeft 2024 和 Lake 2019 要不要进主线？
 - Lake 的 altered 细胞怎么分组：有独立证据的、只靠 QC 类特征判出来的、健康人身上的，各自怎么用。
-- Abedini 2024 的健康供体人数和许可（决定 T4 的规模、能不能发布派生标签）。
+- Abedini 2024 的数据许可（我们没找到写明的许可，决定能不能发布派生标签）。健康人数已核实：GEO 上 21 名对照。
 - 要比较的方法清单。
+- 要不要把 [NIH 肾脏 AI 挑战赛](../papers/nih-kidney-ai-challenge-2026/index.md) 当作相关机会：它要在 KPMP 肾活检全切片病理图像里找新的异常，提交窗口 2026-11-05 到 2027-04-29。它考的是图像，不是本课题的单细胞组学，所以只能算图像方向的扩展；现金奖只发给美国公民、永久居民或美国机构。
 <!-- EN -->
 - Should T2b be its own task or part of T4?
 - Should Hoeft 2024 and Lake 2019 join the main line?
 - How to split Lake's altered cells: those with independent evidence, those called only from QC-like features, and those in healthy donors.
-- The number of healthy donors in Abedini 2024 and its licence (sets the size of T4 and whether derived labels can be released).
+- The licence of Abedini 2024 (we found no stated licence; it decides whether derived labels can be released). The number of healthy donors is checked: 21 controls on GEO.
 - The list of methods to compare.
+- Whether to treat the [NIH Kidney AI challenge](../papers/nih-kidney-ai-challenge-2026/index.md) as a related opportunity: it asks for new anomalies in KPMP kidney-biopsy whole-slide images, with submissions open 2026-11-05 to 2027-04-29. It tests images, not this topic's single-cell omics, so it would be an extension towards images; cash prizes go only to US citizens, permanent residents or US entities.
 
 ## 阅读路线 / Reading path
 
@@ -134,6 +136,6 @@ Finish [Onboarding](../onboarding/index.md) first, then read in this order:
 5. [PatchCore](../papers/patchcore-cvpr-2022/index.md): the nearest-neighbour idea from image anomaly detection
 
 <!-- ZH -->
-再往后，看 [知识图谱](../knowledge-map.md) 里"课题 1"视图的必读论文，以及 [方法 × 数据矩阵](../knowledge-map.md)：虚线格就是这个课题要补的空白。
+再往后，看 [知识图谱](../knowledge-map.md) 里"课题 1"视图的必读论文，以及 [方法 × 数据矩阵](../knowledge-map.md)：虚线格是课题 1 打算补上的地方（有的格子里已经有论文，格子里的说明写了还缺什么）。
 <!-- EN -->
-After that, see the must-reads in the "Topic 1" view of the [knowledge map](../knowledge-map.md) and the [method × data matrix](../knowledge-map.md), whose dashed cells are the gaps this topic fills.
+After that, see the must-reads in the "Topic 1" view of the [knowledge map](../knowledge-map.md) and the [method × data matrix](../knowledge-map.md), whose dashed cells mark what Topic 1 plans to add (some already hold papers; the note in each cell says what is still missing).
