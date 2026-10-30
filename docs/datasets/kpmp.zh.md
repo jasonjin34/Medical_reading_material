@@ -34,4 +34,4 @@ KPMP 计划招募 1,000–1,200 名做研究用活检的参与者（El-Achkar 20
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: Lake 2023 的来源；以后可能补充更多活检数据。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: Lake 2023 的来源；以后可能补充更多活检数据。

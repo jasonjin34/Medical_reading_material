@@ -22,7 +22,7 @@ Day 1 takes about 6 hours and gets you to the point of understanding the data. D
 | [5.2 · Assays: ATAC, multiome, spatial](05-2-assays-more.md) / [5.2 · 测法：ATAC、多模态、空间](05-2-assays-more.md) | 45 min / 45 分钟 | What other matrices exist besides RNA, and how are pooled people told apart? / 除了 RNA 还有哪些矩阵，混在一起的人怎么分开？ |
 | [6 · Artifacts](06-artifacts.md) / [6 · 伪影](06-artifacts.md) | 60 min / 60 分钟 | Is an abnormal row disease, a measurement artifact, handling or batch? / 一行不正常，是病、测量伪影、处理还是批次？ |
 | [7 · How to read a dataset](07-datasets.md) / [7 · 怎么读懂一份数据集](07-datasets.md) | 40 min / 40 分钟 | Which questions decide whether a dataset is usable? / 判断一份数据能不能用，要问哪几个问题？ |
-| [8 · What we are working on](08-our-problem.md) / [8 · 我们在解决什么问题](08-our-problem.md) | 20 min / 20 分钟 | What do our research topics ask? / 各个研究课题在问什么？ |
+| [8 · From data to research questions](08-our-problem.md) / [8 · 从数据到研究问题](08-our-problem.md) | 25 min / 25 分钟 | What problem does machine learning solve here, and why is it hard? / 机器学习在这里解决什么问题，难在哪？ |
 | [9 · Hands-on](09-hands-on.md) / [9 · 动手](09-hands-on.md) | Day 2, 3 h / 第 2 天，3 小时 | Load the data and reproduce a first result / 读入数据，复现第一个结果 |
 | [10 · What to read next](10-next-reading.md) / [10 · 接下来读什么](10-next-reading.md) | Day 2, 3 h / 第 2 天，3 小时 | Which papers to read, in which order / 读哪些论文、按什么顺序 |
 

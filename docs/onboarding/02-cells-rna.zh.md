@@ -13,7 +13,7 @@
 
 <div class="grid" markdown>
 
-![Animal cell: membrane, cytoplasm, nucleus, mitochondria / 动物细胞：细胞膜、胞质、细胞核、线粒体](img/animal_cell.png)
+![动物细胞：细胞膜、胞质、细胞核、线粒体](img/animal_cell.png)
 
 - **细胞膜**（cell membrane）：外面一层膜，把细胞和外界隔开。
 - **细胞核**（nucleus）像机房，存着 **DNA**，也就是全部源代码。同一个人身上每个细胞的 DNA 几乎完全一样。
@@ -32,7 +32,7 @@
 
 线粒体基因是例外：它们在线粒体里面转录，不在核里 [3]。所以一个干净的细胞核里几乎没有 `MT-` 开头的 RNA（模块 6）。
 
-![DNA in the nucleus is transcribed into mRNA, which leaves through nuclear pores to ribosomes in the cytoplasm / 核里的 DNA 被转录成 mRNA，经核孔送到胞质里的核糖体](img/transcription_export.png)
+![核里的 DNA 被转录成 mRNA，经核孔送到胞质里的核糖体](img/transcription_export.png)
 
 图的下半部分是细胞核：黑色的双螺旋是 **DNA**，橙色的线是刚抄出来的 **mRNA**（工单）。中间那层带蓝色小孔的是核膜，**核孔**（pore）就是工单出门的通道。上半部分是胞质：绿色的**核糖体**（ribosome）照着 mRNA 生产蛋白质（黑色的链）；棕色的折叠膜是和核膜相连的内质网。其余标注（tRNA、chaperone、vesicle 等）这里用不到。
 

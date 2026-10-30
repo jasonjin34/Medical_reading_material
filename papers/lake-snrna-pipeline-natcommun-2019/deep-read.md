@@ -35,7 +35,7 @@
 <!-- ZH --> 由公开矩阵列名中的文库号与 GEO 样本注释联结统计(本笔记自算,非论文报告):
 <!-- EN --> Computed here by joining library IDs in the public matrix column names to GEO sample annotations (our own count, not reported in the paper):
 
-| PPID | 来源 / source | 区域 / region | 处理 → 核数 / method → nuclei |
+| PPID | source / 来源 | region / 区域 | method → nuclei / 处理 → 核数 |
 |---|---|---|---|
 | 3351 | radical nephrectomy | Cortex | Fresh Frozen (Dry Ice) 23; RNAlater 6 Hours 72 |
 | 3395 | radical nephrectomy | Cortex-Medulla | Flash Frozen OCT cryosection 1,193; RNAlater 6 Hours 375; cryosection + RNAlater 314 |

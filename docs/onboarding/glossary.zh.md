@@ -473,14 +473,14 @@
 - **DE** — dbGaP / EGA (kontrollierter Zugang): Archive mit kontrolliertem Zugang für menschliche Rohsequenzdaten, die eine Person identifizieren könnten; Zugang nur per Antrag und Datennutzungsvereinbarung.
 - _在入门里讲:_ [7 · 怎么读懂一份数据集](07-datasets.md)
 
-## 8 · 我们在解决什么问题
+## 8 · 从数据到研究问题
 
 ### 异常检测 · Anomaly detection {#anomaly-detection}
 
 - **中文** — 识别偏离所学“正常”概念的样本或区域,常仅用正常数据训练——即“检测→建模→逆转”流程的第一环。
 - **EN** — Identifying samples or regions that deviate from a learned notion of 'normal', often by training only on normal data — the first stage of the detect→model→revert pipeline.
 - **DE** — Anomalieerkennung: Das Erkennen von Proben oder Regionen, die von einem gelernten Begriff des 'Normalen' abweichen, oft durch Training nur auf normalen Daten — die erste Stufe der Detect→Model→Revert-Pipeline.
-- _在入门里讲:_ [8 · 我们在解决什么问题](08-our-problem.md)
+- _在入门里讲:_ [8 · 从数据到研究问题](08-our-problem.md)
 - _出现于:_ [`histo-anomaly-bi-repo`](../papers/histo-anomaly-bi-repo/index.md), [`histo-miccai-2025`](../papers/histo-miccai-2025/index.md), [`histo-nejmai-2024`](../papers/histo-nejmai-2024/index.md), [`imaging-ehjdh-2026`](../papers/imaging-ehjdh-2026/index.md), [`imaging-nature-2026`](../papers/imaging-nature-2026/index.md), [`spatial-biorxiv-2025`](../papers/spatial-biorxiv-2025/index.md), [`spatial-natcommun-2024`](../papers/spatial-natcommun-2024/index.md)
 
 ### 改变态（参考态 vs 改变态） · Altered state (reference vs altered) {#altered-state}
@@ -488,7 +488,7 @@
 - **中文** — Lake 2023 给偏离健康的细胞状态起的名字（退化、修复、增殖、过渡），与'参考态'相对；是聚类后由专家判读的，健康人身上也有。
 - **EN** — Lake 2023's label for cell states that differ from healthy (degenerative, adaptive/repairing, cycling, transitioning), as opposed to 'reference'; assigned by experts after clustering, and also found in healthy donors.
 - **DE** — Veränderter Zustand: Lake-2023-Bezeichnung für Zellzustände, die vom Gesunden abweichen (degenerativ, adaptiv/reparierend, zyklisch, im Übergang), im Gegensatz zu 'Referenz'; nach Clustering von Experten vergeben, auch bei Gesunden vorhanden.
-- _在入门里讲:_ [8 · 我们在解决什么问题](08-our-problem.md)
+- _在入门里讲:_ [8 · 从数据到研究问题](08-our-problem.md)
 - _出现于:_ [`lake-kidney-atlas-nature-2023`](../papers/lake-kidney-atlas-nature-2023/index.md)
 
 ### 单类分类 · One-class classification {#one-class-classification}
@@ -496,7 +496,7 @@
 - **中文** — 仅从单一正常类别的样本学习一个边界,凡落在边界之外者即判为异常。
 - **EN** — Learning a boundary from examples of a single normal class so that anything falling outside it is flagged as anomalous.
 - **DE** — Einklassen-Klassifikation: Das Lernen einer Grenze aus Beispielen einer einzigen Normalklasse, sodass alles außerhalb als anomal markiert wird.
-- _在入门里讲:_ [8 · 我们在解决什么问题](08-our-problem.md)
+- _在入门里讲:_ [8 · 从数据到研究问题](08-our-problem.md)
 - _出现于:_ [`histo-anomaly-bi-repo`](../papers/histo-anomaly-bi-repo/index.md), [`histo-nejmai-2024`](../papers/histo-nejmai-2024/index.md)
 
 ### 域偏移 · Domain shift {#domain-shift}
@@ -504,7 +504,7 @@
 - **中文** — 训练数据和测试数据分布之间的差异(例如换了扫描仪、染色方案或测法);通常会让模型性能下降。
 - **EN** — A difference between the training and test data distributions, for example due to a different scanner, staining protocol or assay; it typically lowers model performance.
 - **DE** — Domänenverschiebung: Ein Unterschied zwischen den Verteilungen von Trainings- und Testdaten, etwa durch einen anderen Scanner, ein anderes Färbeprotokoll oder Assay; senkt typischerweise die Modellleistung.
-- _在入门里讲:_ [8 · 我们在解决什么问题](08-our-problem.md)
+- _在入门里讲:_ [8 · 从数据到研究问题](08-our-problem.md)
 - _出现于:_ [`histo-miccai-2025`](../papers/histo-miccai-2025/index.md), [`uni2-h-model`](../papers/uni2-h-model/index.md), [`virchow-2024`](../papers/virchow-2024/index.md)
 
 ### AUROC / AUC(ROC 曲线下面积) · AUROC / AUC (area under the ROC curve) {#auroc}
@@ -512,7 +512,7 @@
 - **中文** — 衡量分类器把正例排在负例之前能力的阈值无关指标;0.5 为随机,1.0 为完美区分。
 - **EN** — A threshold-independent measure of a classifier's ability to rank positives above negatives; 0.5 is chance and 1.0 is perfect discrimination.
 - **DE** — AUROC / AUC (Fläche unter der ROC-Kurve): Ein schwellenunabhängiges Maß für die Fähigkeit eines Klassifikators, Positive über Negative zu ordnen; 0,5 ist Zufall, 1,0 perfekte Trennschärfe.
-- _在入门里讲:_ [8 · 我们在解决什么问题](08-our-problem.md)
+- _在入门里讲:_ [8 · 从数据到研究问题](08-our-problem.md)
 - _出现于:_ [`histo-miccai-2025`](../papers/histo-miccai-2025/index.md), [`imaging-ehjdh-2026`](../papers/imaging-ehjdh-2026/index.md)
 
 ## 读论文时会遇到的其他词

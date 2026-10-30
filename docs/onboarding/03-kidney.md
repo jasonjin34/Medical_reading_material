@@ -13,7 +13,7 @@ Think of the kidney as a **filter-and-reclaim pipeline**: blood is filtered, the
 
 <div class="grid" markdown>
 
-![Kidney cross-section / 肾脏剖面](img/kidney_whole.jpg)
+![Kidney cross-section](img/kidney_whole.jpg)
 
 1. **Renal cortex**: the outer layer. Filters (glomeruli), the proximal and distal tubules, and the first part of the collecting ducts sit here [1].
 2. **Medulla**: the inner layer, the red "pyramids". The loops and collecting ducts reach into it [1].
@@ -32,7 +32,7 @@ Zoom in on one nephron. The teal labels were added by us and match the abbreviat
 
 <div class="grid" markdown>
 
-![Nephron with cell-type labels / 标注了细胞类型的肾单位](img/nephron_lab.jpg)
+![Nephron with cell-type labels](img/nephron_lab_en.jpg)
 
 - **POD, podocyte**: wrapped around the ball of capillaries inside Bowman's capsule. Fluid is filtered out of the blood here; the filtration barrier has three layers: capillary endothelium, basement membrane and podocytes [4].
 - **PT, proximal tubule**: the purple proximal convoluted tubule. Takes back about 60–70% of the water and salt, and nearly all of the sugar and other nutrients [5].
@@ -44,28 +44,28 @@ Zoom in on one nephron. The teal labels were added by us and match the abbreviat
 
 </div>
 
-Figure: Wikimedia "[Kidney Nephron.png](https://commons.wikimedia.org/wiki/File:Kidney_Nephron.png)" by Holly Fischer, CC BY 3.0; teal labels and Chinese region names added by us.
+Figure: Wikimedia "[Kidney Nephron.png](https://commons.wikimedia.org/wiki/File:Kidney_Nephron.png)" by Holly Fischer, CC BY 3.0; teal labels and region names added by us.
 
 ## Zoom 3 · As a pipeline
 
 ```mermaid
 flowchart TB
-  subgraph cortex["cortex 皮质"]
-    POD["POD · filter 过滤"] --> PT["PT · reclaim most 回收大部分"]
-    CTAL["TAL, cortical part · 升支粗段皮质段"]
-    DCT["DCT · CNT · fine-tune 微调"]
-    CCD["PC · IC, cortical collecting duct · 皮质集合管"]
+  subgraph cortex["cortex"]
+    POD["POD · filter"] --> PT["PT · reclaim most"]
+    CTAL["TAL, cortical part"]
+    DCT["DCT · CNT · fine-tune"]
+    CCD["PC · IC, cortical collecting duct"]
   end
-  subgraph medulla["medulla 髓质"]
-    DTL["DTL · down 下行"] --> ATL["ATL · turn up 折返"] --> MTAL["TAL, medullary part · salt 回收盐"]
-    MCD["PC · IC · water, acid 调水和酸碱"]
+  subgraph medulla["medulla"]
+    DTL["DTL · down"] --> ATL["ATL · turn up"] --> MTAL["TAL, medullary part · salt"]
+    MCD["PC · IC · water, acid"]
   end
   PT --> DTL
   MTAL --> CTAL
   CTAL --> DCT
   DCT --> CCD
   CCD --> MCD
-  MCD --> U(["urine 尿"])
+  MCD --> U(["urine"])
 ```
 
 Support cells surround the tubes: **EC** endothelial cells, **FIB** fibroblasts, **VSM/P** vascular smooth muscle and pericytes, **IMM** immune cells. They are not on the fluid's path, but they are all in `subclass.l1`.
@@ -141,15 +141,15 @@ This is also why the artifacts in module 6 matter so much: ischaemia during tiss
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Nephron](glossary.md#nephron) | 肾单位 | The functional unit of the kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine. The number per kidney differs up to 10-fold between people (one study of Japanese living donors: about 650,000 on average). |
-| [Renal cortex / medulla / papilla](glossary.md#renal-cortex-medulla) | 皮质 / 髓质 / 乳头 | The kidney's outer layer (cortex, with glomeruli, proximal and distal tubules and the first part of the collecting ducts), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves. |
-| [Glomerulus](glossary.md#glomerulus) | 肾小球 | The ball of capillaries at the start of each nephron, inside Bowman's capsule, where blood is filtered. |
-| [Podocyte (POD)](glossary.md#podocyte) | 足细胞 | Cells wrapped around the glomerular capillaries that form the final filtration barrier; when they are injured, protein leaks into the urine. |
-| [Proximal tubule (PT)](glossary.md#proximal-tubule) | 近端小管 | The first tubule segment after the glomerulus; reclaims about 60–70% of the water and salt and nearly all of the glucose; highly metabolically active and, in most animal models, the cell type most sensitive to ischaemia. The most abundant cell type in kidney atlases. |
-| [Loop of Henle (DTL / ATL)](glossary.md#loop-of-henle) | 髓袢（降支细段 / 升支细段） | The U-shaped tubule segment that dips into the medulla: descending thin limb (DTL), ascending thin limb (ATL), then the thick ascending limb. |
-| [Thick ascending limb (TAL)](glossary.md#thick-ascending-limb) | 髓袢升支粗段 | The thick part of the loop of Henle that reclaims salt and builds the concentration gradient; like the proximal tubule it is often injured, and its adaptive state (aTAL) was defined in Lake 2023. |
-| [Distal convoluted / connecting tubule (DCT / CNT)](glossary.md#distal-tubule) | 远曲小管 / 连接小管 | Segments back in the cortex after the loop that fine-tune salt and calcium and connect the nephron to a collecting duct. |
-| [Collecting duct (PC / IC)](glossary.md#collecting-duct) | 集合管（主细胞 / 闰细胞） | The duct that collects fluid from many nephrons and carries it to the papilla; principal cells (PC) set the final water balance, intercalated cells (IC) the acid–base balance. |
-| [Interstitial fibrosis](glossary.md#interstitial-fibrosis) | 间质纤维化 | Scar-tissue accumulation between the functional units of an organ, scored routinely on kidney biopsies (read on several stains such as H&E, PAS and trichrome) as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks. |
+| Term | In one sentence |
+|---|---|
+| [Nephron](glossary.md#nephron) | The functional unit of the kidney: a filter (glomerulus) followed by a tubule that reclaims useful substances and leaves urine. The number per kidney differs up to 10-fold between people (one study of Japanese living donors: about 650,000 on average). |
+| [Renal cortex / medulla / papilla](glossary.md#renal-cortex-medulla) | The kidney's outer layer (cortex, with glomeruli, proximal and distal tubules and the first part of the collecting ducts), inner layer (medulla, with the loops and collecting ducts) and the tips of the medulla (papillae) where urine leaves. |
+| [Glomerulus](glossary.md#glomerulus) | The ball of capillaries at the start of each nephron, inside Bowman's capsule, where blood is filtered. |
+| [Podocyte (POD)](glossary.md#podocyte) | Cells wrapped around the glomerular capillaries that form the final filtration barrier; when they are injured, protein leaks into the urine. |
+| [Proximal tubule (PT)](glossary.md#proximal-tubule) | The first tubule segment after the glomerulus; reclaims about 60–70% of the water and salt and nearly all of the glucose; highly metabolically active and, in most animal models, the cell type most sensitive to ischaemia. The most abundant cell type in kidney atlases. |
+| [Loop of Henle (DTL / ATL)](glossary.md#loop-of-henle) | The U-shaped tubule segment that dips into the medulla: descending thin limb (DTL), ascending thin limb (ATL), then the thick ascending limb. |
+| [Thick ascending limb (TAL)](glossary.md#thick-ascending-limb) | The thick part of the loop of Henle that reclaims salt and builds the concentration gradient; like the proximal tubule it is often injured, and its adaptive state (aTAL) was defined in Lake 2023. |
+| [Distal convoluted / connecting tubule (DCT / CNT)](glossary.md#distal-tubule) | Segments back in the cortex after the loop that fine-tune salt and calcium and connect the nephron to a collecting duct. |
+| [Collecting duct (PC / IC)](glossary.md#collecting-duct) | The duct that collects fluid from many nephrons and carries it to the papilla; principal cells (PC) set the final water balance, intercalated cells (IC) the acid–base balance. |
+| [Interstitial fibrosis](glossary.md#interstitial-fibrosis) | Scar-tissue accumulation between the functional units of an organ, scored routinely on kidney biopsies (read on several stains such as H&E, PAS and trichrome) as a coarse prognostic marker and the canonical target of 'detect the diseased region' tasks. |

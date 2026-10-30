@@ -64,4 +64,4 @@ k.var_names_make_unique()
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: 讨论中：人肾真实的 ambient 和 doublet 答案，用来检验我们注入的伪影像不像真的。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 主线：人肾真实的 doublet 和 ambient 答案；任务 T2 的考官，也用来检验我们注入的伪影像不像真的。

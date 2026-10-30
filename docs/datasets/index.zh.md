@@ -36,4 +36,4 @@
 | [KPMP · 肾脏精准医学项目](kpmp.md) | 人 | 单细胞 RNA, 单核 RNA, 同核 RNA+ATAC, 空间 | 联盟项目，持续增加 | AKI 和 CKD 病人的研究用活检，加参考组织 | 处理后公开，原始数据受控 | 1 |
 | [CELLxGENE · 单细胞数据平台](cellxgene.md) | 人 | 单细胞 RNA, 单核 RNA, 同核 RNA+ATAC | 数据平台 | — | 公开 | 1 |
 
-**课题编号：**1 = [肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md) · 2 = [生物医学分析 agent 的结论核查](../research/agent-claims.md)
+**课题编号：**1 = [用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md) · 2 = [生物医学分析 agent 的结论核查](../research/agent-claims.md)

@@ -34,4 +34,4 @@ KPMP aims to enrol 1,000–1,200 participants with research biopsies (El-Achkar 
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Source of Lake 2023; possible later source of more biopsies.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Source of Lake 2023; possible later source of more biopsies.

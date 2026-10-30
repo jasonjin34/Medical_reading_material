@@ -57,4 +57,4 @@ c.columns = c.columns.str.replace(r"\.(\d+)$", r"-\1", regex=True) + "_3"
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Not used for now; human-kidney ground truth for artifacts relies on Hoeft 2024.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Not used for now; human-kidney ground truth for artifacts relies on Hoeft 2024.

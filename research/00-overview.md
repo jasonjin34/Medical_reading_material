@@ -8,13 +8,13 @@ The group's research topics live here, one page each with the same template: wha
 <!-- ZH/EN --> <div class="grid cards" markdown>
 
 <!-- ZH -->
--   __课题 1 · 肾脏单细胞组学异常检测基准__
+-   __课题 1 · 用伪影注入增强肾脏单细胞异常检测__
 
     ---
 
-    肾脏单细胞数据里，一个看起来异常的细胞，是真的病了，还是测量造成的？我们用公开数据搭一个有已知答案的基准，检验现有方法能不能分清两者、误报能不能控住。
+    肾脏单细胞数据里，一个看起来异常的细胞，是真的病了，还是测量造成的？我们做一条 pipeline，往任意单细胞数据里注入已知的伪影，用它增强现有模型（包括开源基础模型），再用公开数据里的真实答案检验模型分不分得清两者、误报控不控得住。
 
-    **现状：**方向和核心问题已定；数据和任务在讨论中。
+    **现状：**2026-10-28 方向调整为 pipeline + 模型；设计细节在讨论中，代码还没开始。
 
     [:octicons-arrow-right-24: 课题页](anomaly-benchmark.md)
 
@@ -28,13 +28,13 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: 课题页](agent-claims.md)
 <!-- EN -->
--   __Topic 1 · A Benchmark for Anomaly Detection in Kidney Single-Cell Omics__
+-   __Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
     ---
 
-    In kidney single-cell data, is an abnormal-looking cell diseased, or is its abnormality caused by measurement? We build a benchmark with known answers from public data to test whether current methods can tell the two apart and keep false alarms under control.
+    In kidney single-cell data, is an abnormal-looking cell diseased, or is its abnormality caused by measurement? We build a pipeline that injects known artifacts into any single-cell dataset, use it to boost current models (open foundation models included), and test on real answers from public data whether they can tell the two apart and keep false alarms under control.
 
-    **Status:** direction and core question decided; data and tasks under discussion.
+    **Status:** on 2026-10-28 the direction changed to pipeline + models; design details under discussion, code not started.
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
@@ -53,6 +53,6 @@ The group's research topics live here, one page each with the same template: wha
 ## 课题之间的联系 / How the topics connect
 
 <!-- ZH -->
-课题 1 要弄清楚"数据里哪些异常是真的"，课题 2 要弄清楚"agent 说的哪些话是真的"。两者打算用同一类数据和同一套已知答案：比如 Lake 2023 的细胞状态标签，在课题 1 里是"病"的答案，在课题 2 里可以用来检查 agent 有没有把伪影说成疾病。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文。
+课题 1 要弄清楚"数据里哪些异常是真的"，并让模型学会分辨，课题 2 要弄清楚"agent 说的哪些话是真的"。两者打算用同一类数据和同一套已知答案：比如 Lake 2023 的细胞状态标签，在课题 1 里是"病"的答案，在课题 2 里可以用来检查 agent 有没有把伪影说成疾病。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文。
 <!-- EN -->
-Topic 1 asks which anomalies in the data are real; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+Topic 1 asks which anomalies in the data are real and teaches models to tell; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.

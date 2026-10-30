@@ -71,6 +71,7 @@ def _strip_markers(line: str) -> str:
 
 
 CJK = re.compile(r"[一-鿿]")
+CJK_PUNCT = re.compile(r"[\u3000-\u303f\uff00-\uffef]")   # 、，；（） mark a Chinese half too
 
 
 def _split_header(line: str, lang: str) -> str:
@@ -91,7 +92,7 @@ def _split_table_row(line: str, lang: str) -> str:
     parts = line.split("|")
     out = []
     for cell in parts:
-        if " / " in cell and CJK.search(cell):
+        if " / " in cell and (CJK.search(cell) or CJK_PUNCT.search(cell.partition(" / ")[2])):
             left, _, right = cell.partition(" / ")
             keep = right if lang == "zh" else left
             # preserve one padding space on each side for readability
@@ -113,19 +114,41 @@ def _inline_pick(line: str, lang: str) -> str:
     return (prefix + part.strip()).rstrip()
 
 
+IMG_ALT = re.compile(r"!\[([^\]]*?) / ([^\]]*?)\]")
+
+
+def _pick_alt(m: re.Match, lang: str) -> str:
+    """Image alt text written as `English / 中文` keeps only the page's language."""
+    en, zh = m.group(1), m.group(2)
+    if not CJK.search(zh) or CJK.search(en):
+        return m.group(0)
+    return f"![{zh if lang == 'zh' else en}]"
+
+
 def split_bilingual(text: str, lang: str) -> str:
     """Return the `lang` ('en'|'zh') edition of marker-annotated markdown."""
-    out, mode, in_code = [], "both", False
+    out, mode, in_code, code_lang, prev = [], "both", False, "both", ""
+    table_lang, zh_table_seen = None, False   # a table opened inside a ZH block is Chinese-only; its EN twin English-only
     for line in text.split("\n"):
         s = line.strip()
         if s.startswith("```"):
+            if not in_code:   # a fence right under a bare ZH or EN marker belongs to that language only
+                code_lang = {"<!-- ZH -->": "zh", "<!-- EN -->": "en"}.get(prev, "both")
             in_code = not in_code
-            out.append(line); mode = "both"; continue
+            if code_lang in ("both", lang):
+                out.append(line)
+            mode = "both"; prev = s; continue
         if in_code:
-            out.append(line); continue
+            if code_lang in ("both", lang):
+                out.append(line)
+            continue
+        prev = s
+        line = IMG_ALT.sub(lambda m: _pick_alt(m, lang), line)
         # headers -> split by ' / ' when bilingual, reset language mode
+        if not s.startswith("|"):
+            table_lang = None
         if re.match(r"^\s*#{1,6}\s", line):
-            out.append(_split_header(line, lang)); mode = "both"; continue
+            out.append(_split_header(line, lang)); mode = "both"; zh_table_seen = False; continue
         if line.rstrip() == "---":              # a top-level rule only; an indented
             out.append(line); mode = "both"; continue   # "---" (card divider) keeps the mode
         # blockquotes -> both, unless they carry language markers
@@ -162,7 +185,14 @@ def split_bilingual(text: str, lang: str) -> str:
         if s == "":
             out.append(line); continue          # blanks in both, keep mode
         if s.startswith("|"):                    # table row: split bilingual cells
-            out.append(_split_table_row(line, lang)); continue
+            if table_lang is None:
+                table_lang = "zh" if mode == "zh" else "en" if (mode == "en" and zh_table_seen) else "both"
+                zh_table_seen = zh_table_seen or table_lang == "zh"
+            if table_lang == "both":
+                out.append(_split_table_row(line, lang))
+            elif table_lang == lang:
+                out.append(line)
+            continue
         if mode in ("both", lang):
             out.append(line)
     # collapse 3+ blank lines
@@ -325,11 +355,14 @@ def _write_research() -> list[dict]:
     if not topics:
         return []
     out.mkdir(parents=True)
+    ds_cfg = _load_yaml(DATASETS / "datasets.yaml") or {"datasets": [], "assay_labels": {}}
     for t in topics:
         raw = (RESEARCH / t["file"]).read_text(encoding="utf-8")
         stem = _topic_page(t)[:-3]
         for lang, suffix in (("en", ".md"), ("zh", ".zh.md")):
-            (out / f"{stem}{suffix}").write_text(split_bilingual(raw, lang), encoding="utf-8")
+            body = split_bilingual(raw, lang)
+            body = COMPARE.sub(lambda mt: _dataset_compare(mt.group(1).split(), ds_cfg, lang), body)
+            (out / f"{stem}{suffix}").write_text(body, encoding="utf-8")
     return topics
 
 

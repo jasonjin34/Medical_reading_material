@@ -13,7 +13,7 @@
 
 <div class="grid" markdown>
 
-![Kidney cross-section / 肾脏剖面](img/kidney_whole.jpg)
+![肾脏剖面](img/kidney_whole.jpg)
 
 1. **皮质**（renal cortex）：外层。过滤器（肾小球）、近端和远端小管，以及集合管的起始段在这里 [1]。
 2. **髓质**（medulla）：内层，一块块红色的"锥体"。髓袢和集合管伸到这里 [1]。
@@ -32,7 +32,7 @@
 
 <div class="grid" markdown>
 
-![Nephron with cell-type labels / 标注了细胞类型的肾单位](img/nephron_lab.jpg)
+![标注了细胞类型的肾单位](img/nephron_lab.jpg)
 
 - **POD 足细胞**（podocyte）：包在图里 Bowman's capsule 里那团毛细血管球外面。血在这里被滤出液体；过滤屏障有三层：毛细血管内皮、基底膜和足细胞 [4]。
 - **PT 近端小管**（proximal tubule）：图里紫色的 Proximal convoluted tubule。回收约 60–70% 的水和盐，以及几乎全部的糖等营养物质 [5]。
@@ -50,22 +50,22 @@
 
 ```mermaid
 flowchart TB
-  subgraph cortex["cortex 皮质"]
-    POD["POD · filter 过滤"] --> PT["PT · reclaim most 回收大部分"]
-    CTAL["TAL, cortical part · 升支粗段皮质段"]
-    DCT["DCT · CNT · fine-tune 微调"]
-    CCD["PC · IC, cortical collecting duct · 皮质集合管"]
+  subgraph cortex["皮质"]
+    POD["POD · 过滤"] --> PT["PT · 回收大部分"]
+    CTAL["TAL 皮质段 · 升支粗段"]
+    DCT["DCT · CNT · 微调"]
+    CCD["PC · IC · 皮质集合管"]
   end
-  subgraph medulla["medulla 髓质"]
-    DTL["DTL · down 下行"] --> ATL["ATL · turn up 折返"] --> MTAL["TAL, medullary part · salt 回收盐"]
-    MCD["PC · IC · water, acid 调水和酸碱"]
+  subgraph medulla["髓质"]
+    DTL["DTL · 下行"] --> ATL["ATL · 折返"] --> MTAL["TAL 髓质段 · 回收盐"]
+    MCD["PC · IC · 调水和酸碱"]
   end
   PT --> DTL
   MTAL --> CTAL
   CTAL --> DCT
   DCT --> CCD
   CCD --> MCD
-  MCD --> U(["urine 尿"])
+  MCD --> U(["尿"])
 ```
 
 管道周围还有支撑细胞：**EC** 血管内皮、**FIB** 成纤维细胞、**VSM/P** 血管平滑肌和周细胞、**IMM** 免疫细胞。它们不在液体流经的路线上，但都在 `subclass.l1` 里。

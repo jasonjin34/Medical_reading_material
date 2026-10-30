@@ -152,15 +152,17 @@ def module_table(module: dict, terms: list[dict], lang: str) -> str:
     ids = [i for i in (module.get("terms") or []) if i in by_id]
     if not ids:
         return ""
-    if lang == "zh":
+    if lang == "zh":   # the Chinese page pairs each term with its English name; the English page stays English
         rows = ["## 本模块名词\n", "| 中文 | English | 一句话 |", "|---|---|---|"]
     else:
-        rows = ["## Terms in this module\n", "| English | 中文 | In one sentence |", "|---|---|---|"]
+        rows = ["## Terms in this module\n", "| Term | In one sentence |", "|---|---|"]
     for i in ids:
         t = by_id[i]
-        a, b = (t.get("zh", ""), t.get("en", "")) if lang == "zh" else (t.get("en", ""), t.get("zh", ""))
         d = _pick(t, lang, "def").replace("|", "\\|")
-        rows.append(f"| [{a}](glossary.md#{i}) | {b} | {d} |")
+        if lang == "zh":
+            rows.append(f"| [{t.get('zh', '')}](glossary.md#{i}) | {t.get('en', '')} | {d} |")
+        else:
+            rows.append(f"| [{t.get('en', '')}](glossary.md#{i}) | {d} |")
     return "\n".join(rows) + "\n"
 
 

@@ -28,7 +28,7 @@ KPMP 早期的方法学论文:比较 7 种肾组织保存/处理方式后,用 sn
 ### GEO 复核:同一患者多种处理方式
 由公开矩阵列名中的文库号与 GEO 样本注释联结统计(本笔记自算,非论文报告):
 
-| PPID | source | region | method → nuclei |
+| PPID | 来源 | 区域 | 处理 → 核数 |
 |---|---|---|---|
 | 3351 | radical nephrectomy | Cortex | Fresh Frozen (Dry Ice) 23; RNAlater 6 Hours 72 |
 | 3395 | radical nephrectomy | Cortex-Medulla | Flash Frozen OCT cryosection 1,193; RNAlater 6 Hours 375; cryosection + RNAlater 314 |

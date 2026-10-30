@@ -25,3 +25,6 @@ manuscripts/**/*.out
 manuscripts/**/*.fls
 manuscripts/**/*.fdb_latexmk
 manuscripts/**/*.synctex.gz
+
+# Local PDF renders of topic pages
+manuscripts/plan-a/topic1/

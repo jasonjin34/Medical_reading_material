@@ -4,13 +4,13 @@ The group's research topics live here, one page each with the same template: wha
 
 <div class="grid cards" markdown>
 
--   __Topic 1 · A Benchmark for Anomaly Detection in Kidney Single-Cell Omics__
+-   __Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
     ---
 
-    In kidney single-cell data, is an abnormal-looking cell diseased, or is its abnormality caused by measurement? We build a benchmark with known answers from public data to test whether current methods can tell the two apart and keep false alarms under control.
+    In kidney single-cell data, is an abnormal-looking cell diseased, or is its abnormality caused by measurement? We build a pipeline that injects known artifacts into any single-cell dataset, use it to boost current models (open foundation models included), and test on real answers from public data whether they can tell the two apart and keep false alarms under control.
 
-    **Status:** direction and core question decided; data and tasks under discussion.
+    **Status:** on 2026-10-28 the direction changed to pipeline + models; design details under discussion, code not started.
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
@@ -28,4 +28,4 @@ The group's research topics live here, one page each with the same template: wha
 
 ## How the topics connect
 
-Topic 1 asks which anomalies in the data are real; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+Topic 1 asks which anomalies in the data are real and teaches models to tell; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.

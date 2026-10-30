@@ -29,4 +29,4 @@
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: Lake 2023 和 mBDRC 的下载途径。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: Lake 2023 和 mBDRC 的下载途径。

@@ -18,11 +18,11 @@
 
 ```mermaid
 flowchart TB
-  A["agent runs the analysis · agent 执行分析"] --> B["extract claims, trace to code / data / citations · 抽取结论，追溯到代码、数据、引用"]
-  B --> C["detect unsupported claims and judge · 检测无依据结论，评审"]
-  C --> D["score hypotheses · 评估假设"]
-  D --> E["reruns and failure analysis · 重跑与失败分析"]
-  E --> F["benchmark + expert calibration · 基准 + 专家校准"]
+  A["agent 执行分析"] --> B["抽取结论，追溯到代码、数据、引用"]
+  B --> C["检测无依据的结论，评审"]
+  C --> D["评估假设"]
+  D --> E["重跑与失败分析"]
+  E --> F["基准 + 专家校准"]
 ```
 
 ## 还没定的

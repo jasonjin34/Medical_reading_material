@@ -62,4 +62,4 @@ cont = rdata.read_rds("rep3/perCell_noMito_CAST_binom.RDS")      # pandas DataFr
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: 定注入的 ambient 有多强、什么样子。不当测试集。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 定注入的 ambient 有多强、什么样子。不当测试集。

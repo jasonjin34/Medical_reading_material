@@ -28,13 +28,23 @@ This topic uses the same kind of data as [Topic 1](anomaly-benchmark.md). The kn
 <!-- EN -->
 This is the pipeline in the knowledge map; how far each step goes is not decided yet:
 
+<!-- ZH -->
 ```mermaid
 flowchart TB
-  A["agent runs the analysis · agent 执行分析"] --> B["extract claims, trace to code / data / citations · 抽取结论，追溯到代码、数据、引用"]
-  B --> C["detect unsupported claims and judge · 检测无依据结论，评审"]
-  C --> D["score hypotheses · 评估假设"]
-  D --> E["reruns and failure analysis · 重跑与失败分析"]
-  E --> F["benchmark + expert calibration · 基准 + 专家校准"]
+  A["agent 执行分析"] --> B["抽取结论，追溯到代码、数据、引用"]
+  B --> C["检测无依据的结论，评审"]
+  C --> D["评估假设"]
+  D --> E["重跑与失败分析"]
+  E --> F["基准 + 专家校准"]
+```
+<!-- EN -->
+```mermaid
+flowchart TB
+  A["agent runs the analysis"] --> B["extract claims, trace to code, data, citations"]
+  B --> C["detect unsupported claims and judge"]
+  C --> D["score hypotheses"]
+  D --> E["reruns and failure analysis"]
+  E --> F["benchmark + expert calibration"]
 ```
 
 ## 还没定的 / Open questions

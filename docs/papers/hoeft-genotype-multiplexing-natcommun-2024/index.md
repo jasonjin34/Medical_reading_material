@@ -16,12 +16,6 @@ Large human single-cell cohorts are limited by cost and batch effects. Multiplex
 SoupLadle has four steps (Fig. 1h): (1) bulkRNA-seq per patient (STAR, freebayes `-iXu --min-mapping-quality 30 --min-base-quality 10 --min-coverage 5`), used **a priori** to check SNP heterogeneity and choose which samples to pool; (2) pooled 10x 3′ v3.1 sc/snRNA-seq; (3) freebayes candidate SNPs on the pooled BAM → Vartrix allele counts → Souporcell 2.4 clustering (`--num_clusters` = number of donors) + troublet doublet calls; (4) a normalized Hamming-distance matrix between Souporcell genotype clusters and bulk SNP profiles, solved one-to-one with Kuhn-Munkres (Hungarian). The key argument is that deconvolution can use **all** SNPs called in the single-cell data, not just those also in the reference, so rare cell types still get assigned. Comparators: CellPlex, Hashtag (TotalSeq-A anti-nuclear-pore), Souporcell (Vartrix or minimap2), Vireo 0.5.7 (cellSNP-lite or Vartrix SNPs; with/without bulkRNA or WES prior). Doublet reference: scDblFinder (top 4000 genes, score > 3). CellRanger 7.1.0 + GRCh38-2020-A, no QC cutoff before demultiplexing; Seurat clusters (4000 HVG, res 0.1) serve as PBMC ground truth.
 
 ## Data
-| 数据集 | 设计 | 平台 | 细胞/核数 | 真值 |
-|---|---|---|---|---|
-| PBMC (P1–5) | 每人 FACS 分选一种 PBMC 亚群 (CD14 Mono | 10x 3′ v3.1, Chip G | 17,892 | 细胞类型 = 患者 (FACS 设计) + CellPlex |
-| Heart 1 (P6–10) | 冷冻心肌 snRNA,CellPlex + Hashtag 双标记;bulkRNA + WES | 10x 3′ v3.1, Chip G | 1,563 | CellPlex / HTO |
-| Heart 2 (P11–18) | 冷冻心肌 snRNA,每人 ~50,000 nuclei 分选后 pool,无标记;bulkRNA | 10x 3′ HT v3.1, Chip M | 11,501 | 仅方法间一致性 |
-| **Kidney (P19–22)** | **4 例冷冻人肾活检**(3 男 1 女),"total processed biopsies were pooled prior to sorting",DAPI⁺ nuclei 分选,无标记;bulkRNA(**无 rRNA depletion**),无 WES | **10x 3′ v3.1 (Dual Index), Chip G, snRNA** | **11,490** | 仅方法间一致性 |
 
 | Dataset | Design | Platform | Cells/nuclei | Ground truth |
 |---|---|---|---|---|

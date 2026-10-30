@@ -94,7 +94,7 @@ curl -o lake2023_sn.h5ad https://datasets.cellxgene.cziscience.com/5dc03d39-ac5f
 
 ### 第 4 步 · 打分
 
-方法是最朴素的一种，正好对应模块 8 第 1 步的那张表：
+方法是最朴素的一种，正好对应模块 8 第 2 步的那张表：
 
 1. 只看一种细胞类型（PT），这样"异常"指的是状态，而不是细胞类型（模块 2）；
 2. 把 13 个健康供体**按人**分成三份：一半做健康参考，四分之一定阈值，四分之一留作测试（模块 1）；
@@ -173,16 +173,16 @@ print("false alarms on held-out healthy donors:", (s[healthy_test] > threshold).
 |---|---|---|
 | 全部 altered，kNN | 0.67 | 0.67 – 0.76 |
 | 全部 altered，只数基因 | 0.56 | 0.56 – 0.61 |
-| degenerative, kNN / degenerative，kNN | 0.76 | 0.76 – 0.81 |
+| degenerative，kNN | 0.76 | 0.76 – 0.81 |
 | degenerative，只数基因 | 0.76 | 0.76 – 0.85 |
-| adaptive – epi, kNN / adaptive – epi，kNN | 0.56 | 0.53 – 0.71 |
+| adaptive – epi，kNN | 0.56 | 0.53 – 0.71 |
 | adaptive – epi，只数基因 | 0.30 | 0.30 – 0.34 |
 | 健康测试供体上的误报（目标 5%） | 0.9% | 0.9% – 6.3% |
 
-三条读法，对应模块 8 的三个坑：
+三条读法，对应模块 8 的三个难点：
 
 1. **degenerative 上，kNN 和只数基因差不多**，5 次里有 4 次还更差。漂亮的 AUROC 不说明方法学会了"病"。
-2. **我们不知道 kNN 报出来的细胞里有多少是伪影**：Lake 没有伪影标签，这段代码答不了。
+2. **我们不知道 kNN 报出来的细胞里有多少是伪影**：Lake 没有伪影标签，这段代码答不了。[课题 1](../research/anomaly-benchmark.md) 的思路就是往数据里注入已知的伪影，再用真实答案检验；第 6 步的练习 6 是一个最小的版本。
 3. **误报不稳**：阈值定在 5%，在没见过的健康人身上是 0.9% 到 6.3%。13 个健康人按 6 / 3 / 4 分，测试供体只有 4 个，有的人 PT 核很少（种子 0 里有一个人只有 4 个，种子 1–4 里有一个人只有 3 个），单人的误报率波动很大。
 
 ## 第 6 步 · 练习
@@ -194,6 +194,7 @@ print("false alarms on held-out healthy donors:", (s[healthy_test] > threshold).
 3. 把"只数基因"换成 `percent.mt`，或者两者结合，能不能在 degenerative 上追平 kNN？
 4. 把 `n_neighbors` 从 10 改成 1 或 50，AUROC 和误报率怎么变？
 5. 把标签表里的 `tissue_type`（模块 4）也合并进来：在第 4 步代码第 1 段的 `join` 后面加一行 `adata.obs = adata.obs.join(meta[["tissue_type"]], rsuffix="_geo")`（h5ad 自己也有一列 `tissue_type`，但值全是 "tissue"），再用 `tissue_type_geo` 按活检、肾切除、死亡供体分别报误报率。这一行我们跑过，其余结果不变。
+6. **自己造 doublet**（课题 1 的最小版本）：在第 4 步代码第 2 段 `normalize_total` 之前，从测试供体的 reference PT 核里随机取 500 对，把两行**原始计数相加**，当作 500 个新细胞加进去，标成"伪影"（Scrublet 就是这样造 doublet 的）。用同样的流程打分：它们有多少超过阈值？再换成"PT + TAL"两种细胞相加，结果有什么不同？想一想为什么同一类细胞组成的 doublet 很难被发现。
 
 ## 第 7 步 · 收尾
 

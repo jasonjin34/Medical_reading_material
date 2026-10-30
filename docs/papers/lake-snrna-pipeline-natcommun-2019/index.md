@@ -28,7 +28,7 @@ In epithelium- and ECM-rich solid tissues like kidney, enzymatic dissociation ca
 ### GEO check: patients with several methods
 Computed here by joining library IDs in the public matrix column names to GEO sample annotations (our own count, not reported in the paper):
 
-| PPID | 来源 | 区域 | 处理 → 核数 |
+| PPID | source | region | method → nuclei |
 |---|---|---|---|
 | 3351 | radical nephrectomy | Cortex | Fresh Frozen (Dry Ice) 23; RNAlater 6 Hours 72 |
 | 3395 | radical nephrectomy | Cortex-Medulla | Flash Frozen OCT cryosection 1,193; RNAlater 6 Hours 375; cryosection + RNAlater 314 |

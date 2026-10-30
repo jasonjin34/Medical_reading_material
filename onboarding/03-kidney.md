@@ -53,7 +53,10 @@ Zoom in on one nephron. The teal labels were added by us and match the abbreviat
 
 <!-- ZH/EN --> <div class="grid" markdown>
 
-<!-- ZH/EN --> ![Nephron with cell-type labels / 标注了细胞类型的肾单位](img/nephron_lab.jpg)
+<!-- ZH -->
+![标注了细胞类型的肾单位](img/nephron_lab.jpg)
+<!-- EN -->
+![Nephron with cell-type labels](img/nephron_lab_en.jpg)
 
 <!-- ZH -->
 - **POD 足细胞**（podocyte）：包在图里 Bowman's capsule 里那团毛细血管球外面。血在这里被滤出液体；过滤屏障有三层：毛细血管内皮、基底膜和足细胞 [4]。
@@ -77,28 +80,49 @@ Zoom in on one nephron. The teal labels were added by us and match the abbreviat
 <!-- ZH -->
 图：Wikimedia「[Kidney Nephron.png](https://commons.wikimedia.org/wiki/File:Kidney_Nephron.png)」，Holly Fischer，CC BY 3.0；青色标签和中文部位名是我们加的。
 <!-- EN -->
-Figure: Wikimedia "[Kidney Nephron.png](https://commons.wikimedia.org/wiki/File:Kidney_Nephron.png)" by Holly Fischer, CC BY 3.0; teal labels and Chinese region names added by us.
+Figure: Wikimedia "[Kidney Nephron.png](https://commons.wikimedia.org/wiki/File:Kidney_Nephron.png)" by Holly Fischer, CC BY 3.0; teal labels and region names added by us.
 
 ## 第 3 层 · 简化成流水线 / Zoom 3 · As a pipeline
 
+<!-- ZH -->
 ```mermaid
 flowchart TB
-  subgraph cortex["cortex 皮质"]
-    POD["POD · filter 过滤"] --> PT["PT · reclaim most 回收大部分"]
-    CTAL["TAL, cortical part · 升支粗段皮质段"]
-    DCT["DCT · CNT · fine-tune 微调"]
-    CCD["PC · IC, cortical collecting duct · 皮质集合管"]
+  subgraph cortex["皮质"]
+    POD["POD · 过滤"] --> PT["PT · 回收大部分"]
+    CTAL["TAL 皮质段 · 升支粗段"]
+    DCT["DCT · CNT · 微调"]
+    CCD["PC · IC · 皮质集合管"]
   end
-  subgraph medulla["medulla 髓质"]
-    DTL["DTL · down 下行"] --> ATL["ATL · turn up 折返"] --> MTAL["TAL, medullary part · salt 回收盐"]
-    MCD["PC · IC · water, acid 调水和酸碱"]
+  subgraph medulla["髓质"]
+    DTL["DTL · 下行"] --> ATL["ATL · 折返"] --> MTAL["TAL 髓质段 · 回收盐"]
+    MCD["PC · IC · 调水和酸碱"]
   end
   PT --> DTL
   MTAL --> CTAL
   CTAL --> DCT
   DCT --> CCD
   CCD --> MCD
-  MCD --> U(["urine 尿"])
+  MCD --> U(["尿"])
+```
+<!-- EN -->
+```mermaid
+flowchart TB
+  subgraph cortex["cortex"]
+    POD["POD · filter"] --> PT["PT · reclaim most"]
+    CTAL["TAL, cortical part"]
+    DCT["DCT · CNT · fine-tune"]
+    CCD["PC · IC, cortical collecting duct"]
+  end
+  subgraph medulla["medulla"]
+    DTL["DTL · down"] --> ATL["ATL · turn up"] --> MTAL["TAL, medullary part · salt"]
+    MCD["PC · IC · water, acid"]
+  end
+  PT --> DTL
+  MTAL --> CTAL
+  CTAL --> DCT
+  DCT --> CCD
+  CCD --> MCD
+  MCD --> U(["urine"])
 ```
 
 <!-- ZH -->

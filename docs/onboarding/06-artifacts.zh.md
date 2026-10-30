@@ -71,7 +71,7 @@
 
 Hoeft 2024 就这样做过：4 个病人的核混在一起测，再按 SNP 分出每个核来自谁 [6]。下图右半是结果：按表达被聚成"Mixed/Doublets"的簇里，大部分核按 SNP 只来自一个人，基因型判出的 doublet（深灰色）很少。同一个人的 doublet 基因型看不出来，所以这不能证明那个簇里没有 doublet；但它说明很多被表达判成"混合"的核其实不是两个人的混合。我们的理解：只看表达判断伪影，很容易判错。具体数字见 [Hoeft 2024 数据页](../datasets/hoeft-2024.md)。
 
-![Hoeft 2024 Fig. 2 i–j: expression clusters vs genotype-based donor assignment / 表达聚类和按基因型分人的对照](img/hoeft2024_fig2ij.jpg)
+![表达聚类和按基因型分人的对照](img/hoeft2024_fig2ij.jpg)
 
 图：Hoeft 2024 Fig. 2 i–j（肾部分，已截取）[6]。左：示意图，混合肾样本的 UMAP（把高维表达压到二维画图的降维方法）分别按表达聚类和三种按 SNP 分人的方法上色；右：每个簇里各病人、doublet（深灰）和未分配核（unassigned nuclei，浅灰）的比例，看最左边 SoupLadle 那一组即可。Hoeft K et al., Nat Commun 2024，CC BY 4.0。
 
@@ -98,7 +98,7 @@ Hoeft 2024 就这样做过：4 个病人的核混在一起测，再按 SNP 分�
 | 现象 | 非疾病的解释 | 生物的解释 | 靠什么分辨 |
 |---|---|---|---|
 | 基因少、线粒体高 | 低质量细胞、空液滴 | 受损、退化的细胞 | 损伤基因是否升高 |
-| 两类细胞的标记基因 | doublet, ambient RNA / doublet、ambient | 过渡、修复中的细胞 | 多人混测时看基因型（只能看出两个人的 doublet） |
+| 两类细胞的标记基因 | doublet、ambient | 过渡、修复中的细胞 | 多人混测时看基因型（只能看出两个人的 doublet） |
 | RNA 特别多 | doublet | 多倍体、双核细胞 | 基因型；细胞类型 |
 | 应激基因高 | 解离应激 | 损伤、缺血 | 同一组织冷热消化对照 |
 | 同类细胞按批次分团 | 批次效应 | 病（如果和批次混在一起） | 同一组织换测法或批次 |

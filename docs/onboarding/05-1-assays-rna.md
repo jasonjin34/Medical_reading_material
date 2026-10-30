@@ -18,7 +18,7 @@ Each stage leaves marks in X. Items marked [n] come from the literature; "our co
 
 <div class="grid" markdown>
 
-![Lake 2023 Fig. 1a: tissue processed into cells or nuclei before droplet sequencing (Cv3) / 组织先处理成细胞或细胞核，再进液滴测序（Cv3）](img/lake2023_fig1a_crop.jpg)
+![Lake 2023 Fig. 1a: tissue processed into cells or nuclei before droplet sequencing (Cv3)](img/lake2023_fig1a_crop.jpg)
 
 <div markdown>
 
@@ -169,11 +169,11 @@ All three can make a row of X look abnormal; module 6 covers them.
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Single-cell RNA sequencing (scRNA-seq)](glossary.md#single-cell-rna-seq) | 单细胞 RNA 测序(scRNA-seq) | A technique that profiles the transcriptome of individual cells, revealing cell-type heterogeneity that bulk sequencing averages away. |
-| [Single-nucleus RNA-seq (snRNA-seq)](glossary.md#snrna-seq) | 单核 RNA 测序(snRNA-seq) | Dissociates tissue down to individual nuclei and sequences the RNA in each, giving genome-wide expression per nucleus at the cost of losing every cell's position in the tissue. |
-| [Tissue dissociation](glossary.md#tissue-dissociation) | 组织解离 | Breaking tissue into single cells, usually with enzymes at 37 °C, before single-cell RNA-seq; needed for whole cells but stresses them. |
-| [10x Chromium (Cv3)](glossary.md#chromium-10x) | 10x Chromium（Cv3 = 第 3 版试剂） | The most common commercial single-cell platform: it packs each cell or nucleus into an oil droplet with a barcoded bead. Cv3 = Chromium v3 chemistry (snCv3 / scCv3 in Lake 2023). |
-| [Cell barcode](glossary.md#cell-barcode) | 细胞条形码 | A short DNA tag attached to every RNA from the same droplet (or the same split-pool path), so reads can be sorted back to their cell; becomes the row ID of the count matrix. |
-| [UMI (unique molecular identifier)](glossary.md#umi) | UMI（分子唯一标识） | A random tag on each RNA molecule before amplification, so copies made by PCR can be collapsed; the numbers in the count matrix are UMI counts (nCount_RNA = total UMIs per cell). |
+| Term | In one sentence |
+|---|---|
+| [Single-cell RNA sequencing (scRNA-seq)](glossary.md#single-cell-rna-seq) | A technique that profiles the transcriptome of individual cells, revealing cell-type heterogeneity that bulk sequencing averages away. |
+| [Single-nucleus RNA-seq (snRNA-seq)](glossary.md#snrna-seq) | Dissociates tissue down to individual nuclei and sequences the RNA in each, giving genome-wide expression per nucleus at the cost of losing every cell's position in the tissue. |
+| [Tissue dissociation](glossary.md#tissue-dissociation) | Breaking tissue into single cells, usually with enzymes at 37 °C, before single-cell RNA-seq; needed for whole cells but stresses them. |
+| [10x Chromium (Cv3)](glossary.md#chromium-10x) | The most common commercial single-cell platform: it packs each cell or nucleus into an oil droplet with a barcoded bead. Cv3 = Chromium v3 chemistry (snCv3 / scCv3 in Lake 2023). |
+| [Cell barcode](glossary.md#cell-barcode) | A short DNA tag attached to every RNA from the same droplet (or the same split-pool path), so reads can be sorted back to their cell; becomes the row ID of the count matrix. |
+| [UMI (unique molecular identifier)](glossary.md#umi) | A random tag on each RNA molecule before amplification, so copies made by PCR can be collapsed; the numbers in the count matrix are UMI counts (nCount_RNA = total UMIs per cell). |

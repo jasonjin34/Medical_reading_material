@@ -60,4 +60,4 @@ rna.X = rna.layers["counts"]
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: 任务 T4：健康人身上报出的“异常”都按误报算（这是我们的设定；健康组织里也有 altered 细胞，Lake 2023 单核数据里健康人有 26% 的核是 altered），看实际误报率是否低于设定值。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 任务 T4：健康人身上报出的“异常”都按误报算（这是我们的设定；健康组织里也有 altered 细胞，Lake 2023 单核数据里健康人有 26% 的核是 altered），看实际误报率是否低于设定值。

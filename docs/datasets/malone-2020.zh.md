@@ -57,4 +57,4 @@ c.columns = c.columns.str.replace(r"\.(\d+)$", r"-\1", regex=True) + "_3"
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: 暂不用；人肾伪影真值主要靠 Hoeft 2024。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 暂不用；人肾伪影真值主要靠 Hoeft 2024。

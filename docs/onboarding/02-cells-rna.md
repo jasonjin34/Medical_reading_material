@@ -13,7 +13,7 @@ This module covers only the minimum biology the rest of onboarding needs.
 
 <div class="grid" markdown>
 
-![Animal cell: membrane, cytoplasm, nucleus, mitochondria / 动物细胞：细胞膜、胞质、细胞核、线粒体](img/animal_cell.png)
+![Animal cell: membrane, cytoplasm, nucleus, mitochondria](img/animal_cell.png)
 
 - The **cell membrane** is the outer layer that separates the cell from its surroundings.
 - The **nucleus** is the server room. It holds the **DNA**, the full source code. Almost every cell in one person carries the same DNA.
@@ -32,7 +32,7 @@ So a cell's RNA sits in two places: **a freshly made, mostly not-yet-spliced par
 
 Mitochondrial genes are the exception: they are transcribed inside the mitochondria, not in the nucleus [3]. So a clean nucleus holds almost no `MT-` RNA (module 6).
 
-![DNA in the nucleus is transcribed into mRNA, which leaves through nuclear pores to ribosomes in the cytoplasm / 核里的 DNA 被转录成 mRNA，经核孔送到胞质里的核糖体](img/transcription_export.png)
+![DNA in the nucleus is transcribed into mRNA, which leaves through nuclear pores to ribosomes in the cytoplasm](img/transcription_export.png)
 
 The lower part of the figure is the nucleus: the black double helix is **DNA**, the orange strands are freshly copied **mRNA** (the work orders). The layer with blue gaps is the nuclear envelope, and the **pores** are where orders leave. The upper part is the cytoplasm: green **ribosomes** read the mRNA and build protein (black chains); the brown folded membranes are the endoplasmic reticulum, continuous with the nuclear envelope. The other labels (tRNA, chaperone, vesicle…) are not needed here.
 
@@ -112,10 +112,10 @@ So `subclass` and `state` are **expert interpretations of clusters**, not measur
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Nucleus (cell nucleus)](glossary.md#cell-nucleus) | 细胞核 | The compartment inside a cell that holds the DNA; RNA of nuclear genes is made here before it moves out to the cytoplasm (mitochondrial genes are transcribed inside the mitochondria). |
-| [Transcription (gene expression)](glossary.md#transcription) | 转录（基因表达） | Copying a gene's DNA into RNA; counting a gene's RNA molecules in a cell measures how active (expressed) the gene is. |
-| [Gene-expression signature](glossary.md#gene-expression-signature) | 基因表达签名 | A defined set of genes whose coordinated expression levels mark a particular cell state, disease, or treatment response. |
-| [Cell type](glossary.md#cell-type) | 细胞类型 | A stable class of cells with the same job and a characteristic expression profile (e.g. proximal tubule cell); found by clustering cells and checking marker genes. |
-| [Cell state](glossary.md#cell-state) | 细胞状态 | The transient functional condition of a cell — such as activated, exhausted, or proliferating — layered on top of its stable cell-type identity. |
+| Term | In one sentence |
+|---|---|
+| [Nucleus (cell nucleus)](glossary.md#cell-nucleus) | The compartment inside a cell that holds the DNA; RNA of nuclear genes is made here before it moves out to the cytoplasm (mitochondrial genes are transcribed inside the mitochondria). |
+| [Transcription (gene expression)](glossary.md#transcription) | Copying a gene's DNA into RNA; counting a gene's RNA molecules in a cell measures how active (expressed) the gene is. |
+| [Gene-expression signature](glossary.md#gene-expression-signature) | A defined set of genes whose coordinated expression levels mark a particular cell state, disease, or treatment response. |
+| [Cell type](glossary.md#cell-type) | A stable class of cells with the same job and a characteristic expression profile (e.g. proximal tubule cell); found by clustering cells and checking marker genes. |
+| [Cell state](glossary.md#cell-state) | The transient functional condition of a cell — such as activated, exhausted, or proliferating — layered on top of its stable cell-type identity. |

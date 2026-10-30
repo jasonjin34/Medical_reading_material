@@ -60,4 +60,4 @@ rna.X = rna.layers["counts"]
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T4: every anomaly called on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, 26% of healthy-donor nuclei in Lake 2023); does the observed rate stay below the target?
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T4: every anomaly called on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, 26% of healthy-donor nuclei in Lake 2023); does the observed rate stay below the target?

@@ -64,4 +64,4 @@ k.var_names_make_unique()
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Under discussion: real human-kidney ambient and doublet answers, to check that our injected artifacts look real.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Main line: real human-kidney doublet and ambient answers; the examiner for task T2 and a check that our injected artifacts look real.

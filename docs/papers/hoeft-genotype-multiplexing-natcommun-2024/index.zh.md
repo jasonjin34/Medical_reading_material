@@ -19,18 +19,12 @@ SoupLadle 四步 (Fig. 1h):(1) 每位患者做 bulkRNA-seq(STAR 比对,freebayes
 
 | 数据集 | 设计 | 平台 | 细胞/核数 | 真值 |
 |---|---|---|---|---|
-| PBMC (P1–5) | CD16 Mono / CD4 T / CD8 T / CD19 B),各 100,000,pool;CellPlex 标记;bulkRNA + WES | 10x 3′ v3.1, Chip G | 17,892 | 细胞类型 = 患者 (FACS 设计) + CellPlex |
+| PBMC (P1–5) | 每人 FACS 分选一种 PBMC 亚群 (CD14 Mono / CD16 Mono / CD4 T / CD8 T / CD19 B),各 100,000,pool;CellPlex 标记;bulkRNA + WES | 10x 3′ v3.1, Chip G | 17,892 | 细胞类型 = 患者 (FACS 设计) + CellPlex |
 | Heart 1 (P6–10) | 冷冻心肌 snRNA,CellPlex + Hashtag 双标记;bulkRNA + WES | 10x 3′ v3.1, Chip G | 1,563 | CellPlex / HTO |
 | Heart 2 (P11–18) | 冷冻心肌 snRNA,每人 ~50,000 nuclei 分选后 pool,无标记;bulkRNA | 10x 3′ HT v3.1, Chip M | 11,501 | 仅方法间一致性 |
 | **Kidney (P19–22)** | **4 例冷冻人肾活检**(3 男 1 女),"total processed biopsies were pooled prior to sorting",DAPI⁺ nuclei 分选,无标记;bulkRNA(**无 rRNA depletion**),无 WES | **10x 3′ v3.1 (Dual Index), Chip G, snRNA** | **11,490** | 仅方法间一致性 |
 
 另有一个已发表的 5′ scRNA 心脏数据 (Koenig 2022) 只用于 SNP 分布分析。肾样本的**疾病/临床诊断在论文、补充材料、GEO 与 BioSample 中均未给出**(伦理批号 Erasmus MC MEC-2021-0840)。
-| Dataset | Design | Platform | Cells/nuclei | Ground truth |
-|---|---|---|---|---|
-| PBMC (P1–5) | one FACS-sorted PBMC subset per patient (CD14 Mono / CD16 Mono / CD4 T / CD8 T / CD19 B), 100,000 each, pooled; CellPlex; bulkRNA + WES | 10x 3′ v3.1, Chip G | 17,892 | cell type = patient (by design) + CellPlex |
-| Heart 1 (P6–10) | frozen myocardium snRNA, CellPlex + Hashtag; bulkRNA + WES | 10x 3′ v3.1, Chip G | 1,563 | CellPlex / HTO |
-| Heart 2 (P11–18) | frozen myocardium snRNA, ~50,000 nuclei/patient sorted and pooled, unlabeled; bulkRNA | 10x 3′ HT v3.1, Chip M | 11,501 | cross-method agreement only |
-| **Kidney (P19–22)** | **4 frozen human kidney biopsies** (3 M / 1 F), "total processed biopsies were pooled prior to sorting", DAPI⁺ nuclei sorted, unlabeled; bulkRNA (**no rRNA depletion**), no WES | **10x 3′ v3.1 (Dual Index), Chip G, snRNA** | **11,490** | cross-method agreement only |
 
 ## 主要结果
 

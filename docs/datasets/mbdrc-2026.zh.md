@@ -63,4 +63,4 @@ adata.obs.groupby(["donor_id", "assay"], observed=True).size()
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: 任务 T2b：同一个人换了测法就被报成“异常”的，按误报处理（二级答案；这是我们的设定）。也补充健康参考。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 任务 T2b：同一个人换了测法就被报成“异常”的，按误报处理（二级答案；这是我们的设定）。也补充健康参考。

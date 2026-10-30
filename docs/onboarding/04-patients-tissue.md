@@ -61,7 +61,7 @@ G1 and G2 alone do not count as CKD; there must also be evidence of kidney damag
 
 <div class="grid" markdown>
 
-![Lake 2023 Fig. 1a: kidney tissue from biopsy, nephrectomy (Nx) or deceased donor (DD), processed into cells, nuclei or sections / 肾组织来自活检、肾切除（Nx）或死亡供体（DD），处理成细胞、细胞核或切片](img/lake2023_fig1a_crop.jpg)
+![Lake 2023 Fig. 1a: kidney tissue from biopsy, nephrectomy (Nx) or deceased donor (DD), processed into cells, nuclei or sections](img/lake2023_fig1a_crop.jpg)
 
 <div markdown>
 
@@ -143,13 +143,13 @@ These are our own inferences from the counts, not findings from the literature.
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Acute kidney injury (AKI)](glossary.md#acute-kidney-injury) | 急性肾损伤 | A sudden loss of kidney function over hours to days (e.g. after surgery, sepsis or drugs); it can recover, or progress to chronic kidney disease. |
-| [Chronic kidney disease (CKD)](glossary.md#chronic-kidney-disease) | 慢性肾脏病(CKD) | Progressive, largely irreversible loss of kidney function over months to years; the non-tumor disease setting where computational pathology benchmarks are conspicuously absent. |
-| [Diabetic / hypertensive kidney disease (DKD / H-CKD)](glossary.md#diabetic-kidney-disease) | 糖尿病肾病 / 高血压肾病 | The two most common causes of chronic kidney disease, labelled DKD and H-CKD (or HKD) in kidney atlases. |
-| [Estimated glomerular filtration rate (eGFR)](glossary.md#egfr-kidney-function) | 估算肾小球滤过率(eGFR) | The standard blood-derived estimate of how much the kidneys filter per minute; its trajectory over years is the clinical outcome any prognostic kidney model is ultimately judged against. |
-| [Kidney biopsy](glossary.md#kidney-biopsy) | 肾活检 | A needle-extracted core of renal tissue a few millimetres long, the shared raw material every kidney modality reads in its own way — stained, dissociated or profiled in situ. |
-| [Nephrectomy (tumour nephrectomy)](glossary.md#nephrectomy) | 肾切除 | Surgical removal of a kidney, usually for a tumour; tissue far from the tumour is used as 'healthy' reference, but it has gone without blood flow for a while. |
-| [Deceased donor](glossary.md#deceased-donor) | 死亡供体 | An organ donor whose kidney was not transplanted and was used for research; ischaemia time is usually longer than for biopsies or nephrectomies. |
-| [Ischaemia (procurement ischaemia)](glossary.md#ischaemia) | 缺血（取样缺血） | Lack of blood flow; tissue left without blood during surgery or after death switches on stress genes, which can make healthy cells look injured. |
+| Term | In one sentence |
+|---|---|
+| [Acute kidney injury (AKI)](glossary.md#acute-kidney-injury) | A sudden loss of kidney function over hours to days (e.g. after surgery, sepsis or drugs); it can recover, or progress to chronic kidney disease. |
+| [Chronic kidney disease (CKD)](glossary.md#chronic-kidney-disease) | Progressive, largely irreversible loss of kidney function over months to years; the non-tumor disease setting where computational pathology benchmarks are conspicuously absent. |
+| [Diabetic / hypertensive kidney disease (DKD / H-CKD)](glossary.md#diabetic-kidney-disease) | The two most common causes of chronic kidney disease, labelled DKD and H-CKD (or HKD) in kidney atlases. |
+| [Estimated glomerular filtration rate (eGFR)](glossary.md#egfr-kidney-function) | The standard blood-derived estimate of how much the kidneys filter per minute; its trajectory over years is the clinical outcome any prognostic kidney model is ultimately judged against. |
+| [Kidney biopsy](glossary.md#kidney-biopsy) | A needle-extracted core of renal tissue a few millimetres long, the shared raw material every kidney modality reads in its own way — stained, dissociated or profiled in situ. |
+| [Nephrectomy (tumour nephrectomy)](glossary.md#nephrectomy) | Surgical removal of a kidney, usually for a tumour; tissue far from the tumour is used as 'healthy' reference, but it has gone without blood flow for a while. |
+| [Deceased donor](glossary.md#deceased-donor) | An organ donor whose kidney was not transplanted and was used for research; ischaemia time is usually longer than for biopsies or nephrectomies. |
+| [Ischaemia (procurement ischaemia)](glossary.md#ischaemia) | Lack of blood flow; tissue left without blood during surgery or after death switches on stress genes, which can make healthy cells look injured. |

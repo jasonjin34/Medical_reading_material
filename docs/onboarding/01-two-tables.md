@@ -149,10 +149,10 @@ adata.var["feature_name"]    # gene symbols; the index holds Ensembl IDs
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Count matrix](glossary.md#count-matrix) | 计数矩阵 | The main single-cell data table: one row per cell (or nucleus), one column per gene, each entry the number of RNA molecules (UMIs) of that gene detected in that cell; very sparse. |
-| [AnnData / h5ad](glossary.md#anndata-h5ad) | AnnData / h5ad 文件 | The Python (scanpy) container for single-cell data, saved as an .h5ad (HDF5) file: the count matrix X plus per-cell metadata (obs) and per-gene metadata (var). |
-| [obs / var (cell and gene metadata)](glossary.md#obs-var) | obs / var（细胞和基因的信息表） | The two tables aligned with the count matrix: obs has one row per cell (patient, library, quality numbers, cell-type and state labels), var has one row per gene (gene name and other gene information). |
-| [Gene symbol (HGNC)](glossary.md#gene-symbol) | 基因符号（HGNC） | The short official name of a human gene set by the HGNC, such as LRP2 or UMOD; used as the column names of the count matrix. A prefix MT- marks genes encoded by mitochondrial DNA. |
-| [Patient-level split (data leakage)](glossary.md#patient-level-split) | 按病人切分（数据泄漏） | Putting all cells of one patient (and, where needed, one library) on the same side of the train / test split; splitting cells at random leaks the patient and batch into the test set and inflates the score. |
+| Term | In one sentence |
+|---|---|
+| [Count matrix](glossary.md#count-matrix) | The main single-cell data table: one row per cell (or nucleus), one column per gene, each entry the number of RNA molecules (UMIs) of that gene detected in that cell; very sparse. |
+| [AnnData / h5ad](glossary.md#anndata-h5ad) | The Python (scanpy) container for single-cell data, saved as an .h5ad (HDF5) file: the count matrix X plus per-cell metadata (obs) and per-gene metadata (var). |
+| [obs / var (cell and gene metadata)](glossary.md#obs-var) | The two tables aligned with the count matrix: obs has one row per cell (patient, library, quality numbers, cell-type and state labels), var has one row per gene (gene name and other gene information). |
+| [Gene symbol (HGNC)](glossary.md#gene-symbol) | The short official name of a human gene set by the HGNC, such as LRP2 or UMOD; used as the column names of the count matrix. A prefix MT- marks genes encoded by mitochondrial DNA. |
+| [Patient-level split (data leakage)](glossary.md#patient-level-split) | Putting all cells of one patient (and, where needed, one library) on the same side of the train / test split; splitting cells at random leaks the patient and batch into the test set and inflates the score. |

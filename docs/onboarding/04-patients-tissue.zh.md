@@ -61,7 +61,7 @@ G1、G2 本身不算 CKD，要同时有肾损伤的证据才算 [2]。
 
 <div class="grid" markdown>
 
-![Lake 2023 Fig. 1a: kidney tissue from biopsy, nephrectomy (Nx) or deceased donor (DD), processed into cells, nuclei or sections / 肾组织来自活检、肾切除（Nx）或死亡供体（DD），处理成细胞、细胞核或切片](img/lake2023_fig1a_crop.jpg)
+![肾组织来自活检、肾切除（Nx）或死亡供体（DD），处理成细胞、细胞核或切片](img/lake2023_fig1a_crop.jpg)
 
 <div markdown>
 

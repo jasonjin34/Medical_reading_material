@@ -62,4 +62,4 @@ cont = rdata.read_rds("rep3/perCell_noMito_CAST_binom.RDS")      # pandas DataFr
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Calibrates how strong and what shape injected ambient RNA should have. Not a test set.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Calibrates how strong and what shape injected ambient RNA should have. Not a test set.

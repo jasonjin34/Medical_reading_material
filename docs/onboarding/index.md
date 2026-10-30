@@ -18,7 +18,7 @@ Day 1 takes about 6 hours and gets you to the point of understanding the data. D
 | [5.2 · Assays: ATAC, multiome, spatial](05-2-assays-more.md) | 45 min | What other matrices exist besides RNA, and how are pooled people told apart? |
 | [6 · Artifacts](06-artifacts.md) | 60 min | Is an abnormal row disease, a measurement artifact, handling or batch? |
 | [7 · How to read a dataset](07-datasets.md) | 40 min | Which questions decide whether a dataset is usable? |
-| [8 · What we are working on](08-our-problem.md) | 20 min | What do our research topics ask? |
+| [8 · From data to research questions](08-our-problem.md) | 25 min | What problem does machine learning solve here, and why is it hard? |
 | [9 · Hands-on](09-hands-on.md) | Day 2, 3 h | Load the data and reproduce a first result |
 | [10 · What to read next](10-next-reading.md) | Day 2, 3 h | Which papers to read, in which order |
 

@@ -29,4 +29,4 @@ Hosts processed RNA (and some ATAC) datasets; no raw reads.
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Download route for Lake 2023 and mBDRC.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Download route for Lake 2023 and mBDRC.

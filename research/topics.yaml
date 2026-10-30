@@ -10,7 +10,7 @@
 - id: anomaly-benchmark
   file: anomaly-benchmark.md
   code: A
-  title: {en: "A Benchmark for Anomaly Detection in Kidney Single-Cell Omics", zh: "肾脏单细胞组学异常检测基准"}
+  title: {en: "Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics", zh: "用伪影注入增强肾脏单细胞异常检测"}
 
 - id: agent-claims
   file: agent-claims.md

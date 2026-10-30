@@ -72,14 +72,14 @@ About 1 hour for the three.
 <!-- ZH -->
 每个课题页的最后一节是**阅读路线**：按顺序排好的 5 篇左右精读，并说明每篇为什么读。打开你的课题页，从那里接着读：
 
-- [课题 1 · 肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)
+- [课题 1 · 用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)
 - [课题 2 · 生物医学分析 agent 的结论核查](../research/agent-claims.md)
 
 上面三篇里已经读过的就跳过。
 <!-- EN -->
 The last section of every topic page is a **reading path**: about five deep-reads in order, each with a reason. Open your topic page and continue from there:
 
-- [Topic 1 · A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
+- [Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
 - [Topic 2 · Verifying the Claims of Biomedical Analysis Agents](../research/agent-claims.md)
 
 Skip any you already read in step 2.

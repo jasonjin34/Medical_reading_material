@@ -21,7 +21,7 @@ Module 2 said the nucleus stores DNA. Think of DNA as a very long thread with "i
 
 The top row of the figure below shows both states: the tightly packed blue balls on the left are closed, the sparse region labelled Gene on the right is open.
 
-![ATAC-seq: Tn5 cuts and tags open chromatin; sequenced fragments pile up into peaks over open regions / ATAC-seq：Tn5 在开放区剪开并贴上接头，测序片段在开放区堆成 peak](img/atac_seq.png)
+![ATAC-seq: Tn5 cuts and tags open chromatin; sequenced fragments pile up into peaks over open regions](img/atac_seq.png)
 
 Figure: Wikimedia "Figure.1 ATAC-Seq illustration" by Deema108, CC BY-SA 4.0.
 
@@ -160,16 +160,16 @@ Numbers are from 5.1 and the [Lake 2023 dataset page](../datasets/lake-2023.md);
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Single-nucleus ATAC-seq (snATAC-seq)](glossary.md#snatac-seq) | 单核 ATAC 测序(snATAC-seq) | Uses a transposase that cuts only unpacked DNA to map which genomic regions are open per nucleus, revealing which genes are permitted to be expressed rather than which currently are. |
-| [Chromatin accessibility](glossary.md#chromatin-accessibility) | 染色质开放性 | How physically reachable a stretch of DNA is for transcription machinery; tightly packed regions are effectively switched off, loosened ones are available for expression. |
-| [Tn5 transposase](glossary.md#tn5-transposase) | Tn5 转座酶 | The enzyme used in ATAC-seq: it can only cut into open (unwound) DNA and inserts sequencing adapters as it cuts, so where it cuts marks accessible chromatin. |
-| [ATAC peak](glossary.md#atac-peak) | ATAC 峰 | A genomic interval where transposase cut sites pile up across many nuclei, defining a region of open chromatin and forming the row dimension of the peak-by-cell matrix. |
-| [Multiome (joint RNA + ATAC)](glossary.md#multiome) | Multiome(RNA 与 ATAC 同核联测) | An assay that measures transcription and chromatin accessibility in the very same nucleus, pairing 'what is expressed' with 'what is permitted' without having to match cells across separate runs. |
-| [SNARE-seq2](glossary.md#snare-seq2) | SNARE-seq2（SNARE2） | Single-Nucleus chromatin Accessibility and mRNA Expression sequencing, version 2: measures RNA and ATAC in the same nucleus using split-pool (combinatorial) barcoding instead of droplets; used for 7 healthy donors in Lake 2023. |
-| [Spatial transcriptomics](glossary.md#spatial-transcriptomics) | 空间转录组学 | A family of technologies that measure gene expression while preserving each cell's or spot's position within an intact tissue section. |
-| [Visium](glossary.md#visium) | Visium | A widely used 10x Genomics spatial-transcriptomics platform that captures gene expression on a grid of barcoded spots overlaid on a tissue slide. |
-| [Xenium](glossary.md#xenium) | Xenium | A 10x Genomics imaging-based platform that measures a targeted panel of transcripts in situ at subcellular resolution with single-cell segmentation. |
-| [SNP / genotype](glossary.md#snp-genotype) | SNP / 基因型 | Single-base differences between people (or mouse strains); the set a person carries is their genotype, a DNA fingerprint stored in VCF files and measured by WES or arrays. |
-| [Genotype multiplexing / demultiplexing](glossary.md#genotype-demultiplexing) | 基因型混样 / 分人 | Pooling cells from several people in one run and sorting them back by SNPs (demuxlet, souporcell, vireo); it also reveals droplets with two people's SNPs (doublets) and foreign RNA (ambient contamination). |
+| Term | In one sentence |
+|---|---|
+| [Single-nucleus ATAC-seq (snATAC-seq)](glossary.md#snatac-seq) | Uses a transposase that cuts only unpacked DNA to map which genomic regions are open per nucleus, revealing which genes are permitted to be expressed rather than which currently are. |
+| [Chromatin accessibility](glossary.md#chromatin-accessibility) | How physically reachable a stretch of DNA is for transcription machinery; tightly packed regions are effectively switched off, loosened ones are available for expression. |
+| [Tn5 transposase](glossary.md#tn5-transposase) | The enzyme used in ATAC-seq: it can only cut into open (unwound) DNA and inserts sequencing adapters as it cuts, so where it cuts marks accessible chromatin. |
+| [ATAC peak](glossary.md#atac-peak) | A genomic interval where transposase cut sites pile up across many nuclei, defining a region of open chromatin and forming the row dimension of the peak-by-cell matrix. |
+| [Multiome (joint RNA + ATAC)](glossary.md#multiome) | An assay that measures transcription and chromatin accessibility in the very same nucleus, pairing 'what is expressed' with 'what is permitted' without having to match cells across separate runs. |
+| [SNARE-seq2](glossary.md#snare-seq2) | Single-Nucleus chromatin Accessibility and mRNA Expression sequencing, version 2: measures RNA and ATAC in the same nucleus using split-pool (combinatorial) barcoding instead of droplets; used for 7 healthy donors in Lake 2023. |
+| [Spatial transcriptomics](glossary.md#spatial-transcriptomics) | A family of technologies that measure gene expression while preserving each cell's or spot's position within an intact tissue section. |
+| [Visium](glossary.md#visium) | A widely used 10x Genomics spatial-transcriptomics platform that captures gene expression on a grid of barcoded spots overlaid on a tissue slide. |
+| [Xenium](glossary.md#xenium) | A 10x Genomics imaging-based platform that measures a targeted panel of transcripts in situ at subcellular resolution with single-cell segmentation. |
+| [SNP / genotype](glossary.md#snp-genotype) | Single-base differences between people (or mouse strains); the set a person carries is their genotype, a DNA fingerprint stored in VCF files and measured by WES or arrays. |
+| [Genotype multiplexing / demultiplexing](glossary.md#genotype-demultiplexing) | Pooling cells from several people in one run and sorting them back by SNPs (demuxlet, souporcell, vireo); it also reveals droplets with two people's SNPs (doublets) and foreign RNA (ambient contamination). |

@@ -73,8 +73,8 @@
 - id: our-problem
   file: 08-our-problem.md
   day: 1
-  minutes: 20
-  title: {en: "8 · What we are working on", zh: "8 · 我们在解决什么问题"}
+  minutes: 25
+  title: {en: "8 · From data to research questions", zh: "8 · 从数据到研究问题"}
   terms: [anomaly-detection, altered-state, one-class-classification, domain-shift, auroc]
 
 - id: hands-on

@@ -63,4 +63,4 @@ adata.obs.groupby(["donor_id", "assay"], observed=True).size()
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is treated as a false alarm (tier 2; our design choice). Also extends the healthy reference.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is treated as a false alarm (tier 2; our design choice). Also extends the healthy reference.

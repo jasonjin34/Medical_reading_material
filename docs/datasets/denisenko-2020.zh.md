@@ -57,4 +57,4 @@ bg30 = pd.read_csv("GSM4195108_BG30.txt.gz", sep="\t", index_col=0)  # genes x c
 
 ## 在我们的研究课题里
 
-- **[肾脏单细胞组学异常检测基准](../research/anomaly-benchmark.md)**: 说明“解离应激会被当成损伤”有实验证据，和 Lake 2023 degenerative 的 FOS / JUN 特征是同一类基因。以后再用，或做校准。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 说明“解离应激会被当成损伤”有实验证据，和 Lake 2023 degenerative 的 FOS / JUN 特征是同一类基因。以后再用，或做校准。

@@ -71,7 +71,7 @@ For example, one nucleus with both PT's `LRP2` and TAL's `UMOD`.
 
 Hoeft 2024 did exactly this: nuclei from 4 patients were pooled, then assigned to people by SNPs [6]. The right half of the figure shows the result: in the cluster that expression called "Mixed/Doublets", most nuclei are assigned to a single person by SNPs, and genotype-called doublets (dark grey) are few. Same-person doublets are invisible to genotype, so this does not prove the cluster is free of doublets; but it shows that many nuclei called "mixed" by expression are not a mix of two people. Our reading: judging artifacts from expression alone is easy to get wrong. The numbers are on the [Hoeft 2024 dataset page](../datasets/hoeft-2024.md).
 
-![Hoeft 2024 Fig. 2 i–j: expression clusters vs genotype-based donor assignment / 表达聚类和按基因型分人的对照](img/hoeft2024_fig2ij.jpg)
+![Hoeft 2024 Fig. 2 i–j: expression clusters vs genotype-based donor assignment](img/hoeft2024_fig2ij.jpg)
 
 Figure: Hoeft 2024 Fig. 2 i–j (kidney part, cropped) [6]. Left: a schematic of the pooled kidney UMAP coloured by expression cluster and by three SNP-based donor assignments; right: share of each patient, doublets (dark grey) and unassigned nuclei (light grey) per cluster; the left-hand SoupLadle group is enough. Hoeft K et al., Nat Commun 2024, CC BY 4.0.
 
@@ -98,7 +98,7 @@ Figure: Hoeft 2024 Fig. 2 i–j (kidney part, cropped) [6]. Left: a schematic of
 | Pattern | Non-disease reading | Biology reading | What tells them apart |
 |---|---|---|---|
 | A · few genes, high `percent.mt` | low-quality cell, empty droplet | injured, degenerating cell | injury genes up, not just counts down |
-| B · markers of two cell types | doublet, ambient RNA / doublet、ambient | transitioning, repairing cell | genotype when donors are pooled (two-person doublets only) |
+| B · markers of two cell types | doublet, ambient RNA | transitioning, repairing cell | genotype when donors are pooled (two-person doublets only) |
 | C · very many RNA molecules | doublet | polyploid, binucleated cell | genotype; cell type |
 | D · stress genes up | dissociation stress | injury, ischaemia | same tissue, cold vs warm digestion |
 | E · one cell type splits by batch | batch effect | disease, if confounded with batch | same tissue, several assays or batches |
@@ -145,17 +145,17 @@ There are no universal thresholds; they differ by dataset and assay, and a commo
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [Artifact (technical artifact)](glossary.md#technical-artifact) | 伪影（技术伪影） | A change in the data that does not come from the cell's real state in the body, such as empty droplets, doublets, low-quality cells or ambient RNA; in a broader sense also handling-induced changes such as dissociation stress. |
-| [Empty droplet](glossary.md#empty-droplet) | 空液滴 | A droplet without a cell; it captures only free-floating RNA, so it samples the ambient profile. Present in the raw matrix, removed from the filtered one. |
-| [Doublet](glossary.md#doublet) | 双细胞假象(doublet) | A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state. |
-| [Low-quality cell](glossary.md#low-quality-cell) | 低质量细胞 | A dying or broken cell with few RNA molecules and genes and a high mitochondrial fraction; usually filtered by QC thresholds, but injured cells can look similar. |
-| [Ambient RNA](glossary.md#ambient-rna) | 游离 RNA 污染(ambient RNA) | Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike. |
-| [Dissociation stress](glossary.md#dissociation-stress) | 解离应激 | Stress genes (FOS, JUN, heat-shock genes) switched on while tissue is digested at 37 °C; makes cells look injured although the injury happened in the lab. |
-| [Batch effect](glossary.md#batch-effect) | 批次效应 | Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected. |
-| [Confounder (confounding)](glossary.md#confounder) | 混杂因素 | A factor that varies together with the label, so a model cannot tell which one it learned; for example, patients and healthy donors measured in separate batches confound batch with disease. |
-| [Technical dropout (false zero)](glossary.md#technical-dropout) | 技术性丢失(假零) | A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once. |
-| [Mitochondrial fraction (percent.mt)](glossary.md#mitochondrial-fraction) | 线粒体比例 | The share of a cell's RNA from mitochondrial genes; a standard QC metric. In whole cells a high value suggests a broken or dying cell; nuclei contain no mitochondrial transcripts of their own, so values are naturally much lower, and a high value reflects mitochondria stuck to the nucleus or tissue handling. |
-| [Quality control (QC)](glossary.md#quality-control) | 质控（QC） | The first step of most single-cell analyses: rows with too few genes, too high a mitochondrial fraction or too many RNA molecules are removed and ambient counts subtracted; thresholds differ by dataset and can also remove injured cells. |
-| [Polyploidy / multinucleation](glossary.md#polyploidy) | 多倍体 / 多核 | Cells with extra DNA copies or more than one nucleus; after injury some tubular cells become polyploid and some podocytes binucleated. In single-cell data such cells can look like doublets. |
+| Term | In one sentence |
+|---|---|
+| [Artifact (technical artifact)](glossary.md#technical-artifact) | A change in the data that does not come from the cell's real state in the body, such as empty droplets, doublets, low-quality cells or ambient RNA; in a broader sense also handling-induced changes such as dissociation stress. |
+| [Empty droplet](glossary.md#empty-droplet) | A droplet without a cell; it captures only free-floating RNA, so it samples the ambient profile. Present in the raw matrix, removed from the filtered one. |
+| [Doublet](glossary.md#doublet) | A technical artifact where two cells or nuclei are captured under one barcode and analysed as a single cell, producing a chimeric expression profile that can masquerade as a novel cell state. |
+| [Low-quality cell](glossary.md#low-quality-cell) | A dying or broken cell with few RNA molecules and genes and a high mitochondrial fraction; usually filtered by QC thresholds, but injured cells can look similar. |
+| [Ambient RNA](glossary.md#ambient-rna) | Free-floating transcripts released by lysed cells that get counted into other droplets, adding a background signal that makes unrelated cells look alike. |
+| [Dissociation stress](glossary.md#dissociation-stress) | Stress genes (FOS, JUN, heat-shock genes) switched on while tissue is digested at 37 °C; makes cells look injured although the injury happened in the lab. |
+| [Batch effect](glossary.md#batch-effect) | Systematic non-biological variation between datasets acquired at different sites, times, or platforms that can confound analysis if not corrected. |
+| [Confounder (confounding)](glossary.md#confounder) | A factor that varies together with the label, so a model cannot tell which one it learned; for example, patients and healthy donors measured in separate batches confound batch with disease. |
+| [Technical dropout (false zero)](glossary.md#technical-dropout) | A zero in a count matrix caused by failed capture rather than absent expression; because true and false zeros are indistinguishable, sparsity is both biology and noise at once. |
+| [Mitochondrial fraction (percent.mt)](glossary.md#mitochondrial-fraction) | The share of a cell's RNA from mitochondrial genes; a standard QC metric. In whole cells a high value suggests a broken or dying cell; nuclei contain no mitochondrial transcripts of their own, so values are naturally much lower, and a high value reflects mitochondria stuck to the nucleus or tissue handling. |
+| [Quality control (QC)](glossary.md#quality-control) | The first step of most single-cell analyses: rows with too few genes, too high a mitochondrial fraction or too many RNA molecules are removed and ambient counts subtracted; thresholds differ by dataset and can also remove injured cells. |
+| [Polyploidy / multinucleation](glossary.md#polyploidy) | Cells with extra DNA copies or more than one nucleus; after injury some tubular cells become polyploid and some podocytes binucleated. In single-cell data such cells can look like doublets. |

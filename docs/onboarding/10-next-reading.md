@@ -39,7 +39,7 @@ About 1 hour for the three.
 
 The last section of every topic page is a **reading path**: about five deep-reads in order, each with a reason. Open your topic page and continue from there:
 
-- [Topic 1 · A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
+- [Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
 - [Topic 2 · Verifying the Claims of Biomedical Analysis Agents](../research/agent-claims.md)
 
 Skip any you already read in step 2.

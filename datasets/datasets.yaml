@@ -55,8 +55,8 @@ datasets:
     en: "Lake 2023 Fig. 1. a: kidney tissue (biopsy, nephrectomy or deceased donor) is dissociated into cells, nuclei are extracted, or it is sectioned; 10x Cv3 (single-cell / single-nucleus RNA) and SNARE2 (RNA + ATAC in one nucleus); b: people per assay; c: the integrated atlas. Nature 2023, CC BY 4.0."
     zh: "Lake 2023 Fig. 1。a：肾组织（活检、肾切除或死亡供体）解离成细胞、提取细胞核或切片 → 10x Cv3（单细胞 / 单核 RNA）和 SNARE2（同一个核 RNA + ATAC）；b：各测法的人数；c：整合后的图谱。Nature 2023，CC BY 4.0。"
   measured:
-    en: "Single-nucleus RNA (snCv3, 203,702 nuclei, 36 people); single-cell RNA (scCv3, 109,741 cells, 45 people, all biopsies); SNARE-seq2 RNA + ATAC in the same nucleus (104,809 nuclei, 7 healthy donors only); spatial (Visium, Slide-seq), not used by us."
-    zh: "单核 RNA（snCv3，203,702 核，36 人）；单细胞 RNA（scCv3，109,741 细胞，45 人，全是活检）；SNARE-seq2 同一个核测 RNA + ATAC（104,809 核，只有 7 名健康人）；空间（Visium、Slide-seq），我们不用。"
+    en: "Single-nucleus RNA (snCv3, 203,702 nuclei, 36 people); single-cell RNA (scCv3, 109,741 cells, 45 people, all biopsies); SNARE-seq2 RNA + ATAC in the same nucleus (104,809 nuclei, 7 healthy donors only); spatial (Visium with H&E images, Slide-seq); the Visium sections are a candidate for expert annotation in Topic 1 (under discussion)."
+    zh: "单核 RNA（snCv3，203,702 核，36 人）；单细胞 RNA（scCv3，109,741 细胞，45 人，全是活检）；SNARE-seq2 同一个核测 RNA + ATAC（104,809 核，只有 7 名健康人）；空间（Visium，带 H&E 图；Slide-seq）；Visium 切片是课题 1 里专家标注的候选（讨论中）。"
   samples:
     en: "The paper reports 45 healthy reference donors and 48 AKI / CKD patients, including people with spatial data only. Healthy tissue comes from partial or total nephrectomies, deceased-donor kidneys not used for transplant, and living-donor biopsies; the paper does not say whether the nephrectomies were for tumours. Patient tissue is mostly KPMP research biopsies, but in the single-nucleus data 3 of the 13 CKD patients are nephrectomies (counted by us). 14 patients have both single-nucleus and single-cell data (counted by us)."
     zh: "论文写 45 名健康参考供体、48 名 AKI / CKD 病人，其中包括只做了空间测序的人。健康组织来自部分或全部肾切除、没有用于移植的死亡供体肾、活体供体活检；论文没有说肾切除是不是因为肿瘤。病人组织大多是 KPMP 研究用穿刺活检，但单核数据里 13 名 CKD 病人中有 3 名来自肾切除（我们数的）。14 个病人同时有单核和单细胞数据（我们数的）。"
@@ -229,8 +229,8 @@ datasets:
     zh: "要得到 ambient / doublet 真值，得用 FASTQ + VCF 重跑 CellRanger 和 souporcell。"
   use_in:
     anomaly-benchmark:
-      en: "Under discussion: real human-kidney ambient and doublet answers, to check that our injected artifacts look real."
-      zh: "讨论中：人肾真实的 ambient 和 doublet 答案，用来检验我们注入的伪影像不像真的。"
+      en: "Main line: real human-kidney doublet and ambient answers; the examiner for task T2 and a check that our injected artifacts look real."
+      zh: "主线：人肾真实的 doublet 和 ambient 答案；任务 T2 的考官，也用来检验我们注入的伪影像不像真的。"
 
 - id: lake-2019
   name: "Lake 2019 · Same patients, different storage and processing"

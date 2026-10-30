@@ -21,7 +21,7 @@
 
 下图最上面一行就是这两种状态：左边挤在一起的蓝色小球是关闭区，右边稀疏、旁边标着 Gene 的是开放区。
 
-![ATAC-seq: Tn5 cuts and tags open chromatin; sequenced fragments pile up into peaks over open regions / ATAC-seq：Tn5 在开放区剪开并贴上接头，测序片段在开放区堆成 peak](img/atac_seq.png)
+![ATAC-seq：Tn5 在开放区剪开并贴上接头，测序片段在开放区堆成 peak](img/atac_seq.png)
 
 图：Wikimedia「Figure.1 ATAC-Seq illustration」，Deema108，CC BY-SA 4.0。
 

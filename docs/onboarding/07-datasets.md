@@ -78,9 +78,9 @@ Are there cell-type, cell-state, donor or assay labels? Are they **fixed by the 
 
 ## Terms in this module
 
-| English | 中文 | In one sentence |
-|---|---|---|
-| [KPMP (Kidney Precision Medicine Project)](glossary.md#kpmp) | KPMP（肾脏精准医学项目） | An NIH consortium that collects kidney biopsies from AKI and CKD patients and profiles them with single-cell, spatial and imaging assays; the main source of Lake 2023. |
-| [CZ CELLxGENE](glossary.md#cellxgene) | CELLxGENE 数据平台 | The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; a convenient way to download Lake 2023 and mBDRC. Column names differ from the authors' GEO tables (e.g. donor_id), X is normalised with raw counts in raw.X, and the Lake single-nucleus and single-cell files do not include the author state labels. |
-| [GEO / SRA](glossary.md#geo-sra) | GEO / SRA 公共数据库 | NCBI's public repositories: GEO holds processed data (count matrices, metadata tables), SRA holds raw sequencing reads (FASTQ); free to download. |
-| [dbGaP / EGA (controlled access)](glossary.md#dbgap) | dbGaP / EGA（受控访问） | Controlled-access archives for human raw sequencing data that could identify a person; access requires an application and a data-use agreement. |
+| Term | In one sentence |
+|---|---|
+| [KPMP (Kidney Precision Medicine Project)](glossary.md#kpmp) | An NIH consortium that collects kidney biopsies from AKI and CKD patients and profiles them with single-cell, spatial and imaging assays; the main source of Lake 2023. |
+| [CZ CELLxGENE](glossary.md#cellxgene) | The Chan Zuckerberg single-cell portal that serves curated datasets as standard h5ad files with harmonised metadata; a convenient way to download Lake 2023 and mBDRC. Column names differ from the authors' GEO tables (e.g. donor_id), X is normalised with raw counts in raw.X, and the Lake single-nucleus and single-cell files do not include the author state labels. |
+| [GEO / SRA](glossary.md#geo-sra) | NCBI's public repositories: GEO holds processed data (count matrices, metadata tables), SRA holds raw sequencing reads (FASTQ); free to download. |
+| [dbGaP / EGA (controlled access)](glossary.md#dbgap) | Controlled-access archives for human raw sequencing data that could identify a person; access requires an application and a data-use agreement. |

@@ -57,4 +57,4 @@ bg30 = pd.read_csv("GSM4195108_BG30.txt.gz", sep="\t", index_col=0)  # genes x c
 
 ## Used in our research topics
 
-- **[A Benchmark for Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Evidence that dissociation stress can look like injury; the same FOS / JUN genes appear in Lake 2023's degenerative state. Later use, or calibration.
+- **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Evidence that dissociation stress can look like injury; the same FOS / JUN genes appear in Lake 2023's degenerative state. Later use, or calibration.
