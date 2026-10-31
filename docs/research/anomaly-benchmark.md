@@ -5,8 +5,8 @@
 !!! abstract "What this topic does"
     **Build a pipeline that turns any single-cell dataset into a labelled anomaly-detection dataset by injecting known artifacts, then use it to boost current models and to check the quality of models and datasets.**
 
-    - **Question:** is an abnormal-looking cell diseased, or caused by measurement? Current methods cannot tell, and nobody has tested this systematically.
-    - **Idea:** in image anomaly detection, training on fake defects pasted onto normal images works well (e.g. DRAEM). We carry the idea over to single cells and create doublets, ambient RNA and low-quality cells following how they really arise.
+    - **Question:** is an abnormal-looking cell diseased, or caused by measurement? The two overlap: one of Lake 2023's criteria for altered states is "few genes, many mitochondrial transcripts", which is also the sign of a low-quality cell. Current methods do not set out to separate the two, and (as of October 2026) we found no study that tests this systematically.
+    - **Idea:** in image anomaly detection, training on synthetic defects pasted onto normal images set a new best on MVTec AD (DRAEM); but when the synthetic defects do not match how real ones arise, training can even hurt (Yoo 2022). We carry the idea over to single cells and create artifacts by their cause: doublets have a mature recipe (sum two cells' counts, shrink some library sizes), ambient RNA is a background profile mixed in at a set fraction, and low-quality cells can only be approximated (lost cytoplasmic RNA in single cells, added cytoplasmic material in single nuclei). So injected artifacts are used for training only.
     - **Three uses:** ① boost models (the main line); ② check whether a model mistakes artifacts for disease; ③ estimate how many artifacts a dataset contains.
     - **How we show it works:** injected artifacts are for training only; testing uses **real answers** only (genotype doublets from pooled donors, the same donor across assays, expert-labelled diseased cells, healthy donors from another lab).
     - **Constraint:** no wet lab, public data only; clinical experts (nephrologists, renal pathologists) can annotate.
@@ -88,29 +88,54 @@ Three artifacts in the main line, **doublets first**: they have the strongest pr
 
 | Artifact | Could be taken for | Why | Plan |
 |---|---|---|---|
-| low-quality cell | the degenerative state: few genes, high mitochondrial share | Lake used these two signs when flagging altered states (Methods) | main line, third; the closest to the core question |
+| low-quality cell | the degenerative state: few genes, high mitochondrial share | Lake's criteria for possible altered states include "low genes detected, a high number of mitochondrial transcripts" (Methods) | main line, third; the closest to the core question |
 | doublet | an intermediate state expressing two cell types' genes | Scrublet: doublets "suggest the existence of intermediate cell states" ([Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)) | main line, first |
-| ambient RNA | marker genes in the wrong cell, e.g. PT genes elsewhere | empty droplets carry slightly more PT profile ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md)) | main line, second |
+| ambient RNA | marker genes in the wrong cell, e.g. PT genes elsewhere | the PT-only gene Slc34a1 is found in a high fraction of other cells ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md), mouse kidney) | main line, second |
 | dissociation stress | injury: FOS, JUN up | [Denisenko 2020](../datasets/denisenko-2020.md) (mouse) | not injected: no precedent, and the main data are single-nucleus |
 | batch or assay change | — | not a per-cell artifact, cannot be injected | tested on real data instead (T2b, T4) |
 
 ### How each is injected, and the precedent
 
-| Artifact | How | Precedent | Feasible? | Limits |
-|---|---|---|---|---|
-| doublet | add the raw counts of two random cells | Scrublet ([Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)): "Doublets are simulated by adding the unnormalized counts"; DoubletFinder ([McGinnis 2019](https://doi.org/10.1016/j.cels.2019.03.003)) averages pairs and, trained this way, found 73% and 64% of the doublets labelled by demuxlet and Cell Hashing | yes, compute only | same-type doublets are nearly invisible; a real doublet has fewer counts than the sum of its two cells ([Germain 2022](https://doi.org/10.12688/f1000research.73600.2)); methods score higher on simulated than on real doublets ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)) |
-| ambient RNA | mix in a background profile estimated from empty droplets, at fractions calibrated on Janssen | SoupX ([Young & Behjati 2020](https://doi.org/10.1093/gigascience/giaa151)) estimates the profile from empty droplets; [Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md) measured 3–35% background per cell in mouse kidney by genotype | yes, but Lake and mBDRC have no empty droplets, so the profile comes from Janssen (mouse) or a Hoeft rerun (human kidney) | Janssen is mouse; human calibration rests on it unless Hoeft is rerun |
-| low-quality cell | remove part of the cytoplasmic RNA, so the mitochondrial share rises | real broken cells lose cytoplasmic transcripts while mitochondrial ones rise slightly ([Ilicic 2016](https://doi.org/10.1186/s13059-016-0888-1), microscopy-labelled); an R package simulates this ([DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective), not peer-reviewed) | yes, but the precedent is weak; the paper must argue for it, e.g. compare injected cells with Lake's real low-QC cells | high mitochondrial share is normal for kidney PT: a fixed 10% cut-off removes real PT cells ([Subramanian 2022](https://doi.org/10.1186/s13059-022-02820-w)) |
+The three artifacts can be simulated to very different degrees: doublets have a mature recipe, ambient RNA can reuse existing models in reverse, and low-quality cells can only be approximated. Each recipe below names its sources (checked against papers and code on 2026-10-31). Parameter ranges, and whether injected artifacts look like real ones, remain assumptions to be tested on real answers.
+
+#### Doublets: mostly summed, some library sizes shrunk
+
+- **Three tools, three recipes:**
+    - Scrublet **sums the raw counts** of two random cells, "Doublets are simulated by adding the unnormalized counts", simulating twice as many doublets as cells ([Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)).
+    - DoubletFinder **averages** two cells' counts, up to 25% of the merged data; a detector trained this way recovered 73% and 64% of the doublets labelled by demuxlet and Cell Hashing ([McGinnis 2019](https://doi.org/10.1016/j.cels.2019.03.003)).
+    - scDblFinder by default **sums** 75% of pairs and, for the other 25%, halves the sum and Poisson-resamples it; it **pairs only across clusters**, in proportion to cluster size, after keeping cells within the 5–95th library-size percentiles ([Germain 2022](https://doi.org/10.12688/f1000research.73600.2)).
+- **Why shrink some library sizes:** in genotype-labelled real data, median doublet library sizes were "systematically smaller than the sum" of their two cell types (Germain 2022, Fig. 1A). The same paper found that summing and size re-weighting were both "clearly superior to averaging".
+- **Our recipe:** follow scDblFinder: raw counts → drop the top and bottom 5% of library sizes → pair across cell types in proportion to expected frequency → sum 75%, halve and Poisson-resample 25% → simulate 0.8–2 times as many doublets as cells.
+- **Limits:** same-type doublets are "virtually unidentifiable" (Germain 2022), so they get their own label and stay out of the main metrics; methods score higher on simulated than on real doublets, with a best mean AUPRC of only 0.537 on real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hoeft's genotype doublets are the test.
+
+#### Ambient RNA: a background profile mixed in at a set fraction
+
+- **Models (removal tools used in reverse):**
+    - SoupX: observed counts = the cell's own counts + contamination fraction × background profile; the profile is estimated from **empty droplets**, and SoupX "assumes a constant contamination fraction within a channel" ([Young & Behjati 2020](https://doi.org/10.1093/gigascience/giaa151)).
+    - DecontX: each cell's contamination fraction comes "from a global beta distribution", and the contamination profile is by default "a weighted combination of all other cell population distributions", or empty droplets if given ([Yang 2020](https://doi.org/10.1186/s13059-020-1950-6)). Its package celda has a simulation function: total counts fixed, a Beta-distributed fraction per cell, and a binomial draw for how many counts are replaced by contamination. That function builds a fully synthetic matrix, so we reuse its recipe rather than call it on real data.
+    - CellBender treats background as noise added to each cell, with the profile learned from cell-free droplets ([Fleming 2023](https://doi.org/10.1038/s41592-023-01943-7)).
+    - The [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) also simulates data by drawing a contamination fraction per cell and sampling ambient counts from other cell types.
+- **Calibration:** [Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md) measured by genotype an average of 3–35% background per cell in mouse kidney; single nuclei from frozen tissue carry far more than single cells (35% vs 11%, 17% vs 3%); and the nuclear contamination profile resembles empty droplets (Spearman ρ≈0.85) more than the cells themselves (≈0.50).
+- **Our recipe:** one background profile per sample → a contamination fraction per cell (Beta-distributed, mean swept over 3–35%, the upper range for nuclei) → try both injection forms: replacement at fixed total counts (DecontX / celda) and background added on top (CellBender) → store native and injected counts separately as the answer.
+- **Limits:** Lake 2023 and mBDRC have no empty droplets. Without them, the profile can be the other cell populations (DecontX default) or the sum over all cells (as in the SoupX documentation), but Janssen shows that nuclear background resembles empty droplets, so this is an approximation; better profiles come from Janssen (mouse, with empty droplets) or a Hoeft rerun from FASTQ (human kidney).
+
+#### Low-quality cells: approximate only, and different for cells and nuclei
+
+- **Mechanism:** in microscopy-labelled broken cells, "cytoplasmic RNA will be lost, but RNAs enclosed in the mitochondria will be retained"; mtDNA-encoded genes are only "marginally upregulated", while the wider class of mitochondria-related genes falls on average ([Ilicic 2016](https://doi.org/10.1186/s13059-016-0888-1); mouse ES cells on Fluidigm C1, neither droplets nor kidney).
+- **Single cells: remove cytoplasmic RNA.** The only ready simulator is the R package [DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective): a Beta-distributed loss fraction per cell (default 0.1–0.8), with cytoplasmic gene counts removed by abundance-weighted sampling without replacement, keeping MT- genes and nuclear lncRNAs such as MALAT1 and NEAT1. It has no paper, no peer review and no validation against experimentally labelled damaged cells. Other QC tools (ddqc, miQC, valiDrops, QClus and others) detect but do not simulate.
+- **Single nuclei: not less, but more.** The main data are single-nucleus, and nuclei have no cytoplasm. In kidney single-nucleus data, mitochondrial transcripts are "not expressed in nuclei", and the mitochondrial reads seen are attributed to mitochondria attached to the nuclear membrane ([Lake 2019](../papers/lake-snrna-pipeline-natcommun-2019/index.md)); when nuclei are contaminated, the mitochondrial share rises and the unspliced share falls, "as mitochondria are only present in the cell cytoplasm" ([Schmauch 2024, QClus](https://doi.org/10.1093/nar/gkae1145)). So low-quality nuclei are made by adding cytoplasmic material: mitochondrial counts and spliced reads. This is close to ambient injection, and the design must draw the line between the two.
+- **Limits:** no simulator has been validated, so all parameter ranges are assumptions; kidney proximal tubule naturally has a high mitochondrial share, and a fixed 10% cut-off removes real kidney parenchymal cells ([Subramanian 2022](https://doi.org/10.1186/s13059-022-02820-w)), so PT is scored separately. The paper must compare injected cells with Lake's real low-QC cells.
 
 ### Design rules
 
 These follow from the evidence above (our synthesis):
 
-1. **Inject by cause, not for realism.** Each artifact follows how it really arises: two cells in one droplet, background RNA mixed in, cytoplasmic RNA lost.
+1. **Inject by cause, not for realism.** Each artifact follows how it really arises: two cells in one droplet, background RNA mixed in, cytoplasmic RNA lost (single cells) or cytoplasmic material added (single nuclei).
 2. **Keep training and testing apart.** Injected artifacts are for training; testing uses real answers, or at least a different injection recipe.
 3. **Leave one artifact out.** For example, train on doublets and ambient RNA and test on low-quality cells, to see whether a model learned what artifacts share or only memorised the recipe.
 4. **Report per artifact type**, expecting method rankings to change between types (on tabular data, ADBench found no unsupervised method statistically better than the others overall; performance depends on whether a method's assumptions match the anomaly type, [Han 2022](https://arxiv.org/abs/2206.09426)).
 5. **Vary the amount and the recipe:** the ratio of synthetic to normal cells, one recipe or a mix.
+6. **Set recipes per assay and cell type.** Low-quality recipes differ for single cells and single nuclei; the mitochondrial share is judged per cell type, and PT is scored separately.
 
 ### Stage 2: ATAC
 
@@ -207,7 +232,7 @@ The table below is generated from the [Datasets](../datasets/index.md) records a
 - **Watch for:**
     - The degenerative state looks like low-quality cells (see "A known trap" above), so a QC-only baseline is required and results are reported per state.
     - Healthy donors carry altered cells too (26% of their nuclei in the single-nucleus data, our count); they cannot serve as normal negatives and are reported separately.
-    - Raw sequencing is controlled, so **there are no empty droplets**; the background profile for injected ambient RNA must come from elsewhere (Janssen or Hoeft, see "The artifact-injection pipeline").
+    - Raw sequencing is controlled, so **there are no empty droplets**; the background profile for injected ambient RNA must either come from elsewhere (Janssen or Hoeft) or be approximated from the other cell populations (see "The artifact-injection pipeline").
     - It also has 23 Visium sections with H&E images, a candidate for the tier-3 histology annotation (see "Making tier 3 solid" above).
 
 ### mBDRC 2026 · One donor, several assays
@@ -271,7 +296,8 @@ Splits are by donor, not by cell, so no person appears in both training and test
 
 **Data and answers:**
 
-- Should the ambient background profile come from Janssen (mouse, ready to use) or a Hoeft rerun (human kidney, from FASTQ)? Lake and mBDRC have no empty droplets.
+- Should the ambient background profile come from Janssen (mouse, ready to use), a Hoeft rerun (human kidney, from FASTQ), or an approximation from the other cell populations? Lake and mBDRC have no empty droplets.
+- Where is the line between low-quality nuclei (cytoplasmic material added) and ambient injection? This needs spliced and unspliced counts; check whether the public Lake and mBDRC files have them.
 - Tier 3: start with A (clusters), B (histology) or both? Should B become a separate spatial task? Will the annotators be nephrologists, pathologists or both?
 - How to use Lake's single-cell data (scCv3): as a second assay, or not for now?
 - How to split Lake's altered cells: those with independent evidence, those called only from QC-like features, and those in healthy donors.
