@@ -26,5 +26,5 @@ manuscripts/**/*.fls
 manuscripts/**/*.fdb_latexmk
 manuscripts/**/*.synctex.gz
 
-# Local PDF renders of topic pages
-manuscripts/artifact-injection/
+# Manuscripts and topic PDFs (local only, see manuscripts/README.md)
+manuscripts/
