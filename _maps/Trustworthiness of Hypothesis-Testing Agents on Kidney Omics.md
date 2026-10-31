@@ -1,14 +1,14 @@
 ---
-title: Topic 2 — Verifying the Claims of Biomedical Analysis Agents
+title: Trustworthiness of Hypothesis-Testing Agents on Kidney Omics
 tags:
 - moc
 ---
 
-# Topic 2 — Verifying the Claims of Biomedical Analysis Agents
+# Trustworthiness of Hypothesis-Testing Agents on Kidney Omics
 
-Trace every agent claim back through code and data; calibrate the verifier against experts.
+Give agents CKD hypotheses on raw kidney omics with answers built in advance; measure when their verdicts cannot be trusted.
 
-把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。
+给 agent 肾脏病假设和原始组学数据，答案事先构造好；测它的结论什么时候不可信。
 
 ## Pipeline / 流程
 
@@ -33,7 +33,7 @@ BiomniBench · BixBench · BioML-bench`"]
   s5 --> s6
 ```
 
-Flow canvas: [[_maps/Topic 2 — Verifying the Claims of Biomedical Analysis Agents — flow.canvas|Topic 2 — Verifying the Claims of Biomedical Analysis Agents — flow]]
+Flow canvas: [[_maps/Trustworthiness of Hypothesis-Testing Agents on Kidney Omics — flow.canvas|Trustworthiness of Hypothesis-Testing Agents on Kidney Omics — flow]]
 
 ## Research agents / 科研 agent
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] ★ — Accelerating scientific discovery with Co-Scientist

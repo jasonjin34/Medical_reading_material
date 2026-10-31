@@ -114,8 +114,21 @@ git add -A && git commit -m "add <slug>: <title>" && git push
 ```
 
 Pushing to `main` triggers `.github/workflows/pages.yml`, which rebuilds and
-redeploys the site. Full conventions are in **[CONTRIBUTING.md](CONTRIBUTING.md)**;
-agent-facing rules are in **[CLAUDE.md](CLAUDE.md)**.
+redeploys the site. Agent-facing rules are in **[CLAUDE.md](CLAUDE.md)**.
+
+**Figures and result tables (optional per paper).** Add a `## 图表 / Figures & tables`
+section near the end of `deep-read.md`. Download figures **only from open sources**
+(arXiv/bioRxiv/PMC/CC-BY/GitHub/HF) into `papers/<slug>/figures/` with a `Source:` line;
+for paywalled papers link the figures instead. Reproduce result tables as markdown with
+faithful numbers only. Keep figures ≤ ~1600px (`sips -Z 1600 papers/<slug>/figures/*`).
+
+**Conventions.**
+- **slug** = short kebab of title/topic + year (e.g. `virchow-2024`); **bibkey** comes from
+  the fetched BibTeX. Keep both stable once cited.
+- **relevance `high`** ⇔ the ★ items the PI flagged; they surface first everywhere.
+- One item = one folder. Datasets, models, repos and competitions are valid items
+  (`type: dataset|model|code|competition`) with a lighter "resource card" read.
+- Full-text PDFs go to `papers/<slug>/source.pdf` (git-ignored, local only).
 
 ---
 

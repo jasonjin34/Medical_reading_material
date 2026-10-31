@@ -38,7 +38,7 @@
 - 正文称测序平台为 HiSeq,但 SRA runinfo 记为 NovaSeq 6000;小细节,但说明公开记录与正文不完全一致。
 
 ## 与本研究方向的关系
-属于课题 1 的 **detect** 环节中的"伪影 ground truth"数据源。我们的 benchmark 要检验 anomaly detector 能否把疾病(排斥/AKI)与测量伪影(ambient RNA、doublet)分开,并在 donor 层面控制误报。本数据集的价值:(1) **doublet 真值**:同一 lane 混有供体与受体两种基因型,demuxlet 能识别异基因型 doublet(donor+recipient),论文报告 3–10.5%;但同基因型 doublet(donor+donor,在以供体上皮为主的组织里应占多数)无法被基因型识别,所以只是部分真值,需要用异基因型比例按 Demuxlet 原文的公式外推。(2) **ambient 真值(我们自己的推断,论文未提及)**:肾实质上皮细胞理论上全为供体来源,其中检出的受体特异等位基因 reads 可以作为来自受体浸润免疫细胞的 ambient/soup 污染的直接估计——与 Janssen 2023(Genome Biology)用小鼠品系混合估计 background noise 的逻辑相同。论文没有提出或验证这一点。(3) 有排斥 vs 非排斥 = 真实"疾病"信号,可作为对照。限制:只有 5 个 donor 对,donor 层面误报控制统计功效很弱;要做 (1)(2) 必须从 SRA 下载 BAM/FASTQ(单个 scRNA run 约 30–65 GB)+ WES 自行 call 变异,GEO 处理后文件不够。
+属于伪影注入课题的 **detect** 环节中的"伪影 ground truth"数据源。我们的 benchmark 要检验 anomaly detector 能否把疾病(排斥/AKI)与测量伪影(ambient RNA、doublet)分开,并在 donor 层面控制误报。本数据集的价值:(1) **doublet 真值**:同一 lane 混有供体与受体两种基因型,demuxlet 能识别异基因型 doublet(donor+recipient),论文报告 3–10.5%;但同基因型 doublet(donor+donor,在以供体上皮为主的组织里应占多数)无法被基因型识别,所以只是部分真值,需要用异基因型比例按 Demuxlet 原文的公式外推。(2) **ambient 真值(我们自己的推断,论文未提及)**:肾实质上皮细胞理论上全为供体来源,其中检出的受体特异等位基因 reads 可以作为来自受体浸润免疫细胞的 ambient/soup 污染的直接估计——与 Janssen 2023(Genome Biology)用小鼠品系混合估计 background noise 的逻辑相同。论文没有提出或验证这一点。(3) 有排斥 vs 非排斥 = 真实"疾病"信号,可作为对照。限制:只有 5 个 donor 对,donor 层面误报控制统计功效很弱;要做 (1)(2) 必须从 SRA 下载 BAM/FASTQ(单个 scRNA run 约 30–65 GB)+ WES 自行 call 变异,GEO 处理后文件不够。
 
 ## 可复用资产
 - **代码:** 未公开代码;流程为标准工具(Cell Ranger 3.0、Seurat v3、GATK、Demuxlet)。

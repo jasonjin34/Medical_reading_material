@@ -39,7 +39,7 @@
 - 只评估 scRNA-seq,底层模型种类有限;正文定量结果多在图中。
 
 ## 与本研究方向的关系
-这篇给 detect 阶段带来**统计保证**这一维度。本方向里的「异常」大多是一个连续分数(重建误差、mapQC Z 值、Sardine 似然),而本文展示了如何用 conformal p 值把任意异常分数变成**有 FPR 保证的检验**——可以直接套在 MEATRD/STANDS 类重建误差、或课题 1 自己的 snRNA/snATAC/Xenium 异常分数上,让 KidneyAnomalyBench 报告「在 α₀ = 0.05 下的 FPR/功效/FDR」,而不只是 AUROC。更重要的是本文的**负面结果**:疾病样本会破坏可交换性,p 值整体偏离均匀——这说明「异常」可能来自真正的疾病细胞,也可能来自整体协变量偏移(batch、协议),和 mapQC(`refmap-eval-biorxiv-2025`)指出的问题相同;课题 1 的跨模态一致性正好可以作为 p 值之外的第二道判据。对 **课题 2**,本文几乎就是「calibrated verifier」的单细胞原型:预测集合大小 = 不确定性,空集 = 拒识,p 值均匀性 = 分布偏移警报;verifier 核查 agent 的细胞注释声明时,可以要求以 conformal 集合而非单一标签作为证据,并在 p 值分布异常时自动降低置信度。
+这篇给 detect 阶段带来**统计保证**这一维度。本方向里的「异常」大多是一个连续分数(重建误差、mapQC Z 值、Sardine 似然),而本文展示了如何用 conformal p 值把任意异常分数变成**有 FPR 保证的检验**——可以直接套在 MEATRD/STANDS 类重建误差、或伪影注入课题自己的 snRNA/snATAC/Xenium 异常分数上,让 KidneyAnomalyBench 报告「在 α₀ = 0.05 下的 FPR/功效/FDR」,而不只是 AUROC。更重要的是本文的**负面结果**:疾病样本会破坏可交换性,p 值整体偏离均匀——这说明「异常」可能来自真正的疾病细胞,也可能来自整体协变量偏移(batch、协议),和 mapQC(`refmap-eval-biorxiv-2025`)指出的问题相同;伪影注入课题的跨模态一致性正好可以作为 p 值之外的第二道判据。对 **Agent 可信度课题**,本文几乎就是「calibrated verifier」的单细胞原型:预测集合大小 = 不确定性,空集 = 拒识,p 值均匀性 = 分布偏移警报;verifier 核查 agent 的细胞注释声明时,可以要求以 conformal 集合而非单一标签作为证据,并在 p 值分布异常时自动降低置信度。
 
 ## 可复用资产
 - **代码**(conformalized single-cell annotator):

@@ -111,11 +111,13 @@ The site has six tabs: Home · Onboarding · Datasets · Research topics · Pape
 
 ## Manuscripts
 
-`manuscripts/plan-a/` and `manuscripts/plan-b/` hold the thesis paper drafts in the AAAI-27
-template (single `.tex` file each, `make` to build). They cite the reading library through
-`../../references.bib`; other references go into the paper's `extra.bib`, fetched by DOI.
-Results stay `\TBD` until real code produces them — never fill a number from memory.
-Details: `manuscripts/README.md`. Code for the papers lives in a separate repository.
+`manuscripts/` is local only (not pushed). One folder per research topic, named after the topic,
+never `topic1` / `plan-a`: `manuscripts/artifact-injection/` holds the English preprint
+(arxiv-style template, `latex/main.tex`, `latexmk -pdf main.tex`), `render_pdf.py` for PDFs of the
+topic page, `notes/` (tested dataset loading) and `archive/` (old framing, superseded).
+The preprint cites the reading library through `../../../references.bib`; other references go into
+its `extra.bib`, fetched by DOI. Results stay TBD until real code produces them — never fill a
+number from memory. Details: `manuscripts/README.md`. Code lives in a separate repository.
 
 ## Commit & verify conventions
 

@@ -50,7 +50,7 @@ SoupLadle 四步 (Fig. 1h):(1) 每位患者做 bulkRNA-seq(STAR 比对,freebayes
 
 ## 与本研究方向的关系
 
-属于 **detect** 阶段的数据/真值来源,而非方法。课题 1 要建立一个人肾单细胞 benchmark,检验 anomaly detector 能否把疾病信号与测量伪影(ambient RNA、doublet、protocol)区分开,并在供体层面用 conformal 控制误报。这个数据集是少见的**真实人肾、多供体 pooled、带每供体 bulk 基因型**的 snRNA:
+属于 **detect** 阶段的数据/真值来源,而非方法。伪影注入课题要建立一个人肾单细胞 benchmark,检验 anomaly detector 能否把疾病信号与测量伪影(ambient RNA、doublet、protocol)区分开,并在供体层面用 conformal 控制误报。这个数据集是少见的**真实人肾、多供体 pooled、带每供体 bulk 基因型**的 snRNA:
 1. **跨供体 doublet 真值**:基因型 doublet 是独立于表达的标签。在 4 个供体、比例不等时,只有部分 doublet 是跨供体的。这是 lower bound,不是完整 doublet 集合,但足以评估"表达型 doublet 检测器 / anomaly score 是否误把稀有细胞或疾病状态当 doublet"。Source Data 显示表达上的 "Mixed/Doublets" 簇大多是单一供体,是现成的反例池。
 2. **Ambient RNA 真值**:pooled 多供体时,每个核里"错误供体等位基因"的比例就是对 ambient/contamination 的基因型估计(Souporcell 本身就估计 ambient 比例;思路同 Janssen 2023 的 genotype-based ground truth)。论文没做,需要我们从 FASTQ 重算。
 3. **Donor 层面 conformal**:4 个供体可做 leave-one-donor-out 的小规模校准实验,但 n = 4 太小,只能做 sanity check,不能作为主结果。

@@ -15,4 +15,4 @@
 - id: agent-claims
   file: agent-claims.md
   code: B
-  title: {en: "Verifying the Claims of Biomedical Analysis Agents", zh: "生物医学分析 agent 的结论核查"}
+  title: {en: "Trustworthiness of Hypothesis-Testing Agents on Kidney Omics", zh: "肾脏组学上假设验证 agent 的可信度"}

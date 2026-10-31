@@ -1,11 +1,10 @@
 ---
-title: Topic 1 — Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell
-  Omics
+title: Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics
 tags:
 - moc
 ---
 
-# Topic 1 — Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics
+# Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics
 
 Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another.
 
@@ -34,7 +33,7 @@ NIH Kidney AI Challenge · Pathology AD benchmark · Clinical-grade histo AD`"]
   s5 --> s6
 ```
 
-Flow canvas: [[_maps/Topic 1 — Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics — flow.canvas|Topic 1 — Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics — flow]]
+Flow canvas: [[_maps/Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics — flow.canvas|Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics — flow]]
 
 ## General AD methods / 通用异常检测方法
 - [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] ★ — Generalized Out-of-Distribution Detection: A Survey

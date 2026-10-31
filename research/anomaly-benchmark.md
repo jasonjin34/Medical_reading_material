@@ -492,6 +492,6 @@ Finish [Onboarding](../onboarding/index.md) first, then read in this order:
 8. [DRAEM](https://arxiv.org/abs/2108.07610): anomaly detection trained on synthetic defects (not in the library)
 
 <!-- ZH -->
-再往后，看 [知识图谱](../knowledge-map.md) 里"课题 1"视图的必读论文，以及 [方法 × 数据矩阵](../knowledge-map.md)：虚线格是课题 1 打算补上的地方（有的格子里已经有论文，格子里的说明写了还缺什么）。
+再往后，看 [知识图谱](../knowledge-map.md) 里本课题视图的必读论文，以及 [方法 × 数据矩阵](../knowledge-map.md)：虚线格是本课题打算补上的地方（有的格子里已经有论文，格子里的说明写了还缺什么）。
 <!-- EN -->
-After that, see the must-reads in the "Topic 1" view of the [knowledge map](../knowledge-map.md) and the [method × data matrix](../knowledge-map.md), whose dashed cells mark what Topic 1 plans to add (some already hold papers; the note in each cell says what is still missing).
+After that, see the must-reads in this topic's view of the [knowledge map](../knowledge-map.md) and the [method × data matrix](../knowledge-map.md), whose dashed cells mark what this topic plans to add (some already hold papers; the note in each cell says what is still missing).

@@ -7,22 +7,22 @@ tags:
 
 # Method map — anomaly detection from general to kidney
 
-Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what Topic 1 adds.
+Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what the artifact-injection topic adds.
 
-行是异常检测的方法范式，列从通用数据一直到肾脏组学。箭头表示方法被迁移到哪里；虚线格是课题 1 要补的空白。
+行是异常检测的方法范式，列从通用数据一直到肾脏组学。箭头表示方法被迁移到哪里；虚线格是伪影注入课题要补的空白。
 
 | Paradigm / 范式 | General / industrial<br>通用 / 工业图像 | Medical imaging<br>医学影像 | Histopathology (H&E)<br>病理切片 (H&E) | Single-cell omics<br>单细胞组学 | Spatial omics<br>空间组学 | Kidney (omics + histology)<br>肾脏（组学 + 病理） |
 | --- | --- | --- | --- | --- | --- | --- |
 | **Reconstruction / generative**<br>重建 / 生成式 | · | [[_maps/papers/f-anogan-media-2019|f-AnoGAN]]<br>[[_maps/papers/anogan-ipmi-2017|AnoGAN]]<br>[[_maps/papers/diffusion-medical-ad-miccai-2022|Diffusion AD (medical)]] | [[_maps/papers/histo-miccai-2025|Latent-diffusion AD]]<br>[[_maps/papers/counterfactual-diffusion-cancerres-2026|Counterfactual diffusion]] | · | [[_maps/papers/meatrd-aaai-2025|MEATRD]]<br>[[_maps/papers/spatial-natcommun-2024|STANDS]] | · |
-| **Feature embedding + memory bank / kNN**<br>特征嵌入 + 记忆库 / kNN | [[_maps/papers/patchcore-cvpr-2022|PatchCore]]<br>[[_maps/papers/padim-icpr-2020|PaDiM]] | [[_maps/papers/abnormality-radiology-arxiv-2024|Abnormality radiology (Ligero 2024)]] | [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] | · | · | *Topic 1 gap* |
-| **Density / one-class**<br>密度估计 / 单类 | [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]]<br>[[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] | · | [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] | · | [[_maps/papers/sardine-bioinformatics-2025|Sardine]] | *Topic 1 gap* |
+| **Feature embedding + memory bank / kNN**<br>特征嵌入 + 记忆库 / kNN | [[_maps/papers/patchcore-cvpr-2022|PatchCore]]<br>[[_maps/papers/padim-icpr-2020|PaDiM]] | [[_maps/papers/abnormality-radiology-arxiv-2024|Abnormality radiology (Ligero 2024)]] | [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] | · | · | *Artifact-injection gap* |
+| **Density / one-class**<br>密度估计 / 单类 | [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]]<br>[[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] | · | [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] | · | [[_maps/papers/sardine-bioinformatics-2025|Sardine]] | *Artifact-injection gap* |
 | **Synthetic anomalies / outlier exposure**<br>合成异常 / 异常暴露 | [[_maps/papers/draem-iccv-2021|DRAEM]] | · | [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] | · | · | · |
 | **Classifier OOD & reference mapping**<br>分类器 OOD 与参考映射 | [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]]<br>[[_maps/papers/msp-ood-iclr-2017|MSP baseline]]<br>[[_maps/papers/energy-ood-neurips-2020|Energy OOD]] | · | · | [[_maps/papers/refmap-eval-biorxiv-2025|Reference-mapping QC]]<br>[[_maps/papers/scatac-novel-genomeres-2026|Novel types in scATAC]] | · | [[_maps/papers/dkd-spatial-atlas-nature-2026|DKD spatial atlas]] |
-| **Conformal / calibrated**<br>保形 / 校准 | [[_maps/papers/conformal-outliers-annstat-2023|Conformal p-values]] | · | · | [[_maps/papers/conformal-scrna-bioinformatics-2025|Conformal annotation]] | · | *Topic 1 gap* |
+| **Conformal / calibrated**<br>保形 / 校准 | [[_maps/papers/conformal-outliers-annstat-2023|Conformal p-values]] | · | · | [[_maps/papers/conformal-scrna-bioinformatics-2025|Conformal annotation]] | · | *Artifact-injection gap* |
 | **Healthy-reference comparison & disease scores**<br>健康参考对比与疾病评分 | · | · | · | [[_maps/papers/healthy-ref-natgenet-2023|Healthy-reference design]]<br>[[_maps/papers/mrvi-natmethods-2025|MrVI]] | · | [[_maps/papers/abedini-kidney-atlas-natgenet-2024|Kidney atlas (Abedini 2024)]]<br>[[_maps/papers/cellspectra-natgenet-2025|CellSpectra]]<br>[[_maps/papers/damage-scores-cellgenomics-2026|Damage scores]] |
-| **Cross-modal consistency**<br>跨模态一致性 | · | · | [[_maps/papers/he2expr-bench-natcommun-2025|H&E→expression benchmark]] | · | [[_maps/papers/loki-omiclip-natmethods-2025|Loki / OmiCLIP]] | [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]]<br>*Topic 1 gap* |
-| **Technical artifacts (nuisance anomalies)**<br>技术伪影（干扰性异常） | · | · | · | [[_maps/papers/ambient-rna-bench-biorxiv-2026|Ambient-RNA benchmark]] | [[_maps/papers/xenium-split-natmethods-2026|Xenium contamination (SPLIT)]]<br>[[_maps/papers/ovrlpy-natbiotech-2026|ovrlpy]]<br>[[_maps/papers/resolvi-natmethods-2026|ResolVI]] | [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]]<br>[[_maps/papers/malone-transplant-chimerism-jasn-2020|Transplant chimerism (Malone)]]<br>[[_maps/papers/denisenko-dissociation-bias-genomebiol-2020|Dissociation bias, mouse kidney]]<br>[[_maps/papers/janssen-ambient-noise-genomebiol-2023|Ambient truth, mouse kidney (Janssen)]]<br>[[_maps/papers/hoeft-genotype-multiplexing-natcommun-2024|SNP multiplexing (Hoeft)]]<br>*Topic 1 gap* |
-| **Benchmarks, datasets & surveys**<br>基准、数据集与综述 | [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]]<br>[[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]]<br>[[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] | [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] | [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]] | · | · | [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]]<br>*Topic 1 gap* |
+| **Cross-modal consistency**<br>跨模态一致性 | · | · | [[_maps/papers/he2expr-bench-natcommun-2025|H&E→expression benchmark]] | · | [[_maps/papers/loki-omiclip-natmethods-2025|Loki / OmiCLIP]] | [[_maps/papers/kidney-multimodal-genomebiol-2026|Kidney multiome (mBDRC)]]<br>*Artifact-injection gap* |
+| **Technical artifacts (nuisance anomalies)**<br>技术伪影（干扰性异常） | · | · | · | [[_maps/papers/ambient-rna-bench-biorxiv-2026|Ambient-RNA benchmark]] | [[_maps/papers/xenium-split-natmethods-2026|Xenium contamination (SPLIT)]]<br>[[_maps/papers/ovrlpy-natbiotech-2026|ovrlpy]]<br>[[_maps/papers/resolvi-natmethods-2026|ResolVI]] | [[_maps/papers/lake-snrna-pipeline-natcommun-2019|Kidney snRNA processing (Lake 2019)]]<br>[[_maps/papers/malone-transplant-chimerism-jasn-2020|Transplant chimerism (Malone)]]<br>[[_maps/papers/denisenko-dissociation-bias-genomebiol-2020|Dissociation bias, mouse kidney]]<br>[[_maps/papers/janssen-ambient-noise-genomebiol-2023|Ambient truth, mouse kidney (Janssen)]]<br>[[_maps/papers/hoeft-genotype-multiplexing-natcommun-2024|SNP multiplexing (Hoeft)]]<br>*Artifact-injection gap* |
+| **Benchmarks, datasets & surveys**<br>基准、数据集与综述 | [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]]<br>[[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]]<br>[[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] | [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] | [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]] | · | · | [[_maps/papers/nih-kidney-ai-challenge-2026|NIH Kidney AI Challenge]]<br>*Artifact-injection gap* |
 
 ## Paradigms / 范式
 
@@ -45,14 +45,14 @@ Rows are anomaly-detection paradigms, columns go from general data to kidney omi
 - **Technical artifacts (nuisance anomalies) / 技术伪影（干扰性异常）** — Anomalies that are technical, not biological, and must be removed or modelled first. 来自技术而不是生物学的异常，要先去除或建模。
   - Kidney omics / 肾脏组学: Doublets, ambient RNA, segmentation spillover, z-overlap in Xenium. doublet、ambient RNA、细胞分割溢出、Xenium 的 z 向重叠。
 - **Benchmarks, datasets & surveys / 基准、数据集与综述** — Where methods are compared. 方法在哪里被横向比较。
-  - Kidney omics / 肾脏组学: An expert-validated kidney anomaly benchmark (Topic 1 deliverable). 经专家验证的肾脏异常基准（课题 1 的产出）。
+  - Kidney omics / 肾脏组学: An expert-validated kidney anomaly benchmark (a deliverable of the artifact-injection topic). 经专家验证的肾脏异常基准（伪影注入课题的产出）。
 
-## Topic 1 gaps / 课题 1 的空白
+## Artifact-injection gaps / 伪影注入课题的空白
 
-- feature × kidney: Topic 1 baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space. 课题 1 基线：在共享潜空间里算到健康 KPMP / Lake 细胞的 kNN 距离。
+- feature × kidney: the artifact-injection topic baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space. 伪影注入课题基线：在共享潜空间里算到健康 KPMP / Lake 细胞的 kNN 距离。
 - density × kidney: Density of healthy kidney cell states per cell type. 按细胞类型估计健康肾脏细胞状态的密度。
 - conformal × kidney: Calibrated per-cell anomaly p-values with FDR control. 给每个细胞校准过的异常 p 值，并控制 FDR。
-- crossmodal × kidney: Core idea of Topic 1: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease. 课题 1 的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。
+- crossmodal × kidney: Core idea of the artifact-injection topic: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease. 伪影注入课题的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。
 - artifact × kidney: Artifact audit of public kidney snRNA + spatial data. 对公开的肾脏 snRNA + 空间数据做伪影审计。
 - bench × kidney: KidneyAnomalyBench: expert-validated anomalies. KidneyAnomalyBench：经专家验证的异常。
 

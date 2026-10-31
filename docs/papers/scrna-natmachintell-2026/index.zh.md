@@ -66,7 +66,7 @@ flowchart LR
 - 我们的理解:R² 只衡量均值(top-50 DEG),Wasserstein/MMD 在潜空间解码后计算,结论依赖冻结自编码器的质量。
 
 ## 与本研究方向的关系
-属于 **model / revert** 环节,不是异常检测。我们的理解:(1) 如果把"疾病细胞群"当源分布、"正常细胞群"当目标分布,CMonge 式的条件 OT 可以作为"哪个条件(药物/基因扰动)能把分布搬回正常"的打分器;但论文只训练了"对照 → 处理"方向,反向使用需要相应的配对数据,未经验证。(2) 它的 Sinkhorn / Wasserstein 距离可以作为 revert 程度的分布级度量,与课题 1 里"异常是分布偏移"的观点一致。(3) 它没有空间信息,也不处理组织切片;对肾脏数据而言,更现实的用法是在 snRNA 层面对候选扰动做初筛,再回到空间数据验证。(4) "条件数越多,结构嵌入越可用"提示:若要对未测过的化合物做 revert 预测,需要大规模扰动数据训练。
+属于 **model / revert** 环节,不是异常检测。我们的理解:(1) 如果把"疾病细胞群"当源分布、"正常细胞群"当目标分布,CMonge 式的条件 OT 可以作为"哪个条件(药物/基因扰动)能把分布搬回正常"的打分器;但论文只训练了"对照 → 处理"方向,反向使用需要相应的配对数据,未经验证。(2) 它的 Sinkhorn / Wasserstein 距离可以作为 revert 程度的分布级度量,与伪影注入课题里"异常是分布偏移"的观点一致。(3) 它没有空间信息,也不处理组织切片;对肾脏数据而言,更现实的用法是在 snRNA 层面对候选扰动做初筛,再回到空间数据验证。(4) "条件数越多,结构嵌入越可用"提示:若要对未测过的化合物做 revert 预测,需要大规模扰动数据训练。
 
 ## 可复用资产
 - **代码:** <https://github.com/AI4SCR/conditional-monge-gap>(论文写作 AI4SCR/Conditional-Monge,已重定向;MIT),PyPI 包 `cmonge` <https://pypi.org/project/cmonge/>,Zenodo <https://doi.org/10.5281/zenodo.17854338>(Code availability)。仓库 README:在 Python 3.10 和 3.11 上测试;加载旧 checkpoint(cmonge-{moa, rdkit}-ood 等)需切到 tag `cmonge_checkpoint_loading`。

@@ -39,8 +39,8 @@ About 1 hour for the three.
 
 The last section of every topic page is a **reading path**: about five deep-reads in order, each with a reason. Open your topic page and continue from there:
 
-- [Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
-- [Topic 2 · Verifying the Claims of Biomedical Analysis Agents](../research/agent-claims.md)
+- [Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
+- [Trustworthiness of Hypothesis-Testing Agents on Kidney Omics](../research/agent-claims.md)
 
 Skip any you already read in step 2.
 
@@ -48,9 +48,9 @@ Skip any you already read in step 2.
 
 After the reading path, find further papers yourself with the **[knowledge map](../knowledge-map.md)**. It has several views:
 
-- **One view per topic**: papers grouped by theme (Topic 1 has 7 groups such as "General AD methods", "Atlases & disease states", "QC & artifacts"). Groups start collapsed; click to open one, double-click a paper to open its deep-read. The "Pipelines" section of the knowledge-map page lays these groups out as the topic's pipeline (Topic 1: public kidney atlases → QC & artifact removal → model of healthy tissue → anomaly / OOD score → cross-modal check → evaluation vs. experts).
+- **One view per topic**: papers grouped by theme (the artifact-injection topic has 7 groups such as "General AD methods", "Atlases & disease states", "QC & artifacts"). Groups start collapsed; click to open one, double-click a paper to open its deep-read. The "Pipelines" section of the knowledge-map page lays these groups out as the topic's pipeline (the artifact-injection topic: public kidney atlases → QC & artifact removal → model of healthy tissue → anomaly / OOD score → cross-modal check → evaluation vs. experts).
 - **Bridge**: papers that more than one topic needs.
-- **Method × data matrix**: rows are kinds of anomaly-detection method, columns go from general data to kidney omics; arrows show a method carried over to another kind of data, and **dashed cells mark what Topic 1 plans to add** (some already hold papers; the note in each cell says what is still missing).
+- **Method × data matrix**: rows are kinds of anomaly-detection method, columns go from general data to kidney omics; arrows show a method carried over to another kind of data, and **dashed cells mark what the artifact-injection topic plans to add** (some already hold papers; the note in each cell says what is still missing).
 
 A useful way in: find the cell you know best in the matrix (for example PatchCore, the nearest-neighbour method from image anomaly detection) and follow its arrows to see which kinds of data it has reached, and where the chain stops before kidney omics.
 
@@ -67,8 +67,8 @@ The paper library is maintained by the group. When you find a paper worth readin
 ??? question "1. You only have time for one section of a deep-read. Which one?"
     "Relation to our direction". It says how the paper connects to our topics, which decides whether to keep reading.
 
-??? question "2. Where do you look to see what gaps Topic 1 still has?"
-    The method × data matrix in the knowledge map, where dashed cells mark what Topic 1 adds; also the "Why it is unsolved" and "Open questions" sections of the Topic 1 page.
+??? question "2. Where do you look to see what gaps the artifact-injection topic still has?"
+    The method × data matrix in the knowledge map, where dashed cells mark what the artifact-injection topic adds; also the "Why it is unsolved" and "Open questions" sections of the artifact-injection topic page.
 
 ??? question "3. A deep-read's header says `abstract-only`. What should you keep in mind?"
     It is based on the abstract and public information only, not the full text. Numbers and method details may be incomplete; check the original before citing it.

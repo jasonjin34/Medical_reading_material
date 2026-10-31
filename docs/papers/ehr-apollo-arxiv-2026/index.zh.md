@@ -70,7 +70,7 @@ flowchart LR
 
 ## 与本研究方向的关系
 **先说 Sinai EHR 项目。** APOLLO 是在单一美国学术医疗系统(720 万人、Epic、未精修)数据上「全模态」做法的最直接参照,可逐条对照的工程选择有:化验数值的 log + 分 bin token、用 LLM 规范本地 flowsheet 命名与分类答案、冻结的文本/病理编码器、模态 mask 作为提示、全部用 Cox time-to-event + 校准评估、case-cohort 采样(Online Methods)。我们的理解:它的消融显示多模态比纯结构化只多 +0.025,而预训练 vs 无预训练差 0.109 —— 对 Sinai 而言,先把结构化数据的自监督预训练做好,可能比一开始就接入所有模态更划算;Extended Data 中的肾任务行(CKD 新发、CKD 分期进展、高血压→CKD 3 期以上、心衰→急性肾衰、NSAID 后 AKI、透析依赖)可以直接作为 Sinai 上的心-代谢-肾任务清单与参考数值;另外,评估时应同时报告「最近病程记录」这类强基线,而不只是年龄-性别。
-**再说 detect → model → revert(我们的理解)。** APOLLO 是病人尺度的「model」:作者自己用 virtual cell 作类比并称其为 virtual patient;它也用 TITAN/CONCH 嵌入病理切片,与课题 1(肾组学异常检测)H&E 侧可用的编码器同属 Mahmood 组。它没有做 revert:作者明确说反事实任务(同一病人换不同疗法的结局差异)尚待解决。对课题 2(agent 结论校验):作者把 IG 归因区分为「已知危险因素 / 护理过程代理 / 多病共存与共享风险环境 / 少量可检验的假设信号」,并强调不能把归因当作干预靶点,这可以直接借作 agent 基于 EHR 下结论时的证据分级。
+**再说 detect → model → revert(我们的理解)。** APOLLO 是病人尺度的「model」:作者自己用 virtual cell 作类比并称其为 virtual patient;它也用 TITAN/CONCH 嵌入病理切片,与伪影注入课题H&E 侧可用的编码器同属 Mahmood 组。它没有做 revert:作者明确说反事实任务(同一病人换不同疗法的结局差异)尚待解决。对 Agent 可信度课题:作者把 IG 归因区分为「已知危险因素 / 护理过程代理 / 多病共存与共享风险环境 / 少量可检验的假设信号」,并强调不能把归因当作干预靶点,这可以直接借作 agent 基于 EHR 下结论时的证据分级。
 
 ## 可复用资产
 - **代码:** 预训练与评估流水线(风险预测、检索)将在「发表后」面向学术开放;目前未公开(Code availability)。

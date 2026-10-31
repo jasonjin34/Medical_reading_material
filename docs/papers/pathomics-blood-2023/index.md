@@ -65,7 +65,7 @@ Single centre (Weill Cornell Medicine, with Stony Brook University review): 54 m
 ## Relation to our direction
 Indirectly related to detect → model → revert; its value is in the tissue-representation step.
 - Our reading: "segment nuclei → per-cell morphology features → regional statistics / heatmaps" is the same kind of cell-level description we need on kidney H&E; it also shows that swapping the segmenter (CellPose vs the authors' U-Net) can change results a lot, so a kidney benchmark should report and compare segmenters as a variable.
-- Our reading: "tissue-area method fails, cell-based works" shows that the metric definition drives the conclusion; and the reference standard (here, pathology reports) may itself be unreliable — a reason for multi-modal cross-evidence, in line with Topic 1's design.
+- Our reading: "tissue-area method fails, cell-based works" shows that the metric definition drives the conclusion; and the reference standard (here, pathology reports) may itself be unreliable — a reason for multi-modal cross-evidence, in line with the artifact-injection topic's design.
 - Relevance medium: haematopathology / bone marrow; no kidney, no omics, no anomaly detection or perturbation modelling.
 
 ## Reusable assets

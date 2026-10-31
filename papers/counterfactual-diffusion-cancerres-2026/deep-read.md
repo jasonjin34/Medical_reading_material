@@ -67,13 +67,13 @@ flowchart LR
 ## 与本研究方向的关系 / Relation to our direction
 <!-- ZH --> 作者自己把 MoPaDi 表述为"基于模型的虚拟扰动",可用于湿实验前预筛假设(Discussion)。它在 detect → model → revert 中最接近"revert"的**图像版原型**:把一块肿瘤 tile 沿决策方向推向"正常黏膜",并画出推回后的样子(Fig. 2A)。
 - 我们的理解:MoPaDi 的方向 d 来自**有监督分类器**;如果把 d 换成异常分数(例如到健康参照分布的距离)对 z 的梯度,就能得到"把异常拉回健康"的反事实,这正是虚拟组织在 H&E 上的一个可视化接口。论文本身没有做这一步。
-- 我们的理解(课题 1):(1) 染色–形态分解可以用来区分"染色/中心批次差异"和"真实形态改变",对待测肾活检的 H&E 有直接用处;(2) 作者承认未评估折叠、气泡、扫描噪声等伪影,而且分类器学到的伪影线索可能被反事实保留甚至强化——这正是异常检测基准应专门覆盖的失败模式;(3) 用多个独立基础模型分类器检查反事实方向是否一致,可以借来检验"异常是否与编码器无关"。
-- 我们的理解(课题 2):论文反复区分"分类器认为 X"与"组织确实是 X",这正是 agent 在引用图像证据时需要被核查的一类 claim。
+- 我们的理解(伪影注入课题):(1) 染色–形态分解可以用来区分"染色/中心批次差异"和"真实形态改变",对待测肾活检的 H&E 有直接用处;(2) 作者承认未评估折叠、气泡、扫描噪声等伪影,而且分类器学到的伪影线索可能被反事实保留甚至强化——这正是异常检测基准应专门覆盖的失败模式;(3) 用多个独立基础模型分类器检查反事实方向是否一致,可以借来检验"异常是否与编码器无关"。
+- 我们的理解(Agent 可信度课题):论文反复区分"分类器认为 X"与"组织确实是 X",这正是 agent 在引用图像证据时需要被核查的一类 claim。
 - 相关性 medium:癌症 H&E、tile 级,不涉及肾脏和组学。
 <!-- EN --> The authors frame MoPaDi as "model-based virtual perturbation" that could prescreen hypotheses before wet-lab work (Discussion). Within detect → model → revert it is the closest **imaging prototype of "revert"**: it pushes a tumour tile toward "normal mucosa" along a decision direction and renders the result (Fig. 2A).
 - Our reading: MoPaDi's direction d comes from a **supervised classifier**; replacing d by the gradient of an anomaly score (e.g. distance to a healthy reference distribution) w.r.t. z would yield "revert-to-healthy" counterfactuals — a visual interface for a virtual tissue on H&E. The paper does not do this.
-- Our reading (Topic 1): (1) the stain–morphology decomposition can separate stain/site differences from true morphologic change, directly useful for H&E of the kidney biopsies to be tested; (2) the authors admit no evaluation under folds, bubbles or scanner noise, and artifact cues learned by the classifier may be kept or reinforced — exactly a failure mode an anomaly benchmark should cover; (3) checking counterfactual direction with several independent foundation-model classifiers transfers as an "is the anomaly encoder-agnostic?" test.
-- Our reading (Topic 2): the paper keeps "the classifier thinks X" separate from "the tissue is X" — the kind of claim an agent citing image evidence should have checked.
+- Our reading (the artifact-injection topic): (1) the stain–morphology decomposition can separate stain/site differences from true morphologic change, directly useful for H&E of the kidney biopsies to be tested; (2) the authors admit no evaluation under folds, bubbles or scanner noise, and artifact cues learned by the classifier may be kept or reinforced — exactly a failure mode an anomaly benchmark should cover; (3) checking counterfactual direction with several independent foundation-model classifiers transfers as an "is the anomaly encoder-agnostic?" test.
+- Our reading (the agent-trustworthiness topic): the paper keeps "the classifier thinks X" separate from "the tissue is X" — the kind of claim an agent citing image evidence should have checked.
 - Relevance medium: cancer H&E at tile level; no kidney, no omics.
 
 ## 可复用资产 / Reusable assets

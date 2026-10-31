@@ -34,7 +34,7 @@
 - 正文中各重复的细胞数并不完全一致(5,000–20,000 与 rep3「3900 cells」),需看补充图确认。
 
 ## 与本研究方向的关系
-处在 **detect** 环节的「伪影侧」(课题 1,track A2:质控与伪影)。课题 1 要做一个**人类肾脏单细胞基准**,测试 anomaly detector 能否把疾病相关的异常与测量伪影(ambient RNA 等)分开。本文**只用于校准我们注入的 ambient RNA 的强度与谱型**:(1) 强度 —— 每细胞背景比例的经验分布(sc 新鲜组织中位约 3–11%,sn 冷冻组织约 17–35%;每细胞 ρ_c 文件在 Zenodo 每个重复的 `perCell_noMito_CAST_binom.RDS` 中),以及「污染 UMI 绝对量近似恒定、比例随细胞大小下降」这一结构,可直接作为注入模型(固定绝对量 vs 固定比例)的依据;(2) 谱型 —— 背景谱应取自**空液滴**而非细胞平均谱(sn 中 contamination 与 empty 的相关 ~0.85 vs endogenous ~0.50),且 sn 的 ambient 谱中 PT 比例下降、内含子比例偏低;raw `feature_bc_matrix.h5` 提供了构建空液滴谱的原料。(3) 评测设计可借鉴:以「伪影真值」做 RMSLE + Kendall τ,以及用 k-NN 重叠检验「去噪是否伤害细粒度结构」—— 对应我们需要检查伪影注入/去除是否会掩盖或伪造疾病信号。注意它是**小鼠**健康肾脏,不能直接用作人类疾病基准的数据;跨物种/跨平台的强度迁移需要在人类肾脏数据(如 KPMP)的空液滴上再核对。
+处在 **detect** 环节的「伪影侧」(伪影注入课题,track A2:质控与伪影)。伪影注入课题要做一个**人类肾脏单细胞基准**,测试 anomaly detector 能否把疾病相关的异常与测量伪影(ambient RNA 等)分开。本文**只用于校准我们注入的 ambient RNA 的强度与谱型**:(1) 强度 —— 每细胞背景比例的经验分布(sc 新鲜组织中位约 3–11%,sn 冷冻组织约 17–35%;每细胞 ρ_c 文件在 Zenodo 每个重复的 `perCell_noMito_CAST_binom.RDS` 中),以及「污染 UMI 绝对量近似恒定、比例随细胞大小下降」这一结构,可直接作为注入模型(固定绝对量 vs 固定比例)的依据;(2) 谱型 —— 背景谱应取自**空液滴**而非细胞平均谱(sn 中 contamination 与 empty 的相关 ~0.85 vs endogenous ~0.50),且 sn 的 ambient 谱中 PT 比例下降、内含子比例偏低;raw `feature_bc_matrix.h5` 提供了构建空液滴谱的原料。(3) 评测设计可借鉴:以「伪影真值」做 RMSLE + Kendall τ,以及用 k-NN 重叠检验「去噪是否伤害细粒度结构」—— 对应我们需要检查伪影注入/去除是否会掩盖或伪造疾病信号。注意它是**小鼠**健康肾脏,不能直接用作人类疾病基准的数据;跨物种/跨平台的强度迁移需要在人类肾脏数据(如 KPMP)的空液滴上再核对。
 
 ## 可复用资产
 - **代码:** GitHub `Hellmann-Lab/scRNA-seq_Contamination`(GPL-3.0;Snakemake 流程:cellsnp-lite/Vireo 解复用、基因型背景估计 `genotype_estimation_functions.R`、CellBender/DecontX/SoupX 运行与评测脚本),Zenodo 10.5281/zenodo.7941521。

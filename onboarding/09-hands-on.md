@@ -233,13 +233,13 @@ With the `default_rng(0)` split, the test set has 28,380 PT nuclei, 20,477 of th
 三条读法，对应模块 8 的三个难点：
 
 1. **degenerative 上，kNN 和只数基因差不多**，5 次里有 4 次还更差。漂亮的 AUROC 不说明方法学会了"病"。
-2. **我们不知道 kNN 报出来的细胞里有多少是伪影**：Lake 没有伪影标签，这段代码答不了。[课题 1](../research/anomaly-benchmark.md) 的思路就是往数据里注入已知的伪影，再用真实答案检验；第 6 步的练习 6 是一个最小的版本。
+2. **我们不知道 kNN 报出来的细胞里有多少是伪影**：Lake 没有伪影标签，这段代码答不了。[伪影注入课题](../research/anomaly-benchmark.md) 的思路就是往数据里注入已知的伪影，再用真实答案检验；第 6 步的练习 6 是一个最小的版本。
 3. **误报不稳**：阈值定在 5%，在没见过的健康人身上是 0.9% 到 6.3%。13 个健康人按 6 / 3 / 4 分，测试供体只有 4 个，有的人 PT 核很少（种子 0 里有一个人只有 4 个，种子 1–4 里有一个人只有 3 个），单人的误报率波动很大。
 <!-- EN -->
 Three readings, matching module 8's three difficulties:
 
 1. **On degenerative cells, kNN is about as good as counting genes**, and worse in 4 of 5 splits. A good AUROC does not show the method learned disease.
-2. **We do not know how many kNN-flagged cells are artifacts**: Lake has no artifact labels, so this code cannot answer that. [Topic 1](../research/anomaly-benchmark.md) does exactly this: inject known artifacts into the data, then test on real answers; exercise 6 in step 6 is a minimal version.
+2. **We do not know how many kNN-flagged cells are artifacts**: Lake has no artifact labels, so this code cannot answer that. [the artifact-injection topic](../research/anomaly-benchmark.md) does exactly this: inject known artifacts into the data, then test on real answers; exercise 6 in step 6 is a minimal version.
 3. **False alarms are unstable**: set at 5%, they land between 0.9% and 6.3% on unseen healthy donors. The 13 healthy donors split 6 / 3 / 4, so there are only 4 test donors, and some have very few PT nuclei (one has 4 in seed 0, one has 3 in seeds 1–4), so per-person rates swing widely.
 
 ## 第 6 步 · 练习 / Step 6 · Exercises
@@ -252,7 +252,7 @@ Three readings, matching module 8's three difficulties:
 3. 把"只数基因"换成 `percent.mt`，或者两者结合，能不能在 degenerative 上追平 kNN？
 4. 把 `n_neighbors` 从 10 改成 1 或 50，AUROC 和误报率怎么变？
 5. 把标签表里的 `tissue_type`（模块 4）也合并进来：在第 4 步代码第 1 段的 `join` 后面加一行 `adata.obs = adata.obs.join(meta[["tissue_type"]], rsuffix="_geo")`（h5ad 自己也有一列 `tissue_type`，但值全是 "tissue"），再用 `tissue_type_geo` 按活检、肾切除、死亡供体分别报误报率。这一行我们跑过，其余结果不变。
-6. **自己造 doublet**（课题 1 的最小版本）：在第 4 步代码第 2 段 `normalize_total` 之前，从测试供体的 reference PT 核里随机取 500 对，把两行**原始计数相加**，当作 500 个新细胞加进去，标成"伪影"（Scrublet 就是这样造 doublet 的）。用同样的流程打分：它们有多少超过阈值？再换成"PT + TAL"两种细胞相加，结果有什么不同？想一想为什么同一类细胞组成的 doublet 很难被发现。
+6. **自己造 doublet**（伪影注入课题的最小版本）：在第 4 步代码第 2 段 `normalize_total` 之前，从测试供体的 reference PT 核里随机取 500 对，把两行**原始计数相加**，当作 500 个新细胞加进去，标成"伪影"（Scrublet 就是这样造 doublet 的）。用同样的流程打分：它们有多少超过阈值？再换成"PT + TAL"两种细胞相加，结果有什么不同？想一想为什么同一类细胞组成的 doublet 很难被发现。
 <!-- EN -->
 None of these has a fixed answer; run them before drawing conclusions.
 
@@ -261,7 +261,7 @@ None of these has a fixed answer; run them before drawing conclusions.
 3. Replace "gene count" with `percent.mt`, or combine the two. Can it match kNN on degenerative cells?
 4. Change `n_neighbors` from 10 to 1 or 50. How do AUROC and the false-alarm rate change?
 5. Also join `tissue_type` from the label table (module 4): after the `join` in part 1 of the step 4 code, add `adata.obs = adata.obs.join(meta[["tissue_type"]], rsuffix="_geo")` (the h5ad has its own `tissue_type` column, but every value is "tissue"), then report the false-alarm rate separately for biopsy, nephrectomy and deceased donor using `tissue_type_geo`. We ran this line; the other results do not change.
-6. **Make your own doublets** (a minimal version of Topic 1): before `normalize_total` in part 2 of the step 4 code, take 500 random pairs of reference PT nuclei from the test donors, **add the two rows' raw counts**, append them as 500 new cells and label them "artifact" (this is how Scrublet simulates doublets). Score them with the same pipeline: how many exceed the threshold? Then add PT + TAL pairs instead. What changes? Think about why doublets of two cells of the same type are hard to detect.
+6. **Make your own doublets** (a minimal version of the artifact-injection topic): before `normalize_total` in part 2 of the step 4 code, take 500 random pairs of reference PT nuclei from the test donors, **add the two rows' raw counts**, append them as 500 new cells and label them "artifact" (this is how Scrublet simulates doublets). Score them with the same pipeline: how many exceed the threshold? Then add PT + TAL pairs instead. What changes? Think about why doublets of two cells of the same type are hard to detect.
 
 ## 第 7 步 · 收尾 / Step 7 · Clean up
 

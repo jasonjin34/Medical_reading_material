@@ -36,7 +36,7 @@ SpatialCorpus-110M:解离部分基于 CELLxGENE Census(33.47M)并新增 180 个�
 - 可解释性(attention 分析)仍是初步的。
 
 ## 与本研究方向的关系
-对 detect → model → revert 的 **model** 阶段,Nicheformer 提供了把「细胞」与「它的邻域」放在同一表示里的路径:在 snRNA + snATAC + Xenium + H&E 这类多模态设计中,snRNA/snATAC 是解离的,只有 Xenium 带空间 —— Nicheformer 的空间→解离迁移,原则上可以给 snRNA 细胞推断「所处 niche / 邻域组成」,从而在没有空间测量的样本上也能定义空间层面的异常(例如损伤小管周围免疫浸润的邻域)。对课题 1 的异常检测有两点具体价值:**(1) 邻域组成/密度预测误差本身可作为异常信号** —— 若一个细胞的表达预测出的邻域与实测(Xenium)邻域显著不符,这是一种「表达–空间」跨模态不一致;**(2) 技术特异 rank 归一化**直接处理了 Xenium vs snRNA 的平台偏差,与本仓库 `kidney-multimodal-genomebiol-2026` 的协议效应结论互补。但需警惕:语料以脑为主、肾稀缺,作者在肝上已观察到 linear probing 不如 scVI/PCA,肾上很可能需要扩展预训练;且 PCA 在多个任务上是强基线 —— 与 `scfm-zeroshot-genomebiol-2025` 的结论一致,评测时必须带上 PCA/scVI。对课题 2,「Nicheformer 预测该 snRNA 细胞位于某 niche」这类推断性空间 claim 需要附带不确定性(本文提供了分类不确定性),是 verifier 校准的好用例。
+对 detect → model → revert 的 **model** 阶段,Nicheformer 提供了把「细胞」与「它的邻域」放在同一表示里的路径:在 snRNA + snATAC + Xenium + H&E 这类多模态设计中,snRNA/snATAC 是解离的,只有 Xenium 带空间 —— Nicheformer 的空间→解离迁移,原则上可以给 snRNA 细胞推断「所处 niche / 邻域组成」,从而在没有空间测量的样本上也能定义空间层面的异常(例如损伤小管周围免疫浸润的邻域)。对伪影注入课题的异常检测有两点具体价值:**(1) 邻域组成/密度预测误差本身可作为异常信号** —— 若一个细胞的表达预测出的邻域与实测(Xenium)邻域显著不符,这是一种「表达–空间」跨模态不一致;**(2) 技术特异 rank 归一化**直接处理了 Xenium vs snRNA 的平台偏差,与本仓库 `kidney-multimodal-genomebiol-2026` 的协议效应结论互补。但需警惕:语料以脑为主、肾稀缺,作者在肝上已观察到 linear probing 不如 scVI/PCA,肾上很可能需要扩展预训练;且 PCA 在多个任务上是强基线 —— 与 `scfm-zeroshot-genomebiol-2025` 的结论一致,评测时必须带上 PCA/scVI。对 Agent 可信度课题,「Nicheformer 预测该 snRNA 细胞位于某 niche」这类推断性空间 claim 需要附带不确定性(本文提供了分类不确定性),是 verifier 校准的好用例。
 
 ## 可复用资产
 - **代码与模型:**

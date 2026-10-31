@@ -586,7 +586,7 @@ def write_matrix_obsidian(mx: dict, plink) -> None:
         for c in mx["cols"]:
             items = [plink(s) for s in mx["cells"].get(f"{r['id']}|{c['id']}", [])]
             if (r["id"], c["id"]) in gaps:
-                items.append("*Topic 1 gap*")
+                items.append("*Artifact-injection gap*")
             row.append("<br>".join(items) or "·")
         lines.append("| " + " | ".join(row) + " |")
     lines += ["", "## Paradigms / 范式", ""]
@@ -594,7 +594,7 @@ def write_matrix_obsidian(mx: dict, plink) -> None:
         lines += [f"- **{r['en']} / {r['zh']}** — {r['idea']['en']} {r['idea']['zh']}",
                   f"  - Kidney omics / 肾脏组学: {r['omics']['en']} {r['omics']['zh']}"]
     if mx["gaps"]:
-        lines += ["", "## Topic 1 gaps / 课题 1 的空白", ""]
+        lines += ["", "## Artifact-injection gaps / 伪影注入课题的空白", ""]
         lines += [f"- {g['row']} × {g['col']}: {g['note']['en']} {g['note']['zh']}" for g in mx["gaps"]]
     if mx["transfers"]:
         lines += ["", "## Method lineage / 方法迁移", ""]
@@ -612,7 +612,7 @@ def write_matrix_obsidian(mx: dict, plink) -> None:
             items = [f"- {plink(s)}" for s in mx["cells"].get(f"{r['id']}|{c['id']}", [])]
             gap = next((g for g in mx["gaps"] if g["row"] == r["id"] and g["col"] == c["id"]), None)
             if gap:
-                items.append(f"\n**Topic 1:** {gap['note']['en']}")
+                items.append(f"\n**Artifact-injection topic:** {gap['note']['en']}")
             if items:
                 node = {"id": f"cell-{r['id']}-{c['id']}", "type": "text", "text": "\n".join(items),
                         "x": (j + 1) * GX, "y": y, "width": W, "height": H}

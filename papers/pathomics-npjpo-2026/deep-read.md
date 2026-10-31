@@ -80,12 +80,12 @@ flowchart LR
 
 ## 与本研究方向的关系 / Relation to our direction
 <!-- ZH --> 这是一篇典型的"WSI → 预后签名"监督学习论文,和 detect → model → revert 的关系较间接。
-- 我们的理解(检测环):门控注意力权重和 Grad-CAM 可以指出与不良预后相关的区域(如肿瘤–间质纤维化),但这是有监督的"风险区域",不是无监督的"异常区域";在肾脏项目里,类似做法需要结局标签(如 eGFR 下降、进展),而我们的课题 1 侧重无需标签的异常检测。
+- 我们的理解(检测环):门控注意力权重和 Grad-CAM 可以指出与不良预后相关的区域(如肿瘤–间质纤维化),但这是有监督的"风险区域",不是无监督的"异常区域";在肾脏项目里,类似做法需要结局标签(如 eGFR 下降、进展),而我们的伪影注入课题侧重无需标签的异常检测。
 - 我们的理解(模型/回复环):论文把签名与转录组通路(EMT、血管生成、E2F/MYC/G2M)和药敏预测相连,但都是相关分析或算法推断,没有干预,不能直接用于"预测哪些基因能逆转异常"。
 - 我们的理解(方法借鉴):多尺度(10×/20×)+ 图 + 门控注意力 MIL 是常见的 WSI 编码骨架;"深度特征 → LASSO-Cox 线性签名 → SHAP"的两段式做法,可以作为肾脏 H&E 预后基线的参考;"按特征相似度连边"的图与 PathPrism 那种"按空间邻接连边"的组织图不同,做肾脏空间结构分析时要注意区分。
 - 相关性 medium:胃癌,不涉及肾脏和空间组学。
 <!-- EN --> A typical supervised "WSI → prognostic signature" paper; its link to detect → model → revert is indirect.
-- Our reading (detect): gated-attention weights and Grad-CAM highlight regions tied to poor prognosis (e.g. tumour–stroma fibrosis), but these are supervised "risk regions", not unsupervised anomalies; in the kidney project the same approach would need outcome labels (e.g. eGFR decline), whereas Topic 1 focuses on label-free anomaly detection.
+- Our reading (detect): gated-attention weights and Grad-CAM highlight regions tied to poor prognosis (e.g. tumour–stroma fibrosis), but these are supervised "risk regions", not unsupervised anomalies; in the kidney project the same approach would need outcome labels (e.g. eGFR decline), whereas the artifact-injection topic focuses on label-free anomaly detection.
 - Our reading (model / revert): the signature is linked to transcriptomic pathways (EMT, angiogenesis, E2F/MYC/G2M) and predicted drug sensitivity only by correlation or algorithmic inference, with no intervention, so it cannot directly say which genes would revert an anomaly.
 - Our reading (method reuse): multi-scale (10×/20×) + graph + gated-attention MIL is a common WSI encoder; the two-step "deep features → LASSO-Cox linear signature → SHAP" is a reasonable template for a kidney H&E prognostic baseline; note that its graph links patches by feature similarity, unlike PathPrism-style tissue graphs that link by spatial adjacency.
 - Relevance medium: gastric cancer; no kidney, no spatial omics.

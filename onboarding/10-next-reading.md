@@ -72,15 +72,15 @@ About 1 hour for the three.
 <!-- ZH -->
 每个课题页的最后一节是**阅读路线**：按顺序排好的 5 篇左右精读，并说明每篇为什么读。打开你的课题页，从那里接着读：
 
-- [课题 1 · 用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)
-- [课题 2 · 生物医学分析 agent 的结论核查](../research/agent-claims.md)
+- [用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)
+- [肾脏组学上假设验证 agent 的可信度](../research/agent-claims.md)
 
 上面三篇里已经读过的就跳过。
 <!-- EN -->
 The last section of every topic page is a **reading path**: about five deep-reads in order, each with a reason. Open your topic page and continue from there:
 
-- [Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
-- [Topic 2 · Verifying the Claims of Biomedical Analysis Agents](../research/agent-claims.md)
+- [Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
+- [Trustworthiness of Hypothesis-Testing Agents on Kidney Omics](../research/agent-claims.md)
 
 Skip any you already read in step 2.
 
@@ -89,17 +89,17 @@ Skip any you already read in step 2.
 <!-- ZH -->
 读完阅读路线以后，用 **[知识图谱](../knowledge-map.md)** 自己往下找。它有几种视图：
 
-- **每个课题一个视图**：论文按主题分组（课题 1 有"通用异常检测方法""图谱与疾病状态""质控与伪影"等 7 组）。组默认折叠，点开看组里的论文；双击论文打开精读。知识图谱页上的"流程图"一节把这些组排成课题的流程（课题 1 是"公开肾脏图谱 → 质控与去伪影 → 健康组织模型 → 异常 / OOD 打分 → 跨模态验证 → 对照专家评测"）。
+- **每个课题一个视图**：论文按主题分组（伪影注入课题有"通用异常检测方法""图谱与疾病状态""质控与伪影"等 7 组）。组默认折叠，点开看组里的论文；双击论文打开精读。知识图谱页上的"流程图"一节把这些组排成课题的流程（伪影注入课题是"公开肾脏图谱 → 质控与去伪影 → 健康组织模型 → 异常 / OOD 打分 → 跨模态验证 → 对照专家评测"）。
 - **桥**：不止一个课题要读的论文。
-- **方法 × 数据矩阵**：行是异常检测的方法类型，列从通用数据一直到肾脏组学；箭头表示一个方法被搬到了另一类数据上，**虚线格是课题 1 打算补上的地方**（有的格子里已经有论文，课题 1 要做的是那里还缺的部分，见格子里的说明）。
+- **方法 × 数据矩阵**：行是异常检测的方法类型，列从通用数据一直到肾脏组学；箭头表示一个方法被搬到了另一类数据上，**虚线格是伪影注入课题打算补上的地方**（有的格子里已经有论文，伪影注入课题要做的是那里还缺的部分，见格子里的说明）。
 
 一个好用的读法：在矩阵里找到你最熟悉的那一格（比如图像异常检测里的最近邻方法 PatchCore），顺着箭头看它被搬到了哪些数据上，以及在到达肾脏组学之前断在了哪里。
 <!-- EN -->
 After the reading path, find further papers yourself with the **[knowledge map](../knowledge-map.md)**. It has several views:
 
-- **One view per topic**: papers grouped by theme (Topic 1 has 7 groups such as "General AD methods", "Atlases & disease states", "QC & artifacts"). Groups start collapsed; click to open one, double-click a paper to open its deep-read. The "Pipelines" section of the knowledge-map page lays these groups out as the topic's pipeline (Topic 1: public kidney atlases → QC & artifact removal → model of healthy tissue → anomaly / OOD score → cross-modal check → evaluation vs. experts).
+- **One view per topic**: papers grouped by theme (the artifact-injection topic has 7 groups such as "General AD methods", "Atlases & disease states", "QC & artifacts"). Groups start collapsed; click to open one, double-click a paper to open its deep-read. The "Pipelines" section of the knowledge-map page lays these groups out as the topic's pipeline (the artifact-injection topic: public kidney atlases → QC & artifact removal → model of healthy tissue → anomaly / OOD score → cross-modal check → evaluation vs. experts).
 - **Bridge**: papers that more than one topic needs.
-- **Method × data matrix**: rows are kinds of anomaly-detection method, columns go from general data to kidney omics; arrows show a method carried over to another kind of data, and **dashed cells mark what Topic 1 plans to add** (some already hold papers; the note in each cell says what is still missing).
+- **Method × data matrix**: rows are kinds of anomaly-detection method, columns go from general data to kidney omics; arrows show a method carried over to another kind of data, and **dashed cells mark what the artifact-injection topic plans to add** (some already hold papers; the note in each cell says what is still missing).
 
 A useful way in: find the cell you know best in the matrix (for example PatchCore, the nearest-neighbour method from image anomaly detection) and follow its arrows to see which kinds of data it has reached, and where the chain stops before kidney omics.
 
@@ -123,8 +123,8 @@ The paper library is maintained by the group. When you find a paper worth readin
 ??? question "1. 时间只够读精读的一节，读哪一节？"
     "与本研究方向的关系"。它说明这篇和我们的课题有什么关系，决定你要不要继续读下去。
 
-??? question "2. 想知道课题 1 还有哪些空白，看哪里？"
-    知识图谱里的方法 × 数据矩阵，虚线格是课题 1 要补的地方；课题 1 页面的"为什么还没解决"和"还没定的"两节也写了。
+??? question "2. 想知道伪影注入课题还有哪些空白，看哪里？"
+    知识图谱里的方法 × 数据矩阵，虚线格是伪影注入课题要补的地方；伪影注入课题页面的"为什么还没解决"和"还没定的"两节也写了。
 
 ??? question "3. 一篇精读的页头写着 `abstract-only`，读的时候要注意什么？"
     它只基于摘要和公开信息，没读到全文。具体数字和方法细节可能不全，引用前最好找到原文核对。
@@ -132,8 +132,8 @@ The paper library is maintained by the group. When you find a paper worth readin
 ??? question "1. You only have time for one section of a deep-read. Which one?"
     "Relation to our direction". It says how the paper connects to our topics, which decides whether to keep reading.
 
-??? question "2. Where do you look to see what gaps Topic 1 still has?"
-    The method × data matrix in the knowledge map, where dashed cells mark what Topic 1 adds; also the "Why it is unsolved" and "Open questions" sections of the Topic 1 page.
+??? question "2. Where do you look to see what gaps the artifact-injection topic still has?"
+    The method × data matrix in the knowledge map, where dashed cells mark what the artifact-injection topic adds; also the "Why it is unsolved" and "Open questions" sections of the artifact-injection topic page.
 
 ??? question "3. A deep-read's header says `abstract-only`. What should you keep in mind?"
     It is based on the abstract and public information only, not the full text. Numbers and method details may be incomplete; check the original before citing it.

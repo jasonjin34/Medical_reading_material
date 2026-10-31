@@ -89,12 +89,12 @@ flowchart LR
 - **检测环**:PathPrism 的输出不是热图,而是一组可命名、可量化的空间特征(如 TUM 图熵、STR–TUM 交互)。我们的理解:把这 628 维谱当作组织的"可解释特征空间",就可以在上面做无监督异常检测(例如相对健康参照分布的距离),比在黑箱 embedding 上打分更容易让病理医生核对。
 - **模型环**:VirtualWSI 在语义概率图上做受控编辑,再看样本在空间标志物图谱中怎样移动——我们的理解:这可看作"可操纵的虚拟组织"的最简形式。作者明确说它不代表因果,也不保证组织状态物理可实现。
 - **回复环**:文中的"回复"停在组织层面(如放大 LYM 一致降低风险分),没有落到基因或药物靶点;BRCA 部分只给出空间特征与 ERBB2/TOP1/TACSTD2 表达的弱相关。我们的理解:要连到基因层面,需要与 H&E 配对的空间转录组或单细胞数据。
-- **对肾脏课题 1(课题 1)**:我们的理解:PrismNet 的"冻结基础模型 + PCA + 逻辑回归"组织分割很便宜,适合先在肾脏 H&E 上建组织本体(肾小球、肾小管、间质、血管等),再用同样的单/多组织图特征描述结构异常;但肾脏需要自己的类别与标注,不能直接用 CRC 的 8 类。
+- **对肾脏伪影注入课题**:我们的理解:PrismNet 的"冻结基础模型 + PCA + 逻辑回归"组织分割很便宜,适合先在肾脏 H&E 上建组织本体(肾小球、肾小管、间质、血管等),再用同样的单/多组织图特征描述结构异常;但肾脏需要自己的类别与标注,不能直接用 CRC 的 8 类。
 <!-- EN --> Our reading: this is an interpretable prototype of detect → model → revert on H&E; compare stage by stage:
 - **Detect**: PathPrism outputs nameable, quantified spatial features (e.g. TUM graph entropy, STR–TUM interaction) rather than heatmaps. Our reading: treating the 628-feature spectrum as an interpretable feature space lets us run unsupervised anomaly detection on it (e.g. distance to a healthy reference distribution), which pathologists can check more easily than scores on black-box embeddings.
 - **Model**: VirtualWSI makes controlled edits on semantic probability maps and tracks samples in the spatial-biomarker atlas — our reading: this can be seen as the simplest form of a manipulable virtual tissue. The authors state it is not causal and not guaranteed physically realizable.
 - **Revert**: "reverting" stays at tissue level (e.g. amplifying LYM lowers risk) with no gene or drug-target mapping; the BRCA part only shows modest correlations with ERBB2/TOP1/TACSTD2 expression. Our reading: linking to genes needs spatial transcriptomics or single-cell data paired with the H&E.
-- **Kidney Topic 1 (Topic 1)**: Our reading: PrismNet's "frozen foundation model + PCA + logistic regression" segmentation is cheap enough to build a kidney tissue ontology (glomeruli, tubules, interstitium, vessels, …) and reuse the single-/multi-tissue graph features to describe structural anomalies; kidney needs its own classes and annotations rather than the CRC 8.
+- **Kidney the artifact-injection topic**: Our reading: PrismNet's "frozen foundation model + PCA + logistic regression" segmentation is cheap enough to build a kidney tissue ontology (glomeruli, tubules, interstitium, vessels, …) and reuse the single-/multi-tissue graph features to describe structural anomalies; kidney needs its own classes and annotations rather than the CRC 8.
 
 ## 可复用资产 / Reusable assets
 - <!-- ZH --> **代码**:PathPrism 代码与说明(论文 Data and code availability)。注意 README 里的总览图 `assets/figure1_new2.png` 只是 1 字节的 git-lfs 占位文件。 <!-- EN --> **Code**: PathPrism codebase and instructions (paper's Data and code availability). Note the README overview image `assets/figure1_new2.png` is a 1-byte git-lfs placeholder.

@@ -33,7 +33,7 @@ LAB-Bench(FutureHouse)是一个面向**实用生物学研究能力**的 2,457 �
 - 不含多步数据分析或组学数据处理;任务以分子生物学与文献为主。
 
 ## 与本研究方向的关系
-对 **课题 2**,LAB-Bench 提供了两条可直接借用的评估纪律:(1) **拒答选项 + accuracy/precision/coverage 三分**,即「选择性预测」的雏形 —— 我们的 calibrated verifier 本质上就是要在 coverage 与 precision 之间做有保证的权衡(何时该说「证据不足」);(2) **用开放答案复核 MCQ**,揭示模型可以靠排除干扰项得到虚高分数 —— 评估 agent 对肾脏 omics 结论的验证时,不能只用多选格式。LitQA2 也是 PaperQA2、DeepEvidence 等文献 agent 的标准评测集,是 claim-to-evidence(文献侧)验证的常用基准。对 **课题 1** 关系较弱:它不涉及组学数据分析或异常检测;但 TableQA/FigQA 显示模型读图能力有限,提醒我们若让 agent 解读 H&E/Xenium 可视化结果,必须有独立验证。对 detect → model → revert 主线,它属于「agent 能否当可靠科研助手」的背景基准。
+对 **Agent 可信度课题**,LAB-Bench 提供了两条可直接借用的评估纪律:(1) **拒答选项 + accuracy/precision/coverage 三分**,即「选择性预测」的雏形 —— 我们的 calibrated verifier 本质上就是要在 coverage 与 precision 之间做有保证的权衡(何时该说「证据不足」);(2) **用开放答案复核 MCQ**,揭示模型可以靠排除干扰项得到虚高分数 —— 评估 agent 对肾脏 omics 结论的验证时,不能只用多选格式。LitQA2 也是 PaperQA2、DeepEvidence 等文献 agent 的标准评测集,是 claim-to-evidence(文献侧)验证的常用基准。对 **伪影注入课题** 关系较弱:它不涉及组学数据分析或异常检测;但 TableQA/FigQA 显示模型读图能力有限,提醒我们若让 agent 解读 H&E/Xenium 可视化结果,必须有独立验证。对 detect → model → revert 主线,它属于「agent 能否当可靠科研助手」的背景基准。
 
 ## 可复用资产
 - **数据集(公开 ~80%):**

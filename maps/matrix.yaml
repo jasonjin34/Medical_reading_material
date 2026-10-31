@@ -6,8 +6,8 @@
 
 title: {en: "Method map — anomaly detection from general to kidney", zh: "方法图：从通用异常检测到肾脏"}
 lead:
-  en: "Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what Topic 1 adds."
-  zh: "行是异常检测的方法范式，列从通用数据一直到肾脏组学。箭头表示方法被迁移到哪里；虚线格是课题 1 要补的空白。"
+  en: "Rows are anomaly-detection paradigms, columns go from general data to kidney omics. Arrows show where a method was carried over; dashed cells are what the artifact-injection topic adds."
+  zh: "行是异常检测的方法范式，列从通用数据一直到肾脏组学。箭头表示方法被迁移到哪里；虚线格是伪影注入课题要补的空白。"
 
 cols:
   general: {en: "General / industrial", zh: "通用 / 工业图像"}
@@ -67,7 +67,7 @@ rows:
     en: "Benchmarks, datasets & surveys"
     zh: "基准、数据集与综述"
     idea: {en: "Where methods are compared.", zh: "方法在哪里被横向比较。"}
-    omics: {en: "An expert-validated kidney anomaly benchmark (Topic 1 deliverable).", zh: "经专家验证的肾脏异常基准（课题 1 的产出）。"}
+    omics: {en: "An expert-validated kidney anomaly benchmark (a deliverable of the artifact-injection topic).", zh: "经专家验证的肾脏异常基准（伪影注入课题的产出）。"}
 
 cells:
   # existing papers
@@ -123,7 +123,7 @@ cells:
 gaps:
   - row: feature
     col: kidney
-    note: {en: "Topic 1 baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space.", zh: "课题 1 基线：在共享潜空间里算到健康 KPMP / Lake 细胞的 kNN 距离。"}
+    note: {en: "the artifact-injection topic baseline: kNN distance to healthy KPMP / Lake cells in a shared latent space.", zh: "伪影注入课题基线：在共享潜空间里算到健康 KPMP / Lake 细胞的 kNN 距离。"}
   - row: density
     col: kidney
     note: {en: "Density of healthy kidney cell states per cell type.", zh: "按细胞类型估计健康肾脏细胞状态的密度。"}
@@ -132,7 +132,7 @@ gaps:
     note: {en: "Calibrated per-cell anomaly p-values with FDR control.", zh: "给每个细胞校准过的异常 p 值，并控制 FDR。"}
   - row: crossmodal
     col: kidney
-    note: {en: "Core idea of Topic 1: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.", zh: "课题 1 的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。"}
+    note: {en: "Core idea of the artifact-injection topic: RNA / ATAC / Xenium / H&E disagreement separates artifacts from disease.", zh: "伪影注入课题的核心：用 RNA / ATAC / Xenium / H&E 之间的不一致，把伪影和疾病分开。"}
   - row: artifact
     col: kidney
     note: {en: "Artifact audit of public kidney snRNA + spatial data.", zh: "对公开的肾脏 snRNA + 空间数据做伪影审计。"}

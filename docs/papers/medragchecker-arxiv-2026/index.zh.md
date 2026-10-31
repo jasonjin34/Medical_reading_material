@@ -34,7 +34,7 @@ MedRAGChecker 把生物医学 RAG 的长答案拆成原子 claim(SPO 三元组),
 - 只处理文本 QA,未涉及组学数据或数值型结论。
 
 ## 与本研究方向的关系
-这是 **课题 2(可信生物医学 agent 的 claim-to-evidence 核验)最直接的方法模板**。它的流水线 —— 原子 claim → 文本 NLI → 结构化知识一致性 → 有条件融合 —— 可以几乎原样迁移到「agent 分析肾脏组学后写出的结论」:把「基因 X 在 PT 细胞的损伤状态中上调」拆成 SPO,再对照 (a) agent 自己的分析产物(差异表达表、Xenium 空间统计)做「数据蕴含」检查,(b) 对照 KPMP/Lake 图谱、GO/Reactome 做「先验知识一致性」检查。**最有价值的是覆盖率教训**:肾脏专用知识(细胞亚型、损伤状态、snATAC 峰–基因连接)在通用 KG 里覆盖很差,照搬 KG 融合会像 DRKG 一样**制造虚假矛盾、抬高幻觉率** —— 所以课题 2 的校准 verifier 必须显式建模「知识源是否覆盖该 claim」,对未覆盖 claim 退回数据级证据,这正是 selective gating 的思路。它的 SafetyErr(只统计安全关键关系)也启发我们为组学 failure taxonomy 定义「结论翻转型错误」(例如把方向、细胞类型或扰动效应弄反)并单独计分。对课题 1 的启示是间接的:「覆盖率不足的参考会把正常判成异常」与用不完整健康参考图谱做异常检测是同一个失效模式。
+这是 **Agent 可信度课题(可信生物医学 agent 的 claim-to-evidence 核验)最直接的方法模板**。它的流水线 —— 原子 claim → 文本 NLI → 结构化知识一致性 → 有条件融合 —— 可以几乎原样迁移到「agent 分析肾脏组学后写出的结论」:把「基因 X 在 PT 细胞的损伤状态中上调」拆成 SPO,再对照 (a) agent 自己的分析产物(差异表达表、Xenium 空间统计)做「数据蕴含」检查,(b) 对照 KPMP/Lake 图谱、GO/Reactome 做「先验知识一致性」检查。**最有价值的是覆盖率教训**:肾脏专用知识(细胞亚型、损伤状态、snATAC 峰–基因连接)在通用 KG 里覆盖很差,照搬 KG 融合会像 DRKG 一样**制造虚假矛盾、抬高幻觉率** —— 所以 Agent 可信度课题的校准 verifier 必须显式建模「知识源是否覆盖该 claim」,对未覆盖 claim 退回数据级证据,这正是 selective gating 的思路。它的 SafetyErr(只统计安全关键关系)也启发我们为组学 failure taxonomy 定义「结论翻转型错误」(例如把方向、细胞类型或扰动效应弄反)并单独计分。对伪影注入课题的启示是间接的:「覆盖率不足的参考会把正常判成异常」与用不完整健康参考图谱做异常检测是同一个失效模式。
 
 ## 可复用资产
 - **代码 / prompts / 诊断输出:**
@@ -46,7 +46,7 @@ MedRAGChecker 把生物医学 RAG 的长答案拆成原子 claim(SPO 三元组),
 ## 待读
 - RAGChecker(Ru et al., 2024)与 FActScore(Min et al., 2023)—— claim 级评估的源头。
 - HealthFC(Vladika et al., 2024)临床事实核查基线。
-- 附录 E(teacher 敏感性)与附录 G(按关系类型分层的 flip 分析)—— 设计课题 2 verifier 校准实验时需细读。
+- 附录 E(teacher 敏感性)与附录 G(按关系类型分层的 flip 分析)—— 设计 Agent 可信度课题 verifier 校准实验时需细读。
 
 ## 引用
 ```bibtex

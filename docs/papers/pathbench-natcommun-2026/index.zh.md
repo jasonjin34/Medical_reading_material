@@ -70,7 +70,7 @@ flowchart LR
 - 我们的理解:名称易混——参考文献 60(Ma et al., arXiv 2505.20202)是另一个也叫 "PathBench" 的 benchmark;本文的在线站点是 pathbench.stanford.edu。
 
 ## 与本研究方向的关系
-我们的理解:这篇不属于 detect → model → revert 的某一环,而是**评测层**,对课题 1 有三点直接用处。**其一,选 backbone**:Virchow2、UNI2、UNI、Prov-GigaPath、H-optimus-0 是同一梯队,差异多不显著,而且离开 TCGA 排名会变——对肾脏 H&E,与其事先挑"最好"的编码器,不如同时提 2–3 套特征,在目标肾脏数据上比较,或做集成。**其二,协议模板**:冻结特征 + 简单头作为诚实基线、in-domain 与域外显式切分、bootstrap + 两两检验 + FDR 而非只报均值——这些可以直接搬到肾脏异常检测 benchmark(把 linear probe 换成 kNN / 密度等异常打分器)。**其三,空白**:41 个任务里没有非肿瘤疾病和异常检测任务,肾脏只以 RCC 出现——这正是课题 1 要补的位置。注意:PathBench 只比较监督分类,不能直接说明哪个编码器做无监督异常检测最好。
+我们的理解:这篇不属于 detect → model → revert 的某一环,而是**评测层**,对伪影注入课题有三点直接用处。**其一,选 backbone**:Virchow2、UNI2、UNI、Prov-GigaPath、H-optimus-0 是同一梯队,差异多不显著,而且离开 TCGA 排名会变——对肾脏 H&E,与其事先挑"最好"的编码器,不如同时提 2–3 套特征,在目标肾脏数据上比较,或做集成。**其二,协议模板**:冻结特征 + 简单头作为诚实基线、in-domain 与域外显式切分、bootstrap + 两两检验 + FDR 而非只报均值——这些可以直接搬到肾脏异常检测 benchmark(把 linear probe 换成 kNN / 密度等异常打分器)。**其三,空白**:41 个任务里没有非肿瘤疾病和异常检测任务,肾脏只以 RCC 出现——这正是伪影注入课题要补的位置。注意:PathBench 只比较监督分类,不能直接说明哪个编码器做无监督异常检测最好。
 
 ## 可复用资产
 - **代码**(MIT 许可;部分改编自 facebookresearch/dino,Apache-2.0;含处理后的结果和图源数据;Zenodo 存档 doi 10.5281/zenodo.20618270):

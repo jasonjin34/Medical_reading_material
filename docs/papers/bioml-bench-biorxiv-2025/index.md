@@ -33,7 +33,7 @@ Adapted from MLE-bench, adding biomedical domains, new agents and metrics, bioin
 - No AutoML (H2O, Lazy Predict) comparison, so the gain of LLM agents over automated pipelines is unknown.
 
 ## Relation to our direction
-For **Topic 2**, three concrete pieces of evidence: (1) AIDE's 100th vs 54th percentile on two reruns of the same task is a direct case for the rerun-stability axis — performance/conclusions can swing wildly across reruns; (2) the **silent-error** failure mode (try–except fallbacks make a script look successful while producing nothing) is exactly what claim-to-evidence verification must catch — the agent reports "done" but the evidence (prediction file) does not exist — and belongs in our omics failure taxonomy; (3) the agent/LLM confound tells us to fix the base model in our evaluations, as DeepEvidence does. For **Topic 1**, its single-cell suite contains **label projection across DKD datasets** (from OpenProblems), a ready-made kidney-omics task usable as a comparator for the reference-mapping / label-transfer baseline in KidneyAnomalyBench; but BioML-bench scores prediction metrics only, not anomaly or artifact detection. For the detect → model → revert line, agents' preference for classical ML (random forests, gradient boosting) over deep learning means having agents autonomously build virtual-tissue models (inherently DL) is not yet realistic.
+For **the agent-trustworthiness topic**, three concrete pieces of evidence: (1) AIDE's 100th vs 54th percentile on two reruns of the same task is a direct case for the rerun-stability axis — performance/conclusions can swing wildly across reruns; (2) the **silent-error** failure mode (try–except fallbacks make a script look successful while producing nothing) is exactly what claim-to-evidence verification must catch — the agent reports "done" but the evidence (prediction file) does not exist — and belongs in our omics failure taxonomy; (3) the agent/LLM confound tells us to fix the base model in our evaluations, as DeepEvidence does. For **the artifact-injection topic**, its single-cell suite contains **label projection across DKD datasets** (from OpenProblems), a ready-made kidney-omics task usable as a comparator for the reference-mapping / label-transfer baseline in KidneyAnomalyBench; but BioML-bench scores prediction metrics only, not anomaly or artifact detection. For the detect → model → revert line, agents' preference for classical ML (random forests, gradient boosting) over deep learning means having agents autonomously build virtual-tissue models (inherently DL) is not yet realistic.
 
 ## Reusable assets
 - **Code / package:** BioML-bench (pip-installable, with docs and tutorials).
@@ -43,7 +43,7 @@ For **Topic 2**, three concrete pieces of evidence: (1) AIDE's 100th vs 54th per
 
 ## Follow-ups
 - MLE-bench (arXiv 2410.07095), STELLA (arXiv 2507.02004), AIDE (arXiv 2502.13138).
-- Details of OpenProblems' DKD label-projection task (data source, metric) as a possible Topic 1 baseline.
+- Details of OpenProblems' DKD label-projection task (data source, metric) as a possible the artifact-injection topic baseline.
 - Whether later versions fix the base LLM or add AutoML comparators.
 
 ## Cite

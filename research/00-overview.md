@@ -8,7 +8,7 @@ The group's research topics live here, one page each with the same template: wha
 <!-- ZH/EN --> <div class="grid cards" markdown>
 
 <!-- ZH -->
--   __课题 1 · 用伪影注入增强肾脏单细胞异常检测__
+-   __用伪影注入增强肾脏单细胞异常检测__
 
     ---
 
@@ -18,17 +18,17 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: 课题页](anomaly-benchmark.md)
 
--   __课题 2 · 生物医学分析 agent 的结论核查__
+-   __肾脏组学上假设验证 agent 的可信度__
 
     ---
 
-    让 AI agent 分析单细胞数据并给出结论时，哪些结论真的有代码、数据或文献支撑？我们要做一套方法和基准，把每条结论追溯到证据，并用专家标注来校准。
+    让 agent 拿公开的原始肾脏组学数据去证明或推翻一条 CKD 假设时，它什么时候会给出不可信的结论？我们做一个答案靠构造得到的基准（反事实数据、注入伪影、测不了的假设），测假支持、伪影当病、不弃答、编数字、重跑不一致这些安全失败，并请肾内科医生核对。
 
-    **现状：**方向已定，具体设计还没开始。
+    **现状：**方向已定，做过文献调研和一个纸面试点，代码还没开始。
 
     [:octicons-arrow-right-24: 课题页](agent-claims.md)
 <!-- EN -->
--   __Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
+-   __Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
     ---
 
@@ -38,13 +38,13 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
--   __Topic 2 · Verifying the Claims of Biomedical Analysis Agents__
+-   __Trustworthiness of Hypothesis-Testing Agents on Kidney Omics__
 
     ---
 
-    When an AI agent analyses single-cell data and reports conclusions, which of them are actually backed by its code, its data or the literature? We want methods and a benchmark that trace each claim to its evidence, calibrated against expert labels.
+    When an agent uses public raw kidney omics data to prove or refute a CKD hypothesis, when does its verdict become untrustworthy? We build a benchmark whose answers are known by construction (counterfactual data, injected artifacts, untestable hypotheses) and measure safety failures: false support, artifacts taken for disease, missing abstention, untraceable numbers, rerun instability, with nephrologists checking verdicts.
 
-    **Status:** direction decided; detailed design not started.
+    **Status:** direction decided; literature survey and a desk pilot done; no code yet.
 
     [:octicons-arrow-right-24: Topic page](agent-claims.md)
 
@@ -53,6 +53,6 @@ The group's research topics live here, one page each with the same template: wha
 ## 课题之间的联系 / How the topics connect
 
 <!-- ZH -->
-课题 1 要弄清楚"数据里哪些异常是真的"，并让模型学会分辨，课题 2 要弄清楚"agent 说的哪些话是真的"。两者打算用同一类数据和同一套已知答案：比如 Lake 2023 的细胞状态标签，在课题 1 里是"病"的答案，在课题 2 里可以用来检查 agent 有没有把伪影说成疾病。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文。
+伪影注入课题要弄清楚"数据里哪些异常是真的"，并让模型学会分辨，Agent 可信度课题要弄清楚"agent 说的哪些话是真的"。两者打算用同一类数据和同一套已知答案：比如 Lake 2023 的细胞状态标签，在伪影注入课题里是"病"的答案，在 Agent 可信度课题里可以用来检查 agent 有没有把伪影说成疾病。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文。
 <!-- EN -->
-Topic 1 asks which anomalies in the data are real and teaches models to tell; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+The artifact-injection topic asks which anomalies in the data are real and teaches models to tell; the agent-trustworthiness topic asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in the artifact-injection topic and can be used in the agent-trustworthiness topic to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.

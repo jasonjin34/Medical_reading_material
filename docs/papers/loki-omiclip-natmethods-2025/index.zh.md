@@ -37,7 +37,7 @@ OmiCLIP 把每个 Visium spot 的转录组写成「按表达量排序的基因�
 - 部分评测(如 Retrieve)缺乏真正的转录组 ground truth,以图像相似度代理;双模态融合时一个模态主导会抵消收益。
 
 ## 与本研究方向的关系
-对 detect → model → revert,OmiCLIP 提供的是**H&E 与表达共享的嵌入空间**,这对课题 1 的「跨模态一致性」最关键:同一块组织的 H&E 嵌入与转录组嵌入若在共享空间中相互「检索不到」,就是一个天然的跨模态不一致信号;反之二者都偏离健康参考才更可能是真实病变。若有配对的 H&E 与单细胞分辨率空间组学数据,可以用 Loki Align(Xenium→pseudo-Visium 的流程本文已示范)对齐,再用图像/表达嵌入各自的健康分布距离做异常打分,比较两者是否一致。Loki Annotate 的「marker 基因句子零样本标注」可直接拿肾损伤 marker(如 HAVCR1、LCN2、VCAM1)作为文本 prompt 生成弱标签,辅助 KidneyAnomalyBench 的专家标注。需要注意它在肾上只有少量验证样本(Retrieve 的 kidney Recall@10% 0.297),也不是单细胞分辨率。对课题 2,Retrieve 用「图像相似度代替转录组 ground truth」的评测方式,正是 agent 报告中易被当作证据的弱代理,是 claim-to-evidence 校验应当标记的类型。
+对 detect → model → revert,OmiCLIP 提供的是**H&E 与表达共享的嵌入空间**,这对伪影注入课题的「跨模态一致性」最关键:同一块组织的 H&E 嵌入与转录组嵌入若在共享空间中相互「检索不到」,就是一个天然的跨模态不一致信号;反之二者都偏离健康参考才更可能是真实病变。若有配对的 H&E 与单细胞分辨率空间组学数据,可以用 Loki Align(Xenium→pseudo-Visium 的流程本文已示范)对齐,再用图像/表达嵌入各自的健康分布距离做异常打分,比较两者是否一致。Loki Annotate 的「marker 基因句子零样本标注」可直接拿肾损伤 marker(如 HAVCR1、LCN2、VCAM1)作为文本 prompt 生成弱标签,辅助 KidneyAnomalyBench 的专家标注。需要注意它在肾上只有少量验证样本(Retrieve 的 kidney Recall@10% 0.297),也不是单细胞分辨率。对 Agent 可信度课题,Retrieve 用「图像相似度代替转录组 ground truth」的评测方式,正是 agent 报告中易被当作证据的弱代理,是 claim-to-evidence 校验应当标记的类型。
 
 ## 可复用资产
 - **代码:**

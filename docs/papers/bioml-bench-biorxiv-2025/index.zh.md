@@ -33,7 +33,7 @@ BioML-bench 把 MLE-bench 的「任务 capsule + 自动评分」范式搬到生�
 - 未与 AutoML(H2O、Lazy Predict)对照,无法判断 LLM agent 相对自动化 pipeline 的增益。
 
 ## 与本研究方向的关系
-对 **课题 2**,有三条具体证据:(1) AIDE 在同一任务两次重跑得到 100 vs 54 百分位,是「rerun stability」轴的直接案例 —— 结论/性能在重跑间可能剧烈波动;(2) 失败模式中的「**静默错误**」(try–except 回退使脚本看似成功却没有产出)正是 claim-to-evidence 验证要抓的那类问题:agent 报告「已完成」,但证据(预测文件)不存在 —— 应写进我们的 omics failure taxonomy;(3) agent 设计与底座 LLM 的混淆提示我们的评估要像 DeepEvidence 那样固定底座。对 **课题 1**,它的单细胞任务里有 **跨 DKD 数据集的 label projection**(来自 OpenProblems),这是与肾脏 omics 直接相关的现成任务,可作为 KidneyAnomalyBench 中「参考映射/标签迁移」基线的对照;但 BioML-bench 只评估预测指标,不评估异常或伪影识别。对 detect → model → revert 主线,它显示 agent 倾向用经典 ML(随机森林、梯度提升)而回避深度学习,这意味着让 agent 自动搭建 virtual tissue 模型(本质上是 DL)目前不现实。
+对 **Agent 可信度课题**,有三条具体证据:(1) AIDE 在同一任务两次重跑得到 100 vs 54 百分位,是「rerun stability」轴的直接案例 —— 结论/性能在重跑间可能剧烈波动;(2) 失败模式中的「**静默错误**」(try–except 回退使脚本看似成功却没有产出)正是 claim-to-evidence 验证要抓的那类问题:agent 报告「已完成」,但证据(预测文件)不存在 —— 应写进我们的 omics failure taxonomy;(3) agent 设计与底座 LLM 的混淆提示我们的评估要像 DeepEvidence 那样固定底座。对 **伪影注入课题**,它的单细胞任务里有 **跨 DKD 数据集的 label projection**(来自 OpenProblems),这是与肾脏 omics 直接相关的现成任务,可作为 KidneyAnomalyBench 中「参考映射/标签迁移」基线的对照;但 BioML-bench 只评估预测指标,不评估异常或伪影识别。对 detect → model → revert 主线,它显示 agent 倾向用经典 ML(随机森林、梯度提升)而回避深度学习,这意味着让 agent 自动搭建 virtual tissue 模型(本质上是 DL)目前不现实。
 
 ## 可复用资产
 - **代码 / 包:** BioML-bench(pip 可装,含文档与教程)。
@@ -43,7 +43,7 @@ BioML-bench 把 MLE-bench 的「任务 capsule + 自动评分」范式搬到生�
 
 ## 待读
 - MLE-bench(arXiv 2410.07095)、STELLA(arXiv 2507.02004)、AIDE(arXiv 2502.13138)。
-- OpenProblems 的 DKD label-projection 任务细节(数据来源、指标),看能否用作课题 1 的基线。
+- OpenProblems 的 DKD label-projection 任务细节(数据来源、指标),看能否用作伪影注入课题的基线。
 - 是否有后续版本固定底座 LLM 或加入 AutoML 对照。
 
 ## 引用

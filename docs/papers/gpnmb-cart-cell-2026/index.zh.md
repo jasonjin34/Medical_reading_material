@@ -92,9 +92,9 @@ flowchart LR
 ## 与本研究方向的关系
 这篇是 detect → model → **revert** 三段里最靠 revert 的一端:它要回答的正是"选哪个分子去干预"。它跳过了 virtual tissue 的建模环节,用的是"富集打分 + 可干预性约束 + LLM 加权投票"这种更轻量的替代。
 
-我们的理解:三点最可借用。① **cancer composition Z 差**与我们做的异常检测在形式上同构:Z_malignant − Z_non-malignant 本质是"在一个细胞群里异常高表达、在参考群里不高"的对比统计量——换成 Z_disease − Z_reference 就直接变成肾脏 snRNA/Xenium 的候选 driver 排序器,可作为课题 1 里 reference-based 异常评分的朴素基线。② **可干预性约束层**(表面定位、要害组织低表达、已有临床抗体)正是我们的 revert 端缺的那一层:异常检测给出"哪里/哪些基因变了",这篇给出"其中哪些能真被做成药";把它换成肾脏版(肾小管/足细胞特异、肾外低表达、已有药物)就是一个可直接落地的筛选器。③ **把 LLM 当分布来审计**的做法(1000 次采样、受限输出词表、分层 parser、ANOVA/FDR、跨模型共识过滤)是课题 2 "验证生物医学 agent 声明"的现成评测骨架,尤其"理由分布分歧大而结论一致"这一观察,正好是 agent 可信度研究要刻画的现象。
+我们的理解:三点最可借用。① **cancer composition Z 差**与我们做的异常检测在形式上同构:Z_malignant − Z_non-malignant 本质是"在一个细胞群里异常高表达、在参考群里不高"的对比统计量——换成 Z_disease − Z_reference 就直接变成肾脏 snRNA/Xenium 的候选 driver 排序器,可作为伪影注入课题里 reference-based 异常评分的朴素基线。② **可干预性约束层**(表面定位、要害组织低表达、已有临床抗体)正是我们的 revert 端缺的那一层:异常检测给出"哪里/哪些基因变了",这篇给出"其中哪些能真被做成药";把它换成肾脏版(肾小管/足细胞特异、肾外低表达、已有药物)就是一个可直接落地的筛选器。③ **把 LLM 当分布来审计**的做法(1000 次采样、受限输出词表、分层 parser、ANOVA/FDR、跨模型共识过滤)是 Agent 可信度课题 "验证生物医学 agent 声明"的现成评测骨架,尤其"理由分布分歧大而结论一致"这一观察,正好是 agent 可信度研究要刻画的现象。
 
-我们的理解:这篇的作者包括 Sikander Hayat(四位通讯作者之一)与同属 RWTH Aachen Department of Medicine 2 的第二作者 Leon Frommer,计算部分代码在 `hayatlab/cart_llms`,所以它是理解该组"LLM + 组学 → 靶点"方法论最直接的公开样本,也是课题 2 可以直接接续的方法学起点。
+我们的理解:这篇的作者包括 Sikander Hayat(四位通讯作者之一)与同属 RWTH Aachen Department of Medicine 2 的第二作者 Leon Frommer,计算部分代码在 `hayatlab/cart_llms`,所以它是理解该组"LLM + 组学 → 靶点"方法论最直接的公开样本,也是 Agent 可信度课题可以直接接续的方法学起点。
 
 ## 可复用资产
 - **代码:** <https://github.com/hayatlab/cart_llms> (STAR Methods "Data and code availability" 与 Key Resource Table 均列出)
@@ -106,7 +106,7 @@ flowchart LR
 - 参考文献 43:Zemp 等,"Development and first-in-human CAR T therapy against the pathognomonic MiT-fusion driven protein GPNMB", medRxiv 2025, doi 10.1101/2025.02.26.24319604 —— 腺泡状软组织肉瘤患者的首次人体 GPNMB CAR T 病例报告,作者称见到活性且无严重毒性。
 - Discussion 提到的 MiT/TFE 转录因子家族与 CLEAR 网络(溶酶体生物合成与自噬)可能解释 GPNMB 的广谱表达 —— 值得顺着查,因为这也牵连肾脏损伤反应。
 - 自查:GPNMB 在**病变**肾脏(纤维化、AKI、CKD)单细胞数据中的表达,以及它在巨噬细胞中的分布,以判断"要害组织低表达"结论能否迁移到肾脏场景。
-- 与 `biomni-biorxiv-2025`、`virtual-biotech-biorxiv-2026` 对照:三者都在"LLM 选靶点",但自由度从本文(最受约束)到 Virtual Biotech(多 agent 自主)递增,正好是课题 2 的一条谱。
+- 与 `biomni-biorxiv-2025`、`virtual-biotech-biorxiv-2026` 对照:三者都在"LLM 选靶点",但自由度从本文(最受约束)到 Virtual Biotech(多 agent 自主)递增,正好是 Agent 可信度课题的一条谱。
 
 ## 引用
 ```bibtex

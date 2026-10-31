@@ -12,7 +12,7 @@ Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先让一个 action 
 - **"代码即动作"是主要卖点**:在 8 个新任务上,Biomni 比把代码规划换成 ReAct 链式调用的自身消融版 Biomni-ReAct 平均相对提升 20.4%,比通用 coding agent(ReAct+Code)高 43.0%,比无工具的 Claude Sonnet 3.7 高 402.3%(Results §"Biomni generalizes…")。
 - **LAB-Bench 上接近人类专家**:DbQA 74.4%(人类 74.7%),SeqQA 81.9%(人类 78.8%);但只用了全基准 12.5% 的子集(315 道测试题)(Results §"Biomni excels…")。
 - **"新发现"只由作者人工读 trace 和代码核对**:例如 multiome 案例中提出 AUTS2、ZFHX3、PBX1 为新调控因子,但正文自己承认 PBX1 是已确立的骨骼调控因子,而 Fig. 3h 图注却写"此前与骨骼发育无关联"(Results;Fig. 3h;Methods §"Manual verification")。
-- **报告的结论没有置信度,也没有重跑一致性分析**;文中多处数字前后不一(克隆基准 10 题 vs 20 题;可穿戴文件 458 vs 485)。我们的理解:这正是课题 2 要核查的那类 agent 输出。
+- **报告的结论没有置信度,也没有重跑一致性分析**;文中多处数字前后不一(克隆基准 10 题 vs 20 题;可穿戴文件 458 vs 485)。我们的理解:这正是 Agent 可信度课题要核查的那类 agent 输出。
 - **后续独立评测里表现有限**:HeurekaBench 开放题正确性 Biomni 2.31/5(Lite 版,Claude-4-Sonnet),SpatialAgent 的心脏 MERFISH 细胞注释中 Biomni 总体准确率 0.394、偏向内皮细胞(见两篇论文正文;本仓库 `heurekabench-arxiv-2026`、`spatialagent-biorxiv-2025`)。
 
 ## 研究问题
@@ -67,7 +67,7 @@ flowchart LR
 
 ## 与本研究方向的关系
 Biomni 处在 detect → model → revert 链条的**分析执行层**:它不做异常检测,也不建 virtual tissue,但它是"让 agent 自己写代码跑完组学分析、给出生物学结论"的代表系统。我们的理解:它已是后续 agent 论文的常用基线 —— DeepEvidence、HeurekaBench、SpatialAgent 都拿它作对照。
-对 **课题 2(生物医学分析 agent 的结论核查)** 最直接。我们的理解:(1) 它是典型的**被核查对象**:自主分析 snRNA/snATAC 这类数据,输出"新调控因子 / 新规律"式结论,而论文对这些结论只做了人工读 trace,没有置信度和重跑一致性。(2) 它自己的文本已经提供了现成的"可疑结论"样例:PBX1 被同时说成"新"和"已知";15.56 °C 的餐后升温;皮肤温度被写成核心体温 —— 这些正是一个 claim-to-evidence 核查器应当标出来的(结论与数据、与引用文献、与自身其他段落不一致)。(3) multiome GRN 案例几乎就是课题 2 的任务模板:让 Biomni 在肾脏 snRNA/snATAC 数据上跑 GRN 或差异分析,再逐条检查结论是否被它自己的代码输出支持、多次重跑是否一致;课题 1 的已知答案(哪些细胞是疾病、哪些是 doublet / 低质量细胞)可用来判断它是否把伪影说成了生物学。(4) SpatialAgent 中观察到的 label collapse 提示:在异常检测场景下,这种系统性偏置会把少见的病变细胞态归入常见类别。
+对 **Agent 可信度课题** 最直接。我们的理解:(1) 它是典型的**被核查对象**:自主分析 snRNA/snATAC 这类数据,输出"新调控因子 / 新规律"式结论,而论文对这些结论只做了人工读 trace,没有置信度和重跑一致性。(2) 它自己的文本已经提供了现成的"可疑结论"样例:PBX1 被同时说成"新"和"已知";15.56 °C 的餐后升温;皮肤温度被写成核心体温 —— 这些正是一个 claim-to-evidence 核查器应当标出来的(结论与数据、与引用文献、与自身其他段落不一致)。(3) multiome GRN 案例几乎就是 Agent 可信度课题的任务模板:让 Biomni 在肾脏 snRNA/snATAC 数据上跑 GRN 或差异分析,再逐条检查结论是否被它自己的代码输出支持、多次重跑是否一致;伪影注入课题的已知答案(哪些细胞是疾病、哪些是 doublet / 低质量细胞)可用来判断它是否把伪影说成了生物学。(4) SpatialAgent 中观察到的 label collapse 提示:在异常检测场景下,这种系统性偏置会把少见的病变细胞态归入常见类别。
 对 revert 一环,我们的理解:它的 CRISPR 筛选设计任务(从 18,939 个基因中选扰动集)和克隆湿实验,说明"agent 提名扰动 → 湿实验验证"在工程上可行,但提名本身仍需要证据与置信度。
 
 ## 可复用资产
@@ -77,7 +77,7 @@ Biomni 处在 detect → model → revert 链条的**分析执行层**:它不做
 <https://doi.org/10.7910/DVN/CE4ZYG>
 - **Web 界面:** 在线使用(不可用于受保护健康信息)。
 <https://biomni.stanford.edu>
-- **评测任务:** 8 个真实任务的 prompt 与指标(Methods §"Curating real-world benchmarks"),可作为课题 2 基线任务模板。
+- **评测任务:** 8 个真实任务的 prompt 与指标(Methods §"Curating real-world benchmarks"),可作为 Agent 可信度课题基线任务模板。
 
 ## 待读
 - 补充材料:工具清单(Supp. Tables 1–18)、数据库(19–22)、软件(23–30)和 trace 分析(Supp. Figs 6–16),看哪些单细胞/空间工具已内置;8 个任务的逐项数字(Supplementary Notes B)。

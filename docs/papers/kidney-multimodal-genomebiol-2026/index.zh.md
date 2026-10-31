@@ -38,7 +38,7 @@ mBDRC:119,744 个高质量细胞/核,19 位健康供体(性别、年龄、BMI �
 - 部分 aTAL/Norn 的检出差异可能部分来自协议敏感性,作者认为是生物学差异,但无法完全排除技术偏倚。
 
 ## 与本研究方向的关系
-这是课题 1 最直接的「数据层」参考:对 snRNA + snATAC(+ Xenium + H&E)这类多模态设计,这篇用健康供体量化了「哪些肾细胞状态只在某个模态里可见」。对 detect → model → revert 中的 **detect** 阶段,它给出两条硬约束:**(1) 协议效应(中位 24%)远大于供体效应(3%)**,所以任何「异常」打分都必须先在 assay 维度上对齐,否则模型会把协议差异当作异常;**(2) 模态间不一致并不总是伪影** —— aTAL、Norn 这类 adaptive/rare 状态恰恰只在部分模态中被看见,而它们在疾病样本中上调。这正是课题 1「cross-modal agreement 区分伪影与疾病」需要细化的地方:不能简单把「跨模态不一致」判为伪影,而应结合细胞类型特异的模态灵敏度先验(本文给出了 PT→snRNA、TAL→3'、MD/DCT/CNT→5'、adaptive→ATAC 的经验表)。mBDRC 作为**健康参考**,可直接用于 KidneyAnomalyBench 的正常分布建模;WFDC2⁺ aTAL1_0 与 Norn 可作为专家可验证的「已知阳性异常状态」候选。对课题 2,scOMM 的 feature importance 与「整合并非总是提升」的结论,是 agent 在分析肾组学时常犯的过度结论的现成反例(例如声称「多模态整合必然更好」),可纳入组学特异的失败分类与 claim-to-evidence 校验用例。
+这是伪影注入课题最直接的「数据层」参考:对 snRNA + snATAC(+ Xenium + H&E)这类多模态设计,这篇用健康供体量化了「哪些肾细胞状态只在某个模态里可见」。对 detect → model → revert 中的 **detect** 阶段,它给出两条硬约束:**(1) 协议效应(中位 24%)远大于供体效应(3%)**,所以任何「异常」打分都必须先在 assay 维度上对齐,否则模型会把协议差异当作异常;**(2) 模态间不一致并不总是伪影** —— aTAL、Norn 这类 adaptive/rare 状态恰恰只在部分模态中被看见,而它们在疾病样本中上调。这正是伪影注入课题「cross-modal agreement 区分伪影与疾病」需要细化的地方:不能简单把「跨模态不一致」判为伪影,而应结合细胞类型特异的模态灵敏度先验(本文给出了 PT→snRNA、TAL→3'、MD/DCT/CNT→5'、adaptive→ATAC 的经验表)。mBDRC 作为**健康参考**,可直接用于 KidneyAnomalyBench 的正常分布建模;WFDC2⁺ aTAL1_0 与 Norn 可作为专家可验证的「已知阳性异常状态」候选。对 Agent 可信度课题,scOMM 的 feature importance 与「整合并非总是提升」的结论,是 agent 在分析肾组学时常犯的过度结论的现成反例(例如声称「多模态整合必然更好」),可纳入组学特异的失败分类与 claim-to-evidence 校验用例。
 
 ## 可复用资产
 - **分析代码**(MIT):
@@ -49,7 +49,7 @@ mBDRC:119,744 个高质量细胞/核,19 位健康供体(性别、年龄、BMI �
 - **评测指标组合**:AUC@specificity>0.9、Mahalanobis 重叠比、b-cLISI、AWS、FI 阈值 10 —— 可直接复用于评估我们自己的跨模态整合。
 
 ## 待读
-- 论文引用 [23] 的独立肾 multiome + CosMx 数据集(可能与 KPMP / Lake 图谱相关),核对是否可作为课题 1 外部测试集。
+- 论文引用 [23] 的独立肾 multiome + CosMx 数据集(可能与 KPMP / Lake 图谱相关),核对是否可作为伪影注入课题外部测试集。
 - Lake et al. 2023 肾图谱(`lake-kidney-atlas-nature-2023`),本文 L1/L2 注释与之对齐。
 - MultiVI、GLUE、SnapATAC2 原文,以及 Lee et al. 的 paired/unpaired RNA+ATAC 整合 benchmark。
 

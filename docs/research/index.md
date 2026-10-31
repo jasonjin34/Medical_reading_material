@@ -4,7 +4,7 @@ The group's research topics live here, one page each with the same template: wha
 
 <div class="grid cards" markdown>
 
--   __Topic 1 · Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
+-   __Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
     ---
 
@@ -14,13 +14,13 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
--   __Topic 2 · Verifying the Claims of Biomedical Analysis Agents__
+-   __Trustworthiness of Hypothesis-Testing Agents on Kidney Omics__
 
     ---
 
-    When an AI agent analyses single-cell data and reports conclusions, which of them are actually backed by its code, its data or the literature? We want methods and a benchmark that trace each claim to its evidence, calibrated against expert labels.
+    When an agent uses public raw kidney omics data to prove or refute a CKD hypothesis, when does its verdict become untrustworthy? We build a benchmark whose answers are known by construction (counterfactual data, injected artifacts, untestable hypotheses) and measure safety failures: false support, artifacts taken for disease, missing abstention, untraceable numbers, rerun instability, with nephrologists checking verdicts.
 
-    **Status:** direction decided; detailed design not started.
+    **Status:** direction decided; literature survey and a desk pilot done; no code yet.
 
     [:octicons-arrow-right-24: Topic page](agent-claims.md)
 
@@ -28,4 +28,4 @@ The group's research topics live here, one page each with the same template: wha
 
 ## How the topics connect
 
-Topic 1 asks which anomalies in the data are real and teaches models to tell; Topic 2 asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in Topic 1 and can be used in Topic 2 to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+The artifact-injection topic asks which anomalies in the data are real and teaches models to tell; the agent-trustworthiness topic asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in the artifact-injection topic and can be used in the agent-trustworthiness topic to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.

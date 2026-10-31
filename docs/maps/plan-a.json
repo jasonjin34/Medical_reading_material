@@ -203,8 +203,8 @@
  ],
  "view": "plan-a",
  "title": {
-  "en": "Topic 1 — Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics",
-  "zh": "课题 1:用伪影注入增强肾脏单细胞异常检测"
+  "en": "Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics",
+  "zh": "用伪影注入增强肾脏单细胞异常检测"
  },
  "lead": {
   "en": "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another.",

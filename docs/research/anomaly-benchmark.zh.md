@@ -295,4 +295,4 @@ flowchart TB
 7. [Nephrobase Cell+](../papers/nephrobase-biorxiv-2025/index.md)：第一个肾脏专用多模态基础模型
 8. [DRAEM](https://arxiv.org/abs/2108.07610)：用造出来的缺陷训练异常检测（不在论文库）
 
-再往后，看 [知识图谱](../knowledge-map.md) 里"课题 1"视图的必读论文，以及 [方法 × 数据矩阵](../knowledge-map.md)：虚线格是课题 1 打算补上的地方（有的格子里已经有论文，格子里的说明写了还缺什么）。
+再往后，看 [知识图谱](../knowledge-map.md) 里本课题视图的必读论文，以及 [方法 × 数据矩阵](../knowledge-map.md)：虚线格是本课题打算补上的地方（有的格子里已经有论文，格子里的说明写了还缺什么）。

@@ -182,7 +182,7 @@ With the `default_rng(0)` split, the test set has 28,380 PT nuclei, 20,477 of th
 Three readings, matching module 8's three difficulties:
 
 1. **On degenerative cells, kNN is about as good as counting genes**, and worse in 4 of 5 splits. A good AUROC does not show the method learned disease.
-2. **We do not know how many kNN-flagged cells are artifacts**: Lake has no artifact labels, so this code cannot answer that. [Topic 1](../research/anomaly-benchmark.md) does exactly this: inject known artifacts into the data, then test on real answers; exercise 6 in step 6 is a minimal version.
+2. **We do not know how many kNN-flagged cells are artifacts**: Lake has no artifact labels, so this code cannot answer that. [the artifact-injection topic](../research/anomaly-benchmark.md) does exactly this: inject known artifacts into the data, then test on real answers; exercise 6 in step 6 is a minimal version.
 3. **False alarms are unstable**: set at 5%, they land between 0.9% and 6.3% on unseen healthy donors. The 13 healthy donors split 6 / 3 / 4, so there are only 4 test donors, and some have very few PT nuclei (one has 4 in seed 0, one has 3 in seeds 1–4), so per-person rates swing widely.
 
 ## Step 6 · Exercises
@@ -194,7 +194,7 @@ None of these has a fixed answer; run them before drawing conclusions.
 3. Replace "gene count" with `percent.mt`, or combine the two. Can it match kNN on degenerative cells?
 4. Change `n_neighbors` from 10 to 1 or 50. How do AUROC and the false-alarm rate change?
 5. Also join `tissue_type` from the label table (module 4): after the `join` in part 1 of the step 4 code, add `adata.obs = adata.obs.join(meta[["tissue_type"]], rsuffix="_geo")` (the h5ad has its own `tissue_type` column, but every value is "tissue"), then report the false-alarm rate separately for biopsy, nephrectomy and deceased donor using `tissue_type_geo`. We ran this line; the other results do not change.
-6. **Make your own doublets** (a minimal version of Topic 1): before `normalize_total` in part 2 of the step 4 code, take 500 random pairs of reference PT nuclei from the test donors, **add the two rows' raw counts**, append them as 500 new cells and label them "artifact" (this is how Scrublet simulates doublets). Score them with the same pipeline: how many exceed the threshold? Then add PT + TAL pairs instead. What changes? Think about why doublets of two cells of the same type are hard to detect.
+6. **Make your own doublets** (a minimal version of the artifact-injection topic): before `normalize_total` in part 2 of the step 4 code, take 500 random pairs of reference PT nuclei from the test donors, **add the two rows' raw counts**, append them as 500 new cells and label them "artifact" (this is how Scrublet simulates doublets). Score them with the same pipeline: how many exceed the threshold? Then add PT + TAL pairs instead. What changes? Think about why doublets of two cells of the same type are hard to detect.
 
 ## Step 7 · Clean up
 

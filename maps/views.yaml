@@ -20,7 +20,7 @@
 
 views:
   plan-a:
-    title: {en: "Topic 1 — Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics", zh: "课题 1:用伪影注入增强肾脏单细胞异常检测"}
+    title: {en: "Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics", zh: "用伪影注入增强肾脏单细胞异常检测"}
     lead:
       en: "Learn normal kidney from healthy data, then flag what it cannot explain; one modality is evidence on another."
       zh: "从健康数据学习正常肾脏，再标出它解释不了的细胞和区域；用一个模态作为另一个模态的证据。"
@@ -120,10 +120,10 @@ views:
         match: ['Xenium']
 
   plan-b:
-    title: {en: "Topic 2 — Verifying the Claims of Biomedical Analysis Agents", zh: "课题 2:生物医学分析 agent 的结论核查"}
+    title: {en: "Trustworthiness of Hypothesis-Testing Agents on Kidney Omics", zh: "肾脏组学上假设验证 agent 的可信度"}
     lead:
-      en: "Trace every agent claim back through code and data; calibrate the verifier against experts."
-      zh: "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
+      en: "Give agents CKD hypotheses on raw kidney omics with answers built in advance; measure when their verdicts cannot be trusted."
+      zh: "给 agent 肾脏病假设和原始组学数据，答案事先构造好；测它的结论什么时候不可信。"
     select: {plans: B}
     flow:
       - {id: run, columns: [B1, B2], label: {en: "Agent runs the analysis", zh: "agent 执行分析"}}

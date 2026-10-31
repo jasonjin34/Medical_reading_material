@@ -192,12 +192,12 @@
  ],
  "view": "plan-b",
  "title": {
-  "en": "Topic 2 — Verifying the Claims of Biomedical Analysis Agents",
-  "zh": "课题 2:生物医学分析 agent 的结论核查"
+  "en": "Trustworthiness of Hypothesis-Testing Agents on Kidney Omics",
+  "zh": "肾脏组学上假设验证 agent 的可信度"
  },
  "lead": {
-  "en": "Trace every agent claim back through code and data; calibrate the verifier against experts.",
-  "zh": "把 agent 的每条结论追溯到代码和数据；用专家标注校准核查器。"
+  "en": "Give agents CKD hypotheses on raw kidney omics with answers built in advance; measure when their verdicts cannot be trusted.",
+  "zh": "给 agent 肾脏病假设和原始组学数据，答案事先构造好；测它的结论什么时候不可信。"
  },
  "collapsed": true,
  "wrap": 0,

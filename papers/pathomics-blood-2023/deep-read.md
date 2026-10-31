@@ -77,11 +77,11 @@ flowchart LR
 ## 与本研究方向的关系 / Relation to our direction
 <!-- ZH --> 与 detect → model → revert 的关系较间接,主要价值在"组织表征"这一步。
 - 我们的理解:用"核分割 → 每个细胞的形态特征 → 区域化统计/热图"的方式把组织变成可计算的特征,这和肾脏 H&E 上要做的细胞级描述是同一类工作;它提醒我们,同一任务里换一个分割模型(CellPose vs 作者 U-Net)结果可以差很多,所以肾脏基准里应把分割器当成需要报告和比较的变量。
-- 我们的理解:"组织面积法几乎无效、细胞法有效"说明定义指标的方式本身会决定结论;做异常检测时,"异常"的参照标准(这里是病理报告)本身也可能不可靠,需要多模态交叉证据——这与课题 1 的设计一致。
+- 我们的理解:"组织面积法几乎无效、细胞法有效"说明定义指标的方式本身会决定结论;做异常检测时,"异常"的参照标准(这里是病理报告)本身也可能不可靠,需要多模态交叉证据——这与伪影注入课题的设计一致。
 - 相关性 medium:血液病理、骨髓,不涉及肾脏和组学,也没有异常检测或扰动建模。
 <!-- EN --> Indirectly related to detect → model → revert; its value is in the tissue-representation step.
 - Our reading: "segment nuclei → per-cell morphology features → regional statistics / heatmaps" is the same kind of cell-level description we need on kidney H&E; it also shows that swapping the segmenter (CellPose vs the authors' U-Net) can change results a lot, so a kidney benchmark should report and compare segmenters as a variable.
-- Our reading: "tissue-area method fails, cell-based works" shows that the metric definition drives the conclusion; and the reference standard (here, pathology reports) may itself be unreliable — a reason for multi-modal cross-evidence, in line with Topic 1's design.
+- Our reading: "tissue-area method fails, cell-based works" shows that the metric definition drives the conclusion; and the reference standard (here, pathology reports) may itself be unreliable — a reason for multi-modal cross-evidence, in line with the artifact-injection topic's design.
 - Relevance medium: haematopathology / bone marrow; no kidney, no omics, no anomaly detection or perturbation modelling.
 
 ## 可复用资产 / Reusable assets

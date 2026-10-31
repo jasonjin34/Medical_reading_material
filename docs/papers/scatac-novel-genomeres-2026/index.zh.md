@@ -34,7 +34,7 @@ scATAC-seq 注释比 scRNA-seq 难:数据极度稀疏、维度高、带标签的
 - 「新的 / 稀有 / 异常」群体只是候选,摘要未提湿实验验证。
 
 ## 与本研究方向的关系
-这是本批次里唯一面向 **scATAC** 的异常/新类型检测方法,对 **课题 1** 有直接位置:肾脏多模态设计常包含 snATAC,而 KPMP / Lake atlas 的 snRNA 参照远比 ATAC 参照完善——CARA 的「RNA 参照 → ATAC 目标」迁移正好对应这种不对称。更关键的是**跨模态一致性**:如果 snRNA 侧(mapQC / Milo / MrVI)和 snATAC 侧(CARA 的「参照外」判定)在同一批细胞上都给出异常,这比单模态信号更可能是真实疾病状态;只在一个模态出现则更可能是 artifact(如 snRNA 的环境 RNA,或 ATAC 的低 TSS 富集)。CARA 的「多维不确定性」也可与 conformal 注释(`conformal-scrna-bioinformatics-2025`)的统计保证对比。对 **课题 2**:摘要把「异常群体」直接称为「扰动候选」——这是一个需要 verifier 检查的推理跳跃(从「参照外」到「有因果意义的可扰动靶点」)。读到全文前不宜作为基线依据。
+这是本批次里唯一面向 **scATAC** 的异常/新类型检测方法,对 **伪影注入课题** 有直接位置:肾脏多模态设计常包含 snATAC,而 KPMP / Lake atlas 的 snRNA 参照远比 ATAC 参照完善——CARA 的「RNA 参照 → ATAC 目标」迁移正好对应这种不对称。更关键的是**跨模态一致性**:如果 snRNA 侧(mapQC / Milo / MrVI)和 snATAC 侧(CARA 的「参照外」判定)在同一批细胞上都给出异常,这比单模态信号更可能是真实疾病状态;只在一个模态出现则更可能是 artifact(如 snRNA 的环境 RNA,或 ATAC 的低 TSS 富集)。CARA 的「多维不确定性」也可与 conformal 注释(`conformal-scrna-bioinformatics-2025`)的统计保证对比。对 **Agent 可信度课题**:摘要把「异常群体」直接称为「扰动候选」——这是一个需要 verifier 检查的推理跳跃(从「参照外」到「有因果意义的可扰动靶点」)。读到全文前不宜作为基线依据。
 
 ## 可复用资产
 - **代码**:摘要未给出代码链接;待全文确认(未找到公开仓库,不臆测)。

@@ -36,4 +36,4 @@ Numbers were checked on 2026-10-26 against GEO, Zenodo, cellxgene, SRA and the p
 | [KPMP · Kidney Precision Medicine Project](kpmp.md) | human | scRNA, snRNA, multiome, spatial | consortium; growing | AKI and CKD patients with research biopsies, plus reference tissue | processed open, raw controlled | 1 |
 | [CZ CELLxGENE · single-cell portal](cellxgene.md) | human | scRNA, snRNA, multiome | portal | — | open | 1 |
 
-**Topic numbers:** 1 = [Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md) · 2 = [Verifying the Claims of Biomedical Analysis Agents](../research/agent-claims.md)
+**Topic numbers:** 1 = [Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md) · 2 = [Trustworthiness of Hypothesis-Testing Agents on Kidney Omics](../research/agent-claims.md)
