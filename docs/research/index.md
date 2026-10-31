@@ -4,6 +4,16 @@ The group's research topics live here, one page each with the same template: wha
 
 <div class="grid cards" markdown>
 
+-   __An Honest Benchmark for Perturbation Prediction in Kidney__
+
+    ---
+
+    After a drug or an injury, can a model predict how kidney cells change, and do it better than simple methods? We use public kidney perturbation data (drug treatments and injury time courses, mostly mouse) to build the first kidney perturbation-prediction benchmark: strong simple baselines first, known evaluation pitfalls controlled, spatial data as orthogonal evidence.
+
+    **Status:** direction set on 2026-10-31; data survey done; no code yet.
+
+    [:octicons-arrow-right-24: Topic page](perturbation-benchmark.md)
+
 -   __Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
     ---
@@ -14,13 +24,13 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
--   __Trustworthiness of Hypothesis-Testing Agents on Kidney Omics__
+-   __Trustworthiness of Agent Analyses on Kidney Perturbation Data__
 
     ---
 
-    When an agent uses public raw kidney omics data to prove or refute a CKD hypothesis, when does its verdict become untrustworthy? We build a benchmark whose answers are known by construction (counterfactual data, injected artifacts, untestable hypotheses) and measure safety failures: false support, artifacts taken for disease, missing abstention, untraceable numbers, rerun instability, with nephrologists checking verdicts.
+    Ask agents kidney perturbation questions whose answers were measured, and check whether their analyses are right and stable, whether the numbers in their reports were actually computed, and whether they say "cannot be tested" when the data cannot answer; then check these automatic checks against expert judgement.
 
-    **Status:** direction decided; literature survey and a desk pilot done; no code yet.
+    **Status:** direction reset on 2026-10-31; no code yet.
 
     [:octicons-arrow-right-24: Topic page](agent-claims.md)
 
@@ -28,4 +38,18 @@ The group's research topics live here, one page each with the same template: wha
 
 ## How the topics connect
 
-The artifact-injection topic asks which anomalies in the data are real and teaches models to tell; the agent-trustworthiness topic asks which statements an agent makes are true. They are planned to use the same kind of data and the same known answers: Lake 2023's cell-state labels, for example, are the disease ground truth in the artifact-injection topic and can be used in the agent-trustworthiness topic to check whether an agent reports artifacts as disease. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs.
+The three topics share one question: **in kidney tissue, which of the "changes" reported by models and agents are real?**
+
+```mermaid
+flowchart TB
+  P["perturbation benchmark<br/>can models predict changes after drugs or injury"]
+  A["artifact injection<br/>which anomalies in the data come from measurement"] -->|"controlled technical perturbations: do models take artifacts for drug effects"| P
+  P -->|"measured perturbation outcomes as answers"| G["agent trustworthiness<br/>can agents' analyses and reports be trusted"]
+  A -.->|"optional: artifact items"| G
+```
+
+- **The perturbation benchmark** is the centre: it supplies the data, splits and simple baselines.
+- **Artifact injection** supplies technical controls: Systema shows that the biggest pitfall in perturbation evaluation is counting differences not caused by the perturbation as its effect, and technical artifacts are one source of them.
+- **Agent trustworthiness** turns the benchmark's held-out measured outcomes into questions and checks the analysis and report steps of agents.
+
+In this site's overall direction, "detect → model → revert", artifact injection sits in "detect", the perturbation benchmark in "model / revert", and agent trustworthiness checks the judgement of agents using these data and tools. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs; the perturbation-benchmark topic does not yet have its own map view.

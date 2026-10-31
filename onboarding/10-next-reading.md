@@ -72,15 +72,17 @@ About 1 hour for the three.
 <!-- ZH -->
 每个课题页的最后一节是**阅读路线**：按顺序排好的 5 篇左右精读，并说明每篇为什么读。打开你的课题页，从那里接着读：
 
+- [肾脏扰动预测的诚实基准](../research/perturbation-benchmark.md)
 - [用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)
-- [肾脏组学上假设验证 agent 的可信度](../research/agent-claims.md)
+- [肾脏扰动数据上 agent 分析的可信度](../research/agent-claims.md)
 
 上面三篇里已经读过的就跳过。
 <!-- EN -->
 The last section of every topic page is a **reading path**: about five deep-reads in order, each with a reason. Open your topic page and continue from there:
 
+- [An Honest Benchmark for Perturbation Prediction in Kidney](../research/perturbation-benchmark.md)
 - [Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)
-- [Trustworthiness of Hypothesis-Testing Agents on Kidney Omics](../research/agent-claims.md)
+- [Trustworthiness of Agent Analyses on Kidney Perturbation Data](../research/agent-claims.md)
 
 Skip any you already read in step 2.
 

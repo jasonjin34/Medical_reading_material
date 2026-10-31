@@ -1,14 +1,14 @@
 ---
-title: Trustworthiness of Hypothesis-Testing Agents on Kidney Omics
+title: Trustworthiness of Agent Analyses on Kidney Perturbation Data
 tags:
 - moc
 ---
 
-# Trustworthiness of Hypothesis-Testing Agents on Kidney Omics
+# Trustworthiness of Agent Analyses on Kidney Perturbation Data
 
-Give agents CKD hypotheses on raw kidney omics with answers built in advance; measure when their verdicts cannot be trusted.
+Ask agents questions about kidney perturbations whose answers were measured; check whether their analyses and reports can be trusted.
 
-给 agent 肾脏病假设和原始组学数据，答案事先构造好；测它的结论什么时候不可信。
+问 agent 答案已经实测过的肾脏扰动问题；检查它的分析和报告能不能信。
 
 ## Pipeline / 流程
 
@@ -33,7 +33,7 @@ BiomniBench · BixBench · BioML-bench`"]
   s5 --> s6
 ```
 
-Flow canvas: [[_maps/Trustworthiness of Hypothesis-Testing Agents on Kidney Omics — flow.canvas|Trustworthiness of Hypothesis-Testing Agents on Kidney Omics — flow]]
+Flow canvas: [[_maps/Trustworthiness of Agent Analyses on Kidney Perturbation Data — flow.canvas|Trustworthiness of Agent Analyses on Kidney Perturbation Data — flow]]
 
 ## Research agents / 科研 agent
 - [[_maps/papers/co-scientist-nature-2026|Co-Scientist]] ★ — Accelerating scientific discovery with Co-Scientist

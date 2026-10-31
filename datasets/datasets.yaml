@@ -18,6 +18,9 @@ groups:
   calibration:
     en: "Calibration (mouse): experiments human kidney data does not have"
     zh: "小鼠校准：人肾数据里没有的实验"
+  perturbation:
+    en: "Perturbation experiments (mouse): outcomes measured after a drug or an injury"
+    zh: "扰动实验（小鼠）：用药或损伤之后实际测到的结果"
   source:
     en: "Data sources and portals"
     zh: "数据来源和平台"
@@ -85,8 +88,8 @@ datasets:
       en: "Healthy reference; disease ground truth (altered states, tier 3); base for artifact injection."
       zh: "健康参考；“病”的答案（altered 状态，三级）；注入伪影的底板。"
     agent-claims:
-      en: "Source of known results (for example aTAL markers) to check agent claims against."
-      zh: "已知结论的来源（例如 aTAL 的标记基因），用来核对 agent 的结论。"
+      en: "Human context for questions the mouse data cannot answer; the agent should say these are untestable."
+      zh: "人类背景：有些问题小鼠数据回答不了，agent 应该说“测不了”。"
 
 - id: abedini-2024
   name: "Abedini 2024 · Second cohort"
@@ -405,6 +408,182 @@ datasets:
     anomaly-benchmark:
       en: "Evidence that dissociation stress can look like injury; the same FOS / JUN genes appear in Lake 2023's degenerative state. Later use, or calibration."
       zh: "说明“解离应激会被当成损伤”有实验证据，和 Lake 2023 degenerative 的 FOS / JUN 特征是同一类基因。以后再用，或做校准。"
+
+# Perturbation group: added 2026-10-31. Checked against the GEO records (species, sample count,
+# sample titles, supplementary file types) and PubMed; downloads not yet tested.
+
+- id: wu-dkd-2022
+  name: "Wu 2022 · Diabetic kidney disease under five treatments"
+  name_zh: "Wu 2022 · 糖尿病肾病小鼠的五种治疗"
+  group: perturbation
+  species: mouse
+  cite: "Wu H et al. Cell Metab 2022;34:1064–1078.e6. doi:10.1016/j.cmet.2022.05.010"
+  assays: [sn]
+  scale: {en: "nearly 1 million nuclei (GEO summary)", zh: "接近 100 万个核（GEO 摘要）"}
+  people: {en: "70 GEO samples", zh: "GEO 上 70 个样本"}
+  labels: {en: "treatment arm × time point (2 days, 2 weeks)", zh: "治疗组 × 时间点（2 天、2 周）"}
+  tissue: {en: "db/db mice with uninephrectomy and renin hypertension (a DKD model)", zh: "db/db 小鼠 + 单侧肾切除 + 肾素高血压（DKD 模型）"}
+  processed: {en: "processed files on GEO (CSV, H5)", zh: "GEO 上有处理后的文件（CSV、H5）"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "Mouse DKD kidneys after vehicle, ACE inhibitor, rosiglitazone, SGLT2 inhibitor and two combinations, at two time points. Our reading: the cleanest public kidney data for predicting a combination from its single drugs."
+    zh: "糖尿病肾病小鼠分别接受安慰剂、ACE 抑制剂、罗格列酮、SGLT2 抑制剂和两种联合用药，两个时间点。我们的理解：这是公开数据里最适合做“从单药预测联合用药”的肾脏数据。"
+  measured:
+    en: "Single-nucleus RNA of whole kidneys. Arms: vehicle, ACEi, rosiglitazone, SGLT2i, ACEi + rosiglitazone, ACEi + SGLT2i, each at 2 days and 2 weeks. The authors report that different drugs affected strikingly different cell types and that the combinations had the largest, largely non-overlapping effects (GEO summary)."
+    zh: "全肾单核 RNA。分组：安慰剂、ACEi、罗格列酮、SGLT2i、ACEi + 罗格列酮、ACEi + SGLT2i，每组 2 天和 2 周两个时间点。作者报告：不同药物影响的细胞类型差别很大；联合用药效应最大，而且两种药的效应大多不重叠（GEO 摘要）。"
+  issues:
+    - en: "Mouse model, not patients; five treatments only, so it cannot test prediction for arbitrary unseen perturbations."
+      zh: "是小鼠模型，不是病人；只有五种处理，没法检验“预测任意没见过的扰动”。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE184652 (CSV, H5)", zh: "GSE184652（CSV、H5）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE184652"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    perturbation-benchmark:
+      en: "Task A: predict a combination from its single drugs, and 2 weeks from 2 days."
+      zh: "任务 A：从单药预测联合用药，从 2 天预测 2 周。"
+    agent-claims:
+      en: "Main source of questions: the held-out treated groups are the measured answers."
+      zh: "主要出题来源：留出的处理组就是实测答案。"
+
+- id: wu-sglt2-arb-2022
+  name: "Wu 2022 · SGLT2 inhibitor and ARB in db/db mice"
+  name_zh: "Wu 2022 · db/db 小鼠的 SGLT2 抑制剂和 ARB"
+  group: perturbation
+  species: mouse
+  cite: "Wu J et al. Mol Ther 2022;30:1741–1753. doi:10.1016/j.ymthe.2021.10.013"
+  assays: [sc]
+  scale: {en: "30 GEO samples (sequencing lanes)", zh: "GEO 上 30 个样本（按测序 lane 分）"}
+  people: {en: "about 2–4 mice per group (our count from the sample names)", zh: "每组约 2–4 只小鼠（我们按样本名数的）"}
+  labels: {en: "treatment arm", zh: "治疗组"}
+  tissue: {en: "db/db mice; db/m controls", zh: "db/db 小鼠；db/m 对照"}
+  processed: {en: "processed files on GEO (RDS, TXT)", zh: "GEO 上有处理后的文件（RDS、TXT）"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "An independent lab's single-cell data on the same two drug classes (ARB, SGLT2 inhibitor) and their combination: the second dataset for testing whether a model trained on one lab transfers to another."
+    zh: "另一个实验室用同两类药（ARB、SGLT2 抑制剂）及其联用做的单细胞数据：用来检验在一个实验室数据上训练的模型，换到另一个实验室还准不准。"
+  measured:
+    en: "Single-cell RNA of kidneys from db/db mice treated with vehicle, ARB, SGLT2i or both, plus db/m mice. The authors report 10 clusters dominated by proximal tubule cells and a PT subcluster increased in DKD and reversed by treatment (GEO summary)."
+    zh: "db/db 小鼠分别接受安慰剂、ARB、SGLT2i 或两者联用，加上 db/m 小鼠，测肾脏单细胞 RNA。作者报告 10 个簇，以近端小管为主，还有一个在 DKD 中增加、治疗后回落的近端小管亚群（GEO 摘要）。"
+  issues:
+    - en: "Few mice per group; single-cell (not single-nucleus), so it differs from Wu H 2022 in assay as well as lab."
+      zh: "每组小鼠少；是单细胞而不是单核，所以和 Wu H 2022 相比，不只实验室不同，测法也不同。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE181382 (RDS, TXT)", zh: "GSE181382（RDS、TXT）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE181382"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    perturbation-benchmark:
+      en: "Task A′: train on Wu H 2022, test on this lab."
+      zh: "任务 A′：用 Wu H 2022 训练，在这个实验室的数据上测。"
+
+- id: kirita-iri-2020
+  name: "Kirita 2020 · Mouse kidney injury and repair time course"
+  name_zh: "Kirita 2020 · 小鼠肾损伤到修复的时间序列"
+  group: perturbation
+  species: mouse
+  cite: "Kirita Y et al. PNAS 2020;117:15874–15883. doi:10.1073/pnas.2005477117"
+  assays: [sn]
+  scale: {en: "24 GEO samples", zh: "GEO 上 24 个样本"}
+  people: {en: "sham, 4 h, 12 h, 2 d, 14 d, 6 weeks; 3 mice per time point, some with two libraries (GEO sample names)", zh: "假手术、4 小时、12 小时、2 天、14 天、6 周；每个时间点 3 只小鼠，有的一只两个文库（GEO 样本名）"}
+  labels: {en: "time after ischaemia-reperfusion injury", zh: "缺血再灌注损伤后的时间"}
+  tissue: {en: "mouse kidneys after ischaemia-reperfusion injury (IRI)", zh: "缺血再灌注损伤（IRI）后的小鼠肾"}
+  processed: {en: "processed files on GEO (TXT)", zh: "GEO 上有处理后的文件（TXT）"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "The standard single-nucleus time course of mouse kidney injury and repair; it introduced the failed-repair proximal tubule state."
+    zh: "小鼠肾损伤到修复的标准单核时间序列；“修复失败的近端小管”（failed-repair PT）这个状态就是它提出的。"
+  measured:
+    en: "Single-nucleus RNA of mouse kidneys at six time points after IRI. The authors describe a proinflammatory, profibrotic proximal tubule state that fails to repair (FR-PTC) and detect it in other injury models, the ageing rat kidney and human allografts by deconvolution (GEO summary)."
+    zh: "IRI 后 6 个时间点的小鼠肾单核 RNA。作者描述了一个促炎、促纤维化、修复失败的近端小管状态（FR-PTC），并用反卷积在其他损伤模型、衰老大鼠肾和人移植肾里也找到了它（GEO 摘要）。"
+  issues:
+    - en: "A disease course, not an intervention: there is no treated arm that reverses the injury."
+      zh: "是疾病进程，不是干预：没有一个让损伤回复的治疗组。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE139107 (TXT)", zh: "GSE139107（TXT）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE139107"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    perturbation-benchmark:
+      en: "Task B: predict later time points from earlier ones."
+      zh: "任务 B：用前面的时间点预测后面的时间点。"
+
+- id: dixon-iri-visium-2022
+  name: "Dixon 2022 · Spatial time course of mouse kidney injury"
+  name_zh: "Dixon 2022 · 小鼠肾损伤的空间时间序列"
+  group: perturbation
+  species: mouse
+  cite: "Dixon EE et al. J Am Soc Nephrol 2022;33:279–289. doi:10.1681/ASN.2021081150"
+  assays: [spatial]
+  scale: {en: "5 Visium sections", zh: "5 张 Visium 切片"}
+  people: {en: "one female mouse per time point: sham, 4 h, 12 h, 2 d, 6 weeks (GEO sample names)", zh: "每个时间点一只雌鼠：假手术、4 小时、12 小时、2 天、6 周（GEO 样本名）"}
+  labels: {en: "time after ischaemia-reperfusion injury", zh: "缺血再灌注损伤后的时间"}
+  tissue: {en: "female mouse kidneys, bilateral IRI (34 min ischaemia)", zh: "雌鼠肾，双侧 IRI（缺血 34 分钟）"}
+  processed: {en: "GEO TAR archive", zh: "GEO 上的 TAR 压缩包"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "Visium spatial maps across the same kind of injury and repair course as Kirita 2020: the spatial check for what a model predicts from single-nucleus data."
+    zh: "和 Kirita 2020 同类的损伤到修复过程，用 Visium 测的空间图谱：检查模型从单核数据预测出的变化，在空间上是否出现。"
+  measured:
+    en: "10x Visium spatial gene expression across the injury and repair time course, analysed with Giotto and SPOTlight; the authors report injured proximal tubule cells with increasing macrophage and lymphocyte interactions up to 6 weeks (GEO summary)."
+    zh: "损伤到修复全过程的 10x Visium 空间基因表达，用 Giotto 和 SPOTlight 分析；作者报告受损近端小管和巨噬细胞、淋巴细胞的相互作用一直增加到 6 周（GEO 摘要）。"
+  issues:
+    - en: "One section per time point, so no replicate: usable as orthogonal evidence, not as a test set with statistics."
+      zh: "每个时间点只有一张切片，没有重复：只能当正交证据，不能当做统计检验的测试集。"
+    - en: "Female mice and a different ischaemia time from Kirita 2020, so the two are not paired animals."
+      zh: "是雌鼠，缺血时间也和 Kirita 2020 不同，两者不是同一批动物。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE182939 (TAR)", zh: "GSE182939（TAR）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE182939"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    perturbation-benchmark:
+      en: "Task B′: spatial check of predicted state changes."
+      zh: "任务 B′：在空间上检查预测出的状态变化。"
+
+- id: gaedcke-sc-sn-2022
+  name: "Gaedcke 2022 · Single cell vs single nucleus after injury"
+  name_zh: "Gaedcke 2022 · 损伤后单细胞和单核对比"
+  group: perturbation
+  species: mouse
+  cite: "Gaedcke S et al. Am J Physiol Renal Physiol 2022;323:F171–F181. doi:10.1152/ajprenal.00453.2021"
+  assays: [sc, sn]
+  scale: {en: "6 GEO samples", zh: "GEO 上 6 个样本"}
+  people: {en: "control, mild (17 min) and severe (27 min) IRI, each measured by single cell and single nucleus (GEO sample names)", zh: "对照、轻度（17 分钟）和重度（27 分钟）IRI，每份都同时测了单细胞和单核（GEO 样本名）"}
+  labels: {en: "injury strength × assay", zh: "损伤强度 × 测法"}
+  tissue: {en: "mouse kidneys after IRI", zh: "IRI 后的小鼠肾"}
+  processed: {en: "processed files on GEO (H5)", zh: "GEO 上有处理后的文件（H5）"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "The same injured kidneys measured two ways, so the size of an assay difference can be set next to the size of an injury effect."
+    zh: "同一批受损的肾用两种方法测，于是“测法造成的差异”可以和“损伤造成的效应”放在一起比大小。"
+  measured:
+    en: "Single-cell and single-nucleus RNA of control, mildly and severely injured mouse kidneys."
+    zh: "对照、轻度和重度损伤小鼠肾的单细胞和单核 RNA。"
+  issues:
+    - en: "One sample per condition and assay: enough for a size comparison, not for statistics."
+      zh: "每个条件、每种测法只有一份：够比大小，不够做统计。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE193649 (H5)", zh: "GSE193649（H5）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE193649"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    perturbation-benchmark:
+      en: "Task C: a measurement control; any effect a model claims should be larger than the assay difference."
+      zh: "任务 C：测量对照；模型声称的效应应该大过测法差异。"
+    anomaly-benchmark:
+      en: "Candidate source of a real assay shift in mouse kidney (under discussion)."
+      zh: "小鼠肾里真实“换测法”差异的候选来源（讨论中）。"
 
 - id: kpmp
   name: "KPMP · Kidney Precision Medicine Project"

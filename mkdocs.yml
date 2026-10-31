@@ -110,10 +110,16 @@ nav:
     - datasets/malone-2020.md
     - datasets/janssen-2023.md
     - datasets/denisenko-2020.md
+    - datasets/wu-dkd-2022.md
+    - datasets/wu-sglt2-arb-2022.md
+    - datasets/kirita-iri-2020.md
+    - datasets/dixon-iri-visium-2022.md
+    - datasets/gaedcke-sc-sn-2022.md
     - datasets/kpmp.md
     - datasets/cellxgene.md
   - Research topics:
     - research/index.md
+    - research/perturbation-benchmark.md
     - research/anomaly-benchmark.md
     - research/agent-claims.md
   - Papers:

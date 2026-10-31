@@ -1,11 +1,17 @@
 # Research topics shown under the site's "Research topics" tab.
 # `code` is the internal letter used in papers/*/metadata.yaml (`plans:`) and in
-# maps/views.yaml (`plan-a`, `plan-b`); it never appears on the site.
+# maps/views.yaml (`plan-a`, `plan-b`); it never appears on the site. The perturbation
+# benchmark (code C) has no knowledge-map view yet.
 # The first entry with id `overview` is the tab's landing page.
 
 - id: overview
   file: 00-overview.md
   title: {en: "Research topics", zh: "研究课题"}
+
+- id: perturbation-benchmark
+  file: perturbation-benchmark.md
+  code: C
+  title: {en: "An Honest Benchmark for Perturbation Prediction in Kidney", zh: "肾脏扰动预测的诚实基准"}
 
 - id: anomaly-benchmark
   file: anomaly-benchmark.md
@@ -15,4 +21,4 @@
 - id: agent-claims
   file: agent-claims.md
   code: B
-  title: {en: "Trustworthiness of Hypothesis-Testing Agents on Kidney Omics", zh: "肾脏组学上假设验证 agent 的可信度"}
+  title: {en: "Trustworthiness of Agent Analyses on Kidney Perturbation Data", zh: "肾脏扰动数据上 agent 分析的可信度"}

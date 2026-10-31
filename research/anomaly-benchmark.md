@@ -1,25 +1,138 @@
 # 用伪影注入增强肾脏单细胞异常检测 / Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics
 
-## 一页看懂 / At a glance
+## 一页看懂 / At a glance {#glance}
 
 <!-- ZH -->
 !!! abstract "这个课题要做什么"
-    **做一条 pipeline：任何一份单细胞数据放进去，都能自动注入已知的伪影，变成一份带答案的异常检测数据；再用它增强现有模型，并检验模型和数据库的质量。**
+    **做一条 pipeline：往任意一份单细胞数据里注入已知的伪影，把它变成带答案的异常检测数据，再用它增强现有模型。**
 
-    - **问题：**一个看起来异常的细胞，是病了，还是测量造成的？两者的特征会重叠：Lake 2023 判定 altered 状态的依据之一就是"基因少、线粒体多"，这也是低质量细胞的特征。现有方法没有专门区分这两者，我们（截至 2026 年 10 月）也没找到系统检验过这一点的研究。
-    - **思路：**图像异常检测里，在正常图片上造假缺陷来训练模型，曾把 MVTec AD 上的成绩推到新高（DRAEM）；但造法和真实缺陷的成因对不上时，也可能反而变差（Yoo 2022）。我们把这个思路搬到单细胞上，按真实成因造伪影：doublet 有成熟做法（两个细胞的计数相加，部分缩小文库），ambient RNA 按比例混入背景谱，低质量细胞只能近似（单细胞是丢失胞质 RNA，单核则是混入胞质的东西）。所以造出来的伪影只用于训练。
-    - **三个用途：**① 增强模型（主线）；② 检验模型会不会把伪影当成病；③ 检验一份数据里混了多少伪影。
-    - **怎么证明有用：**造出来的伪影只用于训练；考试只用**真实答案**（多人混样的基因型 doublet、同一人换测法、专家标注的病细胞、另一个实验室的健康人）。
-    - **约束：**没有湿实验，只用公开数据；临床专家（肾内科、肾脏病理）可以参与标注。
+    - **为什么：**一个看起来异常的细胞，可能是病了，也可能只是测量造成的；现有方法没有专门区分这两者。
+    - **三步：**
+        1. **注入**：按真实成因造 doublet、ambient RNA、低质量细胞，每个都记下答案；
+        2. **增强**：用这些带答案的数据微调现有模型，让它分清健康、病、伪影；
+        3. **考试**：只用真实答案考（基因型 doublet、同一人换测法、专家标注的病细胞、新实验室的健康人），比较增强前后。
+    - **三个用途：**① 增强模型（主线）；② 检验模型：会不会把伪影当成病；③ 检验数据：一份数据里混了多少伪影。
+    - **约束：**没有湿实验，只用公开数据；临床专家（肾内科、肾脏病理）参与标注。
 <!-- EN -->
 !!! abstract "What this topic does"
-    **Build a pipeline that turns any single-cell dataset into a labelled anomaly-detection dataset by injecting known artifacts, then use it to boost current models and to check the quality of models and datasets.**
+    **Build a pipeline that injects known artifacts into any single-cell dataset, turning it into a labelled anomaly-detection dataset, and use it to boost current models.**
 
-    - **Question:** is an abnormal-looking cell diseased, or caused by measurement? The two overlap: one of Lake 2023's criteria for altered states is "few genes, many mitochondrial transcripts", which is also the sign of a low-quality cell. Current methods do not set out to separate the two, and (as of October 2026) we found no study that tests this systematically.
-    - **Idea:** in image anomaly detection, training on synthetic defects pasted onto normal images set a new best on MVTec AD (DRAEM); but when the synthetic defects do not match how real ones arise, training can even hurt (Yoo 2022). We carry the idea over to single cells and create artifacts by their cause: doublets have a mature recipe (sum two cells' counts, shrink some library sizes), ambient RNA is a background profile mixed in at a set fraction, and low-quality cells can only be approximated (lost cytoplasmic RNA in single cells, added cytoplasmic material in single nuclei). So injected artifacts are used for training only.
-    - **Three uses:** ① boost models (the main line); ② check whether a model mistakes artifacts for disease; ③ estimate how many artifacts a dataset contains.
-    - **How we show it works:** injected artifacts are for training only; testing uses **real answers** only (genotype doublets from pooled donors, the same donor across assays, expert-labelled diseased cells, healthy donors from another lab).
-    - **Constraint:** no wet lab, public data only; clinical experts (nephrologists, renal pathologists) can annotate.
+    - **Why:** an abnormal-looking cell may be diseased, or may only be a measurement effect; current methods do not set out to separate the two.
+    - **Three steps:**
+        1. **Inject**: create doublets, ambient RNA and low-quality cells by how they really arise, recording every answer;
+        2. **Boost**: fine-tune current models on these labelled data so they separate healthy, diseased and artifact cells;
+        3. **Test**: test on real answers only (genotype doublets, the same donor across assays, expert-labelled diseased cells, healthy donors from a new lab), before vs after boosting.
+    - **Three uses:** ① boost models (the main line); ② model audit: are artifacts taken for disease? ③ dataset audit: how many artifacts does a dataset contain?
+    - **Constraint:** no wet lab, public data only; clinical experts (nephrologists, renal pathologists) annotate.
+
+## 目录 / Contents {#contents}
+
+<!-- ZH -->
+| # | 部分 | 讲什么 |
+|---|---|---|
+| 1 | [问题和动机](#question) | 一个异常细胞是病还是测量造成的；为什么重要、为什么还没解决 |
+| 2 | [第 1 步 · 伪影注入 pipeline](#pipeline) | 注入哪三种伪影、各自怎么造、设计规则 |
+| 3 | [第 2 步 · 模型](#models) | 两类模型（组学模型 + 异常检测）；pipeline 用在哪一环；加前加后怎么判断；以后要不要开发新模型；拿不准的细胞 |
+| 4 | [第 3 步 · 怎么检验](#evaluation) | 任务 T1–T4 和真实答案；已知的坑；请专家补强 |
+| 5 | [用到的数据](#data) | 六份公开数据各负责什么、要注意什么 |
+| 6 | [要做出什么](#deliverables) | 六项交付物，每项怎么证明有用 |
+| 7 | [和其他课题的关系](#connect) | 给扰动基准当技术对照；给 Agent 课题出伪影题 |
+| 8 | [还没定的](#open) | 等讨论的决定 |
+| 9 | [阅读路线](#reading) | 先读哪些论文 |
+
+每节先讲要点；带 ▶ 的折叠块是细节和出处，点开看。
+<!-- EN -->
+| # | Part | What it covers |
+|---|---|---|
+| 1 | [The question](#question) | is an abnormal cell diseased or a measurement effect; why it matters, why it is unsolved |
+| 2 | [Step 1 · The artifact-injection pipeline](#pipeline) | which three artifacts, how each is made, design rules |
+| 3 | [Step 2 · Models](#models) | two kinds of models (omics + anomaly detection); where the pipeline acts; calls before and after; a new model later?; uncertain cells |
+| 4 | [Step 3 · How we test](#evaluation) | tasks T1–T4 and real answers; a known trap; clinical experts |
+| 5 | [Data](#data) | what each of six public datasets answers and what to watch for |
+| 6 | [What we will produce](#deliverables) | six deliverables and how each is shown to be useful |
+| 7 | [How it connects](#connect) | technical controls for the perturbation benchmark; artifact items for the agent topic |
+| 8 | [Open questions](#open) | decisions still to discuss |
+| 9 | [Reading path](#reading) | which papers to read first |
+
+Each part starts with the key points; folded blocks (▶) hold details and sources.
+
+## 问题和动机 / The question and why it matters {#question}
+
+<!-- ZH -->
+**一个看起来异常的细胞，是病造成的，还是测量造成的？**
+
+肾脏单细胞和单核数据里，有些细胞和健康组织对不上。它可能真的病了，也可能是测量过程造成的（doublet、ambient RNA、低质量细胞、取样或消化时的应激），而这两种情况看起来很像。我们的理解（截至 2026 年 10 月）：现有方法会把两者都标成"异常"，而我们没找到一个带已知答案的数据集，能检验它们分不分得清、误报有多少。所以，建立在这些"异常细胞"之上的发现到底有多可信，现在说不清。
+<!-- EN -->
+**Is an abnormal-looking cell caused by disease, or by measurement?**
+
+In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Our reading (as of 2026-10): current methods flag both as "anomalous", and we found no dataset with known answers to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
+
+<!-- ZH -->
+本课题进一步问：**能不能用造出来的伪影，教会模型分清这两种情况？**
+<!-- EN -->
+This topic goes one step further: **can artifacts we create teach models to tell the two apart?**
+
+### 为什么重要 / Why it matters
+
+<!-- ZH -->
+- **测量问题造出过假的生物学结论。**在人脑单核数据里，以前被注释为"未成熟少突胶质细胞"的核，后来发现是被神经元 ambient RNA 污染的胶质细胞（[Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)）。
+- **肾脏单核数据的背景污染可以很高。**小鼠肾的混合品系实验里，用冷冻组织做的单核样本，背景污染明显高于来自同一批样本的单细胞样本（[Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md)：35% 对 11%、17% 对 3%）。冷冻的肾活检只能做单核（[Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md)："snRNA, but not scRNA, can be performed from frozen tissue"）。
+- **病和测量的信号本来就重叠。**Lake 2023 挑候选损伤状态时，部分依据是"基因少、线粒体转录多"，这也是低质量细胞的典型特征（我们的解读）；健康参考组织里也有 altered 状态，作者认为可能来自取样缺血或正常衰老（[Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)）。我们自己从 GEO 标签表里也数到：单核数据里健康人有 26% 的核是 altered（88,460 个健康人核里的 22,774 个）。
+<!-- EN -->
+- **Measurement effects have produced false biology.** In human brain single-nucleus data, nuclei previously annotated as "immature oligodendrocytes" turned out to be glia contaminated with neuronal ambient RNA ([Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)).
+- **Background contamination in kidney single-nucleus data can be high.** In mixed-strain mouse kidney, single-nucleus samples made from frozen tissue had clearly more background contamination than single-cell samples from the same material ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md): 35% vs 11%, 17% vs 3%). Frozen kidney biopsies can only be profiled by single-nucleus ([Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md): "snRNA, but not scRNA, can be performed from frozen tissue").
+- **Disease and measurement signals overlap.** Lake 2023 picked candidate injury states partly by few genes detected and many mitochondrial transcripts, which are also the usual signs of a low-quality cell (our reading); altered states also occur in healthy reference tissue, which the authors attribute possibly to ischaemia during acquisition or normal ageing ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)). From the GEO label table we counted that 26% of nuclei from healthy donors are altered (22,774 of 88,460).
+
+### 为什么还没解决 / Why it is unsolved
+
+<!-- ZH -->
+- **伪影基准没有"病"这一维。**我们的理解（截至 2026 年 10 月）：doublet 和 ambient 各有自己的基准，我们找到的每个只管一种伪影，不含疾病状态。例如 [ambient 去除基准](../papers/ambient-rna-bench-biorxiv-2026/index.md) 用的是模拟数据、物种混合和基因型混合实验。
+- **找疾病状态的方法不区分伪影。**用健康参考找"改变的细胞状态"的方法（如 [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)）目标是找疾病状态；我们的理解：方法本身不判断报出来的细胞是不是伪影。doublet 和低质量细胞只在预处理时去掉（去掉一个疑似 doublet 的簇、只保留至少 1,000 个分子的细胞），没有 ambient 的处理；作者提醒的技术性误报来源是残余批次效应（Extended Data Fig. 7b,c）。
+- **没有误报控制。**现有注释流程里，带"拒判"选项的那些通常也只靠人为设定的条件，不给统计保证（[单细胞 conformal](../papers/conformal-scrna-bioinformatics-2025/index.md)："do not provide statistical guarantees"）；conformal 方法能界定误报率（[Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)），但前提是参考和查询数据可交换：单细胞 conformal 那篇里，查询来自肺肿瘤病人时，误报率保证就不成立了。我们的理解（截至 2026 年 10 月）：还没有人在肾脏数据上系统检验过。
+- **没有测试平台。**我们的理解（截至 2026 年 10 月）：我们看过的通用异常检测基准里没有单细胞表达数据，也没找到肾脏组学的异常检测基准。
+<!-- EN -->
+- **Artifact benchmarks have no disease axis.** Our reading (as of 2026-10): doublets and ambient RNA have their own benchmarks, and each one we found covers one artifact and no disease states. For example, the [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) uses simulated data, species-mixing and genotype-mixing experiments.
+- **Disease-state detection does not separate artifacts.** Methods that find altered cell states against a healthy reference (for example [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)) aim at disease states. Our reading: the method itself does not judge whether a flagged cell is an artifact. Doublets and low-quality cells are only removed in preprocessing (one suspected doublet cluster dropped, only cells with at least 1,000 molecules kept), with no ambient-RNA step; the technical source of false positives the authors warn about is residual batch effects (Extended Data Fig. 7b,c).
+- **There is no error control.** Annotation pipelines that offer a reject option usually rely on arbitrary assumptions and give no statistical guarantee ([conformal for single-cell](../papers/conformal-scrna-bioinformatics-2025/index.md): they "do not provide statistical guarantees"). Conformal methods can bound the false-alarm rate ([Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)), but only when reference and query are exchangeable: in the single-cell conformal paper, the false-alarm guarantee failed when the query came from lung-tumour patients. Our reading (as of 2026-10): this has not been tested systematically on kidney data.
+- **There is no test bed.** Our reading (as of 2026-10): the general anomaly-detection benchmarks we looked at contain no single-cell expression data, and we found no anomaly-detection benchmark for kidney omics.
+
+<!-- ZH -->
+??? note "细节：我们的方向有没有人做过，图像领域的证据和警告"
+<!-- EN -->
+??? note "Details: has our direction been done; evidence and warnings from images"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    检索截至 2026 年 10 月，不可能穷尽，所以论文里写"据我们所知"。
+
+    - **零件都有，但每个只管一种伪影。**造 doublet 再训练检测器是标准做法（[Scrublet](https://doi.org/10.1016/j.cels.2018.11.005)、[DoubletFinder](https://doi.org/10.1016/j.cels.2019.03.003)、[scDblFinder](https://doi.org/10.12688/f1000research.73600.2)）；造"破损细胞"有一个 R 包（[DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective)，没有配套论文）；ambient 有读段层面的模拟器 ambisim（[Li 2025](https://doi.org/10.1101/2025.02.06.636969)，用来评测多人混样的拆分方法）。
+    - **问题有人提过，但没人用注入去解决。**mapQC 指出映射不好会"falsely reporting technical artifacts as disease"（[Sikkema 2025](https://doi.org/10.1101/2025.05.23.655749)），但它处理的是批次和映射质量。
+    - **基础模型没被拿伪影测过。**零样本评测发现 scGPT、Geneformer 的嵌入常不如简单方法（[Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)），但测的是批次效应；我们没找到拿 doublet、ambient 或低质量细胞测基础模型的研究。
+    - **没找到的：**一个工具往任意真实数据里同时注入多种伪影并记录答案，再用它训练模型区分"伪影还是病"。这就是本课题的新意。
+
+    **图像领域的证据和警告：**DRAEM 用造出来的缺陷训练，在 MVTec AD 上把图像级 AUROC 从此前最好的 95.5 提到 98.0，作者说造的缺陷不需要逼真（[Zavrtanik 2021](https://arxiv.org/abs/2108.07610)）。但一项跨 420 个任务的研究发现，造法和真实异常的产生机制对不上时，自监督训练反而可能变差（[Yoo 2022](https://arxiv.org/abs/2208.07734)）；单细胞里，用模拟 doublet 训练的检测器在 16 份带真实标签的数据上，最好的平均 AUPRC 只有 0.537（[Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)）。所以**按成因造伪影、用真实答案考试**是本课题的两条硬规则。
+    <!-- EN -->
+    Search up to October 2026; it cannot be exhaustive, so the paper will say "to our knowledge".
+
+    - **The parts exist, each for one artifact.** Simulating doublets and training a detector on them is standard ([Scrublet](https://doi.org/10.1016/j.cels.2018.11.005), [DoubletFinder](https://doi.org/10.1016/j.cels.2019.03.003), [scDblFinder](https://doi.org/10.12688/f1000research.73600.2)); an R package simulates damaged cells ([DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective), no accompanying paper); ambisim simulates ambient molecules at read level ([Li 2025](https://doi.org/10.1101/2025.02.06.636969), built to benchmark demultiplexing).
+    - **The problem has been named, not solved by injection.** mapQC warns that a poor mapping can result in "falsely reporting technical artifacts as disease" ([Sikkema 2025](https://doi.org/10.1101/2025.05.23.655749)), but it deals with batch and mapping quality.
+    - **Foundation models have not been tested against artifacts.** A zero-shot evaluation found scGPT and Geneformer embeddings often behind simpler methods ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)), but on batch effects; we found no study testing foundation models against doublets, ambient RNA or low-quality cells.
+    - **Not found:** a tool that injects several artifact types into any real dataset with recorded answers, then trains models to tell artifact from disease. That is what is new here.
+
+    **Evidence and warnings from images:** DRAEM, trained on synthetic defects, raised image-level AUROC on MVTec AD from the previous best of 95.5 to 98.0, and its authors say the defects need not look realistic ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). But a study across 420 tasks found that when the augmentation does not match how real anomalies arise, self-supervised training can even hurt ([Yoo 2022](https://arxiv.org/abs/2208.07734)); in single cells, detectors trained on simulated doublets reach a best mean AUPRC of only 0.537 on 16 datasets with real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hence two hard rules here: **inject artifacts by their cause, and test on real answers.**
+
+## 第 1 步 · 伪影注入 pipeline / Step 1 · The artifact-injection pipeline {#pipeline}
+
+<!-- ZH -->
+**思路：**图像异常检测里，在正常图片上造假缺陷来训练模型，曾把 MVTec AD 上的成绩推到新高（DRAEM）；但造法和真实缺陷的成因对不上时，也可能反而变差（Yoo 2022）。我们把这个思路搬到单细胞上，按真实成因造伪影：doublet 有成熟做法（两个细胞的计数相加，部分缩小文库），ambient RNA 按比例混入背景谱，低质量细胞只能近似（单细胞是丢失胞质 RNA，单核则是混入胞质的东西）。所以造出来的伪影只用于训练。
+<!-- EN -->
+**Idea:** in image anomaly detection, training on synthetic defects pasted onto normal images set a new best on MVTec AD (DRAEM); but when the synthetic defects do not match how real ones arise, training can even hurt (Yoo 2022). We carry the idea over to single cells and create artifacts by their cause: doublets have a mature recipe (sum two cells' counts, shrink some library sizes), ambient RNA is a background profile mixed in at a set fraction, and low-quality cells can only be approximated (lost cytoplasmic RNA in single cells, added cytoplasmic material in single nuclei). So injected artifacts are used for training only.
+
+### 全流程 / The whole flow
+
+<!-- ZH -->
+橙色是注入的伪影和带标签的数据，紫色是模型（每个跑两遍：原模型和增强后），绿色是只用于考试的真实答案，蓝色是三个用途。
+<!-- EN -->
+Orange: injected artifacts and the labelled data. Purple: models, each run twice (original and boosted). Green: real answers, used only for testing. Blue: the three uses.
 
 <!-- ZH -->
 ```mermaid
@@ -27,8 +140,8 @@ flowchart TB
   D["任意单细胞数据<br/>如 Lake · mBDRC 等公开数据"] --> P["第 1 步 · 注入已知伪影<br/>doublet · ambient RNA · 低质量细胞"]
   P --> L["带标签的训练数据<br/>每个伪影记录：类型 · 强度 · 来源细胞"]
   L ~~~ R["真实答案（考官）<br/>Hoeft 基因型 doublet · mBDRC 换测法<br/>Lake 病细胞 · Abedini 新实验室健康人"]
-  L ~~~ M0["原模型（同一批）<br/>QC 基线 · 现有方法 · 基础模型 · 参考方法"]
-  L --> M1["第 2 步 · 增强后的模型<br/>用带标签的数据微调"]
+  L ~~~ M0["原模型：只学健康细胞<br/>组学模型（PCA · scVI · 基础模型）+ 异常分"]
+  L --> M1["第 2 步 · 增强后的模型<br/>+ 用注入伪影训练的伪影判别器"]
   M0 --> C{"第 3 步 · 只用真实答案考试<br/>对比加 pipeline 前后"}
   M1 --> C
   R --> C
@@ -51,8 +164,8 @@ flowchart TB
   D["any single-cell dataset<br/>e.g. public Lake or mBDRC data"] --> P["Step 1 · inject known artifacts<br/>doublet · ambient RNA · low-quality cell"]
   P --> L["labelled training data<br/>every artifact recorded: type · strength · source cells"]
   L ~~~ R["real answers, the examiner<br/>Hoeft genotype doublets · mBDRC assay change<br/>Lake diseased cells · Abedini new-lab healthy donors"]
-  L ~~~ M0["original models (same set)<br/>QC baseline · current methods · foundation models · reference method"]
-  L --> M1["Step 2 · boosted models<br/>fine-tuned on the labelled data"]
+  L ~~~ M0["original models: healthy cells only<br/>omics model (PCA · scVI · foundation model) + anomaly score"]
+  L --> M1["Step 2 · boosted models<br/>+ an artifact discriminator trained on injected artifacts"]
   M0 --> C{"Step 3 · test on real answers only<br/>compare before vs after the pipeline"}
   M1 --> C
   R --> C
@@ -70,85 +183,6 @@ flowchart TB
   class M0,M1 model
 ```
 
-## 研究问题 / The question
-
-<!-- ZH -->
-**一个看起来异常的细胞，是病造成的，还是测量造成的？**
-
-肾脏单细胞和单核数据里，有些细胞和健康组织对不上。它可能真的病了，也可能是测量过程造成的（doublet、ambient RNA、低质量细胞、取样或消化时的应激），而这两种情况看起来很像。我们的理解（截至 2026 年 10 月）：现有方法会把两者都标成"异常"，而我们没找到一个带已知答案的数据集，能检验它们分不分得清、误报有多少。所以，建立在这些"异常细胞"之上的发现到底有多可信，现在说不清。
-<!-- EN -->
-**Is an abnormal-looking cell caused by disease, or by measurement?**
-
-In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Our reading (as of 2026-10): current methods flag both as "anomalous", and we found no dataset with known answers to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
-
-<!-- ZH -->
-本课题进一步问：**能不能用造出来的伪影，教会模型分清这两种情况？**
-<!-- EN -->
-This topic goes one step further: **can artifacts we create teach models to tell the two apart?**
-
-## 为什么重要 / Why it matters
-
-<!-- ZH -->
-- **测量问题造出过假的生物学结论。**在人脑单核数据里，以前被注释为"未成熟少突胶质细胞"的核，后来发现是被神经元 ambient RNA 污染的胶质细胞（[Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)）。
-- **肾脏单核数据的背景污染可以很高。**小鼠肾的混合品系实验里，用冷冻组织做的单核样本，背景污染明显高于来自同一批样本的单细胞样本（[Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md)：35% 对 11%、17% 对 3%）。冷冻的肾活检只能做单核（[Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md)："snRNA, but not scRNA, can be performed from frozen tissue"）。
-- **病和测量的信号本来就重叠。**Lake 2023 挑候选损伤状态时，部分依据是"基因少、线粒体转录多"，这也是低质量细胞的典型特征（我们的解读）；健康参考组织里也有 altered 状态，作者认为可能来自取样缺血或正常衰老（[Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)）。我们自己从 GEO 标签表里也数到：单核数据里健康人有 26% 的核是 altered（88,460 个健康人核里的 22,774 个）。
-<!-- EN -->
-- **Measurement effects have produced false biology.** In human brain single-nucleus data, nuclei previously annotated as "immature oligodendrocytes" turned out to be glia contaminated with neuronal ambient RNA ([Caglayan et al., Neuron 2022](https://doi.org/10.1016/j.neuron.2022.09.010)).
-- **Background contamination in kidney single-nucleus data can be high.** In mixed-strain mouse kidney, single-nucleus samples made from frozen tissue had clearly more background contamination than single-cell samples from the same material ([Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md): 35% vs 11%, 17% vs 3%). Frozen kidney biopsies can only be profiled by single-nucleus ([Hoeft 2024](../papers/hoeft-genotype-multiplexing-natcommun-2024/index.md): "snRNA, but not scRNA, can be performed from frozen tissue").
-- **Disease and measurement signals overlap.** Lake 2023 picked candidate injury states partly by few genes detected and many mitochondrial transcripts, which are also the usual signs of a low-quality cell (our reading); altered states also occur in healthy reference tissue, which the authors attribute possibly to ischaemia during acquisition or normal ageing ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md)). From the GEO label table we counted that 26% of nuclei from healthy donors are altered (22,774 of 88,460).
-
-## 为什么还没解决 / Why it is unsolved
-
-<!-- ZH -->
-- **伪影基准没有"病"这一维。**我们的理解（截至 2026 年 10 月）：doublet 和 ambient 各有自己的基准，我们找到的每个只管一种伪影，不含疾病状态。例如 [ambient 去除基准](../papers/ambient-rna-bench-biorxiv-2026/index.md) 用的是模拟数据、物种混合和基因型混合实验。
-- **找疾病状态的方法不区分伪影。**用健康参考找"改变的细胞状态"的方法（如 [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)）目标是找疾病状态；我们的理解：方法本身不判断报出来的细胞是不是伪影。doublet 和低质量细胞只在预处理时去掉（去掉一个疑似 doublet 的簇、只保留至少 1,000 个分子的细胞），没有 ambient 的处理；作者提醒的技术性误报来源是残余批次效应（Extended Data Fig. 7b,c）。
-- **没有误报控制。**现有注释流程里，带"拒判"选项的那些通常也只靠人为设定的条件，不给统计保证（[单细胞 conformal](../papers/conformal-scrna-bioinformatics-2025/index.md)："do not provide statistical guarantees"）；conformal 方法能界定误报率（[Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)），但前提是参考和查询数据可交换：单细胞 conformal 那篇里，查询来自肺肿瘤病人时，误报率保证就不成立了。我们的理解（截至 2026 年 10 月）：还没有人在肾脏数据上系统检验过。
-- **没有测试平台。**我们的理解（截至 2026 年 10 月）：我们看过的通用异常检测基准里没有单细胞表达数据，也没找到肾脏组学的异常检测基准。
-<!-- EN -->
-- **Artifact benchmarks have no disease axis.** Our reading (as of 2026-10): doublets and ambient RNA have their own benchmarks, and each one we found covers one artifact and no disease states. For example, the [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) uses simulated data, species-mixing and genotype-mixing experiments.
-- **Disease-state detection does not separate artifacts.** Methods that find altered cell states against a healthy reference (for example [Dann 2023](../papers/healthy-ref-natgenet-2023/index.md)) aim at disease states. Our reading: the method itself does not judge whether a flagged cell is an artifact. Doublets and low-quality cells are only removed in preprocessing (one suspected doublet cluster dropped, only cells with at least 1,000 molecules kept), with no ambient-RNA step; the technical source of false positives the authors warn about is residual batch effects (Extended Data Fig. 7b,c).
-- **There is no error control.** Annotation pipelines that offer a reject option usually rely on arbitrary assumptions and give no statistical guarantee ([conformal for single-cell](../papers/conformal-scrna-bioinformatics-2025/index.md): they "do not provide statistical guarantees"). Conformal methods can bound the false-alarm rate ([Bates 2023](../papers/conformal-outliers-annstat-2023/index.md)), but only when reference and query are exchangeable: in the single-cell conformal paper, the false-alarm guarantee failed when the query came from lung-tumour patients. Our reading (as of 2026-10): this has not been tested systematically on kidney data.
-- **There is no test bed.** Our reading (as of 2026-10): the general anomaly-detection benchmarks we looked at contain no single-cell expression data, and we found no anomaly-detection benchmark for kidney omics.
-
-### 我们的方向有没有人做过 / Has our direction been done?
-
-<!-- ZH -->
-检索截至 2026 年 10 月，不可能穷尽，所以论文里写"据我们所知"。
-
-- **零件都有，但每个只管一种伪影。**造 doublet 再训练检测器是标准做法（[Scrublet](https://doi.org/10.1016/j.cels.2018.11.005)、[DoubletFinder](https://doi.org/10.1016/j.cels.2019.03.003)、[scDblFinder](https://doi.org/10.12688/f1000research.73600.2)）；造"破损细胞"有一个 R 包（[DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective)，没有配套论文）；ambient 有读段层面的模拟器 ambisim（[Li 2025](https://doi.org/10.1101/2025.02.06.636969)，用来评测多人混样的拆分方法）。
-- **问题有人提过，但没人用注入去解决。**mapQC 指出映射不好会"falsely reporting technical artifacts as disease"（[Sikkema 2025](https://doi.org/10.1101/2025.05.23.655749)），但它处理的是批次和映射质量。
-- **基础模型没被拿伪影测过。**零样本评测发现 scGPT、Geneformer 的嵌入常不如简单方法（[Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)），但测的是批次效应；我们没找到拿 doublet、ambient 或低质量细胞测基础模型的研究。
-- **没找到的：**一个工具往任意真实数据里同时注入多种伪影并记录答案，再用它训练模型区分"伪影还是病"。这就是本课题的新意。
-
-**图像领域的证据和警告：**DRAEM 用造出来的缺陷训练，在 MVTec AD 上把图像级 AUROC 从此前最好的 95.5 提到 98.0，作者说造的缺陷不需要逼真（[Zavrtanik 2021](https://arxiv.org/abs/2108.07610)）。但一项跨 420 个任务的研究发现，造法和真实异常的产生机制对不上时，自监督训练反而可能变差（[Yoo 2022](https://arxiv.org/abs/2208.07734)）；单细胞里，用模拟 doublet 训练的检测器在 16 份带真实标签的数据上，最好的平均 AUPRC 只有 0.537（[Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)）。所以**按成因造伪影、用真实答案考试**是本课题的两条硬规则。
-<!-- EN -->
-Search up to October 2026; it cannot be exhaustive, so the paper will say "to our knowledge".
-
-- **The parts exist, each for one artifact.** Simulating doublets and training a detector on them is standard ([Scrublet](https://doi.org/10.1016/j.cels.2018.11.005), [DoubletFinder](https://doi.org/10.1016/j.cels.2019.03.003), [scDblFinder](https://doi.org/10.12688/f1000research.73600.2)); an R package simulates damaged cells ([DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective), no accompanying paper); ambisim simulates ambient molecules at read level ([Li 2025](https://doi.org/10.1101/2025.02.06.636969), built to benchmark demultiplexing).
-- **The problem has been named, not solved by injection.** mapQC warns that a poor mapping can result in "falsely reporting technical artifacts as disease" ([Sikkema 2025](https://doi.org/10.1101/2025.05.23.655749)), but it deals with batch and mapping quality.
-- **Foundation models have not been tested against artifacts.** A zero-shot evaluation found scGPT and Geneformer embeddings often behind simpler methods ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)), but on batch effects; we found no study testing foundation models against doublets, ambient RNA or low-quality cells.
-- **Not found:** a tool that injects several artifact types into any real dataset with recorded answers, then trains models to tell artifact from disease. That is what is new here.
-
-**Evidence and warnings from images:** DRAEM, trained on synthetic defects, raised image-level AUROC on MVTec AD from the previous best of 95.5 to 98.0, and its authors say the defects need not look realistic ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). But a study across 420 tasks found that when the augmentation does not match how real anomalies arise, self-supervised training can even hurt ([Yoo 2022](https://arxiv.org/abs/2208.07734)); in single cells, detectors trained on simulated doublets reach a best mean AUPRC of only 0.537 on 16 datasets with real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hence two hard rules here: **inject artifacts by their cause, and test on real answers.**
-
-## 要做出什么 / What we will produce
-
-| # | Deliverable / 交付物 | What it is / 是什么 | How we show it is useful / 怎么证明有用 |
-|---|---|---|---|
-| 1 | artifact-injection pipeline (open source) / 伪影注入 pipeline（开源） | takes any single-cell dataset (AnnData), injects doublets, ambient RNA and low-quality cells, and records for every cell the artifact type, strength and source cells / 输入任意单细胞数据（AnnData），注入 doublet、ambient RNA、低质量细胞，每个细胞都记录伪影类型、强度和来源细胞 | injected artifacts compared with real ones: calibrated on Janssen, checked against Hoeft / 注入的伪影和真实伪影比：用 Janssen 校准，用 Hoeft 检验 |
-| 2 | boost method / 增强方法 | a recipe to fine-tune models on injected artifacts so they separate healthy, diseased and artifact cells / 用注入的伪影微调模型，让它分出健康、病、伪影 | before-and-after comparison on real answers / 微调前后在真实答案上对比 |
-| 3 | real-answer test set, the examiner / 真实答案测试集（考官） | Hoeft genotype doublets, mBDRC assay changes, Lake diseased cells, Abedini healthy donors, with fixed tasks, metrics and donor splits / Hoeft 基因型 doublet、mBDRC 换测法、Lake 病细胞、Abedini 健康人，加上固定的任务、指标和按供体的划分 | released for reuse / 公开发布，别人可以复用 |
-| 4 | results table for four model groups / 四组模型的成绩表 | each model with and without the pipeline, reported per artifact type, plus leave-one-artifact-out / 每个模型跑"不加 / 加 pipeline"两遍，按伪影类型分开报，加"留一种伪影不训练" | the main result of the paper / 论文的主结果 |
-| 5 | dataset audit / 数据库体检报告 | the trained detector run over Lake and Abedini: estimated artifact share and suspicious altered clusters / 用训练好的检测器扫 Lake 和 Abedini：估计伪影比例，标出可疑的 altered 簇 | suspicious clusters reviewed by clinical experts, with inter-annotator agreement / 可疑簇交给临床专家复核，报告专家之间的一致性 |
-| 6 | stage 2: ATAC / 第二阶段：ATAC | the pipeline extended to RNA + ATAC / pipeline 扩展到 RNA + ATAC | depends on stage 1 / 视第一阶段进度 |
-
-<!-- ZH -->
-原始数据不再分发；发布的是代码、划分文件、注入记录和派生标签（Abedini 的派生标签要等许可确认）。
-<!-- EN -->
-Raw data are not redistributed; we release code, split files, injection records and derived labels (Abedini's derived labels only once its licence is confirmed).
-
-## 伪影注入 pipeline / The artifact-injection pipeline
-
 ### 注入哪几种伪影 / Which artifacts
 
 <!-- ZH -->
@@ -164,65 +198,80 @@ Three artifacts in the main line, **doublets first**: they have the strongest pr
 | dissociation stress / 解离应激 | injury: FOS, JUN up / 损伤：FOS、JUN 升高 | [Denisenko 2020](../datasets/denisenko-2020.md) (mouse) / 小鼠 | not injected: no precedent, and the main data are single-nucleus / 不注入：没有先例，主数据又是单核 |
 | batch or assay change / 批次、换测法 | — | not a per-cell artifact, cannot be injected / 不是单个细胞的伪影，注入不了 | tested on real data instead (T2b, T4) / 改用真实数据测（T2b、T4） |
 
-### 每种怎么注入、依据是什么 / How each is injected, and the precedent
+### 每种怎么注入 / How each is injected
 
 <!-- ZH -->
 三种伪影能模拟的程度差别很大：doublet 有成熟做法，ambient RNA 有现成的模型可以反过来用，低质量细胞只能近似。下面每种都写明具体做法和出处（2026-10-31 对原文和代码核实）。参数范围和"造出来的像不像真的"仍是假设，要用真实答案检验。
 <!-- EN -->
 The three artifacts can be simulated to very different degrees: doublets have a mature recipe, ambient RNA can reuse existing models in reverse, and low-quality cells can only be approximated. Each recipe below names its sources (checked against papers and code on 2026-10-31). Parameter ranges, and whether injected artifacts look like real ones, remain assumptions to be tested on real answers.
 
-#### doublet：以相加为主，部分缩小文库 / Doublets: mostly summed, some library sizes shrunk
+| Artifact / 伪影 | Recipe / 怎么造 | Maturity / 成熟度 | Main limit / 主要限制 |
+|---|---|---|---|
+| doublet | sum the raw counts of two cells of different types, shrinking a quarter of the library sizes, as in scDblFinder ([Germain 2022](https://doi.org/10.12688/f1000research.73600.2)) / 两个不同类型细胞的原始计数相加，四分之一缩小文库，照 scDblFinder 的做法（[Germain 2022](https://doi.org/10.12688/f1000research.73600.2)） | mature / 成熟 | simulated doublets are easier than real ones ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)); same-type doublets are invisible / 模拟的比真实的好找（[Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)）；同类 doublet 看不出来 |
+| ambient RNA | mix a background profile into each cell at a Beta-distributed fraction, reusing removal models in reverse (SoupX, DecontX, CellBender); fractions calibrated on Janssen / 按 Beta 分布的比例把背景谱混进每个细胞，把 SoupX、DecontX、CellBender 的模型反过来用；比例用 Janssen 校准 | needs a background profile / 需要背景谱 | Lake and mBDRC have no empty droplets, so the profile is approximate / Lake 和 mBDRC 没有空液滴，背景谱只能近似 |
+| low-quality cell / 低质量细胞 | single cells: remove cytoplasmic RNA; single nuclei: add cytoplasmic material / 单细胞：删胞质 RNA；单核：混入胞质成分 | approximate only / 只能近似 | no validated simulator; high mitochondrial share is normal for PT / 没有验证过的模拟器；PT 本来线粒体就高 |
 
 <!-- ZH -->
-- **三个工具的做法不同：**
-    - Scrublet 把随机两个细胞的**原始计数相加**："Doublets are simulated by adding the unnormalized counts"，造细胞数 2 倍的 doublet（[Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)）。
-    - DoubletFinder 把两个细胞的计数**取平均**，造到合并后数据的 25%；这样训练出的检测器找回了 demuxlet / Cell Hashing 标出的 73% / 64% 的 doublet（[McGinnis 2019](https://doi.org/10.1016/j.cels.2019.03.003)）。
-    - scDblFinder 默认 75% **相加**，其余 25% 相加后除以 2 再做 Poisson 重采样；**只在不同簇之间配对**，按簇大小成比例；先只保留文库大小在 5–95 百分位的细胞（[Germain 2022](https://doi.org/10.12688/f1000research.73600.2)）。
-- **为什么要缩小一部分文库：**在用基因型标注的真实数据里，doublet 的中位文库大小"systematically smaller than the sum"（Germain 2022, Fig. 1A）。同一篇比较过：相加和按文库重加权都"clearly superior to averaging"。
-- **我们的配方：**按 scDblFinder 的做法：原始计数 → 去掉文库大小两端各 5% → 跨细胞类型配对、按预期频率成比例 → 75% 直接相加，25% 相加后减半再 Poisson 重采样 → 造细胞数 0.8–2 倍。
-- **局限：**同类细胞组成的 doublet "virtually unidentifiable"（Germain 2022），单独标一层，不进主要指标；方法在模拟 doublet 上的成绩高于真实 doublet，真实标签上最好的平均 AUPRC 只有 0.537（[Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)）。检验用 Hoeft 的基因型 doublet。
+??? note "配方细节 · doublet：以相加为主，部分缩小文库"
 <!-- EN -->
-- **Three tools, three recipes:**
-    - Scrublet **sums the raw counts** of two random cells, "Doublets are simulated by adding the unnormalized counts", simulating twice as many doublets as cells ([Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)).
-    - DoubletFinder **averages** two cells' counts, up to 25% of the merged data; a detector trained this way recovered 73% and 64% of the doublets labelled by demuxlet and Cell Hashing ([McGinnis 2019](https://doi.org/10.1016/j.cels.2019.03.003)).
-    - scDblFinder by default **sums** 75% of pairs and, for the other 25%, halves the sum and Poisson-resamples it; it **pairs only across clusters**, in proportion to cluster size, after keeping cells within the 5–95th library-size percentiles ([Germain 2022](https://doi.org/10.12688/f1000research.73600.2)).
-- **Why shrink some library sizes:** in genotype-labelled real data, median doublet library sizes were "systematically smaller than the sum" of their two cell types (Germain 2022, Fig. 1A). The same paper found that summing and size re-weighting were both "clearly superior to averaging".
-- **Our recipe:** follow scDblFinder: raw counts → drop the top and bottom 5% of library sizes → pair across cell types in proportion to expected frequency → sum 75%, halve and Poisson-resample 25% → simulate 0.8–2 times as many doublets as cells.
-- **Limits:** same-type doublets are "virtually unidentifiable" (Germain 2022), so they get their own label and stay out of the main metrics; methods score higher on simulated than on real doublets, with a best mean AUPRC of only 0.537 on real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hoeft's genotype doublets are the test.
-
-#### ambient RNA：按比例混入背景谱 / Ambient RNA: a background profile mixed in at a set fraction
+??? note "Recipe details · Doublets: mostly summed, some library sizes shrunk"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **三个工具的做法不同：**
+        - Scrublet 把随机两个细胞的**原始计数相加**："Doublets are simulated by adding the unnormalized counts"，造细胞数 2 倍的 doublet（[Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)）。
+        - DoubletFinder 把两个细胞的计数**取平均**，造到合并后数据的 25%；这样训练出的检测器找回了 demuxlet / Cell Hashing 标出的 73% / 64% 的 doublet（[McGinnis 2019](https://doi.org/10.1016/j.cels.2019.03.003)）。
+        - scDblFinder 默认 75% **相加**，其余 25% 相加后除以 2 再做 Poisson 重采样；**只在不同簇之间配对**，按簇大小成比例；先只保留文库大小在 5–95 百分位的细胞（[Germain 2022](https://doi.org/10.12688/f1000research.73600.2)）。
+    - **为什么要缩小一部分文库：**在用基因型标注的真实数据里，doublet 的中位文库大小"systematically smaller than the sum"（Germain 2022, Fig. 1A）。同一篇比较过：相加和按文库重加权都"clearly superior to averaging"。
+    - **我们的配方：**按 scDblFinder 的做法：原始计数 → 去掉文库大小两端各 5% → 跨细胞类型配对、按预期频率成比例 → 75% 直接相加，25% 相加后减半再 Poisson 重采样 → 造细胞数 0.8–2 倍。
+    - **局限：**同类细胞组成的 doublet "virtually unidentifiable"（Germain 2022），单独标一层，不进主要指标；方法在模拟 doublet 上的成绩高于真实 doublet，真实标签上最好的平均 AUPRC 只有 0.537（[Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)）。检验用 Hoeft 的基因型 doublet。
+    <!-- EN -->
+    - **Three tools, three recipes:**
+        - Scrublet **sums the raw counts** of two random cells, "Doublets are simulated by adding the unnormalized counts", simulating twice as many doublets as cells ([Wolock 2019](https://doi.org/10.1016/j.cels.2018.11.005)).
+        - DoubletFinder **averages** two cells' counts, up to 25% of the merged data; a detector trained this way recovered 73% and 64% of the doublets labelled by demuxlet and Cell Hashing ([McGinnis 2019](https://doi.org/10.1016/j.cels.2019.03.003)).
+        - scDblFinder by default **sums** 75% of pairs and, for the other 25%, halves the sum and Poisson-resamples it; it **pairs only across clusters**, in proportion to cluster size, after keeping cells within the 5–95th library-size percentiles ([Germain 2022](https://doi.org/10.12688/f1000research.73600.2)).
+    - **Why shrink some library sizes:** in genotype-labelled real data, median doublet library sizes were "systematically smaller than the sum" of their two cell types (Germain 2022, Fig. 1A). The same paper found that summing and size re-weighting were both "clearly superior to averaging".
+    - **Our recipe:** follow scDblFinder: raw counts → drop the top and bottom 5% of library sizes → pair across cell types in proportion to expected frequency → sum 75%, halve and Poisson-resample 25% → simulate 0.8–2 times as many doublets as cells.
+    - **Limits:** same-type doublets are "virtually unidentifiable" (Germain 2022), so they get their own label and stay out of the main metrics; methods score higher on simulated than on real doublets, with a best mean AUPRC of only 0.537 on real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hoeft's genotype doublets are the test.
 
 <!-- ZH -->
-- **模型（去除工具反过来用）：**
-    - SoupX：观测计数 = 细胞本身 + 污染比例 × 背景谱；背景谱从**空液滴**估计，默认假设"a constant contamination fraction within a channel"（[Young & Behjati 2020](https://doi.org/10.1093/gigascience/giaa151)）。
-    - DecontX：每个细胞的污染比例来自"a global beta distribution"，污染谱默认是"a weighted combination of all other cell population distributions"，也可以换成空液滴（[Yang 2020](https://doi.org/10.1186/s13059-020-1950-6)）。它所在的 celda 包有模拟函数：总计数不变，按 Beta 抽比例，用二项分布决定多少计数被污染替换。这个函数造的是全合成矩阵，我们复用的是它的做法，不能直接用在真实数据上。
-    - CellBender 把背景当作加在细胞上的噪声，背景谱从无细胞液滴学出来（[Fleming 2023](https://doi.org/10.1038/s41592-023-01943-7)）。
-    - [ambient 去除基准](../papers/ambient-rna-bench-biorxiv-2026/index.md) 也是按细胞抽污染比例、从其他细胞类型抽 ambient 计数来造模拟数据。
-- **校准：**[Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md) 在小鼠肾里按基因型测出每个细胞平均 3–35% 的背景；冷冻组织的单核远高于单细胞（35% 对 11%、17% 对 3%）；单核的污染谱更像空液滴（Spearman ρ≈0.85），不像细胞本身（≈0.50）。
-- **我们的配方：**每个样本一个背景谱 → 每个细胞抽污染比例（Beta 分布，均值在 3–35% 之间扫，单核取高段）→ 两种注入都试：总计数不变地替换（DecontX / celda 做法），或在原计数上叠加背景（CellBender 做法）→ 原计数和注入计数分开存，作为答案。
-- **局限：**Lake 2023 和 mBDRC 都没有空液滴。没有空液滴时，背景谱可以用其他细胞群的谱（DecontX 默认）或全部细胞之和（SoupX 文档的做法），但 Janssen 显示单核的真实背景更像空液滴，所以这是近似；更好的背景谱来自 Janssen（小鼠，有空液滴）或从 FASTQ 重跑 Hoeft（人肾）。
+??? note "配方细节 · ambient RNA：按比例混入背景谱"
 <!-- EN -->
-- **Models (removal tools used in reverse):**
-    - SoupX: observed counts = the cell's own counts + contamination fraction × background profile; the profile is estimated from **empty droplets**, and SoupX "assumes a constant contamination fraction within a channel" ([Young & Behjati 2020](https://doi.org/10.1093/gigascience/giaa151)).
-    - DecontX: each cell's contamination fraction comes "from a global beta distribution", and the contamination profile is by default "a weighted combination of all other cell population distributions", or empty droplets if given ([Yang 2020](https://doi.org/10.1186/s13059-020-1950-6)). Its package celda has a simulation function: total counts fixed, a Beta-distributed fraction per cell, and a binomial draw for how many counts are replaced by contamination. That function builds a fully synthetic matrix, so we reuse its recipe rather than call it on real data.
-    - CellBender treats background as noise added to each cell, with the profile learned from cell-free droplets ([Fleming 2023](https://doi.org/10.1038/s41592-023-01943-7)).
-    - The [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) also simulates data by drawing a contamination fraction per cell and sampling ambient counts from other cell types.
-- **Calibration:** [Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md) measured by genotype an average of 3–35% background per cell in mouse kidney; single nuclei from frozen tissue carry far more than single cells (35% vs 11%, 17% vs 3%); and the nuclear contamination profile resembles empty droplets (Spearman ρ≈0.85) more than the cells themselves (≈0.50).
-- **Our recipe:** one background profile per sample → a contamination fraction per cell (Beta-distributed, mean swept over 3–35%, the upper range for nuclei) → try both injection forms: replacement at fixed total counts (DecontX / celda) and background added on top (CellBender) → store native and injected counts separately as the answer.
-- **Limits:** Lake 2023 and mBDRC have no empty droplets. Without them, the profile can be the other cell populations (DecontX default) or the sum over all cells (as in the SoupX documentation), but Janssen shows that nuclear background resembles empty droplets, so this is an approximation; better profiles come from Janssen (mouse, with empty droplets) or a Hoeft rerun from FASTQ (human kidney).
-
-#### 低质量细胞：只能近似，单细胞和单核做法不同 / Low-quality cells: approximate only, and different for cells and nuclei
+??? note "Recipe details · Ambient RNA: a background profile mixed in at a set fraction"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **模型（去除工具反过来用）：**
+        - SoupX：观测计数 = 细胞本身 + 污染比例 × 背景谱；背景谱从**空液滴**估计，默认假设"a constant contamination fraction within a channel"（[Young & Behjati 2020](https://doi.org/10.1093/gigascience/giaa151)）。
+        - DecontX：每个细胞的污染比例来自"a global beta distribution"，污染谱默认是"a weighted combination of all other cell population distributions"，也可以换成空液滴（[Yang 2020](https://doi.org/10.1186/s13059-020-1950-6)）。它所在的 celda 包有模拟函数：总计数不变，按 Beta 抽比例，用二项分布决定多少计数被污染替换。这个函数造的是全合成矩阵，我们复用的是它的做法，不能直接用在真实数据上。
+        - CellBender 把背景当作加在细胞上的噪声，背景谱从无细胞液滴学出来（[Fleming 2023](https://doi.org/10.1038/s41592-023-01943-7)）。
+        - [ambient 去除基准](../papers/ambient-rna-bench-biorxiv-2026/index.md) 也是按细胞抽污染比例、从其他细胞类型抽 ambient 计数来造模拟数据。
+    - **校准：**[Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md) 在小鼠肾里按基因型测出每个细胞平均 3–35% 的背景；冷冻组织的单核远高于单细胞（35% 对 11%、17% 对 3%）；单核的污染谱更像空液滴（Spearman ρ≈0.85），不像细胞本身（≈0.50）。
+    - **我们的配方：**每个样本一个背景谱 → 每个细胞抽污染比例（Beta 分布，均值在 3–35% 之间扫，单核取高段）→ 两种注入都试：总计数不变地替换（DecontX / celda 做法），或在原计数上叠加背景（CellBender 做法）→ 原计数和注入计数分开存，作为答案。
+    - **局限：**Lake 2023 和 mBDRC 都没有空液滴。没有空液滴时，背景谱可以用其他细胞群的谱（DecontX 默认）或全部细胞之和（SoupX 文档的做法），但 Janssen 显示单核的真实背景更像空液滴，所以这是近似；更好的背景谱来自 Janssen（小鼠，有空液滴）或从 FASTQ 重跑 Hoeft（人肾）。
+    <!-- EN -->
+    - **Models (removal tools used in reverse):**
+        - SoupX: observed counts = the cell's own counts + contamination fraction × background profile; the profile is estimated from **empty droplets**, and SoupX "assumes a constant contamination fraction within a channel" ([Young & Behjati 2020](https://doi.org/10.1093/gigascience/giaa151)).
+        - DecontX: each cell's contamination fraction comes "from a global beta distribution", and the contamination profile is by default "a weighted combination of all other cell population distributions", or empty droplets if given ([Yang 2020](https://doi.org/10.1186/s13059-020-1950-6)). Its package celda has a simulation function: total counts fixed, a Beta-distributed fraction per cell, and a binomial draw for how many counts are replaced by contamination. That function builds a fully synthetic matrix, so we reuse its recipe rather than call it on real data.
+        - CellBender treats background as noise added to each cell, with the profile learned from cell-free droplets ([Fleming 2023](https://doi.org/10.1038/s41592-023-01943-7)).
+        - The [ambient-removal benchmark](../papers/ambient-rna-bench-biorxiv-2026/index.md) also simulates data by drawing a contamination fraction per cell and sampling ambient counts from other cell types.
+    - **Calibration:** [Janssen 2023](../papers/janssen-ambient-noise-genomebiol-2023/index.md) measured by genotype an average of 3–35% background per cell in mouse kidney; single nuclei from frozen tissue carry far more than single cells (35% vs 11%, 17% vs 3%); and the nuclear contamination profile resembles empty droplets (Spearman ρ≈0.85) more than the cells themselves (≈0.50).
+    - **Our recipe:** one background profile per sample → a contamination fraction per cell (Beta-distributed, mean swept over 3–35%, the upper range for nuclei) → try both injection forms: replacement at fixed total counts (DecontX / celda) and background added on top (CellBender) → store native and injected counts separately as the answer.
+    - **Limits:** Lake 2023 and mBDRC have no empty droplets. Without them, the profile can be the other cell populations (DecontX default) or the sum over all cells (as in the SoupX documentation), but Janssen shows that nuclear background resembles empty droplets, so this is an approximation; better profiles come from Janssen (mouse, with empty droplets) or a Hoeft rerun from FASTQ (human kidney).
 
 <!-- ZH -->
-- **机制：**显微镜确认的破损细胞里，"cytoplasmic RNA will be lost, but RNAs enclosed in the mitochondria will be retained"；mtDNA 编码的基因只是"marginally upregulated"，而整个线粒体相关基因类别平均是下降的（[Ilicic 2016](https://doi.org/10.1186/s13059-016-0888-1)，小鼠 ES 细胞，Fluidigm C1，不是液滴也不是肾）。
-- **单细胞数据：删胞质 RNA。**唯一现成的模拟器是 R 包 [DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective)：每个细胞按 Beta 分布抽损失比例（默认 0.1–0.8），按表达量加权、不放回地删掉胞质基因的计数，保留 MT- 基因和核内 lncRNA（如 MALAT1、NEAT1）。它没有论文、没有同行评审，也没用实验标注的破损细胞验证过。其他质控工具（ddqc、miQC、valiDrops、QClus 等）都只检测，不模拟。
-- **单核数据：不是"少了"，而是"多了"。**主线数据是单核，细胞核本来就没有胞质。肾单核数据里线粒体转录本"not expressed in nuclei"，测到的线粒体读段被认为来自附着在核膜上的线粒体（[Lake 2019](../papers/lake-snrna-pipeline-natcommun-2019/index.md)）；单核数据被污染时线粒体比例上升、unspliced 比例下降，"as mitochondria are only present in the cell cytoplasm"（[Schmauch 2024, QClus](https://doi.org/10.1093/nar/gkae1145)）。所以低质量的核按"混入胞质成分"来造：加线粒体计数和 spliced 读段。这和 ambient 注入很接近，两者的边界要在设计里定清楚。
-- **局限：**没有经过验证的模拟器，参数范围都是假设；肾近端小管本来线粒体就高，固定 10% 的阈值会删掉真实的肾实质细胞（[Subramanian 2022](https://doi.org/10.1186/s13059-022-02820-w)），所以 PT 要单独评估。论文要拿注入的细胞和 Lake 里真实的低 QC 细胞比分布。
+??? note "配方细节 · 低质量细胞：只能近似，单细胞和单核做法不同"
 <!-- EN -->
-- **Mechanism:** in microscopy-labelled broken cells, "cytoplasmic RNA will be lost, but RNAs enclosed in the mitochondria will be retained"; mtDNA-encoded genes are only "marginally upregulated", while the wider class of mitochondria-related genes falls on average ([Ilicic 2016](https://doi.org/10.1186/s13059-016-0888-1); mouse ES cells on Fluidigm C1, neither droplets nor kidney).
-- **Single cells: remove cytoplasmic RNA.** The only ready simulator is the R package [DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective): a Beta-distributed loss fraction per cell (default 0.1–0.8), with cytoplasmic gene counts removed by abundance-weighted sampling without replacement, keeping MT- genes and nuclear lncRNAs such as MALAT1 and NEAT1. It has no paper, no peer review and no validation against experimentally labelled damaged cells. Other QC tools (ddqc, miQC, valiDrops, QClus and others) detect but do not simulate.
-- **Single nuclei: not less, but more.** The main data are single-nucleus, and nuclei have no cytoplasm. In kidney single-nucleus data, mitochondrial transcripts are "not expressed in nuclei", and the mitochondrial reads seen are attributed to mitochondria attached to the nuclear membrane ([Lake 2019](../papers/lake-snrna-pipeline-natcommun-2019/index.md)); when nuclei are contaminated, the mitochondrial share rises and the unspliced share falls, "as mitochondria are only present in the cell cytoplasm" ([Schmauch 2024, QClus](https://doi.org/10.1093/nar/gkae1145)). So low-quality nuclei are made by adding cytoplasmic material: mitochondrial counts and spliced reads. This is close to ambient injection, and the design must draw the line between the two.
-- **Limits:** no simulator has been validated, so all parameter ranges are assumptions; kidney proximal tubule naturally has a high mitochondrial share, and a fixed 10% cut-off removes real kidney parenchymal cells ([Subramanian 2022](https://doi.org/10.1186/s13059-022-02820-w)), so PT is scored separately. The paper must compare injected cells with Lake's real low-QC cells.
+??? note "Recipe details · Low-quality cells: approximate only, and different for cells and nuclei"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **机制：**显微镜确认的破损细胞里，"cytoplasmic RNA will be lost, but RNAs enclosed in the mitochondria will be retained"；mtDNA 编码的基因只是"marginally upregulated"，而整个线粒体相关基因类别平均是下降的（[Ilicic 2016](https://doi.org/10.1186/s13059-016-0888-1)，小鼠 ES 细胞，Fluidigm C1，不是液滴也不是肾）。
+    - **单细胞数据：删胞质 RNA。**唯一现成的模拟器是 R 包 [DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective)：每个细胞按 Beta 分布抽损失比例（默认 0.1–0.8），按表达量加权、不放回地删掉胞质基因的计数，保留 MT- 基因和核内 lncRNA（如 MALAT1、NEAT1）。它没有论文、没有同行评审，也没用实验标注的破损细胞验证过。其他质控工具（ddqc、miQC、valiDrops、QClus 等）都只检测，不模拟。
+    - **单核数据：不是"少了"，而是"多了"。**主线数据是单核，细胞核本来就没有胞质。肾单核数据里线粒体转录本"not expressed in nuclei"，测到的线粒体读段被认为来自附着在核膜上的线粒体（[Lake 2019](../papers/lake-snrna-pipeline-natcommun-2019/index.md)）；单核数据被污染时线粒体比例上升、unspliced 比例下降，"as mitochondria are only present in the cell cytoplasm"（[Schmauch 2024, QClus](https://doi.org/10.1093/nar/gkae1145)）。所以低质量的核按"混入胞质成分"来造：加线粒体计数和 spliced 读段。这和 ambient 注入很接近，两者的边界要在设计里定清楚。
+    - **局限：**没有经过验证的模拟器，参数范围都是假设；肾近端小管本来线粒体就高，固定 10% 的阈值会删掉真实的肾实质细胞（[Subramanian 2022](https://doi.org/10.1186/s13059-022-02820-w)），所以 PT 要单独评估。论文要拿注入的细胞和 Lake 里真实的低 QC 细胞比分布。
+    <!-- EN -->
+    - **Mechanism:** in microscopy-labelled broken cells, "cytoplasmic RNA will be lost, but RNAs enclosed in the mitochondria will be retained"; mtDNA-encoded genes are only "marginally upregulated", while the wider class of mitochondria-related genes falls on average ([Ilicic 2016](https://doi.org/10.1186/s13059-016-0888-1); mouse ES cells on Fluidigm C1, neither droplets nor kidney).
+    - **Single cells: remove cytoplasmic RNA.** The only ready simulator is the R package [DamageDetective](https://doi.org/10.32614/CRAN.package.DamageDetective): a Beta-distributed loss fraction per cell (default 0.1–0.8), with cytoplasmic gene counts removed by abundance-weighted sampling without replacement, keeping MT- genes and nuclear lncRNAs such as MALAT1 and NEAT1. It has no paper, no peer review and no validation against experimentally labelled damaged cells. Other QC tools (ddqc, miQC, valiDrops, QClus and others) detect but do not simulate.
+    - **Single nuclei: not less, but more.** The main data are single-nucleus, and nuclei have no cytoplasm. In kidney single-nucleus data, mitochondrial transcripts are "not expressed in nuclei", and the mitochondrial reads seen are attributed to mitochondria attached to the nuclear membrane ([Lake 2019](../papers/lake-snrna-pipeline-natcommun-2019/index.md)); when nuclei are contaminated, the mitochondrial share rises and the unspliced share falls, "as mitochondria are only present in the cell cytoplasm" ([Schmauch 2024, QClus](https://doi.org/10.1093/nar/gkae1145)). So low-quality nuclei are made by adding cytoplasmic material: mitochondrial counts and spliced reads. This is close to ambient injection, and the design must draw the line between the two.
+    - **Limits:** no simulator has been validated, so all parameter ranges are assumptions; kidney proximal tubule naturally has a high mitochondrial share, and a fixed 10% cut-off removes real kidney parenchymal cells ([Subramanian 2022](https://doi.org/10.1186/s13059-022-02820-w)), so PT is scored separately. The paper must compare injected cells with Lake's real low-QC cells.
 
 ### 设计规则 / Design rules
 
@@ -245,48 +294,205 @@ These follow from the evidence above (our synthesis):
 5. **Vary the amount and the recipe:** the ratio of synthetic to normal cells, one recipe or a mix.
 6. **Set recipes per assay and cell type.** Low-quality recipes differ for single cells and single nuclei; the mitochondrial share is judged per cell type, and PT is scored separately.
 
-### 第二阶段：ATAC / Stage 2: ATAC
+<!-- ZH -->
+??? note "第二阶段：ATAC（建议，待定）"
+<!-- EN -->
+??? note "Stage 2: ATAC (suggested, not decided)"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    先做 RNA；ATAC 等第一阶段跑通再加（建议，待定）。ATAC 上也有注入先例：ArchR 造"合成 doublet"再找近邻（[Granja 2021](https://doi.org/10.1038/s41588-021-00790-6)）；AMULET 把两个核的读段计数相加来模拟 doublet（[Thibodeau 2021](https://doi.org/10.1186/s13059-021-02469-x)）；ambisim 能在 snRNA + snATAC 里控制游离分子的比例（[Li 2025](https://doi.org/10.1101/2025.02.06.636969)）；低质量的核用 TSS 富集、fragment 数等指标判断，阈值要按数据调。scDblFinder 的文档也提醒，默认参数在 scATAC 上"performs very poorly"。
+    <!-- EN -->
+    RNA first; ATAC is added once stage 1 works (suggested, not decided). ATAC has injection precedents too: ArchR generates "synthetic doublets" and finds their neighbours ([Granja 2021](https://doi.org/10.1038/s41588-021-00790-6)); AMULET simulates doublets by adding two nuclei's read counts ([Thibodeau 2021](https://doi.org/10.1186/s13059-021-02469-x)); ambisim controls ambient molecule proportions in joint snRNA/snATAC data ([Li 2025](https://doi.org/10.1101/2025.02.06.636969)); low-quality nuclei are judged by TSS enrichment, fragment counts and similar metrics, with thresholds tuned per dataset. The scDblFinder documentation also warns that with default parameters it "performs very poorly" on scATAC.
+
+## 第 2 步 · 模型 / Step 2 · Models {#models}
 
 <!-- ZH -->
-先做 RNA；ATAC 等第一阶段跑通再加（建议，待定）。ATAC 上也有注入先例：ArchR 造"合成 doublet"再找近邻（[Granja 2021](https://doi.org/10.1038/s41588-021-00790-6)）；AMULET 把两个核的读段计数相加来模拟 doublet（[Thibodeau 2021](https://doi.org/10.1186/s13059-021-02469-x)）；ambisim 能在 snRNA + snATAC 里控制游离分子的比例（[Li 2025](https://doi.org/10.1101/2025.02.06.636969)）；低质量的核用 TSS 富集、fragment 数等指标判断，阈值要按数据调。scDblFinder 的文档也提醒，默认参数在 scATAC 上"performs very poorly"。
+这一步用到**两类模型**，它们是串起来用的：组学模型先把细胞变成一个向量，异常检测模型再根据向量打分。
+
+> <!-- ZH --> 细胞的基因计数 → **组学模型**（变成向量）→ **异常检测模型**（打分）→ 阈值 → 判断
 <!-- EN -->
-RNA first; ATAC is added once stage 1 works (suggested, not decided). ATAC has injection precedents too: ArchR generates "synthetic doublets" and finds their neighbours ([Granja 2021](https://doi.org/10.1038/s41588-021-00790-6)); AMULET simulates doublets by adding two nuclei's read counts ([Thibodeau 2021](https://doi.org/10.1186/s13059-021-02469-x)); ambisim controls ambient molecule proportions in joint snRNA/snATAC data ([Li 2025](https://doi.org/10.1101/2025.02.06.636969)); low-quality nuclei are judged by TSS enrichment, fragment counts and similar metrics, with thresholds tuned per dataset. The scDblFinder documentation also warns that with default parameters it "performs very poorly" on scATAC.
+This step uses **two kinds of models**, chained together: an omics model turns each cell into a vector, and an anomaly-detection model scores the vectors.
 
-## 模型 / Models
+> <!-- EN --> a cell's gene counts → **omics model** (a vector) → **anomaly-detection model** (a score) → threshold → call
 
-<!-- ZH -->
-模型本身可能不够好，所以要同时跑四组，**每个模型都跑两遍：不加 pipeline 一次，加 pipeline 一次**，在真实答案上比。如果所有模型都变好，pipeline 有用；只有一部分变好，说明要看模型结构；都没变好，说明合成伪影和真实伪影差太远，要回头改注入。
-<!-- EN -->
-The models themselves may not be good enough, so four groups run side by side, and **every model runs twice, without and with the pipeline**, compared on real answers. If all improve, the pipeline works; if only some do, it depends on the model; if none do, the injected artifacts are too far from real ones and the injection must be revised.
+### 两类模型 / Two kinds of models
 
-| Group / 组 | Models / 模型 | Answers / 回答什么 |
+| | Omics model / 组学模型 | Anomaly-detection model / 异常检测模型 |
 |---|---|---|
-| 1 · QC baseline / QC 基线 | gene count, mitochondrial share / 只看基因数、线粒体比例 | does a high score only come from "few genes"? / 高分是不是只靠"基因少"？ |
-| 2 · existing methods / 现有方法 | kNN, Isolation Forest, autoencoder, scVI; scDblFinder, SoupX / kNN、Isolation Forest、autoencoder、scVI；scDblFinder、SoupX | where current methods stand, and whether the pipeline helps them / 现有水平在哪，加了 pipeline 有没有变好 |
-| 3 · foundation models / 基础模型 | open models, fine-tuned (candidates below) / 开源模型，微调（候选见下） | does the pipeline help large models, and do they mistake artifacts for disease? / pipeline 对大模型有没有用，它们会不会把伪影当成病？ |
-| 4 · our reference method / 我们的参考方法 | healthy reference, nearest-neighbour score, false-alarm control, disease-or-artifact call / 健康参考 + 最近邻打分 + 误报控制 + "病还是伪影"的判断 | a controllable starting point if current methods all fail / 现有方法都不行时，一个我们能控制、能改的起点 |
+| What it does / 做什么 | describes a cell as a vector: it learns what cells look like / 把细胞描述成一个向量：学的是"细胞长什么样" | scores a cell: how far it is from normal / 给细胞打分：和正常差多远 |
+| Input → output / 输入 → 输出 | a cell's gene counts → a vector / 一个细胞的基因计数 → 一个向量 | vectors → one anomaly score per cell / 一组向量 → 每个细胞一个异常分 |
+| Candidates / 候选 | HVG + PCA (the simplest); scVI; foundation models Geneformer V2 and scGPT / 高变基因 + PCA（最简单）；scVI；基础模型 Geneformer V2、scGPT | kNN distance, Isolation Forest, autoencoder reconstruction error / kNN 距离、Isolation Forest、autoencoder 重建误差 |
+| Can it call anomalies alone? / 自己能判异常吗 | no / 不能 | yes, once cells are vectors / 能，但要先有向量 |
+
+<!-- ZH -->
+主线用 RNA 模型，因为主数据是单核 RNA；ATAC（测 DNA 哪些区域是打开的）是第二阶段。
+<!-- EN -->
+The main line uses RNA models, since the main data are single-nucleus RNA; ATAC (which regions of DNA are open) is stage 2.
+
+### pipeline 用在哪一环 / Where the pipeline acts
+
+<!-- ZH -->
+注入的伪影（带标签）可以用在两处：
+
+1. **异常检测这一环（先做）：**组学模型不动；在它的向量上，用注入的伪影训练一个**伪影判别器**，和原来的异常分配合着判断。图像领域有同样的思路：把一组已知的异常样本加进训练（outlier exposure，[Hendrycks 2019](https://arxiv.org/abs/1812.04606)），或者像 DRAEM 那样用造出来的缺陷训练判别器（[Zavrtanik 2021](https://arxiv.org/abs/2108.07610)）。
+2. **组学模型这一环（后做）：**用注入的伪影微调组学模型本身（如 Geneformer），让向量本身就能把伪影和病分开。成本高得多。
+<!-- EN -->
+Injected, labelled artifacts can act in two places:
+
+1. **On the anomaly-detection step (first):** the omics model is left unchanged; on its vectors, an **artifact discriminator** is trained on the injected artifacts and combined with the original anomaly score. Image anomaly detection uses the same idea: train with a set of known outliers (outlier exposure, [Hendrycks 2019](https://arxiv.org/abs/1812.04606)), or train a discriminator on synthetic defects as DRAEM does ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)).
+2. **On the omics model (later):** fine-tune the omics model itself (e.g. Geneformer) on the injected artifacts, so that its vectors already separate artifacts from disease. This costs far more.
+
+### 加 pipeline 前后怎么判断 / How a cell is called, before and after
+
+<!-- ZH -->
+- **不加 pipeline：**异常检测模型只学健康细胞。分高就是"异常"，分不出病和伪影。
+- **加 pipeline：**训练时只有两种标签：**健康**和**伪影**（注入的）；**没有"病"的标签**，病细胞只在考试时出现（T1 用 Lake 的 altered）。判断规则：
+<!-- EN -->
+- **Without the pipeline:** the anomaly-detection model learns healthy cells only. A high score means "anomalous", with no way to tell disease from artifact.
+- **With the pipeline:** training has only two labels, **healthy** and **artifact** (injected); there is **no disease label**, and diseased cells appear only at test time (T1 uses Lake's altered states). The call is:
+
+| Anomaly score / 异常分 | Artifact discriminator / 伪影判别器 | Call / 判为 |
+|---|---|---|
+| low / 低 | — | normal / 正常 |
+| high / 高 | artifact-like / 像伪影 | artifact / 伪影 |
+| high / 高 | not artifact-like / 不像伪影 | possibly disease / 可能是病 |
+
+<!-- ZH -->
+阈值怎么定、拿不准的细胞怎么办，见下面"拿不准的细胞"。
+<!-- EN -->
+How thresholds are set, and what happens to uncertain cells, is under "Uncertain cells" below.
+
+### 核心比较 / The core comparison
+
+<!-- ZH -->
+在每种组学模型上比较"不加"和"加 pipeline"：**同一个向量、同一个异常分，唯一的差别是有没有用注入的伪影训练**。这样才能干净地回答"pipeline 有没有用"。在几种组学模型上都比一遍：
+
+- 都变好 → pipeline 有用；
+- 只有一部分变好 → 效果取决于组学模型（比如大模型受益更多或更少）；
+- 都没变好 → 注入的伪影和真实的差太远，要回头改注入。
+
+实验规模先收窄（建议，待定）：异常分先只用 kNN，Isolation Forest 和 autoencoder 放附录；组学模型先用冻结的向量，微调放第二步。之前说的"我们的参考方法"，就是这里最简单的一种组合：PCA + kNN + conformal 阈值 + 伪影判别器。
+<!-- EN -->
+On each omics model, compare without and with the pipeline: **same vectors, same anomaly score; the only difference is whether injected artifacts were used in training**. This answers cleanly whether the pipeline helps. Run the comparison on several omics models:
+
+- all improve → the pipeline works;
+- only some improve → the gain depends on the omics model (e.g. large models gain more, or less);
+- none improve → the injected artifacts are too far from real ones, and the injection must be revised.
+
+Keep the first round small (suggested, not decided): kNN as the anomaly score, with Isolation Forest and the autoencoder in the appendix; frozen vectors first, fine-tuning later. The "reference method" mentioned earlier is simply the simplest combination here: PCA + kNN + conformal thresholds + artifact discriminator.
+
+### 底线和参照 / Floor and reference points
+
+<!-- ZH -->
+- **QC 底线：**只用基因数和线粒体比例打分，不训练，只跑一遍。Lake 判"病"的条件里本来就有"基因少、线粒体多"，复杂方法要是赢不了它，就说明只学到了"质量差"。
+- **专门的伪影工具：**scDblFinder、scds 自己就用模拟 doublet 训练过，等于已经"加了 pipeline"。它们只在 T2（找真实 doublet）上当参照，看专门工具能做到多好，不参与加前加后的比较。
+- **SoupX、DecontX 是修正工具，不是判别器：**SoupX 按样本估一个污染比例，DecontX 给每个细胞估一个污染比例，然后都去修正计数；它们不判断一个细胞是伪影还是病。我们借它们的模型来注入 ambient（见第 1 步），DecontX 的每个细胞的污染估计可以在 ambient 任务上当参照。
+- **检验模型（用途 ②）是单独一个实验：**不增强，直接看注入的伪影在组学模型（尤其基础模型）的向量空间里离真实病细胞近不近。离得近，说明这个模型容易把伪影当成病。
+<!-- EN -->
+- **QC floor:** a score from gene count and mitochondrial share only; no training, run once. Lake's criteria for disease already include "few genes, many mitochondrial transcripts", so a complex method that cannot beat this floor has only learned "poor quality".
+- **Specialist artifact tools:** scDblFinder and scds are already trained on simulated doublets, i.e. they already "use a pipeline". They serve as reference points on T2 (finding real doublets), showing how far a specialist tool gets, and are not part of the before/after comparison.
+- **SoupX and DecontX correct counts; they are not discriminators:** SoupX estimates one contamination fraction per sample, DecontX one per cell, and both then correct the counts; neither decides whether a cell is an artifact or diseased. We borrow their models to inject ambient RNA (see Step 1), and DecontX's per-cell estimate can serve as a reference point on the ambient task.
+- **The model audit (use ②) is a separate experiment:** without boosting, check whether injected artifacts sit close to real diseased cells in an omics model's vector space, especially a foundation model's. If they do, that model tends to mistake artifacts for disease.
+
+### 以后：要不要开发新模型 / Later: a new model?
+
+<!-- ZH -->
+第一轮只用现成的模型（未来计划，待定）。原因：本课题的主结论是"pipeline 有没有用"，同时换模型就分不清功劳；现成模型里已经有深度模型（autoencoder、scVI、基础模型）；而且新模型不一定赢：表格数据上没有哪个无监督方法整体更好（[Han 2022](https://arxiv.org/abs/2206.09426)），基础模型零样本时也常不如简单方法（[Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)）。
+
+第一轮结果出来后再决定：
+
+- 加了伪影判别器，所有组学模型都明显变好 → 不需要新模型；
+- 判别器认得出注入的伪影，到了真实答案上却不行 → "分开打分、分开判别"的拼接不够，值得做一个把两件事合在一起学的模型；
+- 只有微调过的基础模型变好 → 新贡献更可能是"怎么用伪影微调组学模型"。
+
+**候选方向：单细胞版的 DRAEM。**一个重建分支只学健康细胞（重建误差就是异常分），一个判别分支用注入的伪影训练并按类型输出，两个分支一起训练（DRAEM 的结构，[Zavrtanik 2021](https://arxiv.org/abs/2108.07610)）。检索截至 2026-10-31，我们没找到单细胞或空间组学里这样做的模型；最接近的是 [STANDS](../papers/spatial-natcommun-2024/index.md)：在空间转录组上只用正常参考训练一个重建 GAN，用重建差异当异常分，但不用造出来的异常训练。一个本课题特有的想法（还没查文献）：训练时惩罚模型对"基因少、线粒体高"的依赖，避免它只学到"质量差"；但这也可能压掉真实损伤的信号，要谨慎。
+<!-- EN -->
+The first round uses existing models only (future plan, not decided). Reasons: this topic's main claim is whether the pipeline helps, and changing the model at the same time would blur the credit; the existing models already include deep models (autoencoder, scVI, foundation models); and a new model need not win: on tabular data no unsupervised method was better overall ([Han 2022](https://arxiv.org/abs/2206.09426)), and foundation models zero-shot were often behind simple methods ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)).
+
+Decide after the first round:
+
+- the artifact discriminator clearly improves every omics model → no new model needed;
+- the discriminator recognises injected artifacts but fails on real answers → combining a separate score and a separate discriminator is not enough, and a model that learns both together is worth building;
+- only fine-tuned foundation models improve → the new contribution is more likely a way to fine-tune omics models on artifacts.
+
+**Candidate direction: a single-cell DRAEM.** A reconstruction branch learns healthy cells only (its error is the anomaly score), a discriminative branch is trained on injected artifacts and outputs their type, and both are trained together (the DRAEM design, [Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). Searching up to 2026-10-31, we found no such model in single-cell or spatial omics; the closest is [STANDS](../papers/spatial-natcommun-2024/index.md), which trains a reconstruction GAN on a normal reference in spatial transcriptomics and scores anomalies by reconstruction, but does not train on synthetic anomalies. One idea specific to this topic (literature not yet checked): penalise the model for relying on "few genes, high mitochondrial share", so it does not learn only "poor quality"; this may also suppress real injury signal, so it needs care.
 
 ### 基础模型：微调，不从头预训练 / Foundation models: fine-tune, do not pretrain
 
 <!-- ZH -->
-建议只微调现有开源模型（待定）。从头预训练不现实：第一个肾脏专用多模态基础模型 [Nephrobase Cell+](../papers/nephrobase-biorxiv-2025/index.md) 用了约 3,950 万个细胞、四个物种、五种测法，参数到 10 亿；截至 2026-10-28，我们没找到它公开的代码和权重。核对过的候选（2026-10-28）：
+不从头预训练（待定）：从头预训练一个肾脏模型要几千万个细胞。首选 Geneformer V2 和 scGPT，先用冻结的向量，微调放第二步；没找到同时在 RNA 和 ATAC 上预训练、又公开权重的模型。基础模型必须和简单方法一起比，因为零样本时它们常不如简单方法。
 <!-- EN -->
-We suggest fine-tuning existing open models only (not decided). Pretraining from scratch is unrealistic: the first kidney-specific multimodal foundation model, [Nephrobase Cell+](../papers/nephrobase-biorxiv-2025/index.md), used about 39.5 million cells, four species and five assays, with up to 1 billion parameters; as of 2026-10-28 we found no public code or weights. Candidates checked on 2026-10-28:
-
-| Model / 模型 | Weights and licence / 权重和许可 | Modality / 模态 | Use here / 在这里怎么用 |
-|---|---|---|---|
-| [Geneformer V2](https://huggingface.co/ctheodoris/Geneformer) | Hugging Face, Apache-2.0; 104M and 316M parameters / Hugging Face，Apache-2.0；1.04 亿和 3.16 亿参数 | RNA | fine-tuning, first choice / 微调，首选 |
-| [scGPT](https://github.com/bowang-lab/scGPT) | code MIT, weights on Google Drive (no separate weight licence stated); includes a checkpoint pretrained on 814 thousand kidney cells / 代码 MIT，权重在 Google Drive（没写单独的权重许可）；有一个用 81.4 万个肾脏细胞预训练的版本 | RNA (its multi-omic recipe trains the non-RNA parts from scratch) / RNA（多组学用法里非 RNA 部分要从头训练） | fine-tuning, second / 微调，第二个 |
-| scFoundation | weights for non-commercial research only / 权重只限非商业研究 | RNA | optional / 可选 |
-| UCE, CellPLM, scMulan | public weights; no fine-tuning code found for UCE / 权重公开；UCE 没找到微调代码 | RNA | frozen embeddings for the model audit only / 只做冻结嵌入，用于检验模型 |
-| EpiAgent | MIT, with fine-tuning code / MIT，有微调代码 | scATAC only / 只有 scATAC | stage 2 candidate / 第二阶段候选 |
+No pretraining from scratch (not decided): pretraining a kidney model needs tens of millions of cells. Geneformer V2 and scGPT come first, as frozen vectors first and fine-tuned later; we found no model pretrained on RNA and ATAC together with public weights. Foundation models must be compared with simple methods, since zero-shot they are often behind them.
 
 <!-- ZH -->
-我们没找到一个同时在 RNA 和 ATAC 上预训练、又公开了权重的模型，所以第二阶段可能要把 RNA 模型和 ATAC 模型配对使用。基础模型必须和简单方法一起比：零样本评测里 scGPT 和 Geneformer 常不如选高变基因、Harmony、scVI（[Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)）。
+??? note "细节：候选模型、许可和出处"
 <!-- EN -->
-We found no model pretrained on RNA and ATAC together with public weights, so stage 2 may pair an RNA model with an ATAC model. Foundation models must be compared with simple methods: in a zero-shot evaluation scGPT and Geneformer were often behind HVG selection, Harmony and scVI ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)).
+??? note "Details: candidates, licences and sources"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    建议只微调现有开源模型（待定）。从头预训练不现实：第一个肾脏专用多模态基础模型 [Nephrobase Cell+](../papers/nephrobase-biorxiv-2025/index.md) 用了约 3,950 万个细胞、四个物种、五种测法，参数到 10 亿；截至 2026-10-28，我们没找到它公开的代码和权重。核对过的候选（2026-10-28）：
+    <!-- EN -->
+    We suggest fine-tuning existing open models only (not decided). Pretraining from scratch is unrealistic: the first kidney-specific multimodal foundation model, [Nephrobase Cell+](../papers/nephrobase-biorxiv-2025/index.md), used about 39.5 million cells, four species and five assays, with up to 1 billion parameters; as of 2026-10-28 we found no public code or weights. Candidates checked on 2026-10-28:
 
-## 怎么检验：真实答案 / How we test: real answers
+    | Model / 模型 | Weights and licence / 权重和许可 | Modality / 模态 | Use here / 在这里怎么用 |
+    |---|---|---|---|
+    | [Geneformer V2](https://huggingface.co/ctheodoris/Geneformer) | Hugging Face, Apache-2.0; 104M and 316M parameters / Hugging Face，Apache-2.0；1.04 亿和 3.16 亿参数 | RNA | fine-tuning, first choice / 微调，首选 |
+    | [scGPT](https://github.com/bowang-lab/scGPT) | code MIT, weights on Google Drive (no separate weight licence stated); includes a checkpoint pretrained on 814 thousand kidney cells / 代码 MIT，权重在 Google Drive（没写单独的权重许可）；有一个用 81.4 万个肾脏细胞预训练的版本 | RNA (its multi-omic recipe trains the non-RNA parts from scratch) / RNA（多组学用法里非 RNA 部分要从头训练） | fine-tuning, second / 微调，第二个 |
+    | scFoundation | weights for non-commercial research only / 权重只限非商业研究 | RNA | optional / 可选 |
+    | UCE, CellPLM, scMulan | public weights; no fine-tuning code found for UCE / 权重公开；UCE 没找到微调代码 | RNA | frozen embeddings for the model audit only / 只做冻结嵌入，用于检验模型 |
+    | EpiAgent | MIT, with fine-tuning code / MIT，有微调代码 | scATAC only / 只有 scATAC | stage 2 candidate / 第二阶段候选 |
+
+    <!-- ZH -->
+    我们没找到一个同时在 RNA 和 ATAC 上预训练、又公开了权重的模型，所以第二阶段可能要把 RNA 模型和 ATAC 模型配对使用。基础模型必须和简单方法一起比：零样本评测里 scGPT 和 Geneformer 常不如选高变基因、Harmony、scVI（[Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)）。
+    <!-- EN -->
+    We found no model pretrained on RNA and ATAC together with public weights, so stage 2 may pair an RNA model with an ATAC model. Foundation models must be compared with simple methods: in a zero-shot evaluation scGPT and Geneformer were often behind HVG selection, Harmony and scVI ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)).
+
+### 拿不准的细胞：交叉验证打分 / Uncertain cells: out-of-fold scores
+
+<!-- ZH -->
+模型自己也能给出"拿不准"的细胞。所有模型统一四步（建议，待定）：
+
+1. 按**供体**做 K 折交叉验证，只用样本外分数；
+2. 先校准概率，再定阈值；
+3. 阈值用 conformal 定（换实验室时保证会失效，T4 测这个）；
+4. 拿不准的细胞送专家复核，但**不直接当标签**："拿不准"可能是伪影，也可能是过渡状态或早期病变。
+<!-- EN -->
+Models can also flag cells they are unsure about. All models follow four steps (suggested, not decided):
+
+1. donor-grouped K-fold cross-validation, out-of-fold scores only;
+2. calibrate probabilities before setting thresholds;
+3. set thresholds by conformal prediction (the guarantee breaks in a new lab; T4 tests this);
+4. send uncertain cells to experts, but **never use them as labels**: an uncertain cell may be an artifact, a transitional state or early disease.
+
+<!-- ZH -->
+??? note "细节：每一步的依据，以及没找到的"
+<!-- EN -->
+??? note "Details: evidence for each step, and what we did not find"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    模型自己也能给出"拿不准"的细胞。所有模型统一按下面的做法打分（建议，待定；出处 2026-10-31 核实）：
+
+    1. **按供体做 K 折交叉验证，只用样本外分数。**模型给自己训练过的细胞打分会过度自信，所以每个细胞的分数都来自没见过它的那一折模型。折要按**供体**切：训练和测试里出现同一个人，是一种公认的数据泄漏（[Kapoor & Narayanan 2023](https://doi.org/10.1016/j.patter.2023.100804)："train and test samples come from the same people or units"）。现有 doublet 工具里，scds 默认就用 5 折交叉验证给细胞打分，但按细胞随机切（[Bais & Kostka 2019](https://doi.org/10.1093/bioinformatics/btz698)，代码 `bcds.R`）；scDblFinder 只用交叉验证选训练轮数，最终分数是在训练过的细胞上打的（[Germain 2022](https://doi.org/10.12688/f1000research.73600.2)，代码）。
+    2. **先校准，再定阈值。**神经网络的概率常常偏自信，单参数的 temperature scaling 就很有效（[Guo 2017](https://arxiv.org/abs/1706.04599)）；但基础模型反而可能偏不自信，而且分布偏移大时事后校准越来越不可靠（[Hekler 2025](https://arxiv.org/abs/2506.09593)，预印本）。单细胞注释模型同样"lack calibration"（[Engelmann 2022](https://arxiv.org/abs/2211.03793)）。
+    3. **阈值用 conformal 定。**交叉验证和 conformal 可以直接接上：CV+ 把 jackknife+ 推广到 K 折，并给出覆盖率保证（[Barber 2021](https://doi.org/10.1214/20-AOS1965)；原文针对回归，用到分类分数上是我们的改编）。要按细胞类型分别保证时，在每一类里单独校准（[Angelopoulos & Bates](https://arxiv.org/abs/2107.07511) §4.2），但每类细胞少时效果差（[Ding 2023](https://arxiv.org/abs/2306.09335)）。同一个人的细胞彼此不可交换（[Dunn 2018](https://arxiv.org/abs/1809.07441)："multiple observations on each patient"），这也是要按供体切的原因。换实验室时可交换性不成立：单细胞 conformal 在疾病数据上就失去了覆盖保证（[López-De-Castro 2025](../papers/conformal-scrna-bioinformatics-2025/index.md)），加权 conformal 是一个可能的补救（[Tibshirani 2019](https://arxiv.org/abs/1904.06019)），T4 测的就是这件事。
+    4. **拿不准的细胞送专家，但不直接当标签。**用交叉验证分数找可疑标签是 confident learning 的做法（[Northcutt 2021](https://doi.org/10.1613/jair.1.12125)），但它标出的候选经人工核对只有 51% 真是错标（[Northcutt 2021b](https://arxiv.org/abs/2103.14749)）。单细胞里，popV 用多个方法的一致程度作为不确定性，目的是减少人工检查（[Ergen 2024](https://doi.org/10.1038/s41588-024-01993-3)）。
+
+    **为什么不能直接把"拿不准"当成伪影：**不确定性分两种，一种来自数据本身的噪声，一种来自模型没见过（[Kendall & Gal 2017](https://arxiv.org/abs/1703.04977)）；只看分数说不出细胞是伪影、真实的过渡状态还是早期病变。AnnQ 说得很直接：这些细胞"typically treated as technical artifacts and filtered out"，但在扰动实验里可能正是有意义的偏离（[Lee 2026](https://doi.org/10.1093/bib/bbag278)）。所以我们报告：送去复核的细胞里，专家判为伪影、病、说不清的各占多少，以及专家工作量和误差率的取舍。
+
+    **没找到的（检索截至 2026 年 10 月）：**按供体切的样本外分数在单细胞注释或质控里的用法；用交叉验证或 conformal 的不确定性去区分伪影和病；在单细胞里衡量"送专家复核"的工作量和误差率。
+    <!-- EN -->
+    Models can also flag cells they are unsure about. All models are scored the same way (suggested, not decided; sources checked on 2026-10-31):
+
+    1. **Donor-grouped K-fold cross-validation, out-of-fold scores only.** A model scoring cells it was trained on is overconfident, so each cell's score comes from the fold model that never saw it. Folds are split by **donor**: the same person in training and test is a recognised form of leakage ([Kapoor & Narayanan 2023](https://doi.org/10.1016/j.patter.2023.100804): "train and test samples come from the same people or units"). Among doublet tools, scds scores cells by 5-fold cross-validation by default, but with random cell folds ([Bais & Kostka 2019](https://doi.org/10.1093/bioinformatics/btz698), code `bcds.R`); scDblFinder uses cross-validation only to choose the number of boosting rounds, and its final scores come from a model trained on the same cells ([Germain 2022](https://doi.org/10.12688/f1000research.73600.2), code).
+    2. **Calibrate, then threshold.** Neural networks are often overconfident, and single-parameter temperature scaling works well ([Guo 2017](https://arxiv.org/abs/1706.04599)); foundation models can instead be underconfident, and post-hoc calibration becomes less reliable under strong shift ([Hekler 2025](https://arxiv.org/abs/2506.09593), preprint). Single-cell annotation models likewise "lack calibration" ([Engelmann 2022](https://arxiv.org/abs/2211.03793)).
+    3. **Set thresholds by conformal prediction.** Cross-validation and conformal prediction connect directly: CV+ extends the jackknife+ to K folds with a coverage guarantee ([Barber 2021](https://doi.org/10.1214/20-AOS1965); stated for regression, so applying it to classification scores is our adaptation). For guarantees per cell type, calibrate within each class ([Angelopoulos & Bates](https://arxiv.org/abs/2107.07511), §4.2), which works poorly when a class has few cells ([Ding 2023](https://arxiv.org/abs/2306.09335)). Cells from one person are not exchangeable ([Dunn 2018](https://arxiv.org/abs/1809.07441): "multiple observations on each patient"), another reason to split by donor. Exchangeability fails in a new lab: single-cell conformal lost its coverage guarantee on disease data ([López-De-Castro 2025](../papers/conformal-scrna-bioinformatics-2025/index.md)), weighted conformal is one possible remedy ([Tibshirani 2019](https://arxiv.org/abs/1904.06019)), and T4 tests exactly this.
+    4. **Send uncertain cells to experts, but never use them as labels.** Finding suspect labels from cross-validated scores is what confident learning does ([Northcutt 2021](https://doi.org/10.1613/jair.1.12125)), yet only 51% of its flagged candidates were confirmed as label errors by people ([Northcutt 2021b](https://arxiv.org/abs/2103.14749)). In single cells, popV uses agreement across methods as its uncertainty, to reduce manual inspection ([Ergen 2024](https://doi.org/10.1038/s41588-024-01993-3)).
+
+    **Why "uncertain" is not "artifact":** uncertainty comes in two kinds, noise in the data and what the model has not seen ([Kendall & Gal 2017](https://arxiv.org/abs/1703.04977)); a score alone cannot say whether a cell is an artifact, a real transitional state or early disease. AnnQ puts it directly: such cells are "typically treated as technical artifacts and filtered out", yet in perturbation experiments they may be the meaningful deviations ([Lee 2026](https://doi.org/10.1093/bib/bbag278)). So we report, among the cells sent for review, the shares experts call artifact, disease or unclear, and the trade-off between expert workload and error rate.
+
+    **Not found (search up to October 2026):** donor-grouped out-of-fold scores in single-cell annotation or QC; using cross-validated or conformal uncertainty to separate artifact from disease; a single-cell measurement of expert-review workload against error rate.
+
+## 第 3 步 · 怎么检验：真实答案 / Step 3 · How we test: real answers {#evaluation}
 
 <!-- ZH -->
 造出来的伪影（一级）只用于训练。考试用两类真实答案：**二级**是实验设计给定的（Hoeft 多人混样的基因型 doublet、mBDRC 同一人换测法、Janssen 小鼠混品系），**三级**是专家判断的（Lake 的 altered 状态，以及我们请临床专家补强的标注）。
@@ -316,23 +522,33 @@ Every task reports two numbers, without and with the pipeline, plus the leave-on
 ### 三级答案怎么做扎实：请临床专家 / Making tier 3 solid: clinical experts
 
 <!-- ZH -->
-三级是最弱的一环。Lake 判 altered 状态时，依据之一就是"测到的基因少、线粒体转录本多"（[Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md) Methods），这也是低质量细胞的特征，所以直接拿它当"病"的答案有循环（见上面"已知的坑"）。Lake 的标注来自一个包括病理、生物、肾内科专家的联盟，但没有报告标注者之间的一致性。临床专家能帮我们在两条路上补强：
+三级答案是最弱的一环。临床专家（肾内科、肾脏病理）能从两条路补强：**A** 按簇重新标注 altered 簇（像真损伤 / 像质量差 / 说不准，几人独立标并报告一致性）；**B** 在公开 Visium 数据配套的 H&E 切片上圈出损伤区域，逐个 spot 检查异常分。
 <!-- EN -->
-Tier 3 is the weakest link. Lake flagged altered states partly by "low genes detected, a high number of mitochondrial transcripts" ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md) Methods), which are also the signs of a low-quality cell, so using these labels as disease ground truth is partly circular (see "A known trap" above). Lake's labels come from a consortium of pathologists, biologists and nephrologists, with no inter-annotator agreement reported. Clinical experts can strengthen this in two ways:
-
-| | A · re-annotate clusters / A · 按簇重新标注 | B · annotate histology / B · 在病理切片上标注 |
-|---|---|---|
-| How / 怎么做 | experts see each altered cluster's marker genes (e.g. HAVCR1, LCN2), QC distributions and donor conditions, and call it likely injury, likely low quality or unsure; 2–3 independent annotators, agreement reported / 专家看每个 altered 簇的标记基因（如 HAVCR1、LCN2）、QC 分布和来自哪些病人，判"像真损伤 / 像质量差 / 说不准"；2–3 人独立标，报告一致性 | pathologists outline injured regions (e.g. acute tubular injury, fibrosis) on H&E slides paired with spatial transcriptomics; anomaly scores are then checked spot by spot / 病理医生在和空间转录组配对的 H&E 切片上圈出损伤区域（如急性小管损伤、纤维化），再逐个 spot 检查异常分 |
-| Precedent / 依据 | the Human Lung Cell Atlas re-annotated per cluster with six experts; most agreed or differed only in granularity, with no κ reported ([Sikkema 2023](https://doi.org/10.1038/s41591-023-02327-2)); kidney injury states have independent anchors, e.g. Havcr1 checked by immunofluorescence ([Kirita 2020](https://doi.org/10.1073/pnas.2005477117)) and genetically labelled injured PT cells ([Gerhardt 2021](https://doi.org/10.1073/pnas.2026684118)), both mouse / 人肺图谱请六位专家按簇重新标注，多数一致或只差粒度，没报 κ（[Sikkema 2023](https://doi.org/10.1038/s41591-023-02327-2)）；肾损伤状态有独立的参照，如用免疫荧光验证的 Havcr1（[Kirita 2020](https://doi.org/10.1073/pnas.2005477117)）、遗传标记的损伤 PT 细胞（[Gerhardt 2021](https://doi.org/10.1073/pnas.2026684118)），都是小鼠 | Lake 2023 Visium on GEO ([GSE183456](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183456)): 23 sections (6 reference, 11 DKD, 6 AKI), each with a full-resolution H&E image; Abedini 2024: 13 H&E images (DKD, hypertension and controls, no AKI) / Lake 2023 的 Visium（[GSE183456](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183456)）：23 张切片（6 参考、11 DKD、6 AKI），每张都带全分辨率 H&E 图；Abedini 2024：13 张 H&E（DKD / 高血压和对照，没有 AKI） |
-| Feasible? / 可行吗 | yes: a few hundred clusters, not hundreds of thousands of cells / 可以：几百个簇，不是几十万个细胞 | images yes; we found no public pathologist region annotation, so it must be made (which is itself a new resource) / 图有；没找到公开的病理区域标注，需要自己标（这本身就是新资源） |
-| Limits / 局限 | clinicians do not usually read expression data and may need a short calibration set; one single-cell analyst should be among the annotators / 临床医生平时不看表达数据，可能要先给一小组校准样例；标注者里最好有一位单细胞分析的人 | a Visium spot is 55 µm wide and holds several cells, so labels are per spot, not per cell; only 3 Visium participants also appear in Lake's single-nucleus data (our count), so this is a separate spatial task, not a check on T1 / Visium 一个 spot 直径 55 µm，含好几个细胞，标签只能到 spot；Visium 里只有 3 个人也在 Lake 的单核数据里（我们数的），所以这是一个单独的空间任务，不能直接验证 T1 |
+Tier 3 is the weakest link. Clinical experts (nephrologists, renal pathologists) can strengthen it in two ways: **A** re-annotate altered clusters (likely injury / likely low quality / unsure, several independent annotators with agreement reported); **B** outline injured regions on the H&E images paired with the public Visium data and check anomaly scores spot by spot.
 
 <!-- ZH -->
-我们的理解：我们没找到报告"人类标注者之间 κ"的单细胞研究，所以 A 里测出的一致性本身就是结果。KPMP 有两位病理医生判读的活检级评分，但只到整块活检，不到区域；它对哪些人开放还没核实。
+??? note "细节：A 和 B 怎么做、依据、可行性和局限"
 <!-- EN -->
-Our reading: we found no single-cell study that reports κ between human annotators, so the agreement measured in A is itself a result. KPMP holds biopsy-level descriptor scores read by two pathologists, but only per biopsy, not per region; their access terms are not yet checked.
+??? note "Details: how A and B work, precedent, feasibility and limits"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    三级是最弱的一环。Lake 判 altered 状态时，依据之一就是"测到的基因少、线粒体转录本多"（[Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md) Methods），这也是低质量细胞的特征，所以直接拿它当"病"的答案有循环（见上面"已知的坑"）。Lake 的标注来自一个包括病理、生物、肾内科专家的联盟，但没有报告标注者之间的一致性。临床专家能帮我们在两条路上补强：
+    <!-- EN -->
+    Tier 3 is the weakest link. Lake flagged altered states partly by "low genes detected, a high number of mitochondrial transcripts" ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md) Methods), which are also the signs of a low-quality cell, so using these labels as disease ground truth is partly circular (see "A known trap" above). Lake's labels come from a consortium of pathologists, biologists and nephrologists, with no inter-annotator agreement reported. Clinical experts can strengthen this in two ways:
 
-## 用到的数据 / Data
+    | | A · re-annotate clusters / A · 按簇重新标注 | B · annotate histology / B · 在病理切片上标注 |
+    |---|---|---|
+    | How / 怎么做 | experts see each altered cluster's marker genes (e.g. HAVCR1, LCN2), QC distributions and donor conditions, and call it likely injury, likely low quality or unsure; 2–3 independent annotators, agreement reported / 专家看每个 altered 簇的标记基因（如 HAVCR1、LCN2）、QC 分布和来自哪些病人，判"像真损伤 / 像质量差 / 说不准"；2–3 人独立标，报告一致性 | pathologists outline injured regions (e.g. acute tubular injury, fibrosis) on H&E slides paired with spatial transcriptomics; anomaly scores are then checked spot by spot / 病理医生在和空间转录组配对的 H&E 切片上圈出损伤区域（如急性小管损伤、纤维化），再逐个 spot 检查异常分 |
+    | Precedent / 依据 | the Human Lung Cell Atlas re-annotated per cluster with six experts; most agreed or differed only in granularity, with no κ reported ([Sikkema 2023](https://doi.org/10.1038/s41591-023-02327-2)); kidney injury states have independent anchors, e.g. Havcr1 checked by immunofluorescence ([Kirita 2020](https://doi.org/10.1073/pnas.2005477117)) and genetically labelled injured PT cells ([Gerhardt 2021](https://doi.org/10.1073/pnas.2026684118)), both mouse / 人肺图谱请六位专家按簇重新标注，多数一致或只差粒度，没报 κ（[Sikkema 2023](https://doi.org/10.1038/s41591-023-02327-2)）；肾损伤状态有独立的参照，如用免疫荧光验证的 Havcr1（[Kirita 2020](https://doi.org/10.1073/pnas.2005477117)）、遗传标记的损伤 PT 细胞（[Gerhardt 2021](https://doi.org/10.1073/pnas.2026684118)），都是小鼠 | Lake 2023 Visium on GEO ([GSE183456](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183456)): 23 sections (6 reference, 11 DKD, 6 AKI), each with a full-resolution H&E image; Abedini 2024: 13 H&E images (DKD, hypertension and controls, no AKI) / Lake 2023 的 Visium（[GSE183456](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183456)）：23 张切片（6 参考、11 DKD、6 AKI），每张都带全分辨率 H&E 图；Abedini 2024：13 张 H&E（DKD / 高血压和对照，没有 AKI） |
+    | Feasible? / 可行吗 | yes: a few hundred clusters, not hundreds of thousands of cells / 可以：几百个簇，不是几十万个细胞 | images yes; we found no public pathologist region annotation, so it must be made (which is itself a new resource) / 图有；没找到公开的病理区域标注，需要自己标（这本身就是新资源） |
+    | Limits / 局限 | clinicians do not usually read expression data and may need a short calibration set; one single-cell analyst should be among the annotators / 临床医生平时不看表达数据，可能要先给一小组校准样例；标注者里最好有一位单细胞分析的人 | a Visium spot is 55 µm wide and holds several cells, so labels are per spot, not per cell; only 3 Visium participants also appear in Lake's single-nucleus data (our count), so this is a separate spatial task, not a check on T1 / Visium 一个 spot 直径 55 µm，含好几个细胞，标签只能到 spot；Visium 里只有 3 个人也在 Lake 的单核数据里（我们数的），所以这是一个单独的空间任务，不能直接验证 T1 |
+
+    <!-- ZH -->
+    我们的理解：我们没找到报告"人类标注者之间 κ"的单细胞研究，所以 A 里测出的一致性本身就是结果。KPMP 有两位病理医生判读的活检级评分，但只到整块活检，不到区域；它对哪些人开放还没核实。
+    <!-- EN -->
+    Our reading: we found no single-cell study that reports κ between human annotators, so the agreement measured in A is itself a result. KPMP holds biopsy-level descriptor scores read by two pathologists, but only per biopsy, not per region; their access terms are not yet checked.
+
+## 用到的数据 / Data {#data}
 
 <!-- ZH -->
 只用公开的肾脏数据：人为主，小鼠只用来校准。每份数据的完整信息（测了什么、多少人、怎么下载）在 [数据集](../datasets/index.md) 标签页；这一节讲**它在本课题里干什么、用哪一部分、要注意什么**。
@@ -358,118 +574,141 @@ The table below is generated from the [Datasets](../datasets/index.md) records a
 
 <!-- ZH/EN --> @@DATASETS-COMPARE lake-2023 mbdrc-2026 abedini-2024 janssen-2023 hoeft-2024@@
 
-### Lake 2023 · 健康参考和"病"的答案 / Lake 2023 · Healthy reference and the disease answer
+### 每份数据的细节 / Details per dataset
 
 <!-- ZH -->
-- **用哪部分：**主线先用单核数据（snCv3）。要从 GEO 下载计数矩阵和标签表，因为 `state.l1/l2`（正常 / 改变）和 `percent.mt` 只在 GEO 标签表里；cellxgene 的文件里两者都没有（线粒体基因已删）。单细胞数据（scCv3）怎么用还没定。
-- **提供什么：**
-    - **健康参考**：健康供体身上 `reference` 状态的细胞，当"正常"的训练数据。
-    - **"病"的答案（三级）**：病人身上 `altered` 状态的细胞，进 T1。
-    - **注入的底板**：在健康细胞上造 doublet、ambient、低质量细胞，用于训练。
-- **要注意：**
-    - degenerative 状态和低质量细胞长得像（见上面"已知的坑"），所以必须有"只用 QC 指标"的基线，并按状态分开报结果。
-    - 健康人身上也有 altered 细胞（单核数据里 26%，我们数的），不能当"正常"的负样本，单独报告。
-    - 原始测序受控，**拿不到空液滴**，所以注入 ambient 的背景谱要么从别处来（Janssen 或 Hoeft），要么用其他细胞群的谱近似（见"伪影注入 pipeline"）。
-    - 它还有 23 张带 H&E 图的 Visium 切片，是三级答案"在病理切片上标注"的候选（见上面"三级答案怎么做扎实"）。
+??? note "Lake 2023 · 健康参考和"病"的答案"
 <!-- EN -->
-- **Which part:** the main line starts with the single-nucleus data (snCv3). Download the count matrix and label table from GEO, because `state.l1/l2` (reference or altered) and `percent.mt` exist only in the GEO label table; the cellxgene files have neither (mitochondrial genes were removed). How to use the single-cell data (scCv3) is not decided.
-- **What it provides:**
-    - **Healthy reference:** `reference`-state cells from healthy donors, the "normal" training data.
-    - **Disease answer (tier 3):** `altered`-state cells from patients, for T1.
-    - **Base for injection:** doublets, ambient RNA and low-quality cells made from healthy cells, for training.
-- **Watch for:**
-    - The degenerative state looks like low-quality cells (see "A known trap" above), so a QC-only baseline is required and results are reported per state.
-    - Healthy donors carry altered cells too (26% of their nuclei in the single-nucleus data, our count); they cannot serve as normal negatives and are reported separately.
-    - Raw sequencing is controlled, so **there are no empty droplets**; the background profile for injected ambient RNA must either come from elsewhere (Janssen or Hoeft) or be approximated from the other cell populations (see "The artifact-injection pipeline").
-    - It also has 23 Visium sections with H&E images, a candidate for the tier-3 histology annotation (see "Making tier 3 solid" above).
-
-### mBDRC 2026 · 同一个人换测法 / mBDRC 2026 · One donor, several assays
+??? note "Lake 2023 · Healthy reference and the disease answer"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **用哪部分：**主线先用单核数据（snCv3）。要从 GEO 下载计数矩阵和标签表，因为 `state.l1/l2`（正常 / 改变）和 `percent.mt` 只在 GEO 标签表里；cellxgene 的文件里两者都没有（线粒体基因已删）。单细胞数据（scCv3）怎么用还没定。
+    - **提供什么：**
+        - **健康参考**：健康供体身上 `reference` 状态的细胞，当"正常"的训练数据。
+        - **"病"的答案（三级）**：病人身上 `altered` 状态的细胞，进 T1。
+        - **注入的底板**：在健康细胞上造 doublet、ambient、低质量细胞，用于训练。
+    - **要注意：**
+        - degenerative 状态和低质量细胞长得像（见上面"已知的坑"），所以必须有"只用 QC 指标"的基线，并按状态分开报结果。
+        - 健康人身上也有 altered 细胞（单核数据里 26%，我们数的），不能当"正常"的负样本，单独报告。
+        - 原始测序受控，**拿不到空液滴**，所以注入 ambient 的背景谱要么从别处来（Janssen 或 Hoeft），要么用其他细胞群的谱近似（见"伪影注入 pipeline"）。
+        - 它还有 23 张带 H&E 图的 Visium 切片，是三级答案"在病理切片上标注"的候选（见上面"三级答案怎么做扎实"）。
+    <!-- EN -->
+    - **Which part:** the main line starts with the single-nucleus data (snCv3). Download the count matrix and label table from GEO, because `state.l1/l2` (reference or altered) and `percent.mt` exist only in the GEO label table; the cellxgene files have neither (mitochondrial genes were removed). How to use the single-cell data (scCv3) is not decided.
+    - **What it provides:**
+        - **Healthy reference:** `reference`-state cells from healthy donors, the "normal" training data.
+        - **Disease answer (tier 3):** `altered`-state cells from patients, for T1.
+        - **Base for injection:** doublets, ambient RNA and low-quality cells made from healthy cells, for training.
+    - **Watch for:**
+        - The degenerative state looks like low-quality cells (see "A known trap" above), so a QC-only baseline is required and results are reported per state.
+        - Healthy donors carry altered cells too (26% of their nuclei in the single-nucleus data, our count); they cannot serve as normal negatives and are reported separately.
+        - Raw sequencing is controlled, so **there are no empty droplets**; the background profile for injected ambient RNA must either come from elsewhere (Janssen or Hoeft) or be approximated from the other cell populations (see "The artifact-injection pipeline").
+        - It also has 23 Visium sections with H&E images, a candidate for the tier-3 histology annotation (see "Making tier 3 solid" above).
 
 <!-- ZH -->
-- **用哪部分：**cellxgene 上的整合 RNA 文件。18 名供体里有 11 人用两种或三种方法测过，这 11 人是 T2b 的核心。
-- **提供什么：**
-    - **测量这一边的真实答案（二级）**：同一个人的组织，只因换了测法就被报成"异常"，按误报算（这是我们的设定）。
-    - 补充健康参考，也可以做注入的底板。
-- **要注意：**
-    - 同一名供体不能既在参考里、又在 T2b 的测试里，所以要按供体划分。
-    - 测法和组织块、保存介质混在一起：换测法的同时也换了一块组织、换了保存方式，所以误报不全是"测法"造成的。
-    - 只有健康人、只有皮质；原始测序在 dbGaP 要申请，所以也没有空液滴。
+??? note "mBDRC 2026 · 同一个人换测法"
 <!-- EN -->
-- **Which part:** the integrated RNA file on cellxgene. 11 of its 18 donors were measured with two or three assays; they are the core of T2b.
-- **What it provides:**
-    - **A real answer on the measurement side (tier 2):** tissue from the same person flagged as anomalous only because the assay changed is counted as a false alarm (our design choice).
-    - More healthy reference, and a base for injection.
-- **Watch for:**
-    - A donor cannot be in the reference and in the T2b test at once, so splits are by donor.
-    - Assay is confounded with the tissue core and preservation medium: changing assay also changes the piece of tissue and how it was stored, so not every false alarm is due to the assay alone.
-    - Healthy donors and cortex only; raw data are at dbGaP on application, so no empty droplets either.
-
-### Abedini 2024 · 换一个实验室 / Abedini 2024 · A second lab
+??? note "mBDRC 2026 · One donor, several assays"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **用哪部分：**cellxgene 上的整合 RNA 文件。18 名供体里有 11 人用两种或三种方法测过，这 11 人是 T2b 的核心。
+    - **提供什么：**
+        - **测量这一边的真实答案（二级）**：同一个人的组织，只因换了测法就被报成"异常"，按误报算（这是我们的设定）。
+        - 补充健康参考，也可以做注入的底板。
+    - **要注意：**
+        - 同一名供体不能既在参考里、又在 T2b 的测试里，所以要按供体划分。
+        - 测法和组织块、保存介质混在一起：换测法的同时也换了一块组织、换了保存方式，所以误报不全是"测法"造成的。
+        - 只有健康人、只有皮质；原始测序在 dbGaP 要申请，所以也没有空液滴。
+    <!-- EN -->
+    - **Which part:** the integrated RNA file on cellxgene. 11 of its 18 donors were measured with two or three assays; they are the core of T2b.
+    - **What it provides:**
+        - **A real answer on the measurement side (tier 2):** tissue from the same person flagged as anomalous only because the assay changed is counted as a false alarm (our design choice).
+        - More healthy reference, and a base for injection.
+    - **Watch for:**
+        - A donor cannot be in the reference and in the T2b test at once, so splits are by donor.
+        - Assay is confounded with the tissue core and preservation medium: changing assay also changes the piece of tissue and how it was stored, so not every false alarm is due to the assay alone.
+        - Healthy donors and cortex only; raw data are at dbGaP on application, so no empty droplets either.
 
 <!-- ZH -->
-- **用哪部分：**GEO 上的处理后数据，只用健康对照（GEO 单细胞数据里 21 人）。
-- **提供什么：**T4 的测试场：在一个实验室定好的阈值，拿到另一个实验室的健康人身上，误报率还守不守得住。健康人身上报出的"异常"都按误报算（这是我们的设定）。
-- **要注意：**
-    - 发布前已经用 SoupX 去过 ambient、用 DoubletFinder 去过 doublet，所以**测不了测量这一侧**，只用来测误报。
-    - 我们的理解：这份数据比 Lake "更干净"，这本身就是一种分布偏移，结果解读时要说明。
-    - 单细胞部分是 37 °C 酶解，会带解离应激。
-    - 数据许可没有写明，发布派生标签前要先确认。
-    - 它的 13 张 H&E 图（DKD、高血压和对照，没有 AKI）也是三级答案"切片标注"的候选。
+??? note "Abedini 2024 · 换一个实验室"
 <!-- EN -->
-- **Which part:** the processed data on GEO, healthy controls only (21 people in the GEO single-cell data).
-- **What it provides:** the test ground for T4: does a threshold set in one lab keep its false-alarm rate on another lab's healthy donors? Every anomaly called on a healthy donor counts as a false alarm (our design choice).
-- **Watch for:**
-    - Ambient RNA was corrected with SoupX and doublets removed with DoubletFinder before release, so **it cannot test the measurement side**; it is used for false alarms only.
-    - Our reading: these data are "cleaner" than Lake's, which is itself a distribution shift and must be stated when reading results.
-    - The single-cell part used 37 °C enzymatic digestion, so it carries dissociation stress.
-    - The data licence is not stated; it must be confirmed before releasing derived labels.
-    - Its 13 H&E images (DKD, hypertension and controls, no AKI) are also a candidate for tier-3 histology annotation.
-
-### Janssen 2023 · 校准注入的 ambient / Janssen 2023 · Calibrating injected ambient RNA
+??? note "Abedini 2024 · A second lab"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **用哪部分：**GEO 上的处理后数据，只用健康对照（GEO 单细胞数据里 21 人）。
+    - **提供什么：**T4 的测试场：在一个实验室定好的阈值，拿到另一个实验室的健康人身上，误报率还守不守得住。健康人身上报出的"异常"都按误报算（这是我们的设定）。
+    - **要注意：**
+        - 发布前已经用 SoupX 去过 ambient、用 DoubletFinder 去过 doublet，所以**测不了测量这一侧**，只用来测误报。
+        - 我们的理解：这份数据比 Lake "更干净"，这本身就是一种分布偏移，结果解读时要说明。
+        - 单细胞部分是 37 °C 酶解，会带解离应激。
+        - 数据许可没有写明，发布派生标签前要先确认。
+        - 它的 13 张 H&E 图（DKD、高血压和对照，没有 AKI）也是三级答案"切片标注"的候选。
+    <!-- EN -->
+    - **Which part:** the processed data on GEO, healthy controls only (21 people in the GEO single-cell data).
+    - **What it provides:** the test ground for T4: does a threshold set in one lab keep its false-alarm rate on another lab's healthy donors? Every anomaly called on a healthy donor counts as a false alarm (our design choice).
+    - **Watch for:**
+        - Ambient RNA was corrected with SoupX and doublets removed with DoubletFinder before release, so **it cannot test the measurement side**; it is used for false alarms only.
+        - Our reading: these data are "cleaner" than Lake's, which is itself a distribution shift and must be stated when reading results.
+        - The single-cell part used 37 °C enzymatic digestion, so it carries dissociation stress.
+        - The data licence is not stated; it must be confirmed before releasing derived labels.
+        - Its 13 H&E images (DKD, hypertension and controls, no AKI) are also a candidate for tier-3 histology annotation.
 
 <!-- ZH -->
-- **用哪部分：**小鼠肾，三个品系混在一个 10x 通道里测，单细胞和单核都有；公开文件**包含空液滴**。
-- **提供什么：**按基因型算出的每个细胞的真实外来 RNA 比例（3–35%）和背景谱。我们用它定"注入的 ambient 该有多强、长什么样"。
-- **要注意：**是小鼠，不是人，也没有病人，所以不当测试集；拿它校准人的数据是一个假设，要在论文里说明。
+??? note "Janssen 2023 · 校准注入的 ambient"
 <!-- EN -->
-- **Which part:** mouse kidney, three strains pooled in one 10x channel, both single-cell and single-nucleus; the public files **include empty droplets**.
-- **What it provides:** the real foreign-RNA fraction per cell (3–35%), computed from genotypes, and the background profile. We use it to set how strong injected ambient RNA should be and what it looks like.
-- **Watch for:** it is mouse, not human, and has no patients, so it is not a test set; calibrating human data on it is an assumption the paper must state.
-
-### Hoeft 2024 · 人肾真实的 doublet 和 ambient / Hoeft 2024 · Real human-kidney doublets and ambient RNA
+??? note "Janssen 2023 · Calibrating injected ambient RNA"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **用哪部分：**小鼠肾，三个品系混在一个 10x 通道里测，单细胞和单核都有；公开文件**包含空液滴**。
+    - **提供什么：**按基因型算出的每个细胞的真实外来 RNA 比例（3–35%）和背景谱。我们用它定"注入的 ambient 该有多强、长什么样"。
+    - **要注意：**是小鼠，不是人，也没有病人，所以不当测试集；拿它校准人的数据是一个假设，要在论文里说明。
+    <!-- EN -->
+    - **Which part:** mouse kidney, three strains pooled in one 10x channel, both single-cell and single-nucleus; the public files **include empty droplets**.
+    - **What it provides:** the real foreign-RNA fraction per cell (3–35%), computed from genotypes, and the background profile. We use it to set how strong injected ambient RNA should be and what it looks like.
+    - **Watch for:** it is mouse, not human, and has no patients, so it is not a test set; calibrating human data on it is an assumption the paper must state.
 
 <!-- ZH -->
-- **用哪部分：**4 名病人的冷冻肾活检混在一个单核通道里。GEO 上的矩阵已过滤，要用公开的 FASTQ 和基因型文件重跑 CellRanger 和 souporcell。
-- **提供什么：**人肾上**真实**的 doublet（按基因型）和 ambient 答案。新方向下它是主线：T2 的考官，也用来检验我们注入的伪影像不像真的。我们的理解：重跑后也能拿到空液滴，得到人肾自己的背景谱。
-- **要注意：**
-    - 只有 4 人，只够验证，不能当主结果。
-    - 基因型只能看出跨供体的 doublet，同一个人的两个核看不出来，所以 250 个基因型 doublet 只是下限。
-    - 有用的发现：按表达聚出的"Mixed/Doublets"簇有 4,488 个核，按基因型确认是 doublet 的只有 123 个（我们从 Source Data 算的）。只看表达判断异常原因很不可靠，这正是本课题的出发点。
+??? note "Hoeft 2024 · 人肾真实的 doublet 和 ambient"
 <!-- EN -->
-- **Which part:** frozen kidney biopsies from 4 patients pooled in one single-nucleus channel. The GEO matrix is filtered, so CellRanger and souporcell must be rerun on the public FASTQ with the genotype files.
-- **What it provides:** **real** human-kidney doublet (by genotype) and ambient answers. Under the new direction it is main line: the examiner for T2, and a check on whether our injected artifacts look real. Our reading: the rerun also yields empty droplets, giving a background profile from human kidney itself.
-- **Watch for:**
-    - Only 4 people: enough for validation, not for main results.
-    - Genotypes reveal only cross-donor doublets; two nuclei from the same person stay hidden, so the 250 genotype doublets are a lower bound.
-    - A useful finding: the expression cluster "Mixed/Doublets" holds 4,488 nuclei, but only 123 are genotype doublets (our count from the Source Data). Judging the cause of an anomaly from expression alone is unreliable, which is exactly where this topic starts.
-
-### Lake 2019 · 同一个人，不同保存和处理（讨论中） / Lake 2019 · One person, different storage and processing (under discussion)
+??? note "Hoeft 2024 · Real human-kidney doublets and ambient RNA"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - **用哪部分：**4 名病人的冷冻肾活检混在一个单核通道里。GEO 上的矩阵已过滤，要用公开的 FASTQ 和基因型文件重跑 CellRanger 和 souporcell。
+    - **提供什么：**人肾上**真实**的 doublet（按基因型）和 ambient 答案。新方向下它是主线：T2 的考官，也用来检验我们注入的伪影像不像真的。我们的理解：重跑后也能拿到空液滴，得到人肾自己的背景谱。
+    - **要注意：**
+        - 只有 4 人，只够验证，不能当主结果。
+        - 基因型只能看出跨供体的 doublet，同一个人的两个核看不出来，所以 250 个基因型 doublet 只是下限。
+        - 有用的发现：按表达聚出的"Mixed/Doublets"簇有 4,488 个核，按基因型确认是 doublet 的只有 123 个（我们从 Source Data 算的）。只看表达判断异常原因很不可靠，这正是本课题的出发点。
+    <!-- EN -->
+    - **Which part:** frozen kidney biopsies from 4 patients pooled in one single-nucleus channel. The GEO matrix is filtered, so CellRanger and souporcell must be rerun on the public FASTQ with the genotype files.
+    - **What it provides:** **real** human-kidney doublet (by genotype) and ambient answers. Under the new direction it is main line: the examiner for T2, and a check on whether our injected artifacts look real. Our reading: the rerun also yields empty droplets, giving a background profile from human kidney itself.
+    - **Watch for:**
+        - Only 4 people: enough for validation, not for main results.
+        - Genotypes reveal only cross-donor doublets; two nuclei from the same person stay hidden, so the 250 genotype doublets are a lower bound.
+        - A useful finding: the expression cluster "Mixed/Doublets" holds 4,488 nuclei, but only 123 are genotype doublets (our count from the Source Data). Judging the cause of an anomaly from expression alone is unreliable, which is exactly where this topic starts.
 
 <!-- ZH -->
-同一个人的组织用不同方式保存和处理后再测，能小规模地回答"保存 / 处理方式变了，会不会被当成异常"，性质类似 T2b。用的是 snDrop-seq，不是 10x，规模也小，所以还没定要不要进主线。
+??? note "Lake 2019 · 同一个人，不同保存和处理（讨论中）"
 <!-- EN -->
-The same person's tissue stored and processed in different ways, then measured: a small real answer to "is a change in storage or processing flagged as anomalous?", similar in spirit to T2b. It uses snDrop-seq rather than 10x and is small, so whether it joins the main line is open.
-
-### 暂时不用的 / Not used for now
+??? note "Lake 2019 · One person, different storage and processing (under discussion)"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    同一个人的组织用不同方式保存和处理后再测，能小规模地回答"保存 / 处理方式变了，会不会被当成异常"，性质类似 T2b。用的是 snDrop-seq，不是 10x，规模也小，所以还没定要不要进主线。
+    <!-- EN -->
+    The same person's tissue stored and processed in different ways, then measured: a small real answer to "is a change in storage or processing flagged as anomalous?", similar in spirit to T2b. It uses snDrop-seq rather than 10x and is small, so whether it joins the main line is open.
 
 <!-- ZH -->
-- [Malone 2020](../datasets/malone-2020.md)：也有基因型，但原始数据很大；人肾伪影的真实答案先靠 Hoeft。
-- [Denisenko 2020](../datasets/denisenko-2020.md)：小鼠，证明解离应激会像损伤；解离应激暂不注入，以后再用。
-- [KPMP](../datasets/kpmp.md)、[cellxgene](../datasets/cellxgene.md)：数据来源和下载途径，不是单独的数据集。
+??? note "暂时不用的"
 <!-- EN -->
-- [Malone 2020](../datasets/malone-2020.md): also has genotypes, but its raw data are large; real human-kidney artifact answers rely on Hoeft for now.
-- [Denisenko 2020](../datasets/denisenko-2020.md): mouse, shows dissociation stress can look like injury; stress is not injected for now, so later.
-- [KPMP](../datasets/kpmp.md), [cellxgene](../datasets/cellxgene.md): data sources and download routes, not datasets of their own.
+??? note "Not used for now"
+<!-- ZH/EN -->
+    <!-- ZH -->
+    - [Malone 2020](../datasets/malone-2020.md)：也有基因型，但原始数据很大；人肾伪影的真实答案先靠 Hoeft。
+    - [Denisenko 2020](../datasets/denisenko-2020.md)：小鼠，证明解离应激会像损伤；解离应激暂不注入，以后再用。
+    - [KPMP](../datasets/kpmp.md)、[cellxgene](../datasets/cellxgene.md)：数据来源和下载途径，不是单独的数据集。
+    <!-- EN -->
+    - [Malone 2020](../datasets/malone-2020.md): also has genotypes, but its raw data are large; real human-kidney artifact answers rely on Hoeft for now.
+    - [Denisenko 2020](../datasets/denisenko-2020.md): mouse, shows dissociation stress can look like injury; stress is not injected for now, so later.
+    - [KPMP](../datasets/kpmp.md), [cellxgene](../datasets/cellxgene.md): data sources and download routes, not datasets of their own.
 
 ### 划分 / Splits
 
@@ -478,7 +717,32 @@ The same person's tissue stored and processed in different ways, then measured: 
 <!-- EN -->
 Splits are by donor, not by cell, so no person appears in both training and testing. Healthy donors in Lake and mBDRC are split three ways: **reference, calibration and test** (the reference for scoring, calibration for setting thresholds, test for measuring false alarms); Abedini is test only. Random seeds are fixed and the split files ship with the dataset.
 
-## 还没定的 / Open questions
+## 要做出什么 / What we will produce {#deliverables}
+
+| # | Deliverable / 交付物 | What it is / 是什么 | How we show it is useful / 怎么证明有用 |
+|---|---|---|---|
+| 1 | artifact-injection pipeline (open source) / 伪影注入 pipeline（开源） | takes any single-cell dataset (AnnData), injects doublets, ambient RNA and low-quality cells, and records for every cell the artifact type, strength and source cells / 输入任意单细胞数据（AnnData），注入 doublet、ambient RNA、低质量细胞，每个细胞都记录伪影类型、强度和来源细胞 | injected artifacts compared with real ones: calibrated on Janssen, checked against Hoeft / 注入的伪影和真实伪影比：用 Janssen 校准，用 Hoeft 检验 |
+| 2 | boost method / 增强方法 | a recipe to fine-tune models on injected artifacts so they separate healthy, diseased and artifact cells / 用注入的伪影微调模型，让它分出健康、病、伪影 | before-and-after comparison on real answers / 微调前后在真实答案上对比 |
+| 3 | real-answer test set, the examiner / 真实答案测试集（考官） | Hoeft genotype doublets, mBDRC assay changes, Lake diseased cells, Abedini healthy donors, with fixed tasks, metrics and donor splits / Hoeft 基因型 doublet、mBDRC 换测法、Lake 病细胞、Abedini 健康人，加上固定的任务、指标和按供体的划分 | released for reuse / 公开发布，别人可以复用 |
+| 4 | results table / 成绩表 | each omics model with its anomaly score, with and without the pipeline, reported per artifact type, plus leave-one-artifact-out / 每种组学模型配上异常分，跑"不加 / 加 pipeline"两遍，按伪影类型分开报，加"留一种伪影不训练" | the main result of the paper / 论文的主结果 |
+| 5 | dataset audit / 数据库体检报告 | the trained detector run over Lake and Abedini: estimated artifact share and suspicious altered clusters / 用训练好的检测器扫 Lake 和 Abedini：估计伪影比例，标出可疑的 altered 簇 | suspicious clusters reviewed by clinical experts, with inter-annotator agreement / 可疑簇交给临床专家复核，报告专家之间的一致性 |
+| 6 | stage 2: ATAC / 第二阶段：ATAC | the pipeline extended to RNA + ATAC / pipeline 扩展到 RNA + ATAC | depends on stage 1 / 视第一阶段进度 |
+
+<!-- ZH -->
+原始数据不再分发；发布的是代码、划分文件、注入记录和派生标签（Abedini 的派生标签要等许可确认）。
+<!-- EN -->
+Raw data are not redistributed; we release code, split files, injection records and derived labels (Abedini's derived labels only once its licence is confirmed).
+
+## 和其他课题的关系 / How it connects to the other topics {#connect}
+
+<!-- ZH -->
+- **[扰动基准课题](perturbation-benchmark.md)：**扰动预测评测里最大的陷阱，是把不是扰动造成的系统性差异算成扰动效应（[Systema](https://doi.org/10.1038/s41587-025-02777-8)）；技术伪影正是这种差异的来源之一。本课题的注入代码给扰动基准提供**可控的技术扰动**，用来检查模型会不会把伪影预测成药效或损伤效应，以及清洗数据后排名变不变。
+- **[Agent 可信度课题](agent-claims.md)：**同一套注入代码可以只往一个处理组里注入伪影，出成"伪影题"，看 agent 会不会把伪影报成药效。这一项是可选的，取决于注入代码什么时候能用；Agent 可信度课题不依赖它，先用现成工具（scDblFinder、SoupX 等）顶上。
+<!-- EN -->
+- **[The perturbation-benchmark topic](perturbation-benchmark.md):** the biggest pitfall in evaluating perturbation prediction is counting systematic differences not caused by the perturbation as its effect ([Systema](https://doi.org/10.1038/s41587-025-02777-8)), and technical artifacts are one source of such differences. This topic's injection code gives the perturbation benchmark **controlled technical perturbations**, to check whether models predict artifacts as drug or injury effects and whether rankings change after cleaning.
+- **[The agent-trustworthiness topic](agent-claims.md):** the same code can inject artifacts into a single treated group to make "artifact items", testing whether an agent reports an artifact as a drug effect. This is optional and depends on when the code is usable; the agent topic does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
+
+## 还没定的 / Open questions {#open}
 
 <!-- ZH -->
 **方向（建议已写在上面，等确认）：**
@@ -491,6 +755,7 @@ Splits are by donor, not by cell, so no person appears in both training and test
 
 - 注入 ambient 的背景谱用 Janssen（小鼠，现成）、重跑 Hoeft（人肾，要从 FASTQ 重跑），还是用其他细胞群的谱近似？Lake 和 mBDRC 都没有空液滴。
 - 单核的低质量注入（混入胞质成分）和 ambient 注入怎么划界？需要 spliced / unspliced 计数，要查 Lake 和 mBDRC 的公开文件里有没有。
+- 第一轮结果出来后，要不要开发新模型（候选：单细胞版 DRAEM，见第 2 步）？
 - 三级答案先走 A（按簇标）还是 B（切片标），还是两个都做？B 要不要成为一个单独的空间任务？参与标注的是肾内科、病理，还是两者都有？
 - Lake 的单细胞数据（scCv3）怎么用：当第二种测法，还是先不用？
 - Lake 的 altered 细胞怎么分组：有独立证据的、只靠 QC 类特征判出来的、健康人身上的，各自怎么用。
@@ -511,6 +776,7 @@ Splits are by donor, not by cell, so no person appears in both training and test
 
 - Should the ambient background profile come from Janssen (mouse, ready to use), a Hoeft rerun (human kidney, from FASTQ), or an approximation from the other cell populations? Lake and mBDRC have no empty droplets.
 - Where is the line between low-quality nuclei (cytoplasmic material added) and ambient injection? This needs spliced and unspliced counts; check whether the public Lake and mBDRC files have them.
+- After the first round, should we build a new model (candidate: a single-cell DRAEM, see Step 2)?
 - Tier 3: start with A (clusters), B (histology) or both? Should B become a separate spatial task? Will the annotators be nephrologists, pathologists or both?
 - How to use Lake's single-cell data (scCv3): as a second assay, or not for now?
 - How to split Lake's altered cells: those with independent evidence, those called only from QC-like features, and those in healthy donors.
@@ -521,7 +787,7 @@ Splits are by donor, not by cell, so no person appears in both training and test
 
 - Whether to treat the [NIH Kidney AI challenge](../papers/nih-kidney-ai-challenge-2026/index.md) as a related opportunity: it asks for new anomalies in KPMP kidney-biopsy whole-slide images, with submissions open 2026-11-05 to 2027-04-29. It tests images, not this topic's single-cell omics, so it would be an extension towards images; cash prizes go only to US citizens, permanent residents or US entities.
 
-## 阅读路线 / Reading path
+## 阅读路线 / Reading path {#reading}
 
 <!-- ZH -->
 先读完 [入门](../onboarding/index.md)，然后按这个顺序：

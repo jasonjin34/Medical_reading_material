@@ -81,9 +81,13 @@ def _split_header(line: str, lang: str) -> str:
     if not m:
         return line
     prefix, title = m.group(1), m.group(2)
+    attr = re.search(r"\s*\{#[\w-]+\}\s*$", title)   # `{#id}` anchor applies to both languages
+    tail = " " + attr.group(0).strip() if attr else ""
+    if attr:
+        title = title[:attr.start()]
     parts = title.split(" / ", 1)
     if len(parts) == 2 and CJK.search(parts[0]):
-        return prefix + (parts[0].strip() if lang == "zh" else parts[1].strip())
+        return prefix + (parts[0].strip() if lang == "zh" else parts[1].strip()) + tail
     return line
 
 
@@ -417,6 +421,8 @@ def _dataset_page(d: dict, cfg: dict, topics: dict, lang: str) -> str:
            f"| {T['licence']} | {_cell(d.get('licence', ''))} |"]
     if d.get("paper"):
         out.append(f"| {T['paper']} | {_cell(d.get('cite', ''))} · [{T['deep']}](../papers/{d['paper']}/index.md) |")
+    elif d.get("cite"):
+        out.append(f"| {T['paper']} | {_cell(d['cite'])} |")
     out.append("")
     fig = d.get("figure")
     if fig:
@@ -464,7 +470,8 @@ def _datasets_index(cfg: dict, topics: dict, lang: str) -> str:
                "怎么判断一份数据能不能用，见 [入门 · 怎么读懂一份数据集](../onboarding/07-datasets.md)。\n",
                "数字都在 2026-10-26 对过 GEO、Zenodo、cellxgene、SRA 和论文原文；标“我们数的”是从下载的标签表里算出来的。\n",
                "**能不能下载：**2026-10-26 用不下载的方式（每个文件只请求开头 16 字节）检查了 8 个数据集的 33 个文件，全部可以下载、格式正确。"
-               "每个数据集页面的“怎么准备”一节有实测过的读取步骤和代码。\n"]
+               "每个数据集页面的“怎么准备”一节有实测过的读取步骤和代码。"
+               "扰动实验那一组是 2026-10-31 加的，只核对了 GEO 记录和论文，还没做下载检查。\n"]
     else:
         out = ["# Datasets\n",
                "The public kidney datasets we use, one page each: what was measured, on how many people, which "
@@ -475,7 +482,9 @@ def _datasets_index(cfg: dict, topics: dict, lang: str) -> str:
                "\"counted by us\" means computed from the downloaded label tables.\n",
                "**Availability:** on 2026-10-26 all 33 files of the 8 datasets were checked without downloading "
                "(one 16-byte request per file): every file is downloadable and has the expected format. Each "
-               "dataset page has a tested \"How to prepare\" section with loading steps and code.\n"]
+               "dataset page has a tested \"How to prepare\" section with loading steps and code. "
+               "The perturbation group was added on 2026-10-31 and checked against the GEO records and "
+               "papers only; downloads are not yet tested.\n"]
     for g, glabel in cfg["groups"].items():
         items = [d for d in cfg["datasets"] if d.get("group") == g]
         if not items:

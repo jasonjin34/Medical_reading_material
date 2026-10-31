@@ -120,10 +120,10 @@ views:
         match: ['Xenium']
 
   plan-b:
-    title: {en: "Trustworthiness of Hypothesis-Testing Agents on Kidney Omics", zh: "肾脏组学上假设验证 agent 的可信度"}
+    title: {en: "Trustworthiness of Agent Analyses on Kidney Perturbation Data", zh: "肾脏扰动数据上 agent 分析的可信度"}
     lead:
-      en: "Give agents CKD hypotheses on raw kidney omics with answers built in advance; measure when their verdicts cannot be trusted."
-      zh: "给 agent 肾脏病假设和原始组学数据，答案事先构造好；测它的结论什么时候不可信。"
+      en: "Ask agents questions about kidney perturbations whose answers were measured; check whether their analyses and reports can be trusted."
+      zh: "问 agent 答案已经实测过的肾脏扰动问题；检查它的分析和报告能不能信。"
     select: {plans: B}
     flow:
       - {id: run, columns: [B1, B2], label: {en: "Agent runs the analysis", zh: "agent 执行分析"}}
