@@ -9,31 +9,34 @@
     - **Three steps:**
         1. **Inject**: create doublets, ambient RNA and low-quality cells by how they really arise, recording every answer;
         2. **Boost**: fine-tune current models on these labelled data so they separate healthy, diseased and artifact cells;
-        3. **Test**: test on real answers only (genotype doublets, the same donor across assays, expert-labelled diseased cells, healthy donors from a new lab), before vs after boosting.
+        3. **External validation**: test only on cells from real data whose truth is known (genotype doublets, the same donor across assays, expert-labelled diseased cells, healthy donors from a new lab), before vs after boosting.
     - **Three uses:** ① boost models (the main line); ② model audit: are artifacts taken for disease? ③ dataset audit: how many artifacts does a dataset contain?
     - **Constraint:** no wet lab, public data only; clinical experts (nephrologists, renal pathologists) annotate.
 
 ## Contents {#contents}
 
-| # | Part | What it covers |
+| # | Part | What it answers |
 |---|---|---|
-| 1 | [The question](#question) | is an abnormal cell diseased or a measurement effect; why it matters, why it is unsolved |
-| 2 | [Step 1 · The artifact-injection pipeline](#pipeline) | which three artifacts, how each is made, design rules |
-| 3 | [Step 2 · Models](#models) | two kinds of models (omics + anomaly detection); where the pipeline acts; calls before and after; a new model later?; uncertain cells |
-| 4 | [Step 3 · How we test](#evaluation) | tasks T1–T4 and real answers; a known trap; clinical experts |
-| 5 | [Data](#data) | what each of six public datasets answers and what to watch for |
-| 6 | [What we will produce](#deliverables) | six deliverables and how each is shown to be useful |
-| 7 | [How it connects](#connect) | technical controls for the perturbation benchmark; artifact items for the agent topic |
-| 8 | [Open questions](#open) | decisions still to discuss |
-| 9 | [Reading path](#reading) | which papers to read first |
+| 1 | [The question](#question) | why: an abnormal cell may be diseased or an artifact, and today we cannot tell |
+| 2 | [Method overview](#method) | how: three steps in one figure |
+| 3 | [Step 1 · Inject](#inject) | how the three artifacts are made |
+| 4 | [Step 2 · Boost](#boost) | how the injected artifacts train models |
+| 5 | [Step 3 · External validation](#validation) | how we show it really works |
+| 6 | [Data](#data) | what each public dataset does in the three steps |
+| 7 | [What we will produce](#deliverables) | what is delivered |
+| 8 | [How it connects to the perturbation benchmark](#connect) | how the two topics share code |
+| 9 | [Open questions](#open) | decisions still to discuss |
+| 10 | [Reading path](#reading) | which papers to read first |
 
 Each part starts with the key points; folded blocks (▶) hold details and sources.
 
-## The question and why it matters {#question}
+## The question {#question}
+
+This part answers why this topic is needed.
 
 **Is an abnormal-looking cell caused by disease, or by measurement?**
 
-In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Our reading (as of 2026-10): current methods flag both as "anomalous", and we found no dataset with known answers to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
+In kidney single-cell and single-nucleus data, some cells do not match healthy tissue. They may be diseased, or their abnormality may come from how they were measured (doublets, ambient RNA, low-quality cells, stress during procurement or dissociation), and the two look alike. Our reading (as of 2026-10): current methods do not set out to separate the two and often flag both as "anomalous", and we found no dataset with known answers to test whether they can tell the two apart, or how many false alarms they raise. So we cannot say how far findings built on these anomalous cells can be trusted.
 
 This topic goes one step further: **can artifacts we create teach models to tell the two apart?**
 
@@ -60,24 +63,32 @@ This topic goes one step further: **can artifacts we create teach models to tell
     - **Foundation models have not been tested against artifacts.** A zero-shot evaluation found scGPT and Geneformer embeddings often behind simpler methods ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)), but on batch effects; we found no study testing foundation models against doublets, ambient RNA or low-quality cells.
     - **Not found:** a tool that injects several artifact types into any real dataset with recorded answers, then trains models to tell artifact from disease. That is what is new here.
 
-    **Evidence and warnings from images:** DRAEM, trained on synthetic defects, raised image-level AUROC on MVTec AD from the previous best of 95.5 to 98.0, and its authors say the defects need not look realistic ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). But a study across 420 tasks found that when the augmentation does not match how real anomalies arise, self-supervised training can even hurt ([Yoo 2022](https://arxiv.org/abs/2208.07734)); in single cells, detectors trained on simulated doublets reach a best mean AUPRC of only 0.537 on 16 datasets with real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hence two hard rules here: **inject artifacts by their cause, and test on real answers.**
+    **Evidence and warnings from images:** DRAEM, trained on synthetic defects, raised image-level AUROC on MVTec AD from the previous best of 95.5 to 98.0, and its authors say the defects need not look realistic ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). But a study across 420 tasks found that when the augmentation does not match how real anomalies arise, self-supervised training can even hurt ([Yoo 2022](https://arxiv.org/abs/2208.07734)); in single cells, detectors trained on simulated doublets reach a best mean AUPRC of only 0.537 on 16 datasets with real labels ([Xi & Li 2021](https://doi.org/10.1016/j.cels.2020.11.008)). Hence two hard rules here: **inject artifacts by their cause, and validate externally on real data only.**
 
-## Step 1 · The artifact-injection pipeline {#pipeline}
+## Method overview {#method}
+
+This part answers how the whole method works. In one sentence: **create artifacts with known answers (inject), train models on them (boost), and check them only on real data (external validation).**
 
 **Idea:** in image anomaly detection, training on synthetic defects pasted onto normal images set a new best on MVTec AD (DRAEM); but when the synthetic defects do not match how real ones arise, training can even hurt (Yoo 2022). We carry the idea over to single cells and create artifacts by their cause: doublets have a mature recipe (sum two cells' counts, shrink some library sizes), ambient RNA is a background profile mixed in at a set fraction, and low-quality cells can only be approximated (lost cytoplasmic RNA in single cells, added cytoplasmic material in single nuclei). So injected artifacts are used for training only.
 
+| Step | What it does | Data | Output |
+|---|---|---|---|
+| Step 1 · Inject | create doublets, ambient RNA and low-quality cells in real data, recording every answer | healthy cells (Lake, mBDRC) | labelled training data |
+| Step 2 · Boost | train models on these answers to separate healthy, diseased and artifact cells | the step-1 training data | boosted models |
+| Step 3 · External validation | check only on real cells whose truth is known, before vs after boosting | Hoeft, mBDRC, Lake's diseased cells, Abedini | whether the pipeline works |
+
 ### The whole flow
 
-Orange: injected artifacts and the labelled data. Purple: models, each run twice (original and boosted). Green: real answers, used only for testing. Blue: the three uses.
+Orange: injected artifacts and the labelled data. Purple: models, each run twice (original and boosted). Green: real answers, used only for external validation. Blue: the three uses.
 
 ```mermaid
 flowchart TB
   D["any single-cell dataset<br/>e.g. public Lake or mBDRC data"] --> P["Step 1 · inject known artifacts<br/>doublet · ambient RNA · low-quality cell"]
   P --> L["labelled training data<br/>every artifact recorded: type · strength · source cells"]
-  L ~~~ R["real answers, the examiner<br/>Hoeft genotype doublets · mBDRC assay change<br/>Lake diseased cells · Abedini new-lab healthy donors"]
+  L ~~~ R["real answers, for external validation<br/>Hoeft genotype doublets · mBDRC assay change<br/>Lake diseased cells · Abedini new-lab healthy donors"]
   L ~~~ M0["original models: healthy cells only<br/>omics model (PCA · scVI · foundation model) + anomaly score"]
   L --> M1["Step 2 · boosted models<br/>+ an artifact discriminator trained on injected artifacts"]
-  M0 --> C{"Step 3 · test on real answers only<br/>compare before vs after the pipeline"}
+  M0 --> C{"Step 3 · external validation<br/>real data only, before vs after the pipeline"}
   M1 --> C
   R --> C
   C --> U1["① boost<br/>better on real answers?"]
@@ -94,9 +105,13 @@ flowchart TB
   class M0,M1 model
 ```
 
-### Which artifacts
+## Step 1 · Inject: create artifacts with known answers {#inject}
 
-Three artifacts in the main line, **doublets first**: they have the strongest precedent and a ready real answer, so they are the best way to run the whole loop (inject, train, test on real answers, report) end to end; adding ambient RNA and low-quality cells then only swaps the injection module. All three are needed because each one imitates a different "disease" (the second column is our inference):
+This part answers how each of the three artifacts is made, and which rules the recipes follow.
+
+### Which three artifacts
+
+Three artifacts in the main line, **doublets first**: they have the strongest precedent and a ready real answer, so they are the best way to run the whole loop (inject, boost, validate externally, report) end to end; adding ambient RNA and low-quality cells then only swaps the injection module. All three are needed because each one imitates a different "disease" (the second column is our inference):
 
 | Artifact | Could be taken for | Why | Plan |
 |---|---|---|---|
@@ -106,7 +121,7 @@ Three artifacts in the main line, **doublets first**: they have the strongest pr
 | dissociation stress | injury: FOS, JUN up | [Denisenko 2020](../datasets/denisenko-2020.md) (mouse) | not injected: no precedent, and the main data are single-nucleus |
 | batch or assay change | — | not a per-cell artifact, cannot be injected | tested on real data instead (T2b, T4) |
 
-### How each is injected
+### How each is made
 
 The three artifacts can be simulated to very different degrees: doublets have a mature recipe, ambient RNA can reuse existing models in reverse, and low-quality cells can only be approximated. Each recipe below names its sources (checked against papers and code on 2026-10-31). Parameter ranges, and whether injected artifacts look like real ones, remain assumptions to be tested on real answers.
 
@@ -152,7 +167,7 @@ The three artifacts can be simulated to very different degrees: doublets have a 
 These follow from the evidence above (our synthesis):
 
 1. **Inject by cause, not for realism.** Each artifact follows how it really arises: two cells in one droplet, background RNA mixed in, cytoplasmic RNA lost (single cells) or cytoplasmic material added (single nuclei).
-2. **Keep training and testing apart.** Injected artifacts are for training; testing uses real answers, or at least a different injection recipe.
+2. **Keep training and validation apart.** Injected artifacts are for training; external validation uses real data, or at least a different injection recipe.
 3. **Leave one artifact out.** For example, train on doublets and ambient RNA and test on low-quality cells, to see whether a model learned what artifacts share or only memorised the recipe.
 4. **Report per artifact type**, expecting method rankings to change between types (on tabular data, ADBench found no unsupervised method statistically better than the others overall; performance depends on whether a method's assumptions match the anomaly type, [Han 2022](https://arxiv.org/abs/2206.09426)).
 5. **Vary the amount and the recipe:** the ratio of synthetic to normal cells, one recipe or a mix.
@@ -163,11 +178,23 @@ These follow from the evidence above (our synthesis):
     
     RNA first; ATAC is added once stage 1 works (suggested, not decided). ATAC has injection precedents too: ArchR generates "synthetic doublets" and finds their neighbours ([Granja 2021](https://doi.org/10.1038/s41588-021-00790-6)); AMULET simulates doublets by adding two nuclei's read counts ([Thibodeau 2021](https://doi.org/10.1186/s13059-021-02469-x)); ambisim controls ambient molecule proportions in joint snRNA/snATAC data ([Li 2025](https://doi.org/10.1101/2025.02.06.636969)); low-quality nuclei are judged by TSS enrichment, fragment counts and similar metrics, with thresholds tuned per dataset. The scDblFinder documentation also warns that with default parameters it "performs very poorly" on scATAC.
 
-## Step 2 · Models {#models}
+## Step 2 · Boost: train models on the artifacts {#boost}
 
-This step uses **two kinds of models**, chained together: an omics model turns each cell into a vector, and an anomaly-detection model scores the vectors.
+This part answers how the injected artifacts train models. In one figure:
 
-> a cell's gene counts → **omics model** (a vector) → **anomaly-detection model** (a score) → threshold → call
+```mermaid
+flowchart LR
+  X["a cell's gene counts"] --> O["omics model<br/>PCA · scVI · foundation model"]
+  O --> V["vector"]
+  V --> S["anomaly-detection model<br/>kNN etc. → anomaly score"]
+  V --> D["artifact discriminator<br/>only with the pipeline"]
+  S --> C{"call<br/>normal · artifact · possibly disease"}
+  D --> C
+  classDef inj fill:#fde7d0,stroke:#c46a1a,color:#3a2410
+  classDef model fill:#f3f0fa,stroke:#6b5a9e,color:#221a38
+  class D inj
+  class O,S model
+```
 
 ### Two kinds of models
 
@@ -180,60 +207,38 @@ This step uses **two kinds of models**, chained together: an omics model turns e
 
 The main line uses RNA models, since the main data are single-nucleus RNA; ATAC (which regions of DNA are open) is stage 2.
 
-### Where the pipeline acts
+### Before and after the pipeline
 
-Injected, labelled artifacts can act in two places:
-
-1. **On the anomaly-detection step (first):** the omics model is left unchanged; on its vectors, an **artifact discriminator** is trained on the injected artifacts and combined with the original anomaly score. Image anomaly detection uses the same idea: train with a set of known outliers (outlier exposure, [Hendrycks 2019](https://arxiv.org/abs/1812.04606)), or train a discriminator on synthetic defects as DRAEM does ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)).
-2. **On the omics model (later):** fine-tune the omics model itself (e.g. Geneformer) on the injected artifacts, so that its vectors already separate artifacts from disease. This costs far more.
-
-### How a cell is called, before and after
-
-- **Without the pipeline:** the anomaly-detection model learns healthy cells only. A high score means "anomalous", with no way to tell disease from artifact.
-- **With the pipeline:** training has only two labels, **healthy** and **artifact** (injected); there is **no disease label**, and diseased cells appear only at test time (T1 uses Lake's altered states). The call is:
-
-| Anomaly score | Artifact discriminator | Call |
+| | Without the pipeline | With the pipeline |
 |---|---|---|
-| low | — | normal |
-| high | artifact-like | artifact |
-| high | not artifact-like | possibly disease |
+| Training data | healthy cells only | healthy cells + injected artifacts with labels |
+| What it learns | what normal looks like | what normal and artifacts look like |
+| Output per cell | an anomaly score | anomaly score + artifact-like or not |
+| Call | high score = anomalous | low → normal; high and artifact-like → artifact; high, not artifact-like → possibly disease |
+| Disease vs artifact? | no | yes |
 
-How thresholds are set, and what happens to uncertain cells, is under "Uncertain cells" below.
-
-### The core comparison
-
-On each omics model, compare without and with the pipeline: **same vectors, same anomaly score; the only difference is whether injected artifacts were used in training**. This answers cleanly whether the pipeline helps. Run the comparison on several omics models:
-
-- all improve → the pipeline works;
-- only some improve → the gain depends on the omics model (e.g. large models gain more, or less);
-- none improve → the injected artifacts are too far from real ones, and the injection must be revised.
-
-Keep the first round small (suggested, not decided): kNN as the anomaly score, with Isolation Forest and the autoencoder in the appendix; frozen vectors first, fine-tuning later. The "reference method" mentioned earlier is simply the simplest combination here: PCA + kNN + conformal thresholds + artifact discriminator.
+- **No disease label:** training has only healthy and artifact labels, so disease is found by exclusion; diseased cells appear only in external validation.
+- **Fair comparison:** both runs use the same vectors and anomaly score and differ only in the artifact discriminator. Every omics model improves → the pipeline works; only some → it depends on the omics model; none → revise the injection.
+- **Where it acts:** first on the anomaly-detection step (cheap); later by fine-tuning the omics model itself on artifacts (costly). Precedents come from images: outlier exposure ([Hendrycks 2019](https://arxiv.org/abs/1812.04606)) and DRAEM ([Zavrtanik 2021](https://arxiv.org/abs/2108.07610)).
+- **First round (suggested, not decided):** kNN scores on frozen vectors. The simplest combination, PCA + kNN + conformal thresholds + artifact discriminator, is our **reference method**.
 
 ### Floor and reference points
 
-- **QC floor:** a score from gene count and mitochondrial share only; no training, run once. Lake's criteria for disease already include "few genes, many mitochondrial transcripts", so a complex method that cannot beat this floor has only learned "poor quality".
-- **Specialist artifact tools:** scDblFinder and scds are already trained on simulated doublets, i.e. they already "use a pipeline". They serve as reference points on T2 (finding real doublets), showing how far a specialist tool gets, and are not part of the before/after comparison.
-- **SoupX and DecontX correct counts; they are not discriminators:** SoupX estimates one contamination fraction per sample, DecontX one per cell, and both then correct the counts; neither decides whether a cell is an artifact or diseased. We borrow their models to inject ambient RNA (see Step 1), and DecontX's per-cell estimate can serve as a reference point on the ambient task.
-- **The model audit (use ②) is a separate experiment:** without boosting, check whether injected artifacts sit close to real diseased cells in an omics model's vector space, especially a foundation model's. If they do, that model tends to mistake artifacts for disease.
+These are not part of the before/after comparison; they give the results a frame: what any method must beat, and how far specialist tools get.
 
-### Later: a new model?
+| What | How it works | Role |
+|---|---|---|
+| **QC floor** | scores a cell only by how many genes it has and its mitochondrial share: fewer genes and more mitochondrial reads mean more "anomalous"; no model, no training, run once | **the base: every model is compared with it, and only a model that clearly beats it counts as effective.** Lake's criteria for disease already include "few genes, many mitochondrial transcripts", so a method that cannot clearly beat this floor has only learned "poor quality", not disease (see "A known trap") |
+| **specialist doublet tools** | scDblFinder, scds: already trained on simulated doublets | reference on T2 (finding real doublets): how far a specialist tool gets. They already "use a pipeline", so they are not in the before/after comparison |
+| **SoupX, DecontX** | correction tools: SoupX estimates one contamination fraction per sample, DecontX one per cell, and both then correct the counts; neither decides whether a cell is an artifact or diseased | not models here: we borrow their models to inject ambient RNA (Step 1), and DecontX's per-cell estimate is a reference on the ambient task |
+| **model audit (use ②)** | a separate experiment without boosting: do injected artifacts sit close to real diseased cells in an omics model's vector space, especially a foundation model's? | if they sit close, that model tends to mistake artifacts for disease |
 
-The first round uses existing models only (future plan, not decided). Reasons: this topic's main claim is whether the pipeline helps, and changing the model at the same time would blur the credit; the existing models already include deep models (autoencoder, scVI, foundation models); and a new model need not win: on tabular data no unsupervised method was better overall ([Han 2022](https://arxiv.org/abs/2206.09426)), and foundation models zero-shot were often behind simple methods ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)).
+### More details
 
-Decide after the first round:
+??? note "Foundation models: frozen vectors first, no pretraining"
 
-- the artifact discriminator clearly improves every omics model → no new model needed;
-- the discriminator recognises injected artifacts but fails on real answers → combining a separate score and a separate discriminator is not enough, and a model that learns both together is worth building;
-- only fine-tuned foundation models improve → the new contribution is more likely a way to fine-tune omics models on artifacts.
-
-**Candidate direction: a single-cell DRAEM.** A reconstruction branch learns healthy cells only (its error is the anomaly score), a discriminative branch is trained on injected artifacts and outputs their type, and both are trained together (the DRAEM design, [Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). Searching up to 2026-10-31, we found no such model in single-cell or spatial omics; the closest is [STANDS](../papers/spatial-natcommun-2024/index.md), which trains a reconstruction GAN on a normal reference in spatial transcriptomics and scores anomalies by reconstruction, but does not train on synthetic anomalies. One idea specific to this topic (literature not yet checked): penalise the model for relying on "few genes, high mitochondrial share", so it does not learn only "poor quality"; this may also suppress real injury signal, so it needs care.
-
-### Foundation models: fine-tune, do not pretrain
-
-No pretraining from scratch (not decided): pretraining a kidney model needs tens of millions of cells. Geneformer V2 and scGPT come first, as frozen vectors first and fine-tuned later; we found no model pretrained on RNA and ATAC together with public weights. Foundation models must be compared with simple methods, since zero-shot they are often behind them.
-
-??? note "Details: candidates, licences and sources"
+    
+    No pretraining from scratch (not decided): pretraining a kidney model needs tens of millions of cells. Geneformer V2 and scGPT come first, as frozen vectors first and fine-tuned later; we found no model pretrained on RNA and ATAC together with public weights. Foundation models must be compared with simple methods, since zero-shot they are often behind them.
 
     
     We suggest fine-tuning existing open models only (not decided). Pretraining from scratch is unrealistic: the first kidney-specific multimodal foundation model, [Nephrobase Cell+](../papers/nephrobase-biorxiv-2025/index.md), used about 39.5 million cells, four species and five assays, with up to 1 billion parameters; as of 2026-10-28 we found no public code or weights. Candidates checked on 2026-10-28:
@@ -249,16 +254,15 @@ No pretraining from scratch (not decided): pretraining a kidney model needs tens
     
     We found no model pretrained on RNA and ATAC together with public weights, so stage 2 may pair an RNA model with an ATAC model. Foundation models must be compared with simple methods: in a zero-shot evaluation scGPT and Geneformer were often behind HVG selection, Harmony and scVI ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)).
 
-### Uncertain cells: out-of-fold scores
+??? note "Uncertain cells: donor-grouped cross-validation, calibration, conformal thresholds, expert review"
 
-Models can also flag cells they are unsure about. All models follow four steps (suggested, not decided):
+    
+    Models can also flag cells they are unsure about. All models follow four steps (suggested, not decided):
 
-1. donor-grouped K-fold cross-validation, out-of-fold scores only;
-2. calibrate probabilities before setting thresholds;
-3. set thresholds by conformal prediction (the guarantee breaks in a new lab; T4 tests this);
-4. send uncertain cells to experts, but **never use them as labels**: an uncertain cell may be an artifact, a transitional state or early disease.
-
-??? note "Details: evidence for each step, and what we did not find"
+    1. donor-grouped K-fold cross-validation, out-of-fold scores only;
+    2. calibrate probabilities before setting thresholds;
+    3. set thresholds by conformal prediction (the guarantee breaks in a new lab; T4 tests this);
+    4. send uncertain cells to experts, but **never use them as labels**: an uncertain cell may be an artifact, a transitional state or early disease.
 
     
     Models can also flag cells they are unsure about. All models are scored the same way (suggested, not decided; sources checked on 2026-10-31):
@@ -272,31 +276,59 @@ Models can also flag cells they are unsure about. All models follow four steps (
 
     **Not found (search up to October 2026):** donor-grouped out-of-fold scores in single-cell annotation or QC; using cross-validated or conformal uncertainty to separate artifact from disease; a single-cell measurement of expert-review workload against error rate.
 
-## Step 3 · How we test: real answers {#evaluation}
+??? note "Later: a new model? (future plan)"
 
-Injected artifacts (tier 1) are for training only. Testing uses two kinds of real answers: **tier 2**, fixed by experimental design (Hoeft's genotype doublets from pooled donors, mBDRC's same donor across assays, Janssen's mixed mouse strains), and **tier 3**, expert judgement (Lake's altered states, and the labels clinical experts add).
+    
+    The first round uses existing models only (future plan, not decided). Reasons: this topic's main claim is whether the pipeline helps, and changing the model at the same time would blur the credit; the existing models already include deep models (autoencoder, scVI, foundation models); and a new model need not win: on tabular data no unsupervised method was better overall ([Han 2022](https://arxiv.org/abs/2206.09426)), and foundation models zero-shot were often behind simple methods ([Kedzierska 2025](../papers/scfm-zeroshot-genomebiol-2025/index.md)).
+
+    Decide after the first round:
+
+    - the artifact discriminator clearly improves every omics model → no new model needed;
+    - the discriminator recognises injected artifacts but fails on real answers → combining a separate score and a separate discriminator is not enough, and a model that learns both together is worth building;
+    - only fine-tuned foundation models improve → the new contribution is more likely a way to fine-tune omics models on artifacts.
+
+    **Candidate direction: a single-cell DRAEM.** A reconstruction branch learns healthy cells only (its error is the anomaly score), a discriminative branch is trained on injected artifacts and outputs their type, and both are trained together (the DRAEM design, [Zavrtanik 2021](https://arxiv.org/abs/2108.07610)). Searching up to 2026-10-31, we found no such model in single-cell or spatial omics; the closest is [STANDS](../papers/spatial-natcommun-2024/index.md), which trains a reconstruction GAN on a normal reference in spatial transcriptomics and scores anomalies by reconstruction, but does not train on synthetic anomalies. One idea specific to this topic (literature not yet checked): penalise the model for relying on "few genes, high mitochondrial share", so it does not learn only "poor quality"; this may also suppress real injury signal, so it needs care.
+
+## Step 3 · External validation: check only on real data {#validation}
+
+This part answers how we show that the pipeline really works.
+
+Models are trained on artifacts we create; testing them on created artifacts would only show they memorised the recipe. So this step uses only **cells from real data whose truth is known**, never touched during training or tuning. This is **external validation**. Every check compares two numbers, without and with the pipeline; only a clear gain shows that the pipeline helps.
+
+### Where the truth comes from
+
+With no wet lab, the truth can only come from public data whose **experimental design already carries the answer**, or from expert judgement:
+
+| Data | What is known for sure | Why | How reliable |
+|---|---|---|---|
+| [Hoeft 2024](../datasets/hoeft-2024.md) | which droplets are real doublets | four people pooled in one run; a droplet carrying two people's DNA must hold two cells | fixed by design (a lower bound: same-person doublets stay hidden) |
+| [mBDRC 2026](../datasets/mbdrc-2026.md) | differences that are not disease | the same healthy person measured with several assays | fixed by design |
+| [Lake 2023](../datasets/lake-2023.md) | which cells are diseased | the atlas authors labelled altered states | expert judgement, the weakest (see the trap below) |
+| [Abedini 2024](../datasets/abedini-2024.md) | cells that should not be flagged | healthy donors from another lab | our design choice (healthy tissue also has some altered cells) |
+
+### What is checked
 
 | Task | Question | Real answer | Metric |
 |---|---|---|---|
-| T1 | find diseased cells | Lake altered states, tier 3 | AUROC, AUPRC; against the QC baseline |
-| T2 | find real measurement artifacts | Hoeft genotype doublets, tier 2 (a lower bound); held-out injected types as a secondary check | AUROC, AUPRC |
-| T2b | is an assay change flagged as anomalous? | mBDRC same donor, tier 2 | false-alarm rate ≤ α |
+| T1 | find diseased cells | Lake altered states (expert judgement) | AUROC, AUPRC; against the QC floor |
+| T2 | find real measurement artifacts | Hoeft genotype doublets (fixed by design, a lower bound); held-out injected types as a secondary check | AUROC, AUPRC |
+| T2b | is an assay change flagged as anomalous? | mBDRC same donor (fixed by design) | false-alarm rate ≤ α |
 | T3 | separate disease from artifact | T1 and T2 together | macro-F1, confusion matrix |
 | T4 | do false alarms stay controlled in a new lab? | every call on an Abedini healthy donor counts as a false alarm (our design choice; healthy tissue also carries altered cells) | observed rate vs α |
 
-Every task reports two numbers, without and with the pipeline, plus the leave-one-artifact-out results.
+Each check reports two numbers, without and with the pipeline, plus leave-one-artifact-out results (e.g. train on doublets and ambient RNA only, then test on low-quality cells), which show whether a model learned what artifacts share or only memorised one recipe.
 
 !!! warning "A known trap"
     Our reading: using Lake's altered labels directly as disease ground truth is partly circular (the authors also used injury markers and AKI / CKD enrichment, not only QC features): in the single-nucleus data the largest altered group (degenerative) has less than half the genes of normal nuclei and about five times the mitochondrial fraction, so a scorer that looks only at QC metrics could score well. The benchmark therefore needs a QC-only baseline and reports results per state (degenerative / adaptive). The teaching pipeline in [onboarding module 9](../onboarding/09-hands-on.md) already shows a first sign of this: on degenerative nuclei kNN reaches AUROC 0.76–0.81 and the gene-count baseline 0.76–0.85, with kNN worse in 4 of 5 splits (a teaching result, not a benchmark result).
 
-### Making tier 3 solid: clinical experts
+### Making the disease answer more reliable: clinical experts
 
-Tier 3 is the weakest link. Clinical experts (nephrologists, renal pathologists) can strengthen it in two ways: **A** re-annotate altered clusters (likely injury / likely low quality / unsure, several independent annotators with agreement reported); **B** outline injured regions on the H&E images paired with the public Visium data and check anomaly scores spot by spot.
+Lake's disease labels are expert judgement, the weakest link. Clinical experts (nephrologists, renal pathologists) can strengthen it in two ways: **A** re-annotate altered clusters (likely injury / likely low quality / unsure, several independent annotators with agreement reported); **B** outline injured regions on the H&E images paired with the public Visium data and check anomaly scores spot by spot.
 
 ??? note "Details: how A and B work, precedent, feasibility and limits"
 
     
-    Tier 3 is the weakest link. Lake flagged altered states partly by "low genes detected, a high number of mitochondrial transcripts" ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md) Methods), which are also the signs of a low-quality cell, so using these labels as disease ground truth is partly circular (see "A known trap" above). Lake's labels come from a consortium of pathologists, biologists and nephrologists, with no inter-annotator agreement reported. Clinical experts can strengthen this in two ways:
+    Lake's disease labels are expert judgement, the weakest link. Lake flagged altered states partly by "low genes detected, a high number of mitochondrial transcripts" ([Lake 2023](../papers/lake-kidney-atlas-nature-2023/index.md) Methods), which are also the signs of a low-quality cell, so using these labels as disease ground truth is partly circular (see "A known trap" above). Lake's labels come from a consortium of pathologists, biologists and nephrologists, with no inter-annotator agreement reported. Clinical experts can strengthen this in two ways:
 
     | | A · re-annotate clusters | B · annotate histology |
     |---|---|---|
@@ -310,18 +342,21 @@ Tier 3 is the weakest link. Clinical experts (nephrologists, renal pathologists)
 
 ## Data {#data}
 
+This part answers what each public dataset does in the three steps. A dataset can serve several steps, but no person's cells appear in both training and validation (see "Splits").
+
 Public kidney data only: human first, mouse only for calibration. Full facts about each dataset (what was measured, how many people, how to download) are under [Datasets](../datasets/index.md); this section says **what each one does in this topic, which part we use, and what to watch for**.
 
-### Which side each dataset answers
+### By step
 
-| Dataset | Side | Role | Tasks | Status |
-|---|---|---|---|---|
-| [Lake 2023](../datasets/lake-2023.md) | disease | healthy reference, disease labels, base for injection | T1, T3; injection base | main line |
-| [mBDRC 2026](../datasets/mbdrc-2026.md) | measurement | same donor, several assays | T2b; also injection base | main line |
-| [Abedini 2024](../datasets/abedini-2024.md) | disease | second lab, false-alarm test | T4 | main line |
-| [Janssen 2023](../datasets/janssen-2023.md), mouse | measurement | calibrates injected ambient RNA | — (not a test set) | main line |
-| [Hoeft 2024](../datasets/hoeft-2024.md) | measurement | real human doublets and ambient RNA, the examiner for T2 | T2 | main line |
-| [Lake 2019](../datasets/lake-2019.md) | measurement | same person, different storage and processing | like T2b | under discussion |
+| Step | Data | What it does | Status |
+|---|---|---|---|
+| Step 1 · inject | [Lake 2023](../datasets/lake-2023.md), [mBDRC 2026](../datasets/mbdrc-2026.md) | healthy cells as the base for injection, and the healthy reference | main line |
+| Step 1 · inject | [Janssen 2023](../datasets/janssen-2023.md) (mouse) | calibrates how much ambient RNA to inject, and checks a synthetic background against real empty droplets | main line |
+| Step 3 · validation | [Hoeft 2024](../datasets/hoeft-2024.md) | real human-kidney doublets and ambient RNA (T2) | main line |
+| Step 3 · validation | [mBDRC 2026](../datasets/mbdrc-2026.md) | same donor, several assays (T2b) | main line |
+| Step 3 · validation | [Lake 2023](../datasets/lake-2023.md) | diseased cells (T1, T3) | main line |
+| Step 3 · validation | [Abedini 2024](../datasets/abedini-2024.md) | a second lab's healthy donors (T4) | main line |
+| Step 3 · validation | [Lake 2019](../datasets/lake-2019.md) | same person, different storage and processing (like T2b) | under discussion |
 
 The table below is generated from the [Datasets](../datasets/index.md) records and puts the basics of the first five side by side:
 
@@ -342,20 +377,20 @@ The table below is generated from the [Datasets](../datasets/index.md) records a
     - **Which part:** the main line starts with the single-nucleus data (snCv3). Download the count matrix and label table from GEO, because `state.l1/l2` (reference or altered) and `percent.mt` exist only in the GEO label table; the cellxgene files have neither (mitochondrial genes were removed). How to use the single-cell data (scCv3) is not decided.
     - **What it provides:**
         - **Healthy reference:** `reference`-state cells from healthy donors, the "normal" training data.
-        - **Disease answer (tier 3):** `altered`-state cells from patients, for T1.
+        - **Disease answer (expert judgement):** `altered`-state cells from patients, for T1.
         - **Base for injection:** doublets, ambient RNA and low-quality cells made from healthy cells, for training.
     - **Watch for:**
         - The degenerative state looks like low-quality cells (see "A known trap" above), so a QC-only baseline is required and results are reported per state.
         - Healthy donors carry altered cells too (26% of their nuclei in the single-nucleus data, our count); they cannot serve as normal negatives and are reported separately.
         - Raw sequencing is controlled, so **there are no empty droplets**; the background profile for injected ambient RNA must either come from elsewhere (Janssen or Hoeft) or be approximated from the other cell populations (see "The artifact-injection pipeline").
-        - It also has 23 Visium sections with H&E images, a candidate for the tier-3 histology annotation (see "Making tier 3 solid" above).
+        - It also has 23 Visium sections with H&E images, a candidate for expert histology annotation (see "Clinical experts" in Step 3).
 
 ??? note "mBDRC 2026 · One donor, several assays"
 
     
     - **Which part:** the integrated RNA file on cellxgene. 11 of its 18 donors were measured with two or three assays; they are the core of T2b.
     - **What it provides:**
-        - **A real answer on the measurement side (tier 2):** tissue from the same person flagged as anomalous only because the assay changed is counted as a false alarm (our design choice).
+        - **A real answer on the measurement side (fixed by design):** tissue from the same person flagged as anomalous only because the assay changed is counted as a false alarm (our design choice).
         - More healthy reference, and a base for injection.
     - **Watch for:**
         - A donor cannot be in the reference and in the T2b test at once, so splits are by donor.
@@ -372,7 +407,7 @@ The table below is generated from the [Datasets](../datasets/index.md) records a
         - Our reading: these data are "cleaner" than Lake's, which is itself a distribution shift and must be stated when reading results.
         - The single-cell part used 37 °C enzymatic digestion, so it carries dissociation stress.
         - The data licence is not stated; it must be confirmed before releasing derived labels.
-        - Its 13 H&E images (DKD, hypertension and controls, no AKI) are also a candidate for tier-3 histology annotation.
+        - Its 13 H&E images (DKD, hypertension and controls, no AKI) are also a candidate for expert histology annotation.
 
 ??? note "Janssen 2023 · Calibrating injected ambient RNA"
 
@@ -385,7 +420,7 @@ The table below is generated from the [Datasets](../datasets/index.md) records a
 
     
     - **Which part:** frozen kidney biopsies from 4 patients pooled in one single-nucleus channel. The GEO matrix is filtered, so CellRanger and souporcell must be rerun on the public FASTQ with the genotype files.
-    - **What it provides:** **real** human-kidney doublet (by genotype) and ambient answers. Under the new direction it is main line: the examiner for T2, and a check on whether our injected artifacts look real. Our reading: the rerun also yields empty droplets, giving a background profile from human kidney itself.
+    - **What it provides:** **real** human-kidney doublet (by genotype) and ambient answers. Under the new direction it is main line: the answer for T2 in external validation, and a check on whether our injected artifacts look real. Our reading: the rerun also yields empty droplets, giving a background profile from human kidney itself.
     - **Watch for:**
         - Only 4 people: enough for validation, not for main results.
         - Genotypes reveal only cross-donor doublets; two nuclei from the same person stay hidden, so the 250 genotype doublets are a lower bound.
@@ -413,17 +448,17 @@ Splits are by donor, not by cell, so no person appears in both training and test
 |---|---|---|---|
 | 1 | artifact-injection pipeline (open source) | takes any single-cell dataset (AnnData), injects doublets, ambient RNA and low-quality cells, and records for every cell the artifact type, strength and source cells | injected artifacts compared with real ones: calibrated on Janssen, checked against Hoeft |
 | 2 | boost method | a recipe to fine-tune models on injected artifacts so they separate healthy, diseased and artifact cells | before-and-after comparison on real answers |
-| 3 | real-answer test set, the examiner | Hoeft genotype doublets, mBDRC assay changes, Lake diseased cells, Abedini healthy donors, with fixed tasks, metrics and donor splits | released for reuse |
+| 3 | external validation set | Hoeft genotype doublets, mBDRC assay changes, Lake diseased cells, Abedini healthy donors, with fixed tasks, metrics and donor splits | released for reuse |
 | 4 | results table | each omics model with its anomaly score, with and without the pipeline, reported per artifact type, plus leave-one-artifact-out | the main result of the paper |
 | 5 | dataset audit | the trained detector run over Lake and Abedini: estimated artifact share and suspicious altered clusters | suspicious clusters reviewed by clinical experts, with inter-annotator agreement |
 | 6 | stage 2: ATAC | the pipeline extended to RNA + ATAC | depends on stage 1 |
 
 Raw data are not redistributed; we release code, split files, injection records and derived labels (Abedini's derived labels only once its licence is confirmed).
 
-## How it connects to the other topics {#connect}
+## How it connects to the perturbation benchmark {#connect}
 
 - **[The perturbation-benchmark topic](perturbation-benchmark.md):** the biggest pitfall in evaluating perturbation prediction is counting systematic differences not caused by the perturbation as its effect ([Systema](https://doi.org/10.1038/s41587-025-02777-8)), and technical artifacts are one source of such differences. This topic's injection code gives the perturbation benchmark **controlled technical perturbations**, to check whether models predict artifacts as drug or injury effects and whether rankings change after cleaning.
-- **[The agent-trustworthiness topic](agent-claims.md):** the same code can inject artifacts into a single treated group to make "artifact items", testing whether an agent reports an artifact as a drug effect. This is optional and depends on when the code is usable; the agent topic does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
+- **[Part 2 (agents) of the perturbation benchmark](perturbation-benchmark.md#agents):** the same code can inject artifacts into a single treated group to make "artifact items", testing whether an agent reports an artifact as a drug effect. This is optional and depends on when the code is usable; the agent part does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
 
 ## Open questions {#open}
 
@@ -438,7 +473,7 @@ Raw data are not redistributed; we release code, split files, injection records 
 - Should the ambient background profile come from Janssen (mouse, ready to use), a Hoeft rerun (human kidney, from FASTQ), or an approximation from the other cell populations? Lake and mBDRC have no empty droplets.
 - Where is the line between low-quality nuclei (cytoplasmic material added) and ambient injection? This needs spliced and unspliced counts; check whether the public Lake and mBDRC files have them.
 - After the first round, should we build a new model (candidate: a single-cell DRAEM, see Step 2)?
-- Tier 3: start with A (clusters), B (histology) or both? Should B become a separate spatial task? Will the annotators be nephrologists, pathologists or both?
+- Expert help for the disease answer: start with A (clusters), B (histology) or both? Should B become a separate spatial task? Will the annotators be nephrologists, pathologists or both?
 - How to use Lake's single-cell data (scCv3): as a second assay, or not for now?
 - How to split Lake's altered cells: those with independent evidence, those called only from QC-like features, and those in healthy donors.
 - Should T2b be its own task or part of T4? Should Lake 2019 join the main line?
