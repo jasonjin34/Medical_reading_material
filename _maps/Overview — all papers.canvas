@@ -254,7 +254,7 @@
    "label": "cites"
   },
   {
-   "id": "e33",
+   "id": "e34",
    "fromNode": "fev-bioinformatics-agents-arxiv-2026",
    "toNode": "deepevidence-natmachintell-2026",
    "fromSide": "right",
@@ -262,7 +262,7 @@
    "label": "cites"
   },
   {
-   "id": "e35",
+   "id": "e36",
    "fromNode": "fev-bioinformatics-agents-arxiv-2026",
    "toNode": "cellvoyager-natmethods-2026",
    "fromSide": "right",
@@ -270,7 +270,7 @@
    "label": "cites"
   },
   {
-   "id": "e37",
+   "id": "e38",
    "fromNode": "fev-bioinformatics-agents-arxiv-2026",
    "toNode": "co-scientist-nature-2026",
    "fromSide": "right",
@@ -278,7 +278,7 @@
    "label": "cites"
   },
   {
-   "id": "e70",
+   "id": "e79",
    "fromNode": "resolvi-natmethods-2026",
    "toNode": "ovrlpy-natbiotech-2026",
    "fromSide": "right",
@@ -286,7 +286,7 @@
    "label": "cites"
   },
   {
-   "id": "e86",
+   "id": "e95",
    "fromNode": "xenium-split-natmethods-2026",
    "toNode": "resolvi-natmethods-2026",
    "fromSide": "right",
@@ -294,7 +294,7 @@
    "label": "cites"
   },
   {
-   "id": "e112",
+   "id": "e127",
    "fromNode": "xenium-split-natmethods-2026",
    "toNode": "ovrlpy-natbiotech-2026",
    "fromSide": "right",
@@ -302,7 +302,7 @@
    "label": "Xenium contamination"
   },
   {
-   "id": "e137",
+   "id": "e152",
    "fromNode": "medragchecker-arxiv-2026",
    "toNode": "deepevidence-natmachintell-2026",
    "fromSide": "right",
@@ -310,7 +310,7 @@
    "label": "KG evidence grounding"
   },
   {
-   "id": "e185",
+   "id": "e200",
    "fromNode": "dkd-spatial-atlas-nature-2026",
    "toNode": "xenium-split-natmethods-2026",
    "fromSide": "right",

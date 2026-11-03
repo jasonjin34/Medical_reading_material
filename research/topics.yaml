@@ -1,24 +1,26 @@
 # Research topics shown under the site's "Research topics" tab.
 # `code` is the internal letter used in papers/*/metadata.yaml (`plans:`) and in
-# maps/views.yaml (`plan-a`, `plan-b`); it never appears on the site. The perturbation
-# benchmark (code C) has no knowledge-map view yet.
+# maps/views.yaml (`plan-a`, `plan-b`); it never appears on the site.
 # The first entry with id `overview` is the tab's landing page.
 
 - id: overview
   file: 00-overview.md
   title: {en: "Research topics", zh: "研究课题"}
 
-- id: perturbation-benchmark
-  file: perturbation-benchmark.md
-  code: C
-  title: {en: "An Honest Benchmark for Perturbation Prediction in Kidney", zh: "肾脏扰动预测的诚实基准"}
+- id: hypothesis-agents
+  file: hypothesis-agents.md
+  code: B
+  title: {en: "Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop", zh: "可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness"}
 
 - id: anomaly-benchmark
   file: anomaly-benchmark.md
   code: A
   title: {en: "Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics", zh: "用伪影注入增强肾脏单细胞异常检测"}
 
+# Old topic pages, replaced by hypothesis-agents on 2026-11-02; their URLs redirect there.
+# Their papers keep `plans: B` and the knowledge-map view `plan-b`.
+- id: perturbation-benchmark
+  moved_to: hypothesis-agents.md
+
 - id: agent-claims
-  file: agent-claims.md
-  code: B
-  title: {en: "Trustworthiness of Agent Analyses on Kidney Perturbation Data", zh: "肾脏扰动数据上 agent 分析的可信度"}
+  moved_to: hypothesis-agents.md

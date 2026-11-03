@@ -28,7 +28,7 @@ tags:
 ## Related papers / 相关论文
 - [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — cites
 - [[_maps/papers/draem-iccv-2021|DRAEM]] — cites
-- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — histology AD methods
+- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — cites
 - [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] — histopathology AD
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — cites
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — cites

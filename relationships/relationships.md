@@ -35,6 +35,7 @@ flowchart LR
   cat_agents["agents"] --> DIRECTION
   cat_anomaly["anomaly"] --> DIRECTION
   cat_competition["competition"] --> DIRECTION
+  cat_drug_discovery["drug-discovery"] --> DIRECTION
   cat_ehr["ehr"] --> DIRECTION
   cat_foundation["foundation"] --> DIRECTION
   cat_histopath["histopath"] --> DIRECTION
@@ -48,6 +49,7 @@ flowchart LR
   abedini_kidney_atlas_natgenet_2024["★Single-cell multi-omic and spatial profi"] --> cat_single_cell
   abnormality_radiology_arxiv_2024["Abnormality-Driven Representation Learni"] --> cat_imaging
   ad_unifying_review_procieee_2021["★A Unifying Review of Deep and Shallow An"] --> cat_anomaly
+  adaptiveflow_natbiotech_2026["★AI-enhanced adaptive virtual screening o"] --> cat_drug_discovery
   ailuminate_arxiv_2025["★AILuminate: Introducing v1.0 of the AI R"] --> cat_agents
   ambient_rna_bench_biorxiv_2026["Benchmarking computational decontaminati"] --> cat_single_cell
   anogan_ipmi_2017["Unsupervised Anomaly Detection with Gene"] --> cat_anomaly
@@ -64,6 +66,7 @@ flowchart LR
   citation_faithfulness_arxiv_2026["★Evaluating and Guarding Citation Faithfu"] --> cat_agents
   clinical_agent_reruns_arxiv_2026["★Same Patient, Different Order: Action-Le"] --> cat_agents
   co_scientist_nature_2026["★Accelerating scientific discovery with C"] --> cat_agents
+  competitive_docking_npjdrugdiscov_2026["AI-guided competitive docking for virtua"] --> cat_drug_discovery
   conformal_outliers_annstat_2023["★Testing for Outliers with Conformal p-va"] --> cat_anomaly
   conformal_scrna_bioinformatics_2025["Conformal inference for reliable single "] --> cat_single_cell
   counterfactual_diffusion_cancerres_2026["Counterfactual Diffusion Models Provide "] --> cat_histopath
@@ -76,12 +79,14 @@ flowchart LR
   diffusion_medical_ad_miccai_2022["Diffusion Models for Medical Anomaly Det"] --> cat_anomaly
   dkd_spatial_atlas_nature_2026["★Spatial atlas of diabetic kidney disease"] --> cat_spatial
   draem_iccv_2021["DRÆM – A discriminatively trained recons"] --> cat_anomaly
+  drugclip_science_2026["★Deep contrastive learning enables genome"] --> cat_drug_discovery
   ehr_apollo_arxiv_2026["A multimodal and temporal foundation mod"] --> cat_ehr
   ehr_comet_natmachintell_2025["A machine learning approach to leveragin"] --> cat_ehr
   ehr_delphi2m_nature_2025["★Learning the natural history of human di"] --> cat_ehr
   ehr_pancreatic_llm_npjdigitmed_2025["Enhancing EHR-based pancreatic cancer pr"] --> cat_ehr
   ehr_pancreatic_trajectory_natmed_2023["★A deep learning algorithm to predict ris"] --> cat_ehr
   energy_ood_neurips_2020["Energy-based Out-of-distribution Detecti"] --> cat_anomaly
+  exscalate_arxiv_2021["EXSCALATE: An extreme-scale in-silico vi"] --> cat_drug_discovery
   f_anogan_media_2019["★f-AnoGAN: Fast unsupervised anomaly dete"] --> cat_anomaly
   falsifiable_ideation_arxiv_2026["What Proves You Wrong: Benchmarking Lang"] --> cat_agents
   fev_bioinformatics_agents_arxiv_2026["★Evaluating Agentic Bioinformatics throug"] --> cat_agents
@@ -199,6 +204,7 @@ flowchart LR
   draem_iccv_2021 -.->|cites| anogan_ipmi_2017
   ehr_delphi2m_nature_2025 -.->|cites| ehr_pancreatic_trajectory_natmed_2023
   ehr_pancreatic_llm_npjdigitmed_2025 -.->|cites| ehr_pancreatic_trajectory_natmed_2023
+  falsifiable_ideation_arxiv_2026 -.->|cites| rq_bench_arxiv_2026
   fev_bioinformatics_agents_arxiv_2026 -.->|cites| spatialagent_biorxiv_2025
   fev_bioinformatics_agents_arxiv_2026 -.->|cites| deepevidence_natmachintell_2026
   fev_bioinformatics_agents_arxiv_2026 -.->|cites| virtual_lab_nature_2025
@@ -214,6 +220,12 @@ flowchart LR
   heurekabench_arxiv_2026 -.->|cites| bixbench_arxiv_2025
   heurekabench_arxiv_2026 -.->|cites| co_scientist_nature_2026
   heurekabench_arxiv_2026 -.->|cites| lab_bench_arxiv_2024
+  histo_anomaly_bi_repo -.->|cites| cflow_ad_wacv_2022
+  histo_anomaly_bi_repo -.->|cites| patchcore_cvpr_2022
+  histo_anomaly_bi_repo -.->|cites| padim_icpr_2020
+  histo_anomaly_bi_repo -.->|cites| ad_unifying_review_procieee_2021
+  histo_anomaly_bi_repo -.->|cites| f_anogan_media_2019
+  histo_anomaly_bi_repo -.->|cites| deep_svdd_icml_2018
   inflammatory_pt_natcommun_2025 -.->|cites| lake_kidney_atlas_nature_2023
   janssen_ambient_noise_genomebiol_2023 -.->|cites| denisenko_dissociation_bias_genomebiol_2020
   kidney_epigenome_nataging_2026 -.->|cites| abedini_kidney_atlas_natgenet_2024
@@ -224,6 +236,7 @@ flowchart LR
   linear_baselines_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
   llm_judge_healthcare_arxiv_2026 -.->|cites| medical_hallucination_arxiv_2025
   meatrd_aaai_2025 -.->|cites| spatial_natcommun_2024
+  meatrd_aaai_2025 -.->|cites| histo_anomaly_bi_repo
   meatrd_aaai_2025 -.->|cites| patchcore_cvpr_2022
   meatrd_aaai_2025 -.->|cites| mvtec_ad_cvpr_2019
   meatrd_aaai_2025 -.->|cites| f_anogan_media_2019
@@ -231,6 +244,7 @@ flowchart LR
   nicheformer_natmethods_2025 -.->|cites| scfm_zeroshot_genomebiol_2025
   paperqa2_arxiv_2024 -.->|cites| lab_bench_arxiv_2024
   pathology_ad_bench_mlhealth_2025 -.->|cites| medianomaly_media_2025
+  pathology_ad_bench_mlhealth_2025 -.->|cites| histo_anomaly_bi_repo
   pathology_ad_bench_mlhealth_2025 -.->|cites| draem_iccv_2021
   pathology_ad_bench_mlhealth_2025 -.->|cites| cflow_ad_wacv_2022
   pathology_ad_bench_mlhealth_2025 -.->|cites| patchcore_cvpr_2022
@@ -255,6 +269,12 @@ flowchart LR
   virtual_tissue_2501 -.->|cites| loki_omiclip_natmethods_2025
   xenium_split_natmethods_2026 -.->|cites| resolvi_natmethods_2026
   xenium_split_natmethods_2026 -.->|cites| nicheformer_natmethods_2025
+  exscalate_arxiv_2021 ==>|ultra-large docking at scale| adaptiveflow_natbiotech_2026
+  adaptiveflow_natbiotech_2026 ==>|Enamine REAL library| drugclip_science_2026
+  drugclip_science_2026 ==>|prefilter → co-folding re-rank| competitive_docking_npjdrugdiscov_2026
+  adaptiveflow_natbiotech_2026 ==>|docking vs co-folding ranking| competitive_docking_npjdrugdiscov_2026
+  biomni_biorxiv_2025 ==>|agent tool orchestration| adaptiveflow_natbiotech_2026
+  co_scientist_nature_2026 ==>|AI-proposed candidates → wet lab| drugclip_science_2026
   virtual_tissue_2501 ==>|in-silico perturbation| spatial_biorxiv_2025
   spatial_biorxiv_2025 ==>|perturbation/revert| scrna_natmachintell_2026
   scrna_natmachintell_2026 ==>|perturbation benchmark| virtual_cell_challenge
@@ -414,6 +434,12 @@ flowchart LR
 
 | From | link | To |
 |---|---|---|
+| `exscalate-arxiv-2021` | ultra-large docking at scale | `adaptiveflow-natbiotech-2026` |
+| `adaptiveflow-natbiotech-2026` | Enamine REAL library | `drugclip-science-2026` |
+| `drugclip-science-2026` | prefilter → co-folding re-rank | `competitive-docking-npjdrugdiscov-2026` |
+| `adaptiveflow-natbiotech-2026` | docking vs co-folding ranking | `competitive-docking-npjdrugdiscov-2026` |
+| `biomni-biorxiv-2025` | agent tool orchestration | `adaptiveflow-natbiotech-2026` |
+| `co-scientist-nature-2026` | AI-proposed candidates → wet lab | `drugclip-science-2026` |
 | `virtual-tissue-2501` | in-silico perturbation | `spatial-biorxiv-2025` |
 | `spatial-biorxiv-2025` | perturbation/revert | `scrna-natmachintell-2026` |
 | `scrna-natmachintell-2026` | perturbation benchmark | `virtual-cell-challenge` |
@@ -604,6 +630,7 @@ flowchart LR
 | `draem-iccv-2021` | cites | `anogan-ipmi-2017` |
 | `ehr-delphi2m-nature-2025` | cites | `ehr-pancreatic-trajectory-natmed-2023` |
 | `ehr-pancreatic-llm-npjdigitmed-2025` | cites | `ehr-pancreatic-trajectory-natmed-2023` |
+| `falsifiable-ideation-arxiv-2026` | cites | `rq-bench-arxiv-2026` |
 | `fev-bioinformatics-agents-arxiv-2026` | cites | `spatialagent-biorxiv-2025` |
 | `fev-bioinformatics-agents-arxiv-2026` | cites | `deepevidence-natmachintell-2026` |
 | `fev-bioinformatics-agents-arxiv-2026` | cites | `virtual-lab-nature-2025` |
@@ -619,6 +646,12 @@ flowchart LR
 | `heurekabench-arxiv-2026` | cites | `bixbench-arxiv-2025` |
 | `heurekabench-arxiv-2026` | cites | `co-scientist-nature-2026` |
 | `heurekabench-arxiv-2026` | cites | `lab-bench-arxiv-2024` |
+| `histo-anomaly-bi-repo` | cites | `cflow-ad-wacv-2022` |
+| `histo-anomaly-bi-repo` | cites | `patchcore-cvpr-2022` |
+| `histo-anomaly-bi-repo` | cites | `padim-icpr-2020` |
+| `histo-anomaly-bi-repo` | cites | `ad-unifying-review-procieee-2021` |
+| `histo-anomaly-bi-repo` | cites | `f-anogan-media-2019` |
+| `histo-anomaly-bi-repo` | cites | `deep-svdd-icml-2018` |
 | `inflammatory-pt-natcommun-2025` | cites | `lake-kidney-atlas-nature-2023` |
 | `janssen-ambient-noise-genomebiol-2023` | cites | `denisenko-dissociation-bias-genomebiol-2020` |
 | `kidney-epigenome-nataging-2026` | cites | `abedini-kidney-atlas-natgenet-2024` |
@@ -629,6 +662,7 @@ flowchart LR
 | `linear-baselines-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
 | `llm-judge-healthcare-arxiv-2026` | cites | `medical-hallucination-arxiv-2025` |
 | `meatrd-aaai-2025` | cites | `spatial-natcommun-2024` |
+| `meatrd-aaai-2025` | cites | `histo-anomaly-bi-repo` |
 | `meatrd-aaai-2025` | cites | `patchcore-cvpr-2022` |
 | `meatrd-aaai-2025` | cites | `mvtec-ad-cvpr-2019` |
 | `meatrd-aaai-2025` | cites | `f-anogan-media-2019` |
@@ -636,6 +670,7 @@ flowchart LR
 | `nicheformer-natmethods-2025` | cites | `scfm-zeroshot-genomebiol-2025` |
 | `paperqa2-arxiv-2024` | cites | `lab-bench-arxiv-2024` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `medianomaly-media-2025` |
+| `pathology-ad-bench-mlhealth-2025` | cites | `histo-anomaly-bi-repo` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `draem-iccv-2021` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `cflow-ad-wacv-2022` |
 | `pathology-ad-bench-mlhealth-2025` | cites | `patchcore-cvpr-2022` |
@@ -729,6 +764,12 @@ flowchart LR
 ### competition
 - [`nih-kidney-ai-challenge-2026`](../papers/nih-kidney-ai-challenge-2026/deep-read.md) — Kidney Artificial Intelligence Discovery Challenge: From Nebulae to Nephrons ★
 - [`virtual-cell-challenge`](../papers/virtual-cell-challenge/deep-read.md) — Virtual Cell Challenge
+
+### drug-discovery
+- [`adaptiveflow-natbiotech-2026`](../papers/adaptiveflow-natbiotech-2026/deep-read.md) — AI-enhanced adaptive virtual screening of large libraries for ligand discovery ★
+- [`drugclip-science-2026`](../papers/drugclip-science-2026/deep-read.md) — Deep contrastive learning enables genome-wide virtual screening ★
+- [`competitive-docking-npjdrugdiscov-2026`](../papers/competitive-docking-npjdrugdiscov-2026/deep-read.md) — AI-guided competitive docking for virtual screening and compound efficacy prediction
+- [`exscalate-arxiv-2021`](../papers/exscalate-arxiv-2021/deep-read.md) — EXSCALATE: An extreme-scale in-silico virtual screening platform to evaluate 1 trillion compounds in 60 hours on 81 PFLOPS supercomputers
 
 ### ehr
 - [`ehr-delphi2m-nature-2025`](../papers/ehr-delphi2m-nature-2025/deep-read.md) — Learning the natural history of human disease with generative transformers ★

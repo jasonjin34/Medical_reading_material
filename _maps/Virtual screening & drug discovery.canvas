@@ -1,0 +1,101 @@
+{
+ "nodes": [
+  {
+   "id": "group-scale",
+   "type": "group",
+   "x": -20,
+   "y": -60,
+   "width": 440,
+   "height": 420,
+   "label": "scale \u00b7 Docking at scale"
+  },
+  {
+   "id": "adaptiveflow-natbiotech-2026",
+   "type": "file",
+   "file": "_maps/papers/adaptiveflow-natbiotech-2026.md",
+   "x": 0,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "exscalate-arxiv-2021",
+   "type": "file",
+   "file": "_maps/papers/exscalate-arxiv-2021.md",
+   "x": 0,
+   "y": 170,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-learned",
+   "type": "group",
+   "x": 420,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "learned \u00b7 Learned screening"
+  },
+  {
+   "id": "drugclip-science-2026",
+   "type": "file",
+   "file": "_maps/papers/drugclip-science-2026.md",
+   "x": 440,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  },
+  {
+   "id": "group-cofolding",
+   "type": "group",
+   "x": 860,
+   "y": -60,
+   "width": 440,
+   "height": 250,
+   "label": "cofolding \u00b7 Co-folding ranking"
+  },
+  {
+   "id": "competitive-docking-npjdrugdiscov-2026",
+   "type": "file",
+   "file": "_maps/papers/competitive-docking-npjdrugdiscov-2026.md",
+   "x": 880,
+   "y": 0,
+   "width": 400,
+   "height": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "fromNode": "exscalate-arxiv-2021",
+   "toNode": "adaptiveflow-natbiotech-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "ultra-large docking at scale"
+  },
+  {
+   "id": "e1",
+   "fromNode": "adaptiveflow-natbiotech-2026",
+   "toNode": "drugclip-science-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "Enamine REAL library"
+  },
+  {
+   "id": "e2",
+   "fromNode": "drugclip-science-2026",
+   "toNode": "competitive-docking-npjdrugdiscov-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "prefilter \u2192 co-folding re-rank"
+  },
+  {
+   "id": "e3",
+   "fromNode": "adaptiveflow-natbiotech-2026",
+   "toNode": "competitive-docking-npjdrugdiscov-2026",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "docking vs co-folding ranking"
+  }
+ ]
+}

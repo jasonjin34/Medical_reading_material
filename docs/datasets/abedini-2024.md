@@ -61,3 +61,4 @@ rna.X = rna.layers["counts"]
 ## Used in our research topics
 
 - **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Task T4: every anomaly called on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, 26% of healthy-donor nuclei in Lake 2023); does the observed rate stay below the target?
+- **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Held-out replication cohort (another centre and pipeline): does a CKD hypothesis formed on Lake 2023 hold here? Shares patients with Dumoulin 2026, so the two are never split against each other; its public annotation lacks aTAL, so score on genes, not state names. Do not use the GSE211785 KPMP-merged h5ad or unfiltered Klötzer 2025 data for held-out tests: they contain Lake donors.

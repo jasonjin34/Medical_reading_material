@@ -29,7 +29,3 @@ Single-nucleus RNA of mouse kidneys at six time points after IRI. The authors de
 | `GEO` | GSE139107 (TXT) |  | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE139107) |
 
 Download not yet tested.
-
-## Used in our research topics
-
-- **[An Honest Benchmark for Perturbation Prediction in Kidney](../research/perturbation-benchmark.md)**: Task B: predict later time points from earlier ones.

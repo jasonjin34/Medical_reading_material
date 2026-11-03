@@ -29,7 +29,3 @@ IRI 后 6 个时间点的小鼠肾单核 RNA。作者描述了一个促炎、促
 | `GEO` | GSE139107（TXT） |  | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE139107) |
 
 还没做下载检查。
-
-## 在我们的研究课题里
-
-- **[肾脏扰动预测的诚实基准](../research/perturbation-benchmark.md)**: 任务 B：用前面的时间点预测后面的时间点。

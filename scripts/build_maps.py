@@ -42,7 +42,7 @@ CANVAS_COL_W, CANVAS_CARD_W, CANVAS_CARD_H, CANVAS_ROW_H = 440, 400, 140, 170
 CANVAS_MAX_CARDS = 20
 FLOW_TOP = 3                     # papers shown per pipeline step (Mermaid label, flow canvas)
 
-PLAN_ORDER = ["A", "B", "EHR"]
+PLAN_ORDER = ["A", "B", "EHR", "VS"]
 
 
 # --------------------------------------------------------------------------- #

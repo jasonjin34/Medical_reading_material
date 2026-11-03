@@ -26,6 +26,7 @@ tags:
 > Biomni 是斯坦福 Leskovec 组的通用生物医学 agent:先让一个 action discovery agent 读 bioRxiv 25 个学科各 100 篇最新论文(共 2,500 篇),抽取任务、软件和数据库,经人工实现与测试后建成统一环境 Biomni-E1(150 个专用工具 + 105 个软件包 + 59 个数据库);再用基于 CodeAct 的 agent Biomni-A1(检索相关工具 → 写计划 → 写代码执行 → 根据结果修改计划)零样本完成跨领域任务,并有一个按其 protocol 原样执行的 CRISPR 克隆湿实验(Results §"Overview of Biomni";Fig. 1;Fig. 4)。
 
 ## Related papers / 相关论文
+- [[_maps/papers/adaptiveflow-natbiotech-2026|AdaptiveFlow]] — agent tool orchestration
 - [[_maps/papers/bioml-bench-biorxiv-2025|BioML-bench]] — cites
 - [[_maps/papers/biomnibench-biorxiv-2026|BiomniBench]] — cites
 - [[_maps/papers/deepevidence-natmachintell-2026|DeepEvidence]] — cites

@@ -26,9 +26,15 @@ tags:
 > Boehringer Ingelheim 的 PyTorch 代码库:先在多物种、多器官、两种染色的健康组织上训练 CNN(辅助分类任务 + center-loss),再在目标组织的健康特征上训练 one-class SVM,用来在全切片中找出药物引起的组织病理改变;配套论文为 Zingman et al., *Medical Image Analysis* 2024。
 
 ## Related papers / 相关论文
-- [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] — one-class boundary on learned features
+- [[_maps/papers/ad-unifying-review-procieee-2021|Unifying AD review]] — cites
+- [[_maps/papers/cflow-ad-wacv-2022|CFLOW-AD]] — cites
+- [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] — cites
+- [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] — cites
 - [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] — histopath anomaly det.
-- [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]] — histology AD methods
+- [[_maps/papers/meatrd-aaai-2025|MEATRD]] — cites
+- [[_maps/papers/padim-icpr-2020|PaDiM]] — cites
+- [[_maps/papers/patchcore-cvpr-2022|PatchCore]] — cites
+- [[_maps/papers/pathology-ad-bench-mlhealth-2025|Pathology AD benchmark]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/expert-validation|Expert validation]]

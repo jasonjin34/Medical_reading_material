@@ -26,6 +26,7 @@ tags:
 > CFLOW-AD 在 ImageNet 预训练 CNN 编码器的多尺度特征上,为每个尺度训练一个以位置编码为条件的 normalizing flow 解码器,直接估计每个 patch 特征的精确对数似然作为异常分数;作者证明在多元高斯先验下 flow 目标退化为 Mahalanobis 距离(即 PaDiM 是其特例),而 CFLOW-AD 在 MVTec 上达到 98.26% 检测 AUROC、98.62% 定位 AUROC、94.60% AUPRO,并比同设置的 PaDiM/SPADE 快且小约 10 倍。
 
 ## Related papers / 相关论文
+- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — cites
 - [[_maps/papers/mahalanobis-ood-neurips-2018|Mahalanobis OOD]] — Gaussian prior as special case
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — main benchmark
 - [[_maps/papers/padim-icpr-2020|PaDiM]] — flow likelihood generalises PaDiM's Gaussian

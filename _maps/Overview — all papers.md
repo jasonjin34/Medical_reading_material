@@ -152,6 +152,12 @@ Every paper, clustered by category. For orientation only; use the views above to
 - [[_maps/papers/ehr-comet-natmachintell-2025|COMET (EHR + omics)]] — A machine learning approach to leveraging electronic health records for enhanced omics analysis
 - [[_maps/papers/ehr-pancreatic-llm-npjdigitmed-2025|LLM-embedding pancreatic risk]] — Enhancing EHR-based pancreatic cancer prediction with LLM-derived embeddings
 
+## Drug discovery & virtual screening / Drug discovery & virtual screening
+- [[_maps/papers/adaptiveflow-natbiotech-2026|AdaptiveFlow]] ★ — AI-enhanced adaptive virtual screening of large libraries for ligand discovery
+- [[_maps/papers/drugclip-science-2026|DrugCLIP]] ★ — Deep contrastive learning enables genome-wide virtual screening
+- [[_maps/papers/competitive-docking-npjdrugdiscov-2026|Competitive docking (AF3)]] — AI-guided competitive docking for virtual screening and compound efficacy prediction
+- [[_maps/papers/exscalate-arxiv-2021|EXSCALATE (HPC docking)]] — EXSCALATE: An extreme-scale in-silico virtual screening platform to evaluate 1 trillion compounds in 60 hours on 81 PFLOPS supercomputers
+
 ## Other / Other
 - [[_maps/papers/biomednlp-natcommun-2025|BioNLP LLM benchmark]] — Benchmarking large language models for biomedical natural language processing applications and recommendations
 - [[_maps/papers/semnovel-jbi-2025|SemNovel]] — SemNovel – A new approach to detecting semantic novelty of biomedical publications using embeddings of large language models

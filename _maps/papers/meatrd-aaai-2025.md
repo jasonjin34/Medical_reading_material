@@ -29,6 +29,7 @@ tags:
 - [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] — cites
 - [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] — cites
 - [[_maps/papers/hest1k-2024|HEST-1k]] — paired H&E + ST
+- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — cites
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — cites
 - [[_maps/papers/patchcore-cvpr-2022|PatchCore]] — cites
 - [[_maps/papers/sardine-bioinformatics-2025|Sardine]] — anomalous region detection

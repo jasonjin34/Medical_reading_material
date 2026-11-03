@@ -21,6 +21,11 @@
       "kind": "category"
     },
     {
+      "id": "cat:drug-discovery",
+      "label": "drug-discovery",
+      "kind": "category"
+    },
+    {
       "id": "cat:ehr",
       "label": "ehr",
       "kind": "category"
@@ -96,6 +101,14 @@
       "category": "anomaly",
       "relevance": "high",
       "year": 2021
+    },
+    {
+      "id": "adaptiveflow-natbiotech-2026",
+      "label": "AI-enhanced adaptive virtual screening of large libraries fo",
+      "kind": "paper",
+      "category": "drug-discovery",
+      "relevance": "high",
+      "year": 2026
     },
     {
       "id": "ailuminate-arxiv-2025",
@@ -226,6 +239,14 @@
       "year": 2026
     },
     {
+      "id": "competitive-docking-npjdrugdiscov-2026",
+      "label": "AI-guided competitive docking for virtual screening and comp",
+      "kind": "paper",
+      "category": "drug-discovery",
+      "relevance": "medium",
+      "year": 2026
+    },
+    {
       "id": "conformal-outliers-annstat-2023",
       "label": "Testing for Outliers with Conformal p-values",
       "kind": "paper",
@@ -322,6 +343,14 @@
       "year": 2021
     },
     {
+      "id": "drugclip-science-2026",
+      "label": "Deep contrastive learning enables genome-wide virtual screen",
+      "kind": "paper",
+      "category": "drug-discovery",
+      "relevance": "high",
+      "year": 2026
+    },
+    {
       "id": "ehr-apollo-arxiv-2026",
       "label": "A multimodal and temporal foundation model for virtual patie",
       "kind": "paper",
@@ -368,6 +397,14 @@
       "category": "anomaly",
       "relevance": "medium",
       "year": 2020
+    },
+    {
+      "id": "exscalate-arxiv-2021",
+      "label": "EXSCALATE: An extreme-scale in-silico virtual screening plat",
+      "kind": "paper",
+      "category": "drug-discovery",
+      "relevance": "medium",
+      "year": 2021
     },
     {
       "id": "f-anogan-media-2019",
@@ -999,7 +1036,7 @@
       "kind": "paper",
       "category": "foundation",
       "relevance": "medium",
-      "year": null
+      "year": 2025
     },
     {
       "id": "virchow-2024",
@@ -1212,6 +1249,11 @@
       "type": "cites"
     },
     {
+      "source": "falsifiable-ideation-arxiv-2026",
+      "target": "rq-bench-arxiv-2026",
+      "type": "cites"
+    },
+    {
       "source": "fev-bioinformatics-agents-arxiv-2026",
       "target": "spatialagent-biorxiv-2025",
       "type": "cites"
@@ -1287,6 +1329,36 @@
       "type": "cites"
     },
     {
+      "source": "histo-anomaly-bi-repo",
+      "target": "cflow-ad-wacv-2022",
+      "type": "cites"
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "patchcore-cvpr-2022",
+      "type": "cites"
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "padim-icpr-2020",
+      "type": "cites"
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "ad-unifying-review-procieee-2021",
+      "type": "cites"
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "f-anogan-media-2019",
+      "type": "cites"
+    },
+    {
+      "source": "histo-anomaly-bi-repo",
+      "target": "deep-svdd-icml-2018",
+      "type": "cites"
+    },
+    {
       "source": "inflammatory-pt-natcommun-2025",
       "target": "lake-kidney-atlas-nature-2023",
       "type": "cites"
@@ -1338,6 +1410,11 @@
     },
     {
       "source": "meatrd-aaai-2025",
+      "target": "histo-anomaly-bi-repo",
+      "type": "cites"
+    },
+    {
+      "source": "meatrd-aaai-2025",
       "target": "patchcore-cvpr-2022",
       "type": "cites"
     },
@@ -1369,6 +1446,11 @@
     {
       "source": "pathology-ad-bench-mlhealth-2025",
       "target": "medianomaly-media-2025",
+      "type": "cites"
+    },
+    {
+      "source": "pathology-ad-bench-mlhealth-2025",
+      "target": "histo-anomaly-bi-repo",
       "type": "cites"
     },
     {
@@ -1490,6 +1572,42 @@
       "source": "xenium-split-natmethods-2026",
       "target": "nicheformer-natmethods-2025",
       "type": "cites"
+    },
+    {
+      "source": "exscalate-arxiv-2021",
+      "target": "adaptiveflow-natbiotech-2026",
+      "type": "concept",
+      "label": "ultra-large docking at scale"
+    },
+    {
+      "source": "adaptiveflow-natbiotech-2026",
+      "target": "drugclip-science-2026",
+      "type": "concept",
+      "label": "Enamine REAL library"
+    },
+    {
+      "source": "drugclip-science-2026",
+      "target": "competitive-docking-npjdrugdiscov-2026",
+      "type": "concept",
+      "label": "prefilter → co-folding re-rank"
+    },
+    {
+      "source": "adaptiveflow-natbiotech-2026",
+      "target": "competitive-docking-npjdrugdiscov-2026",
+      "type": "concept",
+      "label": "docking vs co-folding ranking"
+    },
+    {
+      "source": "biomni-biorxiv-2025",
+      "target": "adaptiveflow-natbiotech-2026",
+      "type": "concept",
+      "label": "agent tool orchestration"
+    },
+    {
+      "source": "co-scientist-nature-2026",
+      "target": "drugclip-science-2026",
+      "type": "concept",
+      "label": "AI-proposed candidates → wet lab"
     },
     {
       "source": "virtual-tissue-2501",
@@ -2425,6 +2543,11 @@
       "type": "anchor"
     },
     {
+      "source": "cat:drug-discovery",
+      "target": "DIRECTION",
+      "type": "anchor"
+    },
+    {
       "source": "cat:ehr",
       "target": "DIRECTION",
       "type": "anchor"
@@ -2487,6 +2610,11 @@
     {
       "source": "ad-unifying-review-procieee-2021",
       "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
+      "source": "adaptiveflow-natbiotech-2026",
+      "target": "cat:drug-discovery",
       "type": "in-category"
     },
     {
@@ -2570,6 +2698,11 @@
       "type": "in-category"
     },
     {
+      "source": "competitive-docking-npjdrugdiscov-2026",
+      "target": "cat:drug-discovery",
+      "type": "in-category"
+    },
+    {
       "source": "conformal-outliers-annstat-2023",
       "target": "cat:anomaly",
       "type": "in-category"
@@ -2630,6 +2763,11 @@
       "type": "in-category"
     },
     {
+      "source": "drugclip-science-2026",
+      "target": "cat:drug-discovery",
+      "type": "in-category"
+    },
+    {
       "source": "ehr-apollo-arxiv-2026",
       "target": "cat:ehr",
       "type": "in-category"
@@ -2657,6 +2795,11 @@
     {
       "source": "energy-ood-neurips-2020",
       "target": "cat:anomaly",
+      "type": "in-category"
+    },
+    {
+      "source": "exscalate-arxiv-2021",
+      "target": "cat:drug-discovery",
       "type": "in-category"
     },
     {

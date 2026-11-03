@@ -134,3 +134,8 @@ investorbench-arxiv-2024: "InvestorBench"
 abnormality-radiology-arxiv-2024: "Abnormality radiology (Ligero 2024)"
 virtual-biotech-biorxiv-2026: "Virtual Biotech"
 gpnmb-cart-cell-2026: "GPNMB CAR T (Cell 2026)"
+
+exscalate-arxiv-2021: "EXSCALATE (HPC docking)"
+adaptiveflow-natbiotech-2026: "AdaptiveFlow"
+drugclip-science-2026: "DrugCLIP"
+competitive-docking-npjdrugdiscov-2026: "Competitive docking (AF3)"

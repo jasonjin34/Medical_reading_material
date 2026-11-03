@@ -2950,6 +2950,42 @@
    "label": "cites"
   },
   {
+   "source": "histo-anomaly-bi-repo",
+   "target": "cflow-ad-wacv-2022",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "histo-anomaly-bi-repo",
+   "target": "patchcore-cvpr-2022",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "histo-anomaly-bi-repo",
+   "target": "padim-icpr-2020",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "histo-anomaly-bi-repo",
+   "target": "ad-unifying-review-procieee-2021",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "histo-anomaly-bi-repo",
+   "target": "f-anogan-media-2019",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "histo-anomaly-bi-repo",
+   "target": "deep-svdd-icml-2018",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
    "source": "inflammatory-pt-natcommun-2025",
    "target": "lake-kidney-atlas-nature-2023",
    "kind": "cites",
@@ -3005,6 +3041,12 @@
   },
   {
    "source": "meatrd-aaai-2025",
+   "target": "histo-anomaly-bi-repo",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "meatrd-aaai-2025",
    "target": "patchcore-cvpr-2022",
    "kind": "cites",
    "label": "cites"
@@ -3036,6 +3078,12 @@
   {
    "source": "pathology-ad-bench-mlhealth-2025",
    "target": "medianomaly-media-2025",
+   "kind": "cites",
+   "label": "cites"
+  },
+  {
+   "source": "pathology-ad-bench-mlhealth-2025",
+   "target": "histo-anomaly-bi-repo",
    "kind": "cites",
    "label": "cites"
   },
@@ -3311,12 +3359,6 @@
   },
   {
    "source": "pathology-ad-bench-mlhealth-2025",
-   "target": "histo-anomaly-bi-repo",
-   "kind": "concept",
-   "label": "histology AD methods"
-  },
-  {
-   "source": "pathology-ad-bench-mlhealth-2025",
    "target": "histo-nejmai-2024",
    "kind": "concept",
    "label": "histopathology AD"
@@ -3362,12 +3404,6 @@
    "target": "spatial-natcommun-2024",
    "kind": "concept",
    "label": "memory bank of normal features"
-  },
-  {
-   "source": "deep-svdd-icml-2018",
-   "target": "histo-anomaly-bi-repo",
-   "kind": "concept",
-   "label": "one-class boundary on learned features"
   },
   {
    "source": "cflow-ad-wacv-2022",
@@ -3565,6 +3601,6 @@
  "stats": {
   "papers": 61,
   "concepts": 20,
-  "edges": 204
+  "edges": 210
  }
 }

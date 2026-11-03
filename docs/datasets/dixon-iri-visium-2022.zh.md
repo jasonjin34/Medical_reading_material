@@ -30,7 +30,3 @@
 | `GEO` | GSE182939（TAR） |  | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE182939) |
 
 还没做下载检查。
-
-## 在我们的研究课题里
-
-- **[肾脏扰动预测的诚实基准](../research/perturbation-benchmark.md)**: 任务 B′：在空间上检查预测出的状态变化。

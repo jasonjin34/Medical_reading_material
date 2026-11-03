@@ -29,6 +29,7 @@ tags:
 - [[_maps/papers/deep-svdd-icml-2018|Deep SVDD]] — hypersphere model, shallow ↔ deep
 - [[_maps/papers/f-anogan-media-2019|f-AnoGAN]] — reviewed: GAN + explicit encoder
 - [[_maps/papers/generalized-ood-survey-ijcv-2024|Generalized OOD survey]] — sensory / semantic anomaly split
+- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — cites
 - [[_maps/papers/medianomaly-media-2025|MedIAnomaly]] — multi-paradigm AD taxonomy
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — benchmarks on MVTec AD
 

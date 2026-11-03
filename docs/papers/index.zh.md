@@ -126,6 +126,10 @@
 | [A multimodal and temporal foundation model for virtual patient representations at healthcare system scale](ehr-apollo-arxiv-2026/index.md) | EHR & patient trajectories | medium | open |
 | [A machine learning approach to leveraging electronic health records for enhanced omics analysis](ehr-comet-natmachintell-2025/index.md) | EHR & patient trajectories | medium | open |
 | [Enhancing EHR-based pancreatic cancer prediction with LLM-derived embeddings](ehr-pancreatic-llm-npjdigitmed-2025/index.md) | EHR & patient trajectories | medium | open |
+| [AI-enhanced adaptive virtual screening of large libraries for ligand discovery](adaptiveflow-natbiotech-2026/index.md) ★ | Drug discovery & virtual screening | high | open |
+| [Deep contrastive learning enables genome-wide virtual screening](drugclip-science-2026/index.md) ★ | Drug discovery & virtual screening | high | paywall |
+| [AI-guided competitive docking for virtual screening and compound efficacy prediction](competitive-docking-npjdrugdiscov-2026/index.md) | Drug discovery & virtual screening | medium | open |
+| [EXSCALATE: An extreme-scale in-silico virtual screening platform to evaluate 1 trillion compounds in 60 hours on 81 PFLOPS supercomputers](exscalate-arxiv-2021/index.md) | Drug discovery & virtual screening | medium | open |
 | [Benchmarking large language models for biomedical natural language processing applications and recommendations](biomednlp-natcommun-2025/index.md) | Other | medium | open |
 | [INVESTORBENCH: A Benchmark for Financial Decision-Making Tasks with LLM-based Agent](investorbench-arxiv-2024/index.md) | Other | medium | open |
 | [SemNovel – A new approach to detecting semantic novelty of biomedical publications using embeddings of large language models](semnovel-jbi-2025/index.md) | Other | medium | open |

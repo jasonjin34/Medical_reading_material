@@ -32,5 +32,4 @@
 
 ## 在我们的研究课题里
 
-- **[肾脏扰动预测的诚实基准](../research/perturbation-benchmark.md)**: 任务 C：测量对照；模型声称的效应应该大过测法差异。
 - **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 小鼠肾里真实“换测法”差异的候选来源（讨论中）。

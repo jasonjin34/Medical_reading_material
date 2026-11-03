@@ -37,7 +37,7 @@
 | 5 | [第 3 步 · 外部验证](#validation) | 怎么证明真的有用 |
 | 6 | [用到的数据](#data) | 每份公开数据在三步里各干什么 |
 | 7 | [要做出什么](#deliverables) | 最后交付什么 |
-| 8 | [和扰动基准课题的关系](#connect) | 两个课题怎么共用代码 |
+| 8 | [和 agent 课题的关系](#connect) | 两个课题怎么共用代码 |
 | 9 | [还没定的](#open) | 等讨论的决定 |
 | 10 | [阅读路线](#reading) | 先读哪些论文 |
 
@@ -52,7 +52,7 @@
 | 5 | [Step 3 · External validation](#validation) | how we show it really works |
 | 6 | [Data](#data) | what each public dataset does in the three steps |
 | 7 | [What we will produce](#deliverables) | what is delivered |
-| 8 | [How it connects to the perturbation benchmark](#connect) | how the two topics share code |
+| 8 | [How it connects to the agent topic](#connect) | how the two topics share code |
 | 9 | [Open questions](#open) | decisions still to discuss |
 | 10 | [Reading path](#reading) | which papers to read first |
 
@@ -788,14 +788,14 @@ Splits are by donor, not by cell, so no person appears in both training and test
 <!-- EN -->
 Raw data are not redistributed; we release code, split files, injection records and derived labels (Abedini's derived labels only once its licence is confirmed).
 
-## 和扰动基准课题的关系 / How it connects to the perturbation benchmark {#connect}
+## 和 agent 课题的关系 / How it connects to the agent topic {#connect}
 
 <!-- ZH -->
-- **[扰动基准课题](perturbation-benchmark.md)：**扰动预测评测里最大的陷阱，是把不是扰动造成的系统性差异算成扰动效应（[Systema](https://doi.org/10.1038/s41587-025-02777-8)）；技术伪影正是这种差异的来源之一。本课题的注入代码给扰动基准提供**可控的技术扰动**，用来检查模型会不会把伪影预测成药效或损伤效应，以及清洗数据后排名变不变。
-- **[扰动基准的第二部分（agent）](perturbation-benchmark.md#agents)：**同一套注入代码可以只往一个处理组里注入伪影，出成"伪影题"，看 agent 会不会把伪影报成药效。这一项是可选的，取决于注入代码什么时候能用；agent 部分不依赖它，先用现成工具（scDblFinder、SoupX 等）顶上。
+- **[agent 课题](hypothesis-agents.md)**让 agent 在肾脏扰动数据上提出并检验假设。agent 最容易犯的错之一，是把不是处理造成的差异报成药效（[Systema](https://doi.org/10.1038/s41587-025-02777-8) 在扰动评测里指出了同样的陷阱）；技术伪影正是这种差异的来源之一。
+- 本课题的注入代码可以只往一个处理组里注入已知伪影，出成"伪影题"：看 agent 会不会把伪影当成药效。这一项是可选的，取决于注入代码什么时候能用；agent 课题不依赖它，先用现成工具（scDblFinder、SoupX 等）顶上。
 <!-- EN -->
-- **[The perturbation-benchmark topic](perturbation-benchmark.md):** the biggest pitfall in evaluating perturbation prediction is counting systematic differences not caused by the perturbation as its effect ([Systema](https://doi.org/10.1038/s41587-025-02777-8)), and technical artifacts are one source of such differences. This topic's injection code gives the perturbation benchmark **controlled technical perturbations**, to check whether models predict artifacts as drug or injury effects and whether rankings change after cleaning.
-- **[Part 2 (agents) of the perturbation benchmark](perturbation-benchmark.md#agents):** the same code can inject artifacts into a single treated group to make "artifact items", testing whether an agent reports an artifact as a drug effect. This is optional and depends on when the code is usable; the agent part does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
+- **[The agent topic](hypothesis-agents.md)** has agents propose and test hypotheses on kidney perturbation data. One of the easiest mistakes for an agent is to report a difference not caused by the treatment as a drug effect ([Systema](https://doi.org/10.1038/s41587-025-02777-8) points out the same pitfall in perturbation evaluation), and technical artifacts are one source of such differences.
+- This topic's injection code can inject known artifacts into a single treated group to make "artifact items", testing whether an agent takes an artifact for a drug effect. This is optional and depends on when the code is usable; the agent topic does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
 
 ## 还没定的 / Open questions {#open}
 

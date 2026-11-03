@@ -25,6 +25,7 @@ tags:
 > PatchCore 把所有正常训练图像的中层、局部邻域聚合的 patch 特征存进一个 memory bank,用 greedy coreset 子采样把它压缩到 1–25% 而几乎不掉性能,测试时以"最远的那个 patch 到其最近正常邻居的距离"作为图像异常分数;在 MVTec AD 上图像级 AUROC 99.1%(集成可达 99.6%),把 PaDiM 的误差减半以上。
 
 ## Related papers / 相关论文
+- [[_maps/papers/histo-anomaly-bi-repo|BI histo-AD code]] — cites
 - [[_maps/papers/histo-nejmai-2024|Clinical-grade histo AD]] — pretrained features + kNN distance
 - [[_maps/papers/meatrd-aaai-2025|MEATRD]] — cites
 - [[_maps/papers/mvtec-ad-cvpr-2019|MVTec AD]] — main benchmark

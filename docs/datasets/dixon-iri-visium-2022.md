@@ -30,7 +30,3 @@
 | `GEO` | GSE182939 (TAR) |  | [↗](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE182939) |
 
 Download not yet tested.
-
-## Used in our research topics
-
-- **[An Honest Benchmark for Perturbation Prediction in Kidney](../research/perturbation-benchmark.md)**: Task B′: spatial check of predicted state changes.

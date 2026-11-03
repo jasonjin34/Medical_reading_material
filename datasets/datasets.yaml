@@ -4,7 +4,7 @@
 # cellxgene, SRA and the papers' full text; "counted by us" numbers come from the
 # downloaded GEO label tables. Public site: no unpublished lab data here.
 #
-# group: disease | measurement | calibration | source
+# group: disease | measurement | calibration | perturbation | source
 # assays: any of sc, sn, atac, multiome, spatial, genotype
 # use_in: research topic ids (research/topics.yaml) -> how the topic uses it
 
@@ -19,8 +19,8 @@ groups:
     en: "Calibration (mouse): experiments human kidney data does not have"
     zh: "小鼠校准：人肾数据里没有的实验"
   perturbation:
-    en: "Perturbation experiments (mouse): outcomes measured after a drug or an injury"
-    zh: "扰动实验（小鼠）：用药或损伤之后实际测到的结果"
+    en: "Treatment and injury experiments: outcomes measured after a drug or an injury"
+    zh: "治疗和损伤实验：用药或损伤之后实际测到的结果"
   source:
     en: "Data sources and portals"
     zh: "数据来源和平台"
@@ -85,11 +85,11 @@ datasets:
     zh: "需要 altered 标签时用 GEO 的 RDS + 标签表。GSE183279_RAW.tar（3.5 GB）是空间数据。原始 FASTQ 在 KPMP / dbGaP，要申请。"
   use_in:
     anomaly-benchmark:
-      en: "Healthy reference; disease ground truth (altered states, tier 3); base for artifact injection."
-      zh: "健康参考；“病”的答案（altered 状态，三级）；注入伪影的底板。"
-    agent-claims:
-      en: "Human context for questions the mouse data cannot answer; the agent should say these are untestable."
-      zh: "人类背景：有些问题小鼠数据回答不了，agent 应该说“测不了”。"
+      en: "Healthy reference; disease ground truth for external validation (altered states); base for artifact injection."
+      zh: "健康参考；外部验证里“病”的答案（altered 状态）；注入伪影的底板。"
+    hypothesis-agents:
+      en: "Discovery cohort: the agent forms its CKD hypotheses here; donors are split, and other cohorts are held out as answers. Do not use the GSE211785 KPMP-merged h5ad or unfiltered Klötzer 2025 data for held-out tests: they contain Lake donors."
+      zh: "发现队列：agent 在这里提出 CKD 假设；供者先划分，其他队列留出当答案。不要用 GSE211785 里合并了 KPMP 的 h5ad 或没过滤的 Klötzer 2025 数据做留出检验：里面有 Lake 的供者。"
 
 - id: abedini-2024
   name: "Abedini 2024 · Second cohort"
@@ -135,6 +135,115 @@ datasets:
     anomaly-benchmark:
       en: "Task T4: every anomaly called on a healthy donor is counted as a false alarm (our design choice; healthy tissue also carries altered cells, 26% of healthy-donor nuclei in Lake 2023); does the observed rate stay below the target?"
       zh: "任务 T4：健康人身上报出的“异常”都按误报算（这是我们的设定；健康组织里也有 altered 细胞，Lake 2023 单核数据里健康人有 26% 的核是 altered），看实际误报率是否低于设定值。"
+    hypothesis-agents:
+      en: "Held-out replication cohort (another centre and pipeline): does a CKD hypothesis formed on Lake 2023 hold here? Shares patients with Dumoulin 2026, so the two are never split against each other; its public annotation lacks aTAL, so score on genes, not state names. Do not use the GSE211785 KPMP-merged h5ad or unfiltered Klötzer 2025 data for held-out tests: they contain Lake donors."
+      zh: "留出复现队列（换了中心和处理流程）：在 Lake 2023 上得出的 CKD 假设，在这里成不成立？和 Dumoulin 2026 共用病人，两者不能互相当发现和留出；公开注释里没有 aTAL，所以按基因打分，不比状态名。不要用 GSE211785 里合并了 KPMP 的 h5ad 或没过滤的 Klötzer 2025 数据做留出检验：里面有 Lake 的供者。"
+
+- id: kuppe-2021
+  name: "Kuppe 2021 · Human kidney fibrosis (hypertensive CKD)"
+  name_zh: "Kuppe 2021 · 人肾纤维化（高血压性 CKD）"
+  group: disease
+  species: human
+  cite: "Kuppe C et al. Nature 2021;589:281–286. doi:10.1038/s41586-020-2941-1"
+  assays: [sc]
+  scale: {en: "CD10− 53,672 cells, CD10+ 33,690, PDGFRβ+ 37,380 (paper text; the figure legends give 51,849 and 31,875)", zh: "CD10− 53,672 个细胞，CD10+ 33,690 个，PDGFRβ+ 37,380 个（论文正文；图注里是 51,849 和 31,875）"}
+  people: {en: "13 patients with hypertensive nephrosclerosis (7 eGFR > 60, 6 < 60); CD10− 11 (7 / 4), CD10+ 8 (5 / 3), PDGFRβ+ 8 (4 / 4); no healthy controls", zh: "13 名高血压性肾硬化病人（7 名 eGFR > 60，6 名 < 60）；CD10− 11 人（7 / 4），CD10+ 8 人（5 / 3），PDGFRβ+ 8 个（4 / 4）；没有健康对照"}
+  labels: {en: "cluster labels per cell (eGFR group per person in the files not yet checked)", zh: "每个细胞的聚类标签（文件里有没有每人的 eGFR 分组还没核对）"}
+  tissue: {en: "tumour-free cortex from nephrectomies for kidney cancer (Hospital Eschweiler / RWTH Aachen), FACS-sorted fractions (CD10+, CD10−, PDGFRβ+)", zh: "因肾癌切除的肾里没有肿瘤的皮质（Eschweiler 医院 / RWTH Aachen），流式分选的几个部分（CD10+、CD10−、PDGFRβ+）"}
+  processed: {en: "processed matrices with cluster labels on Zenodo", zh: "Zenodo 上有带聚类标签的处理后矩阵"}
+  access: open
+  licence: "CC BY 4.0 (Zenodo)"
+  oneliner:
+    en: "Human CKD tissue from a third centre (Aachen), sorted into fractions: an independent cohort for checking whether a CKD hypothesis formed elsewhere holds, especially on fibrosis."
+    zh: "来自第三个中心（亚琛）的人 CKD 组织，分选成几个部分：用来检验在别的队列上得出的 CKD 假设在这里成不成立，尤其是纤维化。"
+  measured:
+    en: "Single-cell RNA of FACS-sorted CD10+, CD10− and PDGFRβ+ cells from human kidneys; spatial checks by RNA in-situ hybridisation (RNAscope), no spatial dataset released. The paper traces myofibroblasts mainly to pericytes and fibroblasts and supports it with fate tracing in mice."
+    zh: "人肾里流式分选的 CD10+、CD10− 和 PDGFRβ+ 细胞的单细胞 RNA；空间上用 RNA 原位杂交（RNAscope）核对，没有发布空间数据集。论文把肌成纤维细胞主要追溯到周细胞和成纤维细胞，并在小鼠上用谱系追踪支持。"
+  issues:
+    - en: "Sorted fractions, so cell-type proportions are not those of the tissue; no healthy controls, only higher vs lower eGFR."
+      zh: "是分选后的部分，细胞类型比例不等于组织里的比例；没有健康对照，只能比 eGFR 高和低。"
+    - en: "The paper's own counts disagree: 13 patients with both fractions in the text, but 11 (CD10−) and 8 (CD10+) per fraction, and 15 kidneys in the Fig. 1b legend; Zenodo files not yet counted."
+      zh: "论文自己的人数前后不一致：正文说两个部分都来自 13 人，按部分又是 11 人（CD10−）和 8 人（CD10+），图 1b 的图注写 15 个肾；Zenodo 文件还没数。"
+  downloads:
+    - {fmt: Zenodo, what: {en: "record 4059315: processed matrices and labels (human tarballs 109 / 257 / 243 MB)", zh: "记录 4059315：处理后的矩阵和标签（人的三个压缩包 109 / 257 / 243 MB）"}, size: "2.06 GB", url: "https://zenodo.org/records/4059315"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    hypothesis-agents:
+      en: "Held-out replication cohort for hypertensive CKD and fibrosis hypotheses; independent of the KPMP donors."
+      zh: "高血压性 CKD 和纤维化假设的留出复现队列；和 KPMP 的供者没有重叠。"
+
+- id: wilson-dkd-2022
+  name: "Wilson 2022 · Diabetic kidney disease, RNA and chromatin"
+  name_zh: "Wilson 2022 · 糖尿病肾病的 RNA 和染色质"
+  group: disease
+  species: human
+  cite: "Wilson PC et al. Nat Commun 2022;13:5253. doi:10.1038/s41467-022-32972-z"
+  assays: [sn, atac]
+  scale: {en: "snRNA 39,176 nuclei; snATAC 68,458 nuclei (paper); CELLxGENE snATAC has 37,747 nuclei from 8 donors", zh: "单核 RNA 39,176 个核；snATAC 68,458 个核（论文）；CELLxGENE 上的 snATAC 只有 8 人的 37,747 个核"}
+  people: {en: "snRNA 6 controls and 5 DKD; snATAC 6 and 7; all DKD with type 2 diabetes", zh: "单核 RNA 6 名对照、5 名 DKD；snATAC 6 名和 7 名；DKD 都是 2 型糖尿病"}
+  labels: {en: "cell types (CELLxGENE); control or DKD per person", zh: "细胞类型（CELLxGENE）；每人是对照还是 DKD"}
+  tissue: {en: "kidney cortex: 10 nephrectomies for renal mass, 3 deceased donors", zh: "肾皮质：10 例因肾肿物切除的肾，3 例遗体捐献"}
+  processed: {en: "processed files on GEO; also on CELLxGENE", zh: "GEO 上有处理后的文件；CELLxGENE 上也有"}
+  access: open
+  licence: "GEO: not stated; CELLxGENE: CC BY 4.0"
+  oneliner:
+    en: "A small DKD cohort from another lab (Humphreys): one of the held-out cohorts for checking whether a DKD hypothesis replicates."
+    zh: "另一个实验室（Humphreys 组）的小型 DKD 队列：检验 DKD 假设能不能复现的留出队列之一。"
+  measured:
+    en: "Single-nucleus RNA and single-nucleus ATAC of kidneys from controls and people with DKD; the paper reports a VCAM1+ injured proximal tubule state that is more frequent in DKD."
+    zh: "对照和 DKD 病人肾的单核 RNA 和单核 ATAC；论文报告了一个在 DKD 里更多的 VCAM1+ 受损近端小管状态。"
+  issues:
+    - en: "Only 5–7 DKD donors, with large differences between donors."
+      zh: "DKD 只有 5–7 人，人和人之间差别大。"
+    - en: "Shares donors with earlier series: GSE131882 (Wilson et al., PNAS 2019) and GSE151302 (Muto et al., Nat Commun 2021). Controls 1–5 are the Muto 2021 donors; DKD 1–3 snRNA are the PNAS 2019 diabetic samples."
+      zh: "和更早的数据共用供者：GSE131882（Wilson 等，PNAS 2019）和 GSE151302（Muto 等，Nat Commun 2021）。对照 1–5 就是 Muto 2021 的供者；DKD 1–3 的单核 RNA 就是 PNAS 2019 里的糖尿病样本。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE195460 (snRNA, snATAC)", zh: "GSE195460（单核 RNA、snATAC）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE195460"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    hypothesis-agents:
+      en: "Held-out replication cohort for DKD hypotheses (from a different lab and pipeline than the discovery cohort)."
+      zh: "DKD 假设的留出复现队列（实验室和处理流程都和发现队列不同）。"
+
+- id: dumoulin-dkd-spatial-2026
+  name: "Dumoulin 2026 · Spatial atlas of diabetic kidney disease"
+  name_zh: "Dumoulin 2026 · 糖尿病肾病的空间图谱"
+  group: disease
+  species: human
+  paper: dkd-spatial-atlas-nature-2026
+  cite: "Dumoulin B et al. Nature 2026;653:1158–1169. doi:10.1038/s41586-026-10363-4"
+  assays: [spatial]
+  scale: {en: "64 FFPE samples (CosMx 48, Xenium 16); about 3.39 million CosMx and 0.95 million Xenium cells after filtering", zh: "64 份 FFPE 样本（CosMx 48 份，Xenium 16 份）；过滤后约 339 万个 CosMx 细胞、95 万个 Xenium 细胞"}
+  people: {en: "58 patients (paper; 57 distinct IDs in Diagnosis.xlsx): about 26 DKD, 12 controls (2 children), 9 with diabetes and/or hypertension without DKD, and single cases of FSGS, IgAN, MN, C3GN, TMA and CKD, plus 2 AA amyloid", zh: "58 名病人（论文；Diagnosis.xlsx 里有 57 个不同编号）：约 26 名 DKD、12 名对照（其中 2 名儿童）、9 名有糖尿病和 / 或高血压但没有 DKD，另有 FSGS、IgA 肾病、膜性肾病、C3 肾小球病、血栓性微血管病和 CKD 各 1 例，以及 2 例 AA 淀粉样变"}
+  labels: {en: "cell types and spatial niches in the paper (whether the h5ad holds niche labels is not yet checked); diagnosis per sample", zh: "论文里有细胞类型和空间 niche（h5ad 里有没有 niche 标签还没核对）；每个样本的诊断"}
+  tissue: {en: "left-over, de-identified kidney samples, some from the TRIDENT study; formalin-fixed paraffin-embedded", zh: "剩余的、去标识的肾样本，部分来自 TRIDENT 研究；福尔马林固定石蜡包埋"}
+  processed: {en: "annotated h5ad and a diagnosis table on Zenodo", zh: "Zenodo 上有注释好的 h5ad 和诊断表"}
+  access: open
+  licence: "CC BY 4.0 (Zenodo); paper CC BY-NC-ND 4.0"
+  oneliner:
+    en: "Imaging-based spatial data of DKD tissue: the spatial evidence for a hypothesis, and a 2026 result (a B-cell-rich DKD subgroup) that models with an earlier training cutoff cannot have seen."
+    zh: "DKD 组织的成像空间数据：给假设提供空间佐证，也是 2026 年才发表的结果（一个富含 B 细胞的 DKD 亚组），训练截止更早的模型不可能见过。"
+  measured:
+    en: "CosMx (about 1,000 genes) and Xenium (5,100 genes; 656 shared with CosMx) on FFPE sections; the paper describes spatial niches that recur across patients and a B-cell-rich DKD subgroup."
+    zh: "FFPE 切片上的 CosMx（约 1,000 个基因）和 Xenium（5,100 个基因，和 CosMx 共有 656 个）；论文描述了在病人之间反复出现的空间 niche，以及一个富含 B 细胞的 DKD 亚组。"
+  issues:
+    - en: "Shares patients (HK IDs) with Abedini 2024: HK2844, HK2924 (Abedini per-cell metadata) and HK2873, HK3035 (Abedini Visium file names) appear in both; 21 Dumoulin patients have non-HK IDs and cannot be checked. Never use the two as discovery and held-out cohort for each other."
+      zh: "和 Abedini 2024 共用病人（HK 编号）：HK2844、HK2924（Abedini 每个细胞的标签表）和 HK2873、HK3035（Abedini Visium 文件名）两边都有；Dumoulin 有 21 名病人用的不是 HK 编号，没法核对。两者不能一个当发现队列、一个当留出队列。"
+    - en: "Gene panels of 1k / 5k genes, so a hypothesis about a gene outside the panel cannot be checked here."
+      zh: "基因面板只有 1k / 5k 个基因，面板外的基因在这里没法检验。"
+  downloads:
+    - {fmt: Zenodo, what: {en: "record 19868428: annotated h5ad + diagnosis table", zh: "记录 19868428：注释好的 h5ad + 诊断表"}, size: "8.75 GB", url: "https://zenodo.org/records/19868428"}
+  download_note:
+    en: "Download not yet tested. The paper cites 10.5281/zenodo.18674907, an earlier version of the same record without files; 19868428 is the current version."
+    zh: "还没做下载检查。论文引用的是 10.5281/zenodo.18674907，是同一记录的早期版本，没有文件；19868428 是现在的版本。"
+  use_in:
+    hypothesis-agents:
+      en: "Spatial evidence for hypotheses about cell states and niches; 2026 claims as time-split items where a model's cutoff is earlier."
+      zh: "细胞状态和 niche 假设的空间佐证；对训练截止更早的模型，2026 年的结论可以出按时间切分的题。"
 
 - id: mbdrc-2026
   name: "mBDRC 2026 · One donor, three assays"
@@ -182,8 +291,8 @@ datasets:
     zh: "先下 cellxgene 的三个文件（约 6 GB）就够用。原始测序在 dbGaP phs004459，要申请。"
   use_in:
     anomaly-benchmark:
-      en: "Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is treated as a false alarm (tier 2; our design choice). Also extends the healthy reference."
-      zh: "任务 T2b：同一个人换了测法就被报成“异常”的，按误报处理（二级答案；这是我们的设定）。也补充健康参考。"
+      en: "Task T2b: anything flagged as anomalous only because the same donor was measured with another assay is treated as a false alarm (our design choice). Also extends the healthy reference."
+      zh: "任务 T2b：同一个人换了测法就被报成“异常”的，按误报处理（这是我们的设定）。也补充健康参考。"
 
 - id: hoeft-2024
   name: "Hoeft 2024 · Four patients in one channel"
@@ -232,8 +341,8 @@ datasets:
     zh: "要得到 ambient / doublet 真值，得用 FASTQ + VCF 重跑 CellRanger 和 souporcell。"
   use_in:
     anomaly-benchmark:
-      en: "Main line: real human-kidney doublet and ambient answers; the examiner for task T2 and a check that our injected artifacts look real."
-      zh: "主线：人肾真实的 doublet 和 ambient 答案；任务 T2 的考官，也用来检验我们注入的伪影像不像真的。"
+      en: "Main line: real human-kidney doublet and ambient answers; the answer for external-validation task T2, and a check that our injected artifacts look real."
+      zh: "主线：人肾真实的 doublet 和 ambient 答案；外部验证任务 T2 的答案，也用来检验我们注入的伪影像不像真的。"
 
 - id: lake-2019
   name: "Lake 2019 · Same patients, different storage and processing"
@@ -420,7 +529,7 @@ datasets:
   cite: "Wu H et al. Cell Metab 2022;34:1064–1078.e6. doi:10.1016/j.cmet.2022.05.010"
   assays: [sn]
   scale: {en: "nearly 1 million nuclei (GEO summary)", zh: "接近 100 万个核（GEO 摘要）"}
-  people: {en: "70 GEO samples", zh: "GEO 上 70 个样本"}
+  people: {en: "70 female mice in 14 groups, 4–6 per group (one sample per mouse)", zh: "70 只雌鼠，14 组，每组 4–6 只（每只一个样本）"}
   labels: {en: "treatment arm × time point (2 days, 2 weeks)", zh: "治疗组 × 时间点（2 天、2 周）"}
   tissue: {en: "db/db mice with uninephrectomy and renin hypertension (a DKD model)", zh: "db/db 小鼠 + 单侧肾切除 + 肾素高血压（DKD 模型）"}
   processed: {en: "processed files on GEO (CSV, H5)", zh: "GEO 上有处理后的文件（CSV、H5）"}
@@ -430,8 +539,8 @@ datasets:
     en: "Mouse DKD kidneys after vehicle, ACE inhibitor, rosiglitazone, SGLT2 inhibitor and two combinations, at two time points. Our reading: the cleanest public kidney data for predicting a combination from its single drugs."
     zh: "糖尿病肾病小鼠分别接受安慰剂、ACE 抑制剂、罗格列酮、SGLT2 抑制剂和两种联合用药，两个时间点。我们的理解：这是公开数据里最适合做“从单药预测联合用药”的肾脏数据。"
   measured:
-    en: "Single-nucleus RNA of whole kidneys. Arms: vehicle, ACEi, rosiglitazone, SGLT2i, ACEi + rosiglitazone, ACEi + SGLT2i, each at 2 days and 2 weeks. The authors report that different drugs affected strikingly different cell types and that the combinations had the largest, largely non-overlapping effects (GEO summary)."
-    zh: "全肾单核 RNA。分组：安慰剂、ACEi、罗格列酮、SGLT2i、ACEi + 罗格列酮、ACEi + SGLT2i，每组 2 天和 2 周两个时间点。作者报告：不同药物影响的细胞类型差别很大；联合用药效应最大，而且两种药的效应大多不重叠（GEO 摘要）。"
+    en: "Single-nucleus RNA of whole kidneys. Arms: vehicle, ACEi, rosiglitazone, SGLT2i, ACEi + rosiglitazone, ACEi + SGLT2i, each at 2 days and 2 weeks, plus db/m and db/db controls without the renin AAV (2 days only). The authors report that different drugs affected strikingly different cell types and that the combinations had the largest, largely non-overlapping effects (GEO summary)."
+    zh: "全肾单核 RNA。分组：安慰剂、ACEi、罗格列酮、SGLT2i、ACEi + 罗格列酮、ACEi + SGLT2i，每组 2 天和 2 周两个时间点；另有 db/m 和不注射肾素 AAV 的 db/db 对照（只有 2 天）。作者报告：不同药物影响的细胞类型差别很大；联合用药效应最大，而且两种药的效应大多不重叠（GEO 摘要）。"
   issues:
     - en: "Mouse model, not patients; five treatments only, so it cannot test prediction for arbitrary unseen perturbations."
       zh: "是小鼠模型，不是病人；只有五种处理，没法检验“预测任意没见过的扰动”。"
@@ -441,12 +550,9 @@ datasets:
     en: "Download not yet tested."
     zh: "还没做下载检查。"
   use_in:
-    perturbation-benchmark:
-      en: "Task A: predict a combination from its single drugs, and 2 weeks from 2 days."
-      zh: "任务 A：从单药预测联合用药，从 2 天预测 2 周。"
-    agent-claims:
-      en: "Main source of questions: the held-out treated groups are the measured answers."
-      zh: "主要出题来源：留出的处理组就是实测答案。"
+    hypothesis-agents:
+      en: "Main source of questions: the held-out treated groups (a drug combination, the 2-week arm) are the measured answers the agents' hypotheses are scored against."
+      zh: "主要出题来源：留出的处理组（联合用药、2 周组）就是实测答案，agent 的假设拿它来打分。"
 
 - id: wu-sglt2-arb-2022
   name: "Wu 2022 · SGLT2 inhibitor and ARB in db/db mice"
@@ -463,12 +569,14 @@ datasets:
   access: open
   licence: "GEO: not stated"
   oneliner:
-    en: "An independent lab's single-cell data on the same two drug classes (ARB, SGLT2 inhibitor) and their combination: the second dataset for testing whether a model trained on one lab transfers to another."
-    zh: "另一个实验室用同两类药（ARB、SGLT2 抑制剂）及其联用做的单细胞数据：用来检验在一个实验室数据上训练的模型，换到另一个实验室还准不准。"
+    en: "An independent lab's single-cell data on an SGLT2 inhibitor and RAS blockade (an ARB here, an ACE inhibitor in Wu H 2022) and their combination: a second lab for checking whether a finding transfers."
+    zh: "另一个实验室用 SGLT2 抑制剂和 RAS 阻断（这里是 ARB，Wu H 2022 用的是 ACE 抑制剂）及其联用做的单细胞数据：用来检验一个结论换到另一个实验室还成不成立。"
   measured:
     en: "Single-cell RNA of kidneys from db/db mice treated with vehicle, ARB, SGLT2i or both, plus db/m mice. The authors report 10 clusters dominated by proximal tubule cells and a PT subcluster increased in DKD and reversed by treatment (GEO summary)."
     zh: "db/db 小鼠分别接受安慰剂、ARB、SGLT2i 或两者联用，加上 db/m 小鼠，测肾脏单细胞 RNA。作者报告 10 个簇，以近端小管为主，还有一个在 DKD 中增加、治疗后回落的近端小管亚群（GEO 摘要）。"
   issues:
+    - en: "Male mice treated for 8 weeks, without renin AAV or uninephrectomy; Wu H 2022 used female mice for 2 days or 2 weeks, so the two differ in model, sex and duration as well as lab."
+      zh: "雄性小鼠，处理 8 周，没有肾素 AAV 和单侧肾切除；Wu H 2022 用的是雌鼠，处理 2 天或 2 周。所以两者除了实验室不同，模型、性别和处理时长也不同。"
     - en: "Few mice per group; single-cell (not single-nucleus), so it differs from Wu H 2022 in assay as well as lab."
       zh: "每组小鼠少；是单细胞而不是单核，所以和 Wu H 2022 相比，不只实验室不同，测法也不同。"
   downloads:
@@ -477,9 +585,114 @@ datasets:
     en: "Download not yet tested."
     zh: "还没做下载检查。"
   use_in:
-    perturbation-benchmark:
-      en: "Task A′: train on Wu H 2022, test on this lab."
-      zh: "任务 A′：用 Wu H 2022 训练，在这个实验室的数据上测。"
+    hypothesis-agents:
+      en: "Cross-lab questions: does a hypothesis formed on Wu H 2022 hold in another lab's data?"
+      zh: "跨实验室的题：在 Wu H 2022 上得出的假设，换到另一个实验室的数据还成不成立？"
+
+- id: attempt-sglt2i-2026
+  name: "ATTEMPT 2026 · SGLT2 inhibitor vs placebo, baseline and 16-week biopsies"
+  name_zh: "ATTEMPT 2026 · SGLT2 抑制剂对安慰剂，基线和 16 周的活检"
+  group: perturbation
+  species: human
+  cite: "Bjornstad P et al. Sci Transl Med 2026;18:eaee1005. doi:10.1126/scitranslmed.aee1005"
+  assays: [sc]
+  scale: {en: "27 biopsies, 214,415 cells", zh: "27 份活检，214,415 个细胞"}
+  people: {en: "dapagliflozin 9 before / 7 after, placebo 7 before / 4 after (counted from the GEO sample records)", zh: "dapagliflozin 组治疗前 9 份、治疗后 7 份；安慰剂组 7 份、4 份（按 GEO 样本记录数的）"}
+  labels: {en: "arm and time point per sample; no per-cell labels", zh: "每个样本的分组和时间点；没有逐个细胞的标签"}
+  tissue: {en: "kidney cortex biopsies from trial participants aged 18–21 with type 1 diabetes and hyperfiltration (the trial enrolled ages 12–21), at baseline and 16 weeks", zh: "试验里 18–21 岁、有 1 型糖尿病和高滤过的参与者的肾皮质活检（试验招募的是 12–21 岁），基线和 16 周"}
+  processed: {en: "processed count matrices per sample on GEO; raw reads withheld", zh: "GEO 上有每个样本的处理后计数矩阵；原始 reads 不公开"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "The only public randomised human trial we found with single-cell data on kidney tissue before and after a drug: the human answer for treatment hypotheses."
+    zh: "我们找到的唯一一项公开的、有用药前后肾组织单细胞数据的人类随机对照试验：治疗假设在人身上的答案。"
+  measured:
+    en: "Single-cell RNA of kidney biopsies taken before and after 16 weeks of dapagliflozin or placebo (trial NCT04333823)."
+    zh: "用 dapagliflozin 或安慰剂 16 周前后的肾活检单细胞 RNA（试验编号 NCT04333823）。"
+  issues:
+    - en: "Small: only 11 follow-up biopsies; early disease in young people, so effects may differ from established CKD."
+      zh: "样本少：随访活检只有 11 份；是青少年的早期病变，效应可能和成形的 CKD 不同。"
+    - en: "No cell-type labels in the public files; cells must be annotated first, which is itself a step an agent can get wrong."
+      zh: "公开文件里没有细胞类型标签，要先注释；这一步本身就是 agent 可能出错的地方。"
+    - en: "GEO has no participant ID, so baseline and follow-up biopsies of the same person cannot be paired from the public data; only group comparisons are possible."
+      zh: "GEO 上没有病人编号，公开数据没法把同一个人的基线和随访活检配对，只能按组比较。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE316742 (per-sample count matrices)", zh: "GSE316742（每个样本的计数矩阵）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE316742"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    hypothesis-agents:
+      en: "Human treatment answers: the post-treatment biopsies are held out, and hypotheses about what an SGLT2 inhibitor does to each cell type are scored against them by group comparison."
+      zh: "人的治疗答案：治疗后的活检留出，agent 关于 SGLT2 抑制剂对各类细胞作用的假设，按组比较来打分。"
+
+- id: abedini-doca-rat-2024
+  name: "Abedini 2024 · Rat hypertensive kidney injury under MR antagonists"
+  name_zh: "Abedini 2024 · 大鼠高血压肾损伤和盐皮质激素受体拮抗剂"
+  group: perturbation
+  species: rat
+  cite: "Abedini A et al. J Clin Invest 2024;134:e157165. doi:10.1172/JCI157165"
+  assays: [sn, atac]
+  scale: {en: "22 snRNA samples (310,218 nuclei); 9 snATAC samples (53,298 nuclei)", zh: "22 个单核 RNA 样本（310,218 个核）；9 个 snATAC 样本（53,298 个核）"}
+  people: {en: "snRNA: sham 5, DOCA 5, +finerenone 5, +spironolactone 5, +amiloride 2 (one DOCA, one finerenone and one spironolactone sample at 3 weeks, the rest at 6 weeks); snATAC 2/2/2/2/1; male Sprague-Dawley rats", zh: "单核 RNA：假手术 5、DOCA 5、+finerenone 5、+螺内酯 5、+阿米洛利 2（DOCA、finerenone、螺内酯各有 1 个样本在 3 周，其余在 6 周）；snATAC 2/2/2/2/1；雄性 Sprague-Dawley 大鼠"}
+  labels: {en: "treatment arm and cell type per nucleus; time point only in the GEO sample records", zh: "每个核的治疗组和细胞类型；时间点只在 GEO 样本记录里"}
+  tissue: {en: "rat kidneys after uninephrectomy + DOCA + 1% salt (sham-operated controls), 3 or 6 weeks", zh: "单侧肾切除 + DOCA + 1% 盐水之后的大鼠肾（假手术对照），3 周或 6 周"}
+  processed: {en: "counts and metadata on GEO", zh: "GEO 上有计数和标签表"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "Rat kidneys under finerenone or spironolactone: a measured answer for hypotheses about mineralocorticoid-receptor blockade, a drug class that clinical trials have shown to protect the kidney in CKD with type 2 diabetes."
+    zh: "用 finerenone 或螺内酯处理的大鼠肾：给“盐皮质激素受体拮抗”这类假设提供实测答案；临床试验已经显示，这类药能保护 2 型糖尿病合并 CKD 病人的肾。"
+  measured:
+    en: "Single-nucleus RNA and ATAC of rat kidneys: control, DOCA-salt, DOCA-salt + finerenone, DOCA-salt + spironolactone, plus an amiloride arm."
+    zh: "大鼠肾的单核 RNA 和 ATAC：对照、DOCA 盐、DOCA 盐 + finerenone、DOCA 盐 + 螺内酯，另有阿米洛利组。"
+  issues:
+    - en: "Rat, not human; 2–5 samples per arm, and only one sample per DOCA arm at 3 weeks; the GEO overall_design text is out of date."
+      zh: "是大鼠，不是人；每组 2–5 个样本，每个 DOCA 组在 3 周只有 1 个样本；GEO 的 overall_design 说明已经过时。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE183839 (snRNA), GSE183840 (ATAC)", zh: "GSE183839（单核 RNA）、GSE183840（ATAC）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183839"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    hypothesis-agents:
+      en: "Treatment answers for MR-antagonist hypotheses (held-out treated arms)."
+      zh: "盐皮质激素受体拮抗剂假设的治疗答案（留出处理组）。"
+
+- id: balzer-zsf1-rat-2026
+  name: "Balzer 2026 · ZSF1 rat DKD under ACE inhibition"
+  name_zh: "Balzer 2026 · ZSF1 大鼠 DKD 和 ACE 抑制"
+  group: perturbation
+  species: rat
+  cite: "Balzer MS et al. J Am Soc Nephrol 2026;37:1438–1456. doi:10.1681/ASN.0000000995"
+  assays: [sc]
+  scale: {en: "114,615 cells, 11 samples (counted by us from the GEO metadata)", zh: "114,615 个细胞，11 个样本（我们按 GEO 标签表数的）"}
+  people: {en: "4 lean, 4 obese, 3 obese + enalapril rats; male, 12 weeks old on arrival", zh: "4 只瘦鼠、4 只肥胖鼠、3 只肥胖鼠 + 依那普利；雄性，到达时 12 周龄"}
+  labels: {en: "treatment arm; per-cell metadata", zh: "治疗组；每个细胞的标签表"}
+  tissue: {en: "kidneys of ZSF1 rats, a model of DKD with obesity and hypertension", zh: "ZSF1 大鼠的肾，一种伴肥胖和高血压的 DKD 模型"}
+  processed: {en: "SoupX-corrected, DoubletFinder-filtered counts (RDS) + per-cell metadata with 21 clusters (CSV) on GEO", zh: "GEO 上有经过 SoupX 校正、DoubletFinder 过滤的计数（RDS）和带 21 个聚类的每个细胞的标签表（CSV）"}
+  access: open
+  licence: "GEO: not stated"
+  oneliner:
+    en: "A second rodent DKD model with an ACE-inhibitor arm: checks whether a hypothesis about RAS blockade holds across species models (mouse Wu 2022, rat here)."
+    zh: "第二个啮齿类 DKD 模型，有 ACE 抑制剂组：检验关于 RAS 阻断的假设，在不同物种的模型之间（小鼠 Wu 2022、这里的大鼠）成不成立。"
+  measured:
+    en: "Single-cell RNA (enzymatic dissociation, 10x 3′ v3.1) of ZSF1 rat kidneys: lean, obese, and obese treated with enalapril; the paper reports cell-type-resolved drug effects of renin–angiotensin–aldosterone blockade."
+    zh: "ZSF1 大鼠肾的单细胞 RNA（酶解，10x 3′ v3.1）：瘦鼠、肥胖鼠、用依那普利处理的肥胖鼠；论文报告了 RAAS 阻断在各类细胞上的药效。"
+  issues:
+    - en: "Only 3 treated rats."
+      zh: "处理组只有 3 只大鼠。"
+    - en: "Enzymatic dissociation at 37 °C (dissociation stress); ambient RNA was removed before release."
+      zh: "37 °C 酶解（有解离应激）；发布前已经去掉了 ambient RNA。"
+  downloads:
+    - {fmt: GEO, what: {en: "GSE233078 (counts + metadata)", zh: "GSE233078（计数 + 标签表）"}, size: "", url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE233078"}
+  download_note:
+    en: "Download not yet tested."
+    zh: "还没做下载检查。"
+  use_in:
+    hypothesis-agents:
+      en: "Treatment answers for RAS-blockade hypotheses in a second species model."
+      zh: "RAS 阻断假设在第二个物种模型上的治疗答案。"
 
 - id: kirita-iri-2020
   name: "Kirita 2020 · Mouse kidney injury and repair time course"
@@ -509,10 +722,6 @@ datasets:
   download_note:
     en: "Download not yet tested."
     zh: "还没做下载检查。"
-  use_in:
-    perturbation-benchmark:
-      en: "Task B: predict later time points from earlier ones."
-      zh: "任务 B：用前面的时间点预测后面的时间点。"
 
 - id: dixon-iri-visium-2022
   name: "Dixon 2022 · Spatial time course of mouse kidney injury"
@@ -544,10 +753,6 @@ datasets:
   download_note:
     en: "Download not yet tested."
     zh: "还没做下载检查。"
-  use_in:
-    perturbation-benchmark:
-      en: "Task B′: spatial check of predicted state changes."
-      zh: "任务 B′：在空间上检查预测出的状态变化。"
 
 - id: gaedcke-sc-sn-2022
   name: "Gaedcke 2022 · Single cell vs single nucleus after injury"
@@ -578,9 +783,6 @@ datasets:
     en: "Download not yet tested."
     zh: "还没做下载检查。"
   use_in:
-    perturbation-benchmark:
-      en: "Task C: a measurement control; any effect a model claims should be larger than the assay difference."
-      zh: "任务 C：测量对照；模型声称的效应应该大过测法差异。"
     anomaly-benchmark:
       en: "Candidate source of a real assay shift in mouse kidney (under discussion)."
       zh: "小鼠肾里真实“换测法”差异的候选来源（讨论中）。"

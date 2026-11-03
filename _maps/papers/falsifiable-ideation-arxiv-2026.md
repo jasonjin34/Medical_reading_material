@@ -27,6 +27,7 @@ tags:
 
 ## Related papers / 相关论文
 - [[_maps/papers/ideation-execution-gap-arxiv-2025|Ideation–execution gap]] — testable ≠ successful
+- [[_maps/papers/rq-bench-arxiv-2026|RQ-Bench]] — cites
 
 ## Concepts / 概念
 - [[_maps/concepts/benchmark-validity|Benchmark validity]]

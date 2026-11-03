@@ -27,7 +27,7 @@ TPL = ROOT / "templates"
 CATEGORIES = [
     "anomaly", "single-cell", "spatial", "virtual-tissue", "histopath",
     "foundation", "pathology", "imaging", "competition",
-    "agents", "ehr", "other",
+    "agents", "ehr", "drug-discovery", "other",
 ]
 
 
@@ -94,7 +94,7 @@ def main() -> None:
     ap.add_argument("--relevance", default="medium", choices=["high", "medium", "low"])
     ap.add_argument("--access", default="", choices=["", "open", "paywall", "abstract-only"])
     ap.add_argument("--slug", default="", help="override folder slug")
-    ap.add_argument("--plans", nargs="*", default=[], choices=["A", "B", "EHR"],
+    ap.add_argument("--plans", nargs="*", default=[], choices=["A", "B", "EHR", "VS"],
                     help="knowledge-map views this paper belongs to")
     ap.add_argument("--track", default="", help="column in its view, e.g. A3 or B4 (see maps/views.yaml)")
     ap.add_argument("--recommended-by", default="", help='e.g. "core-reading"')

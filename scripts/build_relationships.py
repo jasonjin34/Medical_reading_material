@@ -35,6 +35,13 @@ DIRECTION = "Anomaly-detection-based virtual tissue modelling"
 # are semantic, not bibliographic. Maintain by hand as the library grows.
 # (source_slug, target_slug, label)
 CONCEPT_EDGES = [
+    # virtual screening (Hayat Lab agentic-screening project, Nov 2026)
+    ("exscalate-arxiv-2021", "adaptiveflow-natbiotech-2026", "ultra-large docking at scale"),
+    ("adaptiveflow-natbiotech-2026", "drugclip-science-2026", "Enamine REAL library"),
+    ("drugclip-science-2026", "competitive-docking-npjdrugdiscov-2026", "prefilter → co-folding re-rank"),
+    ("adaptiveflow-natbiotech-2026", "competitive-docking-npjdrugdiscov-2026", "docking vs co-folding ranking"),
+    ("biomni-biorxiv-2025", "adaptiveflow-natbiotech-2026", "agent tool orchestration"),
+    ("co-scientist-nature-2026", "drugclip-science-2026", "AI-proposed candidates → wet lab"),
     ("virtual-tissue-2501", "spatial-biorxiv-2025", "in-silico perturbation"),
     ("spatial-biorxiv-2025", "scrna-natmachintell-2026", "perturbation/revert"),
     ("scrna-natmachintell-2026", "virtual-cell-challenge", "perturbation benchmark"),

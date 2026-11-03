@@ -24,7 +24,7 @@
 | 5 | [Step 3 · External validation](#validation) | how we show it really works |
 | 6 | [Data](#data) | what each public dataset does in the three steps |
 | 7 | [What we will produce](#deliverables) | what is delivered |
-| 8 | [How it connects to the perturbation benchmark](#connect) | how the two topics share code |
+| 8 | [How it connects to the agent topic](#connect) | how the two topics share code |
 | 9 | [Open questions](#open) | decisions still to discuss |
 | 10 | [Reading path](#reading) | which papers to read first |
 
@@ -455,10 +455,10 @@ Splits are by donor, not by cell, so no person appears in both training and test
 
 Raw data are not redistributed; we release code, split files, injection records and derived labels (Abedini's derived labels only once its licence is confirmed).
 
-## How it connects to the perturbation benchmark {#connect}
+## How it connects to the agent topic {#connect}
 
-- **[The perturbation-benchmark topic](perturbation-benchmark.md):** the biggest pitfall in evaluating perturbation prediction is counting systematic differences not caused by the perturbation as its effect ([Systema](https://doi.org/10.1038/s41587-025-02777-8)), and technical artifacts are one source of such differences. This topic's injection code gives the perturbation benchmark **controlled technical perturbations**, to check whether models predict artifacts as drug or injury effects and whether rankings change after cleaning.
-- **[Part 2 (agents) of the perturbation benchmark](perturbation-benchmark.md#agents):** the same code can inject artifacts into a single treated group to make "artifact items", testing whether an agent reports an artifact as a drug effect. This is optional and depends on when the code is usable; the agent part does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
+- **[The agent topic](hypothesis-agents.md)** has agents propose and test hypotheses on kidney perturbation data. One of the easiest mistakes for an agent is to report a difference not caused by the treatment as a drug effect ([Systema](https://doi.org/10.1038/s41587-025-02777-8) points out the same pitfall in perturbation evaluation), and technical artifacts are one source of such differences.
+- This topic's injection code can inject known artifacts into a single treated group to make "artifact items", testing whether an agent takes an artifact for a drug effect. This is optional and depends on when the code is usable; the agent topic does not depend on it and starts with existing tools (scDblFinder, SoupX and others).
 
 ## Open questions {#open}
 

@@ -32,5 +32,4 @@ Download not yet tested.
 
 ## Used in our research topics
 
-- **[An Honest Benchmark for Perturbation Prediction in Kidney](../research/perturbation-benchmark.md)**: Task C: a measurement control; any effect a model claims should be larger than the assay difference.
 - **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Candidate source of a real assay shift in mouse kidney (under discussion).

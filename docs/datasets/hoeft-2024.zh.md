@@ -64,4 +64,4 @@ k.var_names_make_unique()
 
 ## 在我们的研究课题里
 
-- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 主线：人肾真实的 doublet 和 ambient 答案；任务 T2 的考官，也用来检验我们注入的伪影像不像真的。
+- **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 主线：人肾真实的 doublet 和 ambient 答案；外部验证任务 T2 的答案，也用来检验我们注入的伪影像不像真的。

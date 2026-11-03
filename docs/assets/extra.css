@@ -17,3 +17,29 @@
   --md-typeset-a-color: #3f51b5;
   --md-accent-fg-color: #526cfe;
 }
+
+/* Dark mode: Material would reuse the navy primary for links, active nav items and
+   card links, which disappears on the dark background. Use a light indigo instead. */
+[data-md-color-scheme="slate"] {
+  --md-typeset-a-color: #9fb3ff;
+  --md-accent-fg-color: #c3d0ff;
+  --md-accent-fg-color--transparent: rgba(159, 179, 255, 0.12);
+}
+
+/* Header and tabs stay navy in dark mode; give it a faint edge against the page. */
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-tabs {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Card grid on the home and topic pages: readable border and icon in dark mode. */
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li {
+  border-color: rgba(159, 179, 255, 0.25);
+}
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover {
+  border-color: rgba(159, 179, 255, 0.6);
+}
+[data-md-color-scheme="slate"] .md-typeset .grid.cards .twemoji,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards .lg {
+  color: #9fb3ff;
+}

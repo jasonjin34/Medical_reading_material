@@ -1,0 +1,199 @@
+{
+ "flow": [],
+ "view": "virtual-screening",
+ "title": {
+  "en": "Virtual screening & drug discovery",
+  "zh": "虚拟筛选与药物发现"
+ },
+ "lead": {
+  "en": "Papers for the agentic virtual-screening project (Sikander's reading list, Nov 2026).",
+  "zh": "agentic 虚拟筛选项目的论文（Sikander 2026 年 11 月给的阅读清单）。"
+ },
+ "collapsed": false,
+ "wrap": 0,
+ "nodes": [
+  {
+   "id": "group:scale",
+   "kind": "group",
+   "label": {
+    "en": "Docking at scale",
+    "zh": "大规模对接"
+   },
+   "code": "scale",
+   "count": 2,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "adaptiveflow-natbiotech-2026",
+   "kind": "paper",
+   "parent": "group:scale",
+   "label": "AdaptiveFlow",
+   "title": "AI-enhanced adaptive virtual screening of large libraries for ligand discovery",
+   "year": 2026,
+   "venue": "Nature Biotechnology",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "VS"
+   ],
+   "track0": "",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "AdaptiveFlow is an open-source (GNU GPL-2.0) ultralarge virtual screening (ULVS) platform: it prepares Enamine REAL Space 2022q1-2 into 69 billion ready-to-dock molecules partitioned by 18 molecular properties into ~12 million tranches, then runs Adaptive Target-Guided Virtual Screens (ATG-VS) — a 12-million-docking prescreen over 1–10 representative molecules per tranche, followed by a primary screen of only the best tranches (optionally with an active-learning ML classifier) — cutting exhaustive docking cost by up to 1,000-fold; it integrates ~1,500 docking protocols, scales near-linearly to 5.6 million vCPUs on AWS, and prospectively produced nanomolar inhibitors of FSP1 and PARP1 (afi-FSP1-1 Ki 0.283 µM, iParp1 IC50 8.8 nM) together with co-crystal structures.",
+    "zh": "AdaptiveFlow 是一个开源(GNU GPL-2.0)的超大规模虚拟筛选(ULVS)平台:它把 Enamine REAL Space 2022q1-2 准备成 69 billion 个 ready-to-dock 分子、按 18 维分子性质切成约 1,200 万个 tranche(格子),再用 Adaptive Target-Guided Virtual Screen(ATG-VS)先用每格 1–10 个代表分子做 12 million 次 prescreen、只对最优的 tranche 做 primary screen(可选叠加一个主动学习式 ML 分类器),把穷举 docking 的成本最多降低 1,000 倍;平台集成约 1,500 个 docking protocol,在 AWS 上近线性扩展到 5.6 million vCPU,并在 FSP1 与 PARP1 上前瞻性地做出纳摩尔抑制剂(afi-FSP1-1 Ki 0.283 µM、iParp1 IC50 8.8 nM)与共晶结构。"
+   },
+   "url": {
+    "en": "../papers/adaptiveflow-natbiotech-2026/",
+    "zh": "../zh/papers/adaptiveflow-natbiotech-2026/"
+   },
+   "x": 0,
+   "y": 70
+  },
+  {
+   "id": "exscalate-arxiv-2021",
+   "kind": "paper",
+   "parent": "group:scale",
+   "label": "EXSCALATE (HPC docking)",
+   "title": "EXSCALATE: An extreme-scale in-silico virtual screening platform to evaluate 1 trillion compounds in 60 hours on 81 PFLOPS supercomputers",
+   "year": 2021,
+   "venue": "arXiv preprint",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "VS"
+   ],
+   "track0": "",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "This is a software-engineering / HPC systems paper: the authors rewrote Dompé's Exscalate docking platform as \"one MPI process per node + an asynchronous in-node reader→splitter→docker→writer pipeline + heterogeneous CUDA/C++ workers\", wrapped in a workflow (a decision tree predicts each ligand's docking time → ligands are bucketed by predicted time → ~3,400 independent SLURM jobs of ~5 minutes each). On CINECA-Marconi100 + ENI-HPC5 (81 PFLOPS combined) this docked 70+ billion small molecules against 15 binding sites of 12 SARS-CoV-2 proteins in 60 hours — about 1 trillion scoring evaluations at 5M ligands/s across both machines (~2.2k ligands/s per node).",
+    "zh": "这是一篇软件工程 / HPC 系统论文:作者把 Dompé 的 Exscalate 对接平台重写为「每节点一个 MPI 进程 + 节点内 reader→splitter→docker→writer 异步流水线 + CUDA/C++ 异构 worker」,并在外面套一层工作流(用决策树预测每个配体的对接耗时 → 按耗时分桶 → ~3400 个独立 SLURM 作业,每个约 5 分钟),从而在 CINECA-Marconi100 + ENI-HPC5(合计 81 PFLOPS)上于 60 小时内把 700 亿个小分子对接到 SARS-CoV-2 12 个病毒蛋白的 15 个结合位点上,合计约 1 万亿次打分,双机吞吐 5M ligands/s(单节点约 2.2k ligands/s)。"
+   },
+   "url": {
+    "en": "../papers/exscalate-arxiv-2021/",
+    "zh": "../zh/papers/exscalate-arxiv-2021/"
+   },
+   "x": 0,
+   "y": 124
+  },
+  {
+   "id": "group:learned",
+   "kind": "group",
+   "label": {
+    "en": "Learned screening",
+    "zh": "学习式筛选"
+   },
+   "code": "learned",
+   "count": 1,
+   "x": 270,
+   "y": 0
+  },
+  {
+   "id": "drugclip-science-2026",
+   "kind": "paper",
+   "parent": "group:learned",
+   "label": "DrugCLIP",
+   "title": "Deep contrastive learning enables genome-wide virtual screening",
+   "year": 2026,
+   "venue": "Science",
+   "relevance": "high",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "VS"
+   ],
+   "track0": "",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "DrugCLIP recasts virtual screening from pairwise-scoring regression into a dense-retrieval problem: contrastive learning embeds protein pockets and molecules into one vector space, the compound library can be pre-encoded, and screening needs only one pocket embedding plus cosine-similarity retrieval, taking complexity from O(M×N) to O(M+N) — up to 10 million times faster than docking per the Science abstract. It beats docking and deep-learning baselines on DUD-E and LIT-PCBA; in the wet lab it reached a 15% hit rate for NET (norepinephrine transporter) with two inhibitors' complex structures solved, and a 17.5% hit rate for TRIP12 — a target with no holo structure and no known small-molecule binders — using only AlphaFold2-predicted structures. The screening results for ~10,000 human proteins against 500 million compounds are released as the open database GenomeScreenDB.",
+    "zh": "DrugCLIP 把虚拟筛选从\"逐对打分的回归问题\"改写成\"稠密检索问题\":用对比学习把蛋白口袋和分子编码到同一个向量空间,分子库可以预先编码好,筛选时只需算一次口袋向量再做余弦相似度检索,复杂度从 O(M×N) 降到 O(M+N),比对接快到 Science 摘要所说的\"最多 1,000 万倍\";在 DUD-E 与 LIT-PCBA 上超过对接与各类深度学习基线,湿实验上 NET(去甲肾上腺素转运体)命中率 15%、两个抑制剂解出了与靶点的复合物结构,TRIP12(无 holo 结构、无已知小分子配体的靶点)仅用 AlphaFold2 预测结构就拿到 17.5% 命中率;最后把约 1 万个人类蛋白 × 5 亿化合物的筛选结果做成开放数据库 GenomeScreenDB。"
+   },
+   "url": {
+    "en": "../papers/drugclip-science-2026/",
+    "zh": "../zh/papers/drugclip-science-2026/"
+   },
+   "x": 270,
+   "y": 70
+  },
+  {
+   "id": "group:cofolding",
+   "kind": "group",
+   "label": {
+    "en": "Co-folding ranking",
+    "zh": "共折叠排序"
+   },
+   "code": "cofolding",
+   "count": 1,
+   "x": 540,
+   "y": 0
+  },
+  {
+   "id": "competitive-docking-npjdrugdiscov-2026",
+   "kind": "paper",
+   "parent": "group:cofolding",
+   "label": "Competitive docking (AF3)",
+   "title": "AI-guided competitive docking for virtual screening and compound efficacy prediction",
+   "year": 2026,
+   "venue": "npj Drug Discovery",
+   "relevance": "medium",
+   "status": "complete",
+   "type": "paper",
+   "plans": [
+    "VS"
+   ],
+   "track0": "",
+   "also_in": [],
+   "bridge": false,
+   "recommended_by": "sikander",
+   "oneliner": {
+    "en": "The authors note that diffusion-based co-folding models such as AF3 and Boltz-1/2 produce a plausible-looking binding pose for any molecule, and propose two plain but effective criteria: (a) pose convergence — the mean RMSD among poses predicted for the same ligand across several random seeds, where true inhibitors typically fall below 2 Å and within 5 Å of the pocket while unrelated molecules diverge and sit further away; and (b) pairwise competitive docking — co-fold two ligands at once and let whichever occupies the active site win, with the win rate as the CDS (Competitive Docking Score) used to rank inhibitors. Across 17 protein systems (19 binding sites), CDS rankings agree with experimental activity at concordance indices from 0.52 (no correlation) to 0.89 (strong), broadly on par with Boltz-2's own affinity-prediction module. Extended to \"All-at-Once\" (25–26 molecules competing in one run), screening 3,155 FDA-approved drugs for fluoroquinolones reached 93.5% enrichment with an enrichment factor of 62 after pose filtering.",
+    "zh": "作者发现 AF3 / Boltz-1/2 这类扩散式 co-folding 模型对任何分子都会生成一个看似合理的结合位姿,于是提出两个很朴素但有效的判据:(a) 位姿收敛性——同一配体在多个随机种子下预测位姿彼此的平均 RMSD,真抑制剂通常 < 2 Å 且落在结合口袋 5 Å 内,无关分子则发散且远离;(b) 两两竞争对接(pairwise competitive docking)——一次把两个配体一起放进去共折叠,谁占住活性位点谁赢,胜率即 CDS(Competitive Docking Score),据此排出抑制剂顺序。在 17 个蛋白系统(19 个结合位点)上,CDS 排序与实验活性的一致性指数 c 从 0.52(无相关)到 0.89(强相关),与 Boltz-2 自带的亲和力预测模块总体相当;把这招推广成 \"All-at-Once\"(一次放 25–26 个分子竞争)后,在 3,155 个 FDA 已批准药物的库里找氟喹诺酮,叠加位姿过滤后富集度达 93.5%、富集因子 62。"
+   },
+   "url": {
+    "en": "../papers/competitive-docking-npjdrugdiscov-2026/",
+    "zh": "../zh/papers/competitive-docking-npjdrugdiscov-2026/"
+   },
+   "x": 540,
+   "y": 70
+  }
+ ],
+ "edges": [
+  {
+   "source": "exscalate-arxiv-2021",
+   "target": "adaptiveflow-natbiotech-2026",
+   "kind": "concept",
+   "label": "ultra-large docking at scale"
+  },
+  {
+   "source": "adaptiveflow-natbiotech-2026",
+   "target": "drugclip-science-2026",
+   "kind": "concept",
+   "label": "Enamine REAL library"
+  },
+  {
+   "source": "drugclip-science-2026",
+   "target": "competitive-docking-npjdrugdiscov-2026",
+   "kind": "concept",
+   "label": "prefilter → co-folding re-rank"
+  },
+  {
+   "source": "adaptiveflow-natbiotech-2026",
+   "target": "competitive-docking-npjdrugdiscov-2026",
+   "kind": "concept",
+   "label": "docking vs co-folding ranking"
+  }
+ ],
+ "stats": {
+  "papers": 4,
+  "concepts": 0,
+  "edges": 4
+ }
+}

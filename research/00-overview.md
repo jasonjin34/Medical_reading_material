@@ -8,15 +8,15 @@ The group's research topics live here, one page each with the same template: wha
 <!-- ZH/EN --> <div class="grid cards" markdown>
 
 <!-- ZH -->
--   __肾脏扰动预测的诚实基准__
+-   __可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness__
 
     ---
 
-    给肾组织用药或造成损伤之后，模型能不能预测细胞会怎么变，而且比简单方法预测得更好？我们用公开的肾脏扰动数据（药物处理、损伤时间序列，以小鼠为主）建第一个肾脏扰动预测基准：先把简单 baseline 做强，控制已知的评测陷阱，再用空间数据做正交证据。
+    能分析慢性肾病（CKD）数据的 agent 已经很多，但它们的结论没法系统地检验。我们做一套包在任何 agent 外面的 harness：规则引擎从领域知识、数据和分析代码三层检查每个结论；系统主动挑出最值得看的论断请专家判定；专家的判断变成新规则，越用越好。最后用独立的 CKD 病人队列检验，通过检查的结论是不是更容易成立。
 
-    **现状：**2026-10-31 定下方向，数据调研做完，代码还没开始。
+    **现状：**2026-11-03 定下方向；文献和数据调研做完，代码还没开始。
 
-    [:octicons-arrow-right-24: 课题页](perturbation-benchmark.md)
+    [:octicons-arrow-right-24: 课题页](hypothesis-agents.md)
 
 -   __用伪影注入增强肾脏单细胞异常检测__
 
@@ -27,26 +27,16 @@ The group's research topics live here, one page each with the same template: wha
     **现状：**2026-10-28 方向调整为 pipeline + 模型；设计细节在讨论中，代码还没开始。
 
     [:octicons-arrow-right-24: 课题页](anomaly-benchmark.md)
-
--   __肾脏扰动数据上 agent 分析的可信度__
-
-    ---
-
-    问 agent 一些答案已经实测过的肾脏扰动问题，检查它的分析对不对、稳不稳，报告里的数字是不是它自己算出来的，数据回答不了时会不会说"测不了"；再看这些自动检查和专家判断是否一致。
-
-    **现状：**2026-10-31 重新定了方向，代码还没开始。
-
-    [:octicons-arrow-right-24: 课题页](agent-claims.md)
 <!-- EN -->
--   __An Honest Benchmark for Perturbation Prediction in Kidney__
+-   __Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop__
 
     ---
 
-    After a drug or an injury, can a model predict how kidney cells change, and do it better than simple methods? We use public kidney perturbation data (drug treatments and injury time courses, mostly mouse) to build the first kidney perturbation-prediction benchmark: strong simple baselines first, known evaluation pitfalls controlled, spatial data as orthogonal evidence.
+    Many agents can already analyse chronic kidney disease (CKD) data, but their conclusions cannot be checked systematically. We build a harness that wraps any agent: a rule engine checks every conclusion on three layers (domain knowledge, data and analysis code); the system selects the most informative claims for experts; and expert verdicts become new rules, so it improves with use. Independent CKD patient cohorts then test whether checked conclusions hold more often.
 
-    **Status:** direction set on 2026-10-31; data survey done; no code yet.
+    **Status:** direction set on 2026-11-03; literature and data surveys done; no code yet.
 
-    [:octicons-arrow-right-24: Topic page](perturbation-benchmark.md)
+    [:octicons-arrow-right-24: Topic page](hypothesis-agents.md)
 
 -   __Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
@@ -58,51 +48,35 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
--   __Trustworthiness of Agent Analyses on Kidney Perturbation Data__
-
-    ---
-
-    Ask agents kidney perturbation questions whose answers were measured, and check whether their analyses are right and stable, whether the numbers in their reports were actually computed, and whether they say "cannot be tested" when the data cannot answer; then check these automatic checks against expert judgement.
-
-    **Status:** direction reset on 2026-10-31; no code yet.
-
-    [:octicons-arrow-right-24: Topic page](agent-claims.md)
-
 <!-- ZH/EN --> </div>
 
 ## 课题之间的联系 / How the topics connect
 
 <!-- ZH -->
-三个课题围绕同一个问题：**在肾组织上，模型和 agent 给出的"变化"，哪些是真的？**
+两个课题围绕同一个问题：**在肾组织数据上，模型和 agent 报告的"变化"，哪些是真的？**
 
 <!-- ZH -->
 ```mermaid
-flowchart TB
-  P["扰动基准<br/>模型能不能预测用药、损伤后的变化"]
-  A["伪影注入<br/>数据里哪些异常是测量造成的"] -->|"可控的技术扰动：模型会不会把伪影当成药效"| P
-  P -->|"实测的扰动结果当答案"| G["Agent 可信度<br/>agent 的分析和报告能不能信"]
-  A -.->|"可选：伪影题"| G
+flowchart LR
+  A["伪影注入<br/>数据里哪些异常是测量造成的"] -.->|"可选：伪影题<br/>agent 会不会把伪影当成药效"| G["假设生成 agent<br/>提出的假设对不对、错在哪一步"]
 ```
 <!-- ZH -->
-- **扰动基准**是中心：它提供数据、划分和简单 baseline。
-- **伪影注入**给它提供技术对照：Systema 指出，扰动评测最大的陷阱是把非扰动造成的差异算成扰动效应，技术伪影就是这种差异的来源之一。
-- **Agent 可信度**用扰动基准里留出的实测结果出题，检查 agent 做分析、写报告这两步。
+- **伪影注入**回答"这个细胞的异常是不是测量造成的"，对应本站总方向"检测 → 建模 → 逆转"里的"检测"。
+- **agent 课题**回答"agent 对 CKD 的结论能不能被检验"：规则引擎、专家和独立数据层层把关，对应"建模 / 逆转"，最终通向药物发现。
+- 两者的接口是"伪影题"：往一个处理组里注入已知伪影，看 agent 会不会把它报成药效。
 
-对应本站的总方向"检测 → 建模 → 逆转"：伪影注入在"检测"，扰动基准在"建模 / 逆转"，Agent 可信度检查 agent 使用这些数据和工具时的判断。知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了不止一个课题要读的论文；扰动基准课题还没有自己的图谱视图。
+知识图谱里的 **[桥](../knowledge-map.md)** 视图列出了两个课题都要读的论文。
 <!-- EN -->
-The three topics share one question: **in kidney tissue, which of the "changes" reported by models and agents are real?**
+Both topics share one question: **in kidney tissue data, which of the "changes" reported by models and agents are real?**
 
 <!-- EN -->
 ```mermaid
-flowchart TB
-  P["perturbation benchmark<br/>can models predict changes after drugs or injury"]
-  A["artifact injection<br/>which anomalies in the data come from measurement"] -->|"controlled technical perturbations: do models take artifacts for drug effects"| P
-  P -->|"measured perturbation outcomes as answers"| G["agent trustworthiness<br/>can agents' analyses and reports be trusted"]
-  A -.->|"optional: artifact items"| G
+flowchart LR
+  A["artifact injection<br/>which anomalies in the data come from measurement"] -.->|"optional: artifact items<br/>does an agent take an artifact for a drug effect"| G["hypothesis-generating agents<br/>are their hypotheses right, where do they go wrong"]
 ```
 <!-- EN -->
-- **The perturbation benchmark** is the centre: it supplies the data, splits and simple baselines.
-- **Artifact injection** supplies technical controls: Systema shows that the biggest pitfall in perturbation evaluation is counting differences not caused by the perturbation as its effect, and technical artifacts are one source of them.
-- **Agent trustworthiness** turns the benchmark's held-out measured outcomes into questions and checks the analysis and report steps of agents.
+- **Artifact injection** asks whether a cell's abnormality comes from measurement: the "detect" step of this site's overall direction, "detect → model → revert".
+- **The agent topic** asks whether an agent's conclusions about CKD can be verified: a rule engine, experts and independent data check them in turn; the "model / revert" steps, leading towards drug discovery.
+- They meet in the "artifact items": known artifacts injected into one treated group, to see whether an agent reports them as a drug effect.
 
-In this site's overall direction, "detect → model → revert", artifact injection sits in "detect", the perturbation benchmark in "model / revert", and agent trustworthiness checks the judgement of agents using these data and tools. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs; the perturbation-benchmark topic does not yet have its own map view.
+The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers both topics need.

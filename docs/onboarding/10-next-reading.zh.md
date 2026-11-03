@@ -39,11 +39,10 @@
 
 每个课题页的最后一节是**阅读路线**：按顺序排好的 5 篇左右精读，并说明每篇为什么读。打开你的课题页，从那里接着读：
 
-- [肾脏扰动预测的诚实基准](../research/perturbation-benchmark.md)
+- [可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)
 - [用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)
-- [肾脏扰动数据上 agent 分析的可信度](../research/agent-claims.md)
 
-上面三篇里已经读过的就跳过。
+上面已经读过的就跳过。
 
 ## 第 4 步 · 用知识图谱找下一篇
 

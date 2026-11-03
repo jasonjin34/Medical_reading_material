@@ -9,14 +9,14 @@
 | | |
 |---|---|
 | Scale | nearly 1 million nuclei (GEO summary) |
-| People / samples | 70 GEO samples |
+| People / samples | 70 female mice in 14 groups, 4–6 per group (one sample per mouse) |
 | Labels | treatment arm × time point (2 days, 2 weeks) |
 | Licence | GEO: not stated |
 | Paper | Wu H et al. Cell Metab 2022;34:1064–1078.e6. doi:10.1016/j.cmet.2022.05.010 |
 
 ## What was measured
 
-Single-nucleus RNA of whole kidneys. Arms: vehicle, ACEi, rosiglitazone, SGLT2i, ACEi + rosiglitazone, ACEi + SGLT2i, each at 2 days and 2 weeks. The authors report that different drugs affected strikingly different cell types and that the combinations had the largest, largely non-overlapping effects (GEO summary).
+Single-nucleus RNA of whole kidneys. Arms: vehicle, ACEi, rosiglitazone, SGLT2i, ACEi + rosiglitazone, ACEi + SGLT2i, each at 2 days and 2 weeks, plus db/m and db/db controls without the renin AAV (2 days only). The authors report that different drugs affected strikingly different cell types and that the combinations had the largest, largely non-overlapping effects (GEO summary).
 
 ## Known issues
 
@@ -32,5 +32,4 @@ Download not yet tested.
 
 ## Used in our research topics
 
-- **[An Honest Benchmark for Perturbation Prediction in Kidney](../research/perturbation-benchmark.md)**: Task A: predict a combination from its single drugs, and 2 weeks from 2 days.
-- **[Trustworthiness of Agent Analyses on Kidney Perturbation Data](../research/agent-claims.md)**: Main source of questions: the held-out treated groups are the measured answers.
+- **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Main source of questions: the held-out treated groups (a drug combination, the 2-week arm) are the measured answers the agents' hypotheses are scored against.

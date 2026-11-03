@@ -61,3 +61,4 @@ rna.X = rna.layers["counts"]
 ## 在我们的研究课题里
 
 - **[用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)**: 任务 T4：健康人身上报出的“异常”都按误报算（这是我们的设定；健康组织里也有 altered 细胞，Lake 2023 单核数据里健康人有 26% 的核是 altered），看实际误报率是否低于设定值。
+- **[可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)**: 留出复现队列（换了中心和处理流程）：在 Lake 2023 上得出的 CKD 假设，在这里成不成立？和 Dumoulin 2026 共用病人，两者不能互相当发现和留出；公开注释里没有 aTAL，所以按基因打分，不比状态名。不要用 GSE211785 里合并了 KPMP 的 h5ad 或没过滤的 Klötzer 2025 数据做留出检验：里面有 Lake 的供者。

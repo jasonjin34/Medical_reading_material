@@ -4,15 +4,15 @@ The group's research topics live here, one page each with the same template: wha
 
 <div class="grid cards" markdown>
 
--   __An Honest Benchmark for Perturbation Prediction in Kidney__
+-   __Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop__
 
     ---
 
-    After a drug or an injury, can a model predict how kidney cells change, and do it better than simple methods? We use public kidney perturbation data (drug treatments and injury time courses, mostly mouse) to build the first kidney perturbation-prediction benchmark: strong simple baselines first, known evaluation pitfalls controlled, spatial data as orthogonal evidence.
+    Many agents can already analyse chronic kidney disease (CKD) data, but their conclusions cannot be checked systematically. We build a harness that wraps any agent: a rule engine checks every conclusion on three layers (domain knowledge, data and analysis code); the system selects the most informative claims for experts; and expert verdicts become new rules, so it improves with use. Independent CKD patient cohorts then test whether checked conclusions hold more often.
 
-    **Status:** direction set on 2026-10-31; data survey done; no code yet.
+    **Status:** direction set on 2026-11-03; literature and data surveys done; no code yet.
 
-    [:octicons-arrow-right-24: Topic page](perturbation-benchmark.md)
+    [:octicons-arrow-right-24: Topic page](hypothesis-agents.md)
 
 -   __Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics__
 
@@ -24,32 +24,19 @@ The group's research topics live here, one page each with the same template: wha
 
     [:octicons-arrow-right-24: Topic page](anomaly-benchmark.md)
 
--   __Trustworthiness of Agent Analyses on Kidney Perturbation Data__
-
-    ---
-
-    Ask agents kidney perturbation questions whose answers were measured, and check whether their analyses are right and stable, whether the numbers in their reports were actually computed, and whether they say "cannot be tested" when the data cannot answer; then check these automatic checks against expert judgement.
-
-    **Status:** direction reset on 2026-10-31; no code yet.
-
-    [:octicons-arrow-right-24: Topic page](agent-claims.md)
-
 </div>
 
 ## How the topics connect
 
-The three topics share one question: **in kidney tissue, which of the "changes" reported by models and agents are real?**
+Both topics share one question: **in kidney tissue data, which of the "changes" reported by models and agents are real?**
 
 ```mermaid
-flowchart TB
-  P["perturbation benchmark<br/>can models predict changes after drugs or injury"]
-  A["artifact injection<br/>which anomalies in the data come from measurement"] -->|"controlled technical perturbations: do models take artifacts for drug effects"| P
-  P -->|"measured perturbation outcomes as answers"| G["agent trustworthiness<br/>can agents' analyses and reports be trusted"]
-  A -.->|"optional: artifact items"| G
+flowchart LR
+  A["artifact injection<br/>which anomalies in the data come from measurement"] -.->|"optional: artifact items<br/>does an agent take an artifact for a drug effect"| G["hypothesis-generating agents<br/>are their hypotheses right, where do they go wrong"]
 ```
 
-- **The perturbation benchmark** is the centre: it supplies the data, splits and simple baselines.
-- **Artifact injection** supplies technical controls: Systema shows that the biggest pitfall in perturbation evaluation is counting differences not caused by the perturbation as its effect, and technical artifacts are one source of them.
-- **Agent trustworthiness** turns the benchmark's held-out measured outcomes into questions and checks the analysis and report steps of agents.
+- **Artifact injection** asks whether a cell's abnormality comes from measurement: the "detect" step of this site's overall direction, "detect → model → revert".
+- **The agent topic** asks whether an agent's conclusions about CKD can be verified: a rule engine, experts and independent data check them in turn; the "model / revert" steps, leading towards drug discovery.
+- They meet in the "artifact items": known artifacts injected into one treated group, to see whether an agent reports them as a drug effect.
 
-In this site's overall direction, "detect → model → revert", artifact injection sits in "detect", the perturbation benchmark in "model / revert", and agent trustworthiness checks the judgement of agents using these data and tools. The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers more than one topic needs; the perturbation-benchmark topic does not yet have its own map view.
+The **[Bridge](../knowledge-map.md)** view of the knowledge map lists the papers both topics need.

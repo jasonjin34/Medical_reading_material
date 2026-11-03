@@ -30,13 +30,14 @@ DIRECTION = "Anomaly-detection-based virtual tissue modelling"
 
 CAT_ORDER = ["anomaly", "single-cell", "spatial", "virtual-tissue", "histopath",
              "foundation", "pathology", "imaging", "competition",
-             "agents", "ehr", "other"]
+             "agents", "ehr", "drug-discovery", "other"]
 CAT_LABEL = {
     "anomaly": "General anomaly detection", "single-cell": "Single-cell", "spatial": "Spatial transcriptomics",
     "virtual-tissue": "Virtual tissues", "histopath": "Histopathology",
     "foundation": "Foundation models", "pathology": "Pathology",
     "imaging": "Imaging", "competition": "Competitions",
     "agents": "Biomedical agents & evaluation", "ehr": "EHR & patient trajectories",
+    "drug-discovery": "Drug discovery & virtual screening",
     "other": "Other",
 }
 
@@ -355,10 +356,21 @@ def _write_research() -> list[dict]:
     out = DOCS / "research"
     if out.exists():
         shutil.rmtree(out)
-    topics = [t for t in (_load_yaml(RESEARCH / "topics.yaml") or []) if (RESEARCH / t["file"]).exists()]
+    entries = _load_yaml(RESEARCH / "topics.yaml") or []
+    topics = [t for t in entries if t.get("file") and (RESEARCH / t["file"]).exists()]
     if not topics:
         return []
     out.mkdir(parents=True)
+    for t in entries:   # a merged topic keeps its old URL as a redirect page (not in the nav)
+        if t.get("moved_to"):
+            page, _, anchor = t["moved_to"].partition("#")
+            url = f"../{page[:-3]}/" + (f"#{anchor}" if anchor else "")
+            target = next((x for x in topics if x["file"] == page), None)
+            for lang, suffix, text in (("en", ".md", "This topic is now part of"), ("zh", ".zh.md", "这个课题已经并入")):
+                label = _l(target["title"], lang) if target else page
+                (out / f"{t['id']}{suffix}").write_text(
+                    f'---\nsearch:\n  exclude: true\n---\n\n<meta http-equiv="refresh" content="0; url={url}">\n\n'
+                    f"{text} [{label}]({t['moved_to']}).\n", encoding="utf-8")
     ds_cfg = _load_yaml(DATASETS / "datasets.yaml") or {"datasets": [], "assay_labels": {}}
     for t in topics:
         raw = (RESEARCH / t["file"]).read_text(encoding="utf-8")
@@ -379,7 +391,7 @@ DS_TEXT = {
            "measured": "What was measured", "samples": "People and samples", "label_detail": "Labels",
            "issues": "Known issues", "downloads": "Download", "fmt": "Format", "what": "File",
            "size": "Size", "link": "Link", "use": "Used in our research topics", "species": "Species",
-           "assays": "Assays", "access": "Access", "human": "human", "mouse": "mouse",
+           "assays": "Assays", "access": "Access", "human": "human", "mouse": "mouse", "rat": "rat",
            "open": "open", "mixed": "processed open, raw controlled", "controlled": "controlled",
            "data": "Dataset", "topics": "Topics", "fig": "Original figure",
            "prepare": "How to prepare",
@@ -389,7 +401,7 @@ DS_TEXT = {
            "measured": "测了什么", "samples": "人和样本", "label_detail": "标签",
            "issues": "已知问题", "downloads": "下载", "fmt": "格式", "what": "文件",
            "size": "大小", "link": "链接", "use": "在我们的研究课题里", "species": "物种",
-           "assays": "测法", "access": "获取", "human": "人", "mouse": "小鼠",
+           "assays": "测法", "access": "获取", "human": "人", "mouse": "小鼠", "rat": "大鼠",
            "open": "公开", "mixed": "处理后公开，原始数据受控", "controlled": "受控",
            "data": "数据", "topics": "课题", "fig": "原图",
            "prepare": "怎么准备",
@@ -471,7 +483,7 @@ def _datasets_index(cfg: dict, topics: dict, lang: str) -> str:
                "数字都在 2026-10-26 对过 GEO、Zenodo、cellxgene、SRA 和论文原文；标“我们数的”是从下载的标签表里算出来的。\n",
                "**能不能下载：**2026-10-26 用不下载的方式（每个文件只请求开头 16 字节）检查了 8 个数据集的 33 个文件，全部可以下载、格式正确。"
                "每个数据集页面的“怎么准备”一节有实测过的读取步骤和代码。"
-               "扰动实验那一组是 2026-10-31 加的，只核对了 GEO 记录和论文，还没做下载检查。\n"]
+               "治疗实验那一组是 2026-10-31 加的，CKD 队列 Kuppe、Wilson、Dumoulin 是 2026-11-02 加的；都只核对了 GEO / Zenodo 记录和论文，还没做下载检查。\n"]
     else:
         out = ["# Datasets\n",
                "The public kidney datasets we use, one page each: what was measured, on how many people, which "
@@ -483,8 +495,8 @@ def _datasets_index(cfg: dict, topics: dict, lang: str) -> str:
                "**Availability:** on 2026-10-26 all 33 files of the 8 datasets were checked without downloading "
                "(one 16-byte request per file): every file is downloadable and has the expected format. Each "
                "dataset page has a tested \"How to prepare\" section with loading steps and code. "
-               "The perturbation group was added on 2026-10-31 and checked against the GEO records and "
-               "papers only; downloads are not yet tested.\n"]
+               "The treatment group was added on 2026-10-31 and the CKD cohorts Kuppe, Wilson and Dumoulin on "
+               "2026-11-02; they were checked against the GEO / Zenodo records and papers only; downloads are not yet tested.\n"]
     for g, glabel in cfg["groups"].items():
         items = [d for d in cfg["datasets"] if d.get("group") == g]
         if not items:
@@ -512,7 +524,7 @@ def _write_datasets() -> list[dict]:
     cfg = _load_yaml(DATASETS / "datasets.yaml")
     if not cfg or not cfg.get("datasets"):
         return []
-    topics = {t["id"]: t for t in (_load_yaml(RESEARCH / "topics.yaml") or [])}
+    topics = {t["id"]: t for t in (_load_yaml(RESEARCH / "topics.yaml") or []) if t.get("file")}
     out.mkdir(parents=True)
     for lang, suffix in (("en", ".md"), ("zh", ".zh.md")):
         (out / f"index{suffix}").write_text(_datasets_index(cfg, topics, lang), encoding="utf-8")
@@ -791,7 +803,8 @@ NAV_ZH = {
     "Histopathology": "组织病理", "Foundation models": "基础模型", "Pathology": "病理",
     "Imaging": "医学影像", "Competitions": "竞赛",
     "Biomedical agents & evaluation": "生物医学智能体与评测",
-    "EHR & patient trajectories": "电子病历与病程", "Other": "其他",
+    "EHR & patient trajectories": "电子病历与病程",
+    "Drug discovery & virtual screening": "药物发现与虚拟筛选", "Other": "其他",
 }
 
 

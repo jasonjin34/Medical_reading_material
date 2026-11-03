@@ -1,6 +1,6 @@
 # Wu 2022 · SGLT2 inhibitor and ARB in db/db mice
 
-> An independent lab's single-cell data on the same two drug classes (ARB, SGLT2 inhibitor) and their combination: the second dataset for testing whether a model trained on one lab transfers to another.
+> An independent lab's single-cell data on an SGLT2 inhibitor and RAS blockade (an ARB here, an ACE inhibitor in Wu H 2022) and their combination: a second lab for checking whether a finding transfers.
 
 **Species** mouse · **Assays** scRNA · **Access** open
 
@@ -20,6 +20,7 @@ Single-cell RNA of kidneys from db/db mice treated with vehicle, ARB, SGLT2i or 
 
 ## Known issues
 
+- Male mice treated for 8 weeks, without renin AAV or uninephrectomy; Wu H 2022 used female mice for 2 days or 2 weeks, so the two differ in model, sex and duration as well as lab.
 - Few mice per group; single-cell (not single-nucleus), so it differs from Wu H 2022 in assay as well as lab.
 
 ## Download
@@ -32,4 +33,4 @@ Download not yet tested.
 
 ## Used in our research topics
 
-- **[An Honest Benchmark for Perturbation Prediction in Kidney](../research/perturbation-benchmark.md)**: Task A′: train on Wu H 2022, test on this lab.
+- **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Cross-lab questions: does a hypothesis formed on Wu H 2022 hold in another lab's data?

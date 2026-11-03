@@ -61,6 +61,7 @@ plugins:
             "Competitions": "竞赛"
             "Biomedical agents & evaluation": "生物医学智能体与评测"
             "EHR & patient trajectories": "电子病历与病程"
+            "Drug discovery & virtual screening": "药物发现与虚拟筛选"
             "Other": "其他"
 extra_css:
   - assets/extra.css
@@ -104,6 +105,9 @@ nav:
     - datasets/index.md
     - datasets/lake-2023.md
     - datasets/abedini-2024.md
+    - datasets/kuppe-2021.md
+    - datasets/wilson-dkd-2022.md
+    - datasets/dumoulin-dkd-spatial-2026.md
     - datasets/mbdrc-2026.md
     - datasets/hoeft-2024.md
     - datasets/lake-2019.md
@@ -112,6 +116,9 @@ nav:
     - datasets/denisenko-2020.md
     - datasets/wu-dkd-2022.md
     - datasets/wu-sglt2-arb-2022.md
+    - datasets/attempt-sglt2i-2026.md
+    - datasets/abedini-doca-rat-2024.md
+    - datasets/balzer-zsf1-rat-2026.md
     - datasets/kirita-iri-2020.md
     - datasets/dixon-iri-visium-2022.md
     - datasets/gaedcke-sc-sn-2022.md
@@ -119,9 +126,8 @@ nav:
     - datasets/cellxgene.md
   - Research topics:
     - research/index.md
-    - research/perturbation-benchmark.md
+    - research/hypothesis-agents.md
     - research/anomaly-benchmark.md
-    - research/agent-claims.md
   - Papers:
     - papers/index.md
     - Literature review: literature-review.md
@@ -258,6 +264,11 @@ nav:
       - "A multimodal and temporal foundation model for virtual patient representations at healthcare system scale": papers/ehr-apollo-arxiv-2026/index.md
       - "A machine learning approach to leveraging electronic health records for enhanced omics analysis": papers/ehr-comet-natmachintell-2025/index.md
       - "Enhancing EHR-based pancreatic cancer prediction with LLM-derived embeddings": papers/ehr-pancreatic-llm-npjdigitmed-2025/index.md
+    - Drug discovery & virtual screening:
+      - "AI-enhanced adaptive virtual screening of large libraries for ligand discovery": papers/adaptiveflow-natbiotech-2026/index.md
+      - "Deep contrastive learning enables genome-wide virtual screening": papers/drugclip-science-2026/index.md
+      - "AI-guided competitive docking for virtual screening and compound efficacy prediction": papers/competitive-docking-npjdrugdiscov-2026/index.md
+      - "EXSCALATE: An extreme-scale in-silico virtual screening platform to evaluate 1 trillion compounds in 60 hours on 81 PFLOPS supercomputers": papers/exscalate-arxiv-2021/index.md
     - Other:
       - "Benchmarking large language models for biomedical natural language processing applications and recommendations": papers/biomednlp-natcommun-2025/index.md
       - "INVESTORBENCH: A Benchmark for Financial Decision-Making Tasks with LLM-based Agent": papers/investorbench-arxiv-2024/index.md
