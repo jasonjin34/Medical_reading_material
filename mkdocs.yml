@@ -128,6 +128,7 @@ nav:
     - research/index.md
     - research/hypothesis-agents.md
     - research/anomaly-benchmark.md
+    - research/perturbation-benchmark.md
   - Papers:
     - papers/index.md
     - Literature review: literature-review.md

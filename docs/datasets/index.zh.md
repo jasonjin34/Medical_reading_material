@@ -36,14 +36,14 @@
 
 | 数据 | 物种 | 测法 | 规模 | 人 / 样本 | 获取 | 课题 |
 |---|---|---|---|---|---|---|
-| [Wu 2022 · 糖尿病肾病小鼠的五种治疗](wu-dkd-2022.md) | 小鼠 | 单核 RNA | 接近 100 万个核（GEO 摘要） | 70 只雌鼠，14 组，每组 4–6 只（每只一个样本） | 公开 | 1 |
-| [Wu 2022 · db/db 小鼠的 SGLT2 抑制剂和 ARB](wu-sglt2-arb-2022.md) | 小鼠 | 单细胞 RNA | GEO 上 30 个样本（按测序 lane 分） | 每组约 2–4 只小鼠（我们按样本名数的） | 公开 | 1 |
-| [ATTEMPT 2026 · SGLT2 抑制剂对安慰剂，基线和 16 周的活检](attempt-sglt2i-2026.md) | 人 | 单细胞 RNA | 27 份活检，214,415 个细胞 | dapagliflozin 组治疗前 9 份、治疗后 7 份；安慰剂组 7 份、4 份（按 GEO 样本记录数的） | 公开 | 1 |
-| [Abedini 2024 · 大鼠高血压肾损伤和盐皮质激素受体拮抗剂](abedini-doca-rat-2024.md) | 大鼠 | 单核 RNA, ATAC | 22 个单核 RNA 样本（310,218 个核）；9 个 snATAC 样本（53,298 个核） | 单核 RNA：假手术 5、DOCA 5、+finerenone 5、+螺内酯 5、+阿米洛利 2（DOCA、finerenone、螺内酯各有 1 个样本在 3 周，其余在 6 周）；snATAC 2/2/2/2/1；雄性 Sprague-Dawley 大鼠 | 公开 | 1 |
-| [Balzer 2026 · ZSF1 大鼠 DKD 和 ACE 抑制](balzer-zsf1-rat-2026.md) | 大鼠 | 单细胞 RNA | 114,615 个细胞，11 个样本（我们按 GEO 标签表数的） | 4 只瘦鼠、4 只肥胖鼠、3 只肥胖鼠 + 依那普利；雄性，到达时 12 周龄 | 公开 | 1 |
+| [Wu 2022 · 糖尿病肾病小鼠的五种治疗](wu-dkd-2022.md) | 小鼠 | 单核 RNA | 接近 100 万个核（GEO 摘要） | 70 只雌鼠，14 组，每组 4–6 只（每只一个样本） | 公开 | 1, 3 |
+| [Wu 2022 · db/db 小鼠的 SGLT2 抑制剂和 ARB](wu-sglt2-arb-2022.md) | 小鼠 | 单细胞 RNA | GEO 上 30 个样本（按测序 lane 分） | 每组约 2–4 只小鼠（我们按样本名数的） | 公开 | 1, 3 |
+| [ATTEMPT 2026 · SGLT2 抑制剂对安慰剂，基线和 16 周的活检](attempt-sglt2i-2026.md) | 人 | 单细胞 RNA | 27 份活检，214,415 个细胞 | dapagliflozin 组治疗前 9 份、治疗后 7 份；安慰剂组 7 份、4 份（按 GEO 样本记录数的） | 公开 | 1, 3 |
+| [Abedini 2024 · 大鼠高血压肾损伤和盐皮质激素受体拮抗剂](abedini-doca-rat-2024.md) | 大鼠 | 单核 RNA, ATAC | 22 个单核 RNA 样本（310,218 个核）；9 个 snATAC 样本（53,298 个核） | 单核 RNA：假手术 5、DOCA 5、+finerenone 5、+螺内酯 5、+阿米洛利 2（DOCA、finerenone、螺内酯各有 1 个样本在 3 周，其余在 6 周）；snATAC 2/2/2/2/1；雄性 Sprague-Dawley 大鼠 | 公开 | 1, 3 |
+| [Balzer 2026 · ZSF1 大鼠 DKD 和 ACE 抑制](balzer-zsf1-rat-2026.md) | 大鼠 | 单细胞 RNA | 114,615 个细胞，11 个样本（我们按 GEO 标签表数的） | 4 只瘦鼠、4 只肥胖鼠、3 只肥胖鼠 + 依那普利；雄性，到达时 12 周龄 | 公开 | 1, 3 |
 | [Kirita 2020 · 小鼠肾损伤到修复的时间序列](kirita-iri-2020.md) | 小鼠 | 单核 RNA | GEO 上 24 个样本 | 假手术、4 小时、12 小时、2 天、14 天、6 周；每个时间点 3 只小鼠，有的一只两个文库（GEO 样本名） | 公开 |  |
 | [Dixon 2022 · 小鼠肾损伤的空间时间序列](dixon-iri-visium-2022.md) | 小鼠 | 空间 | 5 张 Visium 切片 | 每个时间点一只雌鼠：假手术、4 小时、12 小时、2 天、6 周（GEO 样本名） | 公开 |  |
-| [Gaedcke 2022 · 损伤后单细胞和单核对比](gaedcke-sc-sn-2022.md) | 小鼠 | 单细胞 RNA, 单核 RNA | GEO 上 6 个样本 | 对照、轻度（17 分钟）和重度（27 分钟）IRI，每份都同时测了单细胞和单核（GEO 样本名） | 公开 | 2 |
+| [Gaedcke 2022 · 损伤后单细胞和单核对比](gaedcke-sc-sn-2022.md) | 小鼠 | 单细胞 RNA, 单核 RNA | GEO 上 6 个样本 | 对照、轻度（17 分钟）和重度（27 分钟）IRI，每份都同时测了单细胞和单核（GEO 样本名） | 公开 | 2, 3 |
 
 ## 数据来源和平台
 
@@ -52,4 +52,4 @@
 | [KPMP · 肾脏精准医学项目](kpmp.md) | 人 | 单细胞 RNA, 单核 RNA, 同核 RNA+ATAC, 空间 | 联盟项目，持续增加 | AKI 和 CKD 病人的研究用活检，加参考组织 | 处理后公开，原始数据受控 | 2 |
 | [CELLxGENE · 单细胞数据平台](cellxgene.md) | 人 | 单细胞 RNA, 单核 RNA, 同核 RNA+ATAC | 数据平台 | — | 公开 | 2 |
 
-**课题编号：**1 = [可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md) · 2 = [用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md)
+**课题编号：**1 = [可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md) · 2 = [用伪影注入增强肾脏单细胞异常检测](../research/anomaly-benchmark.md) · 3 = [可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织](../research/perturbation-benchmark.md)

@@ -33,3 +33,4 @@ Download not yet tested.
 ## Used in our research topics
 
 - **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Treatment answers for MR-antagonist hypotheses (held-out treated arms).
+- **[Verifiable Virtual Cells: When Can In-Vitro Drug Predictions Be Trusted in Kidney Tissue?](../research/perturbation-benchmark.md)**: In-vivo test, mechanism missing: MR antagonists in rat (Tahoe has only eplerenone of this class).

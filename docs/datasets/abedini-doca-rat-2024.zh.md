@@ -33,3 +33,4 @@
 ## 在我们的研究课题里
 
 - **[可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)**: 盐皮质激素受体拮抗剂假设的治疗答案（留出处理组）。
+- **[可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织](../research/perturbation-benchmark.md)**: 体内检验，机制缺失：大鼠的盐皮质激素受体拮抗剂（Tahoe 里这类药只有 eplerenone）。

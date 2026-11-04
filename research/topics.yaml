@@ -17,10 +17,14 @@
   code: A
   title: {en: "Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics", zh: "用伪影注入增强肾脏单细胞异常检测"}
 
-# Old topic pages, replaced by hypothesis-agents on 2026-11-02; their URLs redirect there.
-# Their papers keep `plans: B` and the knowledge-map view `plan-b`.
+# Restored on 2026-11-04 at Sikander's request (merged into hypothesis-agents on 2026-11-02);
+# reframed the same day as verifiable in-vitro-to-in-vivo transfer. The id keeps its old URL.
 - id: perturbation-benchmark
-  moved_to: hypothesis-agents.md
+  file: perturbation-benchmark.md
+  code: C
+  title: {en: "Verifiable Virtual Cells: When Can In-Vitro Drug Predictions Be Trusted in Kidney Tissue?", zh: "可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织"}
 
+# Old topic page, replaced by hypothesis-agents on 2026-11-02; its URL redirects there.
+# Its papers keep `plans: B` and the knowledge-map view `plan-b`.
 - id: agent-claims
   moved_to: hypothesis-agents.md

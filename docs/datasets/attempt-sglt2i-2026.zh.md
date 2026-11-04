@@ -35,3 +35,4 @@
 ## 在我们的研究课题里
 
 - **[可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)**: 人的治疗答案：治疗后的活检留出，agent 关于 SGLT2 抑制剂对各类细胞作用的假设，按组比较来打分。
+- **[可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织](../research/perturbation-benchmark.md)**: 对着病人的体内检验：dapagliflozin，和 Tahoe-100M 里是同一种药；按组比较打分。

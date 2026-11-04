@@ -33,3 +33,4 @@ Download not yet tested.
 ## Used in our research topics
 
 - **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Main source of questions: the held-out treated groups (a drug combination, the 2-week arm) are the measured answers the agents' hypotheses are scored against.
+- **[Verifiable Virtual Cells: When Can In-Vitro Drug Predictions Be Trusted in Kidney Tissue?](../research/perturbation-benchmark.md)**: In-vivo test: SGLT2i and ACEi arms (mechanism missing in vitro) and the rosiglitazone arm (partial transfer) in one kidney dataset.

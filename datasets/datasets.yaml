@@ -553,6 +553,9 @@ datasets:
     hypothesis-agents:
       en: "Main source of questions: the held-out treated groups (a drug combination, the 2-week arm) are the measured answers the agents' hypotheses are scored against."
       zh: "主要出题来源：留出的处理组（联合用药、2 周组）就是实测答案，agent 的假设拿它来打分。"
+    perturbation-benchmark:
+      en: "In-vivo test: SGLT2i and ACEi arms (mechanism missing in vitro) and the rosiglitazone arm (partial transfer) in one kidney dataset."
+      zh: "体内检验：同一份肾数据里的 SGLT2i 和 ACEi 组（体外机制缺失）和罗格列酮组（部分迁移）。"
 
 - id: wu-sglt2-arb-2022
   name: "Wu 2022 · SGLT2 inhibitor and ARB in db/db mice"
@@ -588,6 +591,9 @@ datasets:
     hypothesis-agents:
       en: "Cross-lab questions: does a hypothesis formed on Wu H 2022 hold in another lab's data?"
       zh: "跨实验室的题：在 Wu H 2022 上得出的假设，换到另一个实验室的数据还成不成立？"
+    perturbation-benchmark:
+      en: "In-vivo test, mechanism missing: SGLT2i and ARB in a second lab."
+      zh: "体内检验，机制缺失：第二个实验室的 SGLT2i 和 ARB。"
 
 - id: attempt-sglt2i-2026
   name: "ATTEMPT 2026 · SGLT2 inhibitor vs placebo, baseline and 16-week biopsies"
@@ -625,6 +631,9 @@ datasets:
     hypothesis-agents:
       en: "Human treatment answers: the post-treatment biopsies are held out, and hypotheses about what an SGLT2 inhibitor does to each cell type are scored against them by group comparison."
       zh: "人的治疗答案：治疗后的活检留出，agent 关于 SGLT2 抑制剂对各类细胞作用的假设，按组比较来打分。"
+    perturbation-benchmark:
+      en: "In-vivo test against patients: dapagliflozin, the same drug as in Tahoe-100M; scored by group comparison."
+      zh: "对着病人的体内检验：dapagliflozin，和 Tahoe-100M 里是同一种药；按组比较打分。"
 
 - id: abedini-doca-rat-2024
   name: "Abedini 2024 · Rat hypertensive kidney injury under MR antagonists"
@@ -658,6 +667,9 @@ datasets:
     hypothesis-agents:
       en: "Treatment answers for MR-antagonist hypotheses (held-out treated arms)."
       zh: "盐皮质激素受体拮抗剂假设的治疗答案（留出处理组）。"
+    perturbation-benchmark:
+      en: "In-vivo test, mechanism missing: MR antagonists in rat (Tahoe has only eplerenone of this class)."
+      zh: "体内检验，机制缺失：大鼠的盐皮质激素受体拮抗剂（Tahoe 里这类药只有 eplerenone）。"
 
 - id: balzer-zsf1-rat-2026
   name: "Balzer 2026 · ZSF1 rat DKD under ACE inhibition"
@@ -693,6 +705,9 @@ datasets:
     hypothesis-agents:
       en: "Treatment answers for RAS-blockade hypotheses in a second species model."
       zh: "RAS 阻断假设在第二个物种模型上的治疗答案。"
+    perturbation-benchmark:
+      en: "In-vivo test, mechanism missing: an ACE inhibitor in rat (Tahoe has captopril and perindopril of this class)."
+      zh: "体内检验，机制缺失：大鼠的 ACE 抑制剂（Tahoe 里这类药有 captopril 和 perindopril）。"
 
 - id: kirita-iri-2020
   name: "Kirita 2020 · Mouse kidney injury and repair time course"
@@ -786,6 +801,9 @@ datasets:
     anomaly-benchmark:
       en: "Candidate source of a real assay shift in mouse kidney (under discussion)."
       zh: "小鼠肾里真实“换测法”差异的候选来源（讨论中）。"
+    perturbation-benchmark:
+      en: "Data-layer rule: effects smaller than the single-cell vs single-nucleus difference do not count."
+      zh: "数据层规则：比单细胞和单核之间的差异还小的效应不算数。"
 
 - id: kpmp
   name: "KPMP · Kidney Precision Medicine Project"

@@ -33,3 +33,4 @@ Download not yet tested.
 ## Used in our research topics
 
 - **[Artifact Injection to Boost Anomaly Detection in Kidney Single-Cell Omics](../research/anomaly-benchmark.md)**: Candidate source of a real assay shift in mouse kidney (under discussion).
+- **[Verifiable Virtual Cells: When Can In-Vitro Drug Predictions Be Trusted in Kidney Tissue?](../research/perturbation-benchmark.md)**: Data-layer rule: effects smaller than the single-cell vs single-nucleus difference do not count.

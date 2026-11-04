@@ -33,3 +33,4 @@
 ## 在我们的研究课题里
 
 - **[可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)**: 主要出题来源：留出的处理组（联合用药、2 周组）就是实测答案，agent 的假设拿它来打分。
+- **[可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织](../research/perturbation-benchmark.md)**: 体内检验：同一份肾数据里的 SGLT2i 和 ACEi 组（体外机制缺失）和罗格列酮组（部分迁移）。

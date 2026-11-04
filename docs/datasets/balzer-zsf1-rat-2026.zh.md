@@ -34,3 +34,4 @@ ZSF1 大鼠肾的单细胞 RNA（酶解，10x 3′ v3.1）：瘦鼠、肥胖鼠�
 ## 在我们的研究课题里
 
 - **[可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)**: RAS 阻断假设在第二个物种模型上的治疗答案。
+- **[可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织](../research/perturbation-benchmark.md)**: 体内检验，机制缺失：大鼠的 ACE 抑制剂（Tahoe 里这类药有 captopril 和 perindopril）。

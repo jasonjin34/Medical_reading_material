@@ -34,3 +34,4 @@ db/db 小鼠分别接受安慰剂、ARB、SGLT2i 或两者联用，加上 db/m �
 ## 在我们的研究课题里
 
 - **[可检验的 CKD 科研 agent：规则引擎驱动、专家参与、不断进步的 harness](../research/hypothesis-agents.md)**: 跨实验室的题：在 Wu H 2022 上得出的假设，换到另一个实验室的数据还成不成立？
+- **[可检验的虚拟细胞：体外的药物预测什么时候能用到肾组织](../research/perturbation-benchmark.md)**: 体内检验，机制缺失：第二个实验室的 SGLT2i 和 ARB。

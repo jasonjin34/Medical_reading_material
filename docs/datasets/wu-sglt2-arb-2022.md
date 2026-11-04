@@ -34,3 +34,4 @@ Download not yet tested.
 ## Used in our research topics
 
 - **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Cross-lab questions: does a hypothesis formed on Wu H 2022 hold in another lab's data?
+- **[Verifiable Virtual Cells: When Can In-Vitro Drug Predictions Be Trusted in Kidney Tissue?](../research/perturbation-benchmark.md)**: In-vivo test, mechanism missing: SGLT2i and ARB in a second lab.

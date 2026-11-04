@@ -35,3 +35,4 @@ Download not yet tested.
 ## Used in our research topics
 
 - **[Verifiable Research Agents for Chronic Kidney Disease: A Rule-Engine Harness with Experts in the Loop](../research/hypothesis-agents.md)**: Human treatment answers: the post-treatment biopsies are held out, and hypotheses about what an SGLT2 inhibitor does to each cell type are scored against them by group comparison.
+- **[Verifiable Virtual Cells: When Can In-Vitro Drug Predictions Be Trusted in Kidney Tissue?](../research/perturbation-benchmark.md)**: In-vivo test against patients: dapagliflozin, the same drug as in Tahoe-100M; scored by group comparison.
