@@ -180,12 +180,12 @@ This part answers how the topic runs.
 ```mermaid
 flowchart TB
   V["体外数据<br/>Tahoe-100M · 50 个细胞系 · 379 种药"] --> M["模型预测<br/>简单方法 · 扰动模型 · 基础模型"]
-  M --> R{"规则引擎<br/>机制 · 数据 · 代码"}
+  M --> R["规则引擎<br/>机制 · 数据 · 代码"]
   R -->|"可信 / 不可信"| L["每个预测的可信标签"]
   R -->|"待定"| X["专家判定<br/>肾内科医生 · 肾脏生物学家"]
   X --> L
   X -.->|"判断变成新规则"| R
-  L --> T{"体内实测数据检验<br/>CKD 动物 · 人类试验 · 肿瘤对照"}
+  L --> T["体内实测数据检验<br/>CKD 动物 · 人类试验 · 肿瘤对照"]
   T --> O["结果<br/>可信的预测是不是更准"]
   classDef data fill:#fde7d0,stroke:#c46a1a,color:#3a2410
   classDef human fill:#dcefdc,stroke:#2f7d4f,color:#16301f
@@ -198,12 +198,12 @@ flowchart TB
 ```mermaid
 flowchart TB
   V["in-vitro data<br/>Tahoe-100M · 50 cell lines · 379 drugs"] --> M["model predictions<br/>simple methods · perturbation models · foundation models"]
-  M --> R{"rule engine<br/>mechanism · data · code"}
+  M --> R["rule engine<br/>mechanism · data · code"]
   R -->|"trust / do not trust"| L["trust label per prediction"]
   R -->|"undecided"| X["expert verdict<br/>nephrologists · kidney biologists"]
   X --> L
   X -.->|"verdicts become new rules"| R
-  L --> T{"test on measured in-vivo data<br/>CKD animals · human trial · tumour controls"}
+  L --> T["test on measured in-vivo data<br/>CKD animals · human trial · tumour controls"]
   T --> O["result<br/>are trusted predictions more accurate"]
   classDef data fill:#fde7d0,stroke:#c46a1a,color:#3a2410
   classDef human fill:#dcefdc,stroke:#2f7d4f,color:#16301f

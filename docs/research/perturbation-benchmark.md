@@ -93,12 +93,12 @@ This part answers how the topic runs.
 ```mermaid
 flowchart TB
   V["in-vitro data<br/>Tahoe-100M · 50 cell lines · 379 drugs"] --> M["model predictions<br/>simple methods · perturbation models · foundation models"]
-  M --> R{"rule engine<br/>mechanism · data · code"}
+  M --> R["rule engine<br/>mechanism · data · code"]
   R -->|"trust / do not trust"| L["trust label per prediction"]
   R -->|"undecided"| X["expert verdict<br/>nephrologists · kidney biologists"]
   X --> L
   X -.->|"verdicts become new rules"| R
-  L --> T{"test on measured in-vivo data<br/>CKD animals · human trial · tumour controls"}
+  L --> T["test on measured in-vivo data<br/>CKD animals · human trial · tumour controls"]
   T --> O["result<br/>are trusted predictions more accurate"]
   classDef data fill:#fde7d0,stroke:#c46a1a,color:#3a2410
   classDef human fill:#dcefdc,stroke:#2f7d4f,color:#16301f
